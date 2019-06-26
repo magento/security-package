@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * This file is part of the Kalpesh_Securitytxt module.
+ *
+ * @author      Kalpesh Mehta <k@lpe.sh>
+ * @copyright   Copyright (c) 2018-2019
+ *
+ * For full copyright and license information, please check the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="securitytxtResultPage" type="Magento\Framework\View\Result\Page">
+        <arguments>
+            <argument name="template" xsi:type="string">Kalpesh_Securitytxt::securitytxt.phtml</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="securitytxtResultPageFactory" type="Magento\Framework\View\Result\PageFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">securitytxtResultPage</argument>
+        </arguments>
+    </virtualType>
+    <type name="Kalpesh\Securitytxt\Controller\Index\Index">
+        <arguments>
+            <argument name="resultPageFactory" xsi:type="object">securitytxtResultPageFactory</argument>
+        </arguments>
+    </type>
+</config>

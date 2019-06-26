@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * This file is part of the Kalpesh_Securitytxt module.
+ *
+ * @author      Kalpesh Mehta <k@lpe.sh>
+ * @copyright   Copyright (c) 2018-2019
+ *
+ * For full copyright and license information, please check the LICENSE
+ * file that was distributed with this source code.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Kalpesh_Securitytxt::config"
+                                      title="Securitytxt"
+                                      translate="title"
+                                      sortOrder="10"/>
+                        </resource>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

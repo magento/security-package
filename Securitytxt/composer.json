@@ -1,0 +1,26 @@
+{
+    "name": "kalpesh/securitytxt",
+    "description": "Security.txt file for Magento 2 websites",
+    "config": {
+        "sort-packages": true
+    },
+    "authors": [
+        {
+            "name": "Kalpesh Mehta",
+            "email": "k@lpe.sh"
+        }
+    ],
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Kalpesh\\Securitytxt\\": ""
+        }
+    }
+}
