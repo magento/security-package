@@ -1,22 +1,19 @@
 <?php
 /**
- * This file is part of the Kalpesh_Securitytxt module.
- *
- * @author      Kalpesh Mehta <k@lpe.sh>
- * @copyright   Copyright (c) 2018-2019
- *
- * For full copyright and license information, please check the LICENSE
- * file that was distributed with this source code.
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
  */
 
-namespace Kalpesh\Securitytxt\Model;
+declare(strict_types=1);
+
+namespace Magento\Securitytxt\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 class Config
 {
-    const XML_SECURITYTXT_MODULE = 'kalpesh_securitytxt_securitytxt';
+    const XML_SECURITYTXT_MODULE = 'magento_securitytxt_securitytxt';
 
     const XML_SECURITYTXT_ENABLED = self::XML_SECURITYTXT_MODULE . '/general/enabled';
     const XML_SECURITYTXT_EMAIL = self::XML_SECURITYTXT_MODULE . '/contact_information/email';
@@ -50,7 +47,7 @@ class Config
      * Return true if module enabled
      * @return bool
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return (bool)$this->scopeConfig->getValue(static::XML_SECURITYTXT_ENABLED, ScopeInterface::SCOPE_WEBSITE);
     }
@@ -59,80 +56,82 @@ class Config
      * Get email
      * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
-        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_EMAIL, ScopeInterface::SCOPE_WEBSITE);
+        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_EMAIL, ScopeInterface::SCOPE_WEBSITE) ?: '';
     }
 
     /**
      * Get telephone
      * @return string
      */
-    public function getPhone()
+    public function getPhone(): string
     {
-        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_PHONE, ScopeInterface::SCOPE_WEBSITE);
+        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_PHONE, ScopeInterface::SCOPE_WEBSITE) ?: '';
     }
 
     /**
      * Get contact page url
      * @return string
      */
-    public function getContactPage()
+    public function getContactPage(): string
     {
-        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_CONTACTPAGE, ScopeInterface::SCOPE_WEBSITE);
+        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_CONTACTPAGE, ScopeInterface::SCOPE_WEBSITE) ?: '';
     }
 
     /**
      * Get encryption url
      * @return string
      */
-    public function getEncryption()
+    public function getEncryption(): string
     {
-        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_ENCRYPTION, ScopeInterface::SCOPE_WEBSITE);
+        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_ENCRYPTION, ScopeInterface::SCOPE_WEBSITE) ?: '';
     }
 
     /**
      * Get acknowledgements url
      * @return string
      */
-    public function getAcknowledgements()
+    public function getAcknowledgements(): string
     {
-        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_ACKNOWLEDGEMENTS, ScopeInterface::SCOPE_WEBSITE);
+        return $this->scopeConfig
+            ->getValue(static::XML_SECURITYTXT_ACKNOWLEDGEMENTS, ScopeInterface::SCOPE_WEBSITE) ?: '';
     }
 
     /**
      * Get preferred languages codes
      * @return string
      */
-    public function getPreferredLanguages()
+    public function getPreferredLanguages(): string
     {
-        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_PREFERREDLANGUAGES, ScopeInterface::SCOPE_WEBSITE);
+        return $this->scopeConfig
+            ->getValue(static::XML_SECURITYTXT_PREFERREDLANGUAGES, ScopeInterface::SCOPE_WEBSITE) ?: '';
     }
 
     /**
      * Get hiring url
      * @return string
      */
-    public function getHiring()
+    public function getHiring(): string
     {
-        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_HIRING, ScopeInterface::SCOPE_WEBSITE);
+        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_HIRING, ScopeInterface::SCOPE_WEBSITE) ?: '';
     }
 
     /**
      * Get policy url
      * @return string
      */
-    public function getPolicy()
+    public function getPolicy(): string
     {
-        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_POLICY, ScopeInterface::SCOPE_WEBSITE);
+        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_POLICY, ScopeInterface::SCOPE_WEBSITE) ?: '';
     }
 
     /**
      * Get signature
      * @return string
      */
-    public function getSignature()
+    public function getSignature(): string
     {
-        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_SIGNATURE, ScopeInterface::SCOPE_WEBSITE);
+        return $this->scopeConfig->getValue(static::XML_SECURITYTXT_SIGNATURE, ScopeInterface::SCOPE_WEBSITE) ?: '';
     }
 }

@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <!--
 /**
- * This file is part of the Kalpesh_Securitytxt module.
- *
- * @author      Kalpesh Mehta <k@lpe.sh>
- * @copyright   Copyright (c) 2018-2019
- *
- * For full copyright and license information, please check the LICENSE
- * file that was distributed with this source code.
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -16,12 +11,12 @@
         <tab id="security" translate="label" sortOrder="200">
             <label>Security</label>
         </tab>
-        <section id="kalpesh_securitytxt_securitytxt" translate="label" type="text" sortOrder="520" showInDefault="1"
+        <section id="magento_securitytxt_securitytxt" translate="label" type="text" sortOrder="520" showInDefault="1"
                  showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Security.txt</label>
             <tab>security</tab>
-            <resource>Kalpesh_Securitytxt::config</resource>
+            <resource>Magento_Securitytxt::config</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
                    showInStore="1">
                 <label>General</label>
@@ -39,17 +34,16 @@
                        showInWebsite="1" showInStore="1">
                     <label>Email</label>
                     <validate>validate-email</validate>
-                    <backend_model>Kalpesh\Securitytxt\Model\Config\Backend\Validate</backend_model>
+                    <backend_model>Magento\Securitytxt\Model\Config\Backend\Validate</backend_model>
                 </field>
                 <field id="phone" translate="label comment" type="text" sortOrder="20" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Phone</label>
-                    <comment>Example: +1-844-624-3686</comment>
                 </field>
                 <field id="contact_page" translate="label comment" type="text" sortOrder="20" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Contact Page</label>
-                    <validate>validate-url</validate>
+                    <validate>validate-url validate-no-html-tags</validate>
                     <comment>Example: https://example.com/security-contact.html</comment>
                 </field>
             </group>
@@ -60,38 +54,38 @@
                 <field id="encryption" translate="label comment" type="text" sortOrder="40" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Encryption</label>
-                    <validate>validate-url</validate>
+                    <validate>validate-url validate-no-html-tags</validate>
                     <comment>Example: https://example.com/pgp-key.txt</comment>
                 </field>
                 <field id="acknowledgements" translate="label comment" type="text" sortOrder="50" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Acknowledgements</label>
-                    <validate>validate-url</validate>
+                    <validate>validate-url validate-no-html-tags</validate>
                     <comment>Example: https://example.com/hall-of-fame.html</comment>
                 </field>
                 <field id="preferred_languages" translate="label comment" type="text" sortOrder="50" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Preferred-Languages</label>
-                    <validate>validate-text</validate>
+                    <validate>validate-text validate-no-html-tags</validate>
                     <comment>Example: en, es, hi, de, fr</comment>
                 </field>
                 <field id="hiring" translate="label comment" type="text" sortOrder="50" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Hiring</label>
-                    <validate>validate-url</validate>
+                    <validate>validate-url validate-no-html-tags</validate>
                     <comment>Example: https://example.com/jobs.html</comment>
                 </field>
                 <field id="policy" translate="label comment" type="text" sortOrder="60" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Policy</label>
-                    <validate>validate-url</validate>
+                    <validate>validate-url validate-no-html-tags</validate>
                     <comment>Example: https://example.com/security-policy.html</comment>
                 </field>
                 <field id="signature_text" translate="label comment" type="textarea" sortOrder="80" showInDefault="1"
                        showInWebsite="1" showInStore="1">
                     <label>Signature</label>
                     <validate>validate-no-html-tags</validate>
-                    <comment model="Kalpesh\Securitytxt\Model\Config\Signature"/>
+                    <comment model="Magento\Securitytxt\Model\Config\Signature"/>
                 </field>
             </group>
         </section>

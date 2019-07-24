@@ -1,24 +1,20 @@
 <?php
 /**
- * This file is part of the Kalpesh_Securitytxt module.
- *
- * @author      Kalpesh Mehta <k@lpe.sh>
- * @copyright   Copyright (c) 2018-2019
- *
- * For full copyright and license information, please check the LICENSE
- * file that was distributed with this source code.
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
  */
 
-namespace Kalpesh\Securitytxt\Controller;
+declare(strict_types=1);
+
+namespace Magento\Securitytxt\Controller;
 
 use Magento\Framework\App\ActionFactory;
 use Magento\Framework\App\ActionInterface;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Route\ConfigInterface;
 use Magento\Framework\App\Router\ActionList;
 use Magento\Framework\App\RouterInterface;
-use Kalpesh\Securitytxt\Model\Config;
+use Magento\Securitytxt\Model\Config;
 
 /**
  * Matches application action in case when security.txt file was requested
@@ -46,29 +42,20 @@ class Router implements RouterInterface
     private $config;
 
     /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $scopeConfig;
-
-    /**
      * @param ActionFactory $actionFactory
      * @param ActionList $actionList
      * @param ConfigInterface $routeConfig
-     * @param ScopeConfigInterface $scopeConfig
      * @param Config $config
      */
     public function __construct(
         ActionFactory $actionFactory,
         ActionList $actionList,
         ConfigInterface $routeConfig,
-        ScopeConfigInterface $scopeConfig,
         Config $config
-    )
-    {
+    ) {
         $this->actionFactory = $actionFactory;
         $this->actionList = $actionList;
         $this->routeConfig = $routeConfig;
-        $this->scopeConfig = $scopeConfig;
         $this->config = $config;
     }
 
@@ -81,7 +68,12 @@ class Router implements RouterInterface
     public function match(RequestInterface $request)
     {
         $identifier = trim($request->getPathInfo(), '/');
-        if ($identifier !== '.well-known/security.txt' && $identifier !== '.well-known/security.txt.sig') {
+
+        if ($identifier === '.well-known/security.txt') {
+            $action = 'securitytxt';
+        } elseif ($identifier === '.well-known/security.txt.sig') {
+            $action = 'securitytxtsig';
+        } else {
             return null;
         }
 
@@ -91,7 +83,7 @@ class Router implements RouterInterface
         }
 
         if ($this->config->isEnabled()) {
-            $actionClassName = $this->actionList->get($modules[0], null, 'index', 'index');
+            $actionClassName = $this->actionList->get($modules[0], null, 'index', $action);
             $actionInstance = $this->actionFactory->create($actionClassName);
             return $actionInstance;
         } else {

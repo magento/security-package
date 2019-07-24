@@ -1,13 +1,8 @@
 <?xml version="1.0"?>
 <!--
 /**
- * This file is part of the Kalpesh_Securitytxt module.
- *
- * @author      Kalpesh Mehta <k@lpe.sh>
- * @copyright   Copyright (c) 2018-2019
- *
- * For full copyright and license information, please check the LICENSE
- * file that was distributed with this source code.
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -16,7 +11,7 @@
         <arguments>
             <argument name="routerList" xsi:type="array">
                 <item name="securitytxt" xsi:type="array">
-                    <item name="class" xsi:type="string">Kalpesh\Securitytxt\Controller\Router</item>
+                    <item name="class" xsi:type="string">Magento\Securitytxt\Controller\Router</item>
                     <item name="disable" xsi:type="boolean">false</item>
                     <item name="sortOrder" xsi:type="string">10</item>
                 </item>

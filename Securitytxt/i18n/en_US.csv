@@ -1,0 +1,29 @@
+"At least one contact information is required.","At least one contact information is required."
+"Contact Information: Email validation failed. Please enter in correct format.","Contact Information: Email validation failed. Please enter in correct format."
+"Contact Information: Contact Page URL should be in correct format and must start with HTTPS.","Contact Information: Contact Page URL should be in correct format and must start with HTTPS."
+"Other Information: Encryption URL should be in correct format and must start with HTTPS.","Other Information: Encryption URL should be in correct format and must start with HTTPS."
+"Other Information: Acknowledgements URL should be in correct format and must start with HTTPS.","Other Information: Acknowledgements URL should be in correct format and must start with HTTPS."
+"Other Information: Hiring URL should be in correct format and must start with HTTPS.","Other Information: Hiring URL should be in correct format and must start with HTTPS."
+"Other Information: Policy URL should be in correct format and must start with HTTPS.","Other Information: Policy URL should be in correct format and must start with HTTPS."
+Securitytxt,Securitytxt
+Security,Security
+Security.txt,Security.txt
+General,General
+Enable,Enable
+"Contact Information","Contact Information"
+Email,Email
+Phone,Phone
+"Contact Page","Contact Page"
+"Example: https://example.com/security-contact.html","Example: https://example.com/security-contact.html"
+"Other Information","Other Information"
+Encryption,Encryption
+"Example: https://example.com/pgp-key.txt","Example: https://example.com/pgp-key.txt"
+Acknowledgements,Acknowledgements
+"Example: https://example.com/hall-of-fame.html","Example: https://example.com/hall-of-fame.html"
+Preferred-Languages,Preferred-Languages
+"Example: en, es, hi, de, fr","Example: en, es, hi, de, fr"
+Hiring,Hiring
+"Example: https://example.com/jobs.html","Example: https://example.com/jobs.html"
+Policy,Policy
+"Example: https://example.com/security-policy.html","Example: https://example.com/security-policy.html"
+Signature,Signature

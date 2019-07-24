@@ -1,5 +1,5 @@
 {
-    "name": "kalpesh/securitytxt",
+    "name": "magento/securitytxt",
     "description": "Security.txt file for Magento 2 websites",
     "config": {
         "sort-packages": true
@@ -20,7 +20,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Kalpesh\\Securitytxt\\": ""
+            "Magento\\Securitytxt\\": ""
         }
     }
 }
