@@ -80,7 +80,6 @@ class Validate extends \Magento\Framework\App\Config\Value
                 );
             }
         }
-
         return parent::validateBeforeSave();
     }
 
@@ -91,11 +90,11 @@ class Validate extends \Magento\Framework\App\Config\Value
     private function validateUrl(string $url): bool
     {
         $url = filter_var($url, FILTER_SANITIZE_STRING);
+        $parts = parse_url($url);
 
-        if (substr($url, 0, 5) == 'https' && filter_var($url, FILTER_VALIDATE_URL)) {
+        if (strtolower($parts['scheme']) == 'https' && filter_var($url, FILTER_VALIDATE_URL)) {
             return true;
         }
-
         return false;
     }
 }

@@ -46,8 +46,6 @@ class Securitytxt extends Action implements HttpGetActionInterface
         /** @var Page $resultPage */
         $resultPage = $this->resultPageFactory->create(true);
         $resultPage->addHandle('securitytxt_index_securitytxt');
-        //$resultPage->setHeader('Content-Type', 'text/plain');
         return $resultPage;
-
     }
 }

@@ -26,9 +26,8 @@ class Securitytxt implements ArgumentInterface
     private $securitytxt;
 
     /**
+     * Securitytxt constructor.
      * @param SecuritytxtModel $securitytxt
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(
         SecuritytxtModel $securitytxt

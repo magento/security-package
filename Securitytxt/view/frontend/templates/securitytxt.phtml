@@ -7,5 +7,5 @@
 <?php
 /** @var \Magento\Framework\View\Element\Template $block */
 $viewModel = $block->getData('view_model');
-$output = $viewModel->getSecuritytxt();
-echo nl2br($output); ?>
+$output = $viewModel->getSecuritytxt();?>
+<?= nl2br($output) ?>
