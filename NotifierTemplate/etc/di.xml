@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="MSP\NotifierTemplateApi\Model\GetMessageTextInterface"
+                type="MSP\NotifierTemplate\Model\GetMessageText"/>
+    <preference for="MSP\NotifierTemplateApi\Api\SendMessageInterface" type="MSP\NotifierTemplate\Model\SendMessage"/>
+    <preference for="MSP\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface"
+                type="MSP\NotifierTemplate\Model\FilesystemTemplateRepository"/>
+    <preference for="MSP\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface"
+                type="MSP\NotifierTemplate\Model\TemplateGetter\TemplateGetter"/>
+    <preference for="MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface"
+                type="MSP\NotifierTemplate\Model\DatabaseTemplate"/>
+    <preference for="MSP\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface"
+                type="MSP\NotifierTemplate\Model\DatabaseTemplateRepository"/>
+    <preference for="MSP\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface"
+                type="MSP\NotifierTemplate\Model\DatabaseTemplateSearchResults"/>
+    <preference for="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetInterface"
+                type="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\Get"/>
+    <preference for="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\SaveInterface"
+                type="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\Save"/>
+    <preference for="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\DeleteInterface"
+                type="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\Delete"/>
+    <preference for="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetListInterface"
+                type="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetList"/>
+    <preference for="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetByCodeInterface"
+                type="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetByCode"/>
+    <preference for="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetByAdapterCodeInterface"
+                type="MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetByAdapterCode"/>
+
+    <type name="MSP\NotifierTemplate\Model\FilesystemTemplateRepository">
+        <arguments>
+            <argument name="configReader" xsi:type="object">MSP\NotifierTemplate\Config\Reader</argument>
+        </arguments>
+    </type>
+
+    <type name="MSP\NotifierTemplate\Model\TemplateGetter\TemplateGetter">
+        <arguments>
+            <argument name="getters" xsi:type="array">
+                <item name="database" sortOrder="100"
+                      xsi:type="object">MSP\NotifierTemplate\Model\TemplateGetter\DatabaseTemplateGetter</item>
+                <item name="filesystem" sortOrder="200"
+                      xsi:type="object">MSP\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="MSP\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariables">
+        <arguments>
+            <argument name="decorators" xsi:type="array">
+                <item name="core"
+                      xsi:type="object">MSP\NotifierTemplate\Model\VariablesDecorator\CoreVariables</item>
+                <item name="admin"
+                      xsi:type="object">MSP\NotifierTemplate\Model\VariablesDecorator\AdminVariables</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="MSP\NotifierTemplate\Config\Reader" type="Magento\Framework\Config\Reader\Filesystem">
+        <arguments>
+            <argument name="fileName" xsi:type="string">msp_notifier_templates.xml</argument>
+            <argument name="converter" xsi:type="object">MSP\NotifierTemplate\Model\Template\Config\Converter</argument>
+            <argument name="schemaLocator"
+                      xsi:type="object">MSP\NotifierTemplate\Model\Template\Config\SchemaLocator</argument>
+            <argument name="idAttributes" xsi:type="array">
+                <item name="/config/templates/template" xsi:type="string">id</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Template validation chain -->
+
+    <type name="MSP\NotifierTemplateApi\Model\DatabaseTemplate\Validator\ValidateDatabaseTemplate">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="code"
+                      xsi:type="object">MSP\NotifierTemplate\Model\DatabaseTemplate\Validator\ValidateCode</item>
+                <item name="name"
+                      xsi:type="object">MSP\NotifierTemplate\Model\DatabaseTemplate\Validator\ValidateName</item>
+                <item name="adapter"
+                      xsi:type="object">MSP\NotifierTemplate\Model\DatabaseTemplate\Validator\ValidateAdapter</item>
+                <item name="template"
+                      xsi:type="object">MSP\NotifierTemplate\Model\DatabaseTemplate\Validator\ValidateTemplate</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- UI components for admin (must be in global area) -->
+
+    <!-- Template grid: START -->
+    <virtualType name="MSP\NotifierTemplate\Ui\DataProvider\DatabaseTemplateFilterPool"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular"
+                      xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext"
+                      xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="msp_notifier_template_databasetemplate_data_source"
+                      xsi:type="string">MSP\NotifierTemplate\Model\ResourceModel\UI\DatabaseTemplate\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="MSP\NotifierTemplate\Model\ResourceModel\UI\DatabaseTemplate\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">msp_notifier_template</argument>
+            <argument name="resourceModel"
+                      xsi:type="string">MSP\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\Collection</argument>
+        </arguments>
+    </virtualType>
+    <!-- Template grid: END -->
+</config>

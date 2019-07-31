@@ -1,0 +1,27 @@
+{
+  "name": "msp/module-notifier-all",
+  "type": "metapackage",
+  "description": "MageSpecialist Notifier Full Package",
+  "authors": [
+    {
+      "name": "Riccardo Tempesta",
+      "email": "riccardo.tempesta@magespecialist.it"
+    },
+    {
+      "name": "Giacomo Mirabassi",
+      "email": "giacomo.mirabassi@magespecialist.it"
+    }
+  ],
+  "replace": {
+    "msp/notify": "*"
+  },
+  "license": "OSL-3.0",
+  "require": {
+    "msp/module-notifier": "0.1.6",
+    "msp/module-notifier-core-adapters": "0.1.5",
+    "msp/module-notifier-admin-push-adapter": "0.1.3",
+    "msp/module-notifier-template": "0.1.4",
+    "msp/module-notifier-queue": "0.1.5",
+    "msp/module-notifier-event": "0.1.5"
+  }
+}

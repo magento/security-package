@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <fieldset name="general">
+        <field name="code">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="notice" xsi:type="string" translate="true">
+                        Events specific templates must be identified as "event:event_name", e.g.: "event:admin_user_authenticate_after"
+                    </item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+</form>

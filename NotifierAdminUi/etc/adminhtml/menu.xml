@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="MSP_Notifier::notifier"
+             title="Notifier"
+             translate="title"
+             module="MSP_NotifierAdminUi"
+             sortOrder="60"
+             parent="Magento_Backend::system"
+             resource="MSP_Notifier::notifier" />
+
+        <add id="MSP_Notifier::channel"
+             title="Manage Channels"
+             translate="title"
+             module="MSP_NotifierAdminUi"
+             action="msp_notifier/channel/index"
+             sortOrder="60"
+             parent="MSP_Notifier::notifier"
+             resource="MSP_Notifier::channel" />
+    </menu>
+</config>
