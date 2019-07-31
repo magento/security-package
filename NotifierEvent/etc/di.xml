@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="\MSP\NotifierEventApi\Api\Data\RuleInterface" type="\MSP\NotifierEvent\Model\Rule"/>
+    <preference for="\MSP\NotifierEventApi\Api\RuleRepositoryInterface" type="\MSP\NotifierEvent\Model\RuleRepository"/>
+    <preference for="\MSP\NotifierEventApi\Api\RuleSearchResultsInterface"
+                type="\MSP\NotifierEvent\Model\RuleSearchResults"/>
+    <preference for="\MSP\NotifierEvent\Model\Rule\Command\GetInterface"
+                type="\MSP\NotifierEvent\Model\Rule\Command\Get"/>
+    <preference for="\MSP\NotifierEvent\Model\Rule\Command\SaveInterface"
+                type="\MSP\NotifierEvent\Model\Rule\Command\Save"/>
+    <preference for="\MSP\NotifierEvent\Model\Rule\Command\DeleteInterface"
+                type="\MSP\NotifierEvent\Model\Rule\Command\Delete"/>
+    <preference for="\MSP\NotifierEvent\Model\Rule\Command\GetListInterface"
+                type="\MSP\NotifierEvent\Model\Rule\Command\GetList"/>
+    <preference for="\MSP\NotifierEventApi\Model\GetRulesIdsByEventInterface"
+                type="\MSP\NotifierEvent\Model\GetRulesIdsByEvent"/>
+    <preference for="\MSP\NotifierEventApi\Model\FireRuleInterface"
+                type="\MSP\NotifierEvent\Model\FireRule"/>
+
+    <preference for="MSP\NotifierEventApi\Model\CaptureEventInterface" type="MSP\NotifierEvent\Model\CaptureEvent"/>
+    <preference for="MSP\NotifierEventApi\Model\IsEventExcludedInterface"
+                type="MSP\NotifierEvent\Model\IsEventExcludedRegex"/>
+    <preference for="MSP\NotifierEventApi\Model\ThrottleInterface" type="MSP\NotifierEvent\Model\Throttle"/>
+    <preference for="MSP\NotifierEventApi\Model\GetAutomaticTemplateIdInterface"
+                type="MSP\NotifierEvent\Model\GetAutomaticTemplateId"/>
+
+    <!-- Rule validation chain -->
+    <preference for="MSP\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface"
+                type="MSP\NotifierEventApi\Model\Rule\Validator\ValidateRule"/>
+
+    <type name="MSP\NotifierEventApi\Model\Rule\Validator\ValidateRule">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="name" xsi:type="object">MSP\NotifierEvent\Model\Rule\Validator\ValidateName</item>
+                <item name="channels" xsi:type="object">MSP\NotifierEvent\Model\Rule\Validator\ValidateChannel</item>
+                <item name="events" xsi:type="object">MSP\NotifierEvent\Model\Rule\Validator\ValidateEvent</item>
+                <item name="template_id"
+                      xsi:type="object">MSP\NotifierEvent\Model\Rule\Validator\ValidateTemplateId</item>
+                <item name="throttle" xsi:type="object">MSP\NotifierEvent\Model\Rule\Validator\ValidateThrottle</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="MSP\NotifierEvent\Model\IsEventExcludedRegex">
+        <arguments>
+            <argument name="skipEvents" xsi:type="array">
+                <item name="load_save" xsi:type="string">/_(load|save)_(after|before)$/</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\Event\ManagerInterface">
+        <plugin sortOrder="1" name="msp_notifier_event_capture_event"
+                type="MSP\NotifierEvent\Plugin\Event\CaptureEvent"/>
+    </type>
+</config>

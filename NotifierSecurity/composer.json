@@ -1,0 +1,30 @@
+{
+    "name": "msp/module-notifier-security",
+    "description": "Security notification module for Magento 2 notifier",
+    "require": {
+        "php": "^7.1|^7.2|^7.3",
+        "magento/magento2-base": "^2.3",
+        "msp/module-notifier-api": "^1.0",
+        "msp/module-notifier-template-api": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Riccardo Tempesta",
+            "email": "riccardo.tempesta@magespecialist.it"
+        },
+        {
+            "name": "Giacomo Mirabassi",
+            "email": "giacomo.mirabassi@magespecialist.it"
+        }
+    ],
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MSP\\NotifierSecurity\\": ""
+        }
+    }
+}

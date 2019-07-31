@@ -1,0 +1,29 @@
+{
+    "name": "msp/module-notifier-async-amqp",
+    "description": "AMQP asynchronous message send for Magento2 notifier",
+    "require": {
+        "php": "^7.1|^7.2|^7.3",
+        "magento/magento2-base": "^2.3",
+        "msp/module-notifier-async": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Riccardo Tempesta",
+            "email": "riccardo.tempesta@magespecialist.it"
+        },
+        {
+            "name": "Giacomo Mirabassi",
+            "email": "giacomo.mirabassi@magespecialist.it"
+        }
+    ],
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "MSP\\NotifierAsyncAmqp\\": ""
+        }
+    }
+}

@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <route url="/V1/msp-notifier/is-enabled" method="GET">
+        <service class="MSP\NotifierApi\Api\IsEnabledInterface" method="execute"/>
+        <resources>
+            <resource ref="MSP_NotifierApi::notifier"/>
+        </resources>
+    </route>
+
+    <route url="/V1/msp-notifier/adapter" method="GET">
+        <service class="MSP\NotifierApi\Api\AdapterRepositoryInterface" method="getAdapters"/>
+        <resources>
+            <resource ref="MSP_NotifierApi::adapter"/>
+        </resources>
+    </route>
+
+    <route url="/V1/msp-notifier/adapter/:code" method="GET">
+        <service class="MSP\NotifierApi\Api\AdapterRepositoryInterface" method="getAdapterByCode"/>
+        <resources>
+            <resource ref="MSP_NotifierApi::adapter"/>
+        </resources>
+    </route>
+
+    <route url="/V1/msp-notifier/channel" method="GET">
+        <service class="MSP\NotifierApi\Api\ChannelRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="MSP_NotifierApi::channel"/>
+        </resources>
+    </route>
+
+    <route url="/V1/msp-notifier/channel/:code" method="GET">
+        <service class="MSP\NotifierApi\Api\ChannelRepositoryInterface" method="getByCode"/>
+        <resources>
+            <resource ref="MSP_NotifierApi::channel"/>
+        </resources>
+    </route>
+
+    <route url="/V1/msp-notifier/channel/:channelId" method="DELETE">
+        <service class="MSP\NotifierApi\Api\ChannelRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="MSP_NotifierApi::channel_edit"/>
+        </resources>
+    </route>
+
+    <route url="/V1/msp-notifier/channel" method="PUT">
+        <service class="MSP\NotifierApi\Api\ChannelRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="MSP_NotifierApi::channel_edit"/>
+        </resources>
+    </route>
+    <route url="/V1/msp-notifier/channel" method="POST">
+        <service class="MSP\NotifierApi\Api\ChannelRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="MSP_NotifierApi::channel_edit"/>
+        </resources>
+    </route>
+
+    <route url="/V1/msp-notifier/send" method="POST">
+        <service class="MSP\NotifierApi\Api\SendMessageInterface" method="execute"/>
+        <resources>
+            <resource ref="MSP_NotifierApi::send"/>
+        </resources>
+    </route>
+</routes>

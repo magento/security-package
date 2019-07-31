@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Adapters pool -->
+    <type name="MSP\NotifierApi\Model\AdaptersPool">
+        <arguments>
+            <argument name="adapters" xsi:type="array">
+                <item name="telegram" xsi:type="object">MSP\NotifierTelegramAdapter\Model\Adapter\Telegram</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="msp_notifier_telegram_adapters_telegram_chat_id"
+                      xsi:type="object">MSP\NotifierTelegramAdapter\Command\Telegram\GetChatIdsCommand</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Telegram adapter -->
+    <virtualType name="MSP\NotifierTelegramAdapter\Model\Adapter\Telegram" type="MSP\NotifierApi\Model\Adapter">
+        <arguments>
+            <argument name="engine"
+                      xsi:type="object">MSP\NotifierTelegramAdapter\Model\AdapterEngine\Telegram</argument>
+            <argument name="adapterValidator"
+                      xsi:type="object">MSP\NotifierTelegramAdapter\Model\AdapterEngine\ValidatorChain\Telegram</argument>
+            <argument name="code" xsi:type="string">telegram</argument>
+            <argument name="description" xsi:type="string">Telegram Messenger</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Telegram validators -->
+    <virtualType name="MSP\NotifierTelegramAdapter\Model\AdapterEngine\ParamsValidator\Telegram\Required"
+                 type="MSP\NotifierApi\Model\AdapterEngine\ParamsValidator\Required">
+        <arguments>
+            <argument name="requiredParams" xsi:type="array">
+                <item name="to" xsi:type="string">chat_id</item>
+                <item name="token" xsi:type="string">token</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Telegram validators pool -->
+    <virtualType name="MSP\NotifierTelegramAdapter\Model\AdapterEngine\ValidatorChain\Telegram"
+                 type="MSP\NotifierApi\Model\AdapterEngine\AdapterValidator">
+        <arguments>
+            <argument name="messageValidators" xsi:type="array">
+                <item name="required"
+                      xsi:type="object">MSP\NotifierApi\Model\AdapterEngine\MessageValidator\Required</item>
+            </argument>
+            <argument name="paramsValidators" xsi:type="array">
+                <item name="required"
+                      xsi:type="object">MSP\NotifierTelegramAdapter\Model\AdapterEngine\ParamsValidator\Telegram\Required</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

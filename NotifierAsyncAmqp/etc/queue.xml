@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/queue.xsd">
+    <broker topic="msp_notifier.send_message"
+            exchange="magento"
+            type="amqp">
+        <queue
+                name="msp_notifier.send_message"
+                consumer="msp_notifier.send_message"
+                consumerInstance="Magento\Framework\MessageQueue\Consumer"
+                handler="MSP\NotifierAsync\Model\Consumer::process" />
+    </broker>
+</config>

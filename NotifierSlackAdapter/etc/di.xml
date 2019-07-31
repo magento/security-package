@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Adapters pool -->
+    <type name="MSP\NotifierApi\Model\AdaptersPool">
+        <arguments>
+            <argument name="adapters" xsi:type="array">
+                <item name="slack" xsi:type="object">MSP\NotifierSlackAdapter\Model\Adapter\Slack</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Slack adapter -->
+    <virtualType name="MSP\NotifierSlackAdapter\Model\Adapter\Slack" type="MSP\NotifierApi\Model\Adapter">
+        <arguments>
+            <argument name="engine" xsi:type="object">MSP\NotifierSlackAdapter\Model\AdapterEngine\Slack</argument>
+            <argument name="adapterValidator"
+                      xsi:type="object">MSP\NotifierSlackAdapter\Model\AdapterEngine\ValidatorChain\Slack</argument>
+            <argument name="code" xsi:type="string">slack</argument>
+            <argument name="description" xsi:type="string">Slack Messenger</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Slack validators -->
+    <virtualType name="MSP\NotifierSlackAdapter\Model\AdapterEngine\ParamsValidator\Slack\Required"
+                 type="MSP\NotifierApi\Model\AdapterEngine\ParamsValidator\Required">
+        <arguments>
+            <argument name="requiredParams" xsi:type="array">
+                <item name="to" xsi:type="string">channel</item>
+                <item name="token" xsi:type="string">webhook</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Slack validators pool -->
+    <virtualType name="MSP\NotifierSlackAdapter\Model\AdapterEngine\ValidatorChain\Slack"
+                 type="MSP\NotifierApi\Model\AdapterEngine\AdapterValidator">
+        <arguments>
+            <argument name="messageValidators" xsi:type="array">
+                <item name="required"
+                      xsi:type="object">MSP\NotifierApi\Model\AdapterEngine\MessageValidator\Required</item>
+            </argument>
+            <argument name="paramsValidators" xsi:type="array">
+                <item name="required" xsi:type="object">MSP\NotifierSlackAdapter\Model\AdapterEngine\ParamsValidator\Slack\Required</item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>
