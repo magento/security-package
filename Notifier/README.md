@@ -13,4 +13,4 @@ Then open your admin under `System > MSP Notifier` menù and enjoy it ;)
 
 ## Need further information
 
-Check out our Wiki: https://github.com/magespecialist/notifier/wiki
+Check out our Wiki: https://github.com/magento/security-package/wiki

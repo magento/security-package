@@ -50,13 +50,11 @@ class Edit extends Action implements HttpGetActionInterface
         try {
             $channel = $this->channelRepository->get($channelId);
             $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-            $result
-                ->setActiveMenu('MSP_Notifier::channel')
-                ->addBreadcrumb(__('Edit Channel'), __('Edit Channel'));
-
-            $result->getConfig()
-                ->getTitle()
-                ->prepend(__('Edit Channel: %name', ['name' => $channel->getName()]));
+            $result->setActiveMenu('MSP_Notifier::channel');
+            $result->addBreadcrumb(__('Edit Channel'), __('Edit Channel'));
+            $result->getConfig();
+            $result->getTitle();
+            $result->prepend(__('Edit Channel: %name', ['name' => $channel->getName()]));
         } catch (NoSuchEntityException $e) {
             $result = $this->resultRedirectFactory->create();
             $this->messageManager->addErrorMessage(

@@ -49,13 +49,12 @@ class Edit extends Action implements HttpGetActionInterface
         try {
             $rule = $this->ruleRepository->get($ruleId);
             $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-            $result
-                ->setActiveMenu('MSP_NotifierEvent::rule')
-                ->addBreadcrumb(__('Edit Rule'), __('Edit Rule'));
+            $result->setActiveMenu('MSP_NotifierEvent::rule');
+            $result->addBreadcrumb(__('Edit Rule'), __('Edit Rule'));
 
-            $result->getConfig()
-                ->getTitle()
-                ->prepend(__('Edit Rule: %name', ['name' => $rule->getName()]));
+            $result->getConfig();
+            $result->getTitle();
+            $result->prepend(__('Edit Rule: %name', ['name' => $rule->getName()]));
         } catch (NoSuchEntityException $e) {
             $result = $this->resultRedirectFactory->create();
             $this->messageManager->addErrorMessage(

@@ -18,7 +18,7 @@ ConfigureMockAdapter::execute();
 /** @var SaveInterface $saveCommand */
 $saveCommand = $objectManager->get(SaveInterface::class);
 
-for ($i=1; $i<=10; $i++) {
+for ($i = 1; $i <= 10; $i++) {
     /** @var DatabaseTemplateInterface $dbTemplate */
     $dbTemplate = $objectManager->create(DatabaseTemplateInterface::class);
     $dbTemplate->setCode('test_template_' . $i);
@@ -29,7 +29,7 @@ for ($i=1; $i<=10; $i++) {
     $saveCommand->execute($dbTemplate);
 }
 
-for ($i=1; $i<=10; $i++) {
+for ($i = 1; $i <= 10; $i++) {
     /** @var DatabaseTemplateInterface $dbTemplate */
     $dbTemplate = $objectManager->create(DatabaseTemplateInterface::class);
     $dbTemplate->setCode('test_generic_template_' . $i);

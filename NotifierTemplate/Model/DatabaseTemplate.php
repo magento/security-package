@@ -19,6 +19,31 @@ class DatabaseTemplate extends AbstractExtensibleModel implements
     DatabaseTemplateInterface
 {
     /**
+     * Field template ID
+     */
+    private const ID = 'template_id';
+
+    /**
+     * Field code
+     */
+    private const CODE = 'code';
+
+    /**
+     * Field adapter_code
+     */
+    private const ADAPTER_CODE = 'adapter_code';
+
+    /**
+     * Field name
+     */
+    private const NAME = 'name';
+
+    /**
+     * Field template
+     */
+    private const TEMPLATE = 'template';
+
+    /**
      * @inheritdoc
      */
     protected function _construct()

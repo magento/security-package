@@ -8,20 +8,21 @@ declare(strict_types=1);
 
 namespace MSP\Notifier\Model;
 
+use Magento\Framework\Serialize\SerializerInterface as FrameworkSerializerInterface;
 use MSP\NotifierApi\Model\SerializerInterface;
 
 class Serializer implements SerializerInterface
 {
     /**
-     * @var \Magento\Framework\Serialize\SerializerInterface
+     * @var FrameworkSerializerInterface
      */
     private $serializer;
 
     /**
-     * @param \Magento\Framework\Serialize\SerializerInterface $serializer
+     * @param FrameworkSerializerInterface $serializer
      */
     public function __construct(
-        \Magento\Framework\Serialize\SerializerInterface $serializer
+        FrameworkSerializerInterface $serializer
     ) {
         $this->serializer = $serializer;
     }

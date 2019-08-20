@@ -28,10 +28,11 @@ class Index extends Action implements HttpGetActionInterface
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $resultPage
-            ->setActiveMenu('MSP_NotifierEvent::rule')
-            ->addBreadcrumb(__('Rules'), __('List'));
-        $resultPage->getConfig()->getTitle()->prepend(__('Manage Rules'));
+        $resultPage->setActiveMenu('MSP_NotifierEvent::rule');
+        $resultPage->addBreadcrumb(__('Rules'), __('List'));
+        $resultPage->getConfig();
+        $resultPage->getTitle();
+        $resultPage->prepend(__('Manage Rules'));
 
         return $resultPage;
     }

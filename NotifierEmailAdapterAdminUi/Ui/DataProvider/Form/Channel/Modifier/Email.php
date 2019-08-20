@@ -11,6 +11,7 @@ namespace MSP\NotifierEmailAdapterAdminUi\Ui\DataProvider\Form\Channel\Modifier;
 use Magento\Ui\Component\Form\Field;
 use Magento\Ui\Component\Form\Fieldset;
 use MSP\NotifierAdminUi\Model\Channel\ModifierInterface;
+use MSP\NotifierEmailAdapter\Model\AdapterEngine\Email as EmailAdapter;
 
 class Email implements ModifierInterface
 {
@@ -105,6 +106,6 @@ class Email implements ModifierInterface
      */
     public function getAdapterCode(): string
     {
-        return \MSP\NotifierEmailAdapter\Model\AdapterEngine\Email::ADAPTER_CODE;
+        return EmailAdapter::ADAPTER_CODE;
     }
 }

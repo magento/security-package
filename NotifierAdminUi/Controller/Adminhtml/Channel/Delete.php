@@ -19,7 +19,7 @@ class Delete extends Action implements HttpGetActionInterface
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_Notifier::channel';
+    public const ADMIN_RESOURCE = 'MSP_Notifier::channel';
 
     /**
      * @var ChannelRepositoryInterface

@@ -16,7 +16,7 @@ class AdminVariables implements DecorateVariablesInterface
     /**
      * Variable name for admin user
      */
-    public const VARIABLE_ADMIN_USER = '_adminUser';
+    private const VARIABLE_ADMIN_USER = '_adminUser';
 
     /**
      * @var Session

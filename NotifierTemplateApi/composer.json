@@ -1,6 +1,6 @@
 {
     "name": "msp/module-notifier-template-api",
-    "description": "Twig template manager for notifier API",
+    "description": "Template manager for notifier API",
     "require": {
         "php": "~7.2.0 || ~7.3.0"
     },

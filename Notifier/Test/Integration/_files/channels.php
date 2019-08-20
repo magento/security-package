@@ -18,7 +18,7 @@ ConfigureMockAdapter::execute();
 /** @var ChannelRepositoryInterface $repo */
 $repo = $objectManager->get(ChannelRepositoryInterface::class);
 
-for ($i=1; $i<=10; $i++) {
+for ($i = 1; $i <= 10; $i++) {
     /** @var ChannelInterface $channel */
     $channel = $objectManager->create(ChannelInterface::class);
     $channel->setCode('test_channel_' . $i);

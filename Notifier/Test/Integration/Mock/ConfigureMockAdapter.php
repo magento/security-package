@@ -23,21 +23,21 @@ class ConfigureMockAdapter
         $objectManager = Bootstrap::getObjectManager();
 
         $objectManager->configure([
-            'MSP\NotifierApi\Test\Integration\Mock\FakeAdapter\Validator' => [
+            \MSP\NotifierApi\Test\Integration\Mock\FakeAdapter\Validator::class => [
                 'type' => ltrim(AdapterValidator::class, '\\'),
                 'arguments' => [
                     'messageValidators' => [],
                     'paramsValidators' => [],
                 ]
             ],
-            'MSP\NotifierApi\Test\Integration\Mock\FakeAdapter' => [
+            \MSP\NotifierApi\Test\Integration\Mock\FakeAdapter::class => [
                 'type' => ltrim(Adapter::class, '\\'),
                 'arguments' => [
                     'engine' => [
                         'instance' => ltrim(FakeAdapterEngine::class, '\\'),
                     ],
                     'validatorChain' => [
-                        'instance' => 'MSP\NotifierApi\Test\Integration\Mock\FakeAdapter\Validator'
+                        'instance' => \MSP\NotifierApi\Test\Integration\Mock\FakeAdapter\Validator::class
                     ],
                     'code' => 'fake',
                     'name' => 'Fake Adapter',
@@ -48,7 +48,7 @@ class ConfigureMockAdapter
                 'arguments' => [
                     'adapters' => [
                         'fake' => [
-                            'instance' => 'MSP\NotifierApi\Test\Integration\Mock\FakeAdapter'
+                            'instance' => \MSP\NotifierApi\Test\Integration\Mock\FakeAdapter::class
                         ]
                     ]
                 ]

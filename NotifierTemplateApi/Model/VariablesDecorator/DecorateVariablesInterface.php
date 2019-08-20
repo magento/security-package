@@ -21,5 +21,5 @@ interface DecorateVariablesInterface
      * @param array $data
      * @return void
      */
-    public function execute(array &$data): void;
+    public function execute(array $data): void;
 }

@@ -7,9 +7,9 @@
         "msp/module-notifier": "^1.0"
     },
     "support": {
-        "issues": "https://github.com/magespecialist/m2-MSP_Notifier/issues"
+        "issues": "https://github.com/magento/security-package/issues"
     },
-    "homepage": "https://github.com/magespecialist/m2-MSP_Notifier",
+    "homepage": "https://github.com/magento/security-package",
     "keywords": [
         "magento",
         "notification",

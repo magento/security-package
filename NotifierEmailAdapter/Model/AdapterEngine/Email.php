@@ -24,17 +24,17 @@ class Email implements AdapterEngineInterface
     /**
      * Adapter form field
      */
-    public const ADAPTER_FROM = 'from';
+    private const ADAPTER_FROM = 'from';
 
     /**
      * Adapter from name field
      */
-    public const ADAPTER_FROM_NAME = 'from_name';
+    private const ADAPTER_FROM_NAME = 'from_name';
 
     /**
      * To field name
      */
-    public const ADAPTER_TO = 'to';
+    private const ADAPTER_TO = 'to';
 
     /**
      * @var MailMessageInterfaceFactory

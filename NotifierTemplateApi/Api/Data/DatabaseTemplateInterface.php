@@ -13,31 +13,6 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface DatabaseTemplateInterface extends ExtensibleDataInterface
 {
     /**
-     * Field template ID
-     */
-    public const ID = 'template_id';
-
-    /**
-     * Field code
-     */
-    public const CODE = 'code';
-
-    /**
-     * Field adapter_code
-     */
-    public const ADAPTER_CODE = 'adapter_code';
-
-    /**
-     * Field name
-     */
-    public const NAME = 'name';
-
-    /**
-     * Field template
-     */
-    public const TEMPLATE = 'template';
-
-    /**
      * Get value for rule_id
      * @return int
      */

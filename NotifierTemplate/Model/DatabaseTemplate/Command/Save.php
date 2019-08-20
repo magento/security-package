@@ -28,6 +28,7 @@ class Save implements SaveInterface
      * @var LoggerInterface
      */
     private $logger;
+
     /**
      * @var ValidateDatabaseTemplateInterface
      */

@@ -50,13 +50,11 @@ class Edit extends Action implements HttpGetActionInterface
         try {
             $template = $this->templateRepository->get($templateId);
             $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-            $result
-                ->setActiveMenu('MSP_NotifierTemplate::template')
-                ->addBreadcrumb(__('Edit Template'), __('Edit Template'));
-
-            $result->getConfig()
-                ->getTitle()
-                ->prepend(__('Edit Template: %name', ['name' => $template->getName()]));
+            $result->setActiveMenu('MSP_NotifierTemplate::template');
+            $result->addBreadcrumb(__('Edit Template'), __('Edit Template'));
+            $result->getConfig();
+            $result->getTitle();
+            $result->prepend(__('Edit Template: %name', ['name' => $template->getName()]));
         } catch (NoSuchEntityException $e) {
             $result = $this->resultRedirectFactory->create();
             $this->messageManager->addErrorMessage(

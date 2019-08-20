@@ -31,10 +31,11 @@ class Index extends Action implements HttpGetActionInterface
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $resultPage
-            ->setActiveMenu('MSP_Notifier::channel')
-            ->addBreadcrumb(__('Channels'), __('List'));
-        $resultPage->getConfig()->getTitle()->prepend(__('Manage Channels'));
+        $resultPage->setActiveMenu('MSP_Notifier::channel');
+        $resultPage->addBreadcrumb(__('Channels'), __('List'));
+        $resultPage->getConfig();
+        $resultPage->getTitle();
+        $resultPage->prepend(__('Manage Channels'));
 
         return $resultPage;
     }

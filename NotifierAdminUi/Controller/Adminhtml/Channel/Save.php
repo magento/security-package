@@ -77,7 +77,7 @@ class Save extends Action implements HttpPostActionInterface
         $request = $this->getRequest();
         $requestData = $request->getParams();
 
-        if (!$request->isPost() || empty($requestData['general'])) {
+        if (empty($requestData['general'])) {
             $this->messageManager->addErrorMessage(__('Wrong request.'));
             return $this->redirectAfterFailure($channelId);
         }

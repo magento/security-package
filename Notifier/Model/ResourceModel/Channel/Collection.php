@@ -17,6 +17,9 @@ use MSP\NotifierApi\Api\Data\ChannelInterface;
  */
 class Collection extends AbstractCollection
 {
+    /**
+     * @var ID field name
+     */
     protected $_idFieldName = ChannelInterface::ID;
 
     /**

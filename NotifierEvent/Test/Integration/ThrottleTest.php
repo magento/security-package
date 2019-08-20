@@ -55,7 +55,7 @@ class ThrottleTest extends TestCase
         /** @var Rule $rule */
         $rule = current($this->ruleRepository->getList()->getItems());
 
-        for ($i=0; $i<$rule->getThrottleLimit(); $i++) {
+        for ($i = 0; $i < $rule->getThrottleLimit(); $i++) {
             $this->assertTrue($this->subject->execute($rule));
         }
 

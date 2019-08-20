@@ -19,7 +19,6 @@ use MSP\NotifierApi\Api\ChannelSearchResultsInterface;
 use MSP\NotifierApi\Api\Data\ChannelInterface;
 
 /**
- * @SuppressWarnings(PHPMD.ShortVariable)
  * @SuppressWarnings(PHPMD.LongVariable)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

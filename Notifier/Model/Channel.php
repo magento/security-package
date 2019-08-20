@@ -18,6 +18,36 @@ use MSP\NotifierApi\Api\Data\ChannelInterface;
 class Channel extends AbstractExtensibleModel implements ChannelInterface
 {
     /**
+     * Field channel ID
+     */
+    private const ID = 'channel_id';
+
+    /**
+     * Field name
+     */
+    private const NAME = 'name';
+
+    /**
+     * Field adapter code
+     */
+    private const ADAPTER_CODE = 'adapter_code';
+
+    /**
+     * Field code
+     */
+    private const CODE = 'code';
+
+    /**
+     * Field enabled
+     */
+    private const ENABLED = 'enabled';
+
+    /**
+     * Configuration json field
+     */
+    private const CONFIGURATION_JSON = 'configuration_json';
+
+    /**
      * @inheritdoc
      */
     protected function _construct()

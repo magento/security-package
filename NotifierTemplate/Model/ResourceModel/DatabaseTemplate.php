@@ -19,7 +19,7 @@ class DatabaseTemplate extends AbstractDb
     /**
      * Template notifier base table
      */
-    public const TABLE_NAME = 'msp_notifier_template';
+    private const TABLE_NAME = 'msp_notifier_template';
 
     /**
      * @inheritdoc

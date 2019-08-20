@@ -17,36 +17,6 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface ChannelInterface extends ExtensibleDataInterface
 {
     /**
-     * Field channel ID
-     */
-    public const ID = 'channel_id';
-
-    /**
-     * Field name
-     */
-    public const NAME = 'name';
-
-    /**
-     * Field adapter code
-     */
-    public const ADAPTER_CODE = 'adapter_code';
-
-    /**
-     * Field code
-     */
-    public const CODE = 'code';
-
-    /**
-     * Field enabled
-     */
-    public const ENABLED = 'enabled';
-
-    /**
-     * Configuration json field
-     */
-    public const CONFIGURATION_JSON = 'configuration_json';
-
-    /**
      * Get value for channel_id
      * @return int
      */

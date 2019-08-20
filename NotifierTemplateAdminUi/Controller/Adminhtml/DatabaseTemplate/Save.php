@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
@@ -21,7 +22,7 @@ class Save extends Action implements HttpPostActionInterface
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_NotifierTemplate::template';
+    public const ADMIN_RESOURCE = 'MSP_NotifierTemplate::template';
 
     /**
      * @var DatabaseTemplateRepositoryInterface
