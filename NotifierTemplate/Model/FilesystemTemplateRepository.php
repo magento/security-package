@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model;
+namespace Magento\NotifierTemplate\Model;
 
 use Magento\Framework\Config\Reader\Filesystem as ConfigReader;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -16,7 +16,7 @@ class FilesystemTemplateRepository implements FilesystemTemplateRepositoryInterf
     /**
      * Directory name of notifier templates
      */
-    public const TEMPLATE_MODULE_DIR = 'msp_notifier';
+    public const TEMPLATE_MODULE_DIR = 'magento_notifier';
 
     /**
      * @var ConfigReader

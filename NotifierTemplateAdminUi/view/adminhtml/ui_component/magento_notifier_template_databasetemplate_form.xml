@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
@@ -9,31 +9,31 @@
       xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">msp_notifier_template_databasetemplate_form.msp_notifier_template_databasetemplate_data_source</item>
-            <item name="deps" xsi:type="string">msp_notifier_template_databasetemplate_form.msp_notifier_template_databasetemplate_data_source</item>
+            <item name="provider" xsi:type="string">magento_notifier_template_databasetemplate_form.magento_notifier_template_databasetemplate_data_source</item>
+            <item name="deps" xsi:type="string">magento_notifier_template_databasetemplate_form.magento_notifier_template_databasetemplate_data_source</item>
         </item>
         <item name="label" xsi:type="string" translate="true">General Information</item>
         <item name="config" xsi:type="array">
             <item name="dataScope" xsi:type="string">data</item>
-            <item name="namespace" xsi:type="string">msp_notifier_template_databasetemplate_form</item>
+            <item name="namespace" xsi:type="string">magento_notifier_template_databasetemplate_form</item>
         </item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
         <item name="buttons" xsi:type="array">
-            <item name="back" xsi:type="string">MSP\NotifierTemplateAdminUi\Ui\Component\Form\DatabaseTemplate\BackButton</item>
-            <item name="save" xsi:type="string">MSP\NotifierTemplateAdminUi\Ui\Component\Form\DatabaseTemplate\SaveButton</item>
+            <item name="back" xsi:type="string">Magento\NotifierTemplateAdminUi\Ui\Component\Form\DatabaseTemplate\BackButton</item>
+            <item name="save" xsi:type="string">Magento\NotifierTemplateAdminUi\Ui\Component\Form\DatabaseTemplate\SaveButton</item>
         </item>
         <item name="childrenFromMeta" xsi:type="boolean">true</item>
     </argument>
-    <dataSource name="msp_notifier_template_databasetemplate_data_source">
+    <dataSource name="magento_notifier_template_databasetemplate_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class"
-                      xsi:type="string">MSP\NotifierTemplateAdminUi\Ui\DataProvider\Form\DatabaseTemplateDataProvider</argument>
-            <argument name="name" xsi:type="string">msp_notifier_template_databasetemplate_data_source</argument>
+                      xsi:type="string">Magento\NotifierTemplateAdminUi\Ui\DataProvider\Form\DatabaseTemplateDataProvider</argument>
+            <argument name="name" xsi:type="string">magento_notifier_template_databasetemplate_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">template_id</argument>
             <argument name="requestFieldName" xsi:type="string">template_id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="submit_url" xsi:type="url" path="msp_notifier_template/databasetemplate/save"/>
+                    <item name="submit_url" xsi:type="url" path="magento_notifier_template/databasetemplate/save"/>
                 </item>
             </argument>
         </argument>
@@ -93,7 +93,7 @@
         </field>
         <field name="adapter_code">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">MSP\NotifierTemplateAdminUi\Model\Source\DatabaseTemplate\Adapter</item>
+                <item name="options" xsi:type="object">Magento\NotifierTemplateAdminUi\Model\Source\DatabaseTemplate\Adapter</item>
                 <item name="config" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Adapter Code</item>
                     <item name="notice" xsi:type="string"
@@ -135,8 +135,8 @@
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="formElement" xsi:type="string">container</item>
-                        <item name="component" xsi:type="string">MSP_NotifierTemplateAdminUi/js/form/copy-template</item>
-                        <item name="elementTmpl" xsi:type="string">MSP_NotifierTemplateAdminUi/form/element/copy-template</item>
+                        <item name="component" xsi:type="string">Magento_NotifierTemplateAdminUi/js/form/copy-template</item>
+                        <item name="elementTmpl" xsi:type="string">Magento_NotifierTemplateAdminUi/form/element/copy-template</item>
                         <item name="sortOrder" xsi:type="number">20</item>
                         <item name="dataScope" xsi:type="string">general.template</item>
                         <item name="links" xsi:type="array">

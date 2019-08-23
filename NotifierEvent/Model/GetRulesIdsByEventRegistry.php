@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model;
+namespace Magento\NotifierEvent\Model;
 
-use MSP\NotifierApi\Model\SerializerInterface;
-use MSP\NotifierEvent\Model\ResourceModel\Rule\CollectionFactory;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierEvent\Model\ResourceModel\Rule\CollectionFactory;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 class GetRulesIdsByEventRegistry
 {

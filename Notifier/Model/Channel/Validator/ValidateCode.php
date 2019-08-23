@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model\Channel\Validator;
+namespace Magento\Notifier\Model\Channel\Validator;
 
 use Magento\Framework\Exception\ValidatorException;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
-use MSP\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
 
 class ValidateCode implements ValidateChannelInterface
 {

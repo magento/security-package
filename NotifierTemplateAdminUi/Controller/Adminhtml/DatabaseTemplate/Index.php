@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateAdminUi\Controller\Adminhtml\DatabaseTemplate;
+namespace Magento\NotifierTemplateAdminUi\Controller\Adminhtml\DatabaseTemplate;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Page;
@@ -22,7 +22,7 @@ class Index extends Action implements HttpGetActionInterface
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_NotifierTemplate::template';
+    const ADMIN_RESOURCE = 'Magento_NotifierTemplate::template';
 
     /**
      * @inheritdoc
@@ -31,11 +31,9 @@ class Index extends Action implements HttpGetActionInterface
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $resultPage->setActiveMenu('MSP_NotifierTemplate::template');
+        $resultPage->setActiveMenu('Magento_NotifierTemplate::template');
         $resultPage->addBreadcrumb(__('Templates'), __('List'));
-        $resultPage->getConfig();
-        $resultPage->getTitle();
-        $resultPage->prepend(__('Manage Templates'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Manage Templates'));
 
         return $resultPage;
     }

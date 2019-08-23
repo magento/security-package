@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateAdminUi\Ui\DataProvider\Form;
+namespace Magento\NotifierTemplateAdminUi\Ui\DataProvider\Form;
 
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\ReportingInterface;
@@ -15,10 +15,10 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
-use MSP\NotifierApi\Api\AdapterInterface;
-use MSP\NotifierApi\Api\AdaptersPoolInterface;
-use MSP\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
-use MSP\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter;
+use Magento\NotifierApi\Api\AdapterInterface;
+use Magento\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
+use Magento\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter;
 
 class DatabaseTemplateDataProvider extends DataProvider
 {

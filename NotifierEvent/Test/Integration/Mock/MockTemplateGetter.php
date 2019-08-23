@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Test\Integration\Mock;
+namespace Magento\NotifierEvent\Test\Integration\Mock;
 
 use Magento\Framework\Exception\FileSystemException;
-use MSP\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
+use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
 class MockTemplateGetter implements TemplateGetterInterface
 {

@@ -1,17 +1,16 @@
 {
-    "name": "msp/module-notifier-async-admin-ui",
+    "name": "magento/module-notifier-async-admin-ui",
     "description": "Asynchronous message send backend for Magento2 notifier",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/magento2-base": "^2.3",
-        "msp/module-notifier-api": "^1.0",
-        "msp/module-notifier-admin-ui": "^1.0",
-        "msp/module-notifier-async": "^1.0"
+        "magento/module-notifier-api": "*",
+        "magento/module-notifier-admin-ui": "*",
+        "magento/module-notifier-async": "*"
     },
     "support": {
-        "issues": "https://github.com/magespecialist/m2-MSP_Notifier/issues"
+        "issues": "https://github.com/magento/security-package/issues"
     },
-    "homepage": "https://github.com/magespecialist/m2-MSP_Notifier",
+    "homepage": "https://github.com/magento/security-package",
     "keywords": [
         "magento",
         "notification",
@@ -28,13 +27,16 @@
         }
     ],
     "type": "magento2-module",
-    "license": "OSL-3.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "MSP\\NotifierAsyncAdminUi\\": ""
+            "Magento\\NotifierAsyncAdminUi\\": ""
         }
     }
 }

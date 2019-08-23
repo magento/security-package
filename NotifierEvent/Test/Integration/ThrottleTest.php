@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 /** @noinspection PhpUnhandledExceptionInspection */
@@ -8,16 +8,16 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Test\Integration;
+namespace Magento\NotifierEvent\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierEvent\Model\GetAutomaticTemplateId;
-use MSP\NotifierEvent\Model\Rule;
-use MSP\NotifierEvent\Model\RuleRepository;
-use MSP\NotifierEvent\Model\Throttle;
-use MSP\NotifierEvent\Test\Integration\Mock\ConfigureMockTemplateGetter;
-use MSP\NotifierEventApi\Model\ThrottleInterface;
+use Magento\NotifierEvent\Model\GetAutomaticTemplateId;
+use Magento\NotifierEvent\Model\Rule;
+use Magento\NotifierEvent\Model\RuleRepository;
+use Magento\NotifierEvent\Model\Throttle;
+use Magento\NotifierEvent\Test\Integration\Mock\ConfigureMockTemplateGetter;
+use Magento\NotifierEventApi\Model\ThrottleInterface;
 use PHPUnit\Framework\TestCase;
 
 class ThrottleTest extends TestCase
@@ -48,7 +48,7 @@ class ThrottleTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierEvent/Test/Integration/_files/rules.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierEvent/Test/Integration/_files/rules.php
      */
     public function testShouldThrottle(): void
     {

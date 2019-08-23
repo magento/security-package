@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
 
-namespace MSP\NotifierSecurity\Model\NotifyByEvent;
+namespace Magento\NotifierSecurity\Model\NotifyByEvent;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use MSP\NotifierSecurity\Model\NotifierInterface;
-use MSP\NotifierTemplateApi\Api\SendMessageInterface;
+use Magento\NotifierSecurity\Model\NotifierInterface;
+use Magento\NotifierTemplateApi\Api\SendMessageInterface;
 
 class AdminUserSave implements NotifierInterface
 {

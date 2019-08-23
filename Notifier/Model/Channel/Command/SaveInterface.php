@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model\Channel\Command;
+namespace Magento\Notifier\Model\Channel\Command;
 
 use Magento\Framework\Exception\CouldNotSaveException;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
  * Save Channel data command (Service Provider Interface - SPI)
@@ -18,7 +18,7 @@ use MSP\NotifierApi\Api\Data\ChannelInterface;
  * that you should extend and implement to customize current behaviour, but NOT expected to be used (called) in the code
  * of business logic directly
  *
- * @see \MSP\NotifierApi\Api\ChannelRepositoryInterface
+ * @see \Magento\NotifierApi\Api\ChannelRepositoryInterface
  * @api
  */
 interface SaveInterface

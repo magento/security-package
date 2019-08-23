@@ -1,25 +1,25 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventAdminUi\Controller\Adminhtml\Rule;
+namespace Magento\NotifierEventAdminUi\Controller\Adminhtml\Rule;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultInterface;
-use MSP\NotifierEventApi\Api\RuleRepositoryInterface;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 class Delete extends Action implements HttpGetActionInterface
 {
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_NotifierEvent::rule';
+    const ADMIN_RESOURCE = 'Magento_NotifierEvent::rule';
 
     /**
      * @var RuleRepositoryInterface

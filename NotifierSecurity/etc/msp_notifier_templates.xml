@@ -1,28 +1,28 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:MSP_NotifierTemplate:etc/msp_notifier_templates.xsd">
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_NotifierTemplate:etc/magento_notifier_templates.xsd">
 
     <templates>
         <template id="security_admin_login_failure"
                   label="Admin login failure"
-                  file="MSP_NotifierSecurity::security_admin_login_failure.html" />
+                  file="Magento_NotifierSecurity::security_admin_login_failure.html" />
         <template id="security_admin_configuration_changed"
                   label="Admin configuration changed failure"
-                  file="MSP_NotifierSecurity::security_admin_configuration_changed.html" />
+                  file="Magento_NotifierSecurity::security_admin_configuration_changed.html" />
         <template id="security_admin_user_new"
                   label="New admin user was created"
-                  file="MSP_NotifierSecurity::security_admin_user_new.html" />
+                  file="Magento_NotifierSecurity::security_admin_user_new.html" />
         <template id="security_admin_user_changed"
                   label="Admin user configuration was changed"
-                  file="MSP_NotifierSecurity::security_admin_user_changed.html" />
+                  file="Magento_NotifierSecurity::security_admin_user_changed.html" />
         <template id="security_admin_forgot_password"
                   label="Admin user forgot password"
-                  file="MSP_NotifierSecurity::security_admin_forgot_password.html" />
+                  file="Magento_NotifierSecurity::security_admin_forgot_password.html" />
     </templates>
 </config>

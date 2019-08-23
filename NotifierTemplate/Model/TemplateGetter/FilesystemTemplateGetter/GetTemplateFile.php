@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter;
+namespace Magento\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter;
 
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\LocalizedException;
@@ -14,8 +14,8 @@ use Magento\Framework\Filesystem\Io\File;
 use Magento\Framework\Module\Dir\Reader;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Framework\View\FileSystem;
-use MSP\NotifierTemplate\Model\FilesystemTemplateRepository;
-use MSP\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
+use Magento\NotifierTemplate\Model\FilesystemTemplateRepository;
+use Magento\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
 
 class GetTemplateFile
 {

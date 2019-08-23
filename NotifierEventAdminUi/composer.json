@@ -1,25 +1,24 @@
 {
-    "name": "msp/module-notifier-event-admin-ui",
+    "name": "magento/module-notifier-event-admin-ui",
     "description": "Notifier trigger by event",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/magento2-base": "^2.3",
-        "msp/module-notifier-api": "^1.0",
-        "msp/module-notifier-admin-ui": "^1.0",
-        "msp/module-notifier-event": "^1.0"
+        "magento/module-notifier-api": "*",
+        "magento/module-notifier-admin-ui": "*",
+        "magento/module-notifier-event": "*"
     },
     "support": {
-        "issues": "https://github.com/magespecialist/m2-MSP_Notifier/issues"
+        "issues": "https://github.com/magento/security-package/issues"
     },
-    "homepage": "https://github.com/magespecialist/m2-MSP_Notifier",
+    "homepage": "https://github.com/magento/security-package",
     "keywords": [
         "magento",
         "notification",
         "tool"
     ],
     "suggest": {
-        "msp/module-notifier-event": "Event based rule manager for MSP_Notifier",
-        "msp/module-notifier-queue": "Asynchronous queue manager for MSP_Notifier"
+        "magento/module-notifier-event": "Event based rule manager for Magento_Notifier",
+        "magento/module-notifier-queue": "Asynchronous queue manager for Magento_Notifier"
     },
     "authors": [
         {
@@ -32,13 +31,16 @@
         }
     ],
     "type": "magento2-module",
-    "license": "OSL-3.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "MSP\\NotifierEventAdminUi\\": ""
+            "Magento\\NotifierEventAdminUi\\": ""
         }
     }
 }

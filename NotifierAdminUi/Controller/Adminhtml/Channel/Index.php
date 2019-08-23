@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Controller\Adminhtml\Channel;
+namespace Magento\NotifierAdminUi\Controller\Adminhtml\Channel;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Page;
@@ -22,7 +22,7 @@ class Index extends Action implements HttpGetActionInterface
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_Notifier::channel';
+    const ADMIN_RESOURCE = 'Magento_Notifier::channel';
 
     /**
      * @inheritdoc
@@ -31,11 +31,9 @@ class Index extends Action implements HttpGetActionInterface
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $resultPage->setActiveMenu('MSP_Notifier::channel');
+        $resultPage->setActiveMenu('Magento_Notifier::channel');
         $resultPage->addBreadcrumb(__('Channels'), __('List'));
-        $resultPage->getConfig();
-        $resultPage->getTitle();
-        $resultPage->prepend(__('Manage Channels'));
+        $resultPage->getConfig()->getTitle()->prepend(__('Manage Channels'));
 
         return $resultPage;
     }

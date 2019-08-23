@@ -1,6 +1,6 @@
 {
-    "name": "msp/module-notifier-event-api",
-    "description": "Event based rule engine for MSP Notifier API",
+    "name": "magento/module-notifier-event-api",
+    "description": "Event based rule engine for Magento Notifier API",
     "require": {
         "php": "~7.2.0 || ~7.3.0"
     },
@@ -15,13 +15,16 @@
         }
     ],
     "type": "magento2-module",
-    "license": "OSL-3.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "MSP\\NotifierEventApi\\": ""
+            "Magento\\NotifierEventApi\\": ""
         }
     }
 }

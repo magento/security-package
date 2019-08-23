@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
@@ -9,30 +9,30 @@
       xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">msp_notifier_channel_form.msp_notifier_channel_data_source</item>
-            <item name="deps" xsi:type="string">msp_notifier_channel_form.msp_notifier_channel_data_source</item>
+            <item name="provider" xsi:type="string">magento_notifier_channel_form.magento_notifier_channel_data_source</item>
+            <item name="deps" xsi:type="string">magento_notifier_channel_form.magento_notifier_channel_data_source</item>
         </item>
         <item name="label" xsi:type="string" translate="true">General Information</item>
         <item name="config" xsi:type="array">
             <item name="dataScope" xsi:type="string">data</item>
-            <item name="namespace" xsi:type="string">msp_notifier_channel_form</item>
+            <item name="namespace" xsi:type="string">magento_notifier_channel_form</item>
         </item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
         <item name="buttons" xsi:type="array">
-            <item name="back" xsi:type="string">MSP\NotifierAdminUi\Ui\Component\Form\Channel\BackButton</item>
-            <item name="save" xsi:type="string">MSP\NotifierAdminUi\Ui\Component\Form\Channel\SaveButton</item>
+            <item name="back" xsi:type="string">Magento\NotifierAdminUi\Ui\Component\Form\Channel\BackButton</item>
+            <item name="save" xsi:type="string">Magento\NotifierAdminUi\Ui\Component\Form\Channel\SaveButton</item>
         </item>
         <item name="childrenFromMeta" xsi:type="boolean">true</item>
     </argument>
-    <dataSource name="msp_notifier_channel_data_source">
+    <dataSource name="magento_notifier_channel_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">MSP\NotifierAdminUi\Ui\DataProvider\Form\ChannelDataProvider</argument>
-            <argument name="name" xsi:type="string">msp_notifier_channel_data_source</argument>
+            <argument name="class" xsi:type="string">Magento\NotifierAdminUi\Ui\DataProvider\Form\ChannelDataProvider</argument>
+            <argument name="name" xsi:type="string">magento_notifier_channel_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">channel_id</argument>
             <argument name="requestFieldName" xsi:type="string">channel_id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="submit_url" xsi:type="url" path="msp_notifier/channel/save"/>
+                    <item name="submit_url" xsi:type="url" path="magento_notifier/channel/save"/>
                 </item>
             </argument>
         </argument>

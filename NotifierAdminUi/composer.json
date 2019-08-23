@@ -1,10 +1,9 @@
 {
-    "name": "msp/module-notifier-admin-ui",
+    "name": "magento/module-notifier-admin-ui",
     "description": "Multiple channel notifier engine for Magento 2",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/magento2-base": "^2.3",
-        "msp/module-notifier": "^1.0"
+        "magento/module-notifier": "*"
     },
     "support": {
         "issues": "https://github.com/magento/security-package/issues"
@@ -26,13 +25,16 @@
         }
     ],
     "type": "magento2-module",
-    "license": "OSL-3.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "MSP\\Notifier\\": ""
+            "Magento\\NotifierAdminUi\\": ""
         }
     }
 }

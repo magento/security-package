@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
  -->
@@ -9,9 +9,9 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Communication/etc/communication.xsd">
 
     <topic
-            name="msp_notifier.send_message"
-            schema="MSP\NotifierApi\Api\SendMessageInterface::execute"
+            name="magento_notifier.send_message"
+            schema="Magento\NotifierApi\Api\SendMessageInterface::execute"
             is_synchronous="false">
-        <handler name="mspNotifierSendMessage" type="MSP\NotifierAsync\Model\Consumer" method="process" />
+        <handler name="magentoNotifierSendMessage" type="Magento\NotifierAsync\Model\Consumer" method="process" />
     </topic>
 </config>

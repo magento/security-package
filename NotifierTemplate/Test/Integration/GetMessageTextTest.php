@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Test\Integration;
+namespace Magento\NotifierTemplate\Test\Integration;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierTemplate\Model\GetMessageText;
+use Magento\NotifierTemplate\Model\GetMessageText;
 use PHPUnit\Framework\TestCase;
 
 class GetMessageTextTest extends TestCase

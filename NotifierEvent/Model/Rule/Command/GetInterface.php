@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model\Rule\Command;
+namespace Magento\NotifierEvent\Model\Rule\Command;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 /**
  * Get Rule by ruleId command (Service Provider Interface - SPI)
@@ -18,7 +18,7 @@ use MSP\NotifierEventApi\Api\Data\RuleInterface;
  * that you should extend and implement to customize current behaviour, but NOT expected to be used (called) in the code
  * of business logic directly
  *
- * @see \MSP\NotifierEventApi\Api\RuleRepositoryInterface
+ * @see \Magento\NotifierEventApi\Api\RuleRepositoryInterface
  * @api
  */
 interface GetInterface

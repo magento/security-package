@@ -1,22 +1,22 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model;
+namespace Magento\Notifier\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use MSP\NotifierApi\Api\IsEnabledInterface;
+use Magento\NotifierApi\Api\IsEnabledInterface;
 
 class IsEnabled implements IsEnabledInterface
 {
     /**
      * Configuration path for enabled flag
      */
-    private const XML_PATH_ENABLED = 'msp_notifier/general/enabled';
+    private const XML_PATH_ENABLED = 'magento_notifier/general/enabled';
 
     /**
      * @var ScopeConfigInterface

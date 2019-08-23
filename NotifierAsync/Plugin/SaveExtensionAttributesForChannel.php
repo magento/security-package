@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAsync\Plugin;
+namespace Magento\NotifierAsync\Plugin;
 
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
-use MSP\NotifierAsync\Model\ResourceModel\SaveChannelExtensionAttributes;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierAsync\Model\ResourceModel\SaveChannelExtensionAttributes;
 
 class SaveExtensionAttributesForChannel
 {

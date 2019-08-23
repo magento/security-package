@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTelegramAdapterAdminUi\Ui\DataProvider\Form\Channel\Modifier;
+namespace Magento\NotifierTelegramAdapterAdminUi\Ui\DataProvider\Form\Channel\Modifier;
 
 use Magento\Ui\Component\Form\Field;
 use Magento\Ui\Component\Form\Fieldset;
-use MSP\NotifierAdminUi\Model\Channel\ModifierInterface;
+use Magento\NotifierAdminUi\Model\Channel\ModifierInterface;
 
 class Telegram implements ModifierInterface
 {
@@ -83,6 +83,6 @@ class Telegram implements ModifierInterface
      */
     public function getAdapterCode(): string
     {
-        return \MSP\NotifierTelegramAdapter\Model\AdapterEngine\Telegram::ADAPTER_CODE;
+        return \Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram::ADAPTER_CODE;
     }
 }

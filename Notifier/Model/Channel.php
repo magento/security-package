@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model;
+namespace Magento\Notifier\Model;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
-use MSP\NotifierApi\Api\Data\ChannelExtensionInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelExtensionInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -18,24 +18,9 @@ use MSP\NotifierApi\Api\Data\ChannelInterface;
 class Channel extends AbstractExtensibleModel implements ChannelInterface
 {
     /**
-     * Field channel ID
-     */
-    private const ID = 'channel_id';
-
-    /**
      * Field name
      */
     private const NAME = 'name';
-
-    /**
-     * Field adapter code
-     */
-    private const ADAPTER_CODE = 'adapter_code';
-
-    /**
-     * Field code
-     */
-    private const CODE = 'code';
 
     /**
      * Field enabled
@@ -146,7 +131,7 @@ class Channel extends AbstractExtensibleModel implements ChannelInterface
     /**
      * @inheritdoc
      */
-    public function getExtensionAttributes(): ?\MSP\NotifierApi\Api\Data\ChannelExtensionInterface
+    public function getExtensionAttributes(): ?\Magento\NotifierApi\Api\Data\ChannelExtensionInterface
     {
         return $this->_getExtensionAttributes();
     }

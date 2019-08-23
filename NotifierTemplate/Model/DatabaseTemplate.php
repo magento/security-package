@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model;
+namespace Magento\NotifierTemplate\Model;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -18,21 +18,6 @@ use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 class DatabaseTemplate extends AbstractExtensibleModel implements
     DatabaseTemplateInterface
 {
-    /**
-     * Field template ID
-     */
-    private const ID = 'template_id';
-
-    /**
-     * Field code
-     */
-    private const CODE = 'code';
-
-    /**
-     * Field adapter_code
-     */
-    private const ADAPTER_CODE = 'adapter_code';
-
     /**
      * Field name
      */

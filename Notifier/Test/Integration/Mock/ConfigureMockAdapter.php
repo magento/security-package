@@ -1,17 +1,17 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Test\Integration\Mock;
+namespace Magento\Notifier\Test\Integration\Mock;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierApi\Model\Adapter;
-use MSP\NotifierApi\Model\AdapterEngine\AdapterValidator;
-use MSP\NotifierApi\Model\AdaptersPool;
+use Magento\NotifierApi\Model\Adapter;
+use Magento\NotifierApi\Model\AdapterEngine\AdapterValidator;
+use Magento\NotifierApi\Model\AdaptersPool;
 
 class ConfigureMockAdapter
 {
@@ -23,21 +23,21 @@ class ConfigureMockAdapter
         $objectManager = Bootstrap::getObjectManager();
 
         $objectManager->configure([
-            \MSP\NotifierApi\Test\Integration\Mock\FakeAdapter\Validator::class => [
+            \Magento\NotifierApi\Test\Integration\Mock\FakeAdapter\Validator::class => [
                 'type' => ltrim(AdapterValidator::class, '\\'),
                 'arguments' => [
                     'messageValidators' => [],
                     'paramsValidators' => [],
                 ]
             ],
-            \MSP\NotifierApi\Test\Integration\Mock\FakeAdapter::class => [
+            \Magento\NotifierApi\Test\Integration\Mock\FakeAdapter::class => [
                 'type' => ltrim(Adapter::class, '\\'),
                 'arguments' => [
                     'engine' => [
                         'instance' => ltrim(FakeAdapterEngine::class, '\\'),
                     ],
                     'validatorChain' => [
-                        'instance' => \MSP\NotifierApi\Test\Integration\Mock\FakeAdapter\Validator::class
+                        'instance' => \Magento\NotifierApi\Test\Integration\Mock\FakeAdapter\Validator::class
                     ],
                     'code' => 'fake',
                     'name' => 'Fake Adapter',
@@ -48,7 +48,7 @@ class ConfigureMockAdapter
                 'arguments' => [
                     'adapters' => [
                         'fake' => [
-                            'instance' => \MSP\NotifierApi\Test\Integration\Mock\FakeAdapter::class
+                            'instance' => \Magento\NotifierApi\Test\Integration\Mock\FakeAdapter::class
                         ]
                     ]
                 ]

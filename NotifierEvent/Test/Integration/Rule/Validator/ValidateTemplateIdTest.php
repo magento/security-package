@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 /** @noinspection PhpUnhandledExceptionInspection */
@@ -8,15 +8,15 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Test\Integration\Rule\Validator;
+namespace Magento\NotifierEvent\Test\Integration\Rule\Validator;
 
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
-use MSP\NotifierEvent\Model\GetAutomaticTemplateId;
-use MSP\NotifierEvent\Model\Rule\Validator\ValidateTemplateId;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
+use Magento\NotifierEvent\Model\GetAutomaticTemplateId;
+use Magento\NotifierEvent\Model\Rule\Validator\ValidateTemplateId;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use PHPUnit\Framework\TestCase;
 
 class ValidateTemplateIdTest extends TestCase
@@ -96,7 +96,7 @@ class ValidateTemplateIdTest extends TestCase
      * @param array $data
      * @param string $errorMessage
      * @dataProvider invalidDataProvider
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
      */
     public function testShouldTriggerValidationException(array $data, string $errorMessage): void
     {
@@ -117,7 +117,7 @@ class ValidateTemplateIdTest extends TestCase
     /**
      * @param array $data
      * @dataProvider validDataProvider
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
      */
     public function testShouldValidateChannel(array $data): void
     {

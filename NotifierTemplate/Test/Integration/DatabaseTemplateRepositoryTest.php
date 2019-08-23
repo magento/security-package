@@ -1,19 +1,19 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Test\Integration;
+namespace Magento\NotifierTemplate\Test\Integration;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
-use MSP\NotifierTemplate\Model\DatabaseTemplate;
-use MSP\NotifierTemplate\Model\DatabaseTemplateRepository;
+use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
+use Magento\NotifierTemplate\Model\DatabaseTemplate;
+use Magento\NotifierTemplate\Model\DatabaseTemplateRepository;
 use PHPUnit\Framework\TestCase;
 
 class DatabaseTemplateRepositoryTest extends TestCase
@@ -40,7 +40,7 @@ class DatabaseTemplateRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
      */
     public function testShouldGetList(): void
     {
@@ -80,7 +80,7 @@ class DatabaseTemplateRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
      */
     public function testShouldGetByCode(): void
     {
@@ -91,7 +91,7 @@ class DatabaseTemplateRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
      */
     public function testShouldTriggerExceptionWhenCodeIsNotFound(): void
     {
@@ -102,7 +102,7 @@ class DatabaseTemplateRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
      */
     public function testShouldDelete(): void
     {
@@ -120,7 +120,7 @@ class DatabaseTemplateRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
      */
     public function testShouldSave(): void
     {
@@ -139,7 +139,7 @@ class DatabaseTemplateRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
      */
     public function testShouldCreate(): void
     {

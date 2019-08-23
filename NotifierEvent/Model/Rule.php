@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model;
+namespace Magento\NotifierEvent\Model;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
-use MSP\NotifierEventApi\Api\Data\RuleExtensionInterface;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\Data\RuleExtensionInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 class Rule extends AbstractExtensibleModel implements RuleInterface
 {

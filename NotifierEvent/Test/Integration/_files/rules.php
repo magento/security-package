@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierApi\Model\SerializerInterface;
-use MSP\NotifierEvent\Model\GetRulesIdsByEventRegistry;
-use MSP\NotifierEvent\Model\Rule;
-use MSP\NotifierEventApi\Api\RuleRepositoryInterface;
+use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierEvent\Model\GetRulesIdsByEventRegistry;
+use Magento\NotifierEvent\Model\Rule;
+use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
 
 $objectManager = Bootstrap::getObjectManager();
 

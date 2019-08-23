@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\VariablesDecorator;
+namespace Magento\NotifierTemplate\Model\VariablesDecorator;
 
 use Magento\Backend\Model\Auth\Session;
-use MSP\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
+use Magento\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
 
 class AdminVariables implements DecorateVariablesInterface
 {
@@ -36,7 +36,7 @@ class AdminVariables implements DecorateVariablesInterface
     /**
      * @inheritdoc
      */
-    public function execute(array &$data): void
+    public function execute(array $data): void
     {
         $data[self::VARIABLE_ADMIN_USER] = $this->session->getUser();
     }

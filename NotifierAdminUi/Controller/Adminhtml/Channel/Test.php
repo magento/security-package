@@ -1,26 +1,26 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Controller\Adminhtml\Channel;
+namespace Magento\NotifierAdminUi\Controller\Adminhtml\Channel;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
-use MSP\NotifierApi\Api\SendMessageInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\SendMessageInterface;
 
 class Test extends Action implements HttpGetActionInterface
 {
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_Notifier::channel';
+    const ADMIN_RESOURCE = 'Magento_Notifier::channel';
 
     /**
      * @var SendMessageInterface

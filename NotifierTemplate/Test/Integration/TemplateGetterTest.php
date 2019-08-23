@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 /** @noinspection PhpUnhandledExceptionInspection */
@@ -8,12 +8,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Test\Integration;
+namespace Magento\NotifierTemplate\Test\Integration;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
-use MSP\NotifierTemplate\Model\TemplateGetter\TemplateGetter;
-use MSP\NotifierTemplate\Test\Integration\Mock\ConfigureMockFilesystemTemplates;
+use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
+use Magento\NotifierTemplate\Model\TemplateGetter\TemplateGetter;
+use Magento\NotifierTemplate\Test\Integration\Mock\ConfigureMockFilesystemTemplates;
 use PHPUnit\Framework\TestCase;
 
 class TemplateGetterTest extends TestCase
@@ -34,8 +34,8 @@ class TemplateGetterTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
      */
     public function testTemplateFromDb(): void
     {
@@ -44,7 +44,7 @@ class TemplateGetterTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testTemplateFromFilesystem(): void
     {
@@ -53,7 +53,7 @@ class TemplateGetterTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testAdapterSpecificTemplateFromFilesystem(): void
     {
@@ -62,8 +62,8 @@ class TemplateGetterTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
      */
     public function testShouldPickTemplateFromDatabaseFirst(): void
     {

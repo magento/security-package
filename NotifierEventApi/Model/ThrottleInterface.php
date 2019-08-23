@@ -1,14 +1,14 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventApi\Model;
+namespace Magento\NotifierEventApi\Model;
 
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 /**
  * Throttle manager (Service Provider Interface - SPI)

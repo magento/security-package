@@ -1,31 +1,31 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <virtualType name="MSP\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Pool">
+    <virtualType name="Magento\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Pool">
         <arguments>
             <argument name="modifiers" xsi:type="array">
-                <item name="msp_notifier_queue_extension_attributes" xsi:type="array">
+                <item name="magento_notifier_queue_extension_attributes" xsi:type="array">
                     <item name="class"
-                          xsi:type="string">MSP\NotifierAsyncAdminUi\Ui\DataProvider\Form\Channel\Modifier\ExtensionAttributes</item>
+                          xsi:type="string">Magento\NotifierAsyncAdminUi\Ui\DataProvider\Form\Channel\Modifier\ExtensionAttributes</item>
                     <item name="sortOrder" xsi:type="number">10</item>
                 </item>
             </argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="MSP\NotifierAdminUi\Ui\DataProvider\Listing\Channel\Modifier\Pool">
+    <virtualType name="Magento\NotifierAdminUi\Ui\DataProvider\Listing\Channel\Modifier\Pool">
         <arguments>
             <argument name="modifiers" xsi:type="array">
-                <item name="msp_notifier_queue_extension_attributes" xsi:type="array">
+                <item name="magento_notifier_queue_extension_attributes" xsi:type="array">
                     <item name="class"
-                          xsi:type="string">MSP\NotifierAsyncAdminUi\Ui\DataProvider\Listing\Channel\Modifier\ExtensionAttributes</item>
+                          xsi:type="string">Magento\NotifierAsyncAdminUi\Ui\DataProvider\Listing\Channel\Modifier\ExtensionAttributes</item>
                     <item name="sortOrder" xsi:type="number">10</item>
                 </item>
             </argument>

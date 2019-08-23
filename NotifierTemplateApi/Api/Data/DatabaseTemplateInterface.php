@@ -1,17 +1,32 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateApi\Api\Data;
+namespace Magento\NotifierTemplateApi\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 
 interface DatabaseTemplateInterface extends ExtensibleDataInterface
 {
+    /**
+     * Field template ID
+     */
+    public const ID = 'template_id';
+
+    /**
+     * Field code
+     */
+    public const CODE = 'code';
+
+    /**
+     * Field adapter_code
+     */
+    public const ADAPTER_CODE = 'adapter_code';
+
     /**
      * Get value for rule_id
      * @return int
@@ -79,16 +94,16 @@ interface DatabaseTemplateInterface extends ExtensibleDataInterface
 
     /**
      * Retrieve existing extension attributes object or create a new one
-     * @return \MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface|null
+     * @return \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface|null
      */
-    public function getExtensionAttributes(): ?\MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface;
+    public function getExtensionAttributes(): ?\Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface;
 
     /**
      * Set an extension attributes object
-     * @param \MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface $extensionAttributes
+     * @param \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface $extensionAttributes
      * @return $this
      */
     public function setExtensionAttributes(
-        \MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface $extensionAttributes
+        \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface $extensionAttributes
     ): void;
 }

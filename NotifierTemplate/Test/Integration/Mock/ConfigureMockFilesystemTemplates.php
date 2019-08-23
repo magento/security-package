@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Test\Integration\Mock;
+namespace Magento\NotifierTemplate\Test\Integration\Mock;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter\GetTemplateFile;
+use Magento\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter\GetTemplateFile;
 
 class ConfigureMockFilesystemTemplates
 {

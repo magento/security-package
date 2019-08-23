@@ -1,23 +1,23 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model;
+namespace Magento\NotifierTemplate\Model;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Command\DeleteInterface;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetByAdapterCodeInterface;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetByCodeInterface;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetInterface;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetListInterface;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Command\SaveInterface;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
-use MSP\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
-use MSP\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Command\DeleteInterface;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Command\GetByAdapterCodeInterface;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Command\GetByCodeInterface;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Command\GetInterface;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Command\GetListInterface;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Command\SaveInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
+use Magento\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
 
 /**
  * @SuppressWarnings(PHPMD.ShortVariable)

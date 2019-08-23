@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAsync\Model\ResourceModel;
+namespace Magento\NotifierAsync\Model\ResourceModel;
 
 use Magento\Framework\App\ResourceConnection;
 
@@ -31,7 +31,7 @@ class SaveChannelExtensionAttributes
      */
     public function execute(int $channelId, array $data): void
     {
-        $tableName = $this->resourceConnection->getTableName('msp_notifier_async_channel');
+        $tableName = $this->resourceConnection->getTableName('magento_notifier_async_channel');
         $connection = $this->resourceConnection->getConnection();
 
         $connection->insertOnDuplicate(

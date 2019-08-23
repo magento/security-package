@@ -1,19 +1,19 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Test\Integration;
+namespace Magento\Notifier\Test\Integration;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\Notifier\Model\Channel;
-use MSP\Notifier\Model\ChannelRepository;
-use MSP\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
+use Magento\Notifier\Model\Channel;
+use Magento\Notifier\Model\ChannelRepository;
+use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
 use PHPUnit\Framework\TestCase;
 
 class ChannelRepositoryTest extends TestCase
@@ -40,7 +40,7 @@ class ChannelRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldGetList(): void
     {
@@ -71,7 +71,7 @@ class ChannelRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldGetByCode(): void
     {
@@ -82,7 +82,7 @@ class ChannelRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldTriggerExceptionWhenCodeIsNotFound(): void
     {
@@ -93,7 +93,7 @@ class ChannelRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldDelete(): void
     {
@@ -111,7 +111,7 @@ class ChannelRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldSave(): void
     {
@@ -130,7 +130,7 @@ class ChannelRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldCreate(): void
     {

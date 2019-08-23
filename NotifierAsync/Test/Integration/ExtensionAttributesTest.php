@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAsync\Test\Integration;
+namespace Magento\NotifierAsync\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use PHPUnit\Framework\TestCase;
 
 class ExtensionAttributesTest extends TestCase
@@ -35,7 +35,7 @@ class ExtensionAttributesTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldPersistExtensionAttributes(): void
     {
@@ -50,7 +50,7 @@ class ExtensionAttributesTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldDefaultExtensionAttributesValues(): void
     {

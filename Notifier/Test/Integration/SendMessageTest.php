@@ -1,17 +1,17 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Test\Integration;
+namespace Magento\Notifier\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\Notifier\Model\SendMessage;
-use MSP\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
+use Magento\Notifier\Model\SendMessage;
+use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
 use PHPUnit\Framework\TestCase;
 
 class SendMessageTest extends TestCase
@@ -38,7 +38,7 @@ class SendMessageTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldSendMessage(): void
     {
@@ -46,7 +46,7 @@ class SendMessageTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldNotSendMessageWithDisabledChannel(): void
     {
@@ -54,8 +54,8 @@ class SendMessageTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
-     * @magentoAdminConfigFixture msp_notifier/general/enabled 0
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
+     * @magentoAdminConfigFixture magento_notifier/general/enabled 0
      */
     public function testShouldNotSendMessageWithDisabledModule(): void
     {

@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateAdminUi\Model\Source\DatabaseTemplate;
+namespace Magento\NotifierTemplateAdminUi\Model\Source\DatabaseTemplate;
 
 use Magento\Framework\Data\OptionSourceInterface;
-use MSP\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierApi\Api\AdaptersPoolInterface;
 
 class Adapter implements OptionSourceInterface
 {

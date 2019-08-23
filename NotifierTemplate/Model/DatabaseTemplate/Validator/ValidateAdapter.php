@@ -1,18 +1,18 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\DatabaseTemplate\Validator;
+namespace Magento\NotifierTemplate\Model\DatabaseTemplate\Validator;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\ValidatorException;
-use MSP\NotifierApi\Api\AdaptersPoolInterface;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
-use MSP\NotifierTemplateApi\Model\DatabaseTemplate\Validator\ValidateDatabaseTemplateInterface;
+use Magento\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Model\DatabaseTemplate\Validator\ValidateDatabaseTemplateInterface;
 
 class ValidateAdapter implements ValidateDatabaseTemplateInterface
 {

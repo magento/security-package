@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Model;
+namespace Magento\NotifierApi\Model;
 
-use MSP\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
-use MSP\NotifierApi\Model\AdapterEngine\AdapterValidatorInterface;
-use MSP\NotifierApi\Api\AdapterInterface;
+use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
+use Magento\NotifierApi\Model\AdapterEngine\AdapterValidatorInterface;
+use Magento\NotifierApi\Api\AdapterInterface;
 
 class Adapter implements AdapterInterface
 {

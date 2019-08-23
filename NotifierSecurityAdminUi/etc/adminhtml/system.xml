@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
-
     <system>
-        <section id="msp_notifier_security" translate="label" type="text" sortOrder="10" showInDefault="1"
+        <section id="magento_notifier" translate="label" type="text" sortOrder="10" showInDefault="1"
                  showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Notifications</label>
-            <tab>security</tab>
-            <resource>MSP_Notifier::config</resource>
+            <tab>magento_notifier</tab>
+            <resource>Magento_Notifier::config</resource>
 
             <group id="events" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1"
                    showInStore="1">
@@ -22,27 +21,27 @@
                 <field id="admin_login_failure" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0"
                        showInStore="0">
                     <label>Admin login failure</label>
-                    <source_model>MSP\NotifierSecurity\Model\Source\Channel</source_model>
+                    <source_model>Magento\NotifierSecurity\Model\Source\Channel</source_model>
                 </field>
                 <field id="admin_configuration_changed" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="0"
                        showInStore="0">
                     <label>Admin configuration changed</label>
-                    <source_model>MSP\NotifierSecurity\Model\Source\Channel</source_model>
+                    <source_model>Magento\NotifierSecurity\Model\Source\Channel</source_model>
                 </field>
                 <field id="admin_user_new" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="0"
                        showInStore="0">
                     <label>New admin user</label>
-                    <source_model>MSP\NotifierSecurity\Model\Source\Channel</source_model>
+                    <source_model>Magento\NotifierSecurity\Model\Source\Channel</source_model>
                 </field>
                 <field id="admin_user_changed" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0"
                        showInStore="0">
                     <label>Admin user configuration changed</label>
-                    <source_model>MSP\NotifierSecurity\Model\Source\Channel</source_model>
+                    <source_model>Magento\NotifierSecurity\Model\Source\Channel</source_model>
                 </field>
                 <field id="admin_forgot_password" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0"
                        showInStore="0">
                     <label>Admin forgot password</label>
-                    <source_model>MSP\NotifierSecurity\Model\Source\Channel</source_model>
+                    <source_model>Magento\NotifierSecurity\Model\Source\Channel</source_model>
                 </field>
             </group>
         </section>

@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="MSP\NotifierApi\Api\ChannelRepositoryInterface">
-        <plugin sortOrder="10" name="msp_queue_save_extension_attributes_for_channel"
-                type="MSP\NotifierAsync\Plugin\SaveExtensionAttributesForChannel"/>
-        <plugin sortOrder="10" name="msp_queue_add_extension_attributes_to_channel"
-                type="MSP\NotifierAsync\Plugin\AddExtensionAttributesToChannel"/>
+    <type name="Magento\NotifierApi\Api\ChannelRepositoryInterface">
+        <plugin sortOrder="10" name="magento_queue_save_extension_attributes_for_channel"
+                type="Magento\NotifierAsync\Plugin\SaveExtensionAttributesForChannel"/>
+        <plugin sortOrder="10" name="magento_queue_add_extension_attributes_to_channel"
+                type="Magento\NotifierAsync\Plugin\AddExtensionAttributesToChannel"/>
     </type>
 
-    <type name="MSP\NotifierApi\Api\SendMessageInterface">
-        <plugin sortOrder="1" name="mSPNotifierQueueSendMessageInterface"
-                type="MSP\NotifierAsync\Plugin\SendMessageAsynchronously"/>
+    <type name="Magento\NotifierApi\Api\SendMessageInterface">
+        <plugin sortOrder="1" name="magentoNotifierQueueSendMessageInterface"
+                type="Magento\NotifierAsync\Plugin\SendMessageAsynchronously"/>
     </type>
 </config>

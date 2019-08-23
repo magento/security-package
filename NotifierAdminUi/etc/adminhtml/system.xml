@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
  -->
@@ -9,16 +9,16 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
 
     <system>
-        <tab id="msp_notifier" translate="label" sortOrder="200">
+        <tab id="magento_notifier" translate="label" sortOrder="200">
             <label>Notifier Framework</label>
         </tab>
 
-        <section id="msp_notifier" translate="label" type="text" sortOrder="10" showInDefault="1"
+        <section id="magento_notifier" translate="label" type="text" sortOrder="10" showInDefault="1"
                  showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>General</label>
-            <tab>msp_notifier</tab>
-            <resource>MSP_Notifier::config</resource>
+            <tab>magento_notifier</tab>
+            <resource>Magento_Notifier::config</resource>
 
             <group id="general" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1"
                    showInStore="1">

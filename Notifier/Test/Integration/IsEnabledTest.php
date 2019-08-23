@@ -1,16 +1,16 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Test\Integration;
+namespace Magento\Notifier\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\Notifier\Model\IsEnabled;
+use Magento\Notifier\Model\IsEnabled;
 use PHPUnit\Framework\TestCase;
 
 class IsEnabledTest extends TestCase
@@ -35,7 +35,7 @@ class IsEnabledTest extends TestCase
     }
 
     /**
-     * @magentoAdminConfigFixture msp_notifier/general/enabled 1
+     * @magentoAdminConfigFixture magento_notifier/general/enabled 1
      */
     public function testShouldBeEnabled(): void
     {
@@ -43,7 +43,7 @@ class IsEnabledTest extends TestCase
     }
 
     /**
-     * @magentoAdminConfigFixture msp_notifier/general/enabled 0
+     * @magentoAdminConfigFixture magento_notifier/general/enabled 0
      */
     public function testShouldBeDisabled(): void
     {

@@ -1,18 +1,18 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model;
+namespace Magento\NotifierEvent\Model;
 
 use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
-use MSP\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
-use MSP\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
+use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
 class GetAutomaticTemplateId implements GetAutomaticTemplateIdInterface
 {

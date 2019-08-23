@@ -1,19 +1,19 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAsync\Plugin;
+namespace Magento\NotifierAsync\Plugin;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierApi\Api\IsEnabledInterface;
-use MSP\NotifierApi\Api\SendMessageInterface;
-use MSP\NotifierAsync\Model\BypassFlag;
-use MSP\NotifierAsync\Model\EnqueueMessage;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\IsEnabledInterface;
+use Magento\NotifierApi\Api\SendMessageInterface;
+use Magento\NotifierAsync\Model\BypassFlag;
+use Magento\NotifierAsync\Model\EnqueueMessage;
 
 class SendMessageAsynchronously
 {

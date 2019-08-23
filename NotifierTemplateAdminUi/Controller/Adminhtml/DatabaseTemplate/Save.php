@@ -1,28 +1,27 @@
-
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateAdminUi\Controller\Adminhtml\DatabaseTemplate;
+namespace Magento\NotifierTemplateAdminUi\Controller\Adminhtml\DatabaseTemplate;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultInterface;
-use MSP\NotifierTemplate\Model\DatabaseTemplateFactory;
-use MSP\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplate\Model\DatabaseTemplateFactory;
+use Magento\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 class Save extends Action implements HttpPostActionInterface
 {
     /**
      * @see _isAllowed()
      */
-    public const ADMIN_RESOURCE = 'MSP_NotifierTemplate::template';
+    public const ADMIN_RESOURCE = 'Magento_NotifierTemplate::template';
 
     /**
      * @var DatabaseTemplateRepositoryInterface

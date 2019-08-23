@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
  -->
@@ -11,8 +11,8 @@
         <resources>
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Backend::system">
-                    <resource id="MSP_Notifier::notifier">
-                        <resource id="MSP_NotifierTemplate::template" title="Templates" translate="title" sortOrder="30" />
+                    <resource id="Magento_Notifier::notifier">
+                        <resource id="Magento_NotifierTemplate::template" title="Templates" translate="title" sortOrder="30" />
                     </resource>
                 </resource>
             </resource>

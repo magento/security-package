@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Api\Data;
+namespace Magento\NotifierApi\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 
@@ -16,6 +16,21 @@ use Magento\Framework\Api\ExtensibleDataInterface;
  */
 interface ChannelInterface extends ExtensibleDataInterface
 {
+    /**
+     * Entity id field
+     */
+    public const ID = 'channel_id';
+
+    /**
+     * Field adapter code
+     */
+    public const ADAPTER_CODE = 'adapter_code';
+
+    /**
+     * Field code
+     */
+    public const CODE = 'code';
+
     /**
      * Get value for channel_id
      * @return int
@@ -96,16 +111,16 @@ interface ChannelInterface extends ExtensibleDataInterface
 
     /**
      * Retrieve existing extension attributes object or create a new one
-     * @return \MSP\NotifierApi\Api\Data\ChannelExtensionInterface|null
+     * @return \Magento\NotifierApi\Api\Data\ChannelExtensionInterface|null
      */
-    public function getExtensionAttributes(): ?\MSP\NotifierApi\Api\Data\ChannelExtensionInterface;
+    public function getExtensionAttributes(): ?\Magento\NotifierApi\Api\Data\ChannelExtensionInterface;
 
     /**
      * Set an extension attributes object
-     * @param \MSP\NotifierApi\Api\Data\ChannelExtensionInterface $extensionAttributes
+     * @param \Magento\NotifierApi\Api\Data\ChannelExtensionInterface $extensionAttributes
      * @return void
      */
     public function setExtensionAttributes(
-        \MSP\NotifierApi\Api\Data\ChannelExtensionInterface $extensionAttributes
+        \Magento\NotifierApi\Api\Data\ChannelExtensionInterface $extensionAttributes
     ): void;
 }

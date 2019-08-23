@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAsync\Model;
+namespace Magento\NotifierAsync\Model;
 
 use Magento\Framework\MessageQueue\PublisherInterface;
 
@@ -32,7 +32,7 @@ class EnqueueMessage
      */
     public function execute(string $channelCode, string $message): void
     {
-        $this->publisher->publish('msp_notifier.send_message', [
+        $this->publisher->publish('magento_notifier.send_message', [
             'channelCode' => $channelCode,
             'message' => $message
         ]);

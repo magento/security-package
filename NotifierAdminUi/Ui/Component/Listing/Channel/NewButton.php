@@ -1,19 +1,19 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Ui\Component\Listing\Channel;
+namespace Magento\NotifierAdminUi\Ui\Component\Listing\Channel;
 
 use Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Generic;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Ui\Component\Control\Container;
-use MSP\NotifierApi\Api\AdaptersPoolInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 class NewButton extends Generic
 {
@@ -63,7 +63,7 @@ class NewButton extends Generic
             $options[] = [
                 'id_hard' => 'adapter_' . $adapter->getCode(),
                 'label' => $adapter->getDescription(),
-                'onclick' => sprintf("location.href = '%s';", $this->getUrl('msp_notifier/channel/new', [
+                'onclick' => sprintf("location.href = '%s';", $this->getUrl('magento_notifier/channel/new', [
                     ChannelInterface::ADAPTER_CODE => $adapter->getCode(),
                 ])),
             ];

@@ -1,18 +1,18 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model\Rule\Command;
+namespace Magento\NotifierEvent\Model\Rule\Command;
 
 use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotDeleteException;
-use MSP\NotifierEvent\Model\ResourceModel\Rule;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEvent\Model\ResourceModel\Rule;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use Psr\Log\LoggerInterface;
 
 /**

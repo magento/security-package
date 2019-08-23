@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:complexType name="mspNotifierTemplateType">
+    <xs:complexType name="magentoNotifierTemplateType">
         <xs:annotation>
-            <xs:documentation>MSP Notifier template declaration</xs:documentation>
+            <xs:documentation>Magento Notifier template declaration</xs:documentation>
         </xs:annotation>
         <xs:attribute name="id" type="xs:string" use="required"/>
         <xs:attribute name="label" type="xs:string" use="required"/>
@@ -21,7 +21,7 @@
                 <xs:element name="templates" minOccurs="1" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="template" type="mspNotifierTemplateType" minOccurs="1" maxOccurs="unbounded"/>
+                            <xs:element name="template" type="magentoNotifierTemplateType" minOccurs="1" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

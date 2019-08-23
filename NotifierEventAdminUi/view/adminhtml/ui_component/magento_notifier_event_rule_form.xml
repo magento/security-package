@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 -->
@@ -9,30 +9,30 @@
       xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">msp_notifier_event_rule_form.msp_notifier_event_rule_data_source</item>
-            <item name="deps" xsi:type="string">msp_notifier_event_rule_form.msp_notifier_event_rule_data_source</item>
+            <item name="provider" xsi:type="string">magento_notifier_event_rule_form.magento_notifier_event_rule_data_source</item>
+            <item name="deps" xsi:type="string">magento_notifier_event_rule_form.magento_notifier_event_rule_data_source</item>
         </item>
         <item name="label" xsi:type="string" translate="true">General Information</item>
         <item name="config" xsi:type="array">
             <item name="dataScope" xsi:type="string">data</item>
-            <item name="namespace" xsi:type="string">msp_notifier_event_rule_form</item>
+            <item name="namespace" xsi:type="string">magento_notifier_event_rule_form</item>
         </item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
         <item name="buttons" xsi:type="array">
-            <item name="back" xsi:type="string">MSP\NotifierEventAdminUi\Ui\Component\Form\Rule\BackButton</item>
-            <item name="save" xsi:type="string">MSP\NotifierEventAdminUi\Ui\Component\Form\Rule\SaveButton</item>
+            <item name="back" xsi:type="string">Magento\NotifierEventAdminUi\Ui\Component\Form\Rule\BackButton</item>
+            <item name="save" xsi:type="string">Magento\NotifierEventAdminUi\Ui\Component\Form\Rule\SaveButton</item>
         </item>
         <item name="childrenFromMeta" xsi:type="boolean">true</item>
     </argument>
-    <dataSource name="msp_notifier_event_rule_data_source">
+    <dataSource name="magento_notifier_event_rule_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">MSP\NotifierEventAdminUi\Ui\DataProvider\Form\RuleDataProvider</argument>
-            <argument name="name" xsi:type="string">msp_notifier_event_rule_data_source</argument>
+            <argument name="class" xsi:type="string">Magento\NotifierEventAdminUi\Ui\DataProvider\Form\RuleDataProvider</argument>
+            <argument name="name" xsi:type="string">magento_notifier_event_rule_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
             <argument name="requestFieldName" xsi:type="string">rule_id</argument>
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="submit_url" xsi:type="url" path="msp_notifier_event/rule/save"/>
+                    <item name="submit_url" xsi:type="url" path="magento_notifier_event/rule/save"/>
                 </item>
             </argument>
         </argument>
@@ -125,12 +125,12 @@
 
             <field name="template_id">
                 <argument name="data" xsi:type="array">
-                    <item name="options" xsi:type="object">MSP\NotifierEventAdminUi\Model\Source\Rule\Template</item>
+                    <item name="options" xsi:type="object">Magento\NotifierEventAdminUi\Model\Source\Rule\Template</item>
                     <item name="config" xsi:type="array">
                         <item name="label" xsi:type="string" translate="true">Template</item>
                         <item name="componentType" xsi:type="string">field</item>
                         <item name="formElement" xsi:type="string">select</item>
-                        <item name="elementTmpl" xsi:type="string">MSP_NotifierEventAdminUi/form/wide-select</item>
+                        <item name="elementTmpl" xsi:type="string">Magento_NotifierEventAdminUi/form/wide-select</item>
                         <item name="dataScope" xsi:type="string">general.template_id</item>
                         <item name="sortOrder" xsi:type="number">10</item>
                         <item name="required" xsi:type="boolean">true</item>
@@ -164,7 +164,7 @@
 
         <field name="channels_codes">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">MSP\NotifierEventAdminUi\Model\Source\Rule\Channel</item>
+                <item name="options" xsi:type="object">Magento\NotifierEventAdminUi\Model\Source\Rule\Channel</item>
                 <item name="config" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">Channels</item>
                     <item name="componentType" xsi:type="string">field</item>

@@ -1,5 +1,5 @@
 {
-    "name": "msp/module-notifier-template-api",
+    "name": "magento/module-notifier-template-api",
     "description": "Template manager for notifier API",
     "require": {
         "php": "~7.2.0 || ~7.3.0"
@@ -15,13 +15,16 @@
         }
     ],
     "type": "magento2-module",
-    "license": "OSL-3.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "MSP\\NotifierTemplateApi\\": ""
+            "Magento\\NotifierTemplateApi\\": ""
         }
     }
 }

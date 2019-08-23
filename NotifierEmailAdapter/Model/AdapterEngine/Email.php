@@ -1,18 +1,18 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEmailAdapter\Model\AdapterEngine;
+namespace Magento\NotifierEmailAdapter\Model\AdapterEngine;
 
 use Magento\Framework\Exception\MailException;
 use Magento\Framework\Mail\MailMessageInterface;
 use Magento\Framework\Mail\MailMessageInterfaceFactory;
 use Magento\Framework\Mail\TransportInterfaceFactory;
-use MSP\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
+use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 
 class Email implements AdapterEngineInterface
 {

@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model\ResourceModel;
+namespace Magento\Notifier\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -19,7 +19,7 @@ class Channel extends AbstractDb
     /**
      * Notifier channels table name
      */
-    private const TABLE_NAME = 'msp_notifier_channel';
+    private const TABLE_NAME = 'magento_notifier_channel';
 
     /**
      * @inheritdoc

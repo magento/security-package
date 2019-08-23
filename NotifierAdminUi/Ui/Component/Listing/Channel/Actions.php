@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Ui\Component\Listing\Channel;
+namespace Magento\NotifierAdminUi\Ui\Component\Listing\Channel;
 
 use Magento\Ui\Component\Listing\Columns\Column;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 class Actions extends Column
 {
@@ -24,17 +24,17 @@ class Actions extends Column
                 $id = $item[ChannelInterface::ID];
 
                 $item[$name]['edit'] = [
-                    'href' => $this->getContext()->getUrl('msp_notifier/channel/edit', [ChannelInterface::ID => $id]),
+                    'href' => $this->getContext()->getUrl('magento_notifier/channel/edit', [ChannelInterface::ID => $id]),
                     'label' => __('Edit')
                 ];
 
                 $item[$name]['delete'] = [
-                    'href' => $this->getContext()->getUrl('msp_notifier/channel/delete', [ChannelInterface::ID => $id]),
+                    'href' => $this->getContext()->getUrl('magento_notifier/channel/delete', [ChannelInterface::ID => $id]),
                     'label' => __('Delete')
                 ];
 
                 $item[$name]['test'] = [
-                    'href' => $this->getContext()->getUrl('msp_notifier/channel/test', [ChannelInterface::ID => $id]),
+                    'href' => $this->getContext()->getUrl('magento_notifier/channel/test', [ChannelInterface::ID => $id]),
                     'label' => __('Send Test Message')
                 ];
             }

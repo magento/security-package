@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierSlackAdapter\Model\AdapterEngine\Slack;
+namespace Magento\NotifierSlackAdapter\Model\AdapterEngine\Slack;
 
 use Maknz\Slack\Client;
 

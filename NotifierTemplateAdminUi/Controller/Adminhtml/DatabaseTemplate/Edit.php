@@ -1,27 +1,27 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateAdminUi\Controller\Adminhtml\DatabaseTemplate;
+namespace Magento\NotifierTemplateAdminUi\Controller\Adminhtml\DatabaseTemplate;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 class Edit extends Action implements HttpGetActionInterface
 {
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_NotifierTemplate::template';
+    const ADMIN_RESOURCE = 'Magento_NotifierTemplate::template';
 
     /**
      * @var DatabaseTemplateRepositoryInterface
@@ -50,11 +50,11 @@ class Edit extends Action implements HttpGetActionInterface
         try {
             $template = $this->templateRepository->get($templateId);
             $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-            $result->setActiveMenu('MSP_NotifierTemplate::template');
+            $result->setActiveMenu('Magento_NotifierTemplate::template');
             $result->addBreadcrumb(__('Edit Template'), __('Edit Template'));
-            $result->getConfig();
-            $result->getTitle();
-            $result->prepend(__('Edit Template: %name', ['name' => $template->getName()]));
+            $result->getConfig()
+                ->getTitle()
+                ->prepend(__('Edit Template: %name', ['name' => $template->getName()]));
         } catch (NoSuchEntityException $e) {
             $result = $this->resultRedirectFactory->create();
             $this->messageManager->addErrorMessage(

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 /** @noinspection PhpUnhandledExceptionInspection */
@@ -8,13 +8,13 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Test\Integration;
+namespace Magento\NotifierEvent\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierEvent\Model\GetAutomaticTemplateId;
-use MSP\NotifierEvent\Model\Rule;
-use MSP\NotifierEvent\Test\Integration\Mock\ConfigureMockTemplateGetter;
+use Magento\NotifierEvent\Model\GetAutomaticTemplateId;
+use Magento\NotifierEvent\Model\Rule;
+use Magento\NotifierEvent\Test\Integration\Mock\ConfigureMockTemplateGetter;
 use PHPUnit\Framework\TestCase;
 
 class GetAutomaticTemplateIdTest extends TestCase

@@ -1,17 +1,17 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\VariablesDecorator;
+namespace Magento\NotifierTemplate\Model\VariablesDecorator;
 
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Store\Model\StoreManagerInterface;
-use MSP\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
+use Magento\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
 
 class CoreVariables implements DecorateVariablesInterface
 {
@@ -63,7 +63,7 @@ class CoreVariables implements DecorateVariablesInterface
     /**
      * @inheritdoc
      */
-    public function execute(array &$data): void
+    public function execute(array $data): void
     {
         $data[self::VARIABLE_STORE] = $this->storeManager->getStore();
         $data[self::VARIABLE_IP] = $this->remoteAddress->getRemoteAddress();

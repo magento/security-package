@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model\ResourceModel\Rule;
+namespace Magento\NotifierEvent\Model\ResourceModel\Rule;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
@@ -15,13 +15,13 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
  */
 class Collection extends AbstractCollection
 {
-    protected $_idFieldName = \MSP\NotifierEventApi\Api\Data\RuleInterface::ID;
+    protected $_idFieldName = \Magento\NotifierEventApi\Api\Data\RuleInterface::ID;
 
     protected function _construct()
     {
         $this->_init(
-            \MSP\NotifierEvent\Model\Rule::class,
-            \MSP\NotifierEvent\Model\ResourceModel\Rule::class
+            \Magento\NotifierEvent\Model\Rule::class,
+            \Magento\NotifierEvent\Model\ResourceModel\Rule::class
         );
     }
 }

@@ -1,14 +1,14 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTelegramAdapter\Command\Telegram;
+namespace Magento\NotifierTelegramAdapter\Command\Telegram;
 
-use MSP\NotifierTelegramAdapter\Model\AdapterEngine\Telegram\GetChatIds\Proxy as GetChatIds;
+use Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram\GetChatIds\Proxy as GetChatIds;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,7 +38,7 @@ class GetChatIdsCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('msp:notifier:telegram:chat_ids');
+        $this->setName('magento:notifier:telegram:chat_ids');
         $this->setDescription('Print chat IDs for a TelegramBot token');
 
         $this->addArgument('token', InputArgument::REQUIRED, 'BOT Token');

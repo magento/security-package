@@ -1,17 +1,17 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model;
+namespace Magento\NotifierTemplate\Model;
 
 use Magento\Framework\Filter\Template;
-use MSP\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
-use MSP\NotifierTemplateApi\Model\GetMessageTextInterface;
-use MSP\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
+use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
+use Magento\NotifierTemplateApi\Model\GetMessageTextInterface;
+use Magento\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
 use Psr\Log\LoggerInterface;
 
 class GetMessageText implements GetMessageTextInterface

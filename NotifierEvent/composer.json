@@ -1,14 +1,13 @@
 {
-    "name": "msp/module-notifier-event",
-    "description": "Event based rule engine for MSP Notifier",
+    "name": "magento/module-notifier-event",
+    "description": "Event based rule engine for Magento Notifier",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/magento2-base": "^2.3",
-        "msp/module-notifier-event-api": "^1.0",
-        "msp/module-notifier-template-api": "^1.0"
+        "magento/module-notifier-event-api": "*",
+        "magento/module-notifier-template-api": "*"
     },
     "suggest": {
-        "msp/module-notifier-queue": "Asynchronous messages queue manager for MSP Notifier"
+        "magento/module-notifier-queue": "Asynchronous messages queue manager for Magento Notifier"
     },
     "authors": [
         {
@@ -21,13 +20,16 @@
         }
     ],
     "type": "magento2-module",
-    "license": "OSL-3.0",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "autoload": {
         "files": [
             "registration.php"
         ],
         "psr-4": {
-            "MSP\\NotifierEvent\\": ""
+            "Magento\\NotifierEvent\\": ""
         }
     }
 }

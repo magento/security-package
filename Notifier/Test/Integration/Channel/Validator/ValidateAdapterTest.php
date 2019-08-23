@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 /** @noinspection PhpUnhandledExceptionInspection */
@@ -8,14 +8,14 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Test\Integration\Channel\Validator;
+namespace Magento\Notifier\Test\Integration\Channel\Validator;
 
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\Notifier\Model\Channel;
-use MSP\Notifier\Model\Channel\Validator\ValidateAdapter;
-use MSP\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
+use Magento\Notifier\Model\Channel;
+use Magento\Notifier\Model\Channel\Validator\ValidateAdapter;
+use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
 use PHPUnit\Framework\TestCase;
 
 class ValidateAdapterTest extends TestCase

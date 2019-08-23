@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="MSP\NotifierApi\Model\AdaptersPool">
+    <type name="Magento\NotifierApi\Model\AdaptersPool">
         <arguments>
             <argument name="adapters" xsi:type="array">
-                <item name="email" xsi:type="object">MSP\NotifierEmailAdapter\Model\Adapter\Email</item>
+                <item name="email" xsi:type="object">Magento\NotifierEmailAdapter\Model\Adapter\Email</item>
             </argument>
         </arguments>
     </type>
 
     <!-- Email adapter -->
-    <virtualType name="MSP\NotifierEmailAdapter\Model\Adapter\Email" type="MSP\NotifierApi\Model\Adapter">
+    <virtualType name="Magento\NotifierEmailAdapter\Model\Adapter\Email" type="Magento\NotifierApi\Model\Adapter">
         <arguments>
-            <argument name="engine" xsi:type="object">MSP\NotifierEmailAdapter\Model\AdapterEngine\Email</argument>
+            <argument name="engine" xsi:type="object">Magento\NotifierEmailAdapter\Model\AdapterEngine\Email</argument>
             <argument name="adapterValidator"
-                      xsi:type="object">MSP\NotifierEmailAdapter\Model\AdapterEngine\ValidatorChain\Email</argument>
+                      xsi:type="object">Magento\NotifierEmailAdapter\Model\AdapterEngine\ValidatorChain\Email</argument>
             <argument name="code" xsi:type="string">email</argument>
             <argument name="description" xsi:type="string">Email</argument>
         </arguments>
     </virtualType>
 
     <!-- Email validators -->
-    <virtualType name="MSP\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\Required"
-                 type="MSP\NotifierApi\Model\AdapterEngine\ParamsValidator\Required">
+    <virtualType name="Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\Required"
+                 type="Magento\NotifierApi\Model\AdapterEngine\ParamsValidator\Required">
         <arguments>
             <argument name="requiredParams" xsi:type="array">
                 <item name="to" xsi:type="string">to</item>
@@ -39,34 +39,34 @@
         </arguments>
     </virtualType>
 
-    <virtualType name="MSP\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\ToIsEmail"
-                 type="MSP\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\IsEmail">
+    <virtualType name="Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\ToIsEmail"
+                 type="Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\IsEmail">
         <arguments>
             <argument name="parameterName" xsi:type="string">to</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="MSP\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\FromIsEmail"
-                 type="MSP\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\IsEmail">
+    <virtualType name="Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\FromIsEmail"
+                 type="Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\IsEmail">
         <arguments>
             <argument name="parameterName" xsi:type="string">from</argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="MSP\NotifierEmailAdapter\Model\AdapterEngine\ValidatorChain\Email"
-                 type="MSP\NotifierApi\Model\AdapterEngine\AdapterValidator">
+    <virtualType name="Magento\NotifierEmailAdapter\Model\AdapterEngine\ValidatorChain\Email"
+                 type="Magento\NotifierApi\Model\AdapterEngine\AdapterValidator">
         <arguments>
             <argument name="messageValidators" xsi:type="array">
                 <item name="required"
-                      xsi:type="object">MSP\NotifierApi\Model\AdapterEngine\MessageValidator\Required</item>
+                      xsi:type="object">Magento\NotifierApi\Model\AdapterEngine\MessageValidator\Required</item>
             </argument>
             <argument name="paramsValidators" xsi:type="array">
                 <item name="required"
-                      xsi:type="object">MSP\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\Required</item>
+                      xsi:type="object">Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\Required</item>
                 <item name="to_is_email"
-                      xsi:type="object">MSP\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\ToIsEmail</item>
+                      xsi:type="object">Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\ToIsEmail</item>
                 <item name="from_is_email"
-                      xsi:type="object">MSP\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\FromIsEmail</item>
+                      xsi:type="object">Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\Email\FromIsEmail</item>
             </argument>
         </arguments>
     </virtualType>

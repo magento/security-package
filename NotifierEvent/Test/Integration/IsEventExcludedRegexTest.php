@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 /** @noinspection PhpUnhandledExceptionInspection */
@@ -8,12 +8,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Test\Integration;
+namespace Magento\NotifierEvent\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierEvent\Model\GetAutomaticTemplateId;
-use MSP\NotifierEvent\Model\IsEventExcludedRegex;
+use Magento\NotifierEvent\Model\GetAutomaticTemplateId;
+use Magento\NotifierEvent\Model\IsEventExcludedRegex;
 use PHPUnit\Framework\TestCase;
 
 class IsEventExcludedRegexTest extends TestCase

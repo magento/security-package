@@ -5,11 +5,11 @@
 Ok, if you do not have time to read this guide... here you have the short version:
 
 ```
-composer require msp/module-notifier-all
+composer require magento/module-notifier-all
 bin/magento setup:upgrade
 ```
 
-Then open your admin under `System > MSP Notifier` menù and enjoy it ;)
+Then open your admin under `System > Magento Notifier` menù and enjoy it ;)
 
 ## Need further information
 

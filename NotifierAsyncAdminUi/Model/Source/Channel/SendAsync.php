@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAsyncAdminUi\Model\Source\Channel;
+namespace Magento\NotifierAsyncAdminUi\Model\Source\Channel;
 
 use Magento\Framework\Data\OptionSourceInterface;
 

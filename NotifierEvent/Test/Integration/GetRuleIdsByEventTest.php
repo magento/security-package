@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 /** @noinspection PhpUnhandledExceptionInspection */
@@ -8,11 +8,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Test\Integration;
+namespace Magento\NotifierEvent\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierEvent\Model\GetRulesIdsByEvent;
+use Magento\NotifierEvent\Model\GetRulesIdsByEvent;
 use PHPUnit\Framework\TestCase;
 
 class GetRuleIdsByEventTest extends TestCase
@@ -66,7 +66,7 @@ class GetRuleIdsByEventTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierEvent/Test/Integration/_files/rules.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierEvent/Test/Integration/_files/rules.php
      * @dataProvider eventNamesAndCountDataProvider
      * @param int $expectedCount
      * @param string $eventName

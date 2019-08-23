@@ -1,17 +1,17 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEmailAdapterAdminUi\Ui\DataProvider\Form\Channel\Modifier;
+namespace Magento\NotifierEmailAdapterAdminUi\Ui\DataProvider\Form\Channel\Modifier;
 
 use Magento\Ui\Component\Form\Field;
 use Magento\Ui\Component\Form\Fieldset;
-use MSP\NotifierAdminUi\Model\Channel\ModifierInterface;
-use MSP\NotifierEmailAdapter\Model\AdapterEngine\Email as EmailAdapter;
+use Magento\NotifierAdminUi\Model\Channel\ModifierInterface;
+use Magento\NotifierEmailAdapter\Model\AdapterEngine\Email as EmailAdapter;
 
 class Email implements ModifierInterface
 {
@@ -81,7 +81,7 @@ class Email implements ModifierInterface
                                 'dataScope' => 'general.configuration.to',
                                 'validation' => [
                                     'required-entry' => true,
-                                    'msp-validate-emails' => true,
+                                    'magento-validate-emails' => true,
                                 ],
                             ],
                         ],

@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventAdminUi\Ui\Component\Listing\Rule;
+namespace Magento\NotifierEventAdminUi\Ui\Component\Listing\Rule;
 
 use Magento\Ui\Component\Listing\Columns\Column;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 class Actions extends Column
 {
@@ -24,14 +24,14 @@ class Actions extends Column
                 $id = $item[RuleInterface::ID];
 
                 $item[$name]['edit'] = [
-                    'href' => $this->getContext()->getUrl('msp_notifier_event/rule/edit', [
+                    'href' => $this->getContext()->getUrl('magento_notifier_event/rule/edit', [
                         RuleInterface::ID => $id
                     ]),
                     'label' => __('Edit')
                 ];
 
                 $item[$name]['delete'] = [
-                    'href' => $this->getContext()->getUrl('msp_notifier_event/rule/delete', [
+                    'href' => $this->getContext()->getUrl('magento_notifier_event/rule/delete', [
                         RuleInterface::ID => $id
                     ]),
                     'label' => __('Delete')

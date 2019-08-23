@@ -1,15 +1,15 @@
 <?php
 /**
- * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
+ * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model;
+namespace Magento\Notifier\Model;
 
 use Magento\Framework\Serialize\SerializerInterface as FrameworkSerializerInterface;
-use MSP\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierApi\Model\SerializerInterface;
 
 class Serializer implements SerializerInterface
 {
