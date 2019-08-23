@@ -10,6 +10,7 @@ namespace Magento\NotifierEvent\Model\Rule\Validator;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\ValidatorException;
+use Magento\NotifierApi\Model\SerializerInterface;
 use Magento\NotifierEvent\Model\GetAutomaticTemplateId;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use Magento\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
@@ -22,10 +23,22 @@ class ValidateTemplateId implements ValidateRuleInterface
      */
     private $templateGetter;
 
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    /**
+     * ValidateTemplateId constructor.
+     * @param TemplateGetterInterface $templateGetter
+     * @param SerializerInterface $serializer
+     */
     public function __construct(
-        TemplateGetterInterface $templateGetter
+        TemplateGetterInterface $templateGetter,
+        SerializerInterface $serializer
     ) {
         $this->templateGetter = $templateGetter;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -41,14 +54,16 @@ class ValidateTemplateId implements ValidateRuleInterface
             throw new ValidatorException(__('Template is required'));
         }
 
-        try {
-            $template = $this->templateGetter->getTemplate('', $rule->getTemplateId());
-        } catch (NoSuchEntityException $e) {
-            $template = null;
-        }
+        $channels = $this->serializer->unserialize($rule->getChannelsCodes());
 
-        if (empty($template)) {
-            throw new ValidatorException(__('Invalid or unknown template id %1', $rule->getTemplateId()));
+        foreach ($channels as $channel) {
+            try {
+                $this->templateGetter->getTemplate($channel, $rule->getTemplateId());
+            } catch (NoSuchEntityException $e) {
+                throw new ValidatorException(
+                    __('Invalid or unknown template id %1 for channel %2', $rule->getTemplateId(), $channel)
+                );
+            }
         }
 
         return true;
