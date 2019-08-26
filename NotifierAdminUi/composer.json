@@ -3,7 +3,7 @@
     "description": "Multiple channel notifier engine for Magento 2",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/magento2-base": "^2.3",
+        "magento/magento2-base": "^2.3.0",
         "msp/module-notifier": "^1.0"
     },
     "support": {
