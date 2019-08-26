@@ -10,7 +10,7 @@
     <default>
         <msp_notifier>
             <general>
-                <enabled>1</enabled>
+                <enabled>0</enabled>
             </general>
         </msp_notifier>
     </default>
