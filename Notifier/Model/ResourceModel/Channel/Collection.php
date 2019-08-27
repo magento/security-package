@@ -10,7 +10,6 @@ namespace MSP\Notifier\Model\ResourceModel\Channel;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use MSP\Notifier\Model\ResourceModel\Channel;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -18,9 +17,10 @@ use MSP\NotifierApi\Api\Data\ChannelInterface;
 class Collection extends AbstractCollection
 {
     /**
-     * @var ID field name
+     * ID field name
+     * @var string
      */
-    protected $_idFieldName = ChannelInterface::ID;
+    protected $_idFieldName = 'channel_id';
 
     /**
      * @inheritdoc

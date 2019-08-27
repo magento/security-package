@@ -39,6 +39,7 @@ class SendMessageTest extends TestCase
 
     /**
      * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoAdminConfigFixture msp_notifier/general/enabled 1
      */
     public function testShouldSendMessage(): void
     {
@@ -47,6 +48,7 @@ class SendMessageTest extends TestCase
 
     /**
      * @magentoDataFixture ../../../../app/code/MSP/Notifier/Test/Integration/_files/channels.php
+     * @magentoAdminConfigFixture msp_notifier/general/enabled 1
      */
     public function testShouldNotSendMessageWithDisabledChannel(): void
     {

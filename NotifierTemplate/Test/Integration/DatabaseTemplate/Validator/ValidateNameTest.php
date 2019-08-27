@@ -46,13 +46,13 @@ class ValidateNameTest extends TestCase
         return [
             [
                 'templateData' => [
-                    DatabaseTemplate::NAME => ''
+                    'name' => ''
                 ],
                 'errorMessage' => 'Template name is required'
             ],
             [
                 'templateData' => [
-                    DatabaseTemplate::NAME => '               '
+                    'name' => '               '
                 ],
                 'errorMessage' => 'Template name is required'
             ]
@@ -67,7 +67,7 @@ class ValidateNameTest extends TestCase
         return [
             [
                 'templateData' => [
-                    DatabaseTemplate::NAME => 'test_template'
+                    'name' => 'test_template'
                 ]
             ]
         ];

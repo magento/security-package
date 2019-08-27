@@ -50,7 +50,7 @@ class GetByCode implements GetByCodeInterface
         $this->resource->load(
             $channel,
             $code,
-            ChannelInterface::CODE
+            'code'
         );
 
         if (null === $channel->getId()) {

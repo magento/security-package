@@ -36,7 +36,7 @@ class ExtensionAttributes implements ModifierInterface
             $item['extension_attributes'] = $item['extension_attributes'] ?? [];
 
             $item['extension_attributes'] = $this->decorateChannelDataProvider->execute(
-                (int) $item[ChannelInterface::ID],
+                (int) $item['channel_id'],
                 $item['extension_attributes']
             );
         }

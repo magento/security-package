@@ -28,10 +28,12 @@ class DecorateVariables implements DecorateVariablesInterface
     /**
      * @inheritdoc
      */
-    public function execute(array &$data): void
+    public function execute(array $data): array
     {
         foreach ($this->decorators as $decorator) {
-            $decorator->execute($data);
+            $data = $decorator->execute($data);
         }
+
+        return $data;
     }
 }

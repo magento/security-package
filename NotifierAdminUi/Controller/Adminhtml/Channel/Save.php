@@ -72,7 +72,7 @@ class Save extends Action implements HttpPostActionInterface
      */
     public function execute(): ResultInterface
     {
-        $channelId = (int) $this->getRequest()->getParam(ChannelInterface::ID);
+        $channelId = (int) $this->getRequest()->getParam('channel_id');
 
         $request = $this->getRequest();
         $requestData = $request->getParams();
@@ -82,9 +82,9 @@ class Save extends Action implements HttpPostActionInterface
             return $this->redirectAfterFailure($channelId);
         }
 
-        $channelId = (int) $requestData['general'][ChannelInterface::ID];
-        if (!$channelId && ($adapterCode = $this->getRequest()->getParam(ChannelInterface::ADAPTER_CODE))) {
-            $requestData['general'][ChannelInterface::ADAPTER_CODE] = $adapterCode;
+        $channelId = (int) $requestData['general']['channel_id'];
+        if (!$channelId && ($adapterCode = $this->getRequest()->getParam('adapter_code'))) {
+            $requestData['general']['adapter_code'] = $adapterCode;
         }
 
         try {
@@ -141,7 +141,7 @@ class Save extends Action implements HttpPostActionInterface
         if (null === $channelId) {
             $result->setPath('*/*/new');
         } else {
-            $result->setPath('*/*/edit', [ChannelInterface::ID => $channelId]);
+            $result->setPath('*/*/edit', ['channel_id' => $channelId]);
         }
 
         return $result;
