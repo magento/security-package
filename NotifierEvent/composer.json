@@ -3,7 +3,7 @@
     "description": "Event based rule engine for MSP Notifier",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/magento2-base": "^2.3.0",
+        "magento/framework": "102.0.*",
         "msp/module-notifier-event-api": "^1.0",
         "msp/module-notifier-template-api": "^1.0"
     },

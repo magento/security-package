@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace MSP\NotifierEvent\Model;
 
 use Exception;
-use Magento\Framework\Exception\NoSuchEntityException;
 use MSP\NotifierEventApi\Api\Data\RuleInterface;
 use MSP\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
 use MSP\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
