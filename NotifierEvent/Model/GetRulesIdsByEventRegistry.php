@@ -50,7 +50,7 @@ class GetRulesIdsByEventRegistry
 
         $collection = $this->collectionFactory->create();
         $collection
-            ->addFieldToFilter(RuleInterface::ENABLED, true);
+            ->addFieldToFilter('enabled', true);
 
         foreach ($collection as $rule) {
             if (!$rule->getEvents()) {

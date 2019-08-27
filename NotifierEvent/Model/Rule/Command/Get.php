@@ -50,7 +50,7 @@ class Get implements GetInterface
         $this->resource->load(
             $rule,
             $ruleId,
-            RuleInterface::ID
+            'rule_id'
         );
 
         if (null === $rule->getId()) {

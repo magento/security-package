@@ -49,19 +49,19 @@ class ValidateTemplateIdTest extends TestCase
         return [
             [
                 'data' => [
-                    RuleInterface::TEMPLATE_ID => ''
+                    'template_id' => ''
                 ],
                 'errorMessage' => 'Template is required'
             ],
             [
                 'data' => [
-                    RuleInterface::TEMPLATE_ID => '               '
+                    'template_id' => '               '
                 ],
                 'errorMessage' => 'Template is required'
             ],
             [
                 'data' => [
-                    RuleInterface::TEMPLATE_ID => 'unknown_template_it'
+                    'template_id' => 'unknown_template_it'
                 ],
                 'errorMessage' => 'Invalid or unknown template id unknown_template_it'
             ]
@@ -76,17 +76,17 @@ class ValidateTemplateIdTest extends TestCase
         return [
             [
                 'data' => [
-                    RuleInterface::TEMPLATE_ID => 'test_generic_template_1'
+                    'template_id' => 'test_generic_template_1'
                 ]
             ],
             [
                 'data' => [
-                    RuleInterface::TEMPLATE_ID => 'event:_default'
+                    'template_id' => 'event:_default'
                 ]
             ],
             [
                 'data' => [
-                    RuleInterface::TEMPLATE_ID => GetAutomaticTemplateId::AUTOMATIC_TEMPLATE_ID
+                    'template_id' => GetAutomaticTemplateId::AUTOMATIC_TEMPLATE_ID
                 ]
             ]
         ];

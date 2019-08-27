@@ -46,13 +46,13 @@ class ValidateNameTest extends TestCase
         return [
             [
                 'data' => [
-                    RuleInterface::NAME => ''
+                    'name' => ''
                 ],
                 'errorMessage' => 'Rule name is required'
             ],
             [
                 'data' => [
-                    RuleInterface::NAME => '               '
+                    'name' => '               '
                 ],
                 'errorMessage' => 'Rule name is required'
             ]
@@ -67,7 +67,7 @@ class ValidateNameTest extends TestCase
         return [
             [
                 'data' => [
-                    RuleInterface::NAME => 'Test description'
+                    'name' => 'Test description'
                 ]
             ]
         ];

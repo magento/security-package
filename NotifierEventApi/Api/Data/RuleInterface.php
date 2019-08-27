@@ -13,56 +13,6 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface RuleInterface extends ExtensibleDataInterface
 {
     /**
-     * ID field name
-     */
-    public const ID = 'rule_id';
-
-    /**
-     * Field name
-     */
-    public const NAME = 'name';
-
-    /**
-     * Events field name
-     */
-    public const EVENTS = 'events';
-
-    /**
-     * Channel codes field name
-     */
-    public const CHANNELS_CODES = 'channels_codes';
-
-    /**
-     * Template field name
-     */
-    public const TEMPLATE_ID = 'template_id';
-
-    /**
-     * Throttle limit field name
-     */
-    public const THROTTLE_LIMIT = 'throttle_limit';
-
-    /**
-     * Throttle interval field name
-     */
-    public const THROTTLE_INTERVAL = 'throttle_interval';
-
-    /**
-     * Last fired at field name
-     */
-    public const LAST_FIRED_AT = 'last_fired_at';
-
-    /**
-     * Fire count field name
-     */
-    public const FIRE_COUNT = 'fire_count';
-
-    /**
-     * Enabled field name
-     */
-    public const ENABLED = 'enabled';
-
-    /**
      * Get value for rule_id
      * @return int
      */
