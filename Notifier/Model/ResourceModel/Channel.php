@@ -28,7 +28,7 @@ class Channel extends AbstractDb
     {
         $this->_init(
             self::TABLE_NAME,
-            ChannelInterface::ID
+            'channel_id'
         );
     }
 }

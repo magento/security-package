@@ -63,10 +63,12 @@ class CoreVariables implements DecorateVariablesInterface
     /**
      * @inheritdoc
      */
-    public function execute(array $data): void
+    public function execute(array $data): array
     {
         $data[self::VARIABLE_STORE] = $this->storeManager->getStore();
         $data[self::VARIABLE_IP] = $this->remoteAddress->getRemoteAddress();
         $data[self::VARIABLE_REQUEST] = $this->request;
+
+        return $data;
     }
 }

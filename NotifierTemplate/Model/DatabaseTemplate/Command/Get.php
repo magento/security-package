@@ -50,7 +50,7 @@ class Get implements GetInterface
         $this->resource->load(
             $databaseTemplate,
             $databaseTemplateId,
-            DatabaseTemplateInterface::ID
+            'template_id'
         );
 
         if (null === $databaseTemplate->getId()) {

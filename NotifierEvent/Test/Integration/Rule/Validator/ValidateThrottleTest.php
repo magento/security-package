@@ -46,15 +46,15 @@ class ValidateThrottleTest extends TestCase
         return [
             [
                 'data' => [
-                    RuleInterface::THROTTLE_INTERVAL => -10,
-                    RuleInterface::THROTTLE_LIMIT => 0,
+                    'throttle_interval' => -10,
+                    'throttle_limit' => 0,
                 ],
                 'errorMessage' => 'Throttle interval must be greater or equal to 0'
             ],
             [
                 'data' => [
-                    RuleInterface::THROTTLE_INTERVAL => 0,
-                    RuleInterface::THROTTLE_LIMIT => -10,
+                    'throttle_interval' => 0,
+                    'throttle_limit' => -10,
                 ],
                 'errorMessage' => 'Throttle limit must be greater or equal to 0'
             ]
@@ -69,14 +69,14 @@ class ValidateThrottleTest extends TestCase
         return [
             [
                 'data' => [
-                    RuleInterface::THROTTLE_INTERVAL => 10,
-                    RuleInterface::THROTTLE_LIMIT => 10,
+                    'throttle_interval' => 10,
+                    'throttle_limit' => 10,
                 ]
             ],
             [
                 'data' => [
-                    RuleInterface::THROTTLE_INTERVAL => 0,
-                    RuleInterface::THROTTLE_LIMIT => 0,
+                    'throttle_interval' => 0,
+                    'throttle_limit' => 0,
                 ]
             ]
         ];

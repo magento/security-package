@@ -46,19 +46,19 @@ class ValidateCodeTest extends TestCase
         return [
             [
                 'templateData' => [
-                    DatabaseTemplate::CODE => ''
+                    'code' => ''
                 ],
                 'errorMessage' => 'Template identifier is required'
             ],
             [
                 'templateData' => [
-                    DatabaseTemplate::CODE => '               '
+                    'code' => '               '
                 ],
                 'errorMessage' => 'Template identifier is required'
             ],
             [
                 'templateData' => [
-                    DatabaseTemplate::CODE => 'Some#Invalid code'
+                    'code' => 'Some#Invalid code'
                 ],
                 'errorMessage' => 'Invalid template identifier: Only alphanumeric chars + columns'
             ]
@@ -73,12 +73,12 @@ class ValidateCodeTest extends TestCase
         return [
             [
                 'templateData' => [
-                    DatabaseTemplate::CODE => 'test_template'
+                    'code' => 'test_template'
                 ]
             ],
             [
                 'templateData' => [
-                    DatabaseTemplate::CODE => 'fake:test_template'
+                    'code' => 'fake:test_template'
                 ]
             ]
         ];

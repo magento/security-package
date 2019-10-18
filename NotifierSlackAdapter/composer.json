@@ -3,8 +3,9 @@
     "description": "Slack adapter forNotifier framework",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/module-notifier-api": "*",
-        "maknz/slack": "*"
+        "magento/framework": "102.0.*",
+        "magento/module-notifier-api": "^1.0",
+        "maknz/slack": "^1.7"
     },
     "support": {
         "issues": "https://github.com/magento/security-package/issues"

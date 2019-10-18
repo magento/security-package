@@ -10,7 +10,7 @@
     <default>
         <magento_notifier>
             <general>
-                <enabled>1</enabled>
+                <enabled>0</enabled>
             </general>
         </magento_notifier>
     </default>

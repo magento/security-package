@@ -46,7 +46,7 @@ class Edit extends Action implements HttpGetActionInterface
      */
     public function execute(): ResultInterface
     {
-        $channelId = (int) $this->getRequest()->getParam(ChannelInterface::ID);
+        $channelId = (int) $this->getRequest()->getParam('channel_id');
         try {
             $channel = $this->channelRepository->get($channelId);
             $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);

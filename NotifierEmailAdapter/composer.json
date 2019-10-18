@@ -3,7 +3,8 @@
     "description": "Email adapter for Notifier framework",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/module-notifier-api": "*"
+        "magento/framework": "102.0.*",
+        "magento/module-notifier-api": "^1.0"
     },
     "support": {
         "issues": "https://github.com/magento/security-package/issues"

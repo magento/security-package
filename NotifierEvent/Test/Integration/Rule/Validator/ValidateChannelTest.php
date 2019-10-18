@@ -46,19 +46,19 @@ class ValidateChannelTest extends TestCase
         return [
             [
                 'data' => [
-                    RuleInterface::CHANNELS_CODES => ''
+                    'channels_codes' => ''
                 ],
                 'errorMessage' => 'You must specify at least one channel'
             ],
             [
                 'data' => [
-                    RuleInterface::CHANNELS_CODES => 'invalid content'
+                    'channels_codes' => 'invalid content'
                 ],
                 'errorMessage' => 'Invalid channels data format'
             ],
             [
                 'data' => [
-                    RuleInterface::CHANNELS_CODES => '[]'
+                    'channels_codes' => '[]'
                 ],
                 'errorMessage' => 'You must specify at least one channel'
             ]
@@ -73,12 +73,12 @@ class ValidateChannelTest extends TestCase
         return [
             [
                 'data' => [
-                    RuleInterface::CHANNELS_CODES => '["channel_code"]'
+                    'channels_codes' => '["channel_code"]'
                 ]
             ],
             [
                 'data' => [
-                    RuleInterface::CHANNELS_CODES => '["channel1", "channel2"]'
+                    'channels_codes' => '["channel1", "channel2"]'
                 ]
             ]
         ];

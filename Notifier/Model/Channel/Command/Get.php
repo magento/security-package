@@ -50,7 +50,7 @@ class Get implements GetInterface
         $this->resource->load(
             $channel,
             $channelId,
-            ChannelInterface::ID
+            'channel_id'
         );
 
         if (null === $channel->getId()) {

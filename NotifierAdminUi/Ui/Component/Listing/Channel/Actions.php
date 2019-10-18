@@ -21,7 +21,7 @@ class Actions extends Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
                 $name = $this->getData('name');
-                $id = $item[ChannelInterface::ID];
+                $id = $item['channel_id'];
 
                 $item[$name]['edit'] = [
                     'href' => $this->getContext()->getUrl('magento_notifier/channel/edit', [ChannelInterface::ID => $id]),

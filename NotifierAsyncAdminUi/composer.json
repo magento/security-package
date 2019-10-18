@@ -3,9 +3,12 @@
     "description": "Asynchronous message send backend for Magento2 notifier",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/module-notifier-api": "*",
-        "magento/module-notifier-admin-ui": "*",
-        "magento/module-notifier-async": "*"
+        "magento/framework": "102.0.*",
+        "magento/module-notifier-api": "^1.0",
+        "magento/module-notifier-admin-ui": "^1.0",
+        "magento/module-backend": "101.0.*",
+        "magento/module-ui": "101.1.*",
+        "magento/module-notifier-async": "^1.0"
     },
     "support": {
         "issues": "https://github.com/magento/security-package/issues"

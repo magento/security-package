@@ -21,18 +21,18 @@ class Actions extends Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
                 $name = $this->getData('name');
-                $id = $item[DatabaseTemplateInterface::ID];
+                $id = $item['template_id'];
 
                 $item[$name]['edit'] = [
                     'href' => $this->getContext()->getUrl('magento_notifier_template/databasetemplate/edit', [
-                        DatabaseTemplateInterface::ID => $id
+                        'template_id' => $id
                     ]),
                     'label' => __('Edit')
                 ];
 
                 $item[$name]['delete'] = [
                     'href' => $this->getContext()->getUrl('magento_notifier_template/databasetemplate/delete', [
-                        DatabaseTemplateInterface::ID => $id
+                        'template_id' => $id
                     ]),
                     'label' => __('Delete')
                 ];

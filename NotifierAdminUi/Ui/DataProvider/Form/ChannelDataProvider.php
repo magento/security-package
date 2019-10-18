@@ -102,7 +102,7 @@ class ChannelDataProvider extends DataProvider
             if ($channelId) {
                 $this->channelAdapterCode = $this->channelRepository->get($channelId)->getAdapterCode();
             } else {
-                $this->channelAdapterCode = $this->request->getParam(ChannelInterface::ADAPTER_CODE);
+                $this->channelAdapterCode = $this->request->getParam('adapter_code');
             }
         }
 
@@ -119,7 +119,7 @@ class ChannelDataProvider extends DataProvider
         $channelAdapterCode = $this->getChannelAdapterCode();
         if ($channelAdapterCode) {
             $config['submit_url'] = $this->url->getUrl('magento_notifier/channel/save', [
-                ChannelInterface::ADAPTER_CODE => $channelAdapterCode,
+                'adapter_code' => $channelAdapterCode,
             ]);
         }
 

@@ -46,7 +46,7 @@ class Edit extends Action implements HttpGetActionInterface
      */
     public function execute(): ResultInterface
     {
-        $templateId = (int) $this->getRequest()->getParam(DatabaseTemplateInterface::ID);
+        $templateId = (int) $this->getRequest()->getParam('template_id');
         try {
             $template = $this->templateRepository->get($templateId);
             $result = $this->resultFactory->create(ResultFactory::TYPE_PAGE);

@@ -48,15 +48,15 @@ class ValidateAdapterTest extends TestCase
         return [
             [
                 'channelData' => [
-                    Channel::ADAPTER_CODE => '',
-                    Channel::CONFIGURATION_JSON => '{}'
+                    'adapter_code' => '',
+                    'configuration_json' => '{}'
                 ],
                 'errorMessage' => 'Invalid adapter code'
             ],
             [
                 'channelData' => [
-                    Channel::ADAPTER_CODE => 'unknown_adapter',
-                    Channel::CONFIGURATION_JSON => '{}'
+                    'adapter_code' => 'unknown_adapter',
+                    'configuration_json' => '{}'
                 ],
                 'errorMessage' => 'Invalid adapter code'
             ]
@@ -71,8 +71,8 @@ class ValidateAdapterTest extends TestCase
         return [
             [
                 'channelData' => [
-                    Channel::ADAPTER_CODE => 'fake',
-                    Channel::CONFIGURATION_JSON => '{}'
+                    'adapter_code' => 'fake',
+                    'configuration_json' => '{}'
                 ]
             ]
         ];

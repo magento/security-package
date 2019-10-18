@@ -83,7 +83,7 @@ class Save extends Action implements HttpPostActionInterface
      */
     public function execute(): ResultInterface
     {
-        $ruleId = (int) $this->getRequest()->getParam(RuleInterface::ID);
+        $ruleId = (int) $this->getRequest()->getParam('rule_id');
 
         $request = $this->getRequest();
         $requestData = $request->getParams();
@@ -93,7 +93,7 @@ class Save extends Action implements HttpPostActionInterface
             return $this->redirectAfterFailure($ruleId);
         }
 
-        $ruleId = (int) $requestData['general'][RuleInterface::ID];
+        $ruleId = (int) $requestData['general']['rule_id'];
         try {
             $rule = $this->save($ruleId, $requestData['general']);
             $this->messageManager->addSuccessMessage(__('Rule "%1" saved.', $rule->getName()));
@@ -164,7 +164,7 @@ class Save extends Action implements HttpPostActionInterface
         if (null === $ruleId) {
             $result->setPath('*/*/new');
         } else {
-            $result->setPath('*/*/edit', [RuleInterface::ID => $ruleId]);
+            $result->setPath('*/*/edit', ['rule_id' => $ruleId]);
         }
 
         return $result;

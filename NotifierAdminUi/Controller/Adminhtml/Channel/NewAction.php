@@ -32,7 +32,9 @@ class NewAction extends Action implements HttpGetActionInterface
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
         $resultPage->setActiveMenu('Magento_Notifier::channel');
-        $resultPage->getConfig()->getTitle()->prepend(__('New channel'));
+        $resultPage->getConfig();
+        $resultPage->getTitle();
+        $resultPage->prepend(__('New channel'));
 
         return $resultPage;
     }

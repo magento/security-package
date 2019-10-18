@@ -3,8 +3,9 @@
     "description": "Security notification module for Magento 2 notifier",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/module-notifier-api": "*",
-        "magento/module-notifier-template-api": "*"
+        "magento/framework": "102.0.*",
+        "magento/module-notifier-api": "^1.0",
+        "magento/module-notifier-template-api": "^1.0"
     },
     "authors": [
         {

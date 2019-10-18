@@ -64,7 +64,7 @@ class NewButton extends Generic
                 'id_hard' => 'adapter_' . $adapter->getCode(),
                 'label' => $adapter->getDescription(),
                 'onclick' => sprintf("location.href = '%s';", $this->getUrl('magento_notifier/channel/new', [
-                    ChannelInterface::ADAPTER_CODE => $adapter->getCode(),
+                    'adapter_code' => $adapter->getCode(),
                 ])),
             ];
         }

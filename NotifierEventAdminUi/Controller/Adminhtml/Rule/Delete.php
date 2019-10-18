@@ -43,7 +43,7 @@ class Delete extends Action implements HttpGetActionInterface
      */
     public function execute(): ResultInterface
     {
-        $ruleId = (int) $this->getRequest()->getParam(RuleInterface::ID);
+        $ruleId = (int) $this->getRequest()->getParam('rule_id');
 
         try {
             $rule = $this->ruleRepository->get($ruleId);

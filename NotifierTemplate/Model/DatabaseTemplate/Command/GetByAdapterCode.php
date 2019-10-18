@@ -50,7 +50,7 @@ class GetByAdapterCode implements GetByAdapterCodeInterface
         $this->resource->load(
             $databaseTemplate,
             $adapterCode,
-            DatabaseTemplateInterface::ADAPTER_CODE
+            'adapter_code'
         );
 
         if (null === $databaseTemplate->getId()) {

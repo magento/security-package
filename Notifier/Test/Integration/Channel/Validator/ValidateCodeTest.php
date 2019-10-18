@@ -46,19 +46,19 @@ class ValidateCodeTest extends TestCase
         return [
             [
                 'channelData' => [
-                    Channel::CODE => ''
+                    'code' => ''
                 ],
                 'errorMessage' => 'No channel identifier is provided'
             ],
             [
                 'channelData' => [
-                    Channel::CODE => '               '
+                    'code' => '               '
                 ],
                 'errorMessage' => 'No channel identifier is provided'
             ],
             [
                 'channelData' => [
-                    Channel::CODE => 'Some#Invalid code'
+                    'code' => 'Some#Invalid code'
                 ],
                 'errorMessage' => 'Invalid channel identifier: No special chars are allowed'
             ]
@@ -73,7 +73,7 @@ class ValidateCodeTest extends TestCase
         return [
             [
                 'channelData' => [
-                    Channel::CODE => 'test_channel'
+                    'code' => 'test_channel'
                 ]
             ]
         ];

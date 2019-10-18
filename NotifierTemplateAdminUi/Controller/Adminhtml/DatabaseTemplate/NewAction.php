@@ -32,7 +32,9 @@ class NewAction extends Action implements HttpGetActionInterface
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
         $resultPage->setActiveMenu('Magento_NotifierTemplate::template');
-        $resultPage->getConfig()->getTitle()->prepend(__('New Template'));
+        $resultPage->getConfig();
+        $resultPage->getTitle();
+        $resultPage->prepend(__('New Template'));
 
         return $resultPage;
     }

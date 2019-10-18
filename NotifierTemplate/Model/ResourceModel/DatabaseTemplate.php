@@ -28,7 +28,7 @@ class DatabaseTemplate extends AbstractDb
     {
         $this->_init(
             self::TABLE_NAME,
-            DatabaseTemplateInterface::ID
+            'template_id'
         );
     }
 }
