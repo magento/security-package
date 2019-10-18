@@ -46,13 +46,13 @@ class ValidateTemplateTest extends TestCase
         return [
             [
                 'templateData' => [
-                    DatabaseTemplate::TEMPLATE => ''
+                    'template' => ''
                 ],
                 'errorMessage' => 'Template is empty'
             ],
             [
                 'templateData' => [
-                    DatabaseTemplate::TEMPLATE => '               '
+                    'template' => '               '
                 ],
                 'errorMessage' => 'Template is empty'
             ]
@@ -67,7 +67,7 @@ class ValidateTemplateTest extends TestCase
         return [
             [
                 'templateData' => [
-                    DatabaseTemplate::TEMPLATE => 'Lorem Ipsum'
+                    'template' => 'Lorem Ipsum'
                 ]
             ]
         ];

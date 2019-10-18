@@ -21,20 +21,20 @@ class Actions extends Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
                 $name = $this->getData('name');
-                $id = $item[ChannelInterface::ID];
+                $id = $item['channel_id'];
 
                 $item[$name]['edit'] = [
-                    'href' => $this->getContext()->getUrl('msp_notifier/channel/edit', [ChannelInterface::ID => $id]),
+                    'href' => $this->getContext()->getUrl('msp_notifier/channel/edit', ['channel_id' => $id]),
                     'label' => __('Edit')
                 ];
 
                 $item[$name]['delete'] = [
-                    'href' => $this->getContext()->getUrl('msp_notifier/channel/delete', [ChannelInterface::ID => $id]),
+                    'href' => $this->getContext()->getUrl('msp_notifier/channel/delete', ['channel_id' => $id]),
                     'label' => __('Delete')
                 ];
 
                 $item[$name]['test'] = [
-                    'href' => $this->getContext()->getUrl('msp_notifier/channel/test', [ChannelInterface::ID => $id]),
+                    'href' => $this->getContext()->getUrl('msp_notifier/channel/test', ['channel_id' => $id]),
                     'label' => __('Send Test Message')
                 ];
             }

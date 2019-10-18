@@ -35,7 +35,7 @@ class ExtensionAttributes implements ModifierInterface
     {
         foreach ($data['items'] as &$item) {
             $item = $this->decorateChannelDataProvider->execute(
-                (int) $item[ChannelInterface::ID],
+                (int) $item['channel_id'],
                 $item
             );
         }

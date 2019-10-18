@@ -3,7 +3,9 @@
     "description": "Email adapter for Notifier framework",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/magento2-base": "^2.3",
+        "magento/framework": "102.0.*",
+        "magento/module-backend": "101.0.*",
+        "magento/module-ui": "101.1.*",
         "msp/module-notifier-api": "^1.0",
         "msp/module-notifier-admin-ui": "^1.0",
         "msp/module-notifier-slack-adapter": "^1.0"

@@ -25,7 +25,7 @@ class Rule extends AbstractDb
     {
         $this->_init(
             self::TABLE_NAME,
-            RuleInterface::ID
+            'rule_id'
         );
     }
 }

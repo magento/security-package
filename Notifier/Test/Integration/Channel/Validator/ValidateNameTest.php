@@ -46,13 +46,13 @@ class ValidateNameTest extends TestCase
         return [
             [
                 'channelData' => [
-                    Channel::NAME => ''
+                    'name' => ''
                 ],
                 'errorMessage' => 'Channel name is required'
             ],
             [
                 'channelData' => [
-                    Channel::NAME => '               '
+                    'name' => '               '
                 ],
                 'errorMessage' => 'Channel name is required'
             ]
@@ -67,7 +67,7 @@ class ValidateNameTest extends TestCase
         return [
             [
                 'channelData' => [
-                    Channel::NAME => 'A valid name'
+                    'name' => 'A valid name'
                 ]
             ]
         ];

@@ -46,19 +46,19 @@ class ValidateEventTest extends TestCase
         return [
             [
                 'data' => [
-                    RuleInterface::EVENTS => ''
+                    'events' => ''
                 ],
                 'errorMessage' => 'You must specify at least one event'
             ],
             [
                 'data' => [
-                    RuleInterface::EVENTS => 'invalid content'
+                    'events' => 'invalid content'
                 ],
                 'errorMessage' => 'Invalid events data format'
             ],
             [
                 'data' => [
-                    RuleInterface::EVENTS => '[]'
+                    'events' => '[]'
                 ],
                 'errorMessage' => 'You must specify at least one event'
             ]
@@ -73,12 +73,12 @@ class ValidateEventTest extends TestCase
         return [
             [
                 'data' => [
-                    RuleInterface::EVENTS => '["event"]'
+                    'events' => '["event"]'
                 ]
             ],
             [
                 'data' => [
-                    RuleInterface::EVENTS => '["event1", "event2"]'
+                    'events' => '["event1", "event2"]'
                 ]
             ]
         ];

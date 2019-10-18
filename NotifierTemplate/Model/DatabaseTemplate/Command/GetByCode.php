@@ -50,7 +50,7 @@ class GetByCode implements GetByCodeInterface
         $this->resource->load(
             $databaseTemplate,
             $code,
-            DatabaseTemplateInterface::CODE
+            'code'
         );
 
         if (null === $databaseTemplate->getId()) {

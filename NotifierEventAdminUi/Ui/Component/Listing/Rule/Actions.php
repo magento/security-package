@@ -21,18 +21,18 @@ class Actions extends Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
                 $name = $this->getData('name');
-                $id = $item[RuleInterface::ID];
+                $id = $item['rule_id'];
 
                 $item[$name]['edit'] = [
                     'href' => $this->getContext()->getUrl('msp_notifier_event/rule/edit', [
-                        RuleInterface::ID => $id
+                        'rule_id' => $id
                     ]),
                     'label' => __('Edit')
                 ];
 
                 $item[$name]['delete'] = [
                     'href' => $this->getContext()->getUrl('msp_notifier_event/rule/delete', [
-                        RuleInterface::ID => $id
+                        'rule_id' => $id
                     ]),
                     'label' => __('Delete')
                 ];

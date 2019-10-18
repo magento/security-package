@@ -48,7 +48,7 @@ class ValidateAdapterTest extends TestCase
         return [
             [
                 'templateData' => [
-                    DatabaseTemplate::ADAPTER_CODE => 'unknown_adapter'
+                    'adapter_code' => 'unknown_adapter'
                 ],
                 'errorMessage' => 'Invalid adapter code'
             ]
@@ -63,12 +63,12 @@ class ValidateAdapterTest extends TestCase
         return [
             [
                 'templateData' => [
-                    DatabaseTemplate::ADAPTER_CODE => ''
+                    'adapter_code' => ''
                 ]
             ],
             [
                 'templateData' => [
-                    DatabaseTemplate::ADAPTER_CODE => 'fake'
+                    'adapter_code' => 'fake'
                 ]
             ]
         ];

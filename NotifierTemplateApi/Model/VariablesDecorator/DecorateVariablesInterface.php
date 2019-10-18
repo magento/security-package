@@ -19,7 +19,7 @@ interface DecorateVariablesInterface
     /**
      * Decorate array with variables
      * @param array $data
-     * @return void
+     * @return array
      */
-    public function execute(array $data): void;
+    public function execute(array $data): array;
 }

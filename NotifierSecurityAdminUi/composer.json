@@ -3,7 +3,9 @@
     "description": "Security notification backend module for Magento 2 notifier",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
-        "magento/magento2-base": "^2.3",
+        "magento/framework": "102.0.*",
+        "magento/module-backend": "101.0.*",
+        "magento/module-ui": "101.1.*",
         "msp/module-notifier-security": "^1.0"
     },
     "authors": [

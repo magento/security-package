@@ -36,8 +36,9 @@ class AdminVariables implements DecorateVariablesInterface
     /**
      * @inheritdoc
      */
-    public function execute(array &$data): void
+    public function execute(array $data): array
     {
         $data[self::VARIABLE_ADMIN_USER] = $this->session->getUser();
+        return $data;
     }
 }

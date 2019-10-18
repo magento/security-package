@@ -1,4 +1,3 @@
-
 <?php
 /**
  * Copyright © MageSpecialist - Skeeller srl. All rights reserved.
@@ -64,7 +63,7 @@ class Save extends Action implements HttpPostActionInterface
      */
     public function execute(): ResultInterface
     {
-        $templateId = (int) $this->getRequest()->getParam(DatabaseTemplateInterface::ID);
+        $templateId = (int) $this->getRequest()->getParam('template_id');
 
         $request = $this->getRequest();
         $requestData = $request->getParams();
@@ -74,7 +73,7 @@ class Save extends Action implements HttpPostActionInterface
             return $this->redirectAfterFailure($templateId);
         }
 
-        $templateId = (int) $requestData['general'][DatabaseTemplateInterface::ID];
+        $templateId = (int) $requestData['general']['template_id'];
         try {
             $template = $this->save($templateId, $requestData['general']);
             $this->messageManager->addSuccessMessage(__('Template "%1" saved.', $template->getName()));
@@ -123,7 +122,7 @@ class Save extends Action implements HttpPostActionInterface
         if (null === $templateId) {
             $result->setPath('*/*/new');
         } else {
-            $result->setPath('*/*/edit', [DatabaseTemplateInterface::ID => $templateId]);
+            $result->setPath('*/*/edit', ['template_id' => $templateId]);
         }
 
         return $result;

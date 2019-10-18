@@ -17,7 +17,7 @@ use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
  */
 class Collection extends AbstractCollection
 {
-    protected $_idFieldName = DatabaseTemplateInterface::ID;
+    protected $_idFieldName = 'template_id';
 
     /**
      * @inheritdoc
@@ -41,11 +41,11 @@ class Collection extends AbstractCollection
 
         $this->getSelect()
             ->where(
-                '(' . DatabaseTemplateInterface::CODE . ' = ' . $connection->quote($templateId) . ') AND ('
-                    . DatabaseTemplateInterface::ADAPTER_CODE . ' = ' . $connection->quote($adapterCode) . ' OR '
-                    . DatabaseTemplateInterface::ADAPTER_CODE . ' IS NULL'
+                '(code = ' . $connection->quote($templateId) . ') AND ('
+                    . 'adapter_code = ' . $connection->quote($adapterCode) . ' OR '
+                    . 'adapter_code IS NULL'
                 . ')'
             )
-            ->order(new \Zend_Db_Expr(DatabaseTemplateInterface::ADAPTER_CODE . ' IS NULL'));
+            ->order(new \Zend_Db_Expr('adapter_code IS NULL'));
     }
 }
