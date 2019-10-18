@@ -1,5 +1,5 @@
 {
-    "name": "msp/module-notifier-api",
+    "name": "magento/module-notifier-api",
     "description": "Multiple channel notifier engine for Magento 2 API",
     "require": {
         "php": "~7.2.0 || ~7.3.0"

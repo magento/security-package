@@ -5,7 +5,7 @@
 Ok, if you do not have time to read this guide... here you have the short version:
 
 ```
-composer require msp/module-notifier-all
+composer require magento/module-notifier
 bin/magento setup:upgrade
 ```
 

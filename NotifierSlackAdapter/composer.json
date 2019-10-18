@@ -1,10 +1,10 @@
 {
-    "name": "msp/module-notifier-slack-adapter",
+    "name": "magento/module-notifier-slack-adapter",
     "description": "Slack adapter forNotifier framework",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
         "magento/framework": "102.0.*",
-        "msp/module-notifier-api": "^1.0",
+        "magento/module-notifier-api": "^1.0",
         "maknz/slack": "^1.7"
     },
     "support": {
@@ -17,8 +17,8 @@
         "tool"
     ],
     "suggest": {
-        "msp/module-notifier-event": "Event based rule manager for Magento_Notifier",
-        "msp/module-notifier-queue": "Asynchronous queue manager for Magento_Notifier"
+        "magento/module-notifier-event": "Event based rule manager for Magento_Notifier",
+        "magento/module-notifier-queue": "Asynchronous queue manager for Magento_Notifier"
     },
     "authors": [
         {

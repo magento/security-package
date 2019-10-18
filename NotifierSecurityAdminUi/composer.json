@@ -1,12 +1,12 @@
 {
-    "name": "msp/module-notifier-security-admin-ui",
+    "name": "magento/module-notifier-security-admin-ui",
     "description": "Security notification backend module for Magento 2 notifier",
     "require": {
         "php": "~7.2.0 || ~7.3.0",
         "magento/framework": "102.0.*",
         "magento/module-backend": "101.0.*",
         "magento/module-ui": "101.1.*",
-        "msp/module-notifier-security": "^1.0"
+        "magento/module-notifier-security": "^1.0"
     },
     "authors": [
         {
