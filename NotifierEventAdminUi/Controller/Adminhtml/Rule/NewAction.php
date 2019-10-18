@@ -29,9 +29,7 @@ class NewAction extends Action implements HttpGetActionInterface
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
         $resultPage->setActiveMenu('Magento_NotifierEvent::rule');
-        $resultPage->getConfig();
-        $resultPage->getTitle();
-        $resultPage->prepend(__('New Rule'));
+        $resultPage->getConfig()->getTitle()->prepend(__('New Rule'));
 
         return $resultPage;
     }
