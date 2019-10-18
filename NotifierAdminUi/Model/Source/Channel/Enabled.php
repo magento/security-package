@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Model\Source\Channel;
+namespace Magento\NotifierAdminUi\Model\Source\Channel;
 
 use Magento\Framework\Data\OptionSourceInterface;
 

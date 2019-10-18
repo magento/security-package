@@ -15,13 +15,13 @@
         </item>
         <item name="spinner" xsi:type="string">msp_notifier_channel_columns</item>
         <item name="buttons" xsi:type="array">
-            <item name="new" xsi:type="string">MSP\NotifierAdminUi\Ui\Component\Listing\Channel\NewButton</item>
+            <item name="new" xsi:type="string">Magento\NotifierAdminUi\Ui\Component\Listing\Channel\NewButton</item>
         </item>
     </argument>
 
     <dataSource name="msp_notifier_channel_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">MSP\NotifierAdminUi\Ui\DataProvider\Listing\ChannelDataProvider</argument>
+            <argument name="class" xsi:type="string">Magento\NotifierAdminUi\Ui\DataProvider\Listing\ChannelDataProvider</argument>
             <argument name="name" xsi:type="string">msp_notifier_channel_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">channel_id</argument>
             <argument name="requestFieldName" xsi:type="string">channel_id</argument>
@@ -171,7 +171,7 @@
 
         <column name="adapter_code">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">MSP\NotifierAdminUi\Model\Source\Channel\Adapter</item>
+                <item name="options" xsi:type="object">Magento\NotifierAdminUi\Model\Source\Channel\Adapter</item>
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">select</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
@@ -184,7 +184,7 @@
 
         <column name="enabled">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">MSP\NotifierAdminUi\Model\Source\Channel\Enabled</item>
+                <item name="options" xsi:type="object">Magento\NotifierAdminUi\Model\Source\Channel\Enabled</item>
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">select</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
@@ -195,7 +195,7 @@
             </argument>
         </column>
 
-        <actionsColumn name="actions" class="MSP\NotifierAdminUi\Ui\Component\Listing\Channel\Actions">
+        <actionsColumn name="actions" class="Magento\NotifierAdminUi\Ui\Component\Listing\Channel\Actions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="indexField" xsi:type="string">channel_id</item>

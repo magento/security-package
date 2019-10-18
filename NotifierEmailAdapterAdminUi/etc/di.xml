@@ -8,12 +8,12 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <virtualType name="MSP\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Pool">
+    <virtualType name="Magento\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Pool">
         <arguments>
             <argument name="modifiers" xsi:type="array">
                 <item name="email" xsi:type="array">
                     <item name="class"
-                          xsi:type="string">MSP\NotifierEmailAdapterAdminUi\Ui\DataProvider\Form\Channel\Modifier\Email</item>
+                          xsi:type="string">Magento\NotifierEmailAdapterAdminUi\Ui\DataProvider\Form\Channel\Modifier\Email</item>
                     <item name="sortOrder" xsi:type="number">1000</item>
                 </item>
             </argument>

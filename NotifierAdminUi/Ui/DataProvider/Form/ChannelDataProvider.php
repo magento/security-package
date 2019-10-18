@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Ui\DataProvider\Form;
+namespace Magento\NotifierAdminUi\Ui\DataProvider\Form;
 
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\Api\FilterBuilder;
@@ -16,9 +16,9 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
-use MSP\NotifierAdminUi\Model\Channel\ModifierInterface;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierAdminUi\Model\Channel\ModifierInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 class ChannelDataProvider extends DataProvider
 {

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\DatabaseTemplate\Command;
+namespace Magento\NotifierTemplate\Model\DatabaseTemplate\Command;
 
 use Magento\Framework\Exception\CouldNotDeleteException;
 
@@ -17,7 +17,7 @@ use Magento\Framework\Exception\CouldNotDeleteException;
  * that you should extend and implement to customize current behaviour, but NOT expected to be used (called) in the code
  * of business logic directly
  *
- * @see \MSP\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface
+ * @see \Magento\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface
  * @api
  */
 interface DeleteInterface

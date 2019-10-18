@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model\Channel\Validator;
+namespace Magento\Notifier\Model\Channel\Validator;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\ValidatorException;
-use MSP\NotifierApi\Api\AdaptersPoolInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
-use MSP\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
-use MSP\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
+use Magento\NotifierApi\Model\SerializerInterface;
 
 class ValidateAdapter implements ValidateChannelInterface
 {

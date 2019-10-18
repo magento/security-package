@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model\Rule\Command;
+namespace Magento\NotifierEvent\Model\Rule\Command;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\NotifierEvent\Model\ResourceModel\Rule;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
-use MSP\NotifierEventApi\Api\Data\RuleInterfaceFactory;
+use Magento\NotifierEvent\Model\ResourceModel\Rule;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterfaceFactory;
 
 /**
  * @inheritdoc

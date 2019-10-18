@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Model\AdapterEngine\MessageValidator;
+namespace Magento\NotifierApi\Model\AdapterEngine\MessageValidator;
 
 use Magento\Framework\Exception\ValidatorException;
-use MSP\NotifierApi\Model\AdapterEngine\MessageValidatorInterface;
+use Magento\NotifierApi\Model\AdapterEngine\MessageValidatorInterface;
 
 /**
  * Sugar class to provide a simple check on required message string

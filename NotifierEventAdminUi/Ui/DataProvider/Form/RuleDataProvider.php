@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventAdminUi\Ui\DataProvider\Form;
+namespace Magento\NotifierEventAdminUi\Ui\DataProvider\Form;
 
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\ReportingInterface;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
-use MSP\NotifierApi\Model\SerializerInterface;
-use MSP\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
+use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
 
 class RuleDataProvider extends DataProvider
 {

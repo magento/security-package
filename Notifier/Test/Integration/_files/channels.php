@@ -8,9 +8,9 @@
 declare(strict_types=1);
 
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
-use MSP\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
 
 $objectManager = Bootstrap::getObjectManager();
 ConfigureMockAdapter::execute();

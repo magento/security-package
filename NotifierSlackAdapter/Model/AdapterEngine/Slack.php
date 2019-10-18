@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierSlackAdapter\Model\AdapterEngine;
+namespace Magento\NotifierSlackAdapter\Model\AdapterEngine;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Maknz\Slack\Client;
-use MSP\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
-use MSP\NotifierSlackAdapter\Model\AdapterEngine\Slack\ClientFactory;
+use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
+use Magento\NotifierSlackAdapter\Model\AdapterEngine\Slack\ClientFactory;
 
 class Slack implements AdapterEngineInterface
 {

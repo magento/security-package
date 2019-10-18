@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\DatabaseTemplate\Command;
+namespace Magento\NotifierTemplate\Model\DatabaseTemplate\Command;
 
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
-use MSP\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\Collection;
-use MSP\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\CollectionFactory;
-use MSP\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
-use MSP\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterfaceFactory;
+use Magento\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\Collection;
+use Magento\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\CollectionFactory;
+use Magento\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
+use Magento\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterfaceFactory;
 
 /**
  * @inheritdoc

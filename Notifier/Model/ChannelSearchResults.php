@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model;
+namespace Magento\Notifier\Model;
 
 use Magento\Framework\Api\SearchResults;
 
 class ChannelSearchResults extends SearchResults implements
-    \MSP\NotifierApi\Api\ChannelSearchResultsInterface
+    \Magento\NotifierApi\Api\ChannelSearchResultsInterface
 {
 }

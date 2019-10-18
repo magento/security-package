@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\VariablesDecorator;
+namespace Magento\NotifierTemplate\Model\VariablesDecorator;
 
 use Magento\Backend\Model\Auth\Session;
-use MSP\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
+use Magento\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
 
 class AdminVariables implements DecorateVariablesInterface
 {

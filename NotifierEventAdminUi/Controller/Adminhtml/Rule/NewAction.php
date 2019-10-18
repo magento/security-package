@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventAdminUi\Controller\Adminhtml\Rule;
+namespace Magento\NotifierEventAdminUi\Controller\Adminhtml\Rule;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Page;
@@ -19,7 +19,7 @@ class NewAction extends Action implements HttpGetActionInterface
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_NotifierEvent::rule';
+    const ADMIN_RESOURCE = 'Magento_NotifierEvent::rule';
 
     /**
      * @inheritdoc
@@ -28,7 +28,7 @@ class NewAction extends Action implements HttpGetActionInterface
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $resultPage->setActiveMenu('MSP_NotifierEvent::rule');
+        $resultPage->setActiveMenu('Magento_NotifierEvent::rule');
         $resultPage->getConfig();
         $resultPage->getTitle();
         $resultPage->prepend(__('New Rule'));

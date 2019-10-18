@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventAdminUi\Ui\Component\Form\Rule;
+namespace Magento\NotifierEventAdminUi\Ui\Component\Form\Rule;
 
 use Magento\Cms\Block\Adminhtml\Page\Edit\GenericButton;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;

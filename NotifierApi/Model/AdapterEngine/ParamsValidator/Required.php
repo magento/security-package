@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Model\AdapterEngine\ParamsValidator;
+namespace Magento\NotifierApi\Model\AdapterEngine\ParamsValidator;
 
 use Magento\Framework\Exception\ValidatorException;
-use MSP\NotifierApi\Model\AdapterEngine\ParamsValidatorInterface;
+use Magento\NotifierApi\Model\AdapterEngine\ParamsValidatorInterface;
 
 /**
  * Sugar class to provide a simple check on a required parameter

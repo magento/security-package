@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAsync\Model;
+namespace Magento\NotifierAsync\Model;
 
-use MSP\NotifierApi\Api\SendMessageInterface;
+use Magento\NotifierApi\Api\SendMessageInterface;
 
 /**
  * Consumer for asynchronous messages

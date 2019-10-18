@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model;
+namespace Magento\NotifierEvent\Model;
 
-use MSP\NotifierEventApi\Model\CaptureEventInterface;
-use MSP\NotifierEventApi\Model\FireRuleInterface\Proxy as FireRuleInterface;
-use MSP\NotifierEventApi\Model\GetRulesIdsByEventInterface\Proxy as GetRulesIdsByEventInterface;
-use MSP\NotifierEventApi\Model\IsEventExcludedInterface\Proxy as IsEventExcludedInterface;
+use Magento\NotifierEventApi\Model\CaptureEventInterface;
+use Magento\NotifierEventApi\Model\FireRuleInterface\Proxy as FireRuleInterface;
+use Magento\NotifierEventApi\Model\GetRulesIdsByEventInterface\Proxy as GetRulesIdsByEventInterface;
+use Magento\NotifierEventApi\Model\IsEventExcludedInterface\Proxy as IsEventExcludedInterface;
 
 class CaptureEvent implements CaptureEventInterface
 {

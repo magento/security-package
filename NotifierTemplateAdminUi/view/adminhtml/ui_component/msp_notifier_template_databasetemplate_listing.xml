@@ -15,14 +15,14 @@
         </item>
         <item name="spinner" xsi:type="string">msp_notifier_template_databasetemplate_columns</item>
         <item name="buttons" xsi:type="array">
-            <item name="new" xsi:type="string">MSP\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate\NewButton</item>
+            <item name="new" xsi:type="string">Magento\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate\NewButton</item>
         </item>
     </argument>
 
     <dataSource name="msp_notifier_template_databasetemplate_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
             <argument name="class"
-                      xsi:type="string">MSP\NotifierTemplateAdminUi\Ui\DataProvider\Listing\DatabaseTemplateDataProvider</argument>
+                      xsi:type="string">Magento\NotifierTemplateAdminUi\Ui\DataProvider\Listing\DatabaseTemplateDataProvider</argument>
             <argument name="name" xsi:type="string">msp_notifier_template_databasetemplate_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">template_id</argument>
             <argument name="requestFieldName" xsi:type="string">template_id</argument>
@@ -172,7 +172,7 @@
 
         <column name="adapter_code">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">MSP\NotifierTemplateAdminUi\Model\Source\DatabaseTemplate\Adapter</item>
+                <item name="options" xsi:type="object">Magento\NotifierTemplateAdminUi\Model\Source\DatabaseTemplate\Adapter</item>
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">select</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
@@ -183,7 +183,7 @@
             </argument>
         </column>
 
-        <actionsColumn name="actions" class="MSP\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate\Actions">
+        <actionsColumn name="actions" class="Magento\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate\Actions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="indexField" xsi:type="string">template_id</item>

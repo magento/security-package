@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventApi\Model;
+namespace Magento\NotifierEventApi\Model;
 
 /**
  * Capture event (Service Provider Interface - SPI)
- * This is the main entry point of any new incoming event to be trapped by MSP Notifier
+ * This is the main entry point of any new incoming event to be trapped by Magento Notifier
  *
  * @api
  */

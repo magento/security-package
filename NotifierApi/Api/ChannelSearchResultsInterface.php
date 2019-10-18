@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Api;
+namespace Magento\NotifierApi\Api;
 
 /**
  * Channel results interface
@@ -16,13 +16,13 @@ interface ChannelSearchResultsInterface extends \Magento\Framework\Api\SearchRes
 {
     /**
      * Get an array of objects
-     * @return \MSP\NotifierApi\Api\Data\ChannelInterface[]
+     * @return \Magento\NotifierApi\Api\Data\ChannelInterface[]
      */
     public function getItems();
 
     /**
      * Set objects list
-     * @param \MSP\NotifierApi\Api\Data\ChannelInterface[] $items
+     * @param \Magento\NotifierApi\Api\Data\ChannelInterface[] $items
      * @return $this
      */
     public function setItems(array $items);

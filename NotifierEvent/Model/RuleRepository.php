@@ -6,16 +6,16 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model;
+namespace Magento\NotifierEvent\Model;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
-use MSP\NotifierEvent\Model\Rule\Command\DeleteInterface;
-use MSP\NotifierEvent\Model\Rule\Command\GetInterface;
-use MSP\NotifierEvent\Model\Rule\Command\GetListInterface;
-use MSP\NotifierEvent\Model\Rule\Command\SaveInterface;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
-use MSP\NotifierEventApi\Api\RuleRepositoryInterface;
-use MSP\NotifierEventApi\Api\RuleSearchResultsInterface;
+use Magento\NotifierEvent\Model\Rule\Command\DeleteInterface;
+use Magento\NotifierEvent\Model\Rule\Command\GetInterface;
+use Magento\NotifierEvent\Model\Rule\Command\GetListInterface;
+use Magento\NotifierEvent\Model\Rule\Command\SaveInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
+use Magento\NotifierEventApi\Api\RuleSearchResultsInterface;
 
 /**
  * @SuppressWarnings(PHPMD.ShortVariable)

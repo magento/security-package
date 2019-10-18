@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventApi\Api\Data;
+namespace Magento\NotifierEventApi\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 
@@ -194,16 +194,16 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Retrieve existing extension attributes object or create a new one
-     * @return \MSP\NotifierEventApi\Api\Data\RuleExtensionInterface|null
+     * @return \Magento\NotifierEventApi\Api\Data\RuleExtensionInterface|null
      */
-    public function getExtensionAttributes(): ?\MSP\NotifierEventApi\Api\Data\RuleExtensionInterface;
+    public function getExtensionAttributes(): ?\Magento\NotifierEventApi\Api\Data\RuleExtensionInterface;
 
     /**
      * Set an extension attributes object
-     * @param \MSP\NotifierEventApi\Api\Data\RuleExtensionInterface $extensionAttributes
+     * @param \Magento\NotifierEventApi\Api\Data\RuleExtensionInterface $extensionAttributes
      * @return $this
      */
     public function setExtensionAttributes(
-        \MSP\NotifierEventApi\Api\Data\RuleExtensionInterface $extensionAttributes
+        \Magento\NotifierEventApi\Api\Data\RuleExtensionInterface $extensionAttributes
     );
 }

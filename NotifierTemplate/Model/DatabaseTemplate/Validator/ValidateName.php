@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\DatabaseTemplate\Validator;
+namespace Magento\NotifierTemplate\Model\DatabaseTemplate\Validator;
 
 use Magento\Framework\Exception\ValidatorException;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
-use MSP\NotifierTemplateApi\Model\DatabaseTemplate\Validator\ValidateDatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Model\DatabaseTemplate\Validator\ValidateDatabaseTemplateInterface;
 
 class ValidateName implements ValidateDatabaseTemplateInterface
 {

@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model;
+namespace Magento\NotifierTemplate\Model;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\NotifierTemplateApi\Api\SendMessageInterface;
-use MSP\NotifierTemplateApi\Model\GetMessageTextInterface;
+use Magento\NotifierTemplateApi\Api\SendMessageInterface;
+use Magento\NotifierTemplateApi\Model\GetMessageTextInterface;
 
 class SendMessage implements SendMessageInterface
 {
@@ -20,18 +20,18 @@ class SendMessage implements SendMessageInterface
     private $getMessageText;
 
     /**
-     * @var \MSP\NotifierApi\Api\SendMessageInterface
+     * @var \Magento\NotifierApi\Api\SendMessageInterface
      */
     private $sendMessage;
 
     /**
      * SendMessage constructor.
      * @param GetMessageTextInterface $getMessageText
-     * @param \MSP\NotifierApi\Api\SendMessageInterface $sendMessage
+     * @param \Magento\NotifierApi\Api\SendMessageInterface $sendMessage
      */
     public function __construct(
         GetMessageTextInterface $getMessageText,
-        \MSP\NotifierApi\Api\SendMessageInterface $sendMessage
+        \Magento\NotifierApi\Api\SendMessageInterface $sendMessage
     ) {
         $this->getMessageText = $getMessageText;
         $this->sendMessage = $sendMessage;

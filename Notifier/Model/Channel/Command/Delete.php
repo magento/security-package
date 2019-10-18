@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model\Channel\Command;
+namespace Magento\Notifier\Model\Channel\Command;
 
 use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotDeleteException;
-use MSP\Notifier\Model\ResourceModel\Channel;
+use Magento\Notifier\Model\ResourceModel\Channel;
 use Psr\Log\LoggerInterface;
 
 /**

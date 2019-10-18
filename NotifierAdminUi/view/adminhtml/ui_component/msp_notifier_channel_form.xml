@@ -19,14 +19,14 @@
         </item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
         <item name="buttons" xsi:type="array">
-            <item name="back" xsi:type="string">MSP\NotifierAdminUi\Ui\Component\Form\Channel\BackButton</item>
-            <item name="save" xsi:type="string">MSP\NotifierAdminUi\Ui\Component\Form\Channel\SaveButton</item>
+            <item name="back" xsi:type="string">Magento\NotifierAdminUi\Ui\Component\Form\Channel\BackButton</item>
+            <item name="save" xsi:type="string">Magento\NotifierAdminUi\Ui\Component\Form\Channel\SaveButton</item>
         </item>
         <item name="childrenFromMeta" xsi:type="boolean">true</item>
     </argument>
     <dataSource name="msp_notifier_channel_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">MSP\NotifierAdminUi\Ui\DataProvider\Form\ChannelDataProvider</argument>
+            <argument name="class" xsi:type="string">Magento\NotifierAdminUi\Ui\DataProvider\Form\ChannelDataProvider</argument>
             <argument name="name" xsi:type="string">msp_notifier_channel_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">channel_id</argument>
             <argument name="requestFieldName" xsi:type="string">channel_id</argument>

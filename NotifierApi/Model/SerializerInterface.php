@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Model;
+namespace Magento\NotifierApi\Model;
 
 /**
  * This is a wrapper class for standard Magento serialization - SPI

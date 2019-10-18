@@ -6,17 +6,17 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model;
+namespace Magento\Notifier\Model;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
-use MSP\Notifier\Model\Channel\Command\DeleteInterface;
-use MSP\Notifier\Model\Channel\Command\GetByCodeInterface;
-use MSP\Notifier\Model\Channel\Command\GetInterface;
-use MSP\Notifier\Model\Channel\Command\GetListInterface;
-use MSP\Notifier\Model\Channel\Command\SaveInterface;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierApi\Api\ChannelSearchResultsInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\Notifier\Model\Channel\Command\DeleteInterface;
+use Magento\Notifier\Model\Channel\Command\GetByCodeInterface;
+use Magento\Notifier\Model\Channel\Command\GetInterface;
+use Magento\Notifier\Model\Channel\Command\GetListInterface;
+use Magento\Notifier\Model\Channel\Command\SaveInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\ChannelSearchResultsInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)

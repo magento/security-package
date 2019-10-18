@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventAdminUi\Model\Source\Rule;
+namespace Magento\NotifierEventAdminUi\Model\Source\Rule;
 
 use Magento\Framework\Data\OptionSourceInterface;
 

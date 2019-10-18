@@ -15,13 +15,13 @@
         </item>
         <item name="spinner" xsi:type="string">msp_notifier_event_rule_columns</item>
         <item name="buttons" xsi:type="array">
-            <item name="new" xsi:type="string">MSP\NotifierEventAdminUi\Ui\Component\Listing\Rule\NewButton</item>
+            <item name="new" xsi:type="string">Magento\NotifierEventAdminUi\Ui\Component\Listing\Rule\NewButton</item>
         </item>
     </argument>
 
     <dataSource name="msp_notifier_event_rule_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">MSP\NotifierEventAdminUi\Ui\DataProvider\Listing\RuleDataProvider</argument>
+            <argument name="class" xsi:type="string">Magento\NotifierEventAdminUi\Ui\DataProvider\Listing\RuleDataProvider</argument>
             <argument name="name" xsi:type="string">msp_notifier_event_rule_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
             <argument name="requestFieldName" xsi:type="string">rule_id</argument>
@@ -161,7 +161,7 @@
 
         <column name="template_id">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">MSP\NotifierEventAdminUi\Model\Source\Rule\Listing\Template</item>
+                <item name="options" xsi:type="object">Magento\NotifierEventAdminUi\Model\Source\Rule\Listing\Template</item>
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">select</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
@@ -174,7 +174,7 @@
 
         <column name="enabled">
             <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">MSP\NotifierEventAdminUi\Model\Source\Rule\Enabled</item>
+                <item name="options" xsi:type="object">Magento\NotifierEventAdminUi\Model\Source\Rule\Enabled</item>
                 <item name="config" xsi:type="array">
                     <item name="filter" xsi:type="string">select</item>
                     <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
@@ -185,7 +185,7 @@
             </argument>
         </column>
 
-        <actionsColumn name="actions" class="MSP\NotifierEventAdminUi\Ui\Component\Listing\Rule\Actions">
+        <actionsColumn name="actions" class="Magento\NotifierEventAdminUi\Ui\Component\Listing\Rule\Actions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="indexField" xsi:type="string">rule_id</item>

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventApi\Model;
+namespace Magento\NotifierEventApi\Model;
 
 /**
  * Fire a rule (Service Provider Interface - SPI)

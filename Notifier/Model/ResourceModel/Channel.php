@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model\ResourceModel;
+namespace Magento\Notifier\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)

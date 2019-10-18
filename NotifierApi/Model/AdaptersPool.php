@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Model;
+namespace Magento\NotifierApi\Model;
 
 use InvalidArgumentException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\NotifierApi\Api\AdapterInterface;
-use MSP\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierApi\Api\AdapterInterface;
+use Magento\NotifierApi\Api\AdaptersPoolInterface;
 
 class AdaptersPool implements AdaptersPoolInterface
 {

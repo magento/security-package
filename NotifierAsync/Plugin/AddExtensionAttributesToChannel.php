@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAsync\Plugin;
+namespace Magento\NotifierAsync\Plugin;
 
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
-use MSP\NotifierApi\Api\Data\ChannelExtensionFactory;
-use MSP\NotifierAsync\Model\ResourceModel\GetChannelExtensionAttributes;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelExtensionFactory;
+use Magento\NotifierAsync\Model\ResourceModel\GetChannelExtensionAttributes;
 
 class AddExtensionAttributesToChannel
 {

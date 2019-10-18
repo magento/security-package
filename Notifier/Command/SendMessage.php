@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Command;
+namespace Magento\Notifier\Command;
 
 use Magento\Framework\ObjectManagerInterface;
-use MSP\NotifierApi\Api\SendMessageInterface\Proxy as SendMessageInterface;
+use Magento\NotifierApi\Api\SendMessageInterface\Proxy as SendMessageInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

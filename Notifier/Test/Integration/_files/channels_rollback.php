@@ -8,7 +8,7 @@
 declare(strict_types=1);
 
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 
 $objectManager = Bootstrap::getObjectManager();
 

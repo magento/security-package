@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\ResourceModel\DatabaseTemplate;
+namespace Magento\NotifierTemplate\Model\ResourceModel\DatabaseTemplate;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
-use MSP\NotifierTemplate\Model\ResourceModel\DatabaseTemplate;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplate\Model\ResourceModel\DatabaseTemplate;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -25,7 +25,7 @@ class Collection extends AbstractCollection
     protected function _construct()
     {
         $this->_init(
-            \MSP\NotifierTemplate\Model\DatabaseTemplate::class,
+            \Magento\NotifierTemplate\Model\DatabaseTemplate::class,
             DatabaseTemplate::class
         );
     }

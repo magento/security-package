@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventAdminUi\Controller\Adminhtml\Rule;
+namespace Magento\NotifierEventAdminUi\Controller\Adminhtml\Rule;
 
 use Exception;
 use Magento\Backend\App\Action;
@@ -14,19 +14,19 @@ use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierEvent\Model\RuleFactory;
-use MSP\NotifierApi\Model\SerializerInterface;
-use MSP\NotifierEventApi\Api\RuleRepositoryInterface;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
-use MSP\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierEvent\Model\RuleFactory;
+use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
 
 class Save extends Action implements HttpPostActionInterface
 {
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_NotifierEvent::rule';
+    const ADMIN_RESOURCE = 'Magento_NotifierEvent::rule';
 
     /**
      * @var RuleRepositoryInterface

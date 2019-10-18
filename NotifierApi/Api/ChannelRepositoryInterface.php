@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Api;
+namespace Magento\NotifierApi\Api;
 
 /**
  * Channel repository interface
@@ -17,26 +17,26 @@ interface ChannelRepositoryInterface
 {
     /**
      * Save Channel
-     * @param \MSP\NotifierApi\Api\Data\ChannelInterface $channel
+     * @param \Magento\NotifierApi\Api\Data\ChannelInterface $channel
      * @return int
      */
-    public function save(\MSP\NotifierApi\Api\Data\ChannelInterface $channel): int;
+    public function save(\Magento\NotifierApi\Api\Data\ChannelInterface $channel): int;
 
     /**
      * Get Channel by id
      * @param int $channelIid
-     * @return \MSP\NotifierApi\Api\Data\ChannelInterface
+     * @return \Magento\NotifierApi\Api\Data\ChannelInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function get(int $channelIid): \MSP\NotifierApi\Api\Data\ChannelInterface;
+    public function get(int $channelIid): \Magento\NotifierApi\Api\Data\ChannelInterface;
 
     /**
      * Get Channel by code
      * @param string $code
-     * @return \MSP\NotifierApi\Api\Data\ChannelInterface
+     * @return \Magento\NotifierApi\Api\Data\ChannelInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getByCode(string $code): \MSP\NotifierApi\Api\Data\ChannelInterface;
+    public function getByCode(string $code): \Magento\NotifierApi\Api\Data\ChannelInterface;
 
     /**
      * Delete Channel
@@ -48,9 +48,9 @@ interface ChannelRepositoryInterface
     /**
      * Get a list of Channel
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
-     * @return \MSP\NotifierApi\Api\ChannelSearchResultsInterface
+     * @return \Magento\NotifierApi\Api\ChannelSearchResultsInterface
      */
     public function getList(
         \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria = null
-    ): \MSP\NotifierApi\Api\ChannelSearchResultsInterface;
+    ): \Magento\NotifierApi\Api\ChannelSearchResultsInterface;
 }

@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\VariablesDecorator;
+namespace Magento\NotifierTemplate\Model\VariablesDecorator;
 
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Store\Model\StoreManagerInterface;
-use MSP\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
+use Magento\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
 
 class CoreVariables implements DecorateVariablesInterface
 {

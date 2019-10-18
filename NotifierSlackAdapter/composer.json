@@ -8,17 +8,17 @@
         "maknz/slack": "^1.7"
     },
     "support": {
-        "issues": "https://github.com/magespecialist/m2-MSP_Notifier/issues"
+        "issues": "https://github.com/magento/security-package/issues"
     },
-    "homepage": "https://github.com/magespecialist/m2-MSP_Notifier",
+    "homepage": "https://github.com/magento/security-package",
     "keywords": [
         "magento",
         "notification",
         "tool"
     ],
     "suggest": {
-        "msp/module-notifier-event": "Event based rule manager for MSP_Notifier",
-        "msp/module-notifier-queue": "Asynchronous queue manager for MSP_Notifier"
+        "msp/module-notifier-event": "Event based rule manager for Magento_Notifier",
+        "msp/module-notifier-queue": "Asynchronous queue manager for Magento_Notifier"
     },
     "authors": [
         {
@@ -37,7 +37,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "MSP\\NotifierSlackAdapter\\": ""
+            "Magento\\NotifierSlackAdapter\\": ""
         }
     }
 }

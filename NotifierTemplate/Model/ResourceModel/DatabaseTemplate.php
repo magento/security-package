@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\ResourceModel;
+namespace Magento\NotifierTemplate\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)

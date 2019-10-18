@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateApi\Api;
+namespace Magento\NotifierTemplateApi\Api;
 
 interface SendMessageInterface
 {

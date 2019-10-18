@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Ui\DataProvider\Listing;
+namespace Magento\NotifierAdminUi\Ui\DataProvider\Listing;
 
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\ReportingInterface;

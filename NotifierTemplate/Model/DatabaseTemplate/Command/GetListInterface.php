@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\DatabaseTemplate\Command;
+namespace Magento\NotifierTemplate\Model\DatabaseTemplate\Command;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
-use MSP\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
+use Magento\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
 
 /**
  * Find DatabaseTemplate by SearchCriteria command (Service Provider Interface - SPI)
@@ -18,7 +18,7 @@ use MSP\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
  * that you should extend and implement to customize current behaviour, but NOT expected to be used (called) in the code
  * of business logic directly
  *
- * @see \MSP\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface
+ * @see \Magento\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface
  * @api
  */
 interface GetListInterface

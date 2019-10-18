@@ -11,21 +11,21 @@
         <resources>
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Backend::system">
-                    <resource id="MSP_NotifierApi::notifier">
-                        <resource id="MSP_NotifierTemplateApi::general"
+                    <resource id="Magento_NotifierApi::notifier">
+                        <resource id="Magento_NotifierTemplateApi::general"
                                   title="Messages template"
                                   translate="title"
                                   sortOrder="40">
-                            <resource id="MSP_NotifierTemplateApi::template"
+                            <resource id="Magento_NotifierTemplateApi::template"
                                       title="Template"
                                       translate="title"
                                       sortOrder="10">
-                                <resource id="MSP_NotifierTemplateApi::template_edit"
+                                <resource id="Magento_NotifierTemplateApi::template_edit"
                                           title="Edit"
                                           translate="title"
                                           sortOrder="10" />
                             </resource>
-                            <resource id="MSP_NotifierTemplateApi::send"
+                            <resource id="Magento_NotifierTemplateApi::send"
                                       title="Send messages"
                                       translate="title"
                                       sortOrder="10" />

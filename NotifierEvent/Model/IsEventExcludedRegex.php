@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model;
+namespace Magento\NotifierEvent\Model;
 
-use MSP\NotifierEventApi\Model\IsEventExcludedInterface;
+use Magento\NotifierEventApi\Model\IsEventExcludedInterface;
 
 class IsEventExcludedRegex implements IsEventExcludedInterface
 {

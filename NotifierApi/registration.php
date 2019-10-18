@@ -6,6 +6,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'MSP_NotifierApi',
+    'Magento_NotifierApi',
     __DIR__
 );

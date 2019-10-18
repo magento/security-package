@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTelegramAdapter\Model\AdapterEngine\Telegram;
+namespace Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram;
 
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;

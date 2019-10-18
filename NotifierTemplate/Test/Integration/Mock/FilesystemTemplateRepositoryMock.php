@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Test\Integration\Mock;
+namespace Magento\NotifierTemplate\Test\Integration\Mock;
 
-use MSP\NotifierTemplate\Model\FilesystemTemplateRepository;
+use Magento\NotifierTemplate\Model\FilesystemTemplateRepository;
 
 class FilesystemTemplateRepositoryMock extends FilesystemTemplateRepository
 {
@@ -17,6 +17,6 @@ class FilesystemTemplateRepositoryMock extends FilesystemTemplateRepository
      */
     public function get(string $templateId): string
     {
-        return 'MSP_NotifierTemplate::' . $templateId . '.html';
+        return 'Magento_NotifierTemplate::' . $templateId . '.html';
     }
 }

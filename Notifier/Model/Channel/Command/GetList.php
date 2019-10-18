@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model\Channel\Command;
+namespace Magento\Notifier\Model\Channel\Command;
 
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use MSP\Notifier\Model\ResourceModel\Channel\Collection;
-use MSP\Notifier\Model\ResourceModel\Channel\CollectionFactory;
-use MSP\NotifierApi\Api\ChannelSearchResultsInterface;
-use MSP\NotifierApi\Api\ChannelSearchResultsInterfaceFactory;
+use Magento\Notifier\Model\ResourceModel\Channel\Collection;
+use Magento\Notifier\Model\ResourceModel\Channel\CollectionFactory;
+use Magento\NotifierApi\Api\ChannelSearchResultsInterface;
+use Magento\NotifierApi\Api\ChannelSearchResultsInterfaceFactory;
 
 /**
  * @inheritdoc

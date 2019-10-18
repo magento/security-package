@@ -13,10 +13,10 @@
         <column xsi:type="int" name="channel_id" unsigned="true" nullable="false" comment="Channel ID"/>
         <column xsi:type="int" name="send_async" nullable="false" comment="Send asynchronously"/>
 
-        <constraint xsi:type="unique" referenceId="MSP_NOTIFIER_QUEUE_CHANNEL_ID">
+        <constraint xsi:type="unique" referenceId="Magento_NOTIFIER_QUEUE_CHANNEL_ID">
             <column name="channel_id"/>
         </constraint>
-        <constraint xsi:type="foreign" referenceId="MSP_NOTIFIER_QUEUE_CHANNEL_ID_MSP_NOTIFIER_CHANNEL_ID"
+        <constraint xsi:type="foreign" referenceId="Magento_NOTIFIER_QUEUE_CHANNEL_ID_Magento_NOTIFIER_CHANNEL_ID"
                     table="msp_notifier_queue_channel" column="channel_id" referenceTable="msp_notifier_channel"
                     referenceColumn="channel_id" onDelete="CASCADE"/>
     </table>

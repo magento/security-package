@@ -18,7 +18,7 @@
         <column xsi:type="longtext" name="configuration_json" nullable="false" comment="Configuration JSON"/>
         <column xsi:type="boolean" name="enabled" nullable="false" comment="Enabled"/>
 
-        <constraint xsi:type="unique" referenceId="MSP_NOTIFIER_CHANNEL_CODE">
+        <constraint xsi:type="unique" referenceId="Magento_NOTIFIER_CHANNEL_CODE">
             <column name="code"/>
         </constraint>
 

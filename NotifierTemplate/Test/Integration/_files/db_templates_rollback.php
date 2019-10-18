@@ -8,8 +8,8 @@
 declare(strict_types=1);
 
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Command\DeleteInterface;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Command\GetListInterface;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Command\DeleteInterface;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Command\GetListInterface;
 
 $objectManager = Bootstrap::getObjectManager();
 

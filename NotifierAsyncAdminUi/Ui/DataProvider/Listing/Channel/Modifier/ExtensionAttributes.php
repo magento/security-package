@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAsyncAdminUi\Ui\DataProvider\Listing\Channel\Modifier;
+namespace Magento\NotifierAsyncAdminUi\Ui\DataProvider\Listing\Channel\Modifier;
 
 use Magento\Ui\DataProvider\Modifier\ModifierInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
-use MSP\NotifierAsyncAdminUi\Model\DecorateChannelDataProvider;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierAsyncAdminUi\Model\DecorateChannelDataProvider;
 
 class ExtensionAttributes implements ModifierInterface
 {

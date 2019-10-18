@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model\Channel\Command;
+namespace Magento\Notifier\Model\Channel\Command;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\Notifier\Model\ResourceModel\Channel;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterfaceFactory;
+use Magento\Notifier\Model\ResourceModel\Channel;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterfaceFactory;
 
 /**
  * @inheritdoc

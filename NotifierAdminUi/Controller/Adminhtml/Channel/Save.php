@@ -6,23 +6,23 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Controller\Adminhtml\Channel;
+namespace Magento\NotifierAdminUi\Controller\Adminhtml\Channel;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultInterface;
-use MSP\Notifier\Model\ChannelFactory;
-use MSP\NotifierApi\Model\SerializerInterface;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\Notifier\Model\ChannelFactory;
+use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 class Save extends Action implements HttpPostActionInterface
 {
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_Notifier::channel';
+    const ADMIN_RESOURCE = 'Magento_Notifier::channel';
 
     /**
      * @var ChannelRepositoryInterface

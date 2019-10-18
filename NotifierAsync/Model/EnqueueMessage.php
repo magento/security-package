@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAsync\Model;
+namespace Magento\NotifierAsync\Model;
 
 use Magento\Framework\MessageQueue\PublisherInterface;
 

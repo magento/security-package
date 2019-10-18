@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model\Rule\Command;
+namespace Magento\NotifierEvent\Model\Rule\Command;
 
 use Magento\Framework\Exception\CouldNotSaveException;
-use MSP\NotifierEvent\Model\ResourceModel\Rule;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
-use MSP\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
+use Magento\NotifierEvent\Model\ResourceModel\Rule;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
 use Psr\Log\LoggerInterface;
 
 /**

@@ -9,36 +9,36 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
     <route url="/V1/msp-notifier-event/rule" method="GET">
-        <service class="MSP\NotifierEventApi\Api\RuleRepositoryInterface" method="getList"/>
+        <service class="Magento\NotifierEventApi\Api\RuleRepositoryInterface" method="getList"/>
         <resources>
-            <resource ref="MSP_NotifierEventApi::rule"/>
+            <resource ref="Magento_NotifierEventApi::rule"/>
         </resources>
     </route>
 
     <route url="/V1/msp-notifier-event/rule/:ruleId" method="GET">
-        <service class="MSP\NotifierEventApi\Api\RuleRepositoryInterface" method="get"/>
+        <service class="Magento\NotifierEventApi\Api\RuleRepositoryInterface" method="get"/>
         <resources>
-            <resource ref="MSP_NotifierEventApi::rule"/>
+            <resource ref="Magento_NotifierEventApi::rule"/>
         </resources>
     </route>
 
     <route url="/V1/msp-notifier-event/rule/:ruleId" method="DELETE">
-        <service class="MSP\NotifierEventApi\Api\RuleRepositoryInterface" method="deleteById"/>
+        <service class="Magento\NotifierEventApi\Api\RuleRepositoryInterface" method="deleteById"/>
         <resources>
-            <resource ref="MSP_NotifierEventApi::rule_edit"/>
+            <resource ref="Magento_NotifierEventApi::rule_edit"/>
         </resources>
     </route>
 
     <route url="/V1/msp-notifier-event/rule" method="PUT">
-        <service class="MSP\NotifierEventApi\Api\RuleRepositoryInterface" method="save"/>
+        <service class="Magento\NotifierEventApi\Api\RuleRepositoryInterface" method="save"/>
         <resources>
-            <resource ref="MSP_NotifierEventApi::rule_edit"/>
+            <resource ref="Magento_NotifierEventApi::rule_edit"/>
         </resources>
     </route>
     <route url="/V1/msp-notifier-event/rule" method="POST">
-        <service class="MSP\NotifierEventApi\Api\RuleRepositoryInterface" method="save"/>
+        <service class="Magento\NotifierEventApi\Api\RuleRepositoryInterface" method="save"/>
         <resources>
-            <resource ref="MSP_NotifierEventApi::rule_edit"/>
+            <resource ref="Magento_NotifierEventApi::rule_edit"/>
         </resources>
     </route>
 </routes>

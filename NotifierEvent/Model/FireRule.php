@@ -6,16 +6,16 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model;
+namespace Magento\NotifierEvent\Model;
 
 use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\NotifierApi\Model\SerializerInterface;
-use MSP\NotifierEventApi\Api\RuleRepositoryInterface;
-use MSP\NotifierEventApi\Model\FireRuleInterface;
-use MSP\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
-use MSP\NotifierEventApi\Model\ThrottleInterface;
-use MSP\NotifierTemplateApi\Api\SendMessageInterface;
+use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
+use Magento\NotifierEventApi\Model\FireRuleInterface;
+use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
+use Magento\NotifierEventApi\Model\ThrottleInterface;
+use Magento\NotifierTemplateApi\Api\SendMessageInterface;
 use Psr\Log\LoggerInterface;
 
 class FireRule implements FireRuleInterface

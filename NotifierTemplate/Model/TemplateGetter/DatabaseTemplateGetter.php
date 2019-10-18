@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\TemplateGetter;
+namespace Magento\NotifierTemplate\Model\TemplateGetter;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\Collection;
-use MSP\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\CollectionFactory;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
-use MSP\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\Collection;
+use Magento\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\CollectionFactory;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
 class DatabaseTemplateGetter implements TemplateGetterInterface
 {

@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventAdminUi\Model\Source\Rule;
+namespace Magento\NotifierEventAdminUi\Model\Source\Rule;
 
 use Magento\Framework\Data\OptionSourceInterface;
-use MSP\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
+use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
 class Template implements OptionSourceInterface
 {

@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEmailAdapter\Test\Unit\Model\AdapterEngine\ParamsValidator;
+namespace Magento\NotifierEmailAdapter\Test\Unit\Model\AdapterEngine\ParamsValidator;
 
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
-use MSP\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\IsEmail;
+use Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator\IsEmail;
 use PHPUnit\Framework\TestCase;
 
 class IsEmailTest extends TestCase

@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Model\Channel\Validator;
+namespace Magento\NotifierApi\Model\Channel\Validator;
 
 use InvalidArgumentException;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 class ValidateChannel implements ValidateChannelInterface
 {

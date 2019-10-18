@@ -9,7 +9,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
     <!-- Channel grid: START -->
-    <virtualType name="MSP\NotifierAdminUi\Ui\DataProvider\ChannelFilterPool"
+    <virtualType name="Magento\NotifierAdminUi\Ui\DataProvider\ChannelFilterPool"
                  type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
         <arguments>
             <argument name="appliers" xsi:type="array">
@@ -25,50 +25,50 @@
         <arguments>
             <argument name="collections" xsi:type="array">
                 <item name="msp_notifier_channel_data_source"
-                      xsi:type="string">MSP\NotifierAdminUi\Model\ResourceModel\UI\Channel\Collection</item>
+                      xsi:type="string">Magento\NotifierAdminUi\Model\ResourceModel\UI\Channel\Collection</item>
             </argument>
         </arguments>
     </type>
 
-    <virtualType name="MSP\NotifierAdminUi\Model\ResourceModel\UI\Channel\Collection"
+    <virtualType name="Magento\NotifierAdminUi\Model\ResourceModel\UI\Channel\Collection"
                  type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">msp_notifier_channel</argument>
             <argument name="resourceModel"
-                      xsi:type="string">MSP\Notifier\Model\ResourceModel\Channel\Collection</argument>
+                      xsi:type="string">Magento\Notifier\Model\ResourceModel\Channel\Collection</argument>
         </arguments>
     </virtualType>
     <!-- Channel grid: END -->
 
-    <type name="MSP\NotifierAdminUi\Ui\DataProvider\Form\ChannelDataProvider">
+    <type name="Magento\NotifierAdminUi\Ui\DataProvider\Form\ChannelDataProvider">
         <arguments>
             <argument name="modifierPool"
-                      xsi:type="object">MSP\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Pool</argument>
+                      xsi:type="object">Magento\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Pool</argument>
         </arguments>
     </type>
 
-    <type name="MSP\NotifierAdminUi\Ui\DataProvider\Listing\ChannelDataProvider">
+    <type name="Magento\NotifierAdminUi\Ui\DataProvider\Listing\ChannelDataProvider">
         <arguments>
             <argument name="modifierPool"
-                      xsi:type="object">MSP\NotifierAdminUi\Ui\DataProvider\Listing\Channel\Modifier\Pool</argument>
+                      xsi:type="object">Magento\NotifierAdminUi\Ui\DataProvider\Listing\Channel\Modifier\Pool</argument>
         </arguments>
     </type>
 
-    <virtualType name="MSP\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Pool"
+    <virtualType name="Magento\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Pool"
                  type="Magento\Ui\DataProvider\Modifier\Pool">
 
         <arguments>
             <argument name="modifiers" xsi:type="array">
                 <item name="configuration" xsi:type="array">
                     <item name="class"
-                          xsi:type="string">MSP\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Configuration</item>
+                          xsi:type="string">Magento\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Configuration</item>
                     <item name="sortOrder" xsi:type="number">20</item>
                 </item>
             </argument>
         </arguments>
     </virtualType>
 
-    <virtualType name="MSP\NotifierAdminUi\Ui\DataProvider\Listing\Channel\Modifier\Pool"
+    <virtualType name="Magento\NotifierAdminUi\Ui\DataProvider\Listing\Channel\Modifier\Pool"
                  type="Magento\Ui\DataProvider\Modifier\Pool">
 
         <arguments>

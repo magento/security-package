@@ -32,7 +32,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "MSP\\Notifier\\": ""
+            "Magento\\Notifier\\": ""
         }
     }
 }

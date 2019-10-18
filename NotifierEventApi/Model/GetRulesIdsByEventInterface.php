@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventApi\Model;
+namespace Magento\NotifierEventApi\Model;
 
 /**
  * Find Rule by linked event name (Service Provider Interface - SPI)

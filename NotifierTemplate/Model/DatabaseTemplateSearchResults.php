@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model;
+namespace Magento\NotifierTemplate\Model;
 
 use Magento\Framework\Api\SearchResults;
-use MSP\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
+use Magento\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
 
 class DatabaseTemplateSearchResults extends SearchResults implements
     DatabaseTemplateSearchResultsInterface

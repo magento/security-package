@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Ui\Component\Form\Channel;
+namespace Magento\NotifierAdminUi\Ui\Component\Form\Channel;
 
 use Magento\Cms\Block\Adminhtml\Page\Edit\GenericButton;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;

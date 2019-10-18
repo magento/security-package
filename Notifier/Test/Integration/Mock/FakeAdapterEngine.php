@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Test\Integration\Mock;
+namespace Magento\Notifier\Test\Integration\Mock;
 
-use MSP\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
+use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 
 class FakeAdapterEngine implements AdapterEngineInterface
 {

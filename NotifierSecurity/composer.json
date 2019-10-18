@@ -24,7 +24,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "MSP\\NotifierSecurity\\": ""
+            "Magento\\NotifierSecurity\\": ""
         }
     }
 }

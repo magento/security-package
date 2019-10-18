@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTelegramAdapter\Command\Telegram;
+namespace Magento\NotifierTelegramAdapter\Command\Telegram;
 
-use MSP\NotifierTelegramAdapter\Model\AdapterEngine\Telegram\GetChatIds\Proxy as GetChatIds;
+use Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram\GetChatIds\Proxy as GetChatIds;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

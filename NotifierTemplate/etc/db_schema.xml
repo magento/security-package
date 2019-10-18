@@ -18,7 +18,7 @@
         <column xsi:type="varchar" name="code" nullable="false" comment="Template Code"/>
         <column xsi:type="longtext" name="template" nullable="false" comment="Template content"/>
 
-        <constraint xsi:type="unique" referenceId="MSP_NOTIFIER_TEMPLATE_CODE_ADAPTER_CODE">
+        <constraint xsi:type="unique" referenceId="Magento_NOTIFIER_TEMPLATE_CODE_ADAPTER_CODE">
             <column name="code"/>
             <column name="adapter_code"/>
         </constraint>

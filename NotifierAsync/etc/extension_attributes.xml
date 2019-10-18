@@ -8,7 +8,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
 
-    <extension_attributes for="MSP\NotifierApi\Api\Data\ChannelInterface">
+    <extension_attributes for="Magento\NotifierApi\Api\Data\ChannelInterface">
         <attribute code="send_async" type="bool" />
     </extension_attributes>
 </config>

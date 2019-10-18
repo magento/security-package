@@ -6,11 +6,11 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:MSP_NotifierTemplate:etc/msp_notifier_templates.xsd">
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_NotifierTemplate:etc/msp_notifier_templates.xsd">
 
     <templates>
         <template id="event:_default"
                   label="Default Event Template"
-                  file="MSP_NotifierEvent::event/default.html" />
+                  file="Magento_NotifierEvent::event/default.html" />
     </templates>
 </config>

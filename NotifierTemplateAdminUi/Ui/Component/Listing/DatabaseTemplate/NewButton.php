@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate;
+namespace Magento\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate;
 
 use Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Generic;
 

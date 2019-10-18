@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model;
+namespace Magento\NotifierEvent\Model;
 
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
-use MSP\NotifierEventApi\Api\RuleRepositoryInterface;
-use MSP\NotifierEventApi\Model\ThrottleInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
+use Magento\NotifierEventApi\Model\ThrottleInterface;
 
 class Throttle implements ThrottleInterface
 {

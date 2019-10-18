@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierSecurity\Model\Source;
+namespace Magento\NotifierSecurity\Model\Source;
 
 use Magento\Framework\Option\ArrayInterface;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 
 class Channel implements ArrayInterface
 {

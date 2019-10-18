@@ -6,13 +6,13 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model;
+namespace Magento\Notifier\Model;
 
-use MSP\NotifierApi\Api\AdaptersPoolInterface;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierApi\Api\IsEnabledInterface;
-use MSP\NotifierApi\Api\SendMessageInterface;
-use MSP\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\IsEnabledInterface;
+use Magento\NotifierApi\Api\SendMessageInterface;
+use Magento\NotifierApi\Model\SerializerInterface;
 
 class SendMessage implements SendMessageInterface
 {

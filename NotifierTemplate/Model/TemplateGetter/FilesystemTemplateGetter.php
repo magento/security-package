@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\TemplateGetter;
+namespace Magento\NotifierTemplate\Model\TemplateGetter;
 
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem\Io\File;
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
-use MSP\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
-use MSP\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter\GetTemplateFile;
-use MSP\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
+use Magento\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter\GetTemplateFile;
+use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
 class FilesystemTemplateGetter implements TemplateGetterInterface
 {

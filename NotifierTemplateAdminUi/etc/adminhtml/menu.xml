@@ -8,13 +8,13 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="MSP_NotifierTemplate::template"
+        <add id="Magento_NotifierTemplate::template"
              title="Templates"
              translate="title"
-             module="MSP_NotifierTemplate"
+             module="Magento_NotifierTemplate"
              action="msp_notifier_template/databasetemplate/index"
              sortOrder="60"
-             parent="MSP_Notifier::notifier"
-             resource="MSP_NotifierTemplate::template" />
+             parent="Magento_Notifier::notifier"
+             resource="Magento_NotifierTemplate::template" />
     </menu>
 </config>

@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate;
+namespace Magento\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate;
 
 use Magento\Ui\Component\Listing\Columns\Column;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 class Actions extends Column
 {

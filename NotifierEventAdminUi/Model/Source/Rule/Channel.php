@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventAdminUi\Model\Source\Rule;
+namespace Magento\NotifierEventAdminUi\Model\Source\Rule;
 
-use MSP\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 
 class Channel implements \Magento\Framework\Data\OptionSourceInterface
 {

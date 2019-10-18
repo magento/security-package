@@ -13,5 +13,5 @@
             connection="amqp"
             maxMessages="5000"
             consumerInstance="Magento\Framework\MessageQueue\Consumer"
-            handler="MSP\NotifierAsync\Model\Consumer::process" />
+            handler="Magento\NotifierAsync\Model\Consumer::process" />
 </config>

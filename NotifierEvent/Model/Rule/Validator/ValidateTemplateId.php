@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model\Rule\Validator;
+namespace Magento\NotifierEvent\Model\Rule\Validator;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\ValidatorException;
-use MSP\NotifierEvent\Model\GetAutomaticTemplateId;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
-use MSP\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
-use MSP\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
+use Magento\NotifierEvent\Model\GetAutomaticTemplateId;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
+use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
 class ValidateTemplateId implements ValidateRuleInterface
 {

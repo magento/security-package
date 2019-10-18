@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model;
+namespace Magento\NotifierTemplate\Model;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)

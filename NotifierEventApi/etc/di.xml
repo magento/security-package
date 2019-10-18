@@ -8,6 +8,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <preference for="MSP\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface"
-                type="MSP\NotifierEventApi\Model\Rule\Validator\ValidateRule"/>
+    <preference for="Magento\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface"
+                type="Magento\NotifierEventApi\Model\Rule\Validator\ValidateRule"/>
 </config>

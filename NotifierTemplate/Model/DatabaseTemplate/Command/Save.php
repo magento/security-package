@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\DatabaseTemplate\Command;
+namespace Magento\NotifierTemplate\Model\DatabaseTemplate\Command;
 
 use Magento\Framework\Exception\CouldNotSaveException;
-use MSP\NotifierTemplateApi\Model\DatabaseTemplate\Validator\ValidateDatabaseTemplateInterface;
-use MSP\NotifierTemplate\Model\ResourceModel\DatabaseTemplate;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Model\DatabaseTemplate\Validator\ValidateDatabaseTemplateInterface;
+use Magento\NotifierTemplate\Model\ResourceModel\DatabaseTemplate;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 use Psr\Log\LoggerInterface;
 
 /**

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateApi\Model;
+namespace Magento\NotifierTemplateApi\Model;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 

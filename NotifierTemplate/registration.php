@@ -6,6 +6,6 @@
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'MSP_NotifierTemplate',
+    'Magento_NotifierTemplate',
     __DIR__
 );

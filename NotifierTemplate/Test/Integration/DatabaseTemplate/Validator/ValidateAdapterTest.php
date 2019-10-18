@@ -8,14 +8,14 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Test\Integration\DatabaseTemplate\Validator;
+namespace Magento\NotifierTemplate\Test\Integration\DatabaseTemplate\Validator;
 
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
-use MSP\NotifierTemplate\Model\DatabaseTemplate;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Validator\ValidateAdapter;
+use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
+use Magento\NotifierTemplate\Model\DatabaseTemplate;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Validator\ValidateAdapter;
 use PHPUnit\Framework\TestCase;
 
 class ValidateAdapterTest extends TestCase

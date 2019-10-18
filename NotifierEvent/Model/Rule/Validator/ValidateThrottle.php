@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model\Rule\Validator;
+namespace Magento\NotifierEvent\Model\Rule\Validator;
 
 use Magento\Framework\Exception\ValidatorException;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
-use MSP\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
 
 class ValidateThrottle implements ValidateRuleInterface
 {

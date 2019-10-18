@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Test\Unit\Model\AdapterEngine\ParamsValidator;
+namespace Magento\NotifierApi\Test\Unit\Model\AdapterEngine\ParamsValidator;
 
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
-use MSP\NotifierApi\Model\AdapterEngine\ParamsValidator\Required;
+use Magento\NotifierApi\Model\AdapterEngine\ParamsValidator\Required;
 use PHPUnit\Framework\TestCase;
 
 class RequiredTest extends TestCase

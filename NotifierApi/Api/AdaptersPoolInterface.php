@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Api;
+namespace Magento\NotifierApi\Api;
 
 /**
  * Interface AdapterRepositoryInterface
@@ -16,15 +16,15 @@ interface AdaptersPoolInterface
 {
     /**
      * Get adapters list
-     * @return \MSP\NotifierApi\Api\AdapterInterface[]
+     * @return \Magento\NotifierApi\Api\AdapterInterface[]
      */
     public function getAdapters(): array;
 
     /**
      * Get adapter by code
      * @param string $code
-     * @return \MSP\NotifierApi\Api\AdapterInterface
+     * @return \Magento\NotifierApi\Api\AdapterInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getAdapterByCode(string $code): \MSP\NotifierApi\Api\AdapterInterface;
+    public function getAdapterByCode(string $code): \Magento\NotifierApi\Api\AdapterInterface;
 }

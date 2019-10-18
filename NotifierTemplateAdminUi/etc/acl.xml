@@ -11,8 +11,8 @@
         <resources>
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Backend::system">
-                    <resource id="MSP_Notifier::notifier">
-                        <resource id="MSP_NotifierTemplate::template" title="Templates" translate="title" sortOrder="30" />
+                    <resource id="Magento_Notifier::notifier">
+                        <resource id="Magento_NotifierTemplate::template" title="Templates" translate="title" sortOrder="30" />
                     </resource>
                 </resource>
             </resource>

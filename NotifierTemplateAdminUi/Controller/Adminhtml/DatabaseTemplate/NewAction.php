@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateAdminUi\Controller\Adminhtml\DatabaseTemplate;
+namespace Magento\NotifierTemplateAdminUi\Controller\Adminhtml\DatabaseTemplate;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Page;
@@ -22,7 +22,7 @@ class NewAction extends Action implements HttpGetActionInterface
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_NotifierTemplate::template';
+    const ADMIN_RESOURCE = 'Magento_NotifierTemplate::template';
 
     /**
      * @inheritdoc
@@ -31,7 +31,7 @@ class NewAction extends Action implements HttpGetActionInterface
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $resultPage->setActiveMenu('MSP_NotifierTemplate::template');
+        $resultPage->setActiveMenu('Magento_NotifierTemplate::template');
         $resultPage->getConfig();
         $resultPage->getTitle();
         $resultPage->prepend(__('New Template'));

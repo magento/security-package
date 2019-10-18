@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Test\Integration\Mock;
+namespace Magento\NotifierTemplate\Test\Integration\Mock;
 
 use Magento\Framework\Module\Dir\Reader;
 

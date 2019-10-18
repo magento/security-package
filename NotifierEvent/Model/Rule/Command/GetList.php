@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model\Rule\Command;
+namespace Magento\NotifierEvent\Model\Rule\Command;
 
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use MSP\NotifierApi\Api\RuleSearchResultsInterface;
-use MSP\NotifierEvent\Model\ResourceModel\Rule\Collection;
-use MSP\NotifierEvent\Model\ResourceModel\Rule\CollectionFactory;
-use MSP\NotifierEventApi\Api\RuleSearchResultsInterfaceFactory;
+use Magento\NotifierApi\Api\RuleSearchResultsInterface;
+use Magento\NotifierEvent\Model\ResourceModel\Rule\Collection;
+use Magento\NotifierEvent\Model\ResourceModel\Rule\CollectionFactory;
+use Magento\NotifierEventApi\Api\RuleSearchResultsInterfaceFactory;
 
 /**
  * @inheritdoc
@@ -65,7 +65,7 @@ class GetList implements GetListInterface
      */
     public function execute(
         SearchCriteriaInterface $searchCriteria = null
-    ): \MSP\NotifierEventApi\Api\RuleSearchResultsInterface {
+    ): \Magento\NotifierEventApi\Api\RuleSearchResultsInterface {
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();
 

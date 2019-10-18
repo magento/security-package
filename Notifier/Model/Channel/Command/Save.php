@@ -6,12 +6,12 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model\Channel\Command;
+namespace Magento\Notifier\Model\Channel\Command;
 
 use Magento\Framework\Exception\CouldNotSaveException;
-use MSP\Notifier\Model\ResourceModel\Channel;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
-use MSP\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
+use Magento\Notifier\Model\ResourceModel\Channel;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
 use Psr\Log\LoggerInterface;
 
 /**

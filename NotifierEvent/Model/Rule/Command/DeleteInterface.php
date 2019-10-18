@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Model\Rule\Command;
+namespace Magento\NotifierEvent\Model\Rule\Command;
 
 use Magento\Framework\Exception\CouldNotDeleteException;
 
@@ -17,7 +17,7 @@ use Magento\Framework\Exception\CouldNotDeleteException;
  * that you should extend and implement to customize current behaviour, but NOT expected to be used (called) in the code
  * of business logic directly
  *
- * @see \MSP\NotifierEventApi\Api\RuleRepositoryInterface
+ * @see \Magento\NotifierEventApi\Api\RuleRepositoryInterface
  * @api
  */
 interface DeleteInterface

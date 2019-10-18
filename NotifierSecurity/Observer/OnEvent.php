@@ -5,11 +5,11 @@
  */
 declare(strict_types=1);
 
-namespace MSP\NotifierSecurity\Observer;
+namespace Magento\NotifierSecurity\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use MSP\NotifierSecurity\Model\NotifyByEvent;
+use Magento\NotifierSecurity\Model\NotifyByEvent;
 
 class OnEvent implements ObserverInterface
 {

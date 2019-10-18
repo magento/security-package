@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Controller\Adminhtml\Channel;
+namespace Magento\NotifierAdminUi\Controller\Adminhtml\Channel;
 
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\View\Result\Page;
@@ -22,7 +22,7 @@ class NewAction extends Action implements HttpGetActionInterface
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_Notifier::channel';
+    const ADMIN_RESOURCE = 'Magento_Notifier::channel';
 
     /**
      * @inheritdoc
@@ -31,7 +31,7 @@ class NewAction extends Action implements HttpGetActionInterface
     {
         /** @var Page $resultPage */
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
-        $resultPage->setActiveMenu('MSP_Notifier::channel');
+        $resultPage->setActiveMenu('Magento_Notifier::channel');
         $resultPage->getConfig();
         $resultPage->getTitle();
         $resultPage->prepend(__('New channel'));

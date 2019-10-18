@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Model\AdapterEngine;
+namespace Magento\NotifierApi\Model\AdapterEngine;
 
 /**
  * Notifier adapter interface - SPI

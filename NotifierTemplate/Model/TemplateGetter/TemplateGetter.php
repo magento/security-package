@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model\TemplateGetter;
+namespace Magento\NotifierTemplate\Model\TemplateGetter;
 
-use MSP\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
+use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
 class TemplateGetter implements TemplateGetterInterface
 {

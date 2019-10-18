@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Model;
+namespace Magento\NotifierTemplate\Model;
 
 use Magento\Framework\Config\Reader\Filesystem as ConfigReader;
 use Magento\Framework\Exception\NoSuchEntityException;

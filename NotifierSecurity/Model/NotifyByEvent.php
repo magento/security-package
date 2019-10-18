@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace MSP\NotifierSecurity\Model;
+namespace Magento\NotifierSecurity\Model;
 
 class NotifyByEvent implements NotifierInterface
 {

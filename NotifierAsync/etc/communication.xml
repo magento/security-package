@@ -10,8 +10,8 @@
 
     <topic
             name="msp_notifier.send_message"
-            schema="MSP\NotifierApi\Api\SendMessageInterface::execute"
+            schema="Magento\NotifierApi\Api\SendMessageInterface::execute"
             is_synchronous="false">
-        <handler name="mspNotifierSendMessage" type="MSP\NotifierAsync\Model\Consumer" method="process" />
+        <handler name="mspNotifierSendMessage" type="Magento\NotifierAsync\Model\Consumer" method="process" />
     </topic>
 </config>

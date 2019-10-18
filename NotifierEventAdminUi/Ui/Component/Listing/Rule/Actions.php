@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventAdminUi\Ui\Component\Listing\Rule;
+namespace Magento\NotifierEventAdminUi\Ui\Component\Listing\Rule;
 
 use Magento\Ui\Component\Listing\Columns\Column;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 class Actions extends Column
 {

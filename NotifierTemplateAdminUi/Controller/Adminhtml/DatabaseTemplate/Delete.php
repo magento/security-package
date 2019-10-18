@@ -6,20 +6,20 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateAdminUi\Controller\Adminhtml\DatabaseTemplate;
+namespace Magento\NotifierTemplateAdminUi\Controller\Adminhtml\DatabaseTemplate;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultInterface;
-use MSP\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 class Delete extends Action implements HttpGetActionInterface
 {
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'MSP_NotifierTemplate::template';
+    const ADMIN_RESOURCE = 'Magento_NotifierTemplate::template';
 
     /**
      * @var DatabaseTemplateRepositoryInterface

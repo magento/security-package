@@ -9,7 +9,7 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="admin">
         <route id="msp_notifier_event" frontName="msp_notifier_event">
-            <module name="MSP_NotifierEventAdminUi" before="Magento_Backend" />
+            <module name="Magento_NotifierEventAdminUi" before="Magento_Backend" />
         </route>
     </router>
 </config>

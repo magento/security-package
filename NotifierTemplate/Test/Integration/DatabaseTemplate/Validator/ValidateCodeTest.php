@@ -8,13 +8,13 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplate\Test\Integration\DatabaseTemplate\Validator;
+namespace Magento\NotifierTemplate\Test\Integration\DatabaseTemplate\Validator;
 
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Validator\ValidateCode;
-use MSP\NotifierTemplate\Model\DatabaseTemplate;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Validator\ValidateCode;
+use Magento\NotifierTemplate\Model\DatabaseTemplate;
 use PHPUnit\Framework\TestCase;
 
 class ValidateCodeTest extends TestCase

@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model;
+namespace Magento\Notifier\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use MSP\NotifierApi\Api\IsEnabledInterface;
+use Magento\NotifierApi\Api\IsEnabledInterface;
 
 class IsEnabled implements IsEnabledInterface
 {

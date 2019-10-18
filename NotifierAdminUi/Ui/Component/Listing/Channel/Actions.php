@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Ui\Component\Listing\Channel;
+namespace Magento\NotifierAdminUi\Ui\Component\Listing\Channel;
 
 use Magento\Ui\Component\Listing\Columns\Column;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 class Actions extends Column
 {

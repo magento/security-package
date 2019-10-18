@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventApi\Model;
+namespace Magento\NotifierEventApi\Model;
 
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 /**
  * Automatic template selector  (Service Provider Interface - SPI)

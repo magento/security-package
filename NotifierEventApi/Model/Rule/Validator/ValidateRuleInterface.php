@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEventApi\Model\Rule\Validator;
+namespace Magento\NotifierEventApi\Model\Rule\Validator;
 
 use Magento\Framework\Exception\ValidatorException;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 /**
  * Rule validator - SPI

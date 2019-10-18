@@ -8,13 +8,13 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Test\Integration\Rule\Validator;
+namespace Magento\NotifierEvent\Test\Integration\Rule\Validator;
 
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierEvent\Model\Rule\Validator\ValidateName;
-use MSP\NotifierEventApi\Api\Data\RuleInterface;
+use Magento\NotifierEvent\Model\Rule\Validator\ValidateName;
+use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use PHPUnit\Framework\TestCase;
 
 class ValidateNameTest extends TestCase

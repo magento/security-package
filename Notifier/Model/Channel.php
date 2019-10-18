@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Model;
+namespace Magento\Notifier\Model;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
-use MSP\NotifierApi\Api\Data\ChannelExtensionInterface;
-use MSP\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\ChannelExtensionInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -146,7 +146,7 @@ class Channel extends AbstractExtensibleModel implements ChannelInterface
     /**
      * @inheritdoc
      */
-    public function getExtensionAttributes(): ?\MSP\NotifierApi\Api\Data\ChannelExtensionInterface
+    public function getExtensionAttributes(): ?\Magento\NotifierApi\Api\Data\ChannelExtensionInterface
     {
         return $this->_getExtensionAttributes();
     }

@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator;
+namespace Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator;
 
 use Magento\Framework\Exception\ValidatorException;
-use MSP\NotifierApi\Model\AdapterEngine\ParamsValidatorInterface;
+use Magento\NotifierApi\Model\AdapterEngine\ParamsValidatorInterface;
 
 class IsEmail implements ParamsValidatorInterface
 {

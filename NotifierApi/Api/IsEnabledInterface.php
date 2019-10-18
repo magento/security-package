@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierApi\Api;
+namespace Magento\NotifierApi\Api;
 
 /**
  * Interface to check if the service is enabled or not

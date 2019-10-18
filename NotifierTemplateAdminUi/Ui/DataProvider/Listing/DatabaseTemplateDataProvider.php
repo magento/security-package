@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateAdminUi\Ui\DataProvider\Listing;
+namespace Magento\NotifierTemplateAdminUi\Ui\DataProvider\Listing;
 
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 

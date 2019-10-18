@@ -7,9 +7,9 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="MSP_NotifierQueue">
+    <module name="Magento_NotifierQueue">
         <sequence>
-            <module name="MSP_Notifier" />
+            <module name="Magento_Notifier" />
         </sequence>
     </module>
 </config>

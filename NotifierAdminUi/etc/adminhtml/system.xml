@@ -18,7 +18,7 @@
             <class>separator-top</class>
             <label>General</label>
             <tab>msp_notifier</tab>
-            <resource>MSP_Notifier::config</resource>
+            <resource>Magento_Notifier::config</resource>
 
             <group id="general" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1"
                    showInStore="1">

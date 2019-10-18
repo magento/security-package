@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace MSP\Notifier\Test\Integration;
+namespace Magento\Notifier\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\Notifier\Model\IsEnabled;
+use Magento\Notifier\Model\IsEnabled;
 use PHPUnit\Framework\TestCase;
 
 class IsEnabledTest extends TestCase

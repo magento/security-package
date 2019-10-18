@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierAdminUi\Model\Channel;
+namespace Magento\NotifierAdminUi\Model\Channel;
 
 /**
  * @api

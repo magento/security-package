@@ -8,6 +8,6 @@ declare(strict_types=1);
 
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'MSP_NotifierSecurity',
+    'Magento_NotifierSecurity',
     __DIR__
 );

@@ -8,9 +8,9 @@
 declare(strict_types=1);
 
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
-use MSP\NotifierTemplate\Model\DatabaseTemplate\Command\SaveInterface;
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
+use Magento\NotifierTemplate\Model\DatabaseTemplate\Command\SaveInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 $objectManager = Bootstrap::getObjectManager();
 ConfigureMockAdapter::execute();

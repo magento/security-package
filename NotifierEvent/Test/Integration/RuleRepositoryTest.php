@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierEvent\Test\Integration;
+namespace Magento\NotifierEvent\Test\Integration;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use MSP\NotifierApi\Model\SerializerInterface;
-use MSP\NotifierEvent\Model\Rule;
-use MSP\NotifierEvent\Model\RuleRepository;
+use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierEvent\Model\Rule;
+use Magento\NotifierEvent\Model\RuleRepository;
 use PHPUnit\Framework\TestCase;
 
 class RuleRepositoryTest extends TestCase
@@ -38,7 +38,7 @@ class RuleRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierEvent/Test/Integration/_files/rules.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierEvent/Test/Integration/_files/rules.php
      */
     public function testShouldGetList(): void
     {
@@ -48,7 +48,7 @@ class RuleRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierEvent/Test/Integration/_files/rules.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierEvent/Test/Integration/_files/rules.php
      */
     public function testShouldGetById(): void
     {
@@ -60,7 +60,7 @@ class RuleRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierEvent/Test/Integration/_files/rules.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierEvent/Test/Integration/_files/rules.php
      */
     public function testShouldTriggerExceptionWhenCodeIsNotFound(): void
     {
@@ -71,7 +71,7 @@ class RuleRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierEvent/Test/Integration/_files/rules.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierEvent/Test/Integration/_files/rules.php
      */
     public function testShouldDelete(): void
     {
@@ -89,7 +89,7 @@ class RuleRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierEvent/Test/Integration/_files/rules.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierEvent/Test/Integration/_files/rules.php
      */
     public function testShouldSave(): void
     {
@@ -111,7 +111,7 @@ class RuleRepositoryTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture ../../../../app/code/MSP/NotifierEvent/Test/Integration/_files/rules.php
+     * @magentoDataFixture ../../../../app/code/Magento/NotifierEvent/Test/Integration/_files/rules.php
      */
     public function testShouldCreate(): void
     {

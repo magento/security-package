@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-namespace MSP\NotifierTemplateApi\Model\DatabaseTemplate\Validator;
+namespace Magento\NotifierTemplateApi\Model\DatabaseTemplate\Validator;
 
-use MSP\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
+use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 class ValidateDatabaseTemplate implements ValidateDatabaseTemplateInterface
 {
