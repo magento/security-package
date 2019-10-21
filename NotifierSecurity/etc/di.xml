@@ -12,9 +12,9 @@
     <type name="Magento\Config\Model\Config\TypePool">
         <arguments>
             <argument name="environment" xsi:type="array">
-                <item name="magento_notifier_security/events/admin_login_failure" xsi:type="string">1</item>
-                <item name="magento_notifier_security/events/admin_configuration_changed" xsi:type="string">1</item>
-                <item name="magento_notifier_security/events/admin_new_user" xsi:type="string">1</item>
+                <item name="magento_notifier/security_events/admin_login_failure" xsi:type="string">1</item>
+                <item name="magento_notifier/security_events/admin_configuration_changed" xsi:type="string">1</item>
+                <item name="magento_notifier/security_events/admin_new_user" xsi:type="string">1</item>
             </argument>
         </arguments>
     </type>
@@ -37,27 +37,27 @@
     <virtualType name="Magento\NotifierSecurity\Model\NotifyByEvent\LoginFailure"
                  type="Magento\NotifierSecurity\Model\NotifyByEvent\NotifyByConfig">
         <arguments>
-            <argument name="channelConfigPath" xsi:type="string">magento_notifier_security/events/admin_login_failure</argument>
+            <argument name="channelConfigPath" xsi:type="string">magento_notifier/security_events/admin_login_failure</argument>
             <argument name="template" xsi:type="string">security_admin_login_failure</argument>
         </arguments>
     </virtualType>
     <virtualType name="Magento\NotifierSecurity\Model\NotifyByEvent\AdminConfigSave"
                  type="Magento\NotifierSecurity\Model\NotifyByEvent\NotifyByConfig">
         <arguments>
-            <argument name="channelConfigPath" xsi:type="string">magento_notifier_security/events/admin_configuration_changed</argument>
+            <argument name="channelConfigPath" xsi:type="string">magento_notifier/security_events/admin_configuration_changed</argument>
             <argument name="template" xsi:type="string">security_admin_configuration_changed</argument>
         </arguments>
     </virtualType>
     <type name="Magento\NotifierSecurity\Model\NotifyByEvent\AdminForgotPassword">
         <arguments>
-            <argument name="channelConfigPath" xsi:type="string">magento_notifier_security/events/admin_forgot_password</argument>
+            <argument name="channelConfigPath" xsi:type="string">magento_notifier/security_events/admin_forgot_password</argument>
             <argument name="template" xsi:type="string">security_admin_forgot_password</argument>
         </arguments>
     </type>
     <type name="Magento\NotifierSecurity\Model\NotifyByEvent\AdminUserSave">
         <arguments>
-            <argument name="channelConfigPathExisting" xsi:type="string">magento_notifier_security/events/admin_user_changed</argument>
-            <argument name="channelConfigPathNew" xsi:type="string">magento_notifier_security/events/admin_new_user</argument>
+            <argument name="channelConfigPathExisting" xsi:type="string">magento_notifier/security_events/admin_user_changed</argument>
+            <argument name="channelConfigPathNew" xsi:type="string">magento_notifier/security_events/admin_new_user</argument>
             <argument name="templateExisting" xsi:type="string">security_admin_user_changed</argument>
             <argument name="templateNew" xsi:type="string">security_admin_user_new</argument>
         </arguments>

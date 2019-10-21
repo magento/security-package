@@ -15,7 +15,7 @@
             <tab>magento_notifier</tab>
             <resource>Magento_Notifier::config</resource>
 
-            <group id="events" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1"
+            <group id="security_events" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1"
                    showInStore="1">
                 <label>Security notifications on events</label>
                 <field id="admin_login_failure" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0"
