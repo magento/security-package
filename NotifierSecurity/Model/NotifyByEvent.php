@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Magento\NotifierSecurity\Model;
 
+use Psr\Log\LoggerInterface;
+
 class NotifyByEvent implements NotifierInterface
 {
     /**
@@ -15,11 +17,20 @@ class NotifyByEvent implements NotifierInterface
     private $notifierByEvent;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @param LoggerInterface $logger
      * @param NotifierInterface[] $notifierByEvent
      */
-    public function __construct(array $notifierByEvent)
-    {
+    public function __construct(
+        LoggerInterface $logger,
+        array $notifierByEvent
+    ) {
         $this->notifierByEvent = $notifierByEvent;
+        $this->logger = $logger;
     }
 
     /**
@@ -27,8 +38,12 @@ class NotifyByEvent implements NotifierInterface
      */
     public function execute(string $eventName, array $eventData): void
     {
-        if (isset($this->notifierByEvent[$eventName])) {
-            $this->notifierByEvent[$eventName]->execute($eventName, $eventData);
+        try {
+            if (isset($this->notifierByEvent[$eventName])) {
+                $this->notifierByEvent[$eventName]->execute($eventName, $eventData);
+            }
+        } catch (\Exception $e) {
+            $this->logger->critical($e->getMessage());
         }
     }
 }
