@@ -17,7 +17,7 @@
             <column name="channel_id"/>
         </constraint>
         <constraint xsi:type="foreign" referenceId="Magento_NOTIFIER_QUEUE_CHANNEL_ID_Magento_NOTIFIER_CHANNEL_ID"
-                    table="magento_notifier_queue_channel" column="channel_id" referenceTable="msp_notifier_channel"
+                    table="magento_notifier_queue_channel" column="channel_id" referenceTable="magento_notifier_channel"
                     referenceColumn="channel_id" onDelete="CASCADE"/>
     </table>
 </schema>
