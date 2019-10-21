@@ -45,6 +45,6 @@ class SendMessage implements SendMessageInterface
     {
         $message = $this->getMessageText->execute($channelCode, $template, $params);
 
-        return $this->sendMessage->execute($channelCode, $message);
+        return $this->sendMessage->execute($channelCode, $message, $params);
     }
 }

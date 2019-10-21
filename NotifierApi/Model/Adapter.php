@@ -72,13 +72,13 @@ class Adapter implements AdapterInterface
     /**
      * @inheritdoc
      */
-    public function sendMessage(string $message, array $params = []): bool
+    public function sendMessage(string $message, array $configParams = [], array $params = []): bool
     {
         $message = trim($message);
         $this->validateMessage($message);
-        $this->validateParams($params);
+        $this->validateParams($configParams);
 
-        return $this->engine->execute($message, $params);
+        return $this->engine->execute($message, $configParams, $params);
     }
 
     /**

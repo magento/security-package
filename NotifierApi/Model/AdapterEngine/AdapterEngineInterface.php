@@ -18,8 +18,9 @@ interface AdapterEngineInterface
     /**
      * Execute engine and return true on success. Throw exception on failure.
      * @param string $message
+     * @param array $configParams
      * @param array $params
      * @return bool
      */
-    public function execute(string $message, array $params = []): bool;
+    public function execute(string $message, array $configParams = [], array $params = []): bool;
 }

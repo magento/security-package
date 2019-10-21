@@ -62,19 +62,20 @@ class Email implements AdapterEngineInterface
     /**
      * Execute engine and return true on success. Throw exception on failure.
      * @param string $message
+     * @param array $configParams
      * @param array $params
      * @return bool
      * @throws MailException
      */
-    public function execute(string $message, array $params = []): bool
+    public function execute(string $message, array $configParams = [], array $params = []): bool
     {
         $lines = explode("\n", $message);
 
         /** @var MailMessageInterface $emailMessage */
         $emailMessage = $this->mailMessageFactory->create();
 
-        $emailMessage->setFromAddress($params[self::ADAPTER_FROM], $params[self::ADAPTER_FROM_NAME]);
-        $emailMessage->addTo($params[self::ADAPTER_TO]);
+        $emailMessage->setFromAddress($configParams[self::ADAPTER_FROM], $configParams[self::ADAPTER_FROM_NAME]);
+        $emailMessage->addTo($configParams[self::ADAPTER_TO]);
         $emailMessage->setBodyText($message);
         $emailMessage->setSubject($lines[0]);
 

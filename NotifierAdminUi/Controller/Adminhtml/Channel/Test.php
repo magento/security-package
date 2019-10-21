@@ -56,7 +56,7 @@ class Test extends Action implements HttpGetActionInterface
         try {
             $channelId = (int)$this->getRequest()->getParam('channel_id');
             $channel = $this->channelRepository->get($channelId);
-            $this->sendMessage->execute($channel->getCode(), 'This is a test message', 'Test message');
+            $this->sendMessage->execute($channel->getCode(), 'This is a test message', ['test' => 'test message']);
 
             $this->messageManager->addSuccessMessage(__('Message successfully sent.'));
         } catch (\Exception $e) {

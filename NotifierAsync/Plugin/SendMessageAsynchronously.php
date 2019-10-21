@@ -60,6 +60,7 @@ class SendMessageAsynchronously
      * @param callable $proceed
      * @param string $channelCode
      * @param string $message
+     * @param array $params
      * @return bool
      * @throws NoSuchEntityException
      */
@@ -67,7 +68,8 @@ class SendMessageAsynchronously
         SendMessageInterface $subject,
         callable $proceed,
         string $channelCode,
-        string $message
+        string $message,
+        array $params = []
     ): bool {
         if (!$this->isEnabled->execute()) {
             return false;
@@ -82,10 +84,10 @@ class SendMessageAsynchronously
             $channel->getExtensionAttributes() === null ||
             !$channel->getExtensionAttributes()->getSendAsync()
         ) {
-            return $proceed($channelCode, $message);
+            return $proceed($channelCode, $message, $params);
         }
 
-        $this->enqueueMessage->execute($channelCode, $message);
+        $this->enqueueMessage->execute($channelCode, $message, $params);
         return true;
     }
 }

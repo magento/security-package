@@ -29,12 +29,14 @@ class EnqueueMessage
     /**
      * @param string $channelCode
      * @param string $message
+     * @param array $params
      */
-    public function execute(string $channelCode, string $message): void
+    public function execute(string $channelCode, string $message, array $params = []): void
     {
         $this->publisher->publish('magento_notifier.send_message', [
             'channelCode' => $channelCode,
-            'message' => $message
+            'message' => $message,
+            'params' => $params
         ]);
     }
 }

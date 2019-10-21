@@ -73,19 +73,16 @@ class Slack implements AdapterEngineInterface
     }
 
     /**
-     * Execute engine and return true on success. Throw exception on failure.
-     * @param string $message
-     * @param array $params
-     * @return bool
+     * @inheritDoc
      */
-    public function execute(string $message, array $params = []): bool
+    public function execute(string $message, array $configParams = [], array $params = []): bool
     {
-        $client = $this->getClient($params);
+        $client = $this->getClient($configParams);
 
         $client->attach([
             'fallback' => $message,
             'text' => $message,
-            'color' => $params[static::PARAM_COLOR] ?: static::DEFAULT_COLOR
+            'color' => $configParams[static::PARAM_COLOR] ?: static::DEFAULT_COLOR
         ])->send();
 
         return true;

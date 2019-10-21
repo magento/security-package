@@ -45,9 +45,9 @@ interface AdapterInterface
     /**
      * Send message to adapter. Return true on success, throws exception on failure.
      * @param string $message
+     * @param array $configParams
      * @param array $params
      * @return bool
-     * @throws \Magento\Framework\Exception\ValidatorException
      */
-    public function sendMessage(string $message, array $params = []): bool;
+    public function sendMessage(string $message, array $configParams = [], array $params = []): bool;
 }

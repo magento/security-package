@@ -58,7 +58,7 @@ class SendMessage implements SendMessageInterface
     /**
      * @inheritdoc
      */
-    public function execute(string $channelCode, string $message): bool
+    public function execute(string $channelCode, string $message, array $params = []): bool
     {
         if (!$this->isEnabled->execute()) {
             return false;
@@ -70,8 +70,8 @@ class SendMessage implements SendMessageInterface
         }
 
         $adapter = $this->adapterRepository->getAdapterByCode($channel->getAdapterCode());
-        $params = $this->serializer->unserialize($channel->getConfigurationJson());
+        $configParams = $this->serializer->unserialize($channel->getConfigurationJson());
 
-        return $adapter->sendMessage($message, $params);
+        return $adapter->sendMessage($message, $configParams, $params);
     }
 }

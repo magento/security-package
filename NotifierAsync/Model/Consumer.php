@@ -40,11 +40,12 @@ class Consumer
     /**
      * @param string $channelCode
      * @param string $message
+     * @param array $params
      */
-    public function process(string $channelCode, string $message): void
+    public function process(string $channelCode, string $message, array $params): void
     {
         $this->bypassFlag->setStatus(true);
-        $this->sendMessage->execute($channelCode, $message);
+        $this->sendMessage->execute($channelCode, $message, $params);
         $this->bypassFlag->setStatus(false);
     }
 }

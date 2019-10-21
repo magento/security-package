@@ -56,13 +56,13 @@ class Telegram implements AdapterEngineInterface
      * @inheritDoc
      * @throws LocalizedException
      */
-    public function execute(string $message, array $params = []): bool
+    public function execute(string $message, array $configParams = [], array $params = []): bool
     {
-        $client = $this->clientRepository->get($params[self::PARAM_TOKEN]);
+        $client = $this->clientRepository->get($configParams[self::PARAM_TOKEN]);
 
         try {
             $client->sendMessage(
-                $params[self::PARAM_CHAT_ID],
+                $configParams[self::PARAM_CHAT_ID],
                 $message,
                 'HTML'
             );

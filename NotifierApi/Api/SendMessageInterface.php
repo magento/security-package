@@ -18,8 +18,8 @@ interface SendMessageInterface
      * Send a message, return true, Exception on failure
      * @param string $channelCode
      * @param string $message
+     * @param array $params
      * @return bool
-     * @return \Magento\Framework\Exception\ValidatorException
      */
-    public function execute(string $channelCode, string $message): bool;
+    public function execute(string $channelCode, string $message, array $params = []): bool;
 }
