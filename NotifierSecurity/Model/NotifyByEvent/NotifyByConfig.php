@@ -9,7 +9,7 @@ namespace Magento\NotifierSecurity\Model\NotifyByEvent;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\NotifierSecurity\Model\NotifierInterface;
-use Magento\NotifierTemplateApi\Api\SendMessageInterface;
+use Magento\NotifierTemplateApi\Model\SendMessageInterface;
 
 class NotifyByConfig implements NotifierInterface
 {

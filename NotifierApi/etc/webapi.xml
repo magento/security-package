@@ -62,11 +62,4 @@
             <resource ref="Magento_NotifierApi::channel_edit"/>
         </resources>
     </route>
-
-    <route url="/V1/magento-notifier/send" method="POST">
-        <service class="Magento\NotifierApi\Api\SendMessageInterface" method="execute"/>
-        <resources>
-            <resource ref="Magento_NotifierApi::send"/>
-        </resources>
-    </route>
 </routes>

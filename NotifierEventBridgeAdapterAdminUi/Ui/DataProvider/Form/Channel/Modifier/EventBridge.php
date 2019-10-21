@@ -69,6 +69,7 @@ class EventBridge implements ModifierInterface
                         'data' => [
                             'config' => [
                                 'componentType' => Field::NAME,
+                                'elementTmpl' => 'Magento_NotifierEventBridgeAdapterAdminUi/form/element/password',
                                 'label' => __('API Secret'),
                                 'dataType' => 'text',
                                 'formElement' => 'input',

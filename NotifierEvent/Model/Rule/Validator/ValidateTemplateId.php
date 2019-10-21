@@ -10,6 +10,7 @@ namespace Magento\NotifierEvent\Model\Rule\Validator;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\ValidatorException;
+use Magento\NotifierApi\Model\SerializerInterface;
 use Magento\NotifierEvent\Model\GetAutomaticTemplateId;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use Magento\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
@@ -28,7 +29,6 @@ class ValidateTemplateId implements ValidateRuleInterface
     private $serializer;
 
     /**
-     * ValidateTemplateId constructor.
      * @param TemplateGetterInterface $templateGetter
      * @param SerializerInterface $serializer
      */

@@ -41,11 +41,4 @@
             <resource ref="Magento_NotifierTemplateApi::template_edit"/>
         </resources>
     </route>
-
-    <route url="/V1/magento-notifier-template/send" method="POST">
-        <service class="Magento\NotifierTemplateApi\Api\SendMessageInterface" method="execute"/>
-        <resources>
-            <resource ref="Magento_NotifierTemplateApi::send"/>
-        </resources>
-    </route>
 </routes>

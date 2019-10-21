@@ -23,7 +23,7 @@
     <preference for="Magento\Notifier\Model\Channel\Command\GetListInterface"
                 type="Magento\Notifier\Model\Channel\Command\GetList"/>
 
-    <preference for="Magento\NotifierApi\Api\SendMessageInterface" type="Magento\Notifier\Model\SendMessage"/>
+    <preference for="Magento\NotifierApi\Model\SendMessageInterface" type="Magento\Notifier\Model\SendMessage"/>
     <preference for="Magento\NotifierApi\Api\IsEnabledInterface" type="Magento\Notifier\Model\IsEnabled"/>
     <preference for="Magento\NotifierApi\Model\SerializerInterface" type="Magento\Notifier\Model\Serializer"/>
 

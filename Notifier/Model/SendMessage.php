@@ -11,7 +11,7 @@ namespace Magento\Notifier\Model;
 use Magento\NotifierApi\Api\AdaptersPoolInterface;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\IsEnabledInterface;
-use Magento\NotifierApi\Api\SendMessageInterface;
+use Magento\NotifierApi\Model\SendMessageInterface;
 use Magento\NotifierApi\Model\SerializerInterface;
 
 class SendMessage implements SendMessageInterface

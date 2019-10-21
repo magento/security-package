@@ -12,8 +12,7 @@ use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
-use Magento\NotifierApi\Api\Data\ChannelInterface;
-use Magento\NotifierApi\Api\SendMessageInterface;
+use Magento\NotifierApi\Model\SendMessageInterface;
 
 class Test extends Action implements HttpGetActionInterface
 {

@@ -11,7 +11,7 @@ namespace Magento\NotifierAsync\Plugin;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\IsEnabledInterface;
-use Magento\NotifierApi\Api\SendMessageInterface;
+use Magento\NotifierApi\Model\SendMessageInterface;
 use Magento\NotifierAsync\Model\BypassFlag;
 use Magento\NotifierAsync\Model\EnqueueMessage;
 

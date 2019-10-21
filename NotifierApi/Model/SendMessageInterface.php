@@ -6,11 +6,11 @@
 
 declare(strict_types=1);
 
-namespace Magento\NotifierApi\Api;
+namespace Magento\NotifierApi\Model;
 
 /**
  * Send notifier messages interface
- * @api
+ * @spi
  */
 interface SendMessageInterface
 {

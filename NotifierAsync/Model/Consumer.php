@@ -8,7 +8,8 @@ declare(strict_types=1);
 
 namespace Magento\NotifierAsync\Model;
 
-use Magento\NotifierApi\Api\SendMessageInterface;
+use Magento\NotifierApi\Model\SendMessageInterface;
+use Magento\NotifierApi\Model\SerializerInterface;
 
 /**
  * Consumer for asynchronous messages
@@ -26,26 +27,35 @@ class Consumer
     private $sendMessage;
 
     /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    /**
      * @param BypassFlag $bypassFlag
+     * @param SerializerInterface $serializer
      * @param SendMessageInterface $sendMessage
      */
     public function __construct(
         BypassFlag $bypassFlag,
+        SerializerInterface $serializer,
         SendMessageInterface $sendMessage
     ) {
         $this->bypassFlag = $bypassFlag;
         $this->sendMessage = $sendMessage;
+        $this->serializer = $serializer;
     }
 
     /**
      * @param string $channelCode
      * @param string $message
-     * @param array $params
+     * @param string $params
+     * @return void
      */
-    public function process(string $channelCode, string $message, array $params): void
+    public function process(string $channelCode, string $message, string $params): void
     {
         $this->bypassFlag->setStatus(true);
-        $this->sendMessage->execute($channelCode, $message, $params);
+        $this->sendMessage->execute($channelCode, $message, $this->serializer->unserialize($params));
         $this->bypassFlag->setStatus(false);
     }
 }

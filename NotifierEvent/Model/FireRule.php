@@ -15,7 +15,7 @@ use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
 use Magento\NotifierEventApi\Model\FireRuleInterface;
 use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
 use Magento\NotifierEventApi\Model\ThrottleInterface;
-use Magento\NotifierTemplateApi\Api\SendMessageInterface;
+use Magento\NotifierTemplateApi\Model\SendMessageInterface;
 use Psr\Log\LoggerInterface;
 
 class FireRule implements FireRuleInterface
