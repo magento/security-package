@@ -65,7 +65,7 @@ class GetMessageText implements GetMessageTextInterface
             return '';
         }
 
-        $this->decorateVariables->execute($params);
+        $params = $this->decorateVariables->execute($params);
 
         $this->template->setVariables($params);
         try {
