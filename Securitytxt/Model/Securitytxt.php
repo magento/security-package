@@ -56,43 +56,43 @@ class Securitytxt
     public function getSecuritytxt(): string
     {
         $contents = "";
-        if ($this->config->isEnabled()) {
-            //Contact information
-            if ($email = $this->config->getEmail()) {
-                $contents .= "Contact: mailto:" . $this->escaper->escapeHtml($email) . PHP_EOL;
-            }
-
-            if ($phone = $this->config->getPhone()) {
-                $contents .= "Contact: tel:" . $this->escaper->escapeHtml($phone) . PHP_EOL;
-            }
-
-            if ($contactPage = $this->config->getContactPage()) {
-                $contents .= "Contact: " . $this->escaper->escapeHtml($contactPage) . PHP_EOL;
-            }
-
-            //Other information
-            if ($encryption = $this->config->getEncryption()) {
-                $contents .= "Encryption: " . $this->escaper->escapeHtml($encryption) . PHP_EOL;
-            }
-
-            if ($acknowledgements = $this->config->getAcknowledgements()) {
-                $contents .= "Acknowledgements: " . $this->escaper->escapeHtml($acknowledgements) . PHP_EOL;
-            }
-
-            if ($policy = $this->config->getPolicy()) {
-                $contents .= "Policy: " . $this->escaper->escapeHtml($policy) . PHP_EOL;
-            }
-
-            if ($hiring = $this->config->getHiring()) {
-                $contents .= "Hiring: " . $this->escaper->escapeHtml($hiring) . PHP_EOL;
-            }
-
-            if ($preferredLang = $this->config->getPreferredLanguages()) {
-                $contents .= "Preferred-Languages: " . $this->escaper->escapeHtml($preferredLang) . PHP_EOL;
-            }
-
+        if (!$this->config->isEnabled()) {
             return $contents;
         }
+
+        if ($email = $this->config->getEmail()) {
+            $contents .= "Contact: mailto:" . $this->escaper->escapeHtml($email) . PHP_EOL;
+        }
+
+        if ($phone = $this->config->getPhone()) {
+            $contents .= "Contact: tel:" . $this->escaper->escapeHtml($phone) . PHP_EOL;
+        }
+
+        if ($contactPage = $this->config->getContactPage()) {
+            $contents .= "Contact: " . $this->escaper->escapeHtml($contactPage) . PHP_EOL;
+        }
+
+        if ($encryption = $this->config->getEncryption()) {
+            $contents .= "Encryption: " . $this->escaper->escapeHtml($encryption) . PHP_EOL;
+        }
+
+        if ($acknowledgements = $this->config->getAcknowledgements()) {
+            $contents .= "Acknowledgements: " . $this->escaper->escapeHtml($acknowledgements) . PHP_EOL;
+        }
+
+        if ($policy = $this->config->getPolicy()) {
+            $contents .= "Policy: " . $this->escaper->escapeHtml($policy) . PHP_EOL;
+        }
+
+        if ($hiring = $this->config->getHiring()) {
+            $contents .= "Hiring: " . $this->escaper->escapeHtml($hiring) . PHP_EOL;
+        }
+
+        if ($preferredLang = $this->config->getPreferredLanguages()) {
+            $contents .= "Preferred-Languages: " . $this->escaper->escapeHtml($preferredLang) . PHP_EOL;
+        }
+
+        return $contents;
     }
 
     /**

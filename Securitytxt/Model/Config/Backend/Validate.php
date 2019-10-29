@@ -10,91 +10,111 @@ namespace Magento\Securitytxt\Model\Config\Backend;
 
 use Magento\Framework\Validator\Exception as ValidatorException;
 use Magento\Securitytxt\Model\Config;
+use Magento\Framework\App\Config\Value;
 
-class Validate extends \Magento\Framework\App\Config\Value
+/**
+ * Security.txt configuration fields validator.
+ */
+class Validate extends Value
 {
     /**
-     * @return $this|\Magento\Framework\App\Config\Value
-     * @throws ValidatorException
+     * @inheritDoc
      */
     public function validateBeforeSave()
     {
-        $sectionPathStr = explode('/', $this->getPath());
-        $sectionName = reset($sectionPathStr);
+        $sectionPathString = explode('/', $this->getPath());
+        $sectionName = reset($sectionPathString);
 
-        if ($sectionName == Config::XML_SECURITYTXT_MODULE &&
-            $this->getData('group_id') == 'contact_information') {
-            $dataGroup = $this->getData()['groups'];
-            $contactInfoFields = $dataGroup['contact_information']['fields'];
-            $otherInfoFields = $dataGroup['other_information']['fields'];
-            $isEnabled = (bool)$dataGroup['general']['fields']['enabled']['value'];
-            $contactEmail = $contactInfoFields['email']['value'];
-            $contactPhone = $contactInfoFields['phone']['value'];
-            $contactWebpage = $contactInfoFields['contact_page']['value'];
-            $encryption = $otherInfoFields['encryption']['value'];
-            $acknowledgements = $otherInfoFields['acknowledgements']['value'];
-            $hiring = $otherInfoFields['hiring']['value'];
-            $policy = $otherInfoFields['policy']['value'];
-
-            if ($isEnabled) {
-                if ($contactEmail == '' && $contactPhone == '' && $contactWebpage == '') {
-                    throw new ValidatorException(__('At least one contact information is required.'));
-                }
-            } else {
-                return parent::validateBeforeSave();
-            }
-
-            if ($contactEmail != '' && !filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
-                throw new ValidatorException(
-                    __('Contact Information: Email validation failed. Please enter in correct format.')
-                );
-            }
-
-            if ($contactWebpage != '' && !$this->validateUrl($contactWebpage)) {
-                throw new ValidatorException(
-                    __('Contact Information: Contact Page URL should be in correct format and must start with HTTPS.')
-                );
-            }
-
-            if ($encryption != '' && !$this->validateUrl($encryption)) {
-                throw new ValidatorException(
-                    __('Other Information: Encryption URL should be in correct format and must start with HTTPS.')
-                );
-            }
-
-            if ($acknowledgements != '' && !$this->validateUrl($acknowledgements)) {
-                throw new ValidatorException(
-                    __('Other Information: Acknowledgements URL should be in correct format and must start with HTTPS.')
-                );
-            }
-
-            if ($hiring != '' && !$this->validateUrl($hiring)) {
-                throw new ValidatorException(
-                    __('Other Information: Hiring URL should be in correct format and must start with HTTPS.')
-                );
-            }
-
-            if ($policy != '' && !$this->validateUrl($policy)) {
-                throw new ValidatorException(
-                    __('Other Information: Policy URL should be in correct format and must start with HTTPS.')
-                );
-            }
+        if ($sectionName !== Config::XML_SECURITYTXT_MODULE || $this->getData('group_id') !== 'contact_information') {
+            return parent::validateBeforeSave();
         }
+
+        $dataGroup = $this->getData()['groups'];
+        $contactInformationFields = $dataGroup['contact_information']['fields'];
+        $otherInformationFields = $dataGroup['other_information']['fields'];
+        $isExtensionEnabled = (bool)$dataGroup['general']['fields']['enabled']['value'];
+        $contactEmail = $contactInformationFields['email']['value'];
+        $contactPhone = $contactInformationFields['phone']['value'];
+        $contactWebPage = $contactInformationFields['contact_page']['value'];
+
+        if ($isExtensionEnabled) {
+            if ($contactEmail === '' && $contactPhone === '' && $contactWebPage === '') {
+                throw new ValidatorException(__('At least one contact information is required.'));
+            }
+        } else {
+            return parent::validateBeforeSave();
+        }
+
+        $this->validateContactEmail($contactEmail);
+        $this->validateContactWebpageUrl($contactWebPage);
+        $this->validateUrlField("Contact Page URL", $contactWebPage);
+        $this->validateUrlField("Encryption URL", $otherInformationFields['encryption']['value']);
+        $this->validateUrlField("Acknowledgements URL", $otherInformationFields['acknowledgements']['value']);
+        $this->validateUrlField("Hiring URL", $otherInformationFields['hiring']['value']);
+        $this->validateUrlField("Policy URL", $otherInformationFields['policy']['value']);
+
         return parent::validateBeforeSave();
     }
 
     /**
-     * @param $url
+     * Validate url value to be secure.
+     *
+     * @param string $url
      * @return bool
      */
-    private function validateUrl(string $url): bool
+    private function validateSecureUrl(string $url): bool
     {
         $url = filter_var($url, FILTER_SANITIZE_STRING);
-        $parts = parse_url($url);
-
-        if (strtolower($parts['scheme']) == 'https' && filter_var($url, FILTER_VALIDATE_URL)) {
+        // phpcs:ignore Magento2.Functions.DiscouragedFunction
+        if (parse_url($url, PHP_URL_SCHEME) === 'https' && filter_var($url, FILTER_VALIDATE_URL)) {
             return true;
         }
+
         return false;
+    }
+
+    /**
+     * Validate contact email configuration field.
+     *
+     * @param string $contactEmail
+     * @return void
+     */
+    private function validateContactEmail(string $contactEmail): void
+    {
+        if ($contactEmail !== '' && !filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
+            throw new ValidatorException(
+                __('Contact Information: Email validation failed. Please enter in correct format.')
+            );
+        }
+    }
+
+    /**
+     * Validate contact web page configuration field.
+     *
+     * @param string $contactWebpage
+     * @return void
+     */
+    private function validateContactWebpageUrl(string $contactWebpage): void
+    {
+        if ($contactWebpage !== '' && !$this->validateSecureUrl($contactWebpage)) {
+            throw new ValidatorException(
+                __('Contact Information: Contact Page URL should be in correct format and must start with HTTPS.')
+            );
+        }
+    }
+
+    /**
+     * Validate Security.txt configuration field containing url.
+     *
+     * @param string $fieldName
+     * @param string $fieldValue
+     */
+    private function validateUrlField(string $fieldName, string $fieldValue): void
+    {
+        if ($fieldValue !== '' && !$this->validateSecureUrl($fieldValue)) {
+            throw new ValidatorException(
+                __('Other Information: %1 should be in correct format and must start with HTTPS.', $fieldName)
+            );
+        }
     }
 }

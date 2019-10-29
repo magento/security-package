@@ -8,4 +8,4 @@
 /** @var \Magento\Framework\View\Element\Template $block */
 $viewModel = $block->getData('view_model');
 $output = $viewModel->getSecuritytxt();?>
-<?= nl2br($output) ?>
+<?=  $block->escapeHtml(nl2br($output)) ?>

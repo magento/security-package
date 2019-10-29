@@ -11,6 +11,9 @@ namespace Magento\Securitytxt\Model;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
+/**
+ * Security.txt configuration model.
+ */
 class Config
 {
     const XML_SECURITYTXT_MODULE = 'magento_securitytxt_securitytxt';
@@ -35,7 +38,6 @@ class Config
     private $scopeConfig;
 
     /**
-     * Config constructor.
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(ScopeConfigInterface $scopeConfig)
@@ -44,7 +46,8 @@ class Config
     }
 
     /**
-     * Return true if module enabled
+     * Check if securitytxt module is enabled in configuration.
+     *
      * @return bool
      */
     public function isEnabled(): bool
@@ -53,7 +56,8 @@ class Config
     }
 
     /**
-     * Get email
+     * Get configuration for securitytxt email field.
+     *
      * @return string
      */
     public function getEmail(): string
@@ -62,7 +66,8 @@ class Config
     }
 
     /**
-     * Get telephone
+     * Get configuration for securitytxt phone field.
+     *
      * @return string
      */
     public function getPhone(): string
@@ -71,7 +76,8 @@ class Config
     }
 
     /**
-     * Get contact page url
+     * Get configuration for securitytxt contact page field.
+     *
      * @return string
      */
     public function getContactPage(): string
@@ -80,7 +86,8 @@ class Config
     }
 
     /**
-     * Get encryption url
+     * Get configuration for securitytxt encryption url field.
+     *
      * @return string
      */
     public function getEncryption(): string
@@ -89,7 +96,8 @@ class Config
     }
 
     /**
-     * Get acknowledgements url
+     * Get configuration for securitytxt acknowledgments field.
+     *
      * @return string
      */
     public function getAcknowledgements(): string
@@ -99,7 +107,8 @@ class Config
     }
 
     /**
-     * Get preferred languages codes
+     * Get configuration for securitytxt preferred languages field.
+     *
      * @return string
      */
     public function getPreferredLanguages(): string
@@ -109,7 +118,8 @@ class Config
     }
 
     /**
-     * Get hiring url
+     * Get configuration for securitytxt hiring url field.
+     *
      * @return string
      */
     public function getHiring(): string
@@ -118,7 +128,8 @@ class Config
     }
 
     /**
-     * Get policy url
+     * Get configuration for securitytxt policy url field.
+     *
      * @return string
      */
     public function getPolicy(): string
@@ -127,7 +138,8 @@ class Config
     }
 
     /**
-     * Get signature
+     * Get configuration for securitytxt signature field.
+     *
      * @return string
      */
     public function getSignature(): string

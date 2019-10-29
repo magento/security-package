@@ -10,13 +10,19 @@ namespace Magento\Securitytxt\Model\Config;
 
 use Magento\Config\Model\Config\CommentInterface;
 
+/**
+ * Signature field description
+ */
 class Signature implements CommentInterface
 {
     /**
+     * Get comment for signature field of security txt extension.
+     *
      * @param string $elementValue
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getCommentText($elementValue): string
+    public function getCommentText(string $elementValue): string
     {
         return "<a href='https://devdocs.magento.com/' target='_blank'>
                     Read instructions on how to generate signature

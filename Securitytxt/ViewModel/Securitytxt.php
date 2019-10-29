@@ -26,7 +26,6 @@ class Securitytxt implements ArgumentInterface
     private $securitytxt;
 
     /**
-     * Securitytxt constructor.
      * @param SecuritytxtModel $securitytxt
      */
     public function __construct(
@@ -36,6 +35,8 @@ class Securitytxt implements ArgumentInterface
     }
 
     /**
+     * Get formatted security.txt file content.
+     *
      * @return string
      */
     public function getSecuritytxt(): string
@@ -44,6 +45,8 @@ class Securitytxt implements ArgumentInterface
     }
 
     /**
+     * Get formated security.txt.sig file content.
+     *
      * @return string
      */
     public function getSecuritytxtsig(): string
