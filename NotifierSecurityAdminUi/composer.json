@@ -1,0 +1,34 @@
+{
+    "name": "magento/module-notifier-security-admin-ui",
+    "description": "Security notification backend module for Magento 2 notifier",
+    "require": {
+        "php": "~7.2.0 || ~7.3.0",
+        "magento/framework": "102.0.*",
+        "magento/module-backend": "101.0.*",
+        "magento/module-ui": "101.1.*",
+        "magento/module-notifier-security": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Riccardo Tempesta",
+            "email": "riccardo.tempesta@magespecialist.it"
+        },
+        {
+            "name": "Giacomo Mirabassi",
+            "email": "giacomo.mirabassi@magespecialist.it"
+        }
+    ],
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Magento\\NotifierSecurityAdminUi\\": ""
+        }
+    }
+}

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Magento\NotifierApi\Api\Data\ChannelInterface" type="Magento\Notifier\Model\Channel"/>
+    <preference for="Magento\NotifierApi\Api\ChannelRepositoryInterface" type="Magento\Notifier\Model\ChannelRepository"/>
+    <preference for="Magento\NotifierApi\Api\ChannelSearchResultsInterface"
+                type="Magento\Notifier\Model\ChannelSearchResults"/>
+
+    <preference for="Magento\Notifier\Model\Channel\Command\GetInterface" type="Magento\Notifier\Model\Channel\Command\Get"/>
+    <preference for="Magento\Notifier\Model\Channel\Command\GetByCodeInterface"
+                type="Magento\Notifier\Model\Channel\Command\GetByCode"/>
+    <preference for="Magento\Notifier\Model\Channel\Command\SaveInterface"
+                type="Magento\Notifier\Model\Channel\Command\Save"/>
+    <preference for="Magento\Notifier\Model\Channel\Command\DeleteInterface"
+                type="Magento\Notifier\Model\Channel\Command\Delete"/>
+    <preference for="Magento\Notifier\Model\Channel\Command\GetListInterface"
+                type="Magento\Notifier\Model\Channel\Command\GetList"/>
+
+    <preference for="Magento\NotifierApi\Model\SendMessageInterface" type="Magento\Notifier\Model\SendMessage"/>
+    <preference for="Magento\NotifierApi\Api\IsEnabledInterface" type="Magento\Notifier\Model\IsEnabled"/>
+    <preference for="Magento\NotifierApi\Model\SerializerInterface" type="Magento\Notifier\Model\Serializer"/>
+
+    <type name="Magento\NotifierApi\Model\Channel\Validator\ValidateChannel">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="code" xsi:type="object">Magento\Notifier\Model\Channel\Validator\ValidateCode</item>
+                <item name="name" xsi:type="object">Magento\Notifier\Model\Channel\Validator\ValidateName</item>
+                <item name="adapter" xsi:type="object">Magento\Notifier\Model\Channel\Validator\ValidateAdapter</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Notifier\Model\Serializer">
+        <arguments>
+            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Json</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="magento_notifier_send_message" xsi:type="object">Magento\Notifier\Command\SendMessage</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

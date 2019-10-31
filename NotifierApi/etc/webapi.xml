@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <route url="/V1/magento-notifier/is-enabled" method="GET">
+        <service class="Magento\NotifierApi\Api\IsEnabledInterface" method="execute"/>
+        <resources>
+            <resource ref="Magento_NotifierApi::notifier"/>
+        </resources>
+    </route>
+
+    <route url="/V1/magento-notifier/adapter" method="GET">
+        <service class="Magento\NotifierApi\Api\AdapterRepositoryInterface" method="getAdapters"/>
+        <resources>
+            <resource ref="Magento_NotifierApi::adapter"/>
+        </resources>
+    </route>
+
+    <route url="/V1/magento-notifier/adapter/:code" method="GET">
+        <service class="Magento\NotifierApi\Api\AdapterRepositoryInterface" method="getAdapterByCode"/>
+        <resources>
+            <resource ref="Magento_NotifierApi::adapter"/>
+        </resources>
+    </route>
+
+    <route url="/V1/magento-notifier/channel" method="GET">
+        <service class="Magento\NotifierApi\Api\ChannelRepositoryInterface" method="getList"/>
+        <resources>
+            <resource ref="Magento_NotifierApi::channel"/>
+        </resources>
+    </route>
+
+    <route url="/V1/magento-notifier/channel/:code" method="GET">
+        <service class="Magento\NotifierApi\Api\ChannelRepositoryInterface" method="getByCode"/>
+        <resources>
+            <resource ref="Magento_NotifierApi::channel"/>
+        </resources>
+    </route>
+
+    <route url="/V1/magento-notifier/channel/:channelId" method="DELETE">
+        <service class="Magento\NotifierApi\Api\ChannelRepositoryInterface" method="deleteById"/>
+        <resources>
+            <resource ref="Magento_NotifierApi::channel_edit"/>
+        </resources>
+    </route>
+
+    <route url="/V1/magento-notifier/channel" method="PUT">
+        <service class="Magento\NotifierApi\Api\ChannelRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Magento_NotifierApi::channel_edit"/>
+        </resources>
+    </route>
+    <route url="/V1/magento-notifier/channel" method="POST">
+        <service class="Magento\NotifierApi\Api\ChannelRepositoryInterface" method="save"/>
+        <resources>
+            <resource ref="Magento_NotifierApi::channel_edit"/>
+        </resources>
+    </route>
+</routes>
