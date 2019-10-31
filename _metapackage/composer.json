@@ -22,6 +22,7 @@
         "magento/module-notifier-telegram-adapter-admin-ui": "*",
         "magento/module-notifier-template": "*",
         "magento/module-notifier-template-admin-ui": "*",
-        "magento/module-notifier-template-api": "*"
+        "magento/module-notifier-template-api": "*",
+        "magento/module-securitytxt": "*"
     }
 }
