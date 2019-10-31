@@ -37,6 +37,7 @@
 -->
 
 ### Contribution checklist (*)
+ - [ ] Author has signed the [Adobe CLA](https://opensource.adobe.com/cla.html)
  - [ ] Pull request has a meaningful description of its purpose
  - [ ] All commits are accompanied by meaningful commit messages
  - [ ] All new or changed code is covered with unit/integration tests (if applicable)

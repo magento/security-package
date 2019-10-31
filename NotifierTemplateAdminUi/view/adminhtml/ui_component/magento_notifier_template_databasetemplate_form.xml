@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">magento_notifier_template_databasetemplate_form.magento_notifier_template_databasetemplate_data_source</item>
+            <item name="deps" xsi:type="string">magento_notifier_template_databasetemplate_form.magento_notifier_template_databasetemplate_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">General Information</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">magento_notifier_template_databasetemplate_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Magento\NotifierTemplateAdminUi\Ui\Component\Form\DatabaseTemplate\BackButton</item>
+            <item name="save" xsi:type="string">Magento\NotifierTemplateAdminUi\Ui\Component\Form\DatabaseTemplate\SaveButton</item>
+        </item>
+        <item name="childrenFromMeta" xsi:type="boolean">true</item>
+    </argument>
+    <dataSource name="magento_notifier_template_databasetemplate_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class"
+                      xsi:type="string">Magento\NotifierTemplateAdminUi\Ui\DataProvider\Form\DatabaseTemplateDataProvider</argument>
+            <argument name="name" xsi:type="string">magento_notifier_template_databasetemplate_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">template_id</argument>
+            <argument name="requestFieldName" xsi:type="string">template_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="magento_notifier_template/databasetemplate/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="general">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string">Template Configuration</item>
+                <item name="collapsible" xsi:type="boolean">false</item>
+            </item>
+        </argument>
+        <field name="template_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="visible" xsi:type="boolean">false</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">databasetemplate</item>
+                    <item name="dataScope" xsi:type="string">general.template_id</item>
+                </item>
+            </argument>
+        </field>
+        <field name="name">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Template name</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">databasetemplate</item>
+                    <item name="sortOrder" xsi:type="number">10</item>
+                    <item name="dataScope" xsi:type="string">general.name</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="code">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="label" xsi:type="string" translate="true">Identifier</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">databasetemplate</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                    <item name="dataScope" xsi:type="string">general.code</item>
+                    <item name="validation" xsi:type="array">
+                        <item name="required-entry" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
+        </field>
+        <field name="adapter_code">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Magento\NotifierTemplateAdminUi\Model\Source\DatabaseTemplate\Adapter</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Adapter Code</item>
+                    <item name="notice" xsi:type="string"
+                          translate="true">Select "Generic" id this template is not adapter specific</item>
+                    <item name="componentType" xsi:type="string">field</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="dataScope" xsi:type="string">general.adapter_code</item>
+                    <item name="sortOrder" xsi:type="number">30</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                    <item name="source" xsi:type="string">rule</item>
+                </item>
+            </argument>
+        </field>
+        <container name="template_container" component="Magento_Ui/js/form/components/group" sortOrder="40">
+            <argument name="data" xsi:type="array">
+                <item name="type" xsi:type="string">group</item>
+                <item name="config" xsi:type="array">
+                    <item name="breakLine" xsi:type="boolean">true</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+            <field name="template">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="label" xsi:type="string" translate="true">Template</item>
+                        <item name="formElement" xsi:type="string">textarea</item>
+                        <item name="source" xsi:type="string">databasetemplate</item>
+                        <item name="sortOrder" xsi:type="number">10</item>
+                        <item name="rows" xsi:type="number">10</item>
+                        <item name="dataScope" xsi:type="string">general.template</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+            <field name="template_copy">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="formElement" xsi:type="string">container</item>
+                        <item name="component" xsi:type="string">Magento_NotifierTemplateAdminUi/js/form/copy-template</item>
+                        <item name="elementTmpl" xsi:type="string">Magento_NotifierTemplateAdminUi/form/element/copy-template</item>
+                        <item name="sortOrder" xsi:type="number">20</item>
+                        <item name="dataScope" xsi:type="string">general.template</item>
+                        <item name="links" xsi:type="array">
+                            <item name="templateMessage" xsi:type="string">${$.parentName}.template:value</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+        </container>
+    </fieldset>
+</form>

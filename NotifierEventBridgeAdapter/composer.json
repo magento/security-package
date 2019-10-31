@@ -1,0 +1,34 @@
+{
+    "name": "magento/module-notifier-event-bridge-adapter",
+    "description": "Amazon event bridge adapter for Notifier framework",
+    "require": {
+        "php": "~7.2.0 || ~7.3.0",
+        "magento/framework": "102.0.*",
+        "magento/module-notifier-api": "^1.0",
+        "aws/aws-sdk-php": "^3.112"
+    },
+    "keywords": [
+        "magento",
+        "notification",
+        "tool"
+    ],
+    "authors": [
+        {
+            "name": "Riccardo Tempesta",
+            "email": "riccardo.tempesta@magespecialist.it"
+        }
+    ],
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Magento\\NotifierEventBridgeAdapter\\": ""
+        }
+    }
+}
