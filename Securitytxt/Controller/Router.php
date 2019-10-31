@@ -78,16 +78,41 @@ class Router implements RouterInterface
         }
 
         $modules = $this->routeConfig->getModulesByFrontName('securitytxt');
-        if (empty($modules)) {
+        if (empty($modules) || !$this->config->isEnabled()) {
             return null;
         }
 
-        if ($this->config->isEnabled()) {
-            $actionClassName = $this->actionList->get($modules[0], null, 'index', $action);
-            $actionInstance = $this->actionFactory->create($actionClassName);
-            return $actionInstance;
-        } else {
+        if ($action === 'securitytxt' && !$this->isContactInformationAvailable()) {
             return null;
         }
+        if ($action === 'securitytxtsig' && !$this->isSignatureAvailable()) {
+            return null;
+        }
+
+        $actionClassName = $this->actionList->get($modules[0], null, 'index', $action);
+        $actionInstance = $this->actionFactory->create($actionClassName);
+        return $actionInstance;
+    }
+
+    /**
+     * Check if security.txt.sig file content is available.
+     *
+     * @return bool
+     */
+    private function isSignatureAvailable(): bool
+    {
+        return !empty($this->config->getSignature());
+    }
+
+    /**
+     * Check if any of required security.txt contact information is configured.
+     *
+     * @return bool
+     */
+    private function isContactInformationAvailable(): bool
+    {
+        return !empty($this->config->getEmail()) ||
+            !empty($this->config->getPhone()) ||
+            !empty($this->config->getContactPage());
     }
 }

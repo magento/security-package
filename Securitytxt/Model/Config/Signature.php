@@ -22,7 +22,7 @@ class Signature implements CommentInterface
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getCommentText(string $elementValue): string
+    public function getCommentText($elementValue): string
     {
         return "<a href='https://devdocs.magento.com/' target='_blank'>
                     Read instructions on how to generate signature

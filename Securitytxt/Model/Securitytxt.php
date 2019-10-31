@@ -10,7 +10,6 @@ namespace Magento\Securitytxt\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Escaper;
-use Magento\Securitytxt\Model\Config;
 
 /**
  * Returns data for security.txt file
@@ -33,7 +32,6 @@ class Securitytxt
     private $escaper;
 
     /**
-     * Securitytxt constructor.
      * @param ScopeConfigInterface $scopeConfig
      * @param Escaper $escaper
      * @param Config $config
@@ -56,43 +54,33 @@ class Securitytxt
     public function getSecuritytxt(): string
     {
         $contents = "";
-        if (!$this->config->isEnabled()) {
-            return $contents;
-        }
 
-        if ($email = $this->config->getEmail()) {
-            $contents .= "Contact: mailto:" . $this->escaper->escapeHtml($email) . PHP_EOL;
-        }
-
-        if ($phone = $this->config->getPhone()) {
-            $contents .= "Contact: tel:" . $this->escaper->escapeHtml($phone) . PHP_EOL;
-        }
-
-        if ($contactPage = $this->config->getContactPage()) {
-            $contents .= "Contact: " . $this->escaper->escapeHtml($contactPage) . PHP_EOL;
-        }
-
-        if ($encryption = $this->config->getEncryption()) {
-            $contents .= "Encryption: " . $this->escaper->escapeHtml($encryption) . PHP_EOL;
-        }
-
-        if ($acknowledgements = $this->config->getAcknowledgements()) {
-            $contents .= "Acknowledgements: " . $this->escaper->escapeHtml($acknowledgements) . PHP_EOL;
-        }
-
-        if ($policy = $this->config->getPolicy()) {
-            $contents .= "Policy: " . $this->escaper->escapeHtml($policy) . PHP_EOL;
-        }
-
-        if ($hiring = $this->config->getHiring()) {
-            $contents .= "Hiring: " . $this->escaper->escapeHtml($hiring) . PHP_EOL;
-        }
-
-        if ($preferredLang = $this->config->getPreferredLanguages()) {
-            $contents .= "Preferred-Languages: " . $this->escaper->escapeHtml($preferredLang) . PHP_EOL;
-        }
+        $this->addSecurityTxtLine("Contact: mailto:", $this->config->getEmail(), $contents);
+        $this->addSecurityTxtLine("Contact: tel:", $this->config->getPhone(), $contents);
+        $this->addSecurityTxtLine("Contact: ", $this->config->getContactPage(), $contents);
+        $this->addSecurityTxtLine("Encryption: ", $this->config->getEncryption(), $contents);
+        $this->addSecurityTxtLine("Acknowledgements: ", $this->config->getAcknowledgements(), $contents);
+        $this->addSecurityTxtLine("Policy: ", $this->config->getPolicy(), $contents);
+        $this->addSecurityTxtLine("Hiring: ", $this->config->getHiring(), $contents);
+        $this->addSecurityTxtLine("Preferred-Languages: ", $this->config->getPreferredLanguages(), $contents);
 
         return $contents;
+    }
+
+    /**
+     * Add content line to security.txt
+     *
+     * @param string $title
+     * @param string $content
+     * @param string $subject
+     */
+    private function addSecurityTxtLine(string $title, string $content, string &$subject): void
+    {
+        if (empty($content)) {
+            return;
+        }
+
+        $subject .= sprintf("%s%s\n", $title, $this->escaper->escapeHtml($content));
     }
 
     /**

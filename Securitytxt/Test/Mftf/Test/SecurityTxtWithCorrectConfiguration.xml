@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="SecurityTxtWithCorrectConfiguration">
+        <annotations>
+            <features value="Security.txt"/>
+            <stories value="Security.txt extension"/>
+            <title value="Security.txt should display on frontend as configured."/>
+            <description value="Security.txt should display on frontend as configured."/>
+            <severity value="BLOCKER"/>
+            <testCaseId value="SECURITYTXT-2"/>
+            <group value="securitytxt"/>
+        </annotations>
+        <after>
+            <magentoCLI command="config:set {{DisableSecurityTxt.path}} {{DisableSecurityTxt.value}}" stepKey="disableSecurityTxt"/>
+        </after>
+
+        <actionGroup ref="LoginAsAdmin" stepKey="LoginAsAdmin"/>
+        <actionGroup ref="FillSecurityTxtConfigurationActionGroup" stepKey="fillSecurityTxtConfiguration"/>
+        <actionGroup ref="AssertFullSecurityTxtConfiguration" stepKey="assertSecurityTxtContent"/>
+        <actionGroup ref="OpenSecurityTxtSignaturePage" stepKey="openSecurityTxtSignature"/>
+        <see userInput="{{SecurityTxtConfigurationValue.signature}}" stepKey="seeSecurityTxtSignature"/>
+    </test>
+</tests>

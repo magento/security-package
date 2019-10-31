@@ -18,7 +18,10 @@ use Magento\Framework\App\Config\Value;
 class Validate extends Value
 {
     /**
-     * @inheritDoc
+     * Validate security.txt configuration fields before saving it.
+     *
+     * @return Value
+     * @throws ValidatorException
      */
     public function validateBeforeSave()
     {
@@ -78,6 +81,7 @@ class Validate extends Value
      *
      * @param string $contactEmail
      * @return void
+     * @throws ValidatorException
      */
     private function validateContactEmail(string $contactEmail): void
     {
@@ -93,6 +97,7 @@ class Validate extends Value
      *
      * @param string $contactWebpage
      * @return void
+     * @throws ValidatorException
      */
     private function validateContactWebpageUrl(string $contactWebpage): void
     {
@@ -108,6 +113,7 @@ class Validate extends Value
      *
      * @param string $fieldName
      * @param string $fieldValue
+     * @throws ValidatorException
      */
     private function validateUrlField(string $fieldName, string $fieldValue): void
     {

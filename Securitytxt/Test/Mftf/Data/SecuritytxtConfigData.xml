@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:DataGenerator/etc/dataProfileSchema.xsd">
+    <entity name="EnableSecurityTxt">
+        <data key="path">magento_securitytxt_securitytxt/general/enabled</data>
+        <data key="value">1</data>
+    </entity>
+    <entity name="DisableSecurityTxt">
+        <data key="path">magento_securitytxt_securitytxt/general/enabled</data>
+        <data key="value">0</data>
+    </entity>
+    <entity name="SecurityTxtConfigurationValue">
+        <data key="securitytxtEnabled">Yes</data>
+        <data key="securitytxtDisabled">No</data>
+        <data key="contactEmail" unique="prefix">security@example.com</data>
+        <data key="contactPhone" unique="suffix">+1-555-555-5555</data>
+        <data key="contactWebPage" unique="suffix">https://example.com</data>
+        <data key="encryptionWebPage" unique="suffix">https://example.com/encryption</data>
+        <data key="acknowledgementsWebPage" unique="suffix">https://example.com/acknowledgements</data>
+        <data key="hiringWebPage" unique="suffix">https://example.com/hiring</data>
+        <data key="policyWebPage" unique="suffix">https://example.com/poliocy</data>
+        <data key="preferredLanguages">en,es</data>
+        <data key="signature" unique="suffix">OpenPGP/Signature</data>
+    </entity>
+    <entity name="SecurityTxtConfigurationPath">
+        <data key="contactEmail">magento_securitytxt_securitytxt/contact_information/email</data>
+        <data key="contactPhone">magento_securitytxt_securitytxt/contact_information/phone</data>
+        <data key="contactWebPage">magento_securitytxt_securitytxt/contact_information/contact_page</data>
+        <data key="encryptionWebPage">magento_securitytxt_securitytxt/other_information/encryption</data>
+        <data key="acknowledgementsWebPage">magento_securitytxt_securitytxt/other_information/acknowledgements</data>
+        <data key="hiringWebPage">magento_securitytxt_securitytxt/other_information/hiring</data>
+        <data key="policyWebPage">magento_securitytxt_securitytxt/other_information/policy</data>
+        <data key="preferredLanguages">magento_securitytxt_securitytxt/other_information/preferred_languages</data>
+        <data key="signature">magento_securitytxt_securitytxt/other_information/signature_text</data>
+    </entity>
+</entities>

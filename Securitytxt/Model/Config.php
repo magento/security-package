@@ -31,7 +31,6 @@ class Config
 
     const XML_SECURITYTXT_SIGNATURE = self::XML_SECURITYTXT_MODULE . '/other_information/signature_text';
 
-
     /**
      * @var ScopeConfigInterface
      */

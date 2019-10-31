@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="AssertFullSecurityTxtConfiguration">
+        <annotations>
+            <description>Assert security.txt file is rendered as configured.</description>
+        </annotations>
+        <arguments>
+            <argument name="SecurityTxtConfigurationValue" defaultValue="SecurityTxtConfigurationValue"/>
+        </arguments>
+
+        <amOnUrl url="{{_ENV.MAGENTO_BASE_URL}}{{SecurityTxtPageData.request_path}}" stepKey="amOnSecurityTxtPage"/>
+        <waitForPageLoad stepKey="waitForStorefrontPageLoad"/>
+        <see userInput="Contact: mailto:{{SecurityTxtConfigurationValue.contactEmail}}" stepKey="seeSecurityTxtEmail"/>
+        <see userInput="Contact: tel:{{SecurityTxtConfigurationValue.contactPhone}}" stepKey="seeSecurityTxtPhone"/>
+        <see userInput="Contact: {{SecurityTxtConfigurationValue.contactWebPage}}" stepKey="seeSecurityTxtContactWebPage"/>
+        <see userInput="Encryption: {{SecurityTxtConfigurationValue.encryptionWebPage}}" stepKey="seeSecurityTxtEncryptionWebPage"/>
+        <see userInput="Acknowledgements: {{SecurityTxtConfigurationValue.acknowledgementsWebPage}}" stepKey="seeSecurityTxtAcknowledgementsWebPage"/>
+        <see userInput="Policy: {{SecurityTxtConfigurationValue.policyWebPage}}" stepKey="seeSecurityTxtPolicyWebPage"/>
+        <see userInput="Hiring: {{SecurityTxtConfigurationValue.hiringWebPage}}" stepKey="seeSecurityTxtHiringWebPage"/>
+        <see userInput="Preferred-Languages: {{SecurityTxtConfigurationValue.preferredLanguages}}" stepKey="seeSecurityTxtPreferredLanguages"/>
+        <dontSee userInput="{{SecurityTxtConfigurationValue.signature}}" stepKey="dontSeeSecurityTxtSignature"/>
+    </actionGroup>
+</actionGroups>
