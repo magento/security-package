@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="FillSecurityTxtConfigurationActionGroup">
+        <annotations>
+            <description>Fill Security.txt system configuration.</description>
+        </annotations>
+        <arguments>
+            <argument name="SecurityTxtConfiguration" defaultValue="SecurityTxtConfigurationValue"/>
+            <argument name="SecurityTxtEnabledConfiguration" defaultValue="EnableSecurityTxt"/>
+        </arguments>
+
+        <amOnPage url="{{AdminSecurityTxtConfigurationPage.url}}" stepKey="amOnSecurityTxtConfigurationPage"/>
+        <waitForPageLoad stepKey="waitForSecurityTxtConfigurationLoad"/>
+
+        <conditionalClick selector="{{AdminConfigureSecurityTxtSection.general}}" dependentSelector="{{AdminConfigureSecurityTxtSection.generalOpen}}" stepKey="openGeneralSection" visible="false"/>
+        <selectOption selector="{{AdminConfigureSecurityTxtSection.enabled}}" userInput="{{SecurityTxtConfiguration.securitytxtEnabled}}" stepKey="fillEnabled" />
+
+        <conditionalClick selector="{{AdminConfigureSecurityTxtSection.contactInformation}}" dependentSelector="{{AdminConfigureSecurityTxtSection.contactInformationOpen}}" stepKey="openContactSection" visible="false"/>
+        <fillField selector="{{AdminConfigureSecurityTxtSection.contactEmail}}" userInput="{{SecurityTxtConfiguration.contactEmail}}" stepKey="fillContactEmail"/>
+        <fillField selector="{{AdminConfigureSecurityTxtSection.contactPhone}}" userInput="{{SecurityTxtConfiguration.contactPhone}}" stepKey="fillContactPhone"/>
+        <fillField selector="{{AdminConfigureSecurityTxtSection.contactWebPage}}" userInput="{{SecurityTxtConfiguration.contactWebPage}}" stepKey="fillEnabledContactWebPage"/>
+
+        <conditionalClick selector="{{AdminConfigureSecurityTxtSection.otherInformation}}" dependentSelector="{{AdminConfigureSecurityTxtSection.otherInformationOpen}}" stepKey="openOtherSection" visible="false"/>
+
+        <fillField selector="{{AdminConfigureSecurityTxtSection.encryption}}" userInput="{{SecurityTxtConfiguration.encryptionWebPage}}" stepKey="fillEncryption"/>
+        <fillField selector="{{AdminConfigureSecurityTxtSection.hiring}}" userInput="{{SecurityTxtConfiguration.hiringWebPage}}" stepKey="fillHiring"/>
+        <fillField selector="{{AdminConfigureSecurityTxtSection.acknowledgements}}" userInput="{{SecurityTxtConfiguration.acknowledgementsWebPage}}" stepKey="fillAcknowledgments"/>
+        <fillField selector="{{AdminConfigureSecurityTxtSection.preferredLanguages}}" userInput="{{SecurityTxtConfiguration.preferredLanguages}}" stepKey="fillLanguages"/>
+        <fillField selector="{{AdminConfigureSecurityTxtSection.policy}}" userInput="{{SecurityTxtConfiguration.policyWebPage}}" stepKey="fillPolicy"/>
+        <fillField selector="{{AdminConfigureSecurityTxtSection.signature}}" userInput="{{SecurityTxtConfiguration.signature}}" stepKey="fillSignature"/>
+
+        <click selector="{{AdminConfigureSecurityTxtSection.save}}" stepKey="saveSecurityTxtConfiguration"/>
+        <waitForPageLoad stepKey="waitForSecurityTxtSuccessPageLoad"/>
+        <see userInput="You saved the configuration." stepKey="seeSuccessMessage"/>
+        <magentoCLI command="cache:clean config full_page" stepKey="cleanInvalidatedCaches"/>
+    </actionGroup>
+</actionGroups>

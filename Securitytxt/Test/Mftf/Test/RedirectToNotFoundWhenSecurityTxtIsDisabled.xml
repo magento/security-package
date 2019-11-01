@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="RedirectToNotFoundWhenSecurityTxtIsDisabled">
+        <annotations>
+            <features value="Security.txt"/>
+            <stories value="Security.txt extension"/>
+            <title value="Security.txt file should redirect to 404 page when extension is disabled."/>
+            <description value="Security.txt file should redirect to 404 page when extension is disabled."/>
+            <severity value="CRITICAL"/>
+            <testCaseId value="SECURITYTXT-1"/>
+            <group value="securitytxt"/>
+        </annotations>
+        <before>
+            <magentoCLI command="config:set {{DisableSecurityTxt.path}} {{DisableSecurityTxt.value}}" stepKey="disableSecurityTxt"/>
+        </before>
+        <actionGroup ref="OpenSecurityTxtPage" stepKey="openSecurityTxt"/>
+        <see userInput="Whoops, our bad..." stepKey="seeWhoopsForSecurityTxt"/>
+        <actionGroup ref="OpenSecurityTxtSignaturePage" stepKey="openSecurityTxtSignature"/>
+        <see userInput="Whoops, our bad..." stepKey="seeWhoopsForSecurityTxtSignature"/>
+    </test>
+</tests>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="securitytxtResultPage" type="Magento\Framework\View\Result\Page">
+        <arguments>
+            <argument name="template" xsi:type="string">Magento_Securitytxt::securitytxt.phtml</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="securitytxtResultPageFactory" type="Magento\Framework\View\Result\PageFactory">
+        <arguments>
+            <argument name="instanceName" xsi:type="string">securitytxtResultPage</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Securitytxt\Controller\Index\Index">
+        <arguments>
+            <argument name="resultPageFactory" xsi:type="object">securitytxtResultPageFactory</argument>
+        </arguments>
+    </type>
+</config>

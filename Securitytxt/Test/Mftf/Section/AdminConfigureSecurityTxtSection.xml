@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="AdminConfigureSecurityTxtSection">
+        <element name="general" type="block" selector="#magento_securitytxt_securitytxt_general-head"/>
+        <element name="contactInformation" type="block" selector="#magento_securitytxt_securitytxt_contact_information-head"/>
+        <element name="otherInformation" type="block" selector="#magento_securitytxt_securitytxt_other_information-head"/>
+        <element name="generalOpen" type="block" selector="#magento_securitytxt_securitytxt_general-head.open"/>
+        <element name="contactInformationOpen" type="block" selector="#magento_securitytxt_securitytxt_contact_information-head.open"/>
+        <element name="otherInformationOpen" type="block" selector="#magento_securitytxt_securitytxt_other_information-head.open"/>
+
+        <element name="enabled" type="select" selector="#magento_securitytxt_securitytxt_general_enabled"/>
+
+        <element name="contactEmail" type="input" selector="#magento_securitytxt_securitytxt_contact_information_email"/>
+        <element name="contactPhone" type="input" selector="#magento_securitytxt_securitytxt_contact_information_phone"/>
+        <element name="contactWebPage" type="input" selector="#magento_securitytxt_securitytxt_contact_information_contact_page"/>
+
+        <element name="encryption" type="input" selector="#magento_securitytxt_securitytxt_other_information_encryption"/>
+        <element name="acknowledgements" type="input" selector="#magento_securitytxt_securitytxt_other_information_acknowledgements"/>
+        <element name="preferredLanguages" type="input" selector="#magento_securitytxt_securitytxt_other_information_preferred_languages"/>
+        <element name="hiring" type="input" selector="#magento_securitytxt_securitytxt_other_information_hiring"/>
+        <element name="policy" type="input" selector="#magento_securitytxt_securitytxt_other_information_policy"/>
+        <element name="signature" type="textarea" selector="#magento_securitytxt_securitytxt_other_information_signature_text"/>
+
+        <element name="save" type="button" selector="#save" timeout="30"/>
+    </section>
+</sections>
