@@ -13,15 +13,10 @@
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
-                            <resource id="MSP_SecuritySuite::config"
-                                      title="Security Suite"
+                            <resource id="Magento_ReCaptcha::config"
+                                      title="ReCaptcha"
                                       translate="title"
-                                      sortOrder="40">
-                                <resource id="Magento_ReCaptcha::config"
-                                          title="ReCaptcha"
-                                          translate="title"
-                                          sortOrder="10" />
-                            </resource>
+                                      sortOrder="10" />
                         </resource>
                     </resource>
                 </resource>

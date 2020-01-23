@@ -16,7 +16,7 @@ use Magento\Framework\Setup\Patch\PatchVersionInterface;
  * Change namespace from MageSpecialist to Magento
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ChangeNamespace implements DataPatchInterface, PatchVersionInterface
+class CopyConfigFromOldModule implements DataPatchInterface, PatchVersionInterface
 {
     /**
      * @var ModuleDataSetupInterface
@@ -48,23 +48,8 @@ class ChangeNamespace implements DataPatchInterface, PatchVersionInterface
      */
     public function apply()
     {
-        // Previous versions configuration
-        $this->moveConfig([
-            'msp_securitysuite/recaptcha' => 'msp_securitysuite_recaptcha/general'
-        ]);
-        $this->moveConfig([
-            'msp_securitysuite_recaptcha/general/enabled_frontend' => 'msp_securitysuite_recaptcha/frontend/enabled',
-            'msp_securitysuite_recaptcha/general/enabled_backend' => 'msp_securitysuite_recaptcha/backend/enabled'
-        ]);
-        $this->moveConfig([
-            'msp_securitysuite_recaptcha/frontend/type' => 'msp_securitysuite_recaptcha/general/type'
-        ]);
-
-        // Move to new version configuration scheme
-        $this->moveConfig([
-            'msp_securitysuite_recaptcha/general' => 'recaptcha/general',
-            'msp_securitysuite_recaptcha/backend' => 'recaptcha/backend',
-            'msp_securitysuite_recaptcha/frontend' => 'recaptcha/frontend'
+        $this->copyConfig([
+            'msp_securitysuite_recaptcha' => 'recaptcha'
         ]);
     }
 
@@ -73,18 +58,30 @@ class ChangeNamespace implements DataPatchInterface, PatchVersionInterface
      *
      * @param array $paths
      */
-    private function moveConfig(array $paths): void
+    private function copyConfig(array $paths): void
     {
         $connection = $this->moduleDataSetup->getConnection();
-        $configData = $this->moduleDataSetup->getTable('core_config_data');
+
+        $configDataTable = $this->moduleDataSetup->getTable('core_config_data');
+
         foreach ($paths as $srcPath => $dstPath) {
             $value = $this->scopeConfig->getValue($srcPath);
             if (is_array($value)) {
                 foreach (array_keys($value) as $v) {
-                    $this->moveConfig([$srcPath . '/' . $v => $dstPath . '/' . $v]);
+                    $this->copyConfig([$srcPath . '/' . $v => $dstPath . '/' . $v]);
                 }
             } else {
-                $connection->update($configData, ['path' => $dstPath], 'path=' . $connection->quote($srcPath));
+                $sel = $connection->select()
+                    ->from($configDataTable)
+                    ->where('path = ?', $srcPath);
+
+                $rows = $connection->fetchAll($sel);
+                foreach ($rows as $row) {
+                    unset($row['config_id']);
+                    $row['path'] = $dstPath;
+
+                    $connection->insert($configDataTable, $row);
+                }
             }
         }
     }
