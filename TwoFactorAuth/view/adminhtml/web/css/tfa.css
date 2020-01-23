@@ -1,0 +1,64 @@
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+.tfa-trusted-devices {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.tfa-trusted-devices-name {
+
+}
+
+.tfa-trusted-devices-row,
+.tfa-trusted-devices-head {
+    display: table-row;
+}
+
+.tfa-trusted-devices-revoke {
+    width: 80px;
+    text-align: right;
+}
+
+.tfa-trusted-devices-last-ip {
+    width: 90px;
+}
+
+.tfa-trusted-devices-date {
+    width: 140px;
+}
+
+.tfa-trusted-devices-head div,
+.tfa-trusted-devices-row div {
+    display: table-cell;
+    height: 3rem;
+    vertical-align: middle;
+    border-bottom: 2px solid #f0f0f0;
+    font-size: 85%;
+}
+
+.tfa-trusted-devices-head div {
+    font-weight: bold;
+    border-bottom: 5px solid #ffffff;
+}
+
+.tfa-trusted-devices-revoke button {
+    font-size: 85%;
+}
+
+.tfa-forced-providers ul {
+    margin-left: 3em;
+}
+
+.tfa-reset-providers button {
+    width: 250px;
+    margin-bottom: .4em;
+    display: block;
+}
+
+.tfa-provider {
+    margin-bottom: .2em;
+}

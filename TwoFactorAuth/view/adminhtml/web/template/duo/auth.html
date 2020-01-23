@@ -1,0 +1,20 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<div>
+    <form>
+        <fieldset class="admin__fieldset">
+            <iframe id="duo_iframe"
+                    data-bind="afterRender: onAfterRender"
+                    attr="{
+                        'data-host': getApiHost(),
+                        'data-sig-request': getSignature(),
+                        'data-post-action': getPostUrl()
+                    }"
+            ></iframe>
+        </fieldset>
+    </form>
+</div>
