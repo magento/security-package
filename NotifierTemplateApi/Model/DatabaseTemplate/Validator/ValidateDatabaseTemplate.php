@@ -10,6 +10,9 @@ namespace Magento\NotifierTemplateApi\Model\DatabaseTemplate\Validator;
 
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
+/**
+ * @api
+ */
 class ValidateDatabaseTemplate implements ValidateDatabaseTemplateInterface
 {
     /**

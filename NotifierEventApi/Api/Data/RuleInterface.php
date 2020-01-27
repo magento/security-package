@@ -10,6 +10,9 @@ namespace Magento\NotifierEventApi\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 
+/**
+ * @api
+ */
 interface RuleInterface extends ExtensibleDataInterface
 {
     /**
