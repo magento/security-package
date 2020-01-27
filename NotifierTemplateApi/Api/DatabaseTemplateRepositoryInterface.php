@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Magento\NotifierTemplateApi\Api;
 
 /**
- * @SuppressWarnings(PHPMD.ShortVariable)
+ * @api
  */
 interface DatabaseTemplateRepositoryInterface
 {
