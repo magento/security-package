@@ -10,6 +10,9 @@ namespace Magento\NotifierEventApi\Model\Rule\Validator;
 
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
+/**
+ * @api
+ */
 class ValidateRule implements ValidateRuleInterface
 {
     /**
