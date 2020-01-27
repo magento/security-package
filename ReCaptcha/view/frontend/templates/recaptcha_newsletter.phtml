@@ -1,0 +1,29 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/** @var $block Magento\ReCaptcha\Block\Frontend\ReCaptcha */
+?>
+<div
+    class="field-recaptcha"
+    id="<?= /* @noEscape */ $block->getRecaptchaId() ?>-container"
+    data-bind="scope:'<?= /* @noEscape */ $block->getRecaptchaId() ?>'"
+>
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<script type="text/javascript">
+    require(['jquery', 'domReady!'], function ($) {
+        $('#<?= /* @noEscape */ $block->getRecaptchaId() ?>-container')
+            .appendTo('#newsletter-validate-detail');
+    });
+</script>
+
+<script type="text/x-magento-init">
+{
+    "#<?= /* @noEscape */ $block->getRecaptchaId() ?>-container": {
+        "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+    }
+}
+</script>
