@@ -28,6 +28,7 @@ class TemplateGetterTest extends TestCase
      */
     public function setUp()
     {
+        $this->markTestIncomplete('https://github.com/magento/security-package/issues/40');
         ConfigureMockAdapter::execute();
         ConfigureMockFilesystemTemplates::execute();
         $this->templateGetter = Bootstrap::getObjectManager()->get(TemplateGetter::class);
