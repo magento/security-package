@@ -2,7 +2,7 @@
     "name": "magento/module-notifier-template-api",
     "description": "Template manager for notifier API",
     "require": {
-        "php": "~7.2.0 || ~7.3.0"
+        "php": "~7.1.3||~7.2.0||~7.3.0"
     },
     "authors": [
         {

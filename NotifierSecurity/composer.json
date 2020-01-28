@@ -7,6 +7,9 @@
         "magento/module-notifier-api": "^1.0",
         "magento/module-notifier-template-api": "^1.0"
     },
+    "suggest": {
+        "magento/module-config": "*"
+    },
     "authors": [
         {
             "name": "Riccardo Tempesta",
