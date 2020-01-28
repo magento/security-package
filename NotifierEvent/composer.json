@@ -8,7 +8,7 @@
         "magento/module-notifier-template-api": "^1.0"
     },
     "suggest": {
-        "magento/module-notifier-queue": "Asynchronous messages queue manager for Magento Notifier"
+        "magento/module-notifier-async": "Asynchronous messages queue manager for Magento Notifier"
     },
     "authors": [
         {

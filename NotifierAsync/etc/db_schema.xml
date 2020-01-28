@@ -8,7 +8,7 @@
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
     <table name="notifier_async_channel" resource="default" engine="innodb"
-           comment="Extension attributes table for notifier queue manager">
+           comment="Extension attributes table for notifier async manager">
 
         <column xsi:type="int" name="channel_id" unsigned="true" nullable="false" comment="Channel ID"/>
         <column xsi:type="int" name="send_async" nullable="false" comment="Send asynchronously"/>

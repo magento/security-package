@@ -21,7 +21,7 @@
     ],
     "suggest": {
         "magento/module-notifier-event": "Event based rule manager for Magento_Notifier",
-        "magento/module-notifier-queue": "Asynchronous queue manager for Magento_Notifier"
+        "magento/module-notifier-async": "Asynchronous queue manager for Magento_Notifier"
     },
     "authors": [
         {
