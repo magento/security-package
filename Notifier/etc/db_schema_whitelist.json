@@ -1,11 +1,11 @@
 {
-    "magento_notifier_channel": {
+    "notifier_channel": {
         "constraint": {
             "PRIMARY": true,
-            "MAGENTO_NOTIFIER_CHANNEL_CODE": true
+            "NOTIFIER_CHANNEL_CODE": true
         }
     },
-    "magento_notifier_event_rule": {
+    "notifier_event_rule": {
         "constraint": {
             "PRIMARY": true
         }

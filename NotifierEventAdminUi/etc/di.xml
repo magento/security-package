@@ -33,7 +33,7 @@
     <virtualType name="Magento\NotifierEvent\Model\ResourceModel\UI\Rule\Collection"
                  type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
-            <argument name="mainTable" xsi:type="string">magento_notifier_event_rule</argument>
+            <argument name="mainTable" xsi:type="string">notifier_event_rule</argument>
             <argument name="resourceModel"
                       xsi:type="string">Magento\NotifierEvent\Model\ResourceModel\Rule\Collection</argument>
         </arguments>
