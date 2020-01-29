@@ -11,7 +11,8 @@
         "magento/module-notifier-event": "^1.0",
         "magento/module-notifier-event-api": "*",
         "magento/module-cms": "*",
-        "magento/module-catalog": "*"
+        "magento/module-catalog": "*",
+        "magento/module-notifier-template-api": "*"
     },
     "support": {
         "issues": "https://github.com/magento/security-package/issues"

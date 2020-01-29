@@ -1,8 +1,8 @@
 {
     "notifier_async_channel": {
         "constraint": {
-            "FK_532BA0F4A30447B12F1B4DD8FDE96C83": true,
-            "NOTIFIER_ASYNC_CHANNEL_CHANNEL_ID": true
+            "NOTIFIER_QUEUE_CHANNEL_ID": true,
+            "NOTIFIER_QUEUE_CHANNEL_ID_NOTIFIER_CHANNEL_ID": true
         }
     }
 }
