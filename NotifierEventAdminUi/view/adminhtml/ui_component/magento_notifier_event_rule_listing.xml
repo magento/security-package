@@ -35,6 +35,7 @@
         <settings>
             <updateUrl path="mui/index/render"/>
         </settings>
+        <aclResource>Magento_Notifier::notifier</aclResource>
         <dataProvider>
             <settings>
                 <primaryFieldName>rule_id</primaryFieldName>

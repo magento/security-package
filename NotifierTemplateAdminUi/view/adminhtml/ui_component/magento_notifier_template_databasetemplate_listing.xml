@@ -36,6 +36,7 @@
         <settings>
             <updateUrl path="mui/index/render"/>
         </settings>
+        <aclResource>Magento_NotifierTemplate::template</aclResource>
         <dataProvider class="Magento\NotifierTemplateAdminUi\Ui\DataProvider\Listing\DatabaseTemplateDataProvider"
                       name="magento_notifier_template_databasetemplate_data_source">
             <settings>
