@@ -1,0 +1,8 @@
+{
+    "notifier_template": {
+        "constraint": {
+            "PRIMARY": true,
+            "NOTIFIER_TEMPLATE_CODE_ADAPTER_CODE": true
+        }
+    }
+}
