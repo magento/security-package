@@ -6,7 +6,11 @@
         "magento/framework": "102.0.*",
         "magento/module-backend": "101.0.*",
         "magento/module-ui": "101.1.*",
-        "magento/module-notifier-template": "^1.0"
+        "magento/module-notifier-template": "*",
+        "magento/module-notifier-template-api": "*",
+        "magento/module-notifier-api": "*",
+        "magento/module-cms": "*",
+        "magento/module-catalog": "*"
     },
     "support": {
         "issues": "https://github.com/magento/security-package/issues"
