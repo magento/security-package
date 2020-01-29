@@ -7,7 +7,7 @@
  -->
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
-    <table name="magento_notifier_event_rule" resource="default" engine="innodb"
+    <table name="notifier_event_rule" resource="default" engine="innodb"
            comment="Notifier events rule table">
 
         <column xsi:type="int" name="rule_id" unsigned="true" nullable="false" identity="true"

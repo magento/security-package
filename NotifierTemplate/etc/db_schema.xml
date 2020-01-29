@@ -7,7 +7,7 @@
  -->
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
-    <table name="magento_notifier_template" resource="default" engine="innodb"
+    <table name="notifier_template" resource="default" engine="innodb"
            comment="Notifier templates table">
 
         <column xsi:type="int" name="template_id" padding="10" unsigned="true" nullable="false" identity="true"
@@ -18,7 +18,7 @@
         <column xsi:type="varchar" name="code" nullable="false" comment="Template Code"/>
         <column xsi:type="longtext" name="template" nullable="false" comment="Template content"/>
 
-        <constraint xsi:type="unique" referenceId="Magento_NOTIFIER_TEMPLATE_CODE_ADAPTER_CODE">
+        <constraint xsi:type="unique" referenceId="NOTIFIER_TEMPLATE_CODE_ADAPTER_CODE">
             <column name="code"/>
             <column name="adapter_code"/>
         </constraint>

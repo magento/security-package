@@ -8,7 +8,11 @@
         "magento/module-ui": "101.1.*",
         "magento/module-notifier-api": "^1.0",
         "magento/module-notifier-admin-ui": "^1.0",
-        "magento/module-notifier-event": "^1.0"
+        "magento/module-notifier-event": "^1.0",
+        "magento/module-notifier-event-api": "*",
+        "magento/module-cms": "*",
+        "magento/module-catalog": "*",
+        "magento/module-notifier-template-api": "*"
     },
     "support": {
         "issues": "https://github.com/magento/security-package/issues"
@@ -21,7 +25,7 @@
     ],
     "suggest": {
         "magento/module-notifier-event": "Event based rule manager for Magento_Notifier",
-        "magento/module-notifier-queue": "Asynchronous queue manager for Magento_Notifier"
+        "magento/module-notifier-async": "Asynchronous queue manager for Magento_Notifier"
     },
     "authors": [
         {
