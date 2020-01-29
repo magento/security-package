@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Magento\NotifierTemplateApi\Model\VariablesDecorator;
 
+/**
+ * @api
+ */
 class DecorateVariables implements DecorateVariablesInterface
 {
     /**

@@ -10,187 +10,182 @@
 
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_data_source</item>
-            <item name="deps" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_data_source</item>
-        </item>
-        <item name="spinner" xsi:type="string">magento_notifier_event_rule_columns</item>
-        <item name="buttons" xsi:type="array">
-            <item name="new" xsi:type="string">Magento\NotifierEventAdminUi\Ui\Component\Listing\Rule\NewButton</item>
+            <item name="provider" xsi:type="string">
+                magento_notifier_event_rule_listing.magento_notifier_event_rule_data_source
+            </item>
         </item>
     </argument>
+    <settings>
+        <buttons>
+            <button name="new" class="Magento\NotifierEventAdminUi\Ui\Component\Listing\Rule\NewButton"/>
+        </buttons>
+        <spinner>magento_notifier_event_rule_columns</spinner>
+        <deps>
+            <dep>magento_notifier_event_rule_listing.magento_notifier_event_rule_data_source</dep>
+        </deps>
+    </settings>
 
-    <dataSource name="magento_notifier_event_rule_data_source">
-        <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Magento\NotifierEventAdminUi\Ui\DataProvider\Listing\RuleDataProvider</argument>
-            <argument name="name" xsi:type="string">magento_notifier_event_rule_data_source</argument>
-            <argument name="primaryFieldName" xsi:type="string">rule_id</argument>
-            <argument name="requestFieldName" xsi:type="string">rule_id</argument>
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
-                </item>
-            </argument>
-        </argument>
+    <dataSource class="Magento\NotifierEventAdminUi\Ui\DataProvider\Listing\RuleDataProvider"
+                name="magento_notifier_event_rule_data_source">
         <argument name="data" xsi:type="array">
             <item name="js_config" xsi:type="array">
                 <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
             </item>
         </argument>
+        <settings>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Magento_Notifier::notifier</aclResource>
+        <dataProvider>
+            <settings>
+                <primaryFieldName>rule_id</primaryFieldName>
+                <requestFieldName>rule_id</requestFieldName>
+            </settings>
+        </dataProvider>
     </dataSource>
 
-    <container name="listing_top">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="template" xsi:type="string">ui/grid/toolbar</item>
-            </item>
-        </argument>
-
+    <container name="listing_top" template="ui/grid/toolbar">
         <bookmark name="bookmarks">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="namespace" xsi:type="string">magento_notifier_event_rule</item>
-                    </item>
-                </item>
-            </argument>
+            <settings>
+                <storageConfig>
+                    <namespace>magento_notifier_event_rule</namespace>
+                </storageConfig>
+            </settings>
         </bookmark>
 
-        <component name="columns_controls">
+        <component name="columns_controls" component="Magento_Ui/js/grid/controls/columns"
+                   displayArea="dataGridActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="columnsData" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.magento_notifier_event_rule_columns</item>
+                        <item name="provider" xsi:type="string">
+                            magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.magento_notifier_event_rule_columns
+                        </item>
                     </item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/columns</item>
-                    <item name="displayArea" xsi:type="string">dataGridActions</item>
                 </item>
             </argument>
         </component>
 
-        <filterSearch name="fulltext">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="provider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_data_source</item>
-                    <item name="chipsProvider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.listing_filters_chips</item>
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.bookmarks</item>
-                        <item name="namespace" xsi:type="string">current.search</item>
-                    </item>
-                </item>
-            </argument>
+        <filterSearch name="fulltext"
+                      provider="magento_notifier_event_rule_listing.magento_notifier_event_rule_data_source">
+            <settings>
+                <chipsProvider>
+                    magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.listing_filters_chips
+                </chipsProvider>
+                <storageConfig>
+                    <namespace>current.search</namespace>
+                    <provider>
+                        >magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.bookmarks
+                    </provider>
+                </storageConfig>
+            </settings>
         </filterSearch>
 
         <filters name="listing_filters">
             <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="columnsProvider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.magento_notifier_event_rule_columns</item>
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.bookmarks</item>
-                        <item name="namespace" xsi:type="string">current.filters</item>
-                    </item>
-                    <item name="templates" xsi:type="array">
-                        <item name="filters" xsi:type="array">
-                            <item name="select" xsi:type="array">
-                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
-                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
-                            </item>
-                        </item>
-                    </item>
-                    <item name="childDefaults" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.listing_filters</item>
-                        <item name="imports" xsi:type="array">
-                            <item name="visible" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.magento_notifier_event_rule_columns.${ $.index }:visible</item>
-                        </item>
-                    </item>
-                </item>
                 <item name="observers" xsi:type="array">
                     <item name="column" xsi:type="string">column</item>
                 </item>
             </argument>
+            <settings>
+                <columnsProvider>
+                    magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.magento_notifier_event_rule_columns
+                </columnsProvider>
+                <templates>
+                    <filters>
+                        <select>
+                            <param name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</param>
+                            <param name="template" xsi:type="string">ui/grid/filters/elements/ui-select</param>
+                        </select>
+                    </filters>
+                </templates>
+                <childDefaults>
+                    <param name="provider" xsi:type="string">
+                        magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.listing_filters
+                    </param>
+                    <param name="imports" xsi:type="array">
+                        <item name="visible" xsi:type="string">
+                            magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.magento_notifier_event_rule_columns.${ $.index }:visible
+                        </item>
+                    </param>
+                </childDefaults>
+                <storageConfig>
+                    <provider>
+                        magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.bookmarks
+                    </provider>
+                    <namespace>current.filters</namespace>
+                </storageConfig>
+            </settings>
         </filters>
 
         <paging name="listing_paging">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.bookmarks</item>
-                        <item name="namespace" xsi:type="string">current.paging</item>
-                    </item>
-                    <item name="selectProvider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.magento_notifier_event_rule_columns.ids</item>
-                </item>
-            </argument>
+            <settings>
+                <selectProvider>
+                    magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.magento_notifier_event_rule_columns.ids
+                </selectProvider>
+                <storageConfig>
+                    <provider>
+                        magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.bookmarks
+                    </provider>
+                    <namespace>current.paging</namespace>
+                </storageConfig>
+            </settings>
         </paging>
     </container>
 
     <columns name="magento_notifier_event_rule_columns">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="storageConfig" xsi:type="array">
+        <settings>
+            <storageConfig>
+                <provider>
+                    magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.bookmarks
+                </provider>
+                <namespace>current</namespace>
+            </storageConfig>
+            <childDefaults>
+                <param name="storageConfig" xsi:type="array">
                     <item name="provider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.bookmarks</item>
-                    <item name="namespace" xsi:type="string">current</item>
-                </item>
-                <item name="childDefaults" xsi:type="array">
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_event_rule_listing.magento_notifier_event_rule_listing.listing_top.bookmarks</item>
-                        <item name="root" xsi:type="string">columns.${ $.index }</item>
-                        <item name="namespace" xsi:type="string">current.${ $.storageConfig.root}</item>
-                    </item>
-                </item>
-            </item>
-        </argument>
+                    <item name="root" xsi:type="string">columns.${ $.index }</item>
+                    <item name="namespace" xsi:type="string">current.${ $.storageConfig.root}</item>
+                </param>
+            </childDefaults>
+        </settings>
 
-        <column name="rule_id">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">number</item>
-                    <item name="label" xsi:type="string" translate="true">ID</item>
-                    <item name="sortOrder" xsi:type="number">10</item>
-                </item>
-            </argument>
+        <column name="rule_id" sortOrder="10">
+            <settings>
+                <label translate="true">ID</label>
+                <filter>number</filter>
+            </settings>
         </column>
 
-        <column name="name">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Name</item>
-                    <item name="sortOrder" xsi:type="number">30</item>
-                </item>
-            </argument>
+        <column name="name" sortOrder="30">
+            <settings>
+                <label translate="true">Name</label>
+                <filter>text</filter>
+            </settings>
         </column>
 
-        <column name="template_id">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\NotifierEventAdminUi\Model\Source\Rule\Listing\Template</item>
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">select</item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
-                    <item name="dataType" xsi:type="string">select</item>
-                    <item name="label" xsi:type="string" translate="true">Template</item>
-                    <item name="sortOrder" xsi:type="number">50</item>
-                </item>
-            </argument>
+        <column name="template_id" sortOrder="50" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <label translate="true">Template</label>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Magento\NotifierEventAdminUi\Model\Source\Rule\Listing\Template"/>
+            </settings>
         </column>
 
-        <column name="enabled">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\NotifierEventAdminUi\Model\Source\Rule\Enabled</item>
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">select</item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
-                    <item name="dataType" xsi:type="string">select</item>
-                    <item name="label" xsi:type="string" translate="true">Enabled</item>
-                    <item name="sortOrder" xsi:type="number">50</item>
-                </item>
-            </argument>
+        <column name="enabled" component="Magento_Ui/js/grid/columns/select" sortOrder="50">
+            <settings>
+                <label translate="true">Enabled</label>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Magento\NotifierEventAdminUi\Model\Source\Rule\Enabled"/>
+            </settings>
         </column>
 
         <actionsColumn name="actions" class="Magento\NotifierEventAdminUi\Ui\Component\Listing\Rule\Actions">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="indexField" xsi:type="string">rule_id</item>
-                </item>
-            </argument>
+            <settings>
+                <indexField>rule_id</indexField>
+            </settings>
         </actionsColumn>
     </columns>
 </listing>

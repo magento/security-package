@@ -2,13 +2,16 @@
     "name": "magento/module-notifier-event-admin-ui",
     "description": "Notifier trigger by event",
     "require": {
-        "php": "~7.2.0 || ~7.3.0",
+        "php": "~7.1.3||~7.2.0||~7.3.0",
         "magento/framework": "102.0.*",
         "magento/module-backend": "101.0.*",
         "magento/module-ui": "101.1.*",
         "magento/module-notifier-api": "^1.0",
-        "magento/module-notifier-admin-ui": "^1.0",
-        "magento/module-notifier-event": "^1.0"
+        "magento/module-notifier-event": "^1.0",
+        "magento/module-notifier-event-api": "*",
+        "magento/module-cms": "*",
+        "magento/module-catalog": "*",
+        "magento/module-notifier-template-api": "*"
     },
     "support": {
         "issues": "https://github.com/magento/security-package/issues"
@@ -21,7 +24,7 @@
     ],
     "suggest": {
         "magento/module-notifier-event": "Event based rule manager for Magento_Notifier",
-        "magento/module-notifier-queue": "Asynchronous queue manager for Magento_Notifier"
+        "magento/module-notifier-async": "Asynchronous queue manager for Magento_Notifier"
     },
     "authors": [
         {

@@ -10,6 +10,9 @@ namespace Magento\NotifierTemplateApi\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
 
+/**
+ * @api
+ */
 interface DatabaseTemplateInterface extends ExtensibleDataInterface
 {
     /**

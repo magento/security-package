@@ -1,0 +1,13 @@
+{
+    "notifier_channel": {
+        "constraint": {
+            "PRIMARY": true,
+            "NOTIFIER_CHANNEL_CODE": true
+        }
+    },
+    "notifier_event_rule": {
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
