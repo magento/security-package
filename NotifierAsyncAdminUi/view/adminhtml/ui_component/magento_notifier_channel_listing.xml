@@ -9,17 +9,13 @@
          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
 
     <columns name="magento_notifier_channel_columns">
-        <column name="send_async">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\NotifierAsyncAdminUi\Model\Source\Channel\SendAsync</item>
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">select</item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
-                    <item name="dataType" xsi:type="string">select</item>
-                    <item name="label" xsi:type="string" translate="true">Transmission</item>
-                    <item name="sortOrder" xsi:type="number">60</item>
-                </item>
-            </argument>
+        <column name="send_async" sortOrder="60" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <label translate="true">Transmission</label>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Magento\NotifierAsyncAdminUi\Model\Source\Channel\SendAsync"/>
+            </settings>
         </column>
     </columns>
 </listing>

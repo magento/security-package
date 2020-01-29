@@ -10,19 +10,29 @@
 
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_data_source</item>
-            <item name="deps" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_data_source</item>
-        </item>
-        <item name="spinner" xsi:type="string">magento_notifier_channel_columns</item>
-        <item name="buttons" xsi:type="array">
-            <item name="new" xsi:type="string">Magento\NotifierAdminUi\Ui\Component\Listing\Channel\NewButton</item>
+            <item name="provider" xsi:type="string">
+                magento_notifier_channel_listing.magento_notifier_channel_data_source
+            </item>
         </item>
     </argument>
+    <settings>
+        <buttons>
+            <button name="new" class="Magento\NotifierAdminUi\Ui\Component\Listing\Channel\NewButton"/>
+        </buttons>
+        <spinner>magento_notifier_channel_columns</spinner>
+        <deps>
+            <dep>magento_notifier_channel_listing.magento_notifier_channel_data_source</dep>
+        </deps>
+    </settings>
 
     <dataSource name="magento_notifier_channel_data_source">
-        <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Magento\NotifierAdminUi\Ui\DataProvider\Listing\ChannelDataProvider</argument>
-            <argument name="name" xsi:type="string">magento_notifier_channel_data_source</argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+            </item>
+        </argument>
+        <dataProvider name="magento_notifier_channel_data_source"
+                      class="Magento\NotifierAdminUi\Ui\DataProvider\Listing\ChannelDataProvider">
             <argument name="primaryFieldName" xsi:type="string">channel_id</argument>
             <argument name="requestFieldName" xsi:type="string">channel_id</argument>
             <argument name="data" xsi:type="array">
@@ -30,178 +40,160 @@
                     <item name="update_url" xsi:type="url" path="mui/index/render"/>
                 </item>
             </argument>
-        </argument>
-        <argument name="data" xsi:type="array">
-            <item name="js_config" xsi:type="array">
-                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
-            </item>
-        </argument>
+        </dataProvider>
     </dataSource>
 
-    <container name="listing_top">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="template" xsi:type="string">ui/grid/toolbar</item>
-            </item>
-        </argument>
+    <container name="listing_top" template="ui/grid/toolbar">
 
         <bookmark name="bookmarks">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="namespace" xsi:type="string">magento_notifier_channel</item>
-                    </item>
-                </item>
-            </argument>
+            <settings>
+                <storageConfig>
+                    <namespace>magento_notifier_channel</namespace>
+                </storageConfig>
+            </settings>
         </bookmark>
 
-        <component name="columns_controls">
+        <component name="columns_controls" component="Magento_Ui/js/grid/controls/columns"
+                   displayArea="dataGridActions">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="columnsData" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.magento_notifier_channel_columns</item>
+                        <item name="provider" xsi:type="string">
+                            magento_notifier_channel_listing.magento_notifier_channel_listing.magento_notifier_channel_columns
+                        </item>
                     </item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/controls/columns</item>
-                    <item name="displayArea" xsi:type="string">dataGridActions</item>
                 </item>
             </argument>
         </component>
 
-        <filterSearch name="fulltext">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="provider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_data_source</item>
-                    <item name="chipsProvider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.listing_filters_chips</item>
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.bookmarks</item>
-                        <item name="namespace" xsi:type="string">current.search</item>
-                    </item>
-                </item>
-            </argument>
+        <filterSearch name="fulltext" provider="magento_notifier_channel_listing.magento_notifier_channel_data_source">
+            <settings>
+                <chipsProvider>
+                    magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.listing_filters_chips
+                </chipsProvider>
+                <storageConfig>
+                    <provider>magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.bookmarks
+                    </provider>
+                    <namespace>current.search</namespace>
+                </storageConfig>
+            </settings>
         </filterSearch>
 
         <filters name="listing_filters">
             <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="columnsProvider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.magento_notifier_channel_columns</item>
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.bookmarks</item>
-                        <item name="namespace" xsi:type="string">current.filters</item>
-                    </item>
-                    <item name="templates" xsi:type="array">
-                        <item name="filters" xsi:type="array">
-                            <item name="select" xsi:type="array">
-                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
-                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
-                            </item>
-                        </item>
-                    </item>
-                    <item name="childDefaults" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.listing_filters</item>
-                        <item name="imports" xsi:type="array">
-                            <item name="visible" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.magento_notifier_channel_columns.${ $.index }:visible</item>
-                        </item>
-                    </item>
-                </item>
                 <item name="observers" xsi:type="array">
                     <item name="column" xsi:type="string">column</item>
                 </item>
             </argument>
+            <settings>
+                <childDefaults>
+                    <param name="provider" xsi:type="string">
+                        magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.listing_filters
+                    </param>
+                    <param name="imports" xsi:type="array">
+                        <item name="visible" xsi:type="string">
+                            magento_notifier_channel_listing.magento_notifier_channel_listing.magento_notifier_channel_columns.${ $.index }:visible
+                        </item>
+                    </param>
+                </childDefaults>
+                <storageConfig>
+                    <provider>
+                        magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.bookmarks
+                    </provider>
+                    <namespace>current.filters</namespace>
+                </storageConfig>
+                <columnsProvider>
+                    magento_notifier_channel_listing.magento_notifier_channel_listing.magento_notifier_channel_columns
+                </columnsProvider>
+            <templates>
+                <filters>
+                    <select>
+                        <param name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</param>
+                        <param name="template" xsi:type="string">ui/grid/filters/elements/ui-select</param>
+                    </select>
+                </filters>
+            </templates>
+
+            </settings>
         </filters>
 
         <paging name="listing_paging">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.bookmarks</item>
-                        <item name="namespace" xsi:type="string">current.paging</item>
-                    </item>
-                    <item name="selectProvider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.magento_notifier_channel_columns.ids</item>
-                </item>
-            </argument>
+            <settings>
+                <storageConfig>
+                    <provider>magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.bookmarks
+                    </provider>
+                    <namespace>current.paging</namespace>
+                </storageConfig>
+                <selectProvider>
+                    magento_notifier_channel_listing.magento_notifier_channel_listing.magento_notifier_channel_columns.ids
+                </selectProvider>
+            </settings>
         </paging>
     </container>
 
     <columns name="magento_notifier_channel_columns">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="storageConfig" xsi:type="array">
-                    <item name="provider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.bookmarks</item>
-                    <item name="namespace" xsi:type="string">current</item>
-                </item>
-                <item name="childDefaults" xsi:type="array">
-                    <item name="storageConfig" xsi:type="array">
-                        <item name="provider" xsi:type="string">magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.bookmarks</item>
-                        <item name="root" xsi:type="string">columns.${ $.index }</item>
-                        <item name="namespace" xsi:type="string">current.${ $.storageConfig.root}</item>
+        <settings>
+            <storageConfig>
+                <provider>
+                    magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.bookmarks
+                </provider>
+                <namespace>current</namespace>
+            </storageConfig>
+            <childDefaults>
+                <param name="storageConfig" xsi:type="array">
+                    <item name="provider" xsi:type="string">
+                        magento_notifier_channel_listing.magento_notifier_channel_listing.listing_top.bookmarks
                     </item>
-                </item>
-            </item>
-        </argument>
+                    <item name="root" xsi:type="string">columns.${ $.index }</item>
+                    <item name="namespace" xsi:type="string">current.${ $.storageConfig.root}</item>
+                </param>
+            </childDefaults>
+        </settings>
 
-        <column name="channel_id">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">number</item>
-                    <item name="label" xsi:type="string" translate="true">ID</item>
-                    <item name="sortOrder" xsi:type="number">10</item>
-                </item>
-            </argument>
+        <column name="channel_id" sortOrder="10">
+            <settings>
+                <label translate="true">ID</label>
+                <filter>number</filter>
+            </settings>
         </column>
 
-        <column name="code">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Identifier</item>
-                    <item name="sortOrder" xsi:type="number">20</item>
-                </item>
-            </argument>
+        <column name="code" sortOrder="20">
+            <settings>
+                <label translate="true">Identifier</label>
+                <filter>text</filter>
+            </settings>
         </column>
 
-        <column name="name">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">text</item>
-                    <item name="label" xsi:type="string" translate="true">Name</item>
-                    <item name="sortOrder" xsi:type="number">30</item>
-                </item>
-            </argument>
+        <column name="name" sortOrder="30">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Name</label>
+            </settings>
         </column>
 
-        <column name="adapter_code">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\NotifierAdminUi\Model\Source\Channel\Adapter</item>
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">select</item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
-                    <item name="dataType" xsi:type="string">select</item>
-                    <item name="label" xsi:type="string" translate="true">Adapter</item>
-                    <item name="sortOrder" xsi:type="number">40</item>
-                </item>
-            </argument>
+        <column name="adapter_code" sortOrder="40" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <label translate="true">Adapter</label>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Magento\NotifierAdminUi\Model\Source\Channel\Adapter"/>
+            </settings>
         </column>
 
-        <column name="enabled">
-            <argument name="data" xsi:type="array">
-                <item name="options" xsi:type="object">Magento\NotifierAdminUi\Model\Source\Channel\Enabled</item>
-                <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">select</item>
-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/select</item>
-                    <item name="dataType" xsi:type="string">select</item>
-                    <item name="label" xsi:type="string" translate="true">Enabled</item>
-                    <item name="sortOrder" xsi:type="number">50</item>
-                </item>
-            </argument>
+        <column name="enabled" sortOrder="50" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <label translate="true">Enabled</label>
+                <filter>select</filter>
+                <dataType>select</dataType>
+                <options class="Magento\NotifierAdminUi\Model\Source\Channel\Enabled"/>
+            </settings>
         </column>
 
-        <actionsColumn name="actions" class="Magento\NotifierAdminUi\Ui\Component\Listing\Channel\Actions">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="indexField" xsi:type="string">channel_id</item>
-                    <item name="sortOrder" xsi:type="number">100</item>
-                </item>
-            </argument>
+        <actionsColumn name="actions" class="Magento\NotifierAdminUi\Ui\Component\Listing\Channel\Actions"
+                       sortOrder="100">
+            <settings>
+                <indexField>channel_id</indexField>
+            </settings>
         </actionsColumn>
     </columns>
 </listing>
