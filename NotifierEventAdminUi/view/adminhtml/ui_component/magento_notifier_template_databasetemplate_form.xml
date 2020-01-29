@@ -10,13 +10,10 @@
 
     <fieldset name="general">
         <field name="code">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="notice" xsi:type="string" translate="true">
-                        Events specific templates must be identified as "event:event_name", e.g.: "event:admin_user_authenticate_after"
-                    </item>
-                </item>
-            </argument>
+            <settings>
+                <notice translate="true">
+                    Events specific templates must be identified as "event:event_name", e.g.: "event:admin_user_authenticate_after"</notice>
+            </settings>
         </field>
     </fieldset>
 </form>

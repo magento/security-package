@@ -9,14 +9,14 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
     <type name="Magento\NotifierApi\Api\ChannelRepositoryInterface">
-        <plugin sortOrder="10" name="magento_queue_save_extension_attributes_for_channel"
+        <plugin sortOrder="10" name="magento_async_save_extension_attributes_for_channel"
                 type="Magento\NotifierAsync\Plugin\SaveExtensionAttributesForChannel"/>
-        <plugin sortOrder="10" name="magento_queue_add_extension_attributes_to_channel"
+        <plugin sortOrder="10" name="magento_async_add_extension_attributes_to_channel"
                 type="Magento\NotifierAsync\Plugin\AddExtensionAttributesToChannel"/>
     </type>
 
     <type name="Magento\NotifierApi\Model\SendMessageInterface">
-        <plugin sortOrder="1" name="magentoNotifierQueueSendMessageInterface"
+        <plugin sortOrder="1" name="magentoNotifierAsyncSendMessageInterface"
                 type="Magento\NotifierAsync\Plugin\SendMessageAsynchronously"/>
     </type>
 </config>

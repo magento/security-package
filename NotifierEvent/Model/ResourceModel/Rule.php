@@ -19,7 +19,7 @@ class Rule extends AbstractDb
     /**
      * Event notifier table name
      */
-    private const TABLE_NAME = 'magento_notifier_event_rule';
+    private const TABLE_NAME = 'notifier_event_rule';
 
     protected function _construct()
     {

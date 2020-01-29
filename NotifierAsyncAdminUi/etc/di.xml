@@ -11,7 +11,7 @@
     <virtualType name="Magento\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier\Pool">
         <arguments>
             <argument name="modifiers" xsi:type="array">
-                <item name="magento_notifier_queue_extension_attributes" xsi:type="array">
+                <item name="magento_notifier_async_extension_attributes" xsi:type="array">
                     <item name="class"
                           xsi:type="string">Magento\NotifierAsyncAdminUi\Ui\DataProvider\Form\Channel\Modifier\ExtensionAttributes</item>
                     <item name="sortOrder" xsi:type="number">10</item>
@@ -23,7 +23,7 @@
     <virtualType name="Magento\NotifierAdminUi\Ui\DataProvider\Listing\Channel\Modifier\Pool">
         <arguments>
             <argument name="modifiers" xsi:type="array">
-                <item name="magento_notifier_queue_extension_attributes" xsi:type="array">
+                <item name="magento_notifier_async_extension_attributes" xsi:type="array">
                     <item name="class"
                           xsi:type="string">Magento\NotifierAsyncAdminUi\Ui\DataProvider\Listing\Channel\Modifier\ExtensionAttributes</item>
                     <item name="sortOrder" xsi:type="number">10</item>

@@ -16,14 +16,14 @@
     </route>
 
     <route url="/V1/magento-notifier/adapter" method="GET">
-        <service class="Magento\NotifierApi\Api\AdapterRepositoryInterface" method="getAdapters"/>
+        <service class="Magento\NotifierApi\Api\AdaptersPoolInterface" method="getAdapters"/>
         <resources>
             <resource ref="Magento_NotifierApi::adapter"/>
         </resources>
     </route>
 
     <route url="/V1/magento-notifier/adapter/:code" method="GET">
-        <service class="Magento\NotifierApi\Api\AdapterRepositoryInterface" method="getAdapterByCode"/>
+        <service class="Magento\NotifierApi\Api\AdaptersPoolInterface" method="getAdapterByCode"/>
         <resources>
             <resource ref="Magento_NotifierApi::adapter"/>
         </resources>

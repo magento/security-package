@@ -31,7 +31,7 @@ class GetChannelExtensionAttributes
      */
     public function execute(int $channelId): array
     {
-        $tableName = $this->resourceConnection->getTableName('magento_notifier_async_channel');
+        $tableName = $this->resourceConnection->getTableName('notifier_async_channel');
         $connection = $this->resourceConnection->getConnection();
 
         $qry = $connection->select()

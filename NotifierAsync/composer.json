@@ -2,9 +2,13 @@
     "name": "magento/module-notifier-async",
     "description": "Asynchronous message send for Magento2 notifier",
     "require": {
-        "php": "~7.2.0 || ~7.3.0",
+        "php": "~7.1.3||~7.2.0||~7.3.0",
         "magento/framework": "102.0.*",
-        "magento/module-notifier": "^1.0"
+        "magento/module-notifier": "^1.0",
+        "magento/module-notifier-api": "^*"
+    },
+    "suggest": {
+        "magento/module-notifier-api": "*"
     },
     "authors": [
         {

@@ -19,7 +19,7 @@ class Channel extends AbstractDb
     /**
      * Notifier channels table name
      */
-    private const TABLE_NAME = 'magento_notifier_channel';
+    private const TABLE_NAME = 'notifier_channel';
 
     /**
      * @inheritdoc

@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Magento\NotifierApi\Api;
 
 /**
- * Interface AdapterRepositoryInterface
+ * Interface AdaptersPoolInterface
  * @api
  */
 interface AdaptersPoolInterface
