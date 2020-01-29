@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Magento\NotifierTemplateApi\Api;
 
+/**
+ * @api
+ */
 interface DatabaseTemplateSearchResultsInterface extends \Magento\Framework\Api\SearchResultsInterface
 {
     /**

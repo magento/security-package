@@ -119,7 +119,7 @@
     <virtualType name="Magento\NotifierTemplate\Model\ResourceModel\UI\DatabaseTemplate\Collection"
                  type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
-            <argument name="mainTable" xsi:type="string">magento_notifier_template</argument>
+            <argument name="mainTable" xsi:type="string">notifier_template</argument>
             <argument name="resourceModel"
                       xsi:type="string">Magento\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\Collection</argument>
         </arguments>

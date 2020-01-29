@@ -36,6 +36,7 @@ class ValidateTemplateIdTest extends TestCase
      */
     protected function setUp()
     {
+        $this->markTestIncomplete('https://github.com/magento/security-package/issues/39');
         ConfigureMockAdapter::execute();
         $this->objectManager = Bootstrap::getObjectManager();
         $this->subject = $this->objectManager->get(ValidateTemplateId::class);

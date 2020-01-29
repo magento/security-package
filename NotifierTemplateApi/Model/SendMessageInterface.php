@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Magento\NotifierTemplateApi\Model;
 
+/**
+ * @api
+ */
 interface SendMessageInterface
 {
     /**

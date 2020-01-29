@@ -1,5 +1,5 @@
 {
-    "name": "magento/recaptcha",
+    "name": "magento/module-recaptcha",
     "version": "3.0.0",
     "description": "Google reCaptcha integration for Magento2",
     "require": {

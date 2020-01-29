@@ -31,7 +31,7 @@ class SaveChannelExtensionAttributes
      */
     public function execute(int $channelId, array $data): void
     {
-        $tableName = $this->resourceConnection->getTableName('magento_notifier_async_channel');
+        $tableName = $this->resourceConnection->getTableName('notifier_async_channel');
         $connection = $this->resourceConnection->getConnection();
 
         $connection->insertOnDuplicate(

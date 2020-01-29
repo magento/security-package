@@ -19,7 +19,7 @@ class DatabaseTemplate extends AbstractDb
     /**
      * Template notifier base table
      */
-    private const TABLE_NAME = 'magento_notifier_template';
+    private const TABLE_NAME = 'notifier_template';
 
     /**
      * @inheritdoc

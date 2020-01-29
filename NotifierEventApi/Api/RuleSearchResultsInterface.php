@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Magento\NotifierEventApi\Api;
 
+/**
+ * @api
+ */
 interface RuleSearchResultsInterface extends \Magento\Framework\Api\SearchResultsInterface
 {
     /**
