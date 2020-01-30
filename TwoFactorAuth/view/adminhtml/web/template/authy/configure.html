@@ -1,0 +1,26 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div>
+    <div visible='currentStep() === "register"'>
+        <!-- ko foreach: getRegion('step-register') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+    </div>
+    <div visible='currentStep() === "verify"'>
+        <!-- ko foreach: getRegion('step-verify') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+    </div>
+    <div visible='currentStep() === "login"' class="tfa-waitbox">
+        <div data-role="spinner">
+            <div class="spinner">
+                <span/><span/><span/><span/><span/><span/><span/><span/>
+            </div>
+        </div>
+        <div data-bind='i18n: "Redirecting to Magento Admin Panel..."'></div>
+    </div>
+</div>

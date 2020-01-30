@@ -1,0 +1,17 @@
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+.tfa-google-qr {
+    display: block;
+    margin: 0  auto 3em auto;
+    width: 300px;
+    height: 300px;
+}
+
+.tfa-google-secure-code {
+    word-wrap: break-word;
+    border: 1px solid #cccccc;
+    padding: 7px;
+}

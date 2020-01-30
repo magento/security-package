@@ -1,0 +1,32 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!-- ko if: getForcedProviders().length -->
+<div class="tfa-forced-providers">
+    <strong><!-- ko i18n: "Providers defined by admin:" --><!-- /ko --></strong><br />
+    <br />
+    <ul data-bind="foreach: getForcedProviders()">
+        <li><span data-bind="text: $data"></span></li>
+    </ul>
+</div>
+<!-- /ko -->
+<!-- ko if: !getForcedProviders().length -->
+<input type="hidden" data-bind="attr: { name: inputName + '[]' }" value="" />
+
+<div data-bind="foreach: getEnabledProviders()">
+    <div class="tfa-provider">
+        <input type="checkbox" data-bind="
+            attr: {
+                id: 'reset_' + $data.value,
+                value: $data.value,
+                name: $parent.inputName + '[]',
+            },
+            checked: $parent.isSelected($data.value)
+        " />
+        <label data-bind="attr: {for: 'reset_' + $data.value}, text: $data.label"></label>
+    </div>
+</div>
+<!-- /ko -->
