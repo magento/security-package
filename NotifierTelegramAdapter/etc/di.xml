@@ -16,7 +16,7 @@
         </arguments>
     </type>
 
-    <type name="Magento\Framework\Console\CommandList">
+    <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="magento_notifier_telegram_adapters_telegram_chat_id"
