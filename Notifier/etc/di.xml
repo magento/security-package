@@ -43,7 +43,7 @@
         </arguments>
     </type>
 
-    <type name="Magento\Framework\Console\CommandList">
+    <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="magento_notifier_send_message" xsi:type="object">Magento\Notifier\Command\SendMessage</item>

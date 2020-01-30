@@ -26,7 +26,7 @@ define([
 
         /**
          * Get system templates
-         * @returns {array}
+         * @returns {Array}
          */
         getSysTemplates: function () {
             return this.sysTemplates;
