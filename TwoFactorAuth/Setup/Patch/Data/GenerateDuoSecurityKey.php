@@ -79,7 +79,7 @@ class GenerateDuoSecurityKey implements DataPatchInterface
     public static function getDependencies()
     {
         return [
-            MigrateConfigNamespace::class
+            CopyConfigFromOldModule::class
         ];
     }
 
