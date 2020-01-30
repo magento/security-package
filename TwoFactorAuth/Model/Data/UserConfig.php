@@ -93,6 +93,6 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
      */
     public function setExtensionAttributes(UserConfigExtensionInterface $extensionAttributes): void
     {
-        return $this->setData(self::EXTENSION_ATTRIBUTES_KEY, $extensionAttributes);
+        $this->setData(self::EXTENSION_ATTRIBUTES_KEY, $extensionAttributes);
     }
 }
