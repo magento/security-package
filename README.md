@@ -1,4 +1,4 @@
-TEST BUILD
+TEST BUILD2
 
 <h2>Welcome</h2>
 Welcome to Magento 2 installation! We're glad you chose to install Magento 2, a cutting-edge, feature-rich eCommerce solution that gets results.
