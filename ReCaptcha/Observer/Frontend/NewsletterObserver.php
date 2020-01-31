@@ -12,6 +12,7 @@ use Magento\Framework\App\Area;
 use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
 use Magento\ReCaptcha\Model\Config;
 
@@ -53,6 +54,7 @@ class NewsletterObserver implements ObserverInterface
     /**
      * @param Observer $observer
      * @return void
+     * @throws LocalizedException
      */
     public function execute(Observer $observer): void
     {
@@ -63,7 +65,7 @@ class NewsletterObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->redirect->getRefererUrl();
 
-            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute(Area::AREA_ADMINHTML, $request, $response, $redirectOnFailureUrl);
         }
     }
 }

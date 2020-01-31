@@ -9,6 +9,7 @@ namespace Magento\ReCaptcha\Model;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
+use Magento\Framework\App\Area;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\HttpInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
@@ -66,17 +67,20 @@ class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
     }
 
     /**
-     * @param RequestInterface $request
-     * @param HttpInterface $response
-     * @param string $redirectOnFailureUrl
-     * @return void
+     * @inheritdoc
      */
-    public function execute(RequestInterface $request, HttpInterface $response, string $redirectOnFailureUrl): void
-    {
+    public function execute(
+        string $area,
+        RequestInterface $request,
+        HttpInterface $response,
+        string $redirectOnFailureUrl
+    ): void {
         $reCaptchaResponse = $request->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
         $remoteIp = $this->remoteAddress->getRemoteAddress();
+        $options['threshold'] = ($area === Area::AREA_ADMINHTML)
+            ? $this->config->getMinBackendScore() : $this->config->getMinFrontendScore();
 
-        if (false === $this->validate->validate($reCaptchaResponse, $remoteIp)) {
+        if (false === $this->validate->validate($reCaptchaResponse, $remoteIp, $options)) {
             $this->messageManager->addErrorMessage($this->config->getErrorDescription());
             $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 

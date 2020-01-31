@@ -11,6 +11,7 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\Plugin\AuthenticationException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\ReCaptcha\Model\Config;
@@ -55,17 +56,19 @@ class LoginObserver implements ObserverInterface
      * @param Observer $observer
      * @return void
      * @throws AuthenticationException
+     * @throws LocalizedException
      */
     public function execute(Observer $observer): void
     {
         if ($this->config->isAreaEnabled(Area::AREA_ADMINHTML)) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
+
             $reCaptchaResponse = $controller->getRequest()->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
-
             $remoteIp = $this->remoteAddress->getRemoteAddress();
+            $options['threshold'] = $this->config->getMinBackendScore();
 
-            if (false === $this->validate->validate($reCaptchaResponse, $remoteIp)) {
+            if (false === $this->validate->validate($reCaptchaResponse, $remoteIp, $options)) {
                 throw new AuthenticationException($this->config->getErrorDescription());
             }
         }

@@ -12,6 +12,7 @@ use Magento\Framework\App\ActionFlag;
 use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\ReCaptcha\Model\Config;
@@ -71,6 +72,7 @@ class AjaxLoginObserver implements ObserverInterface
     /**
      * @param Observer $observer
      * @return void
+     * @throws LocalizedException
      */
     public function execute(Observer $observer): void
     {
@@ -91,8 +93,9 @@ class AjaxLoginObserver implements ObserverInterface
             }
 
             $remoteIp = $this->remoteAddress->getRemoteAddress();
+            $options['threshold'] = $this->config->getMinFrontendScore();
 
-            if (!$this->validate->validate($reCaptchaResponse, $remoteIp)) {
+            if (!$this->validate->validate($reCaptchaResponse, $remoteIp, $options)) {
                 $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
                 $jsonPayload = $this->serializer->serialize([
