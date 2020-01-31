@@ -8,12 +8,13 @@ declare(strict_types=1);
 namespace Magento\ReCaptcha\Observer\Frontend;
 
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Area;
 use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\ReCaptcha\Model\CaptchaFailureHandling;
-use Magento\ReCaptcha\Model\IsCheckRequiredInterface;
+use Magento\ReCaptcha\Model\Config;
 use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
@@ -32,14 +33,14 @@ class ReviewFormObserver implements ObserverInterface
     private $remoteAddress;
 
     /**
-     * @var IsCheckRequiredInterface
-     */
-    private $isCheckRequired;
-
-    /**
      * @var RedirectInterface
      */
     private $redirect;
+
+    /**
+     * @var Config
+     */
+    private $config;
 
     /**
      * @var CaptchaFailureHandling
@@ -49,21 +50,21 @@ class ReviewFormObserver implements ObserverInterface
     /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
-     * @param IsCheckRequiredInterface $isCheckRequired
      * @param RedirectInterface $redirect
+     * @param Config $config
      * @param CaptchaFailureHandling $captchaFailureHandling
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
-        IsCheckRequiredInterface $isCheckRequired,
         RedirectInterface $redirect,
+        Config $config,
         CaptchaFailureHandling $captchaFailureHandling
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
-        $this->isCheckRequired = $isCheckRequired;
         $this->redirect = $redirect;
+        $this->config = $config;
         $this->captchaFailureHandling = $captchaFailureHandling;
     }
 
@@ -73,7 +74,7 @@ class ReviewFormObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isCheckRequired->execute('frontend', 'recaptcha/frontend/enabled_review')) {
+        if ($this->config->isAreaEnabled(Area::AREA_FRONTEND) && $this->config->isEnabledFrontendReview()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $reCaptchaResponse = $controller->getRequest()->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);

@@ -9,12 +9,12 @@ namespace Magento\ReCaptcha\Observer\Frontend;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
+use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\ReCaptcha\Model\Config;
-use Magento\ReCaptcha\Model\IsCheckRequiredInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
@@ -31,11 +31,6 @@ class AjaxLoginObserver implements ObserverInterface
      * @var RemoteAddress
      */
     private $remoteAddress;
-
-    /**
-     * @var IsCheckRequiredInterface
-     */
-    private $isCheckRequired;
 
     /**
      * @var ActionFlag
@@ -55,7 +50,6 @@ class AjaxLoginObserver implements ObserverInterface
     /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
-     * @param IsCheckRequiredInterface $isCheckRequired
      * @param ActionFlag $actionFlag
      * @param SerializerInterface $serializer
      * @param Config $config
@@ -63,14 +57,12 @@ class AjaxLoginObserver implements ObserverInterface
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
-        IsCheckRequiredInterface $isCheckRequired,
         ActionFlag $actionFlag,
         SerializerInterface $serializer,
         Config $config
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
-        $this->isCheckRequired = $isCheckRequired;
         $this->actionFlag = $actionFlag;
         $this->serializer = $serializer;
         $this->config = $config;
@@ -82,7 +74,7 @@ class AjaxLoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isCheckRequired->execute('frontend', 'recaptcha/frontend/enabled_login')) {
+        if ($this->config->isAreaEnabled(Area::AREA_FRONTEND) && $this->config->isEnabledFrontendLogin()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
 

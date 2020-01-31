@@ -8,12 +8,13 @@ declare(strict_types=1);
 namespace Magento\ReCaptcha\Observer\Adminhtml;
 
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\UrlInterface;
 use Magento\ReCaptcha\Model\CaptchaFailureHandling;
-use Magento\ReCaptcha\Model\IsCheckRequiredInterface;
+use Magento\ReCaptcha\Model\Config;
 use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
@@ -32,9 +33,9 @@ class ForgotPasswordObserver implements ObserverInterface
     private $remoteAddress;
 
     /**
-     * @var IsCheckRequiredInterface
+     * @var Config
      */
-    private $isCheckRequired;
+    private $config;
 
     /**
      * @var UrlInterface
@@ -49,20 +50,20 @@ class ForgotPasswordObserver implements ObserverInterface
     /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
-     * @param IsCheckRequiredInterface $isCheckRequired
+     * @param Config $config
      * @param UrlInterface $url
      * @param CaptchaFailureHandling $captchaFailureHandling
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
-        IsCheckRequiredInterface $isCheckRequired,
+        Config $config,
         UrlInterface $url,
         CaptchaFailureHandling $captchaFailureHandling
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
-        $this->isCheckRequired = $isCheckRequired;
+        $this->config = $config;
         $this->url = $url;
         $this->captchaFailureHandling = $captchaFailureHandling;
     }
@@ -77,7 +78,7 @@ class ForgotPasswordObserver implements ObserverInterface
         $controller = $observer->getControllerAction();
         $request = $controller->getRequest();
 
-        if ($this->isCheckRequired->execute('adminhtml') && null !== $request->getParam('email')) {
+        if ($this->config->isAreaEnabled(Area::AREA_ADMINHTML) && null !== $request->getParam('email')) {
             $reCaptchaResponse = $request->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
             $remoteIp = $this->remoteAddress->getRemoteAddress();
 

@@ -8,12 +8,12 @@ declare(strict_types=1);
 namespace Magento\ReCaptcha\Observer\Adminhtml;
 
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\Plugin\AuthenticationException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\ReCaptcha\Model\Config;
-use Magento\ReCaptcha\Model\IsCheckRequiredInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
@@ -32,11 +32,6 @@ class LoginObserver implements ObserverInterface
     private $remoteAddress;
 
     /**
-     * @var IsCheckRequiredInterface
-     */
-    private $isCheckRequired;
-
-    /**
      * @var Config
      */
     private $config;
@@ -44,18 +39,15 @@ class LoginObserver implements ObserverInterface
     /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
-     * @param IsCheckRequiredInterface $isCheckRequired
      * @param Config $config
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
-        IsCheckRequiredInterface $isCheckRequired,
         Config $config
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
-        $this->isCheckRequired = $isCheckRequired;
         $this->config = $config;
     }
 
@@ -66,7 +58,7 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isCheckRequired->execute('adminhtml')) {
+        if ($this->config->isAreaEnabled(Area::AREA_ADMINHTML)) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $reCaptchaResponse = $controller->getRequest()->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);

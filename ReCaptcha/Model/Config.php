@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptcha\Model;
 
+use Magento\Framework\App\Area;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Phrase;
 use Magento\Store\Model\ScopeInterface;
@@ -167,7 +168,7 @@ class Config
      * Return true if enabled on frontend create user
      * @return bool
      */
-    public function isEnabledFrontendCreate(): bool
+    public function isEnabledFrontendCreateUser(): bool
     {
         if (!$this->isEnabledFrontend()) {
             return false;
@@ -358,5 +359,20 @@ class Config
         return min(1.0, max(0.1, (float) $this->scopeConfig->getValue(
             static::XML_PATH_SIZE_MIN_SCORE_BACKEND
         )));
+    }
+
+    /**
+     * Return true if area is configured to be active
+     * @param string $area
+     * @return bool
+     */
+    public function isAreaEnabled(string $area): bool
+    {
+        if (!in_array($area, [Area::AREA_FRONTEND, Area::AREA_ADMINHTML], true)) {
+            throw new \InvalidArgumentException('Area parameter must be one of frontend or adminhtml');
+        }
+
+        return (($area === Area::AREA_ADMINHTML) && $this->isEnabledBackend())
+            || (($area === Area::AREA_FRONTEND) && $this->isEnabledFrontend());
     }
 }

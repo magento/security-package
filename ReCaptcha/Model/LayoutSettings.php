@@ -40,7 +40,7 @@ class LayoutSettings
             'lang' => $this->config->getLanguageCode(),
             'enabled' => [
                 'login' => $this->config->isEnabledFrontendLogin(),
-                'create' => $this->config->isEnabledFrontendCreate(),
+                'create' => $this->config->isEnabledFrontendCreateUser(),
                 'forgot' => $this->config->isEnabledFrontendForgot(),
                 'contact' => $this->config->isEnabledFrontendContact(),
                 'review' => $this->config->isEnabledFrontendReview(),
