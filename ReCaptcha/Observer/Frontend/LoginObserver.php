@@ -12,7 +12,7 @@ use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\ReCaptcha\Model\BeforeAuthUrlProvider;
-use Magento\ReCaptcha\Model\CaptchaRequestHandler;
+use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
 use Magento\ReCaptcha\Model\Config;
 
 /**
@@ -31,19 +31,19 @@ class LoginObserver implements ObserverInterface
     private $config;
 
     /**
-     * @var CaptchaRequestHandler
+     * @var CaptchaRequestHandlerInterface
      */
     private $captchaRequestHandler;
 
     /**
      * @param BeforeAuthUrlProvider $beforeAuthUrlProvider
      * @param Config $config
-     * @param CaptchaRequestHandler $captchaRequestHandler
+     * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
         BeforeAuthUrlProvider $beforeAuthUrlProvider,
         Config $config,
-        CaptchaRequestHandler $captchaRequestHandler
+        CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {
         $this->beforeAuthUrlProvider = $beforeAuthUrlProvider;
         $this->config = $config;

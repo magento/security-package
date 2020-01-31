@@ -30,6 +30,9 @@
         </arguments>
     </type>
 
+    <preference for="Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface"
+                type="Magento\ReCaptcha\Model\CaptchaRequestHandler"/>
+
     <!-- Set sensitive information -->
     <type name="Magento\Config\Model\Config\TypePool">
         <arguments>

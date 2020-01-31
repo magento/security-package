@@ -17,7 +17,7 @@ use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 /**
  * Captcha request handler
  */
-class CaptchaRequestHandler
+class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
 {
     /**
      * @var ValidateInterface
@@ -77,7 +77,6 @@ class CaptchaRequestHandler
         $remoteIp = $this->remoteAddress->getRemoteAddress();
 
         if (false === $this->validate->validate($reCaptchaResponse, $remoteIp)) {
-
             $this->messageManager->addErrorMessage($this->config->getErrorDescription());
             $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 

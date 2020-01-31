@@ -12,7 +12,7 @@ use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptcha\Model\CaptchaRequestHandler;
+use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
 use Magento\ReCaptcha\Model\Config;
 
 /**
@@ -31,19 +31,19 @@ class ForgotPasswordObserver implements ObserverInterface
     private $url;
 
     /**
-     * @var CaptchaRequestHandler
+     * @var CaptchaRequestHandlerInterface
      */
     private $captchaRequestHandler;
 
     /**
      * @param Config $config
      * @param UrlInterface $url
-     * @param CaptchaRequestHandler $captchaRequestHandler
+     * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
         Config $config,
         UrlInterface $url,
-        CaptchaRequestHandler $captchaRequestHandler
+        CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {
         $this->config = $config;
         $this->url = $url;
