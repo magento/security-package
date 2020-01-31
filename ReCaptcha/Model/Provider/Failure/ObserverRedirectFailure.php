@@ -19,7 +19,7 @@ use Magento\ReCaptcha\Model\Provider\FailureProviderInterface;
 /**
  * @inheritDoc
  */
-class ObserverRedirectFailure implements FailureProviderInterface, ObserverInterface
+class ObserverRedirectFailure implements FailureProviderInterface
 {
     /**
      * @var MessageManagerInterface
@@ -42,11 +42,6 @@ class ObserverRedirectFailure implements FailureProviderInterface, ObserverInter
     private $redirectUrlProvider;
 
     /**
-     * @var UrlInterface
-     */
-    private $url;
-
-    /**
      * RedirectFailure constructor.
      * @param MessageManagerInterface $messageManager
      * @param ActionFlag $actionFlag
@@ -58,7 +53,7 @@ class ObserverRedirectFailure implements FailureProviderInterface, ObserverInter
         MessageManagerInterface $messageManager,
         ActionFlag $actionFlag,
         Config $config,
-        RedirectUrlProviderInterface $redirectUrlProvider = null
+        RedirectUrlProviderInterface $redirectUrlProvider
     ) {
         $this->messageManager = $messageManager;
         $this->actionFlag = $actionFlag;
