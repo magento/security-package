@@ -11,8 +11,7 @@ use Magento\Backend\Block\Template;
 use Magento\TwoFactorAuth\Model\ResourceModel\Country\CollectionFactory as CountryCollectionFactory;
 
 /**
- * Authy Configure block
- * @SuppressWarnings(PHPMD.LongVariable)
+ * @api
  */
 class Configure extends Template
 {

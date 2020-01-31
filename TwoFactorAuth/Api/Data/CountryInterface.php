@@ -84,13 +84,16 @@ interface CountryInterface extends ExtensibleDataInterface
 
     /**
      * Retrieve existing extension attributes object or create a new one
-     * @return CountryExtensionInterface|null
+     *
+     * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
+     *
+     * @return \Magento\TwoFactorAuth\Api\Data\CountryExtensionInterface|null
      */
     public function getExtensionAttributes(): ?CountryExtensionInterface;
 
     /**
      * Set an extension attributes object
-     * @param CountryExtensionInterface $extensionAttributes
+     * @param \Magento\TwoFactorAuth\Api\Data\CountryExtensionInterface $extensionAttributes
      */
     public function setExtensionAttributes(
         CountryExtensionInterface $extensionAttributes

@@ -10,7 +10,7 @@ namespace Magento\TwoFactorAuth\Block\Provider\Google;
 use Magento\Backend\Block\Template;
 
 /**
- * Google auth block
+ * @api
  */
 class Auth extends Template
 {

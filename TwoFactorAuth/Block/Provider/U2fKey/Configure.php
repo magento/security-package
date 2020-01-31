@@ -11,7 +11,7 @@ use Magento\Backend\Block\Template;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 /**
- * u2key configuration block
+ * @api
  */
 class Configure extends Template
 {

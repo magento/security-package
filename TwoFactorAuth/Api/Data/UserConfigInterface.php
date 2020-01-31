@@ -84,13 +84,16 @@ interface UserConfigInterface extends ExtensibleDataInterface
 
     /**
      * Retrieve existing extension attributes object or create a new one
-     * @return UserConfigExtensionInterface|null
+     *
+     * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
+     *
+     * @return \Magento\TwoFactorAuth\Api\Data\UserConfigExtensionInterface|null
      */
     public function getExtensionAttributes(): ?UserConfigExtensionInterface;
 
     /**
      * Set an extension attributes object
-     * @param UserConfigExtensionInterface $extensionAttributes
+     * @param \Magento\TwoFactorAuth\Api\Data\UserConfigExtensionInterface $extensionAttributes
      */
     public function setExtensionAttributes(UserConfigExtensionInterface $extensionAttributes): void;
 }

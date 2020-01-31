@@ -12,7 +12,7 @@ use Magento\Backend\Model\Auth\Session;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 /**
- * u2fkey config block
+ * @api
  */
 class Auth extends Template
 {

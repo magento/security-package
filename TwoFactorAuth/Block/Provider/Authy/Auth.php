@@ -10,7 +10,7 @@ namespace Magento\TwoFactorAuth\Block\Provider\Authy;
 use Magento\Backend\Block\Template;
 
 /**
- * Authy provider
+ * @api
  */
 class Auth extends Template
 {

@@ -16,6 +16,11 @@ use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 class Configure extends AbstractAction implements HttpGetActionInterface
 {
     /**
+     * @see _isAllowed()
+     */
+    const ADMIN_RESOURCE = 'Magento_TwoFactorAuth::config';
+
+    /**
      * @inheritdoc
      */
     public function execute()
