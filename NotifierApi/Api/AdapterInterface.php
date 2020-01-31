@@ -26,21 +26,7 @@ interface AdapterInterface
      */
     public function getDescription(): string;
 
-    /**
-     * Validate message without sending it. Return true on success, throws exception on failure.
-     * @param string $message
-     * @return bool
-     * @throws \Magento\Framework\Exception\ValidatorException
-     */
-    public function validateMessage(string $message): bool;
 
-    /**
-     * Validate message without sending it. Return true on success, throws exception on failure.
-     * @param array $params
-     * @return bool
-     * @throws \Magento\Framework\Exception\ValidatorException
-     */
-    public function validateParams(array $params = []): bool;
 
     /**
      * Send message to adapter. Return true on success, throws exception on failure.
