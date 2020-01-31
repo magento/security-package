@@ -14,7 +14,9 @@ interface IsCheckRequiredInterface
 {
     /**
      * Return true if check is required
+     * @param string $area
+     * @param string|null $dependsOnConfig
      * @return bool
      */
-    public function execute(): bool;
+    public function execute(string $area, string $dependsOnConfig = null): bool;
 }

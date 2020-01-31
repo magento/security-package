@@ -5,16 +5,15 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Model\Provider\Failure\RedirectUrl;
+namespace Magento\ReCaptcha\Model;
 
 use Magento\Customer\Model\Url;
 use Magento\Framework\Session\SessionManagerInterface;
-use Magento\ReCaptcha\Model\Provider\Failure\RedirectUrlProviderInterface;
 
 /**
  * @inheritDoc
  */
-class BeforeAuthUrlProvider implements RedirectUrlProviderInterface
+class BeforeAuthUrlProvider
 {
     /**
      * @var SessionManagerInterface

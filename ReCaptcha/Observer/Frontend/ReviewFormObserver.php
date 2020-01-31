@@ -5,27 +5,22 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Observer;
+namespace Magento\ReCaptcha\Observer\Frontend;
 
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
+use Magento\ReCaptcha\Model\CaptchaFailureHandling;
 use Magento\ReCaptcha\Model\IsCheckRequiredInterface;
-use Magento\ReCaptcha\Model\Provider\FailureProviderInterface;
-use Magento\ReCaptcha\Model\Provider\ResponseProviderInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
- * DI configurable generic observer for ReCaptcha validation
+ * ReviewFormObserver
  */
-class ReCaptchaObserver implements ObserverInterface
+class ReviewFormObserver implements ObserverInterface
 {
-    /**
-     * @var FailureProviderInterface
-     */
-    private $failureProvider;
-
     /**
      * @var ValidateInterface
      */
@@ -37,51 +32,57 @@ class ReCaptchaObserver implements ObserverInterface
     private $remoteAddress;
 
     /**
-     * @var ResponseProviderInterface
-     */
-    private $responseProvider;
-
-    /**
      * @var IsCheckRequiredInterface
      */
     private $isCheckRequired;
 
     /**
-     * @param ResponseProviderInterface $responseProvider
+     * @var RedirectInterface
+     */
+    private $redirect;
+
+    /**
+     * @var CaptchaFailureHandling
+     */
+    private $captchaFailureHandling;
+
+    /**
      * @param ValidateInterface $validate
-     * @param FailureProviderInterface $failureProvider
      * @param RemoteAddress $remoteAddress
      * @param IsCheckRequiredInterface $isCheckRequired
+     * @param RedirectInterface $redirect
+     * @param CaptchaFailureHandling $captchaFailureHandling
      */
     public function __construct(
-        ResponseProviderInterface $responseProvider,
         ValidateInterface $validate,
-        FailureProviderInterface $failureProvider,
         RemoteAddress $remoteAddress,
-        IsCheckRequiredInterface $isCheckRequired
+        IsCheckRequiredInterface $isCheckRequired,
+        RedirectInterface $redirect,
+        CaptchaFailureHandling $captchaFailureHandling
     ) {
-        $this->responseProvider = $responseProvider;
         $this->validate = $validate;
-        $this->failureProvider = $failureProvider;
         $this->remoteAddress = $remoteAddress;
         $this->isCheckRequired = $isCheckRequired;
+        $this->redirect = $redirect;
+        $this->captchaFailureHandling = $captchaFailureHandling;
     }
 
     /**
      * @param Observer $observer
      * @return void
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
-        if ($this->isCheckRequired->execute()) {
-            $reCaptchaResponse = $this->responseProvider->execute();
-            $remoteIp = $this->remoteAddress->getRemoteAddress();
-
+        if ($this->isCheckRequired->execute('frontend', 'recaptcha/frontend/enabled_review')) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
+            $reCaptchaResponse = $controller->getRequest()->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
+
+            $remoteIp = $this->remoteAddress->getRemoteAddress();
 
             if (!$this->validate->validate($reCaptchaResponse, $remoteIp)) {
-                $this->failureProvider->execute($controller ? $controller->getResponse() : null);
+                $url = $this->redirect->getRedirectUrl();
+                $this->captchaFailureHandling->execute($controller->getResponse(), $url);
             }
         }
     }

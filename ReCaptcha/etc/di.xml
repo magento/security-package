@@ -31,8 +31,6 @@
     </type>
 
     <!-- Default HTTP response provider -->
-    <preference for="Magento\ReCaptcha\Model\Provider\ResponseProviderInterface"
-                type="Magento\ReCaptcha\Model\Provider\Response\DefaultResponseProvider"/>
 
     <preference for="Magento\ReCaptcha\Model\IsCheckRequiredInterface"
                 type="Magento\ReCaptcha\Model\IsCheckRequired"/>
