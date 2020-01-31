@@ -9,6 +9,7 @@ namespace Magento\ReCaptcha\Model\Provider\Failure;
 
 use Magento\Framework\App\ActionFlag;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\UrlInterface;
@@ -18,7 +19,7 @@ use Magento\ReCaptcha\Model\Provider\FailureProviderInterface;
 /**
  * @inheritDoc
  */
-class ObserverRedirectFailure implements FailureProviderInterface
+class ObserverRedirectFailure implements FailureProviderInterface, ObserverInterface
 {
     /**
      * @var MessageManagerInterface

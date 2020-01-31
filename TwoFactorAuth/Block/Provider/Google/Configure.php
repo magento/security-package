@@ -12,7 +12,7 @@ use Magento\Backend\Model\Auth\Session;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 
 /**
- * Google configure block
+ * @api
  */
 class Configure extends Template
 {

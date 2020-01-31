@@ -20,7 +20,7 @@ interface ProviderInterface
 
     /**
      * Get provider engine
-     * @return EngineInterface
+     * @return \Magento\TwoFactorAuth\Api\EngineInterface
      */
     public function getEngine();
 

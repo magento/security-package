@@ -3,11 +3,16 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
+declare(strict_types=1);
+
 namespace Magento\ReCaptcha\Block\Adminhtml;
 
 use Magento\Framework\View\Element\Template;
 use Magento\ReCaptcha\Model\Config;
 
+/**
+ * @api
+ */
 class ReCaptcha extends Template
 {
     /**

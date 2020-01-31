@@ -14,7 +14,7 @@ use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\ProviderInterface;
 
 /**
- * Change provider block
+ * @api
  */
 class ChangeProvider extends Template
 {
@@ -44,10 +44,6 @@ class ChangeProvider extends Template
         parent::__construct($context, $data);
         $this->tfa = $tfa;
         $this->session = $session;
-
-        if (!isset($data['provider'])) {
-            throw new \InvalidArgumentException('A provider must be specified');
-        }
     }
 
     /**
