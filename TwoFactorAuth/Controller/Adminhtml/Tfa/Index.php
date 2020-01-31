@@ -22,6 +22,11 @@ use Magento\User\Model\User;
 class Index extends AbstractAction implements HttpGetActionInterface
 {
     /**
+     * @see _isAllowed()
+     */
+    public const ADMIN_RESOURCE = 'Magento_TwoFactorAuth::tfa';
+
+    /**
      * @var TfaInterface
      */
     private $tfa;

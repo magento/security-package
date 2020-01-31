@@ -11,7 +11,6 @@ namespace Magento\NotifierApi\Api;
 /**
  * Channel repository interface
  * @api
- * @SuppressWarnings(PHPMD.ShortVariable)
  */
 interface ChannelRepositoryInterface
 {

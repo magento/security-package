@@ -129,13 +129,16 @@ interface TrustedInterface extends ExtensibleDataInterface
 
     /**
      * Retrieve existing extension attributes object or create a new one
-     * @return TrustedExtensionInterface|null
+     *
+     * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
+     *
+     * @return \Magento\TwoFactorAuth\Api\Data\TrustedExtensionInterface|null
      */
     public function getExtensionAttributes(): ?TrustedExtensionInterface;
 
     /**
      * Set an extension attributes object
-     * @param TrustedExtensionInterface $extensionAttributes
+     * @param \Magento\TwoFactorAuth\Api\Data\TrustedExtensionInterface $extensionAttributes
      * @return void
      */
     public function setExtensionAttributes(TrustedExtensionInterface $extensionAttributes): void;
