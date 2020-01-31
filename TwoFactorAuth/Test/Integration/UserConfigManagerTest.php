@@ -15,9 +15,6 @@ use Magento\User\Model\ResourceModel\User\Collection as AdminUserCollection;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @magentoDbIsolation disabled
- */
 class UserConfigManagerTest extends TestCase
 {
     /**
@@ -35,6 +32,7 @@ class UserConfigManagerTest extends TestCase
      */
     protected function setUp()
     {
+        $this->markTestIncomplete('https://github.com/magento/security-package/issues/60');
         $this->userConfigManager = Bootstrap::getObjectManager()->get(UserConfigManagerInterface::class);
         $this->serializer = Bootstrap::getObjectManager()->get(SerializerInterface::class);
     }
@@ -263,19 +261,5 @@ class UserConfigManagerTest extends TestCase
             $configPayload2,
             $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider2')
         );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected function tearDown()
-    {
-        /** @var ResourceConnection $resourceConnection */
-        $resourceConnection = Bootstrap::getObjectManager()->create(ResourceConnection::class);
-
-        $connection = $resourceConnection->getConnection();
-        $connection->delete('admin_user');
-
-        parent::tearDown();
     }
 }
