@@ -29,7 +29,4 @@
     <event name="controller_action_predispatch_newsletter_subscriber_new">
         <observer name="recaptcha_on_newsletter" instance="Magento\ReCaptcha\Observer\Frontend\NewsletterObserver" />
     </event>
-    <event name="controller_action_predispatch_sendfriend_product_sendmail">
-        <observer name="recaptcha_on_send_to_a_friend" instance="Magento\ReCaptcha\Observer\Frontend\SendFriendObserver" />
-    </event>
 </config>

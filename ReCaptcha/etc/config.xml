@@ -30,7 +30,6 @@
                 <enabled_create>1</enabled_create>
                 <enabled_review>1</enabled_review>
                 <enabled_newsletter>1</enabled_newsletter>
-                <enabled_sendfriend>1</enabled_sendfriend>
                 <min_score>0.6</min_score>
             </frontend>
         </recaptcha>

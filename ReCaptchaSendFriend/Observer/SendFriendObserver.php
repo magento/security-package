@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Observer\Frontend;
+namespace Magento\ReCaptchaSendFriend\Observer;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
