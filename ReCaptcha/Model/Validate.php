@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Magento\ReCaptcha\Model;
 
 use Magento\Framework\App\Area;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\State;
 use Magento\Framework\Exception\LocalizedException;
 use ReCaptcha\ReCaptcha;
@@ -34,10 +33,10 @@ class Validate implements ValidateInterface
      */
     public function __construct(
         Config $config,
-        State $state = null
+        State $state
     ) {
         $this->config = $config;
-        $this->state = $state ?: ObjectManager::getInstance()->get(State::class);
+        $this->state = $state;
     }
 
     /**

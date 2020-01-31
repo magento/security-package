@@ -11,27 +11,15 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\ReCaptcha\Model\BeforeAuthUrlProvider;
-use Magento\ReCaptcha\Model\CaptchaFailureHandling;
+use Magento\ReCaptcha\Model\CaptchaRequestHandler;
 use Magento\ReCaptcha\Model\Config;
-use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
  * LoginObserver
  */
 class LoginObserver implements ObserverInterface
 {
-    /**
-     * @var ValidateInterface
-     */
-    private $validate;
-
-    /**
-     * @var RemoteAddress
-     */
-    private $remoteAddress;
-
     /**
      * @var BeforeAuthUrlProvider
      */
@@ -43,29 +31,23 @@ class LoginObserver implements ObserverInterface
     private $config;
 
     /**
-     * @var CaptchaFailureHandling
+     * @var CaptchaRequestHandler
      */
-    private $captchaFailureHandling;
+    private $captchaRequestHandler;
 
     /**
-     * @param ValidateInterface $validate
-     * @param RemoteAddress $remoteAddress
      * @param BeforeAuthUrlProvider $beforeAuthUrlProvider
      * @param Config $config
-     * @param CaptchaFailureHandling $captchaFailureHandling
+     * @param CaptchaRequestHandler $captchaRequestHandler
      */
     public function __construct(
-        ValidateInterface $validate,
-        RemoteAddress $remoteAddress,
         BeforeAuthUrlProvider $beforeAuthUrlProvider,
         Config $config,
-        CaptchaFailureHandling $captchaFailureHandling
+        CaptchaRequestHandler $captchaRequestHandler
     ) {
-        $this->validate = $validate;
-        $this->remoteAddress = $remoteAddress;
         $this->beforeAuthUrlProvider = $beforeAuthUrlProvider;
         $this->config = $config;
-        $this->captchaFailureHandling = $captchaFailureHandling;
+        $this->captchaRequestHandler = $captchaRequestHandler;
     }
 
     /**
@@ -77,14 +59,11 @@ class LoginObserver implements ObserverInterface
         if ($this->config->isAreaEnabled(Area::AREA_FRONTEND) && $this->config->isEnabledFrontendLogin()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
-            $reCaptchaResponse = $controller->getRequest()->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
+            $request = $controller->getRequest();
+            $response = $controller->getResponse();
+            $redirectOnFailureUrl = $this->beforeAuthUrlProvider->execute();
 
-            $remoteIp = $this->remoteAddress->getRemoteAddress();
-
-            if (!$this->validate->validate($reCaptchaResponse, $remoteIp)) {
-                $url = $this->beforeAuthUrlProvider->execute();
-                $this->captchaFailureHandling->execute($controller->getResponse(), $url);
-            }
+            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

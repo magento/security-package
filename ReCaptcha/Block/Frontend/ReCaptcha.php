@@ -30,16 +30,12 @@ class ReCaptcha extends Template
 
     /**
      * @param Template\Context $context
-     * @param null $decoder @deprecated
-     * @param null $encoder @deprecated
      * @param LayoutSettings $layoutSettings
      * @param array $data
      * @param Config|null $config
      */
     public function __construct(
         Template\Context $context,
-        $decoder,
-        $encoder,
         LayoutSettings $layoutSettings,
         array $data = [],
         Config $config = null

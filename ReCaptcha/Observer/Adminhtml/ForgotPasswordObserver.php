@@ -11,27 +11,15 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptcha\Model\CaptchaFailureHandling;
+use Magento\ReCaptcha\Model\CaptchaRequestHandler;
 use Magento\ReCaptcha\Model\Config;
-use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
  * ForgotPasswordObserver
  */
 class ForgotPasswordObserver implements ObserverInterface
 {
-    /**
-     * @var ValidateInterface
-     */
-    private $validate;
-
-    /**
-     * @var RemoteAddress
-     */
-    private $remoteAddress;
-
     /**
      * @var Config
      */
@@ -43,29 +31,23 @@ class ForgotPasswordObserver implements ObserverInterface
     private $url;
 
     /**
-     * @var CaptchaFailureHandling
+     * @var CaptchaRequestHandler
      */
-    private $captchaFailureHandling;
+    private $captchaRequestHandler;
 
     /**
-     * @param ValidateInterface $validate
-     * @param RemoteAddress $remoteAddress
      * @param Config $config
      * @param UrlInterface $url
-     * @param CaptchaFailureHandling $captchaFailureHandling
+     * @param CaptchaRequestHandler $captchaRequestHandler
      */
     public function __construct(
-        ValidateInterface $validate,
-        RemoteAddress $remoteAddress,
         Config $config,
         UrlInterface $url,
-        CaptchaFailureHandling $captchaFailureHandling
+        CaptchaRequestHandler $captchaRequestHandler
     ) {
-        $this->validate = $validate;
-        $this->remoteAddress = $remoteAddress;
         $this->config = $config;
         $this->url = $url;
-        $this->captchaFailureHandling = $captchaFailureHandling;
+        $this->captchaRequestHandler = $captchaRequestHandler;
     }
 
     /**
@@ -79,13 +61,10 @@ class ForgotPasswordObserver implements ObserverInterface
         $request = $controller->getRequest();
 
         if ($this->config->isAreaEnabled(Area::AREA_ADMINHTML) && null !== $request->getParam('email')) {
-            $reCaptchaResponse = $request->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
-            $remoteIp = $this->remoteAddress->getRemoteAddress();
+            $response = $controller->getResponse();
+            $redirectOnFailureUrl = $this->url->getUrl('*/*/forgotpassword', ['_secure' => true]);
 
-            if (!$this->validate->validate($reCaptchaResponse, $remoteIp)) {
-                $url = $this->url->getUrl('*/*/forgotpassword', ['_secure' => true]);
-                $this->captchaFailureHandling->execute($controller->getResponse(), $url);
-            }
+            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

@@ -11,27 +11,15 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptcha\Model\CaptchaFailureHandling;
+use Magento\ReCaptcha\Model\CaptchaRequestHandler;
 use Magento\ReCaptcha\Model\Config;
-use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
  * CreateUserObserver
  */
 class CreateUserObserver implements ObserverInterface
 {
-    /**
-     * @var ValidateInterface
-     */
-    private $validate;
-
-    /**
-     * @var RemoteAddress
-     */
-    private $remoteAddress;
-
     /**
      * @var UrlInterface
      */
@@ -43,29 +31,23 @@ class CreateUserObserver implements ObserverInterface
     private $config;
 
     /**
-     * @var CaptchaFailureHandling
+     * @var CaptchaRequestHandler
      */
-    private $captchaFailureHandling;
+    private $captchaRequestHandler;
 
     /**
-     * @param ValidateInterface $validate
-     * @param RemoteAddress $remoteAddress
      * @param UrlInterface $url
      * @param Config $config
-     * @param CaptchaFailureHandling $captchaFailureHandling
+     * @param CaptchaRequestHandler $captchaRequestHandler
      */
     public function __construct(
-        ValidateInterface $validate,
-        RemoteAddress $remoteAddress,
         UrlInterface $url,
         Config $config,
-        CaptchaFailureHandling $captchaFailureHandling
+        CaptchaRequestHandler $captchaRequestHandler
     ) {
-        $this->validate = $validate;
-        $this->remoteAddress = $remoteAddress;
         $this->url = $url;
         $this->config = $config;
-        $this->captchaFailureHandling = $captchaFailureHandling;
+        $this->captchaRequestHandler = $captchaRequestHandler;
     }
 
     /**
@@ -77,14 +59,11 @@ class CreateUserObserver implements ObserverInterface
         if ($this->config->isAreaEnabled(Area::AREA_FRONTEND) && $this->config->isEnabledFrontendCreateUser()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
-            $reCaptchaResponse = $controller->getRequest()->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
+            $request = $controller->getRequest();
+            $response = $controller->getResponse();
+            $redirectOnFailureUrl = $this->url->getUrl('*/*/create', ['_secure' => true]);
 
-            $remoteIp = $this->remoteAddress->getRemoteAddress();
-
-            if (!$this->validate->validate($reCaptchaResponse, $remoteIp)) {
-                $url = $this->url->getUrl('*/*/create', ['_secure' => true]);
-                $this->captchaFailureHandling->execute($controller->getResponse(), $url);
-            }
+            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

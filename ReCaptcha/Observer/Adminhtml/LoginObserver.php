@@ -65,7 +65,7 @@ class LoginObserver implements ObserverInterface
 
             $remoteIp = $this->remoteAddress->getRemoteAddress();
 
-            if (!$this->validate->validate($reCaptchaResponse, $remoteIp)) {
+            if (false === $this->validate->validate($reCaptchaResponse, $remoteIp)) {
                 throw new AuthenticationException($this->config->getErrorDescription());
             }
         }
