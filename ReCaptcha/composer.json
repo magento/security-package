@@ -8,7 +8,6 @@
         "magento/magento-composer-installer": "*",
         "magento/module-customer": "*",
         "magento/module-checkout": "*",
-        "magento/module-newsletter": "*",
         "magento/module-store": "*",
         "magento/module-config": "*",
         "google/recaptcha": "^1.2"

@@ -11,104 +11,95 @@
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
             <item name="provider"
-                  xsi:type="string">tfa_edit_user_form.tfa_edit_user_form_data_source</item>
-            <item name="deps"
-                  xsi:type="string">tfa_edit_user_form.tfa_edit_user_form_data_source</item>
-        </item>
-        <item name="label" xsi:type="string" translate="true">2FA</item>
-        <item name="config" xsi:type="array">
-            <item name="dataScope" xsi:type="string">data</item>
-            <item name="namespace" xsi:type="string">tfa_edit_user_form</item>
+                  xsi:type="string">tfa_edit_user_form.tfa_edit_user_form_data_source
+            </item>
         </item>
         <item name="acl" xsi:type="string">Magento_TwoFactorAuth::tfa</item>
         <item name="template" xsi:type="string">templates/form/collapsible</item>
         <item name="childrenFromMeta" xsi:type="boolean">true</item>
     </argument>
+    <settings>
+        <label translate="true">2FA</label>
+        <namespace>tfa_edit_user_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>tfa_edit_user_form.tfa_edit_user_form_data_source</dep>
+        </deps>
+    </settings>
 
     <dataSource name="tfa_edit_user_form_data_source">
-        <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Magento\TwoFactorAuth\Ui\Component\Form\User\DataProvider</argument>
-            <argument name="name" xsi:type="string">tfa_edit_user_form_data_source</argument>
-            <argument name="primaryFieldName" xsi:type="string">main_table.user_id</argument>
-            <argument name="requestFieldName" xsi:type="string">user_id</argument>
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="aclResource" xsi:type="string">Magento_TwoFactorAuth::tfa</item>
-                </item>
-            </argument>
-        </argument>
         <argument name="data" xsi:type="array">
             <item name="js_config" xsi:type="array">
                 <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/form/provider</item>
             </item>
         </argument>
+        <aclResource>Magento_TwoFactorAuth::tfa</aclResource>
+        <dataProvider class="Magento\TwoFactorAuth\Ui\Component\Form\User\DataProvider"
+                      name="tfa_edit_user_form_data_source">
+            <settings>
+                <primaryFieldName>main_table.user_id</primaryFieldName>
+                <requestFieldName>user_id</requestFieldName>
+            </settings>
+        </dataProvider>
     </dataSource>
 
     <fieldset name="base_fieldset">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="label" xsi:type="string" translate="true">2FA</item>
-            </item>
-        </argument>
+        <settings>
+            <label translate="true">2FA</label>
+        </settings>
 
-        <field name="tfa_providers">
+        <field name="tfa_providers" formElement="input" component="Magento_TwoFactorAuth/js/form/element/providers"
+               template="ui/form/field">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/form/element/providers</item>
-                    <item name="template" xsi:type="string">ui/form/field</item>
-                    <item name="elementTmpl" xsi:type="string">Magento_TwoFactorAuth/form/element/providers</item>
-                    <item name="label" xsi:type="string">Providers selection</item>
-                    <item name="visible" xsi:type="boolean">true</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="formElement" xsi:type="string">input</item>
                     <item name="source" xsi:type="string">tfa_edit_user_form_data_source</item>
-                    <item name="dataScope" xsi:type="string">tfa_providers</item>
                 </item>
             </argument>
+            <settings>
+                <label>Providers selection</label>
+                <visible>true</visible>
+                <dataType>text</dataType>
+                <elementTmpl>Magento_TwoFactorAuth/form/element/providers</elementTmpl>
+                <dataScope>tfa_providers</dataScope>
+            </settings>
         </field>
     </fieldset>
     <fieldset name="reset_fieldset">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="label" xsi:type="string" translate="true">Configuration reset</item>
-            </item>
-        </argument>
-
-        <field name="tfa_reset_providers">
+        <settings>
+            <label translate="true">Configuration reset</label>
+        </settings>
+        <field name="tfa_reset_providers" formElement="input"
+               component="Magento_TwoFactorAuth/js/form/element/reset_providers" template="ui/form/field">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/form/element/reset_providers</item>
-                    <item name="template" xsi:type="string">ui/form/field</item>
-                    <item name="elementTmpl" xsi:type="string">Magento_TwoFactorAuth/form/element/reset_providers</item>
-                    <item name="label" xsi:type="string">Reset Providers</item>
-                    <item name="visible" xsi:type="boolean">true</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="formElement" xsi:type="string">input</item>
                     <item name="source" xsi:type="string">tfa_edit_user_form_data_source</item>
                 </item>
             </argument>
+            <settings>
+                <visible>true</visible>
+                <label>Reset Providers</label>
+                <dataType>text</dataType>
+                <elementTmpl>Magento_TwoFactorAuth/form/element/reset_providers</elementTmpl>
+            </settings>
         </field>
     </fieldset>
     <fieldset name="trusted_fieldset">
-        <argument name="data" xsi:type="array">
-            <item name="config" xsi:type="array">
-                <item name="label" xsi:type="string" translate="true">Trusted devices</item>
-            </item>
-        </argument>
-
-        <field name="tfa_reset_providers">
+        <settings>
+            <label translate="true">Trusted devices</label>
+        </settings>
+        <field name="tfa_reset_providers" formElement="input"
+               component="Magento_TwoFactorAuth/js/form/element/trusted_devices" template="ui/form/field">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/form/element/trusted_devices</item>
-                    <item name="template" xsi:type="string">ui/form/field</item>
-                    <item name="elementTmpl" xsi:type="string">Magento_TwoFactorAuth/form/element/trusted_devices</item>
-                    <item name="label" xsi:type="string">Trusted devices</item>
-                    <item name="visible" xsi:type="boolean">true</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="formElement" xsi:type="string">input</item>
                     <item name="source" xsi:type="string">tfa_edit_user_form_data_source</item>
                 </item>
             </argument>
+            <settings>
+                <visible>true</visible>
+                <label>Trusted devices</label>
+                <dataType>text</dataType>
+                <elementTmpl>Magento_TwoFactorAuth/form/element/trusted_devices</elementTmpl>
+            </settings>
         </field>
     </fieldset>
 </form>
