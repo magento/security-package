@@ -30,12 +30,8 @@
         </arguments>
     </type>
 
-    <!-- Default HTTP response provider -->
-    <preference for="Magento\ReCaptcha\Model\Provider\ResponseProviderInterface"
-                type="Magento\ReCaptcha\Model\Provider\Response\DefaultResponseProvider"/>
-
-    <preference for="Magento\ReCaptcha\Model\IsCheckRequiredInterface"
-                type="Magento\ReCaptcha\Model\IsCheckRequired"/>
+    <preference for="Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface"
+                type="Magento\ReCaptcha\Model\CaptchaRequestHandler"/>
 
     <!-- Set sensitive information -->
     <type name="Magento\Config\Model\Config\TypePool">
