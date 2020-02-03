@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Magento\NotifierSlackAdapter\Model\AdapterEngine;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\NotifierApi\Api\Data\MessageInterface;
 use Maknz\Slack\Client;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 use Magento\NotifierSlackAdapter\Model\AdapterEngine\Slack\ClientFactory;
@@ -73,19 +74,19 @@ class Slack implements AdapterEngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
-    public function execute(string $message, array $configParams = [], array $params = []): bool
+    public function execute(MessageInterface $message): void
     {
+        $messageText= $message->getMessage();
+        $configParams = $message->getParams();
         $client = $this->getClient($configParams);
 
         $client->attach([
-            'fallback' => $message,
-            'text' => $message,
+            'fallback' => $messageText,
+            'text' => $messageText,
             'color' => $configParams[static::PARAM_COLOR] ?: static::DEFAULT_COLOR
         ])->send();
-
-        return true;
     }
 
     /**

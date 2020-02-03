@@ -8,7 +8,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- Adapters pool -->
-    <type name="Magento\NotifierApi\Model\AdaptersPool">
+    <type name="Magento\NotifierApi\Model\AdapterPool">
         <arguments>
             <argument name="adapters" xsi:type="array">
                 <item name="slack" xsi:type="object">Magento\NotifierSlackAdapter\Model\Adapter\Slack</item>
@@ -16,12 +16,25 @@
         </arguments>
     </type>
 
+    <type name="Magento\NotifierApi\Api\AdapterEnginePoolInterface">
+        <arguments>
+            <argument name="adapterEngines" xsi:type="array">
+                <item name="slack" xsi:type="object">Magento\NotifierSlackAdapter\Model\AdapterEngine\Slack</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\NotifierApi\Api\AdapterValidatorPoolInterface">
+        <arguments>
+            <argument name="adapterValidators" xsi:type="array">
+                <item name="slack" xsi:type="object">Magento\NotifierSlackAdapter\Model\AdapterEngine\ValidatorChain\Slack</item>
+            </argument>
+        </arguments>
+    </type>
+
     <!-- Slack adapter -->
     <virtualType name="Magento\NotifierSlackAdapter\Model\Adapter\Slack" type="Magento\NotifierApi\Model\Adapter">
         <arguments>
-            <argument name="engine" xsi:type="object">Magento\NotifierSlackAdapter\Model\AdapterEngine\Slack</argument>
-            <argument name="adapterValidator"
-                      xsi:type="object">Magento\NotifierSlackAdapter\Model\AdapterEngine\ValidatorChain\Slack</argument>
             <argument name="code" xsi:type="string">slack</argument>
             <argument name="description" xsi:type="string">Slack Messenger</argument>
         </arguments>

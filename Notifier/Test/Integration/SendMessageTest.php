@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Magento\Notifier\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
+use Magento\NotifierApi\Exception\NotifierChannelDisabledException;
+use Magento\NotifierApi\Exception\NotifierDisabledException;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Notifier\Model\SendMessage;
 use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
@@ -52,7 +54,9 @@ class SendMessageTest extends TestCase
      */
     public function testShouldNotSendMessageWithDisabledChannel(): void
     {
-        $this->assertFalse($this->subject->execute('test_disabled_channel', 'Title'));
+        $this->expectException(NotifierChannelDisabledException::class);
+        $this->expectExceptionMessage('Notifier channel test_disabled_channel is disabled.');
+        $this->subject->execute('test_disabled_channel', 'Title');
     }
 
     /**
@@ -61,6 +65,8 @@ class SendMessageTest extends TestCase
      */
     public function testShouldNotSendMessageWithDisabledModule(): void
     {
-        $this->assertFalse($this->subject->execute('test_channel_1', 'Title'));
+        $this->expectException(NotifierDisabledException::class);
+        $this->expectExceptionMessage('Notifier service is disabled');
+        $this->subject->execute('test_channel_1', 'Title');
     }
 }

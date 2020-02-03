@@ -10,7 +10,7 @@ namespace Magento\Notifier\Model\Channel\Validator;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\ValidatorException;
-use Magento\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierApi\Api\AdapterValidatorPoolInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
 use Magento\NotifierApi\Model\SerializerInterface;
@@ -18,25 +18,25 @@ use Magento\NotifierApi\Model\SerializerInterface;
 class ValidateAdapter implements ValidateChannelInterface
 {
     /**
-     * @var AdaptersPoolInterface
-     */
-    private $adaptersPool;
-
-    /**
      * @var SerializerInterface
      */
     private $serializer;
 
     /**
+     * @var AdapterValidatorPoolInterface
+     */
+    private $adapterValidatorPool;
+
+    /**
      * BasicValidator constructor.
-     * @param AdaptersPoolInterface $adaptersPool
+     * @param AdapterValidatorPoolInterface $adapterValidatorPool
      * @param SerializerInterface $serializer
      */
     public function __construct(
-        AdaptersPoolInterface $adaptersPool,
+        AdapterValidatorPoolInterface $adapterValidatorPool,
         SerializerInterface $serializer
     ) {
-        $this->adaptersPool = $adaptersPool;
+        $this->adapterValidatorPool = $adapterValidatorPool;
         $this->serializer = $serializer;
     }
 
@@ -46,13 +46,13 @@ class ValidateAdapter implements ValidateChannelInterface
     public function execute(ChannelInterface $channel): void
     {
         try {
-            $adapter = $this->adaptersPool->getAdapterByCode($channel->getAdapterCode());
+            $adapterValidator = $this->adapterValidatorPool->getAdapterValidatorByCode($channel->getAdapterCode());
         } catch (NoSuchEntityException $e) {
-            throw new ValidatorException(__('Invalid adapter code'));
+            throw new ValidatorException(__('Invalid adapter validator code'));
         }
 
         // Validate adapter's specific configuration
         $params = $this->serializer->unserialize($channel->getConfigurationJson());
-        $adapter->validateParams($params);
+        $adapterValidator->validateParams($params);
     }
 }

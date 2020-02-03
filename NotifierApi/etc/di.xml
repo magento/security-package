@@ -8,12 +8,24 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
+    <preference for="Magento\NotifierApi\Api\Data\MessageInterface"
+                type="Magento\NotifierApi\Model\Message"/>
+
+    <preference for="Magento\NotifierApi\Api\MessageSenderInterface"
+                type="Magento\NotifierApi\Model\MessageSender"/>
+
     <preference for="Magento\NotifierApi\Model\AdapterEngine\AdapterValidatorInterface"
                 type="Magento\NotifierApi\Model\AdapterEngine\AdapterValidator"/>
 
     <preference for="Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface"
                 type="Magento\NotifierApi\Model\Channel\Validator\ValidateChannel"/>
 
-    <preference for="Magento\NotifierApi\Api\AdaptersPoolInterface"
-                type="Magento\NotifierApi\Model\AdaptersPool" />
+    <preference for="Magento\NotifierApi\Api\AdapterPoolInterface"
+                type="Magento\NotifierApi\Model\AdapterPool"/>
+
+    <preference for="Magento\NotifierApi\Api\AdapterEnginePoolInterface"
+                type="Magento\NotifierApi\Model\AdapterEnginePool"/>
+
+    <preference for="Magento\NotifierApi\Api\AdapterValidatorPoolInterface"
+                type="Magento\NotifierApi\Model\AdapterValidatorPool"/>
 </config>

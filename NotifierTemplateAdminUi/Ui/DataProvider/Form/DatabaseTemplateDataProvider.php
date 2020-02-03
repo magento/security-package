@@ -15,8 +15,8 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
-use Magento\NotifierApi\Api\AdapterInterface;
-use Magento\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierApi\Api\Data\AdapterInterface;
+use Magento\NotifierApi\Api\AdapterPoolInterface;
 use Magento\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
 use Magento\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter;
 
@@ -33,7 +33,7 @@ class DatabaseTemplateDataProvider extends DataProvider
     private $filesystemGetter;
 
     /**
-     * @var AdaptersPoolInterface
+     * @var AdapterPoolInterface
      */
     private $adapterRepository;
 
@@ -52,7 +52,7 @@ class DatabaseTemplateDataProvider extends DataProvider
      * @param FilterBuilder $filterBuilder
      * @param FilesystemTemplateRepositoryInterface $filesystemTemplateRepository
      * @param FilesystemTemplateGetter $filesystemGetter
-     * @param AdaptersPoolInterface $adapterRepository
+     * @param AdapterPoolInterface $adapterRepository
      * @param array $meta
      * @param array $data
      * @SuppressWarnings(PHPMD.LongVariables)
@@ -68,7 +68,7 @@ class DatabaseTemplateDataProvider extends DataProvider
         FilterBuilder $filterBuilder,
         FilesystemTemplateRepositoryInterface $filesystemTemplateRepository,
         FilesystemTemplateGetter $filesystemGetter,
-        AdaptersPoolInterface $adapterRepository,
+        AdapterPoolInterface $adapterRepository,
         array $meta = [],
         array $data = []
     ) {

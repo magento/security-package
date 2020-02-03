@@ -51,14 +51,14 @@ class ValidateAdapterTest extends TestCase
                     'adapter_code' => '',
                     'configuration_json' => '{}'
                 ],
-                'errorMessage' => 'Invalid adapter code'
+                'errorMessage' => 'Invalid adapter validator code'
             ],
             [
                 'channelData' => [
                     'adapter_code' => 'unknown_adapter',
                     'configuration_json' => '{}'
                 ],
-                'errorMessage' => 'Invalid adapter code'
+                'errorMessage' => 'Invalid adapter validator code'
             ]
         ];
     }

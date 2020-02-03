@@ -8,7 +8,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="Magento\NotifierApi\Model\AdaptersPool">
+    <type name="Magento\NotifierApi\Api\AdapterPoolInterface">
         <arguments>
             <argument name="adapters" xsi:type="array">
                 <item name="email" xsi:type="object">Magento\NotifierEmailAdapter\Model\Adapter\Email</item>
@@ -16,12 +16,25 @@
         </arguments>
     </type>
 
+    <type name="Magento\NotifierApi\Api\AdapterEnginePoolInterface">
+        <arguments>
+            <argument name="adapterEngines" xsi:type="array">
+                <item name="email" xsi:type="object">Magento\NotifierEmailAdapter\Model\AdapterEngine\Email</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\NotifierApi\Api\AdapterValidatorPoolInterface">
+        <arguments>
+            <argument name="adapterValidators" xsi:type="array">
+                <item name="email" xsi:type="object">Magento\NotifierEmailAdapter\Model\AdapterEngine\ValidatorChain\Email</item>
+            </argument>
+        </arguments>
+    </type>
+
     <!-- Email adapter -->
     <virtualType name="Magento\NotifierEmailAdapter\Model\Adapter\Email" type="Magento\NotifierApi\Model\Adapter">
         <arguments>
-            <argument name="engine" xsi:type="object">Magento\NotifierEmailAdapter\Model\AdapterEngine\Email</argument>
-            <argument name="adapterValidator"
-                      xsi:type="object">Magento\NotifierEmailAdapter\Model\AdapterEngine\ValidatorChain\Email</argument>
             <argument name="code" xsi:type="string">email</argument>
             <argument name="description" xsi:type="string">Email</argument>
         </arguments>

@@ -56,9 +56,10 @@ class SendMessage extends Command
         $channel = $input->getArgument('channel');
         $message = $input->getArgument('message');
 
-        if ($this->sendMessage->execute($channel, $message)) {
+        try {
+            $this->sendMessage->execute($channel, $message);
             $output->writeln('Message sent');
-        } else {
+        } catch (\Exception $exception) {
             $output->writeln('Could not send message');
         }
     }

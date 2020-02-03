@@ -12,6 +12,7 @@ use Magento\Framework\Exception\MailException;
 use Magento\Framework\Mail\MailMessageInterface;
 use Magento\Framework\Mail\MailMessageInterfaceFactory;
 use Magento\Framework\Mail\TransportInterfaceFactory;
+use Magento\NotifierApi\Api\Data\MessageInterface;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 
 class Email implements AdapterEngineInterface
@@ -60,28 +61,24 @@ class Email implements AdapterEngineInterface
     }
 
     /**
-     * Execute engine and return true on success. Throw exception on failure.
-     * @param string $message
-     * @param array $configParams
-     * @param array $params
-     * @return bool
-     * @throws MailException
+     * @inheritdoc
      */
-    public function execute(string $message, array $configParams = [], array $params = []): bool
+    public function execute(MessageInterface $message): void
     {
-        $lines = explode("\n", $message);
+        $messageText= $message->getMessage();
+        $configParams = $message->getParams();
+
+        $lines = explode("\n", $messageText);
 
         /** @var MailMessageInterface $emailMessage */
         $emailMessage = $this->mailMessageFactory->create();
 
         $emailMessage->setFromAddress($configParams[self::ADAPTER_FROM], $configParams[self::ADAPTER_FROM_NAME]);
         $emailMessage->addTo($configParams[self::ADAPTER_TO]);
-        $emailMessage->setBodyText($message);
+        $emailMessage->setBodyText($messageText);
         $emailMessage->setSubject($lines[0]);
 
         $transport = $this->transportFactory->create(['message' => $emailMessage]);
         $transport->sendMessage();
-
-        return true;
     }
 }

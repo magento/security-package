@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Magento\NotifierApi\Model\AdapterEngine;
 
+use Magento\NotifierApi\Api\Data\MessageInterface;
+
 /**
  * Notifier adapter interface - SPI
  *
@@ -16,11 +18,11 @@ namespace Magento\NotifierApi\Model\AdapterEngine;
 interface AdapterEngineInterface
 {
     /**
-     * Execute engine and return true on success. Throw exception on failure.
-     * @param string $message
-     * @param array $configParams
-     * @param array $params
-     * @return bool
+     * TODO
+     *
+     * Throws exception on failure.
+     *
+     * @param MessageInterface $message
      */
-    public function execute(string $message, array $configParams = [], array $params = []): bool;
+    public function execute(MessageInterface $message): void;
 }

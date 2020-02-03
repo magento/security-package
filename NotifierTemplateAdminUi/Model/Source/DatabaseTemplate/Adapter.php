@@ -9,17 +9,17 @@ declare(strict_types=1);
 namespace Magento\NotifierTemplateAdminUi\Model\Source\DatabaseTemplate;
 
 use Magento\Framework\Data\OptionSourceInterface;
-use Magento\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierApi\Api\AdapterPoolInterface;
 
 class Adapter implements OptionSourceInterface
 {
     /**
-     * @var AdaptersPoolInterface
+     * @var AdapterPoolInterface
      */
     private $adapterRepository;
 
     public function __construct(
-        AdaptersPoolInterface $adapterRepository
+        AdapterPoolInterface $adapterRepository
     ) {
         $this->adapterRepository = $adapterRepository;
     }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Magento\NotifierTelegramAdapter\Model\AdapterEngine;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\NotifierApi\Api\Data\MessageInterface;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 use Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram\ClientRepository;
 use Psr\Log\LoggerInterface;
@@ -53,24 +54,23 @@ class Telegram implements AdapterEngineInterface
     }
 
     /**
-     * @inheritDoc
-     * @throws LocalizedException
+     * @inheritdoc
      */
-    public function execute(string $message, array $configParams = [], array $params = []): bool
+    public function execute(MessageInterface $message): void
     {
+        $messageText= $message->getMessage();
+        $configParams = $message->getParams();
         $client = $this->clientRepository->get($configParams[self::PARAM_TOKEN]);
 
         try {
             $client->sendMessage(
                 $configParams[self::PARAM_CHAT_ID],
-                $message,
+                $messageText,
                 'HTML'
             );
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage());
             throw new LocalizedException(__('Unable to send notifier message'));
         }
-
-        return true;
     }
 }

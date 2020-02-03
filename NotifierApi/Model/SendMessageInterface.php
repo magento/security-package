@@ -15,11 +15,10 @@ namespace Magento\NotifierApi\Model;
 interface SendMessageInterface
 {
     /**
-     * Send a message, return true, Exception on failure
+     * TODO
+     *
      * @param string $channelCode
      * @param string $message
-     * @param array $params
-     * @return bool
      */
-    public function execute(string $channelCode, string $message, array $params = []): bool;
+    public function execute(string $channelCode, string $message): void;
 }

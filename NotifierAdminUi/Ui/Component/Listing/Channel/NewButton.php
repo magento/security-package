@@ -12,13 +12,13 @@ use Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Generic;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Ui\Component\Control\Container;
-use Magento\NotifierApi\Api\AdaptersPoolInterface;
+use Magento\NotifierApi\Api\AdapterPoolInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 class NewButton extends Generic
 {
     /**
-     * @var AdaptersPoolInterface
+     * @var AdapterPoolInterface
      */
     private $adapterRepository;
 
@@ -26,12 +26,12 @@ class NewButton extends Generic
      * NewButton constructor.
      * @param Context $context
      * @param Registry $registry
-     * @param AdaptersPoolInterface $adapterRepository
+     * @param AdapterPoolInterface $adapterRepository
      */
     public function __construct(
         Context $context,
         Registry $registry,
-        AdaptersPoolInterface $adapterRepository
+        AdapterPoolInterface $adapterRepository
     ) {
         parent::__construct($context, $registry);
         $this->adapterRepository = $adapterRepository;

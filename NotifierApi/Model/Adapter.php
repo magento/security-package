@@ -8,17 +8,10 @@ declare(strict_types=1);
 
 namespace Magento\NotifierApi\Model;
 
-use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
-use Magento\NotifierApi\Model\AdapterEngine\AdapterValidatorInterface;
-use Magento\NotifierApi\Api\AdapterInterface;
+use Magento\NotifierApi\Api\Data\AdapterInterface;
 
 class Adapter implements AdapterInterface
 {
-    /**
-     * @var AdapterEngineInterface
-     */
-    private $engine;
-
     /**
      * @var string
      */
@@ -30,25 +23,13 @@ class Adapter implements AdapterInterface
     private $description;
 
     /**
-     * @var AdapterValidatorInterface
-     */
-    private $adapterValidator;
-
-    /**
-     * Adapter constructor.
-     * @param AdapterEngineInterface $engine
-     * @param AdapterValidatorInterface $adapterValidator
      * @param string $code
      * @param string $description
      */
     public function __construct(
-        AdapterEngineInterface $engine,
-        AdapterValidatorInterface $adapterValidator,
         string $code,
         string $description
     ) {
-        $this->engine = $engine;
-        $this->adapterValidator = $adapterValidator;
         $this->code = $code;
         $this->description = $description;
     }
@@ -67,34 +48,5 @@ class Adapter implements AdapterInterface
     public function getDescription(): string
     {
         return $this->description;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function sendMessage(string $message, array $configParams = [], array $params = []): bool
-    {
-        $message = trim($message);
-        $this->validateMessage($message);
-        $this->validateParams($configParams);
-
-        return $this->engine->execute($message, $configParams, $params);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateMessage(string $message): bool
-    {
-        $message = trim($message);
-        return $this->adapterValidator->validateMessage($message);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateParams(array $params = []): bool
-    {
-        return $this->adapterValidator->validateParams($params);
     }
 }

@@ -11,6 +11,8 @@ namespace Magento\NotifierAsync\Plugin;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\IsEnabledInterface;
+use Magento\NotifierApi\Exception\NotifierChannelDisabledException;
+use Magento\NotifierApi\Exception\NotifierDisabledException;
 use Magento\NotifierApi\Model\SendMessageInterface;
 use Magento\NotifierAsync\Model\BypassFlag;
 use Magento\NotifierAsync\Model\EnqueueMessage;
@@ -61,7 +63,6 @@ class SendMessageAsynchronously
      * @param string $channelCode
      * @param string $message
      * @param array $params
-     * @return bool
      * @throws NoSuchEntityException
      */
     public function aroundExecute(
@@ -70,24 +71,23 @@ class SendMessageAsynchronously
         string $channelCode,
         string $message,
         array $params = []
-    ): bool {
+    ): void {
         if (!$this->isEnabled->execute()) {
-            return false;
+            throw new NotifierDisabledException(__('Notifier service is disabled.'));
         }
 
         $channel = $this->channelRepository->getByCode($channelCode);
         if (!$channel->getEnabled()) {
-            return false;
+            throw new NotifierChannelDisabledException(__('Notifier channel ' . $channelCode . ' is disabled.'));
         }
 
         if ($this->bypassFlag->getStatus() ||
             $channel->getExtensionAttributes() === null ||
             !$channel->getExtensionAttributes()->getSendAsync()
         ) {
-            return $proceed($channelCode, $message, $params);
+            $proceed($channelCode, $message, $params);
         }
 
         $this->enqueueMessage->execute($channelCode, $message, $params);
-        return true;
     }
 }
