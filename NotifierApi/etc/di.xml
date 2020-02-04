@@ -11,9 +11,6 @@
     <preference for="Magento\NotifierApi\Api\Data\MessageInterface"
                 type="Magento\NotifierApi\Model\Message"/>
 
-    <preference for="Magento\NotifierApi\Api\MessageSenderInterface"
-                type="Magento\NotifierApi\Model\MessageSender"/>
-
     <preference for="Magento\NotifierApi\Model\AdapterEngine\AdapterValidatorInterface"
                 type="Magento\NotifierApi\Model\AdapterEngine\AdapterValidator"/>
 

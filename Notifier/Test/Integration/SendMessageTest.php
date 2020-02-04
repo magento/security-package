@@ -9,11 +9,14 @@ declare(strict_types=1);
 namespace Magento\Notifier\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
-use Magento\NotifierApi\Exception\NotifierChannelDisabledException;
-use Magento\NotifierApi\Exception\NotifierDisabledException;
-use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Notifier\Model\BuildMessage;
+use Magento\Notifier\Model\ChannelRepository;
 use Magento\Notifier\Model\SendMessage;
 use Magento\Notifier\Test\Integration\Mock\ConfigureMockAdapter;
+use Magento\NotifierApi\Exception\NotifierChannelDisabledException;
+use Magento\NotifierApi\Exception\NotifierDisabledException;
+use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 use PHPUnit\Framework\TestCase;
 
 class SendMessageTest extends TestCase
@@ -29,14 +32,31 @@ class SendMessageTest extends TestCase
     private $objectManager;
 
     /**
+     * @var BuildMessage
+     */
+    private $buildMessage;
+
+    /**
+     * @var ChannelRepository
+     */
+    private $channelRepository;
+
+    /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    /**
      * @inheritDoc
      */
     protected function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
         ConfigureMockAdapter::execute();
-
         $this->subject = $this->objectManager->get(SendMessage::class);
+        $this->buildMessage = $this->objectManager->get(BuildMessage::class);
+        $this->channelRepository = $this->objectManager->get(ChannelRepository::class);
+        $this->serializer = $this->objectManager->get(SerializerInterface::class);
     }
 
     /**
@@ -45,7 +65,13 @@ class SendMessageTest extends TestCase
      */
     public function testShouldSendMessage(): void
     {
-        $this->assertTrue($this->subject->execute('test_channel_1', 'Title'));
+        $channelCode = 'test_channel_1';
+        $messageText = 'Title';
+        $channel = $this->channelRepository->getByCode($channelCode);
+        $params = $this->serializer->unserialize($channel->getConfigurationJson());
+        $message = $this->buildMessage->execute($messageText, $params);
+
+        $this->subject->execute($channel, $message);
     }
 
     /**
@@ -56,7 +82,14 @@ class SendMessageTest extends TestCase
     {
         $this->expectException(NotifierChannelDisabledException::class);
         $this->expectExceptionMessage('Notifier channel test_disabled_channel is disabled.');
-        $this->subject->execute('test_disabled_channel', 'Title');
+
+        $channelCode = 'test_disabled_channel';
+        $messageText = 'Title';
+        $channel = $this->channelRepository->getByCode($channelCode);
+        $params = $this->serializer->unserialize($channel->getConfigurationJson());
+        $message = $this->buildMessage->execute($messageText, $params);
+
+        $this->subject->execute($channel, $message);
     }
 
     /**
@@ -67,6 +100,13 @@ class SendMessageTest extends TestCase
     {
         $this->expectException(NotifierDisabledException::class);
         $this->expectExceptionMessage('Notifier service is disabled');
-        $this->subject->execute('test_channel_1', 'Title');
+
+        $channelCode = 'test_channel_1';
+        $messageText = 'Title';
+        $channel = $this->channelRepository->getByCode($channelCode);
+        $params = $this->serializer->unserialize($channel->getConfigurationJson());
+        $message = $this->buildMessage->execute($messageText, $params);
+
+        $this->subject->execute($channel, $message);
     }
 }

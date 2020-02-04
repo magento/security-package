@@ -9,6 +9,9 @@ declare(strict_types=1);
 namespace Magento\NotifierAsync\Model;
 
 use Magento\Framework\MessageQueue\PublisherInterface;
+use Magento\NotifierApi\Api\Data\AdapterInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\MessageInterface;
 use Magento\NotifierApi\Model\SerializerInterface;
 
 class EnqueueMessage
@@ -36,16 +39,15 @@ class EnqueueMessage
     }
 
     /**
-     * @param string $channelCode
-     * @param string $message
-     * @param array $params
+     * @param ChannelInterface $channel
+     * @param MessageInterface $notificationMessage
      */
-    public function execute(string $channelCode, string $message, array $params = []): void
+    public function execute(ChannelInterface $channel, MessageInterface $notificationMessage): void
     {
         $this->publisher->publish('magento_notifier.send_message', [
-            'channelCode' => $channelCode,
-            'message' => $message,
-            'params' => $this->serializer->serialize($params)
+            'channelCode' => $channel->getCode(),
+            'message' => $notificationMessage->getMessage(),
+            'params' => $this->serializer->serialize($notificationMessage->getParams())
         ]);
     }
 }

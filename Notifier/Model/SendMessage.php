@@ -8,94 +8,92 @@ declare(strict_types=1);
 
 namespace Magento\Notifier\Model;
 
-use Magento\NotifierApi\Api\AdapterPoolInterface;
-use Magento\NotifierApi\Api\ChannelRepositoryInterface;
-use Magento\NotifierApi\Api\Data\MessageInterfaceFactory;
+use Magento\NotifierApi\Api\AdapterEnginePoolInterface;
+use Magento\NotifierApi\Api\AdapterValidatorPoolInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\MessageInterface;
 use Magento\NotifierApi\Api\IsEnabledInterface;
-use Magento\NotifierApi\Api\MessageSenderInterface;
 use Magento\NotifierApi\Exception\NotifierChannelDisabledException;
 use Magento\NotifierApi\Exception\NotifierDisabledException;
-use Magento\NotifierApi\Model\SendMessageInterface;
-use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\NotifierApi\Api\SendMessageInterface;
 
 class SendMessage implements SendMessageInterface
 {
-    /**
-     * @var ChannelRepositoryInterface
-     */
-    private $channelRepository;
-
-    /**
-     * @var AdapterPoolInterface
-     */
-    private $adaptersPool;
-
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
     /**
      * @var IsEnabledInterface
      */
     private $isEnabled;
 
     /**
-     * @var MessageSenderInterface
+     * @var AdapterEnginePoolInterface
      */
-    private $messageSender;
+    private $adapterEnginePool;
 
     /**
-     * @var MessageInterfaceFactory
+     * @var AdapterValidatorPoolInterface
      */
-    private $messageFactory;
+    private $adapterValidatorPool;
 
     /**
-     * SendMessage constructor.
-     * @param ChannelRepositoryInterface $channelRepository
-     * @param AdapterPoolInterface $adaptersPool
-     * @param SerializerInterface $serializer
-     * @param IsEnabledInterface $isEnabled
-     * @param MessageSenderInterface $messageSender
-     * @param MessageInterfaceFactory $messageFactory
+     * @param AdapterEnginePoolInterface $adapterEnginePool
+     * @param AdapterValidatorPoolInterface $adapterValidatorPool
      */
     public function __construct(
-        ChannelRepositoryInterface $channelRepository,
-        AdapterPoolInterface $adaptersPool,
-        SerializerInterface $serializer,
-        IsEnabledInterface $isEnabled,
-        MessageSenderInterface $messageSender,
-        MessageInterfaceFactory $messageFactory
+        AdapterEnginePoolInterface $adapterEnginePool,
+        AdapterValidatorPoolInterface $adapterValidatorPool,
+        IsEnabledInterface $isEnabled
     ) {
-        $this->channelRepository = $channelRepository;
-        $this->adaptersPool = $adaptersPool;
-        $this->serializer = $serializer;
+        $this->adapterEnginePool = $adapterEnginePool;
+        $this->adapterValidatorPool = $adapterValidatorPool;
         $this->isEnabled = $isEnabled;
-        $this->messageSender = $messageSender;
-        $this->messageFactory = $messageFactory;
     }
 
     /**
      * @inheritdoc
      */
-    public function execute(string $channelCode, string $message): void
+    public function execute(ChannelInterface $channel, MessageInterface $notificationMessage): void
     {
         if (!$this->isEnabled->execute()) {
             throw new NotifierDisabledException(__('Notifier service is disabled.'));
         }
 
-        $channel = $this->channelRepository->getByCode($channelCode);
         if (!$channel->getEnabled()) {
-            throw new NotifierChannelDisabledException(__('Notifier channel ' . $channelCode . ' is disabled.'));
+            throw new NotifierChannelDisabledException(__('Notifier channel ' . $channel->getCode() . ' is disabled.'));
         }
 
-        $adapter = $this->adaptersPool->getAdapterByCode($channel->getAdapterCode());
-        $configParams = $this->serializer->unserialize($channel->getConfigurationJson());
+        $this->validateMessage($channel, $notificationMessage);
+        $this->sendMessage($channel, $notificationMessage);
+    }
 
-        $notificationMessage = $this->messageFactory->create(
-            ['message' => $message, 'params' => $configParams]
-        );
+    /**
+     * TODO
+     *
+     * @param ChannelInterface $channel
+     * @param MessageInterface $message
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\ValidatorException
+     */
+    private function validateMessage(ChannelInterface $channel, MessageInterface $message): void
+    {
+        $adapterCode = $channel->getAdapterCode();
+        $validator = $this->adapterValidatorPool->getAdapterValidatorByCode($adapterCode);
 
-        $this->messageSender->execute($adapter, $notificationMessage);
+        $validator->validateMessage($message->getMessage());
+        $validator->validateParams($message->getParams());
+    }
+
+    /**
+     * TODO
+     *
+     * @param ChannelInterface $channel
+     * @param MessageInterface $message
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    private function sendMessage(ChannelInterface $channel, MessageInterface $message): void
+    {
+        $adapterCode = $channel->getAdapterCode();
+        $engine = $this->adapterEnginePool->getAdapterEngineByCode($adapterCode);
+
+        $engine->execute($message);
     }
 }

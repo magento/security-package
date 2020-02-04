@@ -15,7 +15,7 @@
                 type="Magento\NotifierAsync\Plugin\AddExtensionAttributesToChannel"/>
     </type>
 
-    <type name="Magento\NotifierApi\Model\SendMessageInterface">
+    <type name="Magento\NotifierApi\Api\SendMessageInterface">
         <plugin sortOrder="1" name="magentoNotifierAsyncSendMessageInterface"
                 type="Magento\NotifierAsync\Plugin\SendMessageAsynchronously"/>
     </type>

@@ -18,7 +18,6 @@ interface SendMessageInterface
      * @param string $channelCode
      * @param string $template
      * @param array $params
-     * @return bool
      */
-    public function execute(string $channelCode, string $template, array $params = []): bool;
+    public function execute(string $channelCode, string $template, array $params = []): void;
 }

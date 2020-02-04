@@ -8,12 +8,13 @@ declare(strict_types=1);
 
 namespace Magento\NotifierAsync\Plugin;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\NotifierApi\Api\Data\MessageInterface;
 use Magento\NotifierApi\Api\IsEnabledInterface;
 use Magento\NotifierApi\Exception\NotifierChannelDisabledException;
 use Magento\NotifierApi\Exception\NotifierDisabledException;
-use Magento\NotifierApi\Model\SendMessageInterface;
+use Magento\NotifierApi\Api\SendMessageInterface;
 use Magento\NotifierAsync\Model\BypassFlag;
 use Magento\NotifierAsync\Model\EnqueueMessage;
 
@@ -60,34 +61,32 @@ class SendMessageAsynchronously
     /**
      * @param SendMessageInterface $subject
      * @param callable $proceed
-     * @param string $channelCode
-     * @param string $message
-     * @param array $params
-     * @throws NoSuchEntityException
+     * @param ChannelInterface $channel
+     * @param MessageInterface $notificationMessage
+     * @throws NotifierChannelDisabledException
+     * @throws NotifierDisabledException
      */
     public function aroundExecute(
         SendMessageInterface $subject,
         callable $proceed,
-        string $channelCode,
-        string $message,
-        array $params = []
+        ChannelInterface $channel,
+        MessageInterface $notificationMessage
     ): void {
         if (!$this->isEnabled->execute()) {
             throw new NotifierDisabledException(__('Notifier service is disabled.'));
         }
 
-        $channel = $this->channelRepository->getByCode($channelCode);
         if (!$channel->getEnabled()) {
-            throw new NotifierChannelDisabledException(__('Notifier channel ' . $channelCode . ' is disabled.'));
+            throw new NotifierChannelDisabledException(__('Notifier channel ' . $channel->getCode() . ' is disabled.'));
         }
 
         if ($this->bypassFlag->getStatus() ||
             $channel->getExtensionAttributes() === null ||
             !$channel->getExtensionAttributes()->getSendAsync()
         ) {
-            $proceed($channelCode, $message, $params);
+            $proceed($channel, $notificationMessage);
         }
 
-        $this->enqueueMessage->execute($channelCode, $message, $params);
+        $this->enqueueMessage->execute($channel, $notificationMessage);
     }
 }
