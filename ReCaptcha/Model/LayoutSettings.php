@@ -7,8 +7,12 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptcha\Model;
 
+use Magento\ReCaptcha\Model\ConfigEnabledInterface;
+
 /**
- * Return the layout configuration setting for reCaptcha
+ * Extension point of the layout configuration setting for reCaptcha
+ *
+ * @api
  */
 class LayoutSettings
 {
@@ -18,12 +22,20 @@ class LayoutSettings
     private $config;
 
     /**
+     * @var ConfigEnabledInterface[]
+     */
+    private $configEnabledProviders;
+
+    /**
      * @param Config $config
+     * @param ConfigEnabledInterface[] $configEnabledProviders
      */
     public function __construct(
-        Config $config
+        Config $config,
+        array $configEnabledProviders
     ) {
         $this->config = $config;
+        $this->configEnabledProviders = $configEnabledProviders;
     }
 
     /**
@@ -32,7 +44,7 @@ class LayoutSettings
      */
     public function getCaptchaSettings(): array
     {
-        return [
+        $settings = [
             'siteKey' => $this->config->getPublicKey(),
             'size' => $this->config->getFrontendSize(),
             'badge' => $this->config->getFrontendPosition(),
@@ -45,8 +57,11 @@ class LayoutSettings
                 'contact' => $this->config->isEnabledFrontendContact(),
                 'review' => $this->config->isEnabledFrontendReview(),
                 'newsletter' => $this->config->isEnabledFrontendNewsletter(),
-                'sendfriend' => $this->config->isEnabledFrontendSendFriend(),
             ]
         ];
+        foreach ($this->configEnabledProviders as $key => $configEnabledProvider) {
+            $settings['enabled'][$key] = $configEnabledProvider->isEnabled();
+        }
+        return $settings;
     }
 }

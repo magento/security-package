@@ -15,7 +15,7 @@ use Magento\Store\Model\ScopeInterface;
 /**
  * Read configuration from store config
  */
-class Config
+class Config implements ConfigInterface
 {
     public const XML_PATH_ENABLED_BACKEND = 'recaptcha/backend/enabled';
     public const XML_PATH_ENABLED_FRONTEND = 'recaptcha/frontend/enabled';
@@ -41,7 +41,6 @@ class Config
     public const XML_PATH_ENABLED_FRONTEND_CREATE = 'recaptcha/frontend/enabled_create';
     public const XML_PATH_ENABLED_FRONTEND_REVIEW = 'recaptcha/frontend/enabled_review';
     public const XML_PATH_ENABLED_FRONTEND_NEWSLETTER = 'recaptcha/frontend/enabled_newsletter';
-    public const XML_PATH_ENABLED_FRONTEND_SENDFRIEND = 'recaptcha/frontend/enabled_sendfriend';
 
     /**
      * @var ScopeConfigInterface
@@ -93,7 +92,7 @@ class Config
      */
     public function isEnabledBackend(): bool
     {
-        if (!$this->getPrivateKey() || !$this->getPublicKey()) {
+        if (!$this->isAreaEnabled(Area::AREA_ADMINHTML) || !$this->getPrivateKey() || !$this->getPublicKey()) {
             return false;
         }
 
@@ -106,7 +105,7 @@ class Config
      */
     public function isEnabledFrontend(): bool
     {
-        if (!$this->getPrivateKey() || !$this->getPublicKey()) {
+        if (!$this->isAreaEnabled(Area::AREA_FRONTEND) || !$this->getPrivateKey() || !$this->getPublicKey()) {
             return false;
         }
 
@@ -208,22 +207,6 @@ class Config
 
         return (bool) $this->scopeConfig->getValue(
             static::XML_PATH_ENABLED_FRONTEND_NEWSLETTER,
-            ScopeInterface::SCOPE_WEBSITE
-        );
-    }
-
-    /**
-     * Return true if enabled on frontend send to friend
-     * @return bool
-     */
-    public function isEnabledFrontendSendFriend(): bool
-    {
-        if (!$this->isEnabledFrontend()) {
-            return false;
-        }
-
-        return (bool) $this->scopeConfig->getValue(
-            static::XML_PATH_ENABLED_FRONTEND_SENDFRIEND,
             ScopeInterface::SCOPE_WEBSITE
         );
     }
