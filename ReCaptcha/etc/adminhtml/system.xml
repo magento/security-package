@@ -172,18 +172,10 @@
                         <field id="enabled">1</field>
                     </depends>
                 </field>
-		        <field id="enabled_newsletter" translate="label" type="select" sortOrder="250" showInDefault="1"
+                <field id="enabled_newsletter" translate="label" type="select" sortOrder="250" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Use invisible ReCaptcha in newsletter</label>
                     <comment>Requires an Invisible ReCaptcha v2 or ReCaptcha v3 key. If enabled, a badge will be displayed in every page.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <depends>
-                        <field id="enabled">1</field>
-                    </depends>
-                </field>
-                <field id="enabled_sendfriend" translate="label" type="select" sortOrder="260" showInDefault="1"
-                       showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Use in Send To Friend</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="enabled">1</field>

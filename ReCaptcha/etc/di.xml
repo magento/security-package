@@ -7,7 +7,10 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\ReCaptcha\Model\ConfigInterface" type="Magento\ReCaptcha\Model\Config"/>
     <preference for="Magento\ReCaptcha\Model\ValidateInterface" type="Magento\ReCaptcha\Model\Validate"/>
+    <preference for="Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface"
+                type="Magento\ReCaptcha\Model\CaptchaRequestHandler"/>
 
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
@@ -20,18 +23,6 @@
     <type name="Magento\Framework\View\Asset\Minification">
         <plugin name="exclude-recaptcha-from-minification" type="Magento\ReCaptcha\Plugin\ExcludeFromMinification"/>
     </type>
-
-    <type name="Magento\ReCaptcha\Block\Frontend\ReCaptcha">
-        <arguments>
-            <!-- Deprecated parameter encoder -->
-            <argument name="encoder" xsi:type="null" />
-            <!-- Deprecated parameter decoder -->
-            <argument name="decoder" xsi:type="null" />
-        </arguments>
-    </type>
-
-    <preference for="Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface"
-                type="Magento\ReCaptcha\Model\CaptchaRequestHandler"/>
 
     <!-- Set sensitive information -->
     <type name="Magento\Config\Model\Config\TypePool">
