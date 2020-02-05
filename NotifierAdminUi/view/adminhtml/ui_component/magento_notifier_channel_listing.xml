@@ -31,16 +31,16 @@
                 <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
             </item>
         </argument>
+        <settings>
+            <updateUrl path="mui/index/render"/>
+        </settings>
         <aclResource>Magento_Notifier::channel</aclResource>
         <dataProvider name="magento_notifier_channel_data_source"
                       class="Magento\NotifierAdminUi\Ui\DataProvider\Listing\ChannelDataProvider">
-            <argument name="primaryFieldName" xsi:type="string">channel_id</argument>
-            <argument name="requestFieldName" xsi:type="string">channel_id</argument>
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
-                </item>
-            </argument>
+            <settings>
+                <primaryFieldName>channel_id</primaryFieldName>
+                <requestFieldName>channel_id</requestFieldName>
+            </settings>
         </dataProvider>
     </dataSource>
 
