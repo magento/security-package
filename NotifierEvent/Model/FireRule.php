@@ -10,12 +10,14 @@ namespace Magento\NotifierEvent\Model;
 
 use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Notifier\Model\ChannelRepository;
+use Magento\Notifier\Model\SendMessage;
 use Magento\NotifierApi\Model\SerializerInterface;
 use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
 use Magento\NotifierEventApi\Model\FireRuleInterface;
 use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
 use Magento\NotifierEventApi\Model\ThrottleInterface;
-use Magento\NotifierTemplateApi\Model\SendMessageInterface;
+use Magento\NotifierTemplateApi\Model\BuildMessageFromTemplateInterface;
 use Psr\Log\LoggerInterface;
 
 class FireRule implements FireRuleInterface
@@ -26,9 +28,9 @@ class FireRule implements FireRuleInterface
     private $ruleRepository;
 
     /**
-     * @var SendMessageInterface
+     * @var BuildMessageFromTemplateInterface
      */
-    private $sendMessage;
+    private $buildMessageFromTemplate;
 
     /**
      * @var SerializerInterface
@@ -49,10 +51,21 @@ class FireRule implements FireRuleInterface
      * @var GetAutomaticTemplateIdInterface
      */
     private $automaticTemplateId;
+    /**
+     * @var SendMessage
+     */
+    private $sendMessage;
+
+    /**
+     * @var ChannelRepository
+     */
+    private $channelRepository;
 
     /**
      * @param RuleRepositoryInterface $ruleRepository
-     * @param SendMessageInterface $sendMessage
+     * @param BuildMessageFromTemplateInterface $buildMessageFromTemplate
+     * @param SendMessage $sendMessage
+     * @param ChannelRepository $channelRepository
      * @param SerializerInterface $serializer
      * @param ThrottleInterface $throttle
      * @param GetAutomaticTemplateIdInterface $getAutomaticTemplateId
@@ -61,13 +74,17 @@ class FireRule implements FireRuleInterface
      */
     public function __construct(
         RuleRepositoryInterface $ruleRepository,
-        SendMessageInterface $sendMessage,
+        BuildMessageFromTemplateInterface $buildMessageFromTemplate,
+        SendMessage $sendMessage,
+        ChannelRepository $channelRepository,
         SerializerInterface $serializer,
         ThrottleInterface $throttle,
         GetAutomaticTemplateIdInterface $getAutomaticTemplateId,
         LoggerInterface $logger
     ) {
         $this->ruleRepository = $ruleRepository;
+        $this->buildMessageFromTemplate = $buildMessageFromTemplate;
+        $this->channelRepository = $channelRepository;
         $this->sendMessage = $sendMessage;
         $this->serializer = $serializer;
         $this->logger = $logger;
@@ -101,8 +118,11 @@ class FireRule implements FireRuleInterface
                 } else {
                     $templateId = $rule->getTemplateId();
                 }
+                $channel = $this->channelRepository->getByCode($channelCode);
+                $message = $this->buildMessageFromTemplate->execute($channelCode, $templateId, $data);
 
-                $this->sendMessage->execute($channelCode, $templateId, $data);
+                $this->sendMessage->execute($channel, $message);
+
             } catch (Exception $e) {
                 $this->logger->error(sprintf(
                     'Could not send message on channel %s: %s',

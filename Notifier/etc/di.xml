@@ -28,6 +28,7 @@
     <preference for="Magento\NotifierApi\Api\SendMessageInterface" type="Magento\Notifier\Model\SendMessage"/>
     <preference for="Magento\NotifierApi\Api\IsEnabledInterface" type="Magento\Notifier\Model\IsEnabled"/>
     <preference for="Magento\NotifierApi\Model\SerializerInterface" type="Magento\Notifier\Model\Serializer"/>
+    <preference for="Magento\NotifierApi\Api\GetChannelConfigurationInterface" type="Magento\Notifier\Model\GetChannelConfiguration"/>
 
     <type name="Magento\NotifierApi\Model\Channel\Validator\ValidateChannel">
         <arguments>

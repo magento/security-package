@@ -15,6 +15,9 @@ use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
 use Magento\NotifierApi\Model\SerializerInterface;
 
+/**
+ * @inheritdoc
+ */
 class ValidateAdapter implements ValidateChannelInterface
 {
     /**
@@ -28,7 +31,6 @@ class ValidateAdapter implements ValidateChannelInterface
     private $adapterValidatorPool;
 
     /**
-     * BasicValidator constructor.
      * @param AdapterValidatorPoolInterface $adapterValidatorPool
      * @param SerializerInterface $serializer
      */
@@ -41,7 +43,7 @@ class ValidateAdapter implements ValidateChannelInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(ChannelInterface $channel): void
     {

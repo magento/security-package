@@ -9,11 +9,16 @@ declare(strict_types=1);
 namespace Magento\NotifierTelegramAdapter\Model\AdapterEngine;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Api\Data\MessageInterface;
+use Magento\NotifierApi\Api\GetChannelConfigurationInterface;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 use Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram\ClientRepository;
 use Psr\Log\LoggerInterface;
 
+/**
+ * Telegram adapter engine for sending notifier messages.
+ */
 class Telegram implements AdapterEngineInterface
 {
     /**
@@ -40,26 +45,33 @@ class Telegram implements AdapterEngineInterface
      * @var LoggerInterface
      */
     private $logger;
+    /**
+     * @var GetChannelConfigurationInterface
+     */
+    private $getChannelConfiguration;
 
     /**
      * @param ClientRepository $clientRepository
      * @param LoggerInterface $logger
+     * @param GetChannelConfigurationInterface $getChannelConfiguration
      */
     public function __construct(
         ClientRepository $clientRepository,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        GetChannelConfigurationInterface $getChannelConfiguration
     ) {
         $this->clientRepository = $clientRepository;
         $this->logger = $logger;
+        $this->getChannelConfiguration = $getChannelConfiguration;
     }
 
     /**
      * @inheritdoc
      */
-    public function execute(MessageInterface $message): void
+    public function execute(ChannelInterface $channel, MessageInterface $message): void
     {
-        $messageText= $message->getMessage();
-        $configParams = $message->getParams();
+        $messageText = $message->getMessage();
+        $configParams = $this->getChannelConfiguration->execute($channel);
         $client = $this->clientRepository->get($configParams[self::PARAM_TOKEN]);
 
         try {

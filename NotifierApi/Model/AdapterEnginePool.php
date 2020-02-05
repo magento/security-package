@@ -13,6 +13,9 @@ use Magento\NotifierApi\Api\Data\AdapterInterface;
 use Magento\NotifierApi\Api\AdapterEnginePoolInterface;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 
+/**
+ * @inheritdoc
+ */
 class AdapterEnginePool implements AdapterEnginePoolInterface
 {
     /**

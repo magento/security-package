@@ -68,8 +68,8 @@ class SendMessageTest extends TestCase
         $channelCode = 'test_channel_1';
         $messageText = 'Title';
         $channel = $this->channelRepository->getByCode($channelCode);
-        $params = $this->serializer->unserialize($channel->getConfigurationJson());
-        $message = $this->buildMessage->execute($messageText, $params);
+        $params = [];
+        $message = $this->buildMessage->execute($messageText, []);
 
         $this->subject->execute($channel, $message);
     }
@@ -86,8 +86,7 @@ class SendMessageTest extends TestCase
         $channelCode = 'test_disabled_channel';
         $messageText = 'Title';
         $channel = $this->channelRepository->getByCode($channelCode);
-        $params = $this->serializer->unserialize($channel->getConfigurationJson());
-        $message = $this->buildMessage->execute($messageText, $params);
+        $message = $this->buildMessage->execute($messageText, []);
 
         $this->subject->execute($channel, $message);
     }
@@ -104,8 +103,7 @@ class SendMessageTest extends TestCase
         $channelCode = 'test_channel_1';
         $messageText = 'Title';
         $channel = $this->channelRepository->getByCode($channelCode);
-        $params = $this->serializer->unserialize($channel->getConfigurationJson());
-        $message = $this->buildMessage->execute($messageText, $params);
+        $message = $this->buildMessage->execute($messageText, []);
 
         $this->subject->execute($channel, $message);
     }

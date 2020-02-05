@@ -10,7 +10,7 @@ namespace Magento\NotifierApi\Api\Data;
 use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
- * TODO
+ * Notifier message interface.
  *
  * @api
  */

@@ -9,11 +9,16 @@ declare(strict_types=1);
 namespace Magento\NotifierSlackAdapter\Model\AdapterEngine;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Api\Data\MessageInterface;
+use Magento\NotifierApi\Api\GetChannelConfigurationInterface;
 use Maknz\Slack\Client;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 use Magento\NotifierSlackAdapter\Model\AdapterEngine\Slack\ClientFactory;
 
+/**
+ * Slack adapter engine for sending notifier messages.
+ */
 class Slack implements AdapterEngineInterface
 {
     /**
@@ -29,7 +34,7 @@ class Slack implements AdapterEngineInterface
     /**
      * Parameter name for emoji
      */
-    private const PARAM_EMOJI  = 'emoji';
+    private const PARAM_EMOJI = 'emoji';
 
     /**
      * Parameter name for channel name
@@ -62,24 +67,32 @@ class Slack implements AdapterEngineInterface
     private $clientFactory;
 
     /**
+     * @var GetChannelConfigurationInterface
+     */
+    private $getChannelConfiguration;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param ClientFactory $clientFactory
+     * @param GetChannelConfigurationInterface $getChannelConfiguration
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        ClientFactory $clientFactory
+        ClientFactory $clientFactory,
+        GetChannelConfigurationInterface $getChannelConfiguration
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->clientFactory = $clientFactory;
+        $this->getChannelConfiguration = $getChannelConfiguration;
     }
 
     /**
      * @inheritdoc
      */
-    public function execute(MessageInterface $message): void
+    public function execute(ChannelInterface $channel, MessageInterface $message): void
     {
-        $messageText= $message->getMessage();
-        $configParams = $message->getParams();
+        $messageText = $message->getMessage();
+        $configParams = $this->getChannelConfiguration->execute($channel);
         $client = $this->getClient($configParams);
 
         $client->attach([

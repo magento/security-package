@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Magento\NotifierApi\Api\Data;
 
 /**
- * TODO
+ * Notifier adapter interface.
  *
  * @api
  */

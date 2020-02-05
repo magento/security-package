@@ -12,11 +12,15 @@ use Magento\NotifierApi\Api\AdapterEnginePoolInterface;
 use Magento\NotifierApi\Api\AdapterValidatorPoolInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Api\Data\MessageInterface;
+use Magento\NotifierApi\Api\GetChannelConfigurationInterface;
 use Magento\NotifierApi\Api\IsEnabledInterface;
 use Magento\NotifierApi\Exception\NotifierChannelDisabledException;
 use Magento\NotifierApi\Exception\NotifierDisabledException;
 use Magento\NotifierApi\Api\SendMessageInterface;
 
+/**
+ * @inheritdoc
+ */
 class SendMessage implements SendMessageInterface
 {
     /**
@@ -35,17 +39,26 @@ class SendMessage implements SendMessageInterface
     private $adapterValidatorPool;
 
     /**
+     * @var GetChannelConfigurationInterface
+     */
+    private $getChannelConfiguration;
+
+    /**
      * @param AdapterEnginePoolInterface $adapterEnginePool
      * @param AdapterValidatorPoolInterface $adapterValidatorPool
+     * @param IsEnabledInterface $isEnabled
+     * @param GetChannelConfigurationInterface $getChannelConfiguration
      */
     public function __construct(
         AdapterEnginePoolInterface $adapterEnginePool,
         AdapterValidatorPoolInterface $adapterValidatorPool,
-        IsEnabledInterface $isEnabled
+        IsEnabledInterface $isEnabled,
+        GetChannelConfigurationInterface $getChannelConfiguration
     ) {
         $this->adapterEnginePool = $adapterEnginePool;
         $this->adapterValidatorPool = $adapterValidatorPool;
         $this->isEnabled = $isEnabled;
+        $this->getChannelConfiguration = $getChannelConfiguration;
     }
 
     /**
@@ -61,29 +74,29 @@ class SendMessage implements SendMessageInterface
             throw new NotifierChannelDisabledException(__('Notifier channel ' . $channel->getCode() . ' is disabled.'));
         }
 
-        $this->validateMessage($channel, $notificationMessage);
+        $this->validate($channel, $notificationMessage);
         $this->sendMessage($channel, $notificationMessage);
     }
 
     /**
-     * TODO
+     * Validate message text and configuration.
      *
      * @param ChannelInterface $channel
      * @param MessageInterface $message
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      * @throws \Magento\Framework\Exception\ValidatorException
      */
-    private function validateMessage(ChannelInterface $channel, MessageInterface $message): void
+    private function validate(ChannelInterface $channel, MessageInterface $message): void
     {
         $adapterCode = $channel->getAdapterCode();
         $validator = $this->adapterValidatorPool->getAdapterValidatorByCode($adapterCode);
 
         $validator->validateMessage($message->getMessage());
-        $validator->validateParams($message->getParams());
+        $validator->validateParams($this->getChannelConfiguration->execute($channel));
     }
 
     /**
-     * TODO
+     * Send message by adapter engine.
      *
      * @param ChannelInterface $channel
      * @param MessageInterface $message
@@ -94,6 +107,6 @@ class SendMessage implements SendMessageInterface
         $adapterCode = $channel->getAdapterCode();
         $engine = $this->adapterEnginePool->getAdapterEngineByCode($adapterCode);
 
-        $engine->execute($message);
+        $engine->execute($channel, $message);
     }
 }

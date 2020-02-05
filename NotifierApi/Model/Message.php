@@ -11,9 +11,7 @@ use Magento\NotifierApi\Api\Data\MessageInterface;
 use Magento\NotifierApi\Api\Data\MessageExtensionInterface;
 
 /**
- * TODO
- *
- * @api
+ * @inheritdoc
  */
 class Message implements MessageInterface
 {
@@ -32,6 +30,11 @@ class Message implements MessageInterface
      */
     private $extensionAttributes;
 
+    /**
+     * @param string|null $message
+     * @param array|null $params
+     * @param MessageExtensionInterface|null $extensionAttributes
+     */
     public function __construct(
         string $message = null,
         array $params = null,

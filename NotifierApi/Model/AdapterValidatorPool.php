@@ -12,6 +12,9 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\NotifierApi\Api\AdapterValidatorPoolInterface;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterValidatorInterface;
 
+/**
+ * @inheritdoc
+ */
 class AdapterValidatorPool implements AdapterValidatorPoolInterface
 {
     /**
@@ -54,7 +57,6 @@ class AdapterValidatorPool implements AdapterValidatorPoolInterface
         if (!($adapterValidator instanceof AdapterValidatorInterface)) {
             throw new InvalidArgumentException('Adapter validator ' . $code . ' must implement AdapterValidatorInterface');
         }
-
 
         return $adapterValidator;
     }

@@ -10,6 +10,9 @@ namespace Magento\NotifierApi\Model;
 
 use Magento\NotifierApi\Api\Data\AdapterInterface;
 
+/**
+ * @inheritdoc
+ */
 class Adapter implements AdapterInterface
 {
     /**

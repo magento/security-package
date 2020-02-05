@@ -12,6 +12,9 @@ use Magento\NotifierApi\Api\BuildMessageInterface;
 use Magento\NotifierApi\Api\Data\MessageInterface;
 use Magento\NotifierApi\Api\Data\MessageInterfaceFactory;
 
+/**
+ * @inheritdoc
+ */
 class BuildMessage implements BuildMessageInterface
 {
     /**
@@ -19,6 +22,9 @@ class BuildMessage implements BuildMessageInterface
      */
     private $messageFactory;
 
+    /**
+     * @param MessageInterfaceFactory $messageFactory
+     */
     public function __construct(
         MessageInterfaceFactory $messageFactory
     ) {
@@ -26,7 +32,7 @@ class BuildMessage implements BuildMessageInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(string $messageText, array $configParams): MessageInterface
     {

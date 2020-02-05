@@ -10,8 +10,8 @@
 
     <preference for="Magento\NotifierTemplateApi\Model\GetMessageTextInterface"
                 type="Magento\NotifierTemplate\Model\GetMessageText"/>
-    <preference for="Magento\NotifierTemplateApi\Model\SendMessageInterface"
-                type="Magento\NotifierTemplate\Model\SendMessage"/>
+    <preference for="Magento\NotifierTemplateApi\Model\BuildMessageFromTemplateInterface"
+                type="Magento\NotifierTemplate\Model\BuildMessageFromTemplate"/>
     <preference for="Magento\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface"
                 type="Magento\NotifierTemplate\Model\FilesystemTemplateRepository"/>
     <preference for="Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface"

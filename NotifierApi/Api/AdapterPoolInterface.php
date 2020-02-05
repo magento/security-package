@@ -10,7 +10,8 @@ namespace Magento\NotifierApi\Api;
 use Magento\NotifierApi\Api\Data\AdapterInterface;
 
 /**
- * Interface AdaptersPoolInterface
+ * Adapter pool interface.
+ *
  * @api
  */
 interface AdapterPoolInterface
@@ -18,7 +19,7 @@ interface AdapterPoolInterface
     /**
      * Get adapters list.
      *
-     * @return AdapterInterface[]
+     * @return \Magento\NotifierApi\Api\Data\AdapterInterface[]
      */
     public function getAdapters(): array;
 
@@ -26,7 +27,7 @@ interface AdapterPoolInterface
      * Get adapter by code.
      *
      * @param string $code
-     * @return \Magento\NotifierApi\Api\AdapterInterface
+     * @return \Magento\NotifierApi\Api\Data\AdapterInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getAdapterByCode(string $code): AdapterInterface;

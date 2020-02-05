@@ -12,13 +12,14 @@ use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Api\Data\MessageInterface;
 
 /**
- * Send notifier messages interface
- * @spi
+ * Send notifier messages interface.
+ *
+ * @api
  */
 interface SendMessageInterface
 {
     /**
-     * TODO
+     * Send notifier messages interface.
      *
      * @param ChannelInterface $channel
      * @param MessageInterface $notificationMessage

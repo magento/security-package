@@ -11,14 +11,14 @@ namespace Magento\NotifierApi\Api;
 use Magento\NotifierApi\Api\Data\MessageInterface;
 
 /**
- * TODO
+ * Build notifier message from text.
  *
  * @api
  */
 interface BuildMessageInterface
 {
     /**
-     * TODO
+     * Build notifier message from text.
      *
      * @param string $messageText
      * @param array $params

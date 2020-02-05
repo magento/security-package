@@ -8,8 +8,10 @@ declare(strict_types=1);
 namespace Magento\NotifierSecurity\Model\NotifyByEvent;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Notifier\Model\ChannelRepository;
+use Magento\Notifier\Model\SendMessage;
 use Magento\NotifierSecurity\Model\NotifierInterface;
-use Magento\NotifierTemplateApi\Model\SendMessageInterface;
+use Magento\NotifierTemplateApi\Model\BuildMessageFromTemplateInterface;
 
 class NotifyByConfig implements NotifierInterface
 {
@@ -29,26 +31,40 @@ class NotifyByConfig implements NotifierInterface
     private $template;
 
     /**
-     * @var SendMessageInterface
+     * @var BuildMessageFromTemplateInterface
+     */
+    private $buildMessageFromTemplate;
+    /**
+     * @var ChannelRepository
+     */
+    private $channelRepository;
+    /**
+     * @var SendMessage
      */
     private $sendMessage;
 
     /**
-     * @param SendMessageInterface $sendMessage
+     * @param BuildMessageFromTemplateInterface $buildMessageFromTemplate
+     * @param ChannelRepository $channelRepository
+     * @param SendMessage $sendMessage
      * @param ScopeConfigInterface $scopeConfig
      * @param string $channelConfigPath
      * @param string $template
      */
     public function __construct(
-        SendMessageInterface $sendMessage,
+        BuildMessageFromTemplateInterface $buildMessageFromTemplate,
+        ChannelRepository $channelRepository,
+        SendMessage $sendMessage,
         ScopeConfigInterface $scopeConfig,
         string $channelConfigPath,
         string $template
     ) {
         $this->scopeConfig = $scopeConfig;
+        $this->channelRepository = $channelRepository;
+        $this->sendMessage = $sendMessage;
         $this->channelConfigPath = $channelConfigPath;
         $this->template = $template;
-        $this->sendMessage = $sendMessage;
+        $this->buildMessageFromTemplate = $buildMessageFromTemplate;
     }
 
     /**
@@ -60,7 +76,10 @@ class NotifyByConfig implements NotifierInterface
     {
         $channelCode = (string) $this->scopeConfig->getValue($this->channelConfigPath);
         if (!empty($channelCode)) {
-            $this->sendMessage->execute($channelCode, $this->template, $eventData);
+            $channel = $this->channelRepository->getByCode($channelCode);
+            $message = $this->buildMessageFromTemplate->execute($channelCode, $this->template, $eventData);
+
+            $this->sendMessage->execute($channel, $message);
         }
     }
 }

@@ -11,7 +11,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 
 /**
- * TODO
+ * Adapter engine pool interface.
  *
  * @api
  */

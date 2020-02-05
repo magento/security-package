@@ -8,8 +8,10 @@ declare(strict_types=1);
 namespace Magento\NotifierSecurity\Model\NotifyByEvent;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Notifier\Model\ChannelRepository;
+use Magento\Notifier\Model\SendMessage;
 use Magento\NotifierSecurity\Model\NotifierInterface;
-use Magento\NotifierTemplateApi\Model\SendMessageInterface;
+use Magento\NotifierTemplateApi\Model\BuildMessageFromTemplateInterface;
 
 class AdminUserSave implements NotifierInterface
 {
@@ -19,9 +21,9 @@ class AdminUserSave implements NotifierInterface
     private $scopeConfig;
 
     /**
-     * @var SendMessageInterface
+     * @var BuildMessageFromTemplateInterface
      */
-    private $sendMessage;
+    private $buildMessageFromTemplate;
 
     /**
      * @var string
@@ -42,9 +44,19 @@ class AdminUserSave implements NotifierInterface
      * @var string
      */
     private $templateExisting;
+    /**
+     * @var ChannelRepository
+     */
+    private $channelRepository;
+    /**
+     * @var SendMessage
+     */
+    private $sendMessage;
 
     /**
-     * @param SendMessageInterface $sendMessage
+     * @param BuildMessageFromTemplateInterface $buildMessageFromTemplate
+     * @param ChannelRepository $channelRepository
+     * @param SendMessage $sendMessage
      * @param ScopeConfigInterface $scopeConfig
      * @param string $channelConfigPathNew
      * @param string $channelConfigPathExisting
@@ -52,7 +64,9 @@ class AdminUserSave implements NotifierInterface
      * @param string $templateExisting
      */
     public function __construct(
-        SendMessageInterface $sendMessage,
+        BuildMessageFromTemplateInterface $buildMessageFromTemplate,
+        ChannelRepository $channelRepository,
+        SendMessage $sendMessage,
         ScopeConfigInterface $scopeConfig,
         string $channelConfigPathNew,
         string $channelConfigPathExisting,
@@ -60,6 +74,8 @@ class AdminUserSave implements NotifierInterface
         string $templateExisting
     ) {
         $this->scopeConfig = $scopeConfig;
+        $this->buildMessageFromTemplate = $buildMessageFromTemplate;
+        $this->channelRepository = $channelRepository;
         $this->sendMessage = $sendMessage;
         $this->channelConfigPathNew = $channelConfigPathNew;
         $this->channelConfigPathExisting = $channelConfigPathExisting;
@@ -75,15 +91,18 @@ class AdminUserSave implements NotifierInterface
     public function execute(string $eventName, array $eventData): void
     {
         if ($eventData['object']->isObjectNew()) {
-            $channelCode = (string) $this->scopeConfig->getValue($this->channelConfigPathNew);
+            $channelCode = (string)$this->scopeConfig->getValue($this->channelConfigPathNew);
             $template = $this->templateNew;
         } else {
-            $channelCode = (string) $this->scopeConfig->getValue($this->channelConfigPathExisting);
+            $channelCode = (string)$this->scopeConfig->getValue($this->channelConfigPathExisting);
             $template = $this->templateExisting;
         }
 
         if (!empty($channelCode)) {
-            $this->sendMessage->execute($channelCode, $template, $eventData);
+            $channel = $this->channelRepository->getByCode($channelCode);
+            $message = $this->buildMessageFromTemplate->execute($channelCode, $template, $eventData);
+
+            $this->sendMessage->execute($channel, $message);
         }
     }
 }

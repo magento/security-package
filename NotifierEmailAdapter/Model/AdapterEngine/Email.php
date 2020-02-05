@@ -12,9 +12,14 @@ use Magento\Framework\Exception\MailException;
 use Magento\Framework\Mail\MailMessageInterface;
 use Magento\Framework\Mail\MailMessageInterfaceFactory;
 use Magento\Framework\Mail\TransportInterfaceFactory;
+use Magento\Notifier\Model\GetChannelConfiguration;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Api\Data\MessageInterface;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 
+/**
+ * Email adapter engine for sending notifier messages.
+ */
 class Email implements AdapterEngineInterface
 {
     /**
@@ -48,25 +53,33 @@ class Email implements AdapterEngineInterface
     private $transportFactory;
 
     /**
+     * @var GetChannelConfiguration
+     */
+    private $getChannelConfiguration;
+
+    /**
      * @param MailMessageInterfaceFactory $messageFactory
      * @param TransportInterfaceFactory $transportFactory
+     * @param GetChannelConfiguration $getChannelConfiguration
      * @SuppressWarnings(PHPMD.LongVariables)
      */
     public function __construct(
         MailMessageInterfaceFactory $messageFactory,
-        TransportInterfaceFactory $transportFactory
+        TransportInterfaceFactory $transportFactory,
+        GetChannelConfiguration $getChannelConfiguration
     ) {
         $this->mailMessageFactory = $messageFactory;
         $this->transportFactory = $transportFactory;
+        $this->getChannelConfiguration = $getChannelConfiguration;
     }
 
     /**
      * @inheritdoc
      */
-    public function execute(MessageInterface $message): void
+    public function execute(ChannelInterface $channel, MessageInterface $message): void
     {
-        $messageText= $message->getMessage();
-        $configParams = $message->getParams();
+        $messageText = $message->getMessage();
+        $configParams = $this->getChannelConfiguration->execute($channel);
 
         $lines = explode("\n", $messageText);
 
