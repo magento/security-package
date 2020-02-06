@@ -42,7 +42,7 @@ class ConfigEnabled implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled on frontend captcha for review
+     * Return true if enabled on frontend captcha for contact form
      * @return bool
      */
     public function isEnabled(): bool

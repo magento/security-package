@@ -13,7 +13,7 @@ use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Read configuration from store config
+ * Return config flag "is recaptcha enabled for sendfriend"
  */
 class ConfigEnabled implements ConfigEnabledInterface
 {
