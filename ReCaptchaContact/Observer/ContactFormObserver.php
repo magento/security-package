@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Observer\Frontend;
+namespace Magento\ReCaptchaContact\Observer;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
@@ -14,7 +14,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\UrlInterface;
 use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigEnabledInterface;
 
 /**
  * ContactFormObserver
@@ -27,7 +27,7 @@ class ContactFormObserver implements ObserverInterface
     private $url;
 
     /**
-     * @var Config
+     * @var ConfigEnabledInterface
      */
     private $config;
 
@@ -38,12 +38,12 @@ class ContactFormObserver implements ObserverInterface
 
     /**
      * @param UrlInterface $url
-     * @param Config $config
+     * @param ConfigEnabledInterface $config
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
         UrlInterface $url,
-        Config $config,
+        ConfigEnabledInterface $config,
         CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {
         $this->url = $url;
@@ -58,14 +58,14 @@ class ContactFormObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isAreaEnabled(Area::AREA_FRONTEND) && $this->config->isEnabledFrontendContact()) {
+        if ($this->config->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('contact/index/index');
 
-            $this->captchaRequestHandler->execute(Area::AREA_ADMINHTML, $request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
         }
     }
 }

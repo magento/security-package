@@ -26,7 +26,6 @@
                 <lang></lang>
                 <enabled_login>1</enabled_login>
                 <enabled_forgot>1</enabled_forgot>
-                <enabled_contact>1</enabled_contact>
                 <enabled_create>1</enabled_create>
                 <enabled_newsletter>1</enabled_newsletter>
                 <min_score>0.6</min_score>

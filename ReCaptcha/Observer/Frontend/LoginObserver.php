@@ -65,7 +65,7 @@ class LoginObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->beforeAuthUrlProvider->execute();
 
-            $this->captchaRequestHandler->execute(Area::AREA_ADMINHTML, $request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
         }
     }
 }
