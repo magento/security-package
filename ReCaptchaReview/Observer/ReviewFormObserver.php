@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Observer\Frontend;
+namespace Magento\ReCaptchaReview\Observer\Frontend;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
@@ -14,7 +14,6 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
-use Magento\ReCaptcha\Model\Config;
 use Magento\ReCaptcha\Model\ConfigEnabledInterface;
 
 /**
