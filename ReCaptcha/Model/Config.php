@@ -35,10 +35,6 @@ class Config implements ConfigInterface
     public const XML_PATH_PUBLIC_KEY = 'recaptcha/general/public_key';
     public const XML_PATH_PRIVATE_KEY = 'recaptcha/general/private_key';
 
-    public const XML_PATH_ENABLED_FRONTEND_LOGIN = 'recaptcha/frontend/enabled_login';
-    public const XML_PATH_ENABLED_FRONTEND_FORGOT = 'recaptcha/frontend/enabled_forgot';
-    public const XML_PATH_ENABLED_FRONTEND_CREATE = 'recaptcha/frontend/enabled_create';
-
     /**
      * @var ScopeConfigInterface
      */
@@ -108,54 +104,6 @@ class Config implements ConfigInterface
 
         return (bool) $this->scopeConfig->getValue(
             static::XML_PATH_ENABLED_FRONTEND,
-            ScopeInterface::SCOPE_WEBSITE
-        );
-    }
-
-    /**
-     * Return true if enabled on frontend login
-     * @return bool
-     */
-    public function isEnabledFrontendLogin(): bool
-    {
-        if (!$this->isEnabledFrontend()) {
-            return false;
-        }
-
-        return (bool) $this->scopeConfig->getValue(
-            static::XML_PATH_ENABLED_FRONTEND_LOGIN,
-            ScopeInterface::SCOPE_WEBSITE
-        );
-    }
-
-    /**
-     * Return true if enabled on frontend forgot password
-     * @return bool
-     */
-    public function isEnabledFrontendForgot(): bool
-    {
-        if (!$this->isEnabledFrontend()) {
-            return false;
-        }
-
-        return (bool) $this->scopeConfig->getValue(
-            static::XML_PATH_ENABLED_FRONTEND_FORGOT,
-            ScopeInterface::SCOPE_WEBSITE
-        );
-    }
-
-    /**
-     * Return true if enabled on frontend create user
-     * @return bool
-     */
-    public function isEnabledFrontendCreateUser(): bool
-    {
-        if (!$this->isEnabledFrontend()) {
-            return false;
-        }
-
-        return (bool) $this->scopeConfig->getValue(
-            static::XML_PATH_ENABLED_FRONTEND_CREATE,
             ScopeInterface::SCOPE_WEBSITE
         );
     }
@@ -239,17 +187,6 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Get frontend type
-     * @return string
-     * @deprecated since 1.6.0
-     * @see getType
-     */
-    public function getFrontendType()
-    {
-        return (string) $this->scopeConfig->getValue(static::XML_PATH_TYPE);
-    }
-
-    /**
      * Get reCaptcha type
      * @return string
      */
@@ -298,7 +235,7 @@ class Config implements ConfigInterface
      * @param string $area
      * @return bool
      */
-    public function isAreaEnabled(string $area): bool
+    private function isAreaEnabled(string $area): bool
     {
         if (!in_array($area, [Area::AREA_FRONTEND, Area::AREA_ADMINHTML], true)) {
             throw new \InvalidArgumentException('Area parameter must be one of frontend or adminhtml');

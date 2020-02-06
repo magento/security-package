@@ -5,28 +5,25 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Observer\Frontend;
+namespace Magento\ReCaptchaCustomer\Observer;
 
+use Magento\Customer\Model\Url;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\UrlInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Session\SessionManagerInterface;
 use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigEnabledInterface;
 
 /**
- * CreateUserObserver
+ * LoginObserver
  */
-class CreateUserObserver implements ObserverInterface
+class LoginObserver implements ObserverInterface
 {
     /**
-     * @var UrlInterface
-     */
-    private $url;
-
-    /**
-     * @var Config
+     * @var ConfigEnabledInterface
      */
     private $config;
 
@@ -36,33 +33,46 @@ class CreateUserObserver implements ObserverInterface
     private $captchaRequestHandler;
 
     /**
-     * @param UrlInterface $url
-     * @param Config $config
+     * @var SessionManagerInterface
+     */
+    private $sessionManager;
+
+    /**
+     * @var Url
+     */
+    private $url;
+
+    /**
+     * @param ConfigEnabledInterface $config
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
+     * @param SessionManagerInterface $sessionManager
+     * @param Url $url
      */
     public function __construct(
-        UrlInterface $url,
-        Config $config,
-        CaptchaRequestHandlerInterface $captchaRequestHandler
+        ConfigEnabledInterface $config,
+        CaptchaRequestHandlerInterface $captchaRequestHandler,
+        SessionManagerInterface $sessionManager,
+        Url $url
     ) {
-        $this->url = $url;
         $this->config = $config;
         $this->captchaRequestHandler = $captchaRequestHandler;
+        $this->sessionManager = $sessionManager;
+        $this->url = $url;
     }
 
     /**
      * @param Observer $observer
      * @return void
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @throws LocalizedException
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isAreaEnabled(Area::AREA_FRONTEND) && $this->config->isEnabledFrontendCreateUser()) {
+        if ($this->config->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
-            $redirectOnFailureUrl = $this->url->getUrl('*/*/create', ['_secure' => true]);
+            $redirectOnFailureUrl = $this->sessionManager->getBeforeAuthUrl() ?: $this->url->getLoginUrl();
 
             $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
         }

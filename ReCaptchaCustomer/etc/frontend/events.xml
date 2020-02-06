@@ -7,17 +7,17 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-
     <event name="controller_action_predispatch_customer_account_loginPost">
-        <observer name="recaptcha_on_login" instance="Magento\ReCaptcha\Observer\Frontend\LoginObserver" />
+        <observer name="recaptcha_on_login" instance="Magento\ReCaptchaCustomer\Observer\LoginObserver"/>
     </event>
     <event name="controller_action_predispatch_customer_ajax_login">
-        <observer name="recaptcha_on_ajax_login" instance="Magento\ReCaptcha\Observer\Frontend\AjaxLoginObserver" />
+        <observer name="recaptcha_on_ajax_login" instance="Magento\ReCaptchaCustomer\Observer\AjaxLoginObserver"/>
     </event>
     <event name="controller_action_predispatch_customer_account_createpost">
-        <observer name="recaptcha_on_create_user" instance="Magento\ReCaptcha\Observer\Frontend\CreateUserObserver" />
+        <observer name="recaptcha_on_create_user" instance="Magento\ReCaptchaCustomer\Observer\CreateCustomerObserver"/>
     </event>
     <event name="controller_action_predispatch_customer_account_forgotpasswordpost">
-        <observer name="recaptcha_on_forgot_password" instance="Magento\ReCaptcha\Observer\Frontend\ForgotPasswordObserver"/>
+        <observer name="recaptcha_on_forgot_password"
+                  instance="Magento\ReCaptchaCustomer\Observer\ForgotPasswordObserver"/>
     </event>
 </config>

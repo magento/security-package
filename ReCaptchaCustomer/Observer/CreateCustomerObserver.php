@@ -5,21 +5,20 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Observer\Frontend;
+namespace Magento\ReCaptchaCustomer\Observer;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\UrlInterface;
 use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigEnabledInterface;
 
 /**
- * ForgotPasswordObserver
+ * CreateCustomerObserver
  */
-class ForgotPasswordObserver implements ObserverInterface
+class CreateCustomerObserver implements ObserverInterface
 {
     /**
      * @var UrlInterface
@@ -27,7 +26,7 @@ class ForgotPasswordObserver implements ObserverInterface
     private $url;
 
     /**
-     * @var Config
+     * @var ConfigEnabledInterface
      */
     private $config;
 
@@ -38,12 +37,12 @@ class ForgotPasswordObserver implements ObserverInterface
 
     /**
      * @param UrlInterface $url
-     * @param Config $config
+     * @param ConfigEnabledInterface $config
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
         UrlInterface $url,
-        Config $config,
+        ConfigEnabledInterface $config,
         CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {
         $this->url = $url;
@@ -54,16 +53,16 @@ class ForgotPasswordObserver implements ObserverInterface
     /**
      * @param Observer $observer
      * @return void
-     * @throws LocalizedException
+     * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isAreaEnabled(Area::AREA_FRONTEND) && $this->config->isEnabledFrontendForgot()) {
+        if ($this->config->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
-            $redirectOnFailureUrl = $this->url->getUrl('*/*/forgotpassword', ['_secure' => true]);
+            $redirectOnFailureUrl = $this->url->getUrl('*/*/create', ['_secure' => true]);
 
             $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
         }

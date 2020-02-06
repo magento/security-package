@@ -5,29 +5,29 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Observer\Frontend;
+namespace Magento\ReCaptchaCustomer\Observer;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptcha\Model\BeforeAuthUrlProvider;
+use Magento\Framework\UrlInterface;
 use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigEnabledInterface;
 
 /**
- * LoginObserver
+ * ForgotPasswordObserver
  */
-class LoginObserver implements ObserverInterface
+class ForgotPasswordObserver implements ObserverInterface
 {
     /**
-     * @var BeforeAuthUrlProvider
+     * @var UrlInterface
      */
-    private $beforeAuthUrlProvider;
+    private $url;
 
     /**
-     * @var Config
+     * @var ConfigEnabledInterface
      */
     private $config;
 
@@ -37,16 +37,16 @@ class LoginObserver implements ObserverInterface
     private $captchaRequestHandler;
 
     /**
-     * @param BeforeAuthUrlProvider $beforeAuthUrlProvider
-     * @param Config $config
+     * @param UrlInterface $url
+     * @param ConfigEnabledInterface $config
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
-        BeforeAuthUrlProvider $beforeAuthUrlProvider,
-        Config $config,
+        UrlInterface $url,
+        ConfigEnabledInterface $config,
         CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {
-        $this->beforeAuthUrlProvider = $beforeAuthUrlProvider;
+        $this->url = $url;
         $this->config = $config;
         $this->captchaRequestHandler = $captchaRequestHandler;
     }
@@ -58,12 +58,12 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isAreaEnabled(Area::AREA_FRONTEND) && $this->config->isEnabledFrontendLogin()) {
+        if ($this->config->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
-            $redirectOnFailureUrl = $this->beforeAuthUrlProvider->execute();
+            $redirectOnFailureUrl = $this->url->getUrl('*/*/forgotpassword', ['_secure' => true]);
 
             $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
         }

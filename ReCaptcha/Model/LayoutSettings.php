@@ -50,11 +50,6 @@ class LayoutSettings
             'badge' => $this->config->getFrontendPosition(),
             'theme' => $this->config->getFrontendTheme(),
             'lang' => $this->config->getLanguageCode(),
-            'enabled' => [
-                'login' => $this->config->isEnabledFrontendLogin(),
-                'create' => $this->config->isEnabledFrontendCreateUser(),
-                'forgot' => $this->config->isEnabledFrontendForgot(),
-            ]
         ];
         foreach ($this->configEnabledProviders as $key => $configEnabledProvider) {
             $settings['enabled'][$key] = $configEnabledProvider->isEnabled();

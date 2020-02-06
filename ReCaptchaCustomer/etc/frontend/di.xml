@@ -8,12 +8,11 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="Magento\Checkout\Block\Onepage">
-        <arguments>
-            <argument name="layoutProcessors" xsi:type="array">
-                <item name="recaptcha" xsi:type="object">\Magento\ReCaptcha\Block\LayoutProcessor\Checkout\Onepage</item>
-            </argument>
-        </arguments>
+    <!-- AjaxLogin Form -->
+
+    <type name="Magento\Customer\Block\Account\AuthenticationPopup">
+        <plugin sortOrder="1" name="inject_recaptcha_in_authentication_popup"
+                type="Magento\ReCaptchaCustomer\Plugin\Block\Account\InjectRecaptchaInAuthenticationPopup"/>
     </type>
 
 </config>

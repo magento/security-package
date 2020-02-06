@@ -10,7 +10,7 @@
     <default>
         <recaptcha>
             <frontend>
-                <enabled_review>1</enabled_review>
+                <enabled_for_product_review>1</enabled_for_product_review>
             </frontend>
         </recaptcha>
     </default>

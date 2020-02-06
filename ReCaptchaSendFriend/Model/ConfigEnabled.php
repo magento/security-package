@@ -17,7 +17,7 @@ use Magento\Store\Model\ScopeInterface;
  */
 class ConfigEnabled implements ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FRONTEND_SENDFRIEND = 'recaptcha/frontend/enabled_sendfriend';
+    public const XML_PATH_ENABLED_FOR_SENDFRIEND = 'recaptcha/frontend/enabled_for_sendfriend';
 
     /**
      * @var ConfigInterface
@@ -52,7 +52,7 @@ class ConfigEnabled implements ConfigEnabledInterface
         }
 
         return (bool)$this->scopeConfig->getValue(
-            static::XML_PATH_ENABLED_FRONTEND_SENDFRIEND,
+            static::XML_PATH_ENABLED_FOR_SENDFRIEND,
             ScopeInterface::SCOPE_WEBSITE
         );
     }

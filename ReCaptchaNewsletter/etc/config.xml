@@ -10,7 +10,7 @@
     <default>
         <recaptcha>
             <frontend>
-                <enabled_newsletter>1</enabled_newsletter>
+                <enabled_for_newsletter>1</enabled_for_newsletter>
             </frontend>
         </recaptcha>
     </default>

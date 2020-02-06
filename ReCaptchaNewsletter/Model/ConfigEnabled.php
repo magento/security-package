@@ -17,7 +17,7 @@ use Magento\Store\Model\ScopeInterface;
  */
 class ConfigEnabled implements ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FRONTEND_NEWSLETTER = 'recaptcha/frontend/enabled_newsletter';
+    public const XML_PATH_ENABLED_FOR_NEWSLETTER = 'recaptcha/frontend/enabled_for_newsletter';
 
     /**
      * @var ConfigInterface
@@ -52,7 +52,7 @@ class ConfigEnabled implements ConfigEnabledInterface
         }
 
         return (bool)$this->scopeConfig->getValue(
-            static::XML_PATH_ENABLED_FRONTEND_NEWSLETTER,
+            static::XML_PATH_ENABLED_FOR_NEWSLETTER,
             ScopeInterface::SCOPE_WEBSITE
         );
     }
