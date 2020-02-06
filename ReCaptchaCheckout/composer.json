@@ -1,14 +1,12 @@
 {
-    "name": "magento/module-re-captcha",
-    "version": "3.0.0",
+    "name": "magento/module-re-captcha-checkout",
+    "version": "1.0.0",
     "description": "Google reCaptcha integration for Magento2",
     "require": {
         "php": "~7.1.3||~7.2.0||~7.3.0",
         "magento/framework": "102.0.*",
-        "magento/magento-composer-installer": "*",
-        "magento/module-store": "*",
-        "magento/module-config": "*",
-        "google/recaptcha": "^1.2"
+        "magento/module-checkout": "*",
+        "magento/module-re-captcha": "*"
     },
     "authors": [
         {
@@ -23,7 +21,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Magento\\ReCaptcha\\": ""
+            "Magento\\ReCaptchaCheckout\\": ""
         }
     }
 }

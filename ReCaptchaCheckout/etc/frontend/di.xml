@@ -11,7 +11,7 @@
     <type name="Magento\Checkout\Block\Onepage">
         <arguments>
             <argument name="layoutProcessors" xsi:type="array">
-                <item name="recaptcha" xsi:type="object">\Magento\ReCaptcha\Block\LayoutProcessor\Checkout\Onepage</item>
+                <item name="recaptcha" xsi:type="object">\Magento\ReCaptchaCheckout\Block\LayoutProcessor\Checkout\Onepage</item>
             </argument>
         </arguments>
     </type>
