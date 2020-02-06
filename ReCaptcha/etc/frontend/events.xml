@@ -23,9 +23,6 @@
     <event name="controller_action_predispatch_contact_index_post">
         <observer name="recaptcha_on_contact_form" instance="Magento\ReCaptcha\Observer\Frontend\ContactFormObserver" />
     </event>
-    <event name="controller_action_predispatch_review_product_post">
-        <observer name="recaptcha_on_review_form" instance="Magento\ReCaptcha\Observer\Frontend\ReviewFormObserver" />
-    </event>
     <event name="controller_action_predispatch_newsletter_subscriber_new">
         <observer name="recaptcha_on_newsletter" instance="Magento\ReCaptcha\Observer\Frontend\NewsletterObserver" />
     </event>

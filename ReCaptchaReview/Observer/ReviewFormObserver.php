@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Observer\Frontend;
+namespace Magento\ReCaptchaReview\Observer\Frontend;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
@@ -14,7 +14,7 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigEnabledInterface;
 
 /**
  * ReviewFormObserver
@@ -27,7 +27,7 @@ class ReviewFormObserver implements ObserverInterface
     private $redirect;
 
     /**
-     * @var Config
+     * @var ConfigEnabledInterface
      */
     private $config;
 
@@ -38,12 +38,12 @@ class ReviewFormObserver implements ObserverInterface
 
     /**
      * @param RedirectInterface $redirect
-     * @param Config $config
+     * @param ConfigEnabledInterface $config
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
         RedirectInterface $redirect,
-        Config $config,
+        ConfigEnabledInterface $config,
         CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {
         $this->redirect = $redirect;
@@ -58,7 +58,7 @@ class ReviewFormObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isAreaEnabled(Area::AREA_FRONTEND) && $this->config->isEnabledFrontendReview()) {
+        if ($this->config->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
