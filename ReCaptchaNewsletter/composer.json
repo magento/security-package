@@ -1,5 +1,5 @@
 {
-    "name": "magento/module-re-captcha-review",
+    "name": "magento/module-re-captcha-newsletter",
     "version": "1.0.0",
     "description": "Google reCaptcha integration for Magento2",
     "require": {
@@ -21,7 +21,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Magento\\ReCaptchaReview\\": ""
+            "Magento\\ReCaptchaNewsletter\\": ""
         }
     }
 }
