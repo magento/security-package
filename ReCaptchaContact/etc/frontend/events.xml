@@ -7,7 +7,7 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
-    <event name="controller_action_predispatch_review_product_post">
-        <observer name="recaptcha_on_review_form" instance="Magento\ReCaptchaReview\Observer\ReviewFormObserver" />
+    <event name="controller_action_predispatch_contact_index_post">
+        <observer name="recaptcha_on_contact_form" instance="Magento\ReCaptcha\ReCaptchaSendFriend\ContactFormObserver"/>
     </event>
 </config>

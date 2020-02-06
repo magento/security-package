@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaReview\Observer\Frontend;
+namespace Magento\ReCaptchaReview\Observer;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Area;
@@ -65,7 +65,7 @@ class ReviewFormObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->redirect->getRedirectUrl();
 
-            $this->captchaRequestHandler->execute(Area::AREA_ADMINHTML, $request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
         }
     }
 }

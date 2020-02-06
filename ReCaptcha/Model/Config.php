@@ -37,7 +37,6 @@ class Config implements ConfigInterface
 
     public const XML_PATH_ENABLED_FRONTEND_LOGIN = 'recaptcha/frontend/enabled_login';
     public const XML_PATH_ENABLED_FRONTEND_FORGOT = 'recaptcha/frontend/enabled_forgot';
-    public const XML_PATH_ENABLED_FRONTEND_CONTACT = 'recaptcha/frontend/enabled_contact';
     public const XML_PATH_ENABLED_FRONTEND_CREATE = 'recaptcha/frontend/enabled_create';
     public const XML_PATH_ENABLED_FRONTEND_NEWSLETTER = 'recaptcha/frontend/enabled_newsletter';
 
@@ -142,22 +141,6 @@ class Config implements ConfigInterface
 
         return (bool) $this->scopeConfig->getValue(
             static::XML_PATH_ENABLED_FRONTEND_FORGOT,
-            ScopeInterface::SCOPE_WEBSITE
-        );
-    }
-
-    /**
-     * Return true if enabled on frontend contact
-     * @return bool
-     */
-    public function isEnabledFrontendContact(): bool
-    {
-        if (!$this->isEnabledFrontend()) {
-            return false;
-        }
-
-        return (bool) $this->scopeConfig->getValue(
-            static::XML_PATH_ENABLED_FRONTEND_CONTACT,
             ScopeInterface::SCOPE_WEBSITE
         );
     }

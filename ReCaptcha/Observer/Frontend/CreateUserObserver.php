@@ -64,7 +64,7 @@ class CreateUserObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('*/*/create', ['_secure' => true]);
 
-            $this->captchaRequestHandler->execute(Area::AREA_ADMINHTML, $request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
         }
     }
 }
