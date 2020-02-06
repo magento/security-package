@@ -42,7 +42,7 @@ class IsEnabledForCustomerLogin implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled on frontend send to friend
+     * Return true if enabled for customer login
      * @return bool
      */
     public function isEnabled(): bool

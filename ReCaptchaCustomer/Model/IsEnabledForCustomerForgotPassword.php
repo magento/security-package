@@ -42,7 +42,7 @@ class IsEnabledForCustomerForgotPassword implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled on frontend send to friend
+     * Return true if enabled for customer forgot password
      * @return bool
      */
     public function isEnabled(): bool
