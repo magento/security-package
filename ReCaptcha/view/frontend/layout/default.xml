@@ -29,27 +29,5 @@
                 </argument>
             </arguments>
         </referenceBlock>
-        <referenceContainer name="footer">
-            <block class="Magento\ReCaptcha\Block\Frontend\ReCaptcha"
-                   name="recaptcha-newsletter"
-                   after="-"
-                   template="Magento_ReCaptcha::recaptcha_newsletter.phtml">
-                <arguments>
-                    <argument name="jsLayout" xsi:type="array">
-                        <item name="components" xsi:type="array">
-                            <item name="recaptcha" xsi:type="array">
-                                <item name="component" xsi:type="string">Magento_ReCaptcha/js/reCaptcha</item>
-                                <item name="reCaptchaId" xsi:type="string">recaptcha-newsletter</item>
-                                <item name="zone" xsi:type="string">newsletter</item>
-                                <item name="badge" xsi:type="string">bottomright</item>
-                                <item name="settings" xsi:type="array">
-                                    <item name="size" xsi:type="string">invisible</item>
-                                </item>
-                            </item>
-                        </item>
-                    </argument>
-                </arguments>
-            </block>
-        </referenceContainer>
     </body>
 </page>

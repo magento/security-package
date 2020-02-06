@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="recaptcha">
+            <group id="frontend">
+                <field id="enabled_newsletter" translate="label" type="select" sortOrder="250" showInDefault="1"
+                       showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Use invisible ReCaptcha in newsletter</label>
+                    <comment>Requires an Invisible ReCaptcha v2 or ReCaptcha v3 key. If enabled, a badge will be displayed in every page.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

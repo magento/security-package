@@ -20,7 +20,4 @@
     <event name="controller_action_predispatch_customer_account_forgotpasswordpost">
         <observer name="recaptcha_on_forgot_password" instance="Magento\ReCaptcha\Observer\Frontend\ForgotPasswordObserver"/>
     </event>
-    <event name="controller_action_predispatch_newsletter_subscriber_new">
-        <observer name="recaptcha_on_newsletter" instance="Magento\ReCaptcha\Observer\Frontend\NewsletterObserver" />
-    </event>
 </config>
