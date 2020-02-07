@@ -10,7 +10,7 @@
     <default>
         <recaptcha>
             <frontend>
-                <enabled_sendfriend>1</enabled_sendfriend>
+                <enabled_for_sendfriend>1</enabled_for_sendfriend>
             </frontend>
         </recaptcha>
     </default>

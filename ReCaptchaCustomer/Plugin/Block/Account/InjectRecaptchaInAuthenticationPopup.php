@@ -5,10 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Plugin\Block\Account;
+namespace Magento\ReCaptchaCustomer\Plugin\Block\Account;
 
 use Magento\Customer\Block\Account\AuthenticationPopup;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\ReCaptcha\Model\LayoutSettings;
 use Zend\Json\Json;
 
@@ -23,17 +23,17 @@ class InjectRecaptchaInAuthenticationPopup
     private $layoutSettings;
 
     /**
-     * @var Config
+     * @var ConfigInterface
      */
     private $config;
 
     /**
      * @param LayoutSettings $layoutSettings
-     * @param Config $config
+     * @param ConfigInterface $config
      */
     public function __construct(
         LayoutSettings $layoutSettings,
-        Config $config
+        ConfigInterface $config
     ) {
         $this->layoutSettings = $layoutSettings;
         $this->config = $config;
@@ -52,14 +52,9 @@ class InjectRecaptchaInAuthenticationPopup
         if ($this->config->isEnabledFrontend()) {
             $layout['components']['authenticationPopup']['children']['recaptcha']['settings']
                 = $this->layoutSettings->getCaptchaSettings();
-        }
-
-        if (isset($layout['components']['authenticationPopup']['children']['recaptcha'])
-            && !$this->config->isEnabledFrontend()
-        ) {
+        } else {
             unset($layout['components']['authenticationPopup']['children']['recaptcha']);
         }
-
         return Json::encode($layout);
     }
 }

@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaNewsletter\Model;
+namespace Magento\ReCaptchaCustomer\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\ReCaptcha\Model\ConfigEnabledInterface;
@@ -13,11 +13,11 @@ use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Return config flag "is recaptcha enabled for newsletter subscribe"
+ * Return config flag "is recaptcha enabled for customer login action"
  */
-class ConfigEnabled implements ConfigEnabledInterface
+class IsEnabledForCustomerLogin implements ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FOR_NEWSLETTER = 'recaptcha/frontend/enabled_for_newsletter';
+    public const XML_PATH_ENABLED_FRONTEND_LOGIN = 'recaptcha/frontend/enabled_for_customer_login';
 
     /**
      * @var ConfigInterface
@@ -42,17 +42,17 @@ class ConfigEnabled implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled on frontend captcha for newsletter
+     * Return true if enabled for customer login
      * @return bool
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaConfig->isEnabledFrontend() || !$this->reCaptchaConfig->isInvisibleRecaptcha()) {
+        if (!$this->reCaptchaConfig->isEnabledFrontend()) {
             return false;
         }
 
         return (bool)$this->scopeConfig->getValue(
-            static::XML_PATH_ENABLED_FOR_NEWSLETTER,
+            static::XML_PATH_ENABLED_FRONTEND_LOGIN,
             ScopeInterface::SCOPE_WEBSITE
         );
     }

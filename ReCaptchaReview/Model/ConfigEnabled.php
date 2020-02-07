@@ -13,11 +13,11 @@ use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Read configuration from store config
+ * Return config flag "is recaptcha enabled for product review"
  */
 class ConfigEnabled implements ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FRONTEND_REVIEW = 'recaptcha/frontend/enabled_review';
+    public const XML_PATH_ENABLED_FOR_PRODUCT_REVIEW = 'recaptcha/frontend/enabled_for_product_review';
 
     /**
      * @var ConfigInterface
@@ -42,7 +42,7 @@ class ConfigEnabled implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled on frontend captcha for review
+     * Return true if enabled on frontend captcha for product review
      * @return bool
      */
     public function isEnabled(): bool
@@ -52,7 +52,7 @@ class ConfigEnabled implements ConfigEnabledInterface
         }
 
         return (bool)$this->scopeConfig->getValue(
-            static::XML_PATH_ENABLED_FRONTEND_REVIEW,
+            static::XML_PATH_ENABLED_FOR_PRODUCT_REVIEW,
             ScopeInterface::SCOPE_WEBSITE
         );
     }

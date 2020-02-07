@@ -10,7 +10,7 @@
     <system>
         <section id="recaptcha">
             <group id="frontend">
-                <field id="enabled_sendfriend" translate="label" type="select" sortOrder="260" showInDefault="1"
+                <field id="enabled_for_sendfriend" translate="label" type="select" sortOrder="260" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Use in Send To Friend</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

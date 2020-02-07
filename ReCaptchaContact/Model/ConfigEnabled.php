@@ -13,11 +13,11 @@ use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Read configuration from store config
+ * Return config flag "is recaptcha enabled for contact form"
  */
 class ConfigEnabled implements ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FRONTEND_CONTACT = 'recaptcha/frontend/enabled_contact';
+    public const XML_PATH_ENABLED_FOR_CONTACT = 'recaptcha/frontend/enabled_for_contact';
 
     /**
      * @var ConfigInterface
@@ -42,7 +42,7 @@ class ConfigEnabled implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled on frontend captcha for review
+     * Return true if enabled on frontend captcha for contact form
      * @return bool
      */
     public function isEnabled(): bool
@@ -52,7 +52,7 @@ class ConfigEnabled implements ConfigEnabledInterface
         }
 
         return (bool)$this->scopeConfig->getValue(
-            static::XML_PATH_ENABLED_FRONTEND_CONTACT,
+            static::XML_PATH_ENABLED_FOR_CONTACT,
             ScopeInterface::SCOPE_WEBSITE
         );
     }
