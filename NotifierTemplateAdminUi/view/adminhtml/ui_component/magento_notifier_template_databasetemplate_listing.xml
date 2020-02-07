@@ -19,7 +19,7 @@
         <buttons>
             <button name="new" class="Magento\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate\NewButton"/>
         </buttons>
-        <spinner>>magento_notifier_template_databasetemplate_columns</spinner>
+        <spinner>magento_notifier_template_databasetemplate_columns</spinner>
         <deps>
             <dep>
                 magento_notifier_template_databasetemplate_listing.magento_notifier_template_databasetemplate_data_source
