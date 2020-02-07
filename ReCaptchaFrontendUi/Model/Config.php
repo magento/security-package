@@ -32,16 +32,16 @@ class Config implements ConfigInterface
     /**
      * @var ReCaptchaConfig
      */
-    private $config;
+    private $reCaptchaConfig;
 
     /**
      * @param ScopeConfigInterface $scopeConfig
-     * @param ReCaptchaConfig $config
+     * @param ReCaptchaConfig $reCaptchaConfig
      */
-    public function __construct(ScopeConfigInterface $scopeConfig, ReCaptchaConfig $config)
+    public function __construct(ScopeConfigInterface $scopeConfig, ReCaptchaConfig $reCaptchaConfig)
     {
         $this->scopeConfig = $scopeConfig;
-        $this->config = $config;
+        $this->reCaptchaConfig = $reCaptchaConfig;
     }
 
     /**
@@ -49,7 +49,7 @@ class Config implements ConfigInterface
      */
     public function isFrontendEnabled(): bool
     {
-        if (!$this->config->getPrivateKey() || !$this->config->getPublicKey()) {
+        if (!$this->reCaptchaConfig->getPrivateKey() || !$this->reCaptchaConfig->getPublicKey()) {
             return false;
         }
 
@@ -64,7 +64,7 @@ class Config implements ConfigInterface
      */
     public function getSize(): string
     {
-        if ($this->config->isInvisibleRecaptcha()) {
+        if ($this->reCaptchaConfig->isInvisibleRecaptcha()) {
             return 'invisible';
         }
 
@@ -79,7 +79,7 @@ class Config implements ConfigInterface
      */
     public function getTheme(): ?string
     {
-        if ($this->config->isInvisibleRecaptcha()) {
+        if ($this->reCaptchaConfig->isInvisibleRecaptcha()) {
             return null;
         }
 
@@ -106,7 +106,7 @@ class Config implements ConfigInterface
      */
     public function getPosition(): ?string
     {
-        if (!$this->config->isInvisibleRecaptcha()) {
+        if (!$this->reCaptchaConfig->isInvisibleRecaptcha()) {
             return null;
         }
 
@@ -132,7 +132,7 @@ class Config implements ConfigInterface
      */
     public function getErrorDescription(): Phrase
     {
-        if ($this->config->getType() === 'recaptcha_v3') {
+        if ($this->reCaptchaConfig->getType() === 'recaptcha_v3') {
             return __('You cannot proceed with such operation, your reCaptcha reputation is too low.');
         }
 
