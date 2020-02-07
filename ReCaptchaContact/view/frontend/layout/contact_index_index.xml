@@ -7,14 +7,12 @@
  -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-
     <body>
         <referenceContainer name="form.additional.info">
             <block class="Magento\ReCaptchaFrontendUi\Block\ReCaptcha" name="recaptcha" after="-"
                    template="Magento_ReCaptchaFrontendUi::recaptcha.phtml"
                    cacheable="false"
-                   ifconfig="recaptcha/frontend/enabled">
-
+                   ifconfig="recaptcha/frontend/enabled_for_contact">
                 <arguments>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">

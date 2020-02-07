@@ -13,9 +13,9 @@ use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Return config flag "is recaptcha enabled for contact form"
+ * @inheritdoc
  */
-class ConfigEnabled implements ConfigEnabledInterface
+class IsEnabledForContact implements IsEnabledForContactInterface, ConfigEnabledInterface
 {
     private const XML_PATH_ENABLED_FOR_CONTACT = 'recaptcha/frontend/enabled_for_contact';
 
@@ -42,8 +42,7 @@ class ConfigEnabled implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled on frontend captcha for contact form
-     * @return bool
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {
