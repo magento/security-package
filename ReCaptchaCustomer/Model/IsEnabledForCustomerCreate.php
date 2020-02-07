@@ -13,11 +13,11 @@ use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Return config flag "is recaptcha enabled for customer create action"
+ * @inheritdoc
  */
 class IsEnabledForCustomerCreate implements ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FRONTEND_CREATE = 'recaptcha/frontend/enabled_for_customer_create';
+    private const XML_PATH_ENABLED_FRONTEND_CREATE = 'recaptcha/frontend/enabled_for_customer_create';
 
     /**
      * @var ConfigInterface
@@ -42,8 +42,7 @@ class IsEnabledForCustomerCreate implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled for customer create
-     * @return bool
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {

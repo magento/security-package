@@ -14,8 +14,8 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Serialize\SerializerInterface;
-use Magento\ReCaptcha\Model\ConfigEnabledInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
+use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
 use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
 
 /**
@@ -49,9 +49,9 @@ class AjaxLoginObserver implements ObserverInterface
     private $reCaptchaFrontendConfig;
 
     /**
-     * @var ConfigEnabledInterface
+     * @var IsEnabledForCustomerLoginInterface
      */
-    private $config;
+    private $isEnabledForCustomerLogin;
 
     /**
      * @param ValidateInterface $validate
@@ -59,7 +59,7 @@ class AjaxLoginObserver implements ObserverInterface
      * @param ActionFlag $actionFlag
      * @param SerializerInterface $serializer
      * @param ConfigInterface $reCaptchaFrontendConfig
-     * @param ConfigEnabledInterface $config
+     * @param IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
      */
     public function __construct(
         ValidateInterface $validate,
@@ -67,14 +67,14 @@ class AjaxLoginObserver implements ObserverInterface
         ActionFlag $actionFlag,
         SerializerInterface $serializer,
         ConfigInterface $reCaptchaFrontendConfig,
-        ConfigEnabledInterface $config
+        IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
         $this->actionFlag = $actionFlag;
         $this->serializer = $serializer;
         $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
-        $this->config = $config;
+        $this->isEnabledForCustomerLogin = $isEnabledForCustomerLogin;
     }
 
     /**
@@ -84,7 +84,7 @@ class AjaxLoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isEnabled()) {
+        if ($this->isEnabledForCustomerLogin->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
 

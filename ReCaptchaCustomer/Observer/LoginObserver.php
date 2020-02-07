@@ -13,7 +13,7 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Session\SessionManagerInterface;
-use Magento\ReCaptcha\Model\ConfigEnabledInterface;
+use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
 use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
 
 /**
@@ -22,9 +22,9 @@ use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
 class LoginObserver implements ObserverInterface
 {
     /**
-     * @var ConfigEnabledInterface
+     * @var IsEnabledForCustomerLoginInterface
      */
-    private $config;
+    private $isEnabledForCustomerLogin;
 
     /**
      * @var CaptchaRequestHandlerInterface
@@ -42,18 +42,18 @@ class LoginObserver implements ObserverInterface
     private $url;
 
     /**
-     * @param ConfigEnabledInterface $config
+     * @param IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      * @param SessionManagerInterface $sessionManager
      * @param Url $url
      */
     public function __construct(
-        ConfigEnabledInterface $config,
+        IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin,
         CaptchaRequestHandlerInterface $captchaRequestHandler,
         SessionManagerInterface $sessionManager,
         Url $url
     ) {
-        $this->config = $config;
+        $this->isEnabledForCustomerLogin = $isEnabledForCustomerLogin;
         $this->captchaRequestHandler = $captchaRequestHandler;
         $this->sessionManager = $sessionManager;
         $this->url = $url;
@@ -66,7 +66,7 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isEnabled()) {
+        if ($this->isEnabledForCustomerLogin->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();

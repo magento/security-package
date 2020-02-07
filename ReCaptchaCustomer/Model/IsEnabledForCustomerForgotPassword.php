@@ -13,11 +13,11 @@ use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Return config flag "is recaptcha enabled for customer forgot password action"
+ * @inheritdoc
  */
 class IsEnabledForCustomerForgotPassword implements ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FRONTEND_FORGOT = 'recaptcha/frontend/enabled_for_customer_forgot_password';
+    private const XML_PATH_ENABLED_FRONTEND_FORGOT = 'recaptcha/frontend/enabled_for_customer_forgot_password';
 
     /**
      * @var ConfigInterface
@@ -42,8 +42,7 @@ class IsEnabledForCustomerForgotPassword implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled for customer forgot password
-     * @return bool
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {

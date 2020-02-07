@@ -10,10 +10,11 @@
 
     <body>
         <referenceContainer name="form.additional.info">
-            <block class="Magento\ReCaptchaFrontendUi\Block\ReCaptcha" name="recaptcha" after="-"
+            <block class="Magento\ReCaptchaFrontendUi\Block\ReCaptcha"
+                   name="recaptcha"
+                   after="-"
                    template="Magento_ReCaptchaFrontendUi::recaptcha.phtml"
-                   ifconfig="recaptcha/frontend/enabled">
-
+                   ifconfig="recaptcha/frontend/enabled_for_customer_create">
                 <arguments>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">

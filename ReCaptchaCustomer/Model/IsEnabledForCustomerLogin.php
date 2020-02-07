@@ -13,11 +13,11 @@ use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Return config flag "is recaptcha enabled for customer login action"
+ * @inheritdoc
  */
 class IsEnabledForCustomerLogin implements ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FRONTEND_LOGIN = 'recaptcha/frontend/enabled_for_customer_login';
+    private const XML_PATH_ENABLED_FRONTEND_LOGIN = 'recaptcha/frontend/enabled_for_customer_login';
 
     /**
      * @var ConfigInterface
@@ -42,8 +42,7 @@ class IsEnabledForCustomerLogin implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled for customer login
-     * @return bool
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {

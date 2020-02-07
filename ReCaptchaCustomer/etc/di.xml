@@ -7,26 +7,12 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Magento\ReCaptchaCustomer\Observer\AjaxLoginObserver">
-        <arguments>
-            <argument name="config" xsi:type="object">Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLogin</argument>
-        </arguments>
-    </type>
-    <type name="Magento\ReCaptchaCustomer\Observer\CreateCustomerObserver">
-        <arguments>
-            <argument name="config" xsi:type="object">Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerCreate</argument>
-        </arguments>
-    </type>
-    <type name="Magento\ReCaptchaCustomer\Observer\ForgotPasswordObserver">
-        <arguments>
-            <argument name="config" xsi:type="object">Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerForgotPassword</argument>
-        </arguments>
-    </type>
-    <type name="Magento\ReCaptchaCustomer\Observer\LoginObserver">
-        <arguments>
-            <argument name="config" xsi:type="object">Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLogin</argument>
-        </arguments>
-    </type>
+    <preference for="Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerCreateInterface"
+                type="Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerCreate"/>
+    <preference for="Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerForgotPasswordInterface"
+                type="Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerForgotPassword"/>
+    <preference for="Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface"
+                type="Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLogin"/>
 
     <type name="Magento\ReCaptcha\Model\LayoutSettings">
         <arguments>
