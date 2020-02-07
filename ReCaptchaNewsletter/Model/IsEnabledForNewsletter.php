@@ -14,11 +14,11 @@ use Magento\ReCaptchaFrontendUi\Model\ConfigInterface as ReCaptchaFrontendUiConf
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Return config flag "is recaptcha enabled for newsletter subscribe"
+ * @inheritdoc
  */
-class ConfigEnabled implements ConfigEnabledInterface
+class IsEnabledForNewsletter implements IsEnabledForNewsletterInterface, ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FOR_NEWSLETTER = 'recaptcha/frontend/enabled_for_newsletter';
+    private const XML_PATH_ENABLED_FOR_NEWSLETTER = 'recaptcha/frontend/enabled_for_newsletter';
 
     /**
      * @var ReCaptchaConfig
@@ -51,8 +51,7 @@ class ConfigEnabled implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled on frontend captcha for newsletter
-     * @return bool
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {
