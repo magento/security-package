@@ -14,7 +14,6 @@ use Magento\Framework\Setup\Patch\PatchVersionInterface;
 
 /**
  * Change namespace from MageSpecialist to Magento
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CopyConfigFromOldModule implements DataPatchInterface, PatchVersionInterface
 {

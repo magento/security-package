@@ -5,11 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Block\LayoutProcessor\Checkout;
+namespace Magento\ReCaptchaCheckout\Block\LayoutProcessor\Checkout;
 
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
-use Magento\Framework\App\ObjectManager;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\ReCaptcha\Model\LayoutSettings;
 
 /**
@@ -23,20 +22,20 @@ class Onepage implements LayoutProcessorInterface
     private $layoutSettings;
 
     /**
-     * @var Config
+     * @var ConfigInterface
      */
     private $config;
 
     /**
      * @param LayoutSettings $layoutSettings
-     * @param Config|null $config
+     * @param ConfigInterface $config
      */
     public function __construct(
         LayoutSettings $layoutSettings,
-        Config $config = null
+        ConfigInterface $config
     ) {
         $this->layoutSettings = $layoutSettings;
-        $this->config = $config ?: ObjectManager::getInstance()->get(Config::class);
+        $this->config = $config;
     }
 
     /**
