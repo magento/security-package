@@ -3,19 +3,17 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-
 declare(strict_types=1);
 
-namespace Magento\NotifierAsync\Plugin;
+namespace Magento\NotifierAsync\Model;
 
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Notifier\Model\SendMessage;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\IsEnabledInterface;
 use Magento\NotifierApi\Model\SendMessageInterface;
-use Magento\NotifierAsync\Model\BypassFlag;
-use Magento\NotifierAsync\Model\EnqueueMessage;
 
-class SendMessageAsynchronously
+class AsyncSendMessage implements SendMessageInterface
 {
     /**
      * @var IsEnabledInterface
@@ -38,17 +36,25 @@ class SendMessageAsynchronously
     private $bypassFlag;
 
     /**
+     * @var SendMessage
+     */
+    private $sendMessage;
+
+    /**
+     * @param SendMessage $sendMessage
      * @param IsEnabledInterface $isEnabled
      * @param ChannelRepositoryInterface $channelRepository
      * @param EnqueueMessage $enqueueMessage
      * @param BypassFlag $bypassFlag
      */
     public function __construct(
+        SendMessage $sendMessage,
         IsEnabledInterface $isEnabled,
         ChannelRepositoryInterface $channelRepository,
         EnqueueMessage $enqueueMessage,
         BypassFlag $bypassFlag
     ) {
+        $this->sendMessage = $sendMessage;
         $this->isEnabled = $isEnabled;
         $this->enqueueMessage = $enqueueMessage;
         $this->channelRepository = $channelRepository;
@@ -56,21 +62,10 @@ class SendMessageAsynchronously
     }
 
     /**
-     * @param SendMessageInterface $subject
-     * @param callable $proceed
-     * @param string $channelCode
-     * @param string $message
-     * @param array $params
-     * @return bool
-     * @throws NoSuchEntityException
+     * @inheritdoc
      */
-    public function aroundExecute(
-        SendMessageInterface $subject,
-        callable $proceed,
-        string $channelCode,
-        string $message,
-        array $params = []
-    ): bool {
+    public function execute(string $channelCode, string $message, array $params = []): bool
+    {
         if (!$this->isEnabled->execute()) {
             return false;
         }
@@ -84,7 +79,7 @@ class SendMessageAsynchronously
             $channel->getExtensionAttributes() === null ||
             !$channel->getExtensionAttributes()->getSendAsync()
         ) {
-            return $proceed($channelCode, $message, $params);
+            return $this->sendMessage($channelCode, $message, $params);
         }
 
         $this->enqueueMessage->execute($channelCode, $message, $params);
