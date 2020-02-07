@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Magento\NotifierTelegramAdapter\Command\Telegram;
 
-use Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram\GetChatIds\Proxy as GetChatIds;
+use Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram\GetChatIds;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

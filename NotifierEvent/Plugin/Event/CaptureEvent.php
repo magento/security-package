@@ -10,7 +10,7 @@ namespace Magento\NotifierEvent\Plugin\Event;
 
 use Exception;
 use Magento\Framework\Event\ManagerInterface;
-use Magento\NotifierEventApi\Model\CaptureEventInterface\Proxy as CaptureEventInterface;
+use Magento\NotifierEventApi\Model\CaptureEventInterface;
 
 class CaptureEvent
 {

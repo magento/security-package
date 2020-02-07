@@ -9,9 +9,9 @@ declare(strict_types=1);
 namespace Magento\NotifierEvent\Model;
 
 use Magento\NotifierEventApi\Model\CaptureEventInterface;
-use Magento\NotifierEventApi\Model\FireRuleInterface\Proxy as FireRuleInterface;
-use Magento\NotifierEventApi\Model\GetRulesIdsByEventInterface\Proxy as GetRulesIdsByEventInterface;
-use Magento\NotifierEventApi\Model\IsEventExcludedInterface\Proxy as IsEventExcludedInterface;
+use Magento\NotifierEventApi\Model\FireRuleInterface;
+use Magento\NotifierEventApi\Model\GetRulesIdsByEventInterface;
+use Magento\NotifierEventApi\Model\IsEventExcludedInterface;
 
 class CaptureEvent implements CaptureEventInterface
 {
@@ -31,14 +31,14 @@ class CaptureEvent implements CaptureEventInterface
     private $isEventExcluded;
 
     /**
-     * @param GetRulesIdsByEventInterface\Proxy $getRulesIdsByEvent
-     * @param FireRuleInterface\Proxy $fireRule
-     * @param IsEventExcludedInterface\Proxy $isEventExcluded
+     * @param GetRulesIdsByEventInterface $getRulesIdsByEvent
+     * @param FireRuleInterface $fireRule
+     * @param IsEventExcludedInterface $isEventExcluded
      */
     public function __construct(
-        GetRulesIdsByEventInterface\Proxy $getRulesIdsByEvent,
-        FireRuleInterface\Proxy $fireRule,
-        IsEventExcludedInterface\Proxy $isEventExcluded
+        GetRulesIdsByEventInterface $getRulesIdsByEvent,
+        FireRuleInterface $fireRule,
+        IsEventExcludedInterface $isEventExcluded
     ) {
         $this->getRulesIdsByEvent = $getRulesIdsByEvent;
         $this->fireRule = $fireRule;

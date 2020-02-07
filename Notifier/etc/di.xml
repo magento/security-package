@@ -50,4 +50,10 @@
             </argument>
         </arguments>
     </type>
+
+    <type name="Magento\Notifier\Command\SendMessage">
+        <arguments>
+            <argument name="sendMessage" xsi:type="object">Magento\NotifierApi\Model\SendMessageInterface\Proxy</argument>
+        </arguments>
+    </type>
 </config>

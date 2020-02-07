@@ -62,4 +62,10 @@
             </argument>
         </arguments>
     </virtualType>
+
+    <type name="Magento\NotifierTelegramAdapter\Command\Telegram\GetChatIdsCommand">
+        <arguments>
+            <argument name="getChatIds" xsi:type="object">Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram\GetChatIds\Proxy</argument>
+        </arguments>
+    </type>
 </config>
