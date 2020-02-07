@@ -8,12 +8,11 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCustomer\Observer;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
 use Magento\ReCaptcha\Model\ConfigEnabledInterface;
+use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
 
 /**
  * CreateCustomerObserver
@@ -64,7 +63,7 @@ class CreateCustomerObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('*/*/create', ['_secure' => true]);
 
-            $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

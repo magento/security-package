@@ -10,14 +10,14 @@ define(
         'uiComponent',
         'jquery',
         'ko',
-        'Magento_ReCaptcha/js/registry'
+        'Magento_ReCaptchaFrontendUi/js/registry'
     ],
     function (Component, $, ko, registry, undefined) {
 
         return Component.extend({
 
             defaults: {
-                template: 'Magento_ReCaptcha/reCaptcha',
+                template: 'Magento_ReCaptchaFrontendUi/reCaptcha',
                 reCaptchaId: 'recaptcha'
             },
             _isApiRegistered: undefined,

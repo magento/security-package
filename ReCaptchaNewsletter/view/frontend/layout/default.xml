@@ -10,15 +10,15 @@
 
     <body>
         <referenceContainer name="footer">
-            <block class="Magento\ReCaptcha\Block\Frontend\ReCaptcha"
+            <block class="Magento\ReCaptchaFrontendUi\Block\ReCaptcha"
                    name="recaptcha-newsletter"
                    after="-"
-                   template="Magento_ReCaptcha::recaptcha_newsletter.phtml">
+                   template="Magento_ReCaptchaNewsletter::recaptcha_newsletter.phtml">
                 <arguments>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">
                             <item name="recaptcha" xsi:type="array">
-                                <item name="component" xsi:type="string">Magento_ReCaptcha/js/reCaptcha</item>
+                                <item name="component" xsi:type="string">Magento_ReCaptchaFrontendUi/js/reCaptcha</item>
                                 <item name="reCaptchaId" xsi:type="string">recaptcha-newsletter</item>
                                 <item name="zone" xsi:type="string">newsletter</item>
                                 <item name="badge" xsi:type="string">bottomright</item>

@@ -8,13 +8,12 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaReview\Observer;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Area;
 use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
 use Magento\ReCaptcha\Model\ConfigEnabledInterface;
+use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
 
 /**
  * ReviewFormObserver
@@ -65,7 +64,7 @@ class ReviewFormObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->redirect->getRedirectUrl();
 
-            $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

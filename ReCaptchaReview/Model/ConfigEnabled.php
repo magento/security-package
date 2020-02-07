@@ -9,7 +9,7 @@ namespace Magento\ReCaptchaReview\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\ReCaptcha\Model\ConfigEnabledInterface;
-use Magento\ReCaptcha\Model\ConfigInterface;
+use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -47,7 +47,7 @@ class ConfigEnabled implements ConfigEnabledInterface
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaConfig->isEnabledFrontend()) {
+        if (!$this->reCaptchaConfig->isFrontendEnabled()) {
             return false;
         }
 

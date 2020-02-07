@@ -9,7 +9,8 @@ namespace Magento\ReCaptchaNewsletter\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\ReCaptcha\Model\ConfigEnabledInterface;
-use Magento\ReCaptcha\Model\ConfigInterface;
+use Magento\ReCaptcha\Model\ConfigInterface as ReCaptchaConfig;
+use Magento\ReCaptchaFrontendUi\Model\ConfigInterface as ReCaptchaFrontendUiConfig;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -20,9 +21,14 @@ class ConfigEnabled implements ConfigEnabledInterface
     public const XML_PATH_ENABLED_FOR_NEWSLETTER = 'recaptcha/frontend/enabled_for_newsletter';
 
     /**
-     * @var ConfigInterface
+     * @var ReCaptchaConfig
      */
     private $reCaptchaConfig;
+
+    /**
+     * @var ReCaptchaFrontendUiConfig
+     */
+    private $reCaptchaFrontendConfig;
 
     /**
      * @var ScopeConfigInterface
@@ -30,14 +36,17 @@ class ConfigEnabled implements ConfigEnabledInterface
     private $scopeConfig;
 
     /**
-     * @param ConfigInterface $reCaptchaConfig
+     * @param ReCaptchaConfig $reCaptchaConfig
+     * @param ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        ConfigInterface $reCaptchaConfig,
+        ReCaptchaConfig $reCaptchaConfig,
+        ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig,
         ScopeConfigInterface $scopeConfig
     ) {
         $this->reCaptchaConfig = $reCaptchaConfig;
+        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -47,7 +56,7 @@ class ConfigEnabled implements ConfigEnabledInterface
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaConfig->isEnabledFrontend() || !$this->reCaptchaConfig->isInvisibleRecaptcha()) {
+        if (!$this->reCaptchaFrontendConfig->isFrontendEnabled() || !$this->reCaptchaConfig->isInvisibleRecaptcha()) {
             return false;
         }
 

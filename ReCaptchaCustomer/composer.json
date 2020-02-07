@@ -8,6 +8,7 @@
         "magento/module-config": "*",
         "magento/module-customer": "*",
         "magento/module-re-captcha": "*",
+        "magento/module-re-captcha-frontend-ui": "*",
         "magento/module-store": "*"
     },
     "authors": [

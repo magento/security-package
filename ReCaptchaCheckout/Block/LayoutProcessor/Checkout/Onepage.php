@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCheckout\Block\LayoutProcessor\Checkout;
 
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
-use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\ReCaptcha\Model\LayoutSettings;
+use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
 
 /**
  * Checkout layout processor
@@ -43,16 +43,14 @@ class Onepage implements LayoutProcessorInterface
      */
     public function process($jsLayout)
     {
-        if ($this->config->isEnabledFrontend()) {
+        if ($this->config->isFrontendEnabled()) {
             $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']
                 ['recaptcha']['settings'] = $this->layoutSettings->getCaptchaSettings();
 
             $jsLayout['components']['checkout']['children']['authentication']['children']
                 ['recaptcha']['settings'] = $this->layoutSettings->getCaptchaSettings();
-        }
-
-        if (!$this->config->isEnabledFrontend()) {
+        } else {
             if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']['recaptcha'])) {
                 unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
@@ -63,7 +61,6 @@ class Onepage implements LayoutProcessorInterface
                 unset($jsLayout['components']['checkout']['children']['authentication']['children']['recaptcha']);
             }
         }
-
         return $jsLayout;
     }
 }

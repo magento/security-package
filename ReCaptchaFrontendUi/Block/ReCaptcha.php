@@ -5,12 +5,12 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Block\Frontend;
+namespace Magento\ReCaptchaFrontendUi\Block;
 
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\View\Element\Template;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\ReCaptcha\Model\LayoutSettings;
+use Magento\ReCaptchaFrontendUi\Model\ConfigInterface as ReCaptchaFrontendUiConfig;
 use Zend\Json\Json;
 
 /**
@@ -19,7 +19,7 @@ use Zend\Json\Json;
 class ReCaptcha extends Template
 {
     /**
-     * @var Config
+     * @var ConfigInterface
      */
     private $config;
 
@@ -29,20 +29,28 @@ class ReCaptcha extends Template
     private $layoutSettings;
 
     /**
+     * @var ReCaptchaFrontendUiConfig
+     */
+    private $reCaptchaFrontendConfig;
+
+    /**
      * @param Template\Context $context
      * @param LayoutSettings $layoutSettings
+     * @param ConfigInterface $config
+     * @param ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig
      * @param array $data
-     * @param Config|null $config
      */
     public function __construct(
         Template\Context $context,
         LayoutSettings $layoutSettings,
-        array $data = [],
-        Config $config = null
+        ConfigInterface $config,
+        ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig,
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->layoutSettings = $layoutSettings;
-        $this->config = $config ?: ObjectManager::getInstance()->get(Config::class);
+        $this->config = $config;
+        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
     }
 
     /**
@@ -69,7 +77,7 @@ class ReCaptcha extends Template
     {
         $layout = Json::decode(parent::getJsLayout(), Json::TYPE_ARRAY);
 
-        if ($this->config->isEnabledFrontend()) {
+        if ($this->reCaptchaFrontendConfig->isFrontendEnabled()) {
             // Backward compatibility with fixed scope name
             if (isset($layout['components']['recaptcha'])) {
                 $layout['components'][$this->getRecaptchaId()] = $layout['components']['recaptcha'];
@@ -96,7 +104,7 @@ class ReCaptcha extends Template
      */
     public function toHtml()
     {
-        if (!$this->config->isEnabledFrontend()) {
+        if (!$this->reCaptchaFrontendConfig->isFrontendEnabled()) {
             return '';
         }
 

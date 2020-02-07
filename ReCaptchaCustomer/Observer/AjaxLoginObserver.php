@@ -15,8 +15,8 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\ReCaptcha\Model\ConfigEnabledInterface;
-use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
+use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
 
 /**
  * AjaxLoginObserver
@@ -46,7 +46,7 @@ class AjaxLoginObserver implements ObserverInterface
     /**
      * @var ConfigInterface
      */
-    private $reCaptchaConfig;
+    private $reCaptchaFrontendConfig;
 
     /**
      * @var ConfigEnabledInterface
@@ -58,7 +58,7 @@ class AjaxLoginObserver implements ObserverInterface
      * @param RemoteAddress $remoteAddress
      * @param ActionFlag $actionFlag
      * @param SerializerInterface $serializer
-     * @param ConfigInterface $reCaptchaConfig
+     * @param ConfigInterface $reCaptchaFrontendConfig
      * @param ConfigEnabledInterface $config
      */
     public function __construct(
@@ -66,14 +66,14 @@ class AjaxLoginObserver implements ObserverInterface
         RemoteAddress $remoteAddress,
         ActionFlag $actionFlag,
         SerializerInterface $serializer,
-        ConfigInterface $reCaptchaConfig,
+        ConfigInterface $reCaptchaFrontendConfig,
         ConfigEnabledInterface $config
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
         $this->actionFlag = $actionFlag;
         $this->serializer = $serializer;
-        $this->reCaptchaConfig = $reCaptchaConfig;
+        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
         $this->config = $config;
     }
 
@@ -101,14 +101,14 @@ class AjaxLoginObserver implements ObserverInterface
             }
 
             $remoteIp = $this->remoteAddress->getRemoteAddress();
-            $options['threshold'] = $this->reCaptchaConfig->getMinFrontendScore();
+            $options['threshold'] = $this->reCaptchaFrontendConfig->getMinScore();
 
             if (!$this->validate->validate($reCaptchaResponse, $remoteIp, $options)) {
                 $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
                 $jsonPayload = $this->serializer->serialize([
                     'errors' => true,
-                    'message' => $this->reCaptchaConfig->getErrorDescription(),
+                    'message' => $this->reCaptchaFrontendConfig->getErrorDescription(),
                 ]);
 
                 $controller->getResponse()->representJson($jsonPayload);

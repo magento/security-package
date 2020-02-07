@@ -10,8 +10,8 @@
 
     <body>
         <referenceContainer name="form.additional.info">
-            <block class="Magento\ReCaptcha\Block\Frontend\ReCaptcha" name="recaptcha" after="-"
-                   template="Magento_ReCaptcha::recaptcha.phtml"
+            <block class="Magento\ReCaptchaFrontendUi\Block\ReCaptcha" name="recaptcha" after="-"
+                   template="Magento_ReCaptchaFrontendUi::recaptcha.phtml"
                    cacheable="false"
                    ifconfig="recaptcha/frontend/enabled">
 
@@ -19,7 +19,7 @@
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">
                             <item name="recaptcha" xsi:type="array">
-                                <item name="component" xsi:type="string">Magento_ReCaptcha/js/reCaptcha</item>
+                                <item name="component" xsi:type="string">Magento_ReCaptchaFrontendUi/js/reCaptcha</item>
                                 <item name="zone" xsi:type="string">contact</item>
                             </item>
                         </item>
