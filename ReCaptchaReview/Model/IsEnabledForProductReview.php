@@ -13,7 +13,7 @@ use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Return config flag "is recaptcha enabled for product review"
+ * @inheritdoc
  */
 class IsEnabledForProductReview implements IsEnabledForProductReviewInterface, ConfigEnabledInterface
 {
@@ -42,8 +42,7 @@ class IsEnabledForProductReview implements IsEnabledForProductReviewInterface, C
     }
 
     /**
-     * Return true if enabled on frontend captcha for product review
-     * @return bool
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {
