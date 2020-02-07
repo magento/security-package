@@ -17,7 +17,7 @@ use Magento\Store\Model\ScopeInterface;
  */
 class ConfigEnabled implements ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FOR_CONTACT = 'recaptcha/frontend/enabled_for_contact';
+    private const XML_PATH_ENABLED_FOR_CONTACT = 'recaptcha/frontend/enabled_for_contact';
 
     /**
      * @var ConfigInterface
