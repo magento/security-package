@@ -13,7 +13,8 @@
             <block class="Magento\ReCaptchaFrontendUi\Block\ReCaptcha"
                    name="recaptcha-newsletter"
                    after="-"
-                   template="Magento_ReCaptchaNewsletter::recaptcha_newsletter.phtml">
+                   template="Magento_ReCaptchaNewsletter::recaptcha_newsletter.phtml"
+                   ifconfig="recaptcha/frontend/enabled_for_newsletter">
                 <arguments>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">

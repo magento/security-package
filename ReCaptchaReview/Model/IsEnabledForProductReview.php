@@ -15,9 +15,9 @@ use Magento\Store\Model\ScopeInterface;
 /**
  * Return config flag "is recaptcha enabled for product review"
  */
-class ConfigEnabled implements ConfigEnabledInterface
+class IsEnabledForProductReview implements IsEnabledForProductReviewInterface, ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FOR_PRODUCT_REVIEW = 'recaptcha/frontend/enabled_for_product_review';
+    private const XML_PATH_ENABLED_FOR_PRODUCT_REVIEW = 'recaptcha/frontend/enabled_for_product_review';
 
     /**
      * @var ConfigInterface

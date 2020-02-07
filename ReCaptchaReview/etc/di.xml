@@ -7,16 +7,13 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Magento\ReCaptchaReview\Observer\ReviewFormObserver">
-        <arguments>
-            <argument name="config" xsi:type="object">Magento\ReCaptchaReview\Model\ConfigEnabled</argument>
-        </arguments>
-    </type>
+    <preference for="Magento\ReCaptchaReview\Model\IsEnabledForProductReviewInterface"
+                type="Magento\ReCaptchaReview\Model\IsEnabledForProductReview"/>
 
     <type name="Magento\ReCaptcha\Model\LayoutSettings">
         <arguments>
             <argument name="configEnabledProviders" xsi:type="array">
-                <item name="review" xsi:type="object">Magento\ReCaptchaReview\Model\ConfigEnabled</item>
+                <item name="review" xsi:type="object">Magento\ReCaptchaReview\Model\IsEnabledForProductReview</item>
             </argument>
         </arguments>
     </type>
