@@ -12,8 +12,8 @@ use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptcha\Model\ConfigEnabledInterface;
 use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
+use Magento\ReCaptchaSendFriend\Model\IsEnabledForSendFriendInterface;
 
 /**
  * SendFriendObserver
@@ -26,9 +26,9 @@ class SendFriendObserver implements ObserverInterface
     private $redirect;
 
     /**
-     * @var ConfigEnabledInterface
+     * @var IsEnabledForSendFriendInterface
      */
-    private $config;
+    private $isEnabledForSendFriend;
 
     /**
      * @var CaptchaRequestHandlerInterface
@@ -37,16 +37,16 @@ class SendFriendObserver implements ObserverInterface
 
     /**
      * @param RedirectInterface $redirect
-     * @param ConfigEnabledInterface $config
+     * @param IsEnabledForSendFriendInterface $isEnabledForSendFriend
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
         RedirectInterface $redirect,
-        ConfigEnabledInterface $config,
+        IsEnabledForSendFriendInterface $isEnabledForSendFriend,
         CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {
         $this->redirect = $redirect;
-        $this->config = $config;
+        $this->isEnabledForSendFriend = $isEnabledForSendFriend;
         $this->captchaRequestHandler = $captchaRequestHandler;
     }
 
@@ -57,7 +57,7 @@ class SendFriendObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isEnabled()) {
+        if ($this->isEnabledForSendFriend->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();

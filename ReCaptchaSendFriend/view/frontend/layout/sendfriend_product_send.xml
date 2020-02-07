@@ -9,8 +9,11 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="form.additional.info">
-            <block class="Magento\ReCaptchaFrontendUi\Block\ReCaptcha" name="recaptcha" after="-"
-                   template="Magento_ReCaptchaFrontendUi::recaptcha.phtml">
+            <block class="Magento\ReCaptchaFrontendUi\Block\ReCaptcha"
+                   name="recaptcha"
+                   after="-"
+                   template="Magento_ReCaptchaFrontendUi::recaptcha.phtml"
+                   ifconfig="recaptcha/frontend/enabled_for_sendfriend">
                 <arguments>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">

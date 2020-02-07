@@ -13,11 +13,11 @@ use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Return config flag "is recaptcha enabled for sendfriend"
+ * @inheritdoc
  */
-class ConfigEnabled implements ConfigEnabledInterface
+class IsEnabledForSendFriend implements IsEnabledForSendFriendInterface, ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FOR_SENDFRIEND = 'recaptcha/frontend/enabled_for_sendfriend';
+    private const XML_PATH_ENABLED_FOR_SENDFRIEND = 'recaptcha/frontend/enabled_for_sendfriend';
 
     /**
      * @var ConfigInterface
@@ -42,8 +42,7 @@ class ConfigEnabled implements ConfigEnabledInterface
     }
 
     /**
-     * Return true if enabled on frontend send to friend
-     * @return bool
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {
