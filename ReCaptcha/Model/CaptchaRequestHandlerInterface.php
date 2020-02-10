@@ -21,7 +21,6 @@ use Magento\Framework\Exception\LocalizedException;
 interface CaptchaRequestHandlerInterface
 {
     /**
-     * @param string $area
      * @param RequestInterface $request
      * @param HttpInterface $response
      * @param string $redirectOnFailureUrl
@@ -29,7 +28,6 @@ interface CaptchaRequestHandlerInterface
      * @throws LocalizedException
      */
     public function execute(
-        string $area,
         RequestInterface $request,
         HttpInterface $response,
         string $redirectOnFailureUrl

@@ -5,7 +5,7 @@
 
 'use strict';
 
-define(['Magento_ReCaptcha/js/registry'], function (registry) {
+define(['Magento_ReCaptchaFrontendUi/js/registry'], function (registry) {
 
 return function (originalComponent) {
     return originalComponent.extend({

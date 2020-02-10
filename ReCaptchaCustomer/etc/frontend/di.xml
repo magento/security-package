@@ -8,6 +8,16 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
+    <type name="Magento\ReCaptchaFrontendUi\Model\LayoutSettings">
+        <arguments>
+            <argument name="configEnabledProviders" xsi:type="array">
+                <item name="login" xsi:type="object">Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLogin</item>
+                <item name="create" xsi:type="object">Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerCreate</item>
+                <item name="forgot" xsi:type="object">Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerForgotPassword</item>
+            </argument>
+        </arguments>
+    </type>
+
     <!-- AjaxLogin Form -->
 
     <type name="Magento\Customer\Block\Account\AuthenticationPopup">

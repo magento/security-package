@@ -8,13 +8,12 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaNewsletter\Observer;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Area;
 use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
-use Magento\ReCaptcha\Model\ConfigEnabledInterface;
+use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
+use Magento\ReCaptchaNewsletter\Model\IsEnabledForNewsletterInterface;
 
 /**
  * NewsletterObserver
@@ -27,9 +26,9 @@ class NewsletterObserver implements ObserverInterface
     private $redirect;
 
     /**
-     * @var ConfigEnabledInterface
+     * @var IsEnabledForNewsletterInterface
      */
-    private $config;
+    private $isEnabledForNewsletter;
 
     /**
      * @var CaptchaRequestHandlerInterface
@@ -38,16 +37,16 @@ class NewsletterObserver implements ObserverInterface
 
     /**
      * @param RedirectInterface $redirect
-     * @param ConfigEnabledInterface $config
+     * @param IsEnabledForNewsletterInterface $isEnabledForNewsletter
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
         RedirectInterface $redirect,
-        ConfigEnabledInterface $config,
+        IsEnabledForNewsletterInterface $isEnabledForNewsletter,
         CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {
         $this->redirect = $redirect;
-        $this->config = $config;
+        $this->isEnabledForNewsletter = $isEnabledForNewsletter;
         $this->captchaRequestHandler = $captchaRequestHandler;
     }
 
@@ -58,14 +57,14 @@ class NewsletterObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isEnabled()) {
+        if ($this->isEnabledForNewsletter->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->redirect->getRefererUrl();
 
-            $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

@@ -41,21 +41,9 @@ interface ConfigInterface
     public function isEnabledBackend(): bool;
 
     /**
-     * Return true if enabled on frontend
-     * @return bool
-     */
-    public function isEnabledFrontend(): bool;
-
-    /**
      * @return bool
      */
     public function isInvisibleRecaptcha(): bool;
-
-    /**
-     * Get data size
-     * @return string
-     */
-    public function getFrontendSize(): string;
 
     /**
      * Get data size
@@ -67,37 +55,13 @@ interface ConfigInterface
      * Get data size
      * @return string
      */
-    public function getFrontendTheme(): ?string;
-
-    /**
-     * Get data size
-     * @return string
-     */
     public function getBackendTheme(): string;
-
-    /**
-     * Get data size
-     * @return string
-     */
-    public function getFrontendPosition(): ?string;
 
     /**
      * Get reCaptcha type
      * @return string
      */
     public function getType(): string;
-
-    /**
-     * Get language code
-     * @return string
-     */
-    public function getLanguageCode(): string;
-
-    /**
-     * Get minimum frontend score
-     * @return float
-     */
-    public function getMinFrontendScore(): float;
 
     /**
      * Get minimum frontend score

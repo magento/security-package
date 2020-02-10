@@ -8,13 +8,12 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCustomer\Observer;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
-use Magento\ReCaptcha\Model\ConfigEnabledInterface;
+use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerForgotPasswordInterface;
+use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
 
 /**
  * ForgotPasswordObserver
@@ -27,9 +26,9 @@ class ForgotPasswordObserver implements ObserverInterface
     private $url;
 
     /**
-     * @var ConfigEnabledInterface
+     * @var IsEnabledForCustomerForgotPasswordInterface
      */
-    private $config;
+    private $isEnabledForCustomerForgotPassword;
 
     /**
      * @var CaptchaRequestHandlerInterface
@@ -38,16 +37,16 @@ class ForgotPasswordObserver implements ObserverInterface
 
     /**
      * @param UrlInterface $url
-     * @param ConfigEnabledInterface $config
+     * @param IsEnabledForCustomerForgotPasswordInterface $isEnabledForCustomerForgotPassword
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
         UrlInterface $url,
-        ConfigEnabledInterface $config,
+        IsEnabledForCustomerForgotPasswordInterface $isEnabledForCustomerForgotPassword,
         CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {
         $this->url = $url;
-        $this->config = $config;
+        $this->isEnabledForCustomerForgotPassword = $isEnabledForCustomerForgotPassword;
         $this->captchaRequestHandler = $captchaRequestHandler;
     }
 
@@ -58,14 +57,14 @@ class ForgotPasswordObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isEnabled()) {
+        if ($this->isEnabledForCustomerForgotPassword->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('*/*/forgotpassword', ['_secure' => true]);
 
-            $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Magento\ReCaptcha\Observer\Adminhtml;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -62,11 +61,11 @@ class ForgotPasswordObserver implements ObserverInterface
         $controller = $observer->getControllerAction();
         $request = $controller->getRequest();
 
-        if ($this->config->isAreaEnabled(Area::AREA_ADMINHTML) && null !== $request->getParam('email')) {
+        if ($this->config->isEnabledBackend() && null !== $request->getParam('email')) {
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('*/*/forgotpassword', ['_secure' => true]);
 
-            $this->captchaRequestHandler->execute(Area::AREA_ADMINHTML, $request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

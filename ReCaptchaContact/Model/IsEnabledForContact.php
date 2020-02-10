@@ -8,21 +8,21 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaContact\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\ReCaptcha\Model\ConfigEnabledInterface;
-use Magento\ReCaptcha\Model\ConfigInterface;
+use Magento\ReCaptchaFrontendUi\Model\ConfigEnabledInterface;
+use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
- * Return config flag "is recaptcha enabled for contact form"
+ * @inheritdoc
  */
-class ConfigEnabled implements ConfigEnabledInterface
+class IsEnabledForContact implements IsEnabledForContactInterface, ConfigEnabledInterface
 {
-    public const XML_PATH_ENABLED_FOR_CONTACT = 'recaptcha/frontend/enabled_for_contact';
+    private const XML_PATH_ENABLED_FOR_CONTACT = 'recaptcha/frontend/enabled_for_contact';
 
     /**
-     * @var ConfigInterface
+     * @var FrontendConfigInterface
      */
-    private $reCaptchaConfig;
+    private $reCaptchaFrontendConfig;
 
     /**
      * @var ScopeConfigInterface
@@ -30,24 +30,23 @@ class ConfigEnabled implements ConfigEnabledInterface
     private $scopeConfig;
 
     /**
-     * @param ConfigInterface $reCaptchaConfig
+     * @param FrontendConfigInterface $reCaptchaFrontendConfig
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        ConfigInterface $reCaptchaConfig,
+        FrontendConfigInterface $reCaptchaFrontendConfig,
         ScopeConfigInterface $scopeConfig
     ) {
-        $this->reCaptchaConfig = $reCaptchaConfig;
+        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
         $this->scopeConfig = $scopeConfig;
     }
 
     /**
-     * Return true if enabled on frontend captcha for contact form
-     * @return bool
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaConfig->isEnabledFrontend()) {
+        if (!$this->reCaptchaFrontendConfig->isFrontendEnabled()) {
             return false;
         }
 

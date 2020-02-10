@@ -20,10 +20,6 @@
         </arguments>
     </type>
 
-    <type name="Magento\Framework\View\Asset\Minification">
-        <plugin name="exclude-recaptcha-from-minification" type="Magento\ReCaptcha\Plugin\ExcludeFromMinification"/>
-    </type>
-
     <!-- Set sensitive information -->
     <type name="Magento\Config\Model\Config\TypePool">
         <arguments>

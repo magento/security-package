@@ -9,13 +9,12 @@ namespace Magento\ReCaptchaCustomer\Observer;
 
 use Magento\Customer\Model\Url;
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Session\SessionManagerInterface;
-use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
-use Magento\ReCaptcha\Model\ConfigEnabledInterface;
+use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
+use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
 
 /**
  * LoginObserver
@@ -23,9 +22,9 @@ use Magento\ReCaptcha\Model\ConfigEnabledInterface;
 class LoginObserver implements ObserverInterface
 {
     /**
-     * @var ConfigEnabledInterface
+     * @var IsEnabledForCustomerLoginInterface
      */
-    private $config;
+    private $isEnabledForCustomerLogin;
 
     /**
      * @var CaptchaRequestHandlerInterface
@@ -43,18 +42,18 @@ class LoginObserver implements ObserverInterface
     private $url;
 
     /**
-     * @param ConfigEnabledInterface $config
+     * @param IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      * @param SessionManagerInterface $sessionManager
      * @param Url $url
      */
     public function __construct(
-        ConfigEnabledInterface $config,
+        IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin,
         CaptchaRequestHandlerInterface $captchaRequestHandler,
         SessionManagerInterface $sessionManager,
         Url $url
     ) {
-        $this->config = $config;
+        $this->isEnabledForCustomerLogin = $isEnabledForCustomerLogin;
         $this->captchaRequestHandler = $captchaRequestHandler;
         $this->sessionManager = $sessionManager;
         $this->url = $url;
@@ -67,14 +66,14 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isEnabled()) {
+        if ($this->isEnabledForCustomerLogin->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->sessionManager->getBeforeAuthUrl() ?: $this->url->getLoginUrl();
 
-            $this->captchaRequestHandler->execute(Area::AREA_FRONTEND, $request, $response, $redirectOnFailureUrl);
+            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

@@ -10,7 +10,7 @@ var config = {
     config: {
         mixins: {
             'Magento_Ui/js/view/messages': {
-                'Magento_ReCaptcha/js/ui-messages-mixin': true
+                'Magento_ReCaptchaFrontendUi/js/ui-messages-mixin': true
             }
         }
     }

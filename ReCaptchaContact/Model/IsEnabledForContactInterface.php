@@ -5,17 +5,17 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Model;
+namespace Magento\ReCaptchaContact\Model;
 
 /**
- * Extension point of the ReCaptcha configuration
+ * Return true if functionality of corresponding point is enabled in configuration
  *
  * @api
  */
-interface ConfigEnabledInterface
+interface IsEnabledForContactInterface
 {
     /**
-     * Return true if functionality of corresponding point is enabled in configuration
+     * Return true if recaptcha is enabled for contact form
      * @return bool
      */
     public function isEnabled(): bool;

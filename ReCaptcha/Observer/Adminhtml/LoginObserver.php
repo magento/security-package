@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Magento\ReCaptcha\Observer\Adminhtml;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\Area;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -60,7 +59,7 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isAreaEnabled(Area::AREA_ADMINHTML)) {
+        if ($this->config->isEnabledBackend()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
 
