@@ -10,7 +10,7 @@
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="recaptcha" xsi:type="object">Magento\ReCaptchaAdminUi\Command\ReCaptcha</item>
+                <item name="disable_recaptcha_for_backend" xsi:type="object">Magento\ReCaptchaAdminUi\Command\DisableReCaptchaForBackendCommand</item>
             </argument>
         </arguments>
     </type>

@@ -16,8 +16,6 @@ use Magento\Framework\Phrase;
  */
 interface AdminConfigInterface
 {
-    public const XML_PATH_ENABLED = 'recaptcha/backend/enabled';
-
     /**
      * Return true if enabled on backend
      * @return bool

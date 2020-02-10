@@ -5,38 +5,28 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Command;
+namespace Magento\ReCaptchaAdminUi\Command;
 
-use Magento\Framework\App\Cache\Manager;
-use Magento\Framework\App\Config\ConfigResource\ConfigInterface;
-use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
+use Magento\ReCaptchaAdminUi\Model\DisableReCaptchaForBackend;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ReCaptcha extends Command
+class DisableReCaptchaForBackendCommand extends Command
 {
     /**
-     * @var ConfigInterface
+     * @var DisableReCaptchaForBackend
      */
-    private $config;
+    private $disableReCaptchaForBackend;
 
     /**
-     * @var Manager
-     */
-    private $cacheManager;
-
-    /**
-     * @param ConfigInterface $config
-     * @param Manager $cacheManager
+     * @param DisableReCaptchaForBackend $disableReCaptchaForBackend
      */
     public function __construct(
-        ConfigInterface $config,
-        Manager $cacheManager
+        DisableReCaptchaForBackend $disableReCaptchaForBackend
     ) {
         parent::__construct();
-        $this->config = $config;
-        $this->cacheManager = $cacheManager;
+        $this->disableReCaptchaForBackend = $disableReCaptchaForBackend;
     }
 
     /**
@@ -56,13 +46,6 @@ class ReCaptcha extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->config->saveConfig(
-            AdminConfigInterface::XML_PATH_ENABLED,
-            '0',
-            'default',
-            0
-        );
-
-        $this->cacheManager->flush(['config']);
+        $this->disableReCaptchaForBackend->execute();
     }
 }

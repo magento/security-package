@@ -16,6 +16,7 @@ use Magento\ReCaptcha\Model\ConfigInterface as ReCaptchaConfig;
  */
 class AdminConfig implements AdminConfigInterface
 {
+    private const XML_PATH_ENABLED = 'recaptcha/backend/enabled';
     private const XML_PATH_SIZE_MIN_SCORE = 'recaptcha/backend/min_score';
     private const XML_PATH_SIZE = 'recaptcha/backend/size';
     private const XML_PATH_THEME= 'recaptcha/backend/theme';
