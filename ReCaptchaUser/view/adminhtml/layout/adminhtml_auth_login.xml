@@ -16,7 +16,7 @@
             <block class="Magento\ReCaptchaAdminUi\Block\ReCaptcha"
                    name="recaptcha"
                    template="Magento_ReCaptchaAdminUi::recaptcha.phtml"
-                   ifconfig="recaptcha/backend/enabled"/>
+                   ifconfig="recaptcha/backend/enabled_for_user_login"/>
         </referenceContainer>
     </body>
 </page>

@@ -5,17 +5,17 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaAdminUi\Model;
+namespace Magento\ReCaptchaUser\Model;
 
 use Magento\Framework\App\Cache\Manager;
 use Magento\Framework\App\Config\ConfigResource\ConfigInterface;
 
 /**
- * Disable ReCaptcha for Backend (causes config cache flush)
+ * Disable ReCaptcha for user login (causes config cache flush)
  */
-class DisableReCaptchaForBackend
+class DisableReCaptchaForUserLogin
 {
-    private const XML_PATH_ENABLED = 'recaptcha/backend/enabled';
+    private const XML_PATH_ENABLED = 'recaptcha/backend/enabled_for_user_forgot_password';
 
     /**
      * @var ConfigInterface
@@ -40,15 +40,13 @@ class DisableReCaptchaForBackend
     }
 
     /**
-     * Disable ReCaptcha for Backend
+     * Disable ReCaptcha for user login (causes config cache flush)
      */
     public function execute()
     {
         $this->config->saveConfig(
             self::XML_PATH_ENABLED,
-            '0',
-            'default',
-            0
+            '0'
         );
 
         $this->cacheManager->flush(['config']);

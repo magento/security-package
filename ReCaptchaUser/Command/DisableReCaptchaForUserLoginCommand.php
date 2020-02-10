@@ -5,28 +5,28 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaAdminUi\Command;
+namespace Magento\ReCaptchaUser\Command;
 
-use Magento\ReCaptchaAdminUi\Model\DisableReCaptchaForBackend;
+use Magento\ReCaptchaUser\Model\DisableReCaptchaForUserLogin;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DisableReCaptchaForBackendCommand extends Command
+class DisableReCaptchaForUserLoginCommand extends Command
 {
     /**
-     * @var DisableReCaptchaForBackend
+     * @var DisableReCaptchaForUserLogin
      */
-    private $disableReCaptchaForBackend;
+    private $disableReCaptchaForUserLogin;
 
     /**
-     * @param DisableReCaptchaForBackend $disableReCaptchaForBackend
+     * @param DisableReCaptchaForUserLogin $disableReCaptchaForUserLogin
      */
     public function __construct(
-        DisableReCaptchaForBackend $disableReCaptchaForBackend
+        DisableReCaptchaForUserLogin $disableReCaptchaForUserLogin
     ) {
         parent::__construct();
-        $this->disableReCaptchaForBackend = $disableReCaptchaForBackend;
+        $this->disableReCaptchaForUserLogin = $disableReCaptchaForUserLogin;
     }
 
     /**
@@ -34,8 +34,8 @@ class DisableReCaptchaForBackendCommand extends Command
      */
     protected function configure()
     {
-        $this->setName('security:recaptcha:disable');
-        $this->setDescription('Disable backend reCaptcha');
+        $this->setName('security:recaptcha:disable-for-user-login');
+        $this->setDescription('Disable backend reCaptcha for user login form');
 
         parent::configure();
     }
@@ -46,6 +46,6 @@ class DisableReCaptchaForBackendCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->disableReCaptchaForBackend->execute();
+        $this->disableReCaptchaForUserLogin->execute();
     }
 }

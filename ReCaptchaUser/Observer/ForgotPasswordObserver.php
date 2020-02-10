@@ -12,20 +12,14 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptcha\Model\ConfigInterface;
-use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
 use Magento\ReCaptchaAdminUi\Model\CaptchaRequestHandlerInterface;
+use Magento\ReCaptchaUser\Model\IsEnabledForUserForgotPasswordInterface;
 
 /**
  * ForgotPasswordObserver
  */
 class ForgotPasswordObserver implements ObserverInterface
 {
-    /**
-     * @var ConfigInterface
-     */
-    private $config;
-
     /**
      * @var UrlInterface
      */
@@ -37,26 +31,23 @@ class ForgotPasswordObserver implements ObserverInterface
     private $captchaRequestHandler;
 
     /**
-     * @var AdminConfigInterface
+     * @var IsEnabledForUserForgotPasswordInterface
      */
-    private $reCaptchaAdminConfig;
+    private $isEnabledForUserForgotPassword;
 
     /**
-     * @param ConfigInterface $config
      * @param UrlInterface $url
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
-     * @param AdminConfigInterface $reCaptchaAdminConfig
+     * @param IsEnabledForUserForgotPasswordInterface $isEnabledForUserForgotPassword
      */
     public function __construct(
-        ConfigInterface $config,
         UrlInterface $url,
         CaptchaRequestHandlerInterface $captchaRequestHandler,
-        AdminConfigInterface $reCaptchaAdminConfig
+        IsEnabledForUserForgotPasswordInterface $isEnabledForUserForgotPassword
     ) {
-        $this->config = $config;
         $this->url = $url;
         $this->captchaRequestHandler = $captchaRequestHandler;
-        $this->reCaptchaAdminConfig = $reCaptchaAdminConfig;
+        $this->isEnabledForUserForgotPassword = $isEnabledForUserForgotPassword;
     }
 
     /**
@@ -70,7 +61,7 @@ class ForgotPasswordObserver implements ObserverInterface
         $controller = $observer->getControllerAction();
         $request = $controller->getRequest();
 
-        if ($this->reCaptchaAdminConfig->isBackendEnabled() && null !== $request->getParam('email')) {
+        if ($this->isEnabledForUserForgotPassword->isEnabled() && null !== $request->getParam('email')) {
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('*/*/forgotpassword', ['_secure' => true]);
 

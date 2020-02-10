@@ -9,14 +9,16 @@ namespace Magento\ReCaptchaAdminUi\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Phrase;
-use Magento\ReCaptcha\Model\ConfigInterface as ReCaptchaConfig;
 
 /**
  * @inheritdoc
  */
 class AdminConfig implements AdminConfigInterface
 {
-    private const XML_PATH_ENABLED = 'recaptcha/backend/enabled';
+    private const XML_PATH_TYPE = 'recaptcha/backend/type';
+    private const XML_PATH_PUBLIC_KEY = 'recaptcha/backend/public_key';
+    private const XML_PATH_PRIVATE_KEY = 'recaptcha/backend/private_key';
+
     private const XML_PATH_SIZE_MIN_SCORE = 'recaptcha/backend/min_score';
     private const XML_PATH_SIZE = 'recaptcha/backend/size';
     private const XML_PATH_THEME= 'recaptcha/backend/theme';
@@ -27,30 +29,35 @@ class AdminConfig implements AdminConfigInterface
     private $scopeConfig;
 
     /**
-     * @var ReCaptchaConfig
-     */
-    private $reCaptchaConfig;
-
-    /**
      * @param ScopeConfigInterface $scopeConfig
-     * @param ReCaptchaConfig $reCaptchaConfig
      */
-    public function __construct(ScopeConfigInterface $scopeConfig, ReCaptchaConfig $reCaptchaConfig)
+    public function __construct(ScopeConfigInterface $scopeConfig)
     {
         $this->scopeConfig = $scopeConfig;
-        $this->reCaptchaConfig = $reCaptchaConfig;
     }
 
     /**
      * @inheritdoc
      */
-    public function isBackendEnabled(): bool
+    public function getPublicKey(): string
     {
-        if (!$this->reCaptchaConfig->getPrivateKey() || !$this->reCaptchaConfig->getPublicKey()) {
-            return false;
-        }
+        return trim((string)$this->scopeConfig->getValue(self::XML_PATH_PUBLIC_KEY));
+    }
 
-        return (bool) $this->scopeConfig->getValue(self::XML_PATH_ENABLED);
+    /**
+     * @inheritdoc
+     */
+    public function getPrivateKey(): string
+    {
+        return trim((string)$this->scopeConfig->getValue(self::XML_PATH_PRIVATE_KEY));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getType(): string
+    {
+        return (string)$this->scopeConfig->getValue(self::XML_PATH_TYPE);
     }
 
     /**
@@ -58,7 +65,7 @@ class AdminConfig implements AdminConfigInterface
      */
     public function getSize(): string
     {
-        if ($this->reCaptchaConfig->isInvisibleRecaptcha()) {
+        if ($this->isInvisibleRecaptcha()) {
             return 'invisible';
         }
 
@@ -68,9 +75,13 @@ class AdminConfig implements AdminConfigInterface
     /**
      * @inheritdoc
      */
-    public function getTheme(): string
+    public function getTheme(): ?string
     {
-        return (string) $this->scopeConfig->getValue(self::XML_PATH_THEME);
+        if ($this->isInvisibleRecaptcha()) {
+            return null;
+        }
+
+        return (string)$this->scopeConfig->getValue(self::XML_PATH_THEME);
     }
 
     /**
@@ -88,10 +99,19 @@ class AdminConfig implements AdminConfigInterface
      */
     public function getErrorMessage(): Phrase
     {
-        if ($this->reCaptchaConfig->getType() === 'recaptcha_v3') {
+        if ($this->getType() === 'recaptcha_v3') {
             return __('You cannot proceed with such operation, your reCaptcha reputation is too low.');
         }
 
         return __('Incorrect ReCaptcha validation');
     }
+
+    /**
+     * @return bool
+     */
+    private function isInvisibleRecaptcha(): bool
+    {
+        return in_array($this->getType(), ['invisible', 'recaptcha_v3'], true);
+    }
+
 }

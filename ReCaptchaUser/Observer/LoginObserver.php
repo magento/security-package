@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaUser\Observer\Adminhtml;
+namespace Magento\ReCaptchaUser\Observer;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Event\Observer;
@@ -15,6 +15,7 @@ use Magento\Framework\Exception\Plugin\AuthenticationException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\ReCaptcha\Model\ValidateInterface;
 use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
+use Magento\ReCaptchaUser\Model\IsEnabledForUserLoginInterface;
 
 /**
  * LoginObserver
@@ -37,18 +38,26 @@ class LoginObserver implements ObserverInterface
     private $reCaptchaAdminConfig;
 
     /**
+     * @var IsEnabledForUserLoginInterface
+     */
+    private $isEnabledForUserLogin;
+
+    /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
      * @param AdminConfigInterface $reCaptchaAdminConfig
+     * @param IsEnabledForUserLoginInterface $isEnabledForUserLogin
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
-        AdminConfigInterface $reCaptchaAdminConfig
+        AdminConfigInterface $reCaptchaAdminConfig,
+        IsEnabledForUserLoginInterface $isEnabledForUserLogin
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
         $this->reCaptchaAdminConfig = $reCaptchaAdminConfig;
+        $this->isEnabledForUserLogin = $isEnabledForUserLogin;
     }
 
     /**
@@ -59,7 +68,7 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->reCaptchaAdminConfig->isBackendEnabled()) {
+        if ($this->reCaptchaAdminConfig->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
 

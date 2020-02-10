@@ -17,10 +17,22 @@ use Magento\Framework\Phrase;
 interface AdminConfigInterface
 {
     /**
-     * Return true if enabled on backend
-     * @return bool
+     * Get google recaptcha public key
+     * @return string
      */
-    public function isBackendEnabled(): bool;
+    public function getPublicKey(): string;
+
+    /**
+     * Get google recaptcha private key
+     * @return string
+     */
+    public function getPrivateKey(): string;
+
+    /**
+     * Get reCaptcha type
+     * @return string
+     */
+    public function getType(): string;
 
     /**
      * Get size
@@ -32,7 +44,7 @@ interface AdminConfigInterface
      * Get theme
      * @return string
      */
-    public function getTheme(): string;
+    public function getTheme(): ?string;
 
     /**
      * Get minimum frontend score
