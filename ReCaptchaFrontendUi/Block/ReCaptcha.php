@@ -9,8 +9,8 @@ namespace Magento\ReCaptchaFrontendUi\Block;
 
 use Magento\Framework\View\Element\Template;
 use Magento\ReCaptcha\Model\ConfigInterface;
-use Magento\ReCaptcha\Model\LayoutSettings;
-use Magento\ReCaptchaFrontendUi\Model\ConfigInterface as ReCaptchaFrontendUiConfig;
+use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface as ReCaptchaFrontendUiConfig;
+use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 use Zend\Json\Json;
 
 /**

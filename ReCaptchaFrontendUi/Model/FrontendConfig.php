@@ -15,7 +15,7 @@ use Magento\Store\Model\ScopeInterface;
 /**
  * @inheritdoc
  */
-class Config implements ConfigInterface
+class FrontendConfig implements FrontendConfigInterface
 {
     private const XML_PATH_ENABLED_FRONTEND = 'recaptcha/frontend/enabled';
     private const XML_PATH_POSITION = 'recaptcha/frontend/position';

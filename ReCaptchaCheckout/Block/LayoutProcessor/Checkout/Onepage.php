@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCheckout\Block\LayoutProcessor\Checkout;
 
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
-use Magento\ReCaptcha\Model\LayoutSettings;
-use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
+use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface;
+use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 
 /**
  * Checkout layout processor
@@ -22,20 +22,20 @@ class Onepage implements LayoutProcessorInterface
     private $layoutSettings;
 
     /**
-     * @var ConfigInterface
+     * @var FrontendConfigInterface
      */
-    private $config;
+    private $reCaptchaFrontendConfig;
 
     /**
      * @param LayoutSettings $layoutSettings
-     * @param ConfigInterface $config
+     * @param FrontendConfigInterface $reCaptchaFrontendConfig
      */
     public function __construct(
         LayoutSettings $layoutSettings,
-        ConfigInterface $config
+        FrontendConfigInterface $reCaptchaFrontendConfig
     ) {
         $this->layoutSettings = $layoutSettings;
-        $this->config = $config;
+        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
     }
 
     /**
@@ -43,7 +43,7 @@ class Onepage implements LayoutProcessorInterface
      */
     public function process($jsLayout)
     {
-        if ($this->config->isFrontendEnabled()) {
+        if ($this->reCaptchaFrontendConfig->isFrontendEnabled()) {
             $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']
                 ['recaptcha']['settings'] = $this->layoutSettings->getCaptchaSettings();

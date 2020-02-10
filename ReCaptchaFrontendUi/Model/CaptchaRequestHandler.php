@@ -41,29 +41,29 @@ class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
     private $actionFlag;
 
     /**
-     * @var ConfigInterface
+     * @var FrontendConfigInterface
      */
-    private $config;
+    private $reCaptchaFrontendConfig;
 
     /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
      * @param MessageManagerInterface $messageManager
      * @param ActionFlag $actionFlag
-     * @param ConfigInterface $config
+     * @param FrontendConfigInterface $reCaptchaFrontendConfig
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
         MessageManagerInterface $messageManager,
         ActionFlag $actionFlag,
-        ConfigInterface $config
+        FrontendConfigInterface $reCaptchaFrontendConfig
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
         $this->messageManager = $messageManager;
         $this->actionFlag = $actionFlag;
-        $this->config = $config;
+        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
     }
 
     /**
@@ -76,10 +76,10 @@ class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
     ): void {
         $reCaptchaResponse = $request->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
         $remoteIp = $this->remoteAddress->getRemoteAddress();
-        $options['threshold'] = $this->config->getMinScore();
+        $options['threshold'] = $this->reCaptchaFrontendConfig->getMinScore();
 
         if (false === $this->validate->validate($reCaptchaResponse, $remoteIp, $options)) {
-            $this->messageManager->addErrorMessage($this->config->getErrorDescription());
+            $this->messageManager->addErrorMessage($this->reCaptchaFrontendConfig->getErrorDescription());
             $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
             $response->setRedirect($redirectOnFailureUrl);

@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Model;
+namespace Magento\ReCaptchaFrontendUi\Model;
 
 /**
  * Extension point of the ReCaptcha configuration

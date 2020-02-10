@@ -9,12 +9,4 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\ReCaptchaSendFriend\Model\IsEnabledForSendFriendInterface"
                 type="Magento\ReCaptchaSendFriend\Model\IsEnabledForSendFriend"/>
-
-    <type name="Magento\ReCaptcha\Model\LayoutSettings">
-        <arguments>
-            <argument name="configEnabledProviders" xsi:type="array">
-                <item name="sendfriend" xsi:type="object">Magento\ReCaptchaSendFriend\Model\IsEnabledForSendFriend</item>
-            </argument>
-        </arguments>
-    </type>
 </config>

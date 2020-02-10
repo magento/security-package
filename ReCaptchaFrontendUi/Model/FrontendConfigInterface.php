@@ -10,11 +10,11 @@ namespace Magento\ReCaptchaFrontendUi\Model;
 use Magento\Framework\Phrase;
 
 /**
- * Represents general ReCaptcha configuration
+ * Represents general ReCaptcha frontend configuration
  *
  * @api
  */
-interface ConfigInterface
+interface FrontendConfigInterface
 {
     /**
      * Return true if enabled on frontend

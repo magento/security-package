@@ -8,9 +8,9 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaNewsletter\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\ReCaptcha\Model\ConfigEnabledInterface;
-use Magento\ReCaptcha\Model\ConfigInterface as ReCaptchaConfig;
-use Magento\ReCaptchaFrontendUi\Model\ConfigInterface as ReCaptchaFrontendUiConfig;
+use Magento\ReCaptcha\Model\{ConfigInterface as ReCaptchaConfig};
+use Magento\ReCaptchaFrontendUi\Model\ConfigEnabledInterface;
+use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface as ReCaptchaFrontendUiConfig;
 use Magento\Store\Model\ScopeInterface;
 
 /**

@@ -8,21 +8,21 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCustomer\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\ReCaptcha\Model\ConfigEnabledInterface;
-use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
+use Magento\ReCaptchaFrontendUi\Model\ConfigEnabledInterface;
+use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
  * @inheritdoc
  */
-class IsEnabledForCustomerForgotPassword implements ConfigEnabledInterface
+class IsEnabledForCustomerForgotPassword implements IsEnabledForCustomerForgotPasswordInterface, ConfigEnabledInterface
 {
     private const XML_PATH_ENABLED_FRONTEND_FORGOT = 'recaptcha/frontend/enabled_for_customer_forgot_password';
 
     /**
-     * @var ConfigInterface
+     * @var FrontendConfigInterface
      */
-    private $reCaptchaConfig;
+    private $reCaptchaFrontendConfig;
 
     /**
      * @var ScopeConfigInterface
@@ -30,14 +30,14 @@ class IsEnabledForCustomerForgotPassword implements ConfigEnabledInterface
     private $scopeConfig;
 
     /**
-     * @param ConfigInterface $reCaptchaConfig
+     * @param FrontendConfigInterface $reCaptchaFrontendConfig
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        ConfigInterface $reCaptchaConfig,
+        FrontendConfigInterface $reCaptchaFrontendConfig,
         ScopeConfigInterface $scopeConfig
     ) {
-        $this->reCaptchaConfig = $reCaptchaConfig;
+        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -46,7 +46,7 @@ class IsEnabledForCustomerForgotPassword implements ConfigEnabledInterface
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaConfig->isFrontendEnabled()) {
+        if (!$this->reCaptchaFrontendConfig->isFrontendEnabled()) {
             return false;
         }
 

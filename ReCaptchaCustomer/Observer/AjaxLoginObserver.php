@@ -16,7 +16,7 @@ use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
 use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
-use Magento\ReCaptchaFrontendUi\Model\ConfigInterface;
+use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface;
 
 /**
  * AjaxLoginObserver
@@ -44,7 +44,7 @@ class AjaxLoginObserver implements ObserverInterface
     private $serializer;
 
     /**
-     * @var ConfigInterface
+     * @var FrontendConfigInterface
      */
     private $reCaptchaFrontendConfig;
 
@@ -58,7 +58,7 @@ class AjaxLoginObserver implements ObserverInterface
      * @param RemoteAddress $remoteAddress
      * @param ActionFlag $actionFlag
      * @param SerializerInterface $serializer
-     * @param ConfigInterface $reCaptchaFrontendConfig
+     * @param FrontendConfigInterface $reCaptchaFrontendConfig
      * @param IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
      */
     public function __construct(
@@ -66,7 +66,7 @@ class AjaxLoginObserver implements ObserverInterface
         RemoteAddress $remoteAddress,
         ActionFlag $actionFlag,
         SerializerInterface $serializer,
-        ConfigInterface $reCaptchaFrontendConfig,
+        FrontendConfigInterface $reCaptchaFrontendConfig,
         IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
     ) {
         $this->validate = $validate;

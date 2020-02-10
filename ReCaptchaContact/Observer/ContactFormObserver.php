@@ -12,7 +12,6 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptcha\Model\ConfigEnabledInterface;
 use Magento\ReCaptchaContact\Model\IsEnabledForContactInterface;
 use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
 
@@ -38,12 +37,12 @@ class ContactFormObserver implements ObserverInterface
 
     /**
      * @param UrlInterface $url
-     * @param ConfigEnabledInterface $isEnabledForContact
+     * @param IsEnabledForContactInterface $isEnabledForContact
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
         UrlInterface $url,
-        ConfigEnabledInterface $isEnabledForContact,
+        IsEnabledForContactInterface $isEnabledForContact,
         CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {
         $this->url = $url;
