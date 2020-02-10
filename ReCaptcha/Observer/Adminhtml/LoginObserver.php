@@ -13,7 +13,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\Plugin\AuthenticationException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
@@ -32,19 +32,19 @@ class LoginObserver implements ObserverInterface
     private $remoteAddress;
 
     /**
-     * @var Config
+     * @var ConfigInterface
      */
     private $config;
 
     /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
-     * @param Config $config
+     * @param ConfigInterface $config
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
-        Config $config
+        ConfigInterface $config
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;

@@ -5,14 +5,14 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Model\Config\Source;
+namespace Magento\ReCaptchaAdminUi\Model\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 
 /**
- * Recaptcha theme options
+ * Recaptcha size options
  */
-class Theme implements OptionSourceInterface
+class Size implements OptionSourceInterface
 {
     /**
      * @inheritDoc
@@ -20,8 +20,8 @@ class Theme implements OptionSourceInterface
     public function toOptionArray()
     {
         return [
-            ['value' => 'light', 'label' => __('Light Theme')],
-            ['value' => 'dark', 'label' => __('Dark Theme')],
+            ['value' => 'normal', 'label' => __('Normal')],
+            ['value' => 'compact', 'label' => __('Compact')],
         ];
     }
 }

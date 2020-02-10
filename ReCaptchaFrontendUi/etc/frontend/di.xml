@@ -11,6 +11,7 @@
                 type="Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandler"/>
 
     <type name="Magento\Framework\View\Asset\Minification">
-        <plugin name="exclude-recaptcha-from-minification" type="Magento\ReCaptcha\Plugin\ExcludeFromMinification"/>
+        <plugin name="exclude-recaptcha-from-minification"
+                type="Magento\ReCaptchaFrontendUi\Plugin\ExcludeFromMinification"/>
     </type>
 </config>

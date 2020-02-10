@@ -33,7 +33,7 @@
                 <field id="type" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
                     <label>reCaptcha type</label>
-                    <source_model>Magento\ReCaptcha\Model\Config\Source\Type</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Type</source_model>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>
@@ -50,7 +50,7 @@
                 <field id="theme" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
                     <label>Theme</label>
-                    <source_model>Magento\ReCaptcha\Model\Config\Source\Theme</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Theme</source_model>
                     <depends>
                         <field id="enabled">1</field>
                         <field id="recaptcha/general/type">recaptcha</field>
@@ -59,7 +59,7 @@
                 <field id="size" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
                     <label>Size</label>
-                    <source_model>Magento\ReCaptcha\Model\Config\Source\Size</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Size</source_model>
                     <depends>
                         <field id="enabled">1</field>
                         <field id="recaptcha/general/type">recaptcha</field>
@@ -86,7 +86,7 @@
                 <field id="position" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
                     <label>Invisible badge position</label>
-                    <source_model>Magento\ReCaptcha\Model\Config\Source\Position</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Position</source_model>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>
@@ -104,7 +104,7 @@
                 <field id="theme" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
                     <label>Theme</label>
-                    <source_model>Magento\ReCaptcha\Model\Config\Source\Theme</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Theme</source_model>
                     <depends>
                         <field id="enabled">1</field>
                         <field id="recaptcha/general/type">recaptcha</field>
@@ -126,7 +126,7 @@
                 <field id="size" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
                     <label>Size</label>
-                    <source_model>Magento\ReCaptcha\Model\Config\Source\Size</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Size</source_model>
                     <depends>
                         <field id="enabled">1</field>
                         <field id="recaptcha/general/type">recaptcha</field>

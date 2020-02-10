@@ -9,9 +9,12 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <recaptcha>
-            <general>
-                <type>recaptcha_v3</type>
-            </general>
+            <backend>
+                <enabled>0</enabled>
+                <size>normal</size>
+                <theme>light</theme>
+                <min_score>0.9</min_score>
+            </backend>
         </recaptcha>
     </default>
 </config>

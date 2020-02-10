@@ -12,8 +12,8 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigInterface;
+use Magento\ReCaptchaAdminUi\Model\CaptchaRequestHandlerInterface;
 
 /**
  * ForgotPasswordObserver
@@ -21,7 +21,7 @@ use Magento\ReCaptcha\Model\Config;
 class ForgotPasswordObserver implements ObserverInterface
 {
     /**
-     * @var Config
+     * @var ConfigInterface
      */
     private $config;
 
@@ -36,12 +36,12 @@ class ForgotPasswordObserver implements ObserverInterface
     private $captchaRequestHandler;
 
     /**
-     * @param Config $config
+     * @param ConfigInterface $config
      * @param UrlInterface $url
      * @param CaptchaRequestHandlerInterface $captchaRequestHandler
      */
     public function __construct(
-        Config $config,
+        ConfigInterface $config,
         UrlInterface $url,
         CaptchaRequestHandlerInterface $captchaRequestHandler
     ) {

@@ -9,16 +9,6 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\ReCaptcha\Model\ConfigInterface" type="Magento\ReCaptcha\Model\Config"/>
     <preference for="Magento\ReCaptcha\Model\ValidateInterface" type="Magento\ReCaptcha\Model\Validate"/>
-    <preference for="Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface"
-                type="Magento\ReCaptcha\Model\CaptchaRequestHandler"/>
-
-    <type name="Magento\Framework\Console\CommandListInterface">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="recaptcha" xsi:type="object">Magento\ReCaptcha\Command\ReCaptcha</item>
-            </argument>
-        </arguments>
-    </type>
 
     <!-- Set sensitive information -->
     <type name="Magento\Config\Model\Config\TypePool">

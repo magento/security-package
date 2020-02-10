@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Model\Config\Source;
+namespace Magento\ReCaptchaAdminUi\Model\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 

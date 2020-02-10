@@ -5,9 +5,9 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Plugin;
+namespace Magento\ReCaptchaFrontendUi\Plugin;
 
-use \Magento\Framework\View\Asset\Minification;
+use Magento\Framework\View\Asset\Minification;
 
 /**
  * Exclude external recaptcha from minification

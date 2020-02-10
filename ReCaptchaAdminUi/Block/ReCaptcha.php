@@ -5,10 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Block\Adminhtml;
+namespace Magento\ReCaptchaAdminUi\Block;
 
 use Magento\Framework\View\Element\Template;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptcha\Model\ConfigInterface;
 
 /**
  * @api
@@ -16,19 +16,18 @@ use Magento\ReCaptcha\Model\Config;
 class ReCaptcha extends Template
 {
     /**
-     * @var Config
+     * @var ConfigInterface
      */
     private $config;
 
     /**
-     * ReCaptcha constructor.
      * @param Template\Context $context
-     * @param Config $config
+     * @param ConfigInterface $config
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        Config $config,
+        ConfigInterface $config,
         array $data = []
     ) {
         parent::__construct($context, $data);

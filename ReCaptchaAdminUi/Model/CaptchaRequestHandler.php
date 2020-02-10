@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Model;
+namespace Magento\ReCaptchaAdminUi\Model;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
@@ -13,9 +13,11 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\HttpInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
+use Magento\ReCaptcha\Model\ConfigInterface;
+use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
- * Captcha request handler
+ * @inheritdoc
  */
 class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
 {
@@ -40,7 +42,7 @@ class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
     private $actionFlag;
 
     /**
-     * @var Config
+     * @var ConfigInterface
      */
     private $config;
 
@@ -49,14 +51,14 @@ class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
      * @param RemoteAddress $remoteAddress
      * @param MessageManagerInterface $messageManager
      * @param ActionFlag $actionFlag
-     * @param Config $config
+     * @param ConfigInterface $config
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
         MessageManagerInterface $messageManager,
         ActionFlag $actionFlag,
-        Config $config
+        ConfigInterface $config
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;

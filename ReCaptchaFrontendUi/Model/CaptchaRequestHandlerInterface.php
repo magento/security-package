@@ -21,6 +21,8 @@ use Magento\Framework\Exception\LocalizedException;
 interface CaptchaRequestHandlerInterface
 {
     /**
+     * Validate captcha data in request and set message and redirect if validation was failed
+     *
      * @param RequestInterface $request
      * @param HttpInterface $response
      * @param string $redirectOnFailureUrl
