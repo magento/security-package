@@ -1,13 +1,13 @@
 {
-    "name": "magento/module-re-captcha-admin-ui",
+    "name": "magento/module-re-captcha-user",
     "version": "1.0.0",
     "description": "Google reCaptcha integration for Magento2",
     "require": {
         "php": "~7.1.3||~7.2.0||~7.3.0",
         "magento/framework": "102.0.*",
         "magento/module-store": "*",
-        "magento/module-config": "*",
-        "magento/module-re-captcha": "*"
+        "magento/module-re-captcha": "*",
+        "magento/module-re-captcha-admin-ua": "*"
     },
     "authors": [
         {
@@ -22,7 +22,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Magento\\ReCaptchaAdminUi\\": ""
+            "Magento\\ReCaptchaUser\\": ""
         }
     }
 }

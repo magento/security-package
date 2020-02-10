@@ -9,7 +9,7 @@ namespace Magento\ReCaptcha\Command;
 
 use Magento\Framework\App\Cache\Manager;
 use Magento\Framework\App\Config\ConfigResource\ConfigInterface;
-use Magento\ReCaptcha\Model\Config;
+use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -57,7 +57,7 @@ class ReCaptcha extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->config->saveConfig(
-            Config::XML_PATH_ENABLED_BACKEND,
+            AdminConfigInterface::XML_PATH_ENABLED,
             '0',
             'default',
             0

@@ -7,11 +7,11 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaFrontendUi\Block;
 
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
 use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface as ReCaptchaFrontendUiConfig;
 use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
-use Zend\Json\Json;
 
 /**
  * @api
@@ -34,10 +34,16 @@ class ReCaptcha extends Template
     private $reCaptchaFrontendConfig;
 
     /**
+     * @var Json
+     */
+    private $serializer;
+
+    /**
      * @param Template\Context $context
      * @param LayoutSettings $layoutSettings
      * @param ConfigInterface $config
      * @param ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig
+     * @param Json $serializer
      * @param array $data
      */
     public function __construct(
@@ -45,12 +51,14 @@ class ReCaptcha extends Template
         LayoutSettings $layoutSettings,
         ConfigInterface $config,
         ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig,
+        Json $serializer,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->layoutSettings = $layoutSettings;
         $this->config = $config;
         $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -75,7 +83,7 @@ class ReCaptcha extends Template
      */
     public function getJsLayout()
     {
-        $layout = Json::decode(parent::getJsLayout(), Json::TYPE_ARRAY);
+        $layout = $this->serializer->unserialize(parent::getJsLayout());
 
         if ($this->reCaptchaFrontendConfig->isFrontendEnabled()) {
             // Backward compatibility with fixed scope name
@@ -96,7 +104,7 @@ class ReCaptcha extends Template
             $layout['components'][$this->getRecaptchaId()]['reCaptchaId'] = $this->getRecaptchaId();
         }
 
-        return Json::encode($layout);
+        return $this->serializer->serialize($layout);
     }
 
     /**

@@ -13,7 +13,6 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\HttpInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
-use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
 
 /**
@@ -42,29 +41,29 @@ class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
     private $actionFlag;
 
     /**
-     * @var ConfigInterface
+     * @var AdminConfigInterface
      */
-    private $config;
+    private $reCaptchaAdminConfig;
 
     /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
      * @param MessageManagerInterface $messageManager
      * @param ActionFlag $actionFlag
-     * @param ConfigInterface $config
+     * @param AdminConfigInterface $reCaptchaAdminConfig
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
         MessageManagerInterface $messageManager,
         ActionFlag $actionFlag,
-        ConfigInterface $config
+        AdminConfigInterface $reCaptchaAdminConfig
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
         $this->messageManager = $messageManager;
         $this->actionFlag = $actionFlag;
-        $this->config = $config;
+        $this->reCaptchaAdminConfig = $reCaptchaAdminConfig;
     }
 
     /**
@@ -77,10 +76,10 @@ class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
     ): void {
         $reCaptchaResponse = $request->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
         $remoteIp = $this->remoteAddress->getRemoteAddress();
-        $options['threshold'] = $this->config->getMinBackendScore();
+        $options['threshold'] = $this->reCaptchaAdminConfig->getMinScore();
 
         if (false === $this->validate->validate($reCaptchaResponse, $remoteIp, $options)) {
-            $this->messageManager->addErrorMessage($this->config->getErrorDescription());
+            $this->messageManager->addErrorMessage($this->reCaptchaAdminConfig->getErrorMessage());
             $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
             $response->setRedirect($redirectOnFailureUrl);

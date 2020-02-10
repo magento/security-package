@@ -18,10 +18,10 @@ use Magento\Store\Model\ScopeInterface;
 class FrontendConfig implements FrontendConfigInterface
 {
     private const XML_PATH_ENABLED_FRONTEND = 'recaptcha/frontend/enabled';
-    private const XML_PATH_POSITION = 'recaptcha/frontend/position';
     private const XML_PATH_MIN_SCORE = 'recaptcha/frontend/min_score';
     private const XML_PATH_SIZE = 'recaptcha/frontend/size';
     private const XML_PATH_THEME = 'recaptcha/frontend/theme';
+    private const XML_PATH_POSITION = 'recaptcha/frontend/position';
     private const XML_PATH_LANGUAGE_CODE = 'recaptcha/frontend/lang';
 
     /**
@@ -130,7 +130,7 @@ class FrontendConfig implements FrontendConfigInterface
     /**
      * @inheritdoc
      */
-    public function getErrorDescription(): Phrase
+    public function getErrorMessage(): Phrase
     {
         if ($this->reCaptchaConfig->getType() === 'recaptcha_v3') {
             return __('You cannot proceed with such operation, your reCaptcha reputation is too low.');

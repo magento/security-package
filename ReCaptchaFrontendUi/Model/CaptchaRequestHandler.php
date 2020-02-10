@@ -79,7 +79,7 @@ class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
         $options['threshold'] = $this->reCaptchaFrontendConfig->getMinScore();
 
         if (false === $this->validate->validate($reCaptchaResponse, $remoteIp, $options)) {
-            $this->messageManager->addErrorMessage($this->reCaptchaFrontendConfig->getErrorDescription());
+            $this->messageManager->addErrorMessage($this->reCaptchaFrontendConfig->getErrorMessage());
             $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
             $response->setRedirect($redirectOnFailureUrl);

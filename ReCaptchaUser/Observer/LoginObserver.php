@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Observer\Adminhtml;
+namespace Magento\ReCaptchaUser\Observer\Adminhtml;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Event\Observer;
@@ -13,8 +13,8 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\Plugin\AuthenticationException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
-use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
+use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
 
 /**
  * LoginObserver
@@ -32,23 +32,23 @@ class LoginObserver implements ObserverInterface
     private $remoteAddress;
 
     /**
-     * @var ConfigInterface
+     * @var AdminConfigInterface
      */
-    private $config;
+    private $reCaptchaAdminConfig;
 
     /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
-     * @param ConfigInterface $config
+     * @param AdminConfigInterface $reCaptchaAdminConfig
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
-        ConfigInterface $config
+        AdminConfigInterface $reCaptchaAdminConfig
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
-        $this->config = $config;
+        $this->reCaptchaAdminConfig = $reCaptchaAdminConfig;
     }
 
     /**
@@ -59,16 +59,16 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->config->isEnabledBackend()) {
+        if ($this->reCaptchaAdminConfig->isBackendEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
 
             $reCaptchaResponse = $controller->getRequest()->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
             $remoteIp = $this->remoteAddress->getRemoteAddress();
-            $options['threshold'] = $this->config->getMinBackendScore();
+            $options['threshold'] = $this->reCaptchaAdminConfig->getMinScore();
 
             if (false === $this->validate->validate($reCaptchaResponse, $remoteIp, $options)) {
-                throw new AuthenticationException($this->config->getErrorDescription());
+                throw new AuthenticationException($this->reCaptchaAdminConfig->getErrorMessage());
             }
         }
     }

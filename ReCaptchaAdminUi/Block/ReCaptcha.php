@@ -9,6 +9,7 @@ namespace Magento\ReCaptchaAdminUi\Block;
 
 use Magento\Framework\View\Element\Template;
 use Magento\ReCaptcha\Model\ConfigInterface;
+use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
 
 /**
  * @api
@@ -21,17 +22,25 @@ class ReCaptcha extends Template
     private $config;
 
     /**
+     * @var AdminConfigInterface
+     */
+    private $reCaptchaAdminConfig;
+
+    /**
      * @param Template\Context $context
      * @param ConfigInterface $config
+     * @param AdminConfigInterface $reCaptchaAdminConfig
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         ConfigInterface $config,
+        AdminConfigInterface $reCaptchaAdminConfig,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->config = $config;
+        $this->reCaptchaAdminConfig = $reCaptchaAdminConfig;
     }
 
     /**
@@ -49,7 +58,7 @@ class ReCaptcha extends Template
      */
     public function getTheme()
     {
-        return $this->config->getBackendTheme();
+        return $this->reCaptchaAdminConfig->getTheme();
     }
 
     /**
@@ -58,7 +67,7 @@ class ReCaptcha extends Template
      */
     public function getSize()
     {
-        return $this->config->getBackendSize();
+        return $this->reCaptchaAdminConfig->getSize();
     }
 
     /**
@@ -67,6 +76,6 @@ class ReCaptcha extends Template
      */
     public function canDisplayCaptcha()
     {
-        return $this->config->isEnabledBackend();
+        return $this->reCaptchaAdminConfig->isBackendEnabled();
     }
 }

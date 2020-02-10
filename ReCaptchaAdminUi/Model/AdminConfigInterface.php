@@ -5,22 +5,24 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaFrontendUi\Model;
+namespace Magento\ReCaptchaAdminUi\Model;
 
 use Magento\Framework\Phrase;
 
 /**
- * Represents general ReCaptcha frontend configuration
+ * Represents backend ReCaptcha configuration
  *
  * @api
  */
-interface FrontendConfigInterface
+interface AdminConfigInterface
 {
+    public const XML_PATH_ENABLED = 'recaptcha/backend/enabled';
+
     /**
-     * Return true if enabled on frontend
+     * Return true if enabled on backend
      * @return bool
      */
-    public function isFrontendEnabled(): bool;
+    public function isBackendEnabled(): bool;
 
     /**
      * Get size
@@ -32,19 +34,7 @@ interface FrontendConfigInterface
      * Get theme
      * @return string
      */
-    public function getTheme(): ?string;
-
-    /**
-     * Get language code
-     * @return string
-     */
-    public function getLanguageCode(): string;
-
-    /**
-     * Get position
-     * @return string
-     */
-    public function getPosition(): ?string;
+    public function getTheme(): string;
 
     /**
      * Get minimum frontend score

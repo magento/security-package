@@ -10,6 +10,9 @@
         "magento/module-re-captcha-frontend-ui": "*",
         "magento/module-store": "*"
     },
+    "suggest": {
+        "magento/module-contact": "*"
+    },
     "authors": [
         {
             "name": "Riccardo Tempesta",

@@ -108,7 +108,7 @@ class AjaxLoginObserver implements ObserverInterface
 
                 $jsonPayload = $this->serializer->serialize([
                     'errors' => true,
-                    'message' => $this->reCaptchaFrontendConfig->getErrorDescription(),
+                    'message' => $this->reCaptchaFrontendConfig->getErrorMessage(),
                 ]);
 
                 $controller->getResponse()->representJson($jsonPayload);
