@@ -68,7 +68,7 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->reCaptchaAdminConfig->isEnabled()) {
+        if ($this->isEnabledForUserLogin->isEnabled()) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
 

@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaFrontendUi\Model;
 
-use Magento\ReCaptcha\Model\ConfigInterface as ReCaptchaConfig;
 use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface as ReCaptchaFrontendUiConfig;
 
 /**
@@ -17,11 +16,6 @@ use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface as ReCaptchaFronte
  */
 class LayoutSettings
 {
-    /**
-     * @var ReCaptchaConfig
-     */
-    private $reCaptchaConfig;
-
     /**
      * @var ReCaptchaFrontendUiConfig
      */
@@ -33,16 +27,13 @@ class LayoutSettings
     private $configEnabledProviders;
 
     /**
-     * @param ReCaptchaConfig $reCaptchaConfig
      * @param ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig
      * @param ConfigEnabledInterface[] $configEnabledProviders
      */
     public function __construct(
-        ReCaptchaConfig $reCaptchaConfig,
         ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig,
         array $configEnabledProviders
     ) {
-        $this->reCaptchaConfig = $reCaptchaConfig;
         $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
         $this->configEnabledProviders = $configEnabledProviders;
     }
@@ -54,7 +45,7 @@ class LayoutSettings
     public function getCaptchaSettings(): array
     {
         $settings = [
-            'siteKey' => $this->reCaptchaConfig->getPublicKey(),
+            'siteKey' => $this->reCaptchaFrontendConfig->getPublicKey(),
             'size' => $this->reCaptchaFrontendConfig->getSize(),
             'badge' => $this->reCaptchaFrontendConfig->getPosition(),
             'theme' => $this->reCaptchaFrontendConfig->getTheme(),

@@ -17,6 +17,29 @@ use Magento\Framework\Phrase;
 interface FrontendConfigInterface
 {
     /**
+     * Get google recaptcha public key
+     * @return string
+     */
+    public function getPublicKey(): string;
+
+    /**
+     * Get google recaptcha private key
+     * @return string
+     */
+    public function getPrivateKey(): string;
+
+    /**
+     * @return bool
+     */
+    public function isInvisibleRecaptcha(): bool;
+
+    /**
+     * Get reCaptcha type
+     * @return string
+     */
+    public function getType(): string;
+
+    /**
      * Return true if enabled on frontend
      * @return bool
      */

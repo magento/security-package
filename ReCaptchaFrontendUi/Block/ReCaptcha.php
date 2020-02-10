@@ -9,7 +9,6 @@ namespace Magento\ReCaptchaFrontendUi\Block;
 
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
-use Magento\ReCaptcha\Model\ConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface as ReCaptchaFrontendUiConfig;
 use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 
@@ -18,11 +17,6 @@ use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
  */
 class ReCaptcha extends Template
 {
-    /**
-     * @var ConfigInterface
-     */
-    private $config;
-
     /**
      * @var LayoutSettings
      */
@@ -41,7 +35,6 @@ class ReCaptcha extends Template
     /**
      * @param Template\Context $context
      * @param LayoutSettings $layoutSettings
-     * @param ConfigInterface $config
      * @param ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig
      * @param Json $serializer
      * @param array $data
@@ -49,14 +42,12 @@ class ReCaptcha extends Template
     public function __construct(
         Template\Context $context,
         LayoutSettings $layoutSettings,
-        ConfigInterface $config,
         ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig,
         Json $serializer,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->layoutSettings = $layoutSettings;
-        $this->config = $config;
         $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
         $this->serializer = $serializer;
     }
@@ -67,7 +58,7 @@ class ReCaptcha extends Template
      */
     public function getPublicKey()
     {
-        return $this->config->getPublicKey();
+        return $this->reCaptchaFrontendConfig->getPublicKey();
     }
 
     /**

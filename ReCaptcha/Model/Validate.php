@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptcha\Model;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
 use ReCaptcha\ReCaptcha;
 
 /**
@@ -16,15 +17,16 @@ use ReCaptcha\ReCaptcha;
 class Validate implements ValidateInterface
 {
     /**
-     * @var Config
+     * TODO:
+     * @var AdminConfigInterface
      */
     private $config;
 
     /**
-     * @param Config $config
+     * @param AdminConfigInterface $config
      */
     public function __construct(
-        Config $config
+        AdminConfigInterface $config
     ) {
         $this->config = $config;
     }
@@ -34,6 +36,7 @@ class Validate implements ValidateInterface
      */
     public function validate(string $reCaptchaResponse, string $remoteIp, array $options = []): bool
     {
+        // TODO:
         $secret = $this->config->getPrivateKey();
 
         if ($reCaptchaResponse) {
@@ -41,6 +44,7 @@ class Validate implements ValidateInterface
             $reCaptcha = new ReCaptcha($secret);
             // @codingStandardsIgnoreEmd
 
+            // TODO:
             if ($this->config->getType() === 'recaptcha_v3') {
                 if (isset($options['threshold'])) {
                     $reCaptcha->setScoreThreshold($options['threshold']);
