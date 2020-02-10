@@ -19,8 +19,8 @@
         <namespace>magento_notifier_channel_form</namespace>
         <dataScope>data</dataScope>
         <buttons>
-            <button name="back" class="Magento\NotifierAdminUi\Ui\Component\Form\Channel\BackButton"/>
-            <button name="save" class="Magento\NotifierAdminUi\Ui\Component\Form\Channel\SaveButton"/>
+            <button name="back" class="Magento\NotifierAdminUi\Ui\Component\Form\BackButton"/>
+            <button name="save" class="Magento\NotifierAdminUi\Ui\Component\Form\SaveButton"/>
         </buttons>
         <deps>
             <dep>magento_notifier_channel_form.magento_notifier_channel_data_source</dep>

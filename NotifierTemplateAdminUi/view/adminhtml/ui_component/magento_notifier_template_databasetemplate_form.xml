@@ -21,8 +21,8 @@
         <dataScope>data</dataScope>
         <namespace>magento_notifier_template_databasetemplate_form</namespace>
         <buttons>
-            <button name="back" class="Magento\NotifierTemplateAdminUi\Ui\Component\Form\DatabaseTemplate\BackButton"/>
-            <button name="save" class="Magento\NotifierTemplateAdminUi\Ui\Component\Form\DatabaseTemplate\SaveButton"/>
+            <button name="back" class="Magento\NotifierAdminUi\Ui\Component\Form\BackButton"/>
+            <button name="save" class="Magento\NotifierAdminUi\Ui\Component\Form\SaveButton"/>
         </buttons>
         <deps>
             <dep>
