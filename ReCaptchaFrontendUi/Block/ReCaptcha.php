@@ -76,7 +76,7 @@ class ReCaptcha extends Template
     {
         $layout = $this->serializer->unserialize(parent::getJsLayout());
 
-        if ($this->reCaptchaFrontendConfig->isFrontendEnabled()) {
+        if ($this->reCaptchaFrontendConfig->areKeysConfigured()) {
             // Backward compatibility with fixed scope name
             if (isset($layout['components']['recaptcha'])) {
                 $layout['components'][$this->getRecaptchaId()] = $layout['components']['recaptcha'];
@@ -103,7 +103,7 @@ class ReCaptcha extends Template
      */
     public function toHtml()
     {
-        if (!$this->reCaptchaFrontendConfig->isFrontendEnabled()) {
+        if (!$this->reCaptchaFrontendConfig->areKeysConfigured()) {
             return '';
         }
 

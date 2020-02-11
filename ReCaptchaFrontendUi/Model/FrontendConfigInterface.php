@@ -29,9 +29,10 @@ interface FrontendConfigInterface
     public function getPrivateKey(): string;
 
     /**
+     * Sugar method. Return true if captcha keys (public and private) are configured
      * @return bool
      */
-    public function isInvisibleRecaptcha(): bool;
+    public function areKeysConfigured(): bool;
 
     /**
      * Get reCaptcha type
@@ -40,10 +41,9 @@ interface FrontendConfigInterface
     public function getCaptchaType(): string;
 
     /**
-     * Return true if enabled on frontend
      * @return bool
      */
-    public function isFrontendEnabled(): bool;
+    public function isInvisibleRecaptcha(): bool;
 
     /**
      * Get size

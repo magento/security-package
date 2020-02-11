@@ -43,7 +43,7 @@ class Onepage implements LayoutProcessorInterface
      */
     public function process($jsLayout)
     {
-        if ($this->reCaptchaFrontendConfig->isFrontendEnabled()) {
+        if ($this->reCaptchaFrontendConfig->areKeysConfigured()) {
             $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']
                 ['recaptcha']['settings'] = $this->layoutSettings->getCaptchaSettings();

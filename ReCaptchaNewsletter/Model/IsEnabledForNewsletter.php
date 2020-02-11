@@ -46,7 +46,7 @@ class IsEnabledForNewsletter implements IsEnabledForNewsletterInterface, ConfigE
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaFrontendConfig->isFrontendEnabled()
+        if (!$this->reCaptchaFrontendConfig->areKeysConfigured()
             || !$this->reCaptchaFrontendConfig->isInvisibleRecaptcha()
         ) {
             return false;

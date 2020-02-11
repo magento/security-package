@@ -29,6 +29,12 @@ interface AdminConfigInterface
     public function getPrivateKey(): string;
 
     /**
+     * Sugar method. Return true if captcha keys (public and private) are configured
+     * @return bool
+     */
+    public function areKeysConfigured(): bool;
+
+    /**
      * Get reCaptcha type
      * @return string
      */

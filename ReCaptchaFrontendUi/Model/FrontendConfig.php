@@ -75,16 +75,9 @@ class FrontendConfig implements FrontendConfigInterface
     /**
      * @inheritdoc
      */
-    public function isFrontendEnabled(): bool
+    public function areKeysConfigured(): bool
     {
-        if (!$this->getPrivateKey() || !$this->getPublicKey()) {
-            return false;
-        }
-
-        return (bool)$this->scopeConfig->getValue(
-            self::XML_PATH_ENABLED_FRONTEND,
-            ScopeInterface::SCOPE_WEBSITE
-        );
+        return $this->getPrivateKey() && $this->getPublicKey();
     }
 
     /**

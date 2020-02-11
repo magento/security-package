@@ -49,7 +49,7 @@ class InjectRecaptchaInAuthenticationPopup
     {
         $layout = Json::decode($result, Json::TYPE_ARRAY);
 
-        if ($this->reCaptchaFrontendConfig->isFrontendEnabled()) {
+        if ($this->reCaptchaFrontendConfig->areKeysConfigured()) {
             $layout['components']['authenticationPopup']['children']['recaptcha']['settings']
                 = $this->layoutSettings->getCaptchaSettings();
         } else {

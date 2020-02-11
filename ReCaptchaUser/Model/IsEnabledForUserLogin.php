@@ -44,7 +44,7 @@ class IsEnabledForUserLogin implements IsEnabledForUserLoginInterface
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaAdminConfig->getPrivateKey() || !$this->reCaptchaAdminConfig->getPublicKey()) {
+        if (!$this->reCaptchaAdminConfig->areKeysConfigured()) {
             return false;
         }
 

@@ -10,7 +10,7 @@ namespace Magento\ReCaptcha\Model;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
- * Interface for recaptcha validation
+ * Validate recaptcha response
  *
  * @api
  */

@@ -46,7 +46,7 @@ class IsEnabledForContact implements IsEnabledForContactInterface, ConfigEnabled
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaFrontendConfig->isFrontendEnabled()) {
+        if (!$this->reCaptchaFrontendConfig->areKeysConfigured()) {
             return false;
         }
 

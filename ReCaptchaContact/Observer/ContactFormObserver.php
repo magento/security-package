@@ -12,8 +12,8 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\UrlInterface;
+use Magento\ReCaptcha\Model\RequestHandlerInterface;
 use Magento\ReCaptchaContact\Model\IsEnabledForContactInterface;
-use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
 
 /**
  * ContactFormObserver
@@ -31,23 +31,23 @@ class ContactFormObserver implements ObserverInterface
     private $isEnabledForContact;
 
     /**
-     * @var CaptchaRequestHandlerInterface
+     * @var RequestHandlerInterface
      */
-    private $captchaRequestHandler;
+    private $requestHandler;
 
     /**
      * @param UrlInterface $url
      * @param IsEnabledForContactInterface $isEnabledForContact
-     * @param CaptchaRequestHandlerInterface $captchaRequestHandler
+     * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         UrlInterface $url,
         IsEnabledForContactInterface $isEnabledForContact,
-        CaptchaRequestHandlerInterface $captchaRequestHandler
+        RequestHandlerInterface $requestHandler
     ) {
         $this->url = $url;
         $this->isEnabledForContact = $isEnabledForContact;
-        $this->captchaRequestHandler = $captchaRequestHandler;
+        $this->requestHandler = $requestHandler;
     }
 
     /**
@@ -64,7 +64,7 @@ class ContactFormObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('contact/index/index');
 
-            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

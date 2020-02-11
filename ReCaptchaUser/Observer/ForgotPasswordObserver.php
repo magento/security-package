@@ -12,7 +12,7 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptchaAdminUi\Model\CaptchaRequestHandlerInterface;
+use Magento\ReCaptcha\Model\RequestHandlerInterface;
 use Magento\ReCaptchaUser\Model\IsEnabledForUserForgotPasswordInterface;
 
 /**
@@ -26,9 +26,9 @@ class ForgotPasswordObserver implements ObserverInterface
     private $url;
 
     /**
-     * @var CaptchaRequestHandlerInterface
+     * @var RequestHandlerInterface
      */
-    private $captchaRequestHandler;
+    private $requestHandler;
 
     /**
      * @var IsEnabledForUserForgotPasswordInterface
@@ -37,16 +37,16 @@ class ForgotPasswordObserver implements ObserverInterface
 
     /**
      * @param UrlInterface $url
-     * @param CaptchaRequestHandlerInterface $captchaRequestHandler
+     * @param RequestHandlerInterface $requestHandler
      * @param IsEnabledForUserForgotPasswordInterface $isEnabledForUserForgotPassword
      */
     public function __construct(
         UrlInterface $url,
-        CaptchaRequestHandlerInterface $captchaRequestHandler,
+        RequestHandlerInterface $requestHandler,
         IsEnabledForUserForgotPasswordInterface $isEnabledForUserForgotPassword
     ) {
         $this->url = $url;
-        $this->captchaRequestHandler = $captchaRequestHandler;
+        $this->requestHandler = $requestHandler;
         $this->isEnabledForUserForgotPassword = $isEnabledForUserForgotPassword;
     }
 
@@ -65,7 +65,7 @@ class ForgotPasswordObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('*/*/forgotpassword', ['_secure' => true]);
 
-            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

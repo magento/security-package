@@ -13,6 +13,7 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\HttpInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
+use Magento\ReCaptcha\Model\RequestHandlerInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
 use Magento\ReCaptcha\Model\ValidationConfigInterface;
 use Magento\ReCaptcha\Model\ValidationConfigInterfaceFactory;
@@ -20,7 +21,7 @@ use Magento\ReCaptcha\Model\ValidationConfigInterfaceFactory;
 /**
  * @inheritdoc
  */
-class CaptchaRequestHandler implements CaptchaRequestHandlerInterface
+class RequestHandler implements RequestHandlerInterface
 {
     /**
      * @var ValidateInterface

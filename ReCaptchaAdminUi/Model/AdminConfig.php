@@ -55,6 +55,14 @@ class AdminConfig implements AdminConfigInterface
     /**
      * @inheritdoc
      */
+    public function areKeysConfigured(): bool
+    {
+        return $this->getPrivateKey() && $this->getPublicKey();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getCaptchaType(): string
     {
         return (string)$this->scopeConfig->getValue(self::XML_PATH_TYPE);

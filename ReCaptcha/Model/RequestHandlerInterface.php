@@ -5,20 +5,20 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaFrontendUi\Model;
+namespace Magento\ReCaptcha\Model;
 
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\HttpInterface;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
- * Captcha frontend request handler interface (sugar service for avoiding boilerplate code)
+ * Captcha request handler interface (sugar service for avoiding boilerplate code)
  *
  * Validate captcha data in request and set message and redirect if validation was failed
  *
  * @api
  */
-interface CaptchaRequestHandlerInterface
+interface RequestHandlerInterface
 {
     /**
      * Validate captcha data in request and set message and redirect if validation was failed
