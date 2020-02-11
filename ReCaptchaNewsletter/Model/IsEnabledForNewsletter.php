@@ -9,13 +9,12 @@ namespace Magento\ReCaptchaNewsletter\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaFrontendUi\Model\ConfigEnabledInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
  * @inheritdoc
  */
-class IsEnabledForNewsletter implements IsEnabledForNewsletterInterface, ConfigEnabledInterface
+class IsEnabledForNewsletter
 {
     private const XML_PATH_ENABLED_FOR_NEWSLETTER = 'recaptcha/frontend/enabled_for_newsletter';
 
@@ -52,6 +51,7 @@ class IsEnabledForNewsletter implements IsEnabledForNewsletterInterface, ConfigE
             return false;
         }
 
+        // TODO:
         return (bool)$this->scopeConfig->getValue(
             static::XML_PATH_ENABLED_FOR_NEWSLETTER,
             ScopeInterface::SCOPE_WEBSITE

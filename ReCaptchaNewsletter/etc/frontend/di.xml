@@ -9,8 +9,8 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\ReCaptchaFrontendUi\Model\LayoutSettings">
         <arguments>
-            <argument name="configEnabledProviders" xsi:type="array">
-                <item name="newsletter" xsi:type="object">Magento\ReCaptchaNewsletter\Model\IsEnabledForNewsletter</item>
+            <argument name="configFlags" xsi:type="array">
+                <item name="newsletter" xsi:type="string">newsletter</item>
             </argument>
         </arguments>
     </type>

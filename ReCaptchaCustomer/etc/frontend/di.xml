@@ -10,10 +10,10 @@
 
     <type name="Magento\ReCaptchaFrontendUi\Model\LayoutSettings">
         <arguments>
-            <argument name="configEnabledProviders" xsi:type="array">
-                <item name="login" xsi:type="object">Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLogin</item>
-                <item name="create" xsi:type="object">Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerCreate</item>
-                <item name="forgot" xsi:type="object">Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerForgotPassword</item>
+            <argument name="configFlags" xsi:type="array">
+                <item name="customer_login" xsi:type="string">customer_login</item>
+                <item name="customer_create" xsi:type="string">customer_create</item>
+                <item name="customer_forgot_password" xsi:type="string">customer_forgot_password</item>
             </argument>
         </arguments>
     </type>

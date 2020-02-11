@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaFrontendUi\Model;
 
+use Magento\Framework\Exception\LocalizedException;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 
 /**
@@ -22,25 +23,27 @@ class LayoutSettings
     private $captchaConfig;
 
     /**
-     * @var ConfigEnabledInterface[]
+     * @var string[]
      */
-    private $configEnabledProviders;
+    private $configFlags;
 
     /**
      * @param CaptchaConfigInterface $captchaConfig
-     * @param ConfigEnabledInterface[] $configEnabledProviders
+     * @param string[] $configFlags
      */
     public function __construct(
         CaptchaConfigInterface $captchaConfig,
-        array $configEnabledProviders
+        array $configFlags
     ) {
         $this->captchaConfig = $captchaConfig;
-        $this->configEnabledProviders = $configEnabledProviders;
+        $this->configFlags = $configFlags;
     }
 
     /**
-     * Return captcha config for frontend
+     * Return layout configuration setting
+     *
      * @return array
+     * @throws LocalizedException
      */
     public function getCaptchaSettings(): array
     {
@@ -51,8 +54,8 @@ class LayoutSettings
             'theme' => $this->captchaConfig->getTheme(),
             'lang' => $this->captchaConfig->getLanguageCode(),
         ];
-        foreach ($this->configEnabledProviders as $key => $configEnabledProvider) {
-            $settings['enabled'][$key] = $configEnabledProvider->isEnabled();
+        foreach ($this->configFlags as $configFlag) {
+            $settings['enabled'][$configFlag] = $this->captchaConfig->isCaptchaEnabledFor($configFlag);
         }
         return $settings;
     }

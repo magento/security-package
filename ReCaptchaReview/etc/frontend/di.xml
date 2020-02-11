@@ -9,8 +9,8 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <type name="Magento\ReCaptchaFrontendUi\Model\LayoutSettings">
         <arguments>
-            <argument name="configEnabledProviders" xsi:type="array">
-                <item name="review" xsi:type="object">Magento\ReCaptchaReview\Model\IsEnabledForProductReview</item>
+            <argument name="configFlags" xsi:type="array">
+                <item name="product_review" xsi:type="string">product_review</item>
             </argument>
         </arguments>
     </type>
