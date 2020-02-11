@@ -5,16 +5,16 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaFrontendUi\Model;
+namespace Magento\ReCaptcha\Model;
 
 use Magento\Framework\Phrase;
 
 /**
- * Represents general ReCaptcha frontend configuration
+ * Represents base ReCaptcha configuration
  *
  * @api
  */
-interface FrontendConfigInterface
+interface CaptchaConfigInterface
 {
     /**
      * Get google recaptcha public key
@@ -58,18 +58,6 @@ interface FrontendConfigInterface
     public function getTheme(): ?string;
 
     /**
-     * Get language code
-     * @return string
-     */
-    public function getLanguageCode(): string;
-
-    /**
-     * Get position
-     * @return string
-     */
-    public function getPosition(): ?string;
-
-    /**
      * Get minimum frontend score
      * @return float
      */
@@ -80,4 +68,16 @@ interface FrontendConfigInterface
      * @return Phrase
      */
     public function getErrorMessage(): Phrase;
+
+    /**
+     * Get language code
+     * @return string
+     */
+    public function getLanguageCode(): string;
+
+    /**
+     * Get position
+     * @return string
+     */
+    public function getPosition(): ?string;
 }

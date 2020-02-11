@@ -9,7 +9,7 @@ namespace Magento\ReCaptchaFrontendUi\Block;
 
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
-use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface as ReCaptchaFrontendUiConfig;
+use Magento\ReCaptcha\Model\CaptchaConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 
 /**
@@ -23,9 +23,9 @@ class ReCaptcha extends Template
     private $layoutSettings;
 
     /**
-     * @var ReCaptchaFrontendUiConfig
+     * @var CaptchaConfigInterface
      */
-    private $reCaptchaFrontendConfig;
+    private $captchaConfig;
 
     /**
      * @var Json
@@ -35,20 +35,20 @@ class ReCaptcha extends Template
     /**
      * @param Template\Context $context
      * @param LayoutSettings $layoutSettings
-     * @param ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig
+     * @param CaptchaConfigInterface $captchaConfig
      * @param Json $serializer
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         LayoutSettings $layoutSettings,
-        ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig,
+        CaptchaConfigInterface $captchaConfig,
         Json $serializer,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->layoutSettings = $layoutSettings;
-        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
+        $this->captchaConfig = $captchaConfig;
         $this->serializer = $serializer;
     }
 
@@ -58,7 +58,7 @@ class ReCaptcha extends Template
      */
     public function getPublicKey()
     {
-        return $this->reCaptchaFrontendConfig->getPublicKey();
+        return $this->captchaConfig->getPublicKey();
     }
 
     /**
@@ -76,7 +76,7 @@ class ReCaptcha extends Template
     {
         $layout = $this->serializer->unserialize(parent::getJsLayout());
 
-        if ($this->reCaptchaFrontendConfig->areKeysConfigured()) {
+        if ($this->captchaConfig->areKeysConfigured()) {
             // Backward compatibility with fixed scope name
             if (isset($layout['components']['recaptcha'])) {
                 $layout['components'][$this->getRecaptchaId()] = $layout['components']['recaptcha'];
@@ -103,7 +103,7 @@ class ReCaptcha extends Template
      */
     public function toHtml()
     {
-        if (!$this->reCaptchaFrontendConfig->areKeysConfigured()) {
+        if (!$this->captchaConfig->areKeysConfigured()) {
             return '';
         }
 

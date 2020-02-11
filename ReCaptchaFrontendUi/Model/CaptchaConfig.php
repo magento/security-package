@@ -9,18 +9,18 @@ namespace Magento\ReCaptchaFrontendUi\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Phrase;
+use Magento\ReCaptcha\Model\CaptchaConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
  * @inheritdoc
  */
-class FrontendConfig implements FrontendConfigInterface
+class CaptchaConfig implements CaptchaConfigInterface
 {
     private const XML_PATH_TYPE = 'recaptcha/frontend/type';
     private const XML_PATH_PUBLIC_KEY = 'recaptcha/frontend/public_key';
     private const XML_PATH_PRIVATE_KEY = 'recaptcha/frontend/private_key';
 
-    private const XML_PATH_ENABLED_FRONTEND = 'recaptcha/frontend/enabled';
     private const XML_PATH_SCORE_THRESHOLD = 'recaptcha/frontend/score_threshold';
     private const XML_PATH_SIZE = 'recaptcha/frontend/size';
     private const XML_PATH_THEME = 'recaptcha/frontend/theme';
@@ -45,7 +45,7 @@ class FrontendConfig implements FrontendConfigInterface
      */
     public function getPublicKey(): string
     {
-        return trim((string)$this->scopeConfig->getValue(static::XML_PATH_PUBLIC_KEY, ScopeInterface::SCOPE_WEBSITE));
+        return trim((string)$this->scopeConfig->getValue(self::XML_PATH_PUBLIC_KEY, ScopeInterface::SCOPE_WEBSITE));
     }
 
     /**
@@ -53,7 +53,7 @@ class FrontendConfig implements FrontendConfigInterface
      */
     public function getPrivateKey(): string
     {
-        return trim((string)$this->scopeConfig->getValue(static::XML_PATH_PRIVATE_KEY, ScopeInterface::SCOPE_WEBSITE));
+        return trim((string)$this->scopeConfig->getValue(self::XML_PATH_PRIVATE_KEY, ScopeInterface::SCOPE_WEBSITE));
     }
 
     /**
@@ -69,7 +69,7 @@ class FrontendConfig implements FrontendConfigInterface
      */
     public function getCaptchaType(): string
     {
-        return (string)$this->scopeConfig->getValue(static::XML_PATH_TYPE);
+        return (string)$this->scopeConfig->getValue(self::XML_PATH_TYPE);
     }
 
     /**

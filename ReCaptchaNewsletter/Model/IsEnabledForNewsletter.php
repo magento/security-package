@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaNewsletter\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\ReCaptcha\Model\CaptchaConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\ConfigEnabledInterface;
-use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface as ReCaptchaFrontendUiConfig;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -20,9 +20,9 @@ class IsEnabledForNewsletter implements IsEnabledForNewsletterInterface, ConfigE
     private const XML_PATH_ENABLED_FOR_NEWSLETTER = 'recaptcha/frontend/enabled_for_newsletter';
 
     /**
-     * @var ReCaptchaFrontendUiConfig
+     * @var CaptchaConfigInterface
      */
-    private $reCaptchaFrontendConfig;
+    private $captchaConfig;
 
     /**
      * @var ScopeConfigInterface
@@ -30,14 +30,14 @@ class IsEnabledForNewsletter implements IsEnabledForNewsletterInterface, ConfigE
     private $scopeConfig;
 
     /**
-     * @param ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig
+     * @param CaptchaConfigInterface $captchaConfig
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig,
+        CaptchaConfigInterface $captchaConfig,
         ScopeConfigInterface $scopeConfig
     ) {
-        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
+        $this->captchaConfig = $captchaConfig;
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -46,8 +46,8 @@ class IsEnabledForNewsletter implements IsEnabledForNewsletterInterface, ConfigE
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaFrontendConfig->areKeysConfigured()
-            || !$this->reCaptchaFrontendConfig->isInvisibleRecaptcha()
+        if (!$this->captchaConfig->areKeysConfigured()
+            || !$this->captchaConfig->isInvisibleRecaptcha()
         ) {
             return false;
         }

@@ -9,7 +9,7 @@ namespace Magento\ReCaptchaCustomer\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\ConfigEnabledInterface;
-use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface;
+use Magento\ReCaptchaFrontendUi\Model\CaptchaConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -20,7 +20,7 @@ class IsEnabledForCustomerLogin implements IsEnabledForCustomerLoginInterface, C
     private const XML_PATH_ENABLED_FRONTEND_LOGIN = 'recaptcha/frontend/enabled_for_customer_login';
 
     /**
-     * @var FrontendConfigInterface
+     * @var CaptchaConfigInterface
      */
     private $reCaptchaFrontendConfig;
 
@@ -30,11 +30,11 @@ class IsEnabledForCustomerLogin implements IsEnabledForCustomerLoginInterface, C
     private $scopeConfig;
 
     /**
-     * @param FrontendConfigInterface $reCaptchaFrontendConfig
+     * @param CaptchaConfigInterface $reCaptchaFrontendConfig
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        FrontendConfigInterface $reCaptchaFrontendConfig,
+        CaptchaConfigInterface $reCaptchaFrontendConfig,
         ScopeConfigInterface $scopeConfig
     ) {
         $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;

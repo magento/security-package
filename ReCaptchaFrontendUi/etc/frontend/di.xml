@@ -7,6 +7,9 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\ReCaptcha\Model\CaptchaConfigInterface"
+                type="Magento\ReCaptchaFrontendUi\Model\CaptchaConfig"/>
+
     <preference for="Magento\ReCaptcha\Model\RequestHandlerInterface"
                 type="Magento\ReCaptchaFrontendUi\Model\RequestHandler"/>
 
