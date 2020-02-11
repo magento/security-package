@@ -40,7 +40,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldSetAndGetProviderConfiguration(): void
     {
@@ -64,7 +64,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldSetAndGetConfiguredProviders(): void
     {
@@ -84,7 +84,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldSetAndGetDefaultProvider(): void
     {
@@ -104,7 +104,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldResetProviderConfiguration(): void
     {
@@ -128,7 +128,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldActivateProvider(): void
     {
@@ -157,7 +157,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      * @magentoDbIsolation disabled
      */
     public function testShouldEncryptConfiguration(): void
@@ -234,7 +234,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture /../../../Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldAddProviderConfiguration(): void
     {

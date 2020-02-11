@@ -8,6 +8,7 @@ declare(strict_types=1);
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Registry;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\User\Model\User;
 
 /**
  * Delete dummy user
@@ -22,6 +23,10 @@ $registry->register('isSecureArea', true);
 try {
     $user = $objectManager->create(User::class);
     $user->load('dummy_username', 'username');
+    $user->delete();
+
+    $user = $objectManager->create(User::class);
+    $user->load('user_created_date', 'username');
     $user->delete();
 } catch (NoSuchEntityException $e) {
     //already removed
