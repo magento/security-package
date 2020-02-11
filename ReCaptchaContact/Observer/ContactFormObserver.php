@@ -62,7 +62,7 @@ class ContactFormObserver implements ObserverInterface
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
-            $redirectOnFailureUrl = $this->url->getUrl('contact/index/index');
+            $redirectOnFailureUrl = $this->url->getUrl('*/*/index');
 
             $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
