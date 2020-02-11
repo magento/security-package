@@ -13,11 +13,11 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\Plugin\AuthenticationException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
-use Magento\ReCaptcha\Model\CaptchaConfigInterface;
-use Magento\ReCaptcha\Model\ValidateInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
+use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
+use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterfaceFactory;
 use Magento\ReCaptchaUser\Model\IsEnabledForUserLoginInterface;
-use Magento\ReCaptcha\Model\ValidationConfigInterface;
-use Magento\ReCaptcha\Model\ValidationConfigInterfaceFactory;
 
 /**
  * LoginObserver
@@ -25,9 +25,9 @@ use Magento\ReCaptcha\Model\ValidationConfigInterfaceFactory;
 class LoginObserver implements ObserverInterface
 {
     /**
-     * @var ValidateInterface
+     * @var CaptchaValidatorInterface
      */
-    private $validate;
+    private $captchaValidator;
 
     /**
      * @var RemoteAddress
@@ -50,20 +50,20 @@ class LoginObserver implements ObserverInterface
     private $validationConfigFactory;
 
     /**
-     * @param ValidateInterface $validate
+     * @param CaptchaValidatorInterface $captchaValidator
      * @param RemoteAddress $remoteAddress
      * @param CaptchaConfigInterface $captchaConfig
      * @param IsEnabledForUserLoginInterface $isEnabledForUserLogin
      * @param ValidationConfigInterfaceFactory $validationConfigFactory
      */
     public function __construct(
-        ValidateInterface $validate,
+        CaptchaValidatorInterface $captchaValidator,
         RemoteAddress $remoteAddress,
         CaptchaConfigInterface $captchaConfig,
         IsEnabledForUserLoginInterface $isEnabledForUserLogin,
         ValidationConfigInterfaceFactory $validationConfigFactory
     ) {
-        $this->validate = $validate;
+        $this->captchaValidator = $captchaValidator;
         $this->remoteAddress = $remoteAddress;
         $this->captchaConfig = $captchaConfig;
         $this->isEnabledForUserLogin = $isEnabledForUserLogin;
@@ -82,7 +82,9 @@ class LoginObserver implements ObserverInterface
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
 
-            $reCaptchaResponse = $controller->getRequest()->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
+            $reCaptchaResponse = $controller->getRequest()->getParam(
+                CaptchaValidatorInterface::PARAM_RECAPTCHA_RESPONSE
+            );
             /** @var ValidationConfigInterface $validationConfig */
             $validationConfig = $this->validationConfigFactory->create(
                 [
@@ -93,7 +95,7 @@ class LoginObserver implements ObserverInterface
                 ]
             );
 
-            if (false === $this->validate->validate($reCaptchaResponse, $validationConfig)) {
+            if (false === $this->captchaValidator->validate($reCaptchaResponse, $validationConfig)) {
                 throw new AuthenticationException($this->captchaConfig->getErrorMessage());
             }
         }

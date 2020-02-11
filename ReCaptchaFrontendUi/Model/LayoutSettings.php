@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaFrontendUi\Model;
 
-use Magento\ReCaptcha\Model\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 
 /**
  * Extension point of the layout configuration setting for reCaptcha

@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCheckout\Block\LayoutProcessor\Checkout;
 
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
-use Magento\ReCaptcha\Model\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 
 /**

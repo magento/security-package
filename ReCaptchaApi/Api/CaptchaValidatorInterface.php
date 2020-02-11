@@ -5,16 +5,17 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Model;
+namespace Magento\ReCaptchaApi\Api;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 
 /**
  * Validate recaptcha response
  *
  * @api
  */
-interface ValidateInterface
+interface CaptchaValidatorInterface
 {
     /**
      * Parameter name for recaptcha response

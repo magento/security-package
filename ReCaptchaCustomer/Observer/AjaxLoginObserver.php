@@ -14,11 +14,11 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Serialize\SerializerInterface;
-use Magento\ReCaptcha\Model\CaptchaConfigInterface;
-use Magento\ReCaptcha\Model\ValidateInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
+use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
+use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterfaceFactory;
 use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
-use Magento\ReCaptcha\Model\ValidationConfigInterface;
-use Magento\ReCaptcha\Model\ValidationConfigInterfaceFactory;
 
 /**
  * AjaxLoginObserver
@@ -26,9 +26,9 @@ use Magento\ReCaptcha\Model\ValidationConfigInterfaceFactory;
 class AjaxLoginObserver implements ObserverInterface
 {
     /**
-     * @var ValidateInterface
+     * @var CaptchaValidatorInterface
      */
-    private $validate;
+    private $captchaValidator;
 
     /**
      * @var RemoteAddress
@@ -61,7 +61,7 @@ class AjaxLoginObserver implements ObserverInterface
     private $validationConfigFactory;
 
     /**
-     * @param ValidateInterface $validate
+     * @param CaptchaValidatorInterface $captchaValidator
      * @param RemoteAddress $remoteAddress
      * @param ActionFlag $actionFlag
      * @param SerializerInterface $serializer
@@ -70,7 +70,7 @@ class AjaxLoginObserver implements ObserverInterface
      * @param ValidationConfigInterfaceFactory $validationConfigFactory
      */
     public function __construct(
-        ValidateInterface $validate,
+        CaptchaValidatorInterface $captchaValidator,
         RemoteAddress $remoteAddress,
         ActionFlag $actionFlag,
         SerializerInterface $serializer,
@@ -78,7 +78,7 @@ class AjaxLoginObserver implements ObserverInterface
         IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin,
         ValidationConfigInterfaceFactory $validationConfigFactory
     ) {
-        $this->validate = $validate;
+        $this->captchaValidator = $captchaValidator;
         $this->remoteAddress = $remoteAddress;
         $this->actionFlag = $actionFlag;
         $this->serializer = $serializer;
@@ -102,8 +102,8 @@ class AjaxLoginObserver implements ObserverInterface
             if ($content = $controller->getRequest()->getContent()) {
                 try {
                     $jsonParams = $this->serializer->unserialize($content);
-                    if (isset($jsonParams[ValidateInterface::PARAM_RECAPTCHA_RESPONSE])) {
-                        $reCaptchaResponse = $jsonParams[ValidateInterface::PARAM_RECAPTCHA_RESPONSE];
+                    if (isset($jsonParams[CaptchaValidatorInterface::PARAM_RECAPTCHA_RESPONSE])) {
+                        $reCaptchaResponse = $jsonParams[CaptchaValidatorInterface::PARAM_RECAPTCHA_RESPONSE];
                     }
                 } catch (\Exception $e) {
                     $this->handleCaptchaError($controller);
@@ -121,7 +121,7 @@ class AjaxLoginObserver implements ObserverInterface
                 ]
             );
 
-            if (!$this->validate->validate($reCaptchaResponse, $validationConfig)) {
+            if (!$this->captchaValidator->validate($reCaptchaResponse, $validationConfig)) {
                 $this->handleCaptchaError($controller);
             }
         }

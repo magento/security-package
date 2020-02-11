@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaUser\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\ReCaptcha\Model\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 
 /**
  * @inheritdoc

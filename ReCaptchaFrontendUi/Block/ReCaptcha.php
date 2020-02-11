@@ -9,7 +9,7 @@ namespace Magento\ReCaptchaFrontendUi\Block;
 
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
-use Magento\ReCaptcha\Model\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 
 /**

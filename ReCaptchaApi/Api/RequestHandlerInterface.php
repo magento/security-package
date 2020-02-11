@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Model;
+namespace Magento\ReCaptchaApi\Api;
 
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\HttpInterface;

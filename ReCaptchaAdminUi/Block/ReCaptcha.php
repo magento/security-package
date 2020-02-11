@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaAdminUi\Block;
 
 use Magento\Framework\View\Element\Template;
-use Magento\ReCaptcha\Model\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 
 /**
  * @api

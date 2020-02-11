@@ -12,7 +12,7 @@ use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptcha\Model\RequestHandlerInterface;
+use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
 use Magento\ReCaptchaSendFriend\Model\IsEnabledForSendFriendInterface;
 
 /**

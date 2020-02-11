@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptcha\Model;
 
+use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
+
 /**
  * @inheritDoc
  */

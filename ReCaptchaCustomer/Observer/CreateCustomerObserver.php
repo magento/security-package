@@ -11,7 +11,7 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptcha\Model\RequestHandlerInterface;
+use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
 use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerCreateInterface;
 
 /**

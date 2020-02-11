@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCustomer\Plugin\Block\Account;
 
 use Magento\Customer\Block\Account\AuthenticationPopup;
-use Magento\ReCaptcha\Model\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 use Zend\Json\Json;
 

@@ -8,12 +8,14 @@ declare(strict_types=1);
 namespace Magento\ReCaptcha\Model;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
+use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 use ReCaptcha\ReCaptcha;
 
 /**
  * @inheritDoc
  */
-class Validate implements ValidateInterface
+class CaptchaValidator implements CaptchaValidatorInterface
 {
     /**
      * @inheritdoc

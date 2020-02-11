@@ -9,7 +9,7 @@ namespace Magento\ReCaptchaFrontendUi\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Phrase;
-use Magento\ReCaptcha\Model\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**

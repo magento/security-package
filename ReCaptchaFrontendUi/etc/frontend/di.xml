@@ -7,7 +7,7 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Magento\ReCaptcha\Model\CaptchaConfigInterface"
+    <preference for="Magento\ReCaptchaApi\Api\CaptchaConfigInterface"
                 type="Magento\ReCaptchaFrontendUi\Model\CaptchaConfig"/>
 
     <type name="Magento\Framework\View\Asset\Minification">
