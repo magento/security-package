@@ -3,6 +3,10 @@
         "constraint": {
             "NOTIFIER_ASYNC_CHANNEL_CHANNEL_ID": true,
             "NOTIFIER_ASYNC_CHANNEL_CHANNEL_ID_NOTIFIER_CHANNEL_CHANNEL_ID": true
+        },
+        "column": {
+            "channel_id": true,
+            "send_async": true
         }
     }
 }
