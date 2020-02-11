@@ -36,7 +36,6 @@ class ValidateTemplateIdTest extends TestCase
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('https://github.com/magento/security-package/issues/39');
         ConfigureMockAdapter::execute();
         $this->objectManager = Bootstrap::getObjectManager();
         $this->subject = $this->objectManager->get(ValidateTemplateId::class);
@@ -50,19 +49,22 @@ class ValidateTemplateIdTest extends TestCase
         return [
             [
                 'data' => [
-                    'template_id' => ''
+                    'template_id' => '',
+                    'channels_codes' => '["unknown_channel_code"]'
                 ],
                 'errorMessage' => 'Template is required'
             ],
             [
                 'data' => [
-                    'template_id' => '               '
+                    'template_id' => '               ',
+                    'channels_codes' => '["unknown_channel_code"]'
                 ],
                 'errorMessage' => 'Template is required'
             ],
             [
                 'data' => [
-                    'template_id' => 'unknown_template_it'
+                    'template_id' => 'unknown_template_it',
+                    'channels_codes' => '["unknown_channel_code"]'
                 ],
                 'errorMessage' => 'Invalid or unknown template id unknown_template_it'
             ]
@@ -77,17 +79,20 @@ class ValidateTemplateIdTest extends TestCase
         return [
             [
                 'data' => [
-                    'template_id' => 'test_generic_template_1'
+                    'template_id' => 'test_generic_template_1',
+                    'channels_codes' => '["fake"]',
                 ]
             ],
             [
                 'data' => [
-                    'template_id' => 'event:_default'
+                    'template_id' => 'event:_default',
+                    'channels_codes' => '["test_channel_1"]',
                 ]
             ],
             [
                 'data' => [
-                    'template_id' => GetAutomaticTemplateId::AUTOMATIC_TEMPLATE_ID
+                    'template_id' => GetAutomaticTemplateId::AUTOMATIC_TEMPLATE_ID,
+                    'channels_codes' => '["test_channel_1"]',
                 ]
             ]
         ];
@@ -101,7 +106,7 @@ class ValidateTemplateIdTest extends TestCase
      */
     public function testShouldTriggerValidationException(array $data, string $errorMessage): void
     {
-        $channel = $this->objectManager->create(
+        $rule = $this->objectManager->create(
             RuleInterface::class,
             [
                 'data' => $data
@@ -112,13 +117,14 @@ class ValidateTemplateIdTest extends TestCase
         $this->expectExceptionMessage($errorMessage);
 
         /** @noinspection PhpUnhandledExceptionInspection */
-        $this->subject->execute($channel);
+        $this->subject->execute($rule);
     }
 
     /**
      * @param array $data
      * @dataProvider validDataProvider
      * @magentoDataFixture ../../../../app/code/Magento/NotifierTemplate/Test/Integration/_files/db_templates.php
+     * @magentoDataFixture ../../../../app/code/Magento/Notifier/Test/Integration/_files/channels.php
      */
     public function testShouldValidateChannel(array $data): void
     {
