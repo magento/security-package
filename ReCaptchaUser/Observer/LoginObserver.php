@@ -17,7 +17,6 @@ use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterfaceFactory;
-use Magento\ReCaptchaUser\Model\IsEnabledForUserLoginInterface;
 
 /**
  * LoginObserver
@@ -40,11 +39,6 @@ class LoginObserver implements ObserverInterface
     private $captchaConfig;
 
     /**
-     * @var IsEnabledForUserLoginInterface
-     */
-    private $isEnabledForUserLogin;
-
-    /**
      * @var ValidationConfigInterfaceFactory
      */
     private $validationConfigFactory;
@@ -53,20 +47,17 @@ class LoginObserver implements ObserverInterface
      * @param CaptchaValidatorInterface $captchaValidator
      * @param RemoteAddress $remoteAddress
      * @param CaptchaConfigInterface $captchaConfig
-     * @param IsEnabledForUserLoginInterface $isEnabledForUserLogin
      * @param ValidationConfigInterfaceFactory $validationConfigFactory
      */
     public function __construct(
         CaptchaValidatorInterface $captchaValidator,
         RemoteAddress $remoteAddress,
         CaptchaConfigInterface $captchaConfig,
-        IsEnabledForUserLoginInterface $isEnabledForUserLogin,
         ValidationConfigInterfaceFactory $validationConfigFactory
     ) {
         $this->captchaValidator = $captchaValidator;
         $this->remoteAddress = $remoteAddress;
         $this->captchaConfig = $captchaConfig;
-        $this->isEnabledForUserLogin = $isEnabledForUserLogin;
         $this->validationConfigFactory = $validationConfigFactory;
     }
 
@@ -78,7 +69,7 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isEnabledForUserLogin->isEnabled()) {
+        if ($this->captchaConfig->isCaptchaEnabledFor('user_login')) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
 
