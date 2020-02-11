@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaUser\Observer\Adminhtml;
+namespace Magento\ReCaptchaUser\Observer;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Event\Observer;
