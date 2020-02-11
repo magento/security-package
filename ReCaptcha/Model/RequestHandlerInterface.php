@@ -14,14 +14,14 @@ use Magento\Framework\Exception\LocalizedException;
 /**
  * Captcha request handler interface (sugar service for avoiding boilerplate code)
  *
- * Validate captcha data in request and set message and redirect if validation was failed
+ * Validate captcha data in request, set message and redirect if validation was failed
  *
  * @api
  */
 interface RequestHandlerInterface
 {
     /**
-     * Validate captcha data in request and set message and redirect if validation was failed
+     * Validate captcha data in request, set message and redirect if validation was failed
      *
      * @param RequestInterface $request
      * @param HttpInterface $response

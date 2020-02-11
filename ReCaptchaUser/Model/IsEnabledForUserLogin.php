@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaUser\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
+use Magento\ReCaptcha\Model\CaptchaConfigInterface;
 
 /**
  * @inheritdoc
@@ -18,9 +18,9 @@ class IsEnabledForUserLogin implements IsEnabledForUserLoginInterface
     private const XML_PATH_ENABLED_FOR_USER_LOGIN = 'recaptcha/backend/enabled_for_user_login';
 
     /**
-     * @var AdminConfigInterface
+     * @var CaptchaConfigInterface
      */
-    private $reCaptchaAdminConfig;
+    private $captchaConfig;
 
     /**
      * @var ScopeConfigInterface
@@ -28,14 +28,14 @@ class IsEnabledForUserLogin implements IsEnabledForUserLoginInterface
     private $scopeConfig;
 
     /**
-     * @param AdminConfigInterface $reCaptchaAdminConfig
+     * @param CaptchaConfigInterface $captchaConfig
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        AdminConfigInterface $reCaptchaAdminConfig,
+        CaptchaConfigInterface $captchaConfig,
         ScopeConfigInterface $scopeConfig
     ) {
-        $this->reCaptchaAdminConfig = $reCaptchaAdminConfig;
+        $this->captchaConfig = $captchaConfig;
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -44,7 +44,7 @@ class IsEnabledForUserLogin implements IsEnabledForUserLoginInterface
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaAdminConfig->areKeysConfigured()) {
+        if (!$this->captchaConfig->areKeysConfigured()) {
             return false;
         }
 

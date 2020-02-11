@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaAdminUi\Block;
 
 use Magento\Framework\View\Element\Template;
-use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
+use Magento\ReCaptcha\Model\CaptchaConfigInterface;
 
 /**
  * @api
@@ -16,22 +16,22 @@ use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
 class ReCaptcha extends Template
 {
     /**
-     * @var AdminConfigInterface
+     * @var CaptchaConfigInterface
      */
-    private $reCaptchaAdminConfig;
+    private $captchaConfig;
 
     /**
      * @param Template\Context $context
-     * @param AdminConfigInterface $reCaptchaAdminConfig
+     * @param CaptchaConfigInterface $captchaConfig
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        AdminConfigInterface $reCaptchaAdminConfig,
+        CaptchaConfigInterface $captchaConfig,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->reCaptchaAdminConfig = $reCaptchaAdminConfig;
+        $this->captchaConfig = $captchaConfig;
     }
 
     /**
@@ -40,7 +40,7 @@ class ReCaptcha extends Template
      */
     public function getPublicKey()
     {
-        return $this->reCaptchaAdminConfig->getPublicKey();
+        return $this->captchaConfig->getPublicKey();
     }
 
     /**
@@ -49,7 +49,7 @@ class ReCaptcha extends Template
      */
     public function getTheme()
     {
-        return $this->reCaptchaAdminConfig->getTheme();
+        return $this->captchaConfig->getTheme();
     }
 
     /**
@@ -58,7 +58,7 @@ class ReCaptcha extends Template
      */
     public function getSize()
     {
-        return $this->reCaptchaAdminConfig->getSize();
+        return $this->captchaConfig->getSize();
     }
 
     /**

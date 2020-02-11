@@ -10,9 +10,6 @@
     <preference for="Magento\ReCaptcha\Model\CaptchaConfigInterface"
                 type="Magento\ReCaptchaFrontendUi\Model\CaptchaConfig"/>
 
-    <preference for="Magento\ReCaptcha\Model\RequestHandlerInterface"
-                type="Magento\ReCaptchaFrontendUi\Model\RequestHandler"/>
-
     <type name="Magento\Framework\View\Asset\Minification">
         <plugin name="exclude-recaptcha-from-minification"
                 type="Magento\ReCaptchaFrontendUi\Plugin\ExcludeFromMinification"/>

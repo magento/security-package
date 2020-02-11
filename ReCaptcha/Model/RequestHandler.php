@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaAdminUi\Model;
+namespace Magento\ReCaptcha\Model;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
@@ -13,10 +13,6 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\HttpInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
-use Magento\ReCaptcha\Model\RequestHandlerInterface;
-use Magento\ReCaptcha\Model\ValidateInterface;
-use Magento\ReCaptcha\Model\ValidationConfigInterface;
-use Magento\ReCaptcha\Model\ValidationConfigInterfaceFactory;
 
 /**
  * @inheritdoc
@@ -44,9 +40,9 @@ class RequestHandler implements RequestHandlerInterface
     private $actionFlag;
 
     /**
-     * @var AdminConfigInterface
+     * @var CaptchaConfigInterface
      */
-    private $reCaptchaAdminConfig;
+    private $captchaConfig;
 
     /**
      * @var ValidationConfigInterfaceFactory
@@ -58,7 +54,7 @@ class RequestHandler implements RequestHandlerInterface
      * @param RemoteAddress $remoteAddress
      * @param MessageManagerInterface $messageManager
      * @param ActionFlag $actionFlag
-     * @param AdminConfigInterface $reCaptchaAdminConfig
+     * @param CaptchaConfigInterface $captchaConfig
      * @param ValidationConfigInterfaceFactory $validationConfigFactory
      */
     public function __construct(
@@ -66,14 +62,14 @@ class RequestHandler implements RequestHandlerInterface
         RemoteAddress $remoteAddress,
         MessageManagerInterface $messageManager,
         ActionFlag $actionFlag,
-        AdminConfigInterface $reCaptchaAdminConfig,
+        CaptchaConfigInterface $captchaConfig,
         ValidationConfigInterfaceFactory $validationConfigFactory
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
         $this->messageManager = $messageManager;
         $this->actionFlag = $actionFlag;
-        $this->reCaptchaAdminConfig = $reCaptchaAdminConfig;
+        $this->captchaConfig = $captchaConfig;
         $this->validationConfigFactory = $validationConfigFactory;
     }
 
@@ -89,15 +85,15 @@ class RequestHandler implements RequestHandlerInterface
         /** @var ValidationConfigInterface $validationConfig */
         $validationConfig = $this->validationConfigFactory->create(
             [
-                'privateKey' => $this->reCaptchaAdminConfig->getPrivateKey(),
-                'captchaType' => $this->reCaptchaAdminConfig->getCaptchaType(),
+                'privateKey' => $this->captchaConfig->getPrivateKey(),
+                'captchaType' => $this->captchaConfig->getCaptchaType(),
                 'remoteIp' => $this->remoteAddress->getRemoteAddress(),
-                'scoreThreshold' => $this->reCaptchaAdminConfig->getScoreThreshold(),
+                'scoreThreshold' => $this->captchaConfig->getScoreThreshold(),
             ]
         );
 
         if (false === $this->validate->validate($reCaptchaResponse, $validationConfig)) {
-            $this->messageManager->addErrorMessage($this->reCaptchaAdminConfig->getErrorMessage());
+            $this->messageManager->addErrorMessage($this->captchaConfig->getErrorMessage());
             $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
             $response->setRedirect($redirectOnFailureUrl);

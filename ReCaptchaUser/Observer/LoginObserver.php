@@ -13,8 +13,8 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\Plugin\AuthenticationException;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
+use Magento\ReCaptcha\Model\CaptchaConfigInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
-use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
 use Magento\ReCaptchaUser\Model\IsEnabledForUserLoginInterface;
 use Magento\ReCaptcha\Model\ValidationConfigInterface;
 use Magento\ReCaptcha\Model\ValidationConfigInterfaceFactory;
@@ -35,9 +35,9 @@ class LoginObserver implements ObserverInterface
     private $remoteAddress;
 
     /**
-     * @var AdminConfigInterface
+     * @var CaptchaConfigInterface
      */
-    private $reCaptchaAdminConfig;
+    private $captchaConfig;
 
     /**
      * @var IsEnabledForUserLoginInterface
@@ -52,20 +52,20 @@ class LoginObserver implements ObserverInterface
     /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
-     * @param AdminConfigInterface $reCaptchaAdminConfig
+     * @param CaptchaConfigInterface $captchaConfig
      * @param IsEnabledForUserLoginInterface $isEnabledForUserLogin
      * @param ValidationConfigInterfaceFactory $validationConfigFactory
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
-        AdminConfigInterface $reCaptchaAdminConfig,
+        CaptchaConfigInterface $captchaConfig,
         IsEnabledForUserLoginInterface $isEnabledForUserLogin,
         ValidationConfigInterfaceFactory $validationConfigFactory
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
-        $this->reCaptchaAdminConfig = $reCaptchaAdminConfig;
+        $this->captchaConfig = $captchaConfig;
         $this->isEnabledForUserLogin = $isEnabledForUserLogin;
         $this->validationConfigFactory = $validationConfigFactory;
     }
@@ -86,15 +86,15 @@ class LoginObserver implements ObserverInterface
             /** @var ValidationConfigInterface $validationConfig */
             $validationConfig = $this->validationConfigFactory->create(
                 [
-                    'privateKey' => $this->reCaptchaAdminConfig->getPrivateKey(),
-                    'captchaType' => $this->reCaptchaAdminConfig->getCaptchaType(),
+                    'privateKey' => $this->captchaConfig->getPrivateKey(),
+                    'captchaType' => $this->captchaConfig->getCaptchaType(),
                     'remoteIp' => $this->remoteAddress->getRemoteAddress(),
-                    'scoreThreshold' => $this->reCaptchaAdminConfig->getScoreThreshold(),
+                    'scoreThreshold' => $this->captchaConfig->getScoreThreshold(),
                 ]
             );
 
             if (false === $this->validate->validate($reCaptchaResponse, $validationConfig)) {
-                throw new AuthenticationException($this->reCaptchaAdminConfig->getErrorMessage());
+                throw new AuthenticationException($this->captchaConfig->getErrorMessage());
             }
         }
     }

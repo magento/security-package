@@ -9,11 +9,12 @@ namespace Magento\ReCaptchaAdminUi\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Phrase;
+use Magento\ReCaptcha\Model\CaptchaConfigInterface;
 
 /**
  * @inheritdoc
  */
-class AdminConfig implements AdminConfigInterface
+class CaptchaConfig implements CaptchaConfigInterface
 {
     private const XML_PATH_TYPE = 'recaptcha/backend/type';
     private const XML_PATH_PUBLIC_KEY = 'recaptcha/backend/public_key';
@@ -117,9 +118,24 @@ class AdminConfig implements AdminConfigInterface
     /**
      * @return bool
      */
-    private function isInvisibleRecaptcha(): bool
+    public function isInvisibleRecaptcha(): bool
     {
         return in_array($this->getCaptchaType(), ['invisible', 'recaptcha_v3'], true);
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getLanguageCode(): string
+    {
+        throw new \RuntimeException('Support not implemented');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPosition(): ?string
+    {
+        throw new \RuntimeException('Support not implemented');
+    }
 }
