@@ -19,7 +19,7 @@ class AdminConfig implements AdminConfigInterface
     private const XML_PATH_PUBLIC_KEY = 'recaptcha/backend/public_key';
     private const XML_PATH_PRIVATE_KEY = 'recaptcha/backend/private_key';
 
-    private const XML_PATH_SIZE_MIN_SCORE = 'recaptcha/backend/min_score';
+    private const XML_PATH_SCORE_THRESHOLD = 'recaptcha/backend/score_threshold';
     private const XML_PATH_SIZE = 'recaptcha/backend/size';
     private const XML_PATH_THEME= 'recaptcha/backend/theme';
 
@@ -55,7 +55,7 @@ class AdminConfig implements AdminConfigInterface
     /**
      * @inheritdoc
      */
-    public function getType(): string
+    public function getCaptchaType(): string
     {
         return (string)$this->scopeConfig->getValue(self::XML_PATH_TYPE);
     }
@@ -87,10 +87,10 @@ class AdminConfig implements AdminConfigInterface
     /**
      * @inheritdoc
      */
-    public function getMinScore(): float
+    public function getScoreThreshold(): float
     {
         return min(1.0, max(0.1, (float) $this->scopeConfig->getValue(
-            self::XML_PATH_SIZE_MIN_SCORE
+            self::XML_PATH_SCORE_THRESHOLD
         )));
     }
 
@@ -99,7 +99,7 @@ class AdminConfig implements AdminConfigInterface
      */
     public function getErrorMessage(): Phrase
     {
-        if ($this->getType() === 'recaptcha_v3') {
+        if ($this->getCaptchaType() === 'recaptcha_v3') {
             return __('You cannot proceed with such operation, your reCaptcha reputation is too low.');
         }
 
@@ -111,7 +111,7 @@ class AdminConfig implements AdminConfigInterface
      */
     private function isInvisibleRecaptcha(): bool
     {
-        return in_array($this->getType(), ['invisible', 'recaptcha_v3'], true);
+        return in_array($this->getCaptchaType(), ['invisible', 'recaptcha_v3'], true);
     }
 
 }

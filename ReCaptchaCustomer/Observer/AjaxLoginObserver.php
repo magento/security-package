@@ -17,6 +17,8 @@ use Magento\Framework\Serialize\SerializerInterface;
 use Magento\ReCaptcha\Model\ValidateInterface;
 use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
 use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface;
+use Magento\ReCaptcha\Model\ValidationConfigInterface;
+use Magento\ReCaptcha\Model\ValidationConfigInterfaceFactory;
 
 /**
  * AjaxLoginObserver
@@ -54,12 +56,18 @@ class AjaxLoginObserver implements ObserverInterface
     private $isEnabledForCustomerLogin;
 
     /**
+     * @var ValidationConfigInterfaceFactory
+     */
+    private $validationConfigFactory;
+
+    /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
      * @param ActionFlag $actionFlag
      * @param SerializerInterface $serializer
      * @param FrontendConfigInterface $reCaptchaFrontendConfig
      * @param IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
+     * @param ValidationConfigInterfaceFactory $validationConfigFactory
      */
     public function __construct(
         ValidateInterface $validate,
@@ -67,7 +75,8 @@ class AjaxLoginObserver implements ObserverInterface
         ActionFlag $actionFlag,
         SerializerInterface $serializer,
         FrontendConfigInterface $reCaptchaFrontendConfig,
-        IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
+        IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin,
+        ValidationConfigInterfaceFactory $validationConfigFactory
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
@@ -75,6 +84,7 @@ class AjaxLoginObserver implements ObserverInterface
         $this->serializer = $serializer;
         $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
         $this->isEnabledForCustomerLogin = $isEnabledForCustomerLogin;
+        $this->validationConfigFactory = $validationConfigFactory;
     }
 
     /**
@@ -96,23 +106,41 @@ class AjaxLoginObserver implements ObserverInterface
                         $reCaptchaResponse = $jsonParams[ValidateInterface::PARAM_RECAPTCHA_RESPONSE];
                     }
                 } catch (\Exception $e) {
-                    $reCaptchaResponse = '';
+                    $this->handleCaptchaError($controller);
+                    return;
                 }
             }
 
-            $remoteIp = $this->remoteAddress->getRemoteAddress();
-            $options['threshold'] = $this->reCaptchaFrontendConfig->getMinScore();
+            /** @var ValidationConfigInterface $validationConfig */
+            $validationConfig = $this->validationConfigFactory->create(
+                [
+                    'privateKey' => $this->reCaptchaFrontendConfig->getPrivateKey(),
+                    'captchaType' => $this->reCaptchaFrontendConfig->getCaptchaType(),
+                    'remoteIp' => $this->remoteAddress->getRemoteAddress(),
+                    'scoreThreshold' => $this->reCaptchaFrontendConfig->getScoreThreshold(),
+                ]
+            );
 
-            if (!$this->validate->validate($reCaptchaResponse, $remoteIp, $options)) {
-                $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
-
-                $jsonPayload = $this->serializer->serialize([
-                    'errors' => true,
-                    'message' => $this->reCaptchaFrontendConfig->getErrorMessage(),
-                ]);
-
-                $controller->getResponse()->representJson($jsonPayload);
+            if (!$this->validate->validate($reCaptchaResponse, $validationConfig)) {
+                $this->handleCaptchaError($controller);
             }
         }
+    }
+
+    /**
+     * Handle captcha error
+     *
+     * @param Action $controller
+     */
+    private function handleCaptchaError(Action $controller)
+    {
+        $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
+
+        $jsonPayload = $this->serializer->serialize([
+            'errors' => true,
+            'message' => $this->reCaptchaFrontendConfig->getErrorMessage(),
+        ]);
+
+        $controller->getResponse()->representJson($jsonPayload);
     }
 }

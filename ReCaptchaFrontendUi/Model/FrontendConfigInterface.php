@@ -37,7 +37,7 @@ interface FrontendConfigInterface
      * Get reCaptcha type
      * @return string
      */
-    public function getType(): string;
+    public function getCaptchaType(): string;
 
     /**
      * Return true if enabled on frontend
@@ -73,7 +73,7 @@ interface FrontendConfigInterface
      * Get minimum frontend score
      * @return float
      */
-    public function getMinScore(): float;
+    public function getScoreThreshold(): float;
 
     /**
      * Get error message

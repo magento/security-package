@@ -32,7 +32,7 @@ interface AdminConfigInterface
      * Get reCaptcha type
      * @return string
      */
-    public function getType(): string;
+    public function getCaptchaType(): string;
 
     /**
      * Get size
@@ -47,10 +47,10 @@ interface AdminConfigInterface
     public function getTheme(): ?string;
 
     /**
-     * Get minimum frontend score
-     * @return float
+     * Get score threshold score
+     * @return float|null
      */
-    public function getMinScore(): float;
+    public function getScoreThreshold(): ?float;
 
     /**
      * Get error message

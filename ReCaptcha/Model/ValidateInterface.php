@@ -23,11 +23,14 @@ interface ValidateInterface
 
     /**
      * Return true if reCaptcha validation has passed
+     *
      * @param string $reCaptchaResponse
-     * @param string $remoteIp
-     * @param array $options
+     * @param ValidationConfigInterface $validationConfig
      * @return bool
      * @throws LocalizedException
      */
-    public function validate(string $reCaptchaResponse, string $remoteIp, array $options = []): bool;
+    public function validate(
+        string $reCaptchaResponse,
+        ValidationConfigInterface $validationConfig
+    ): bool;
 }

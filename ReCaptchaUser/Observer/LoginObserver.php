@@ -16,6 +16,8 @@ use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\ReCaptcha\Model\ValidateInterface;
 use Magento\ReCaptchaAdminUi\Model\AdminConfigInterface;
 use Magento\ReCaptchaUser\Model\IsEnabledForUserLoginInterface;
+use Magento\ReCaptcha\Model\ValidationConfigInterface;
+use Magento\ReCaptcha\Model\ValidationConfigInterfaceFactory;
 
 /**
  * LoginObserver
@@ -43,21 +45,29 @@ class LoginObserver implements ObserverInterface
     private $isEnabledForUserLogin;
 
     /**
+     * @var ValidationConfigInterfaceFactory
+     */
+    private $validationConfigFactory;
+
+    /**
      * @param ValidateInterface $validate
      * @param RemoteAddress $remoteAddress
      * @param AdminConfigInterface $reCaptchaAdminConfig
      * @param IsEnabledForUserLoginInterface $isEnabledForUserLogin
+     * @param ValidationConfigInterfaceFactory $validationConfigFactory
      */
     public function __construct(
         ValidateInterface $validate,
         RemoteAddress $remoteAddress,
         AdminConfigInterface $reCaptchaAdminConfig,
-        IsEnabledForUserLoginInterface $isEnabledForUserLogin
+        IsEnabledForUserLoginInterface $isEnabledForUserLogin,
+        ValidationConfigInterfaceFactory $validationConfigFactory
     ) {
         $this->validate = $validate;
         $this->remoteAddress = $remoteAddress;
         $this->reCaptchaAdminConfig = $reCaptchaAdminConfig;
         $this->isEnabledForUserLogin = $isEnabledForUserLogin;
+        $this->validationConfigFactory = $validationConfigFactory;
     }
 
     /**
@@ -73,10 +83,17 @@ class LoginObserver implements ObserverInterface
             $controller = $observer->getControllerAction();
 
             $reCaptchaResponse = $controller->getRequest()->getParam(ValidateInterface::PARAM_RECAPTCHA_RESPONSE);
-            $remoteIp = $this->remoteAddress->getRemoteAddress();
-            $options['threshold'] = $this->reCaptchaAdminConfig->getMinScore();
+            /** @var ValidationConfigInterface $validationConfig */
+            $validationConfig = $this->validationConfigFactory->create(
+                [
+                    'privateKey' => $this->reCaptchaAdminConfig->getPrivateKey(),
+                    'captchaType' => $this->reCaptchaAdminConfig->getCaptchaType(),
+                    'remoteIp' => $this->remoteAddress->getRemoteAddress(),
+                    'scoreThreshold' => $this->reCaptchaAdminConfig->getScoreThreshold(),
+                ]
+            );
 
-            if (false === $this->validate->validate($reCaptchaResponse, $remoteIp, $options)) {
+            if (false === $this->validate->validate($reCaptchaResponse, $validationConfig)) {
                 throw new AuthenticationException($this->reCaptchaAdminConfig->getErrorMessage());
             }
         }

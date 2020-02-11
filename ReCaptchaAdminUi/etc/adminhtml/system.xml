@@ -57,9 +57,9 @@
                     </depends>
                 </field>
 
-                <field id="min_score" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0"
+                <field id="score_threshold" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
-                    <label>Minimum score</label>
+                    <label>Score Threshold</label>
                     <depends>
                         <field id="recaptcha/backend/type">recaptcha_v3</field>
                     </depends>
@@ -105,9 +105,9 @@
                     </depends>
                 </field>
 
-                <field id="min_score" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1"
+                <field id="score_threshold" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
-                    <label>Minimum score</label>
+                    <label>Score Threshold</label>
                     <depends>
                         <field id="recaptcha/general/type">recaptcha_v3</field>
                     </depends>
