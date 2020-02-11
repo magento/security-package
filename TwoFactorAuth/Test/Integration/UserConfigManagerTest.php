@@ -15,6 +15,9 @@ use Magento\User\Model\ResourceModel\User\Collection as AdminUserCollection;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class UserConfigManagerTest extends TestCase
 {
     /**
@@ -32,13 +35,12 @@ class UserConfigManagerTest extends TestCase
      */
     protected function setUp()
     {
-        $this->markTestIncomplete('https://github.com/magento/security-package/issues/60');
         $this->userConfigManager = Bootstrap::getObjectManager()->get(UserConfigManagerInterface::class);
         $this->serializer = Bootstrap::getObjectManager()->get(SerializerInterface::class);
     }
 
     /**
-     * @magentoDataFixture Magento/User/_files/dummy_user.php
+     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldSetAndGetProviderConfiguration(): void
     {
@@ -50,19 +52,19 @@ class UserConfigManagerTest extends TestCase
         $configPayload = ['a' => 1, 'b' => 2];
 
         $this->userConfigManager->setProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider',
             $configPayload
         );
 
         $this->assertSame(
             $configPayload,
-            $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider')
+            $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider')
         );
     }
 
     /**
-     * @magentoDataFixture Magento/User/_files/dummy_user.php
+     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldSetAndGetConfiguredProviders(): void
     {
@@ -73,16 +75,16 @@ class UserConfigManagerTest extends TestCase
 
         $providers = ['test_provider1', 'test_provider2'];
 
-        $this->userConfigManager->setProvidersCodes($dummyUser->getId(), $providers);
+        $this->userConfigManager->setProvidersCodes((int)$dummyUser->getId(), $providers);
 
         $this->assertSame(
             $providers,
-            $this->userConfigManager->getProvidersCodes($dummyUser->getId())
+            $this->userConfigManager->getProvidersCodes((int)$dummyUser->getId())
         );
     }
 
     /**
-     * @magentoDataFixture Magento/User/_files/dummy_user.php
+     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldSetAndGetDefaultProvider(): void
     {
@@ -93,16 +95,16 @@ class UserConfigManagerTest extends TestCase
 
         $provider = 'test_provider';
 
-        $this->userConfigManager->setDefaultProvider($dummyUser->getId(), $provider);
+        $this->userConfigManager->setDefaultProvider((int)$dummyUser->getId(), $provider);
 
         $this->assertSame(
             $provider,
-            $this->userConfigManager->getDefaultProvider($dummyUser->getId())
+            $this->userConfigManager->getDefaultProvider((int)$dummyUser->getId())
         );
     }
 
     /**
-     * @magentoDataFixture Magento/User/_files/dummy_user.php
+     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldResetProviderConfiguration(): void
     {
@@ -114,19 +116,19 @@ class UserConfigManagerTest extends TestCase
         $configPayload = ['a' => 1, 'b' => 2];
 
         $this->userConfigManager->setProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider',
             $configPayload
         );
-        $this->userConfigManager->resetProviderConfig($dummyUser->getId(), 'test_provider');
+        $this->userConfigManager->resetProviderConfig((int)$dummyUser->getId(), 'test_provider');
 
         $this->assertNull(
-            $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider')
+            $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider')
         );
     }
 
     /**
-     * @magentoDataFixture Magento/User/_files/dummy_user.php
+     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldActivateProvider(): void
     {
@@ -137,25 +139,26 @@ class UserConfigManagerTest extends TestCase
 
         $configPayload = ['a' => 1, 'b' => 2];
         $this->userConfigManager->setProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider',
             $configPayload
         );
 
         // Check precondition
         $this->assertFalse(
-            $this->userConfigManager->isProviderConfigurationActive($dummyUser->getId(), 'test_provider')
+            $this->userConfigManager->isProviderConfigurationActive((int)$dummyUser->getId(), 'test_provider')
         );
 
-        $this->userConfigManager->activateProviderConfiguration($dummyUser->getId(), 'test_provider');
+        $this->userConfigManager->activateProviderConfiguration((int)$dummyUser->getId(), 'test_provider');
 
         $this->assertTrue(
-            $this->userConfigManager->isProviderConfigurationActive($dummyUser->getId(), 'test_provider')
+            $this->userConfigManager->isProviderConfigurationActive((int)$dummyUser->getId(), 'test_provider')
         );
     }
 
     /**
-     * @magentoDataFixture Magento/User/_files/dummy_user.php
+     * @magentoDataFixture Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
+     * @magentoDbIsolation disabled
      */
     public function testShouldEncryptConfiguration(): void
     {
@@ -174,14 +177,14 @@ class UserConfigManagerTest extends TestCase
         $configPayload = ['a' => 1, 'b' => 2];
 
         $this->userConfigManager->setProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider',
             $configPayload
         );
 
         $qry = $connection->select()
             ->from('tfa_user_config', 'encoded_config')
-            ->where('user_id = ?', $dummyUser->getId());
+            ->where('user_id = ?', (int)$dummyUser->getId());
 
         $res = $connection->fetchOne($qry);
         $this->assertSame(
@@ -191,7 +194,8 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/User/_files/dummy_user.php
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
+     * @magentoDbIsolation disabled
      */
     public function testShouldGetLegacyNonEncryptedProviderConfiguration(): void
     {
@@ -214,7 +218,7 @@ class UserConfigManagerTest extends TestCase
                 'encoded_config' => $this->serializer->serialize(['test_provider' => $configPayload]),
                 'default_provider' => 'test_provider',
                 'encoded_providers' => $this->serializer->serialize(['test_Provider']),
-                'user_id' => $dummyUser->getId()
+                'user_id' => (int)$dummyUser->getId()
             ],
             [
                 'encoded_config',
@@ -225,12 +229,12 @@ class UserConfigManagerTest extends TestCase
 
         $this->assertSame(
             $configPayload,
-            $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider')
+            $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider')
         );
     }
 
     /**
-     * @magentoDataFixture Magento/User/_files/dummy_user.php
+     * @magentoDataFixture /../../../Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldAddProviderConfiguration(): void
     {
@@ -243,23 +247,23 @@ class UserConfigManagerTest extends TestCase
         $configPayload1 = ['a' => 1, 'b' => 2];
         $configPayload2 = ['c' => 1, 'd' => 2];
         $this->userConfigManager->addProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider1',
             $configPayload1
         );
         $this->userConfigManager->addProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider2',
             $configPayload2
         );
 
         $this->assertSame(
             $configPayload1,
-            $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider1')
+            $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider1')
         );
         $this->assertSame(
             $configPayload2,
-            $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider2')
+            $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider2')
         );
     }
 }
