@@ -8,8 +8,8 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaContact\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\ConfigEnabledInterface;
-use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -20,9 +20,9 @@ class IsEnabledForContact implements IsEnabledForContactInterface, ConfigEnabled
     private const XML_PATH_ENABLED_FOR_CONTACT = 'recaptcha/frontend/enabled_for_contact';
 
     /**
-     * @var FrontendConfigInterface
+     * @var CaptchaConfigInterface
      */
-    private $reCaptchaFrontendConfig;
+    private $captchaConfig;
 
     /**
      * @var ScopeConfigInterface
@@ -30,14 +30,14 @@ class IsEnabledForContact implements IsEnabledForContactInterface, ConfigEnabled
     private $scopeConfig;
 
     /**
-     * @param FrontendConfigInterface $reCaptchaFrontendConfig
+     * @param CaptchaConfigInterface $captchaConfig
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        FrontendConfigInterface $reCaptchaFrontendConfig,
+        CaptchaConfigInterface $captchaConfig,
         ScopeConfigInterface $scopeConfig
     ) {
-        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
+        $this->captchaConfig = $captchaConfig;
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -46,7 +46,7 @@ class IsEnabledForContact implements IsEnabledForContactInterface, ConfigEnabled
      */
     public function isEnabled(): bool
     {
-        if (!$this->reCaptchaFrontendConfig->isFrontendEnabled()) {
+        if (!$this->captchaConfig->areKeysConfigured()) {
             return false;
         }
 

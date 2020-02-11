@@ -11,8 +11,8 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\UrlInterface;
+use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
 use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerCreateInterface;
-use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
 
 /**
  * CreateCustomerObserver
@@ -30,23 +30,23 @@ class CreateCustomerObserver implements ObserverInterface
     private $isEnabledForCustomerCreate;
 
     /**
-     * @var CaptchaRequestHandlerInterface
+     * @var RequestHandlerInterface
      */
-    private $captchaRequestHandler;
+    private $requestHandler;
 
     /**
      * @param UrlInterface $url
-     * @param IsEnabledForCustomerCreateInterface $config
-     * @param CaptchaRequestHandlerInterface $isEnabledForCustomerCreate
+     * @param IsEnabledForCustomerCreateInterface $isEnabledForCustomerCreate
+     * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         UrlInterface $url,
-        IsEnabledForCustomerCreateInterface $config,
-        CaptchaRequestHandlerInterface $isEnabledForCustomerCreate
+        IsEnabledForCustomerCreateInterface $isEnabledForCustomerCreate,
+        RequestHandlerInterface $requestHandler
     ) {
         $this->url = $url;
-        $this->isEnabledForCustomerCreate = $config;
-        $this->captchaRequestHandler = $isEnabledForCustomerCreate;
+        $this->isEnabledForCustomerCreate = $isEnabledForCustomerCreate;
+        $this->requestHandler = $requestHandler;
     }
 
     /**
@@ -63,7 +63,7 @@ class CreateCustomerObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('*/*/create', ['_secure' => true]);
 
-            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

@@ -12,7 +12,7 @@ use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
+use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
 use Magento\ReCaptchaNewsletter\Model\IsEnabledForNewsletterInterface;
 
 /**
@@ -31,23 +31,23 @@ class NewsletterObserver implements ObserverInterface
     private $isEnabledForNewsletter;
 
     /**
-     * @var CaptchaRequestHandlerInterface
+     * @var RequestHandlerInterface
      */
-    private $captchaRequestHandler;
+    private $requestHandler;
 
     /**
      * @param RedirectInterface $redirect
      * @param IsEnabledForNewsletterInterface $isEnabledForNewsletter
-     * @param CaptchaRequestHandlerInterface $captchaRequestHandler
+     * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         RedirectInterface $redirect,
         IsEnabledForNewsletterInterface $isEnabledForNewsletter,
-        CaptchaRequestHandlerInterface $captchaRequestHandler
+        RequestHandlerInterface $requestHandler
     ) {
         $this->redirect = $redirect;
         $this->isEnabledForNewsletter = $isEnabledForNewsletter;
-        $this->captchaRequestHandler = $captchaRequestHandler;
+        $this->requestHandler = $requestHandler;
     }
 
     /**
@@ -64,7 +64,7 @@ class NewsletterObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->redirect->getRefererUrl();
 
-            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

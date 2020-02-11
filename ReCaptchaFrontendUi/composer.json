@@ -7,7 +7,7 @@
         "magento/framework": "102.0.*",
         "magento/module-store": "*",
         "magento/module-config": "*",
-        "magento/module-re-captcha": "*",
+        "magento/module-re-captcha-api": "*",
         "google/recaptcha": "^1.2"
     },
     "authors": [

@@ -13,8 +13,8 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Session\SessionManagerInterface;
+use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
 use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
-use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
 
 /**
  * LoginObserver
@@ -27,9 +27,9 @@ class LoginObserver implements ObserverInterface
     private $isEnabledForCustomerLogin;
 
     /**
-     * @var CaptchaRequestHandlerInterface
+     * @var RequestHandlerInterface
      */
-    private $captchaRequestHandler;
+    private $requestHandler;
 
     /**
      * @var SessionManagerInterface
@@ -43,18 +43,18 @@ class LoginObserver implements ObserverInterface
 
     /**
      * @param IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
-     * @param CaptchaRequestHandlerInterface $captchaRequestHandler
+     * @param RequestHandlerInterface $requestHandler
      * @param SessionManagerInterface $sessionManager
      * @param Url $url
      */
     public function __construct(
         IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin,
-        CaptchaRequestHandlerInterface $captchaRequestHandler,
+        RequestHandlerInterface $requestHandler,
         SessionManagerInterface $sessionManager,
         Url $url
     ) {
         $this->isEnabledForCustomerLogin = $isEnabledForCustomerLogin;
-        $this->captchaRequestHandler = $captchaRequestHandler;
+        $this->requestHandler = $requestHandler;
         $this->sessionManager = $sessionManager;
         $this->url = $url;
     }
@@ -73,7 +73,7 @@ class LoginObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->sessionManager->getBeforeAuthUrl() ?: $this->url->getLoginUrl();
 
-            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

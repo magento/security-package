@@ -12,7 +12,7 @@ use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
+use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
 use Magento\ReCaptchaSendFriend\Model\IsEnabledForSendFriendInterface;
 
 /**
@@ -31,23 +31,23 @@ class SendFriendObserver implements ObserverInterface
     private $isEnabledForSendFriend;
 
     /**
-     * @var CaptchaRequestHandlerInterface
+     * @var RequestHandlerInterface
      */
-    private $captchaRequestHandler;
+    private $requestHandler;
 
     /**
      * @param RedirectInterface $redirect
      * @param IsEnabledForSendFriendInterface $isEnabledForSendFriend
-     * @param CaptchaRequestHandlerInterface $captchaRequestHandler
+     * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         RedirectInterface $redirect,
         IsEnabledForSendFriendInterface $isEnabledForSendFriend,
-        CaptchaRequestHandlerInterface $captchaRequestHandler
+        RequestHandlerInterface $requestHandler
     ) {
         $this->redirect = $redirect;
         $this->isEnabledForSendFriend = $isEnabledForSendFriend;
-        $this->captchaRequestHandler = $captchaRequestHandler;
+        $this->requestHandler = $requestHandler;
     }
 
     /**
@@ -64,7 +64,7 @@ class SendFriendObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->redirect->getRefererUrl();
 
-            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

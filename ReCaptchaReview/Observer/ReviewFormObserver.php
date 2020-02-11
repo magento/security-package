@@ -12,7 +12,7 @@ use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptchaFrontendUi\Model\CaptchaRequestHandlerInterface;
+use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
 use Magento\ReCaptchaReview\Model\IsEnabledForProductReviewInterface;
 
 /**
@@ -31,23 +31,23 @@ class ReviewFormObserver implements ObserverInterface
     private $isEnabledForProductReview;
 
     /**
-     * @var CaptchaRequestHandlerInterface
+     * @var RequestHandlerInterface
      */
-    private $captchaRequestHandler;
+    private $requestHandler;
 
     /**
      * @param RedirectInterface $redirect
      * @param IsEnabledForProductReviewInterface $isEnabledForProductReview
-     * @param CaptchaRequestHandlerInterface $captchaRequestHandler
+     * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         RedirectInterface $redirect,
         IsEnabledForProductReviewInterface $isEnabledForProductReview,
-        CaptchaRequestHandlerInterface $captchaRequestHandler
+        RequestHandlerInterface $requestHandler
     ) {
         $this->redirect = $redirect;
         $this->isEnabledForProductReview = $isEnabledForProductReview;
-        $this->captchaRequestHandler = $captchaRequestHandler;
+        $this->requestHandler = $requestHandler;
     }
 
     /**
@@ -64,7 +64,7 @@ class ReviewFormObserver implements ObserverInterface
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->redirect->getRedirectUrl();
 
-            $this->captchaRequestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
         }
     }
 }

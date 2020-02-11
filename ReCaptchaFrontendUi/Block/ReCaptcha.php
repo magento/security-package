@@ -7,11 +7,10 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaFrontendUi\Block;
 
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
-use Magento\ReCaptcha\Model\ConfigInterface;
-use Magento\ReCaptchaFrontendUi\Model\FrontendConfigInterface as ReCaptchaFrontendUiConfig;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
-use Zend\Json\Json;
 
 /**
  * @api
@@ -19,38 +18,38 @@ use Zend\Json\Json;
 class ReCaptcha extends Template
 {
     /**
-     * @var ConfigInterface
-     */
-    private $config;
-
-    /**
      * @var LayoutSettings
      */
     private $layoutSettings;
 
     /**
-     * @var ReCaptchaFrontendUiConfig
+     * @var CaptchaConfigInterface
      */
-    private $reCaptchaFrontendConfig;
+    private $captchaConfig;
+
+    /**
+     * @var Json
+     */
+    private $serializer;
 
     /**
      * @param Template\Context $context
      * @param LayoutSettings $layoutSettings
-     * @param ConfigInterface $config
-     * @param ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig
+     * @param CaptchaConfigInterface $captchaConfig
+     * @param Json $serializer
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         LayoutSettings $layoutSettings,
-        ConfigInterface $config,
-        ReCaptchaFrontendUiConfig $reCaptchaFrontendConfig,
+        CaptchaConfigInterface $captchaConfig,
+        Json $serializer,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->layoutSettings = $layoutSettings;
-        $this->config = $config;
-        $this->reCaptchaFrontendConfig = $reCaptchaFrontendConfig;
+        $this->captchaConfig = $captchaConfig;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -59,7 +58,7 @@ class ReCaptcha extends Template
      */
     public function getPublicKey()
     {
-        return $this->config->getPublicKey();
+        return $this->captchaConfig->getPublicKey();
     }
 
     /**
@@ -75,9 +74,9 @@ class ReCaptcha extends Template
      */
     public function getJsLayout()
     {
-        $layout = Json::decode(parent::getJsLayout(), Json::TYPE_ARRAY);
+        $layout = $this->serializer->unserialize(parent::getJsLayout());
 
-        if ($this->reCaptchaFrontendConfig->isFrontendEnabled()) {
+        if ($this->captchaConfig->areKeysConfigured()) {
             // Backward compatibility with fixed scope name
             if (isset($layout['components']['recaptcha'])) {
                 $layout['components'][$this->getRecaptchaId()] = $layout['components']['recaptcha'];
@@ -96,7 +95,7 @@ class ReCaptcha extends Template
             $layout['components'][$this->getRecaptchaId()]['reCaptchaId'] = $this->getRecaptchaId();
         }
 
-        return Json::encode($layout);
+        return $this->serializer->serialize($layout);
     }
 
     /**
@@ -104,7 +103,7 @@ class ReCaptcha extends Template
      */
     public function toHtml()
     {
-        if (!$this->reCaptchaFrontendConfig->isFrontendEnabled()) {
+        if (!$this->captchaConfig->areKeysConfigured()) {
             return '';
         }
 

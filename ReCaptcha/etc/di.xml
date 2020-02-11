@@ -7,30 +7,7 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Magento\ReCaptcha\Model\ConfigInterface" type="Magento\ReCaptcha\Model\Config"/>
-    <preference for="Magento\ReCaptcha\Model\ValidateInterface" type="Magento\ReCaptcha\Model\Validate"/>
-    <preference for="Magento\ReCaptcha\Model\CaptchaRequestHandlerInterface"
-                type="Magento\ReCaptcha\Model\CaptchaRequestHandler"/>
-
-    <type name="Magento\Framework\Console\CommandListInterface">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="recaptcha" xsi:type="object">Magento\ReCaptcha\Command\ReCaptcha</item>
-            </argument>
-        </arguments>
-    </type>
-
-    <!-- Set sensitive information -->
-    <type name="Magento\Config\Model\Config\TypePool">
-        <arguments>
-            <argument name="sensitive" xsi:type="array">
-                <item name="recaptcha/general/public_key" xsi:type="string">1</item>
-                <item name="recaptcha/general/private_key" xsi:type="string">1</item>
-            </argument>
-            <argument name="environment" xsi:type="array">
-                <item name="recaptcha/general/public_key" xsi:type="string">1</item>
-                <item name="recaptcha/general/private_key" xsi:type="string">1</item>
-            </argument>
-        </arguments>
-    </type>
+    <preference for="Magento\ReCaptchaApi\Api\RequestHandlerInterface" type="Magento\ReCaptcha\Model\RequestHandler"/>
+    <preference for="Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface" type="Magento\ReCaptcha\Model\ValidationConfig"/>
+    <preference for="Magento\ReCaptchaApi\Api\CaptchaValidatorInterface" type="Magento\ReCaptcha\Model\CaptchaValidator"/>
 </config>

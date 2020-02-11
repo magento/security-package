@@ -8,6 +8,7 @@
         "magento/magento-composer-installer": "*",
         "magento/module-store": "*",
         "magento/module-config": "*",
+        "magento/module-re-captcha-api": "*",
         "google/recaptcha": "^1.2"
     },
     "authors": [
