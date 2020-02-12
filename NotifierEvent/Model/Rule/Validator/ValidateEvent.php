@@ -10,7 +10,7 @@ namespace Magento\NotifierEvent\Model\Rule\Validator;
 
 use InvalidArgumentException;
 use Magento\Framework\Exception\ValidatorException;
-use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use Magento\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
 
