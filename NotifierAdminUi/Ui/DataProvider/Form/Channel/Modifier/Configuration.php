@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Magento\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier;
 
 use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
-use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 
 class Configuration extends AbstractModifier
 {

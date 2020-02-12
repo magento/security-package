@@ -10,10 +10,10 @@ namespace Magento\Notifier\Model\Channel\Validator;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\ValidatorException;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\NotifierApi\Api\AdaptersPoolInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
-use Magento\NotifierApi\Model\SerializerInterface;
 
 class ValidateAdapter implements ValidateChannelInterface
 {

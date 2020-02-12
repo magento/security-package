@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Magento\NotifierAsync\Model;
 
 use Magento\Framework\MessageQueue\PublisherInterface;
-use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 
 class EnqueueMessage
 {

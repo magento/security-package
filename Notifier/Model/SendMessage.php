@@ -12,7 +12,7 @@ use Magento\NotifierApi\Api\AdaptersPoolInterface;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\IsEnabledInterface;
 use Magento\NotifierApi\Model\SendMessageInterface;
-use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 
 class SendMessage implements SendMessageInterface
 {
