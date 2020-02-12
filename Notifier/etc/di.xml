@@ -25,7 +25,6 @@
 
     <preference for="Magento\NotifierApi\Model\SendMessageInterface" type="Magento\Notifier\Model\SendMessage"/>
     <preference for="Magento\NotifierApi\Api\IsEnabledInterface" type="Magento\Notifier\Model\IsEnabled"/>
-    <preference for="Magento\NotifierApi\Model\SerializerInterface" type="Magento\Notifier\Model\Serializer"/>
 
     <type name="Magento\NotifierApi\Model\Channel\Validator\ValidateChannel">
         <arguments>
@@ -34,12 +33,6 @@
                 <item name="name" xsi:type="object">Magento\Notifier\Model\Channel\Validator\ValidateName</item>
                 <item name="adapter" xsi:type="object">Magento\Notifier\Model\Channel\Validator\ValidateAdapter</item>
             </argument>
-        </arguments>
-    </type>
-
-    <type name="Magento\Notifier\Model\Serializer">
-        <arguments>
-            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Json</argument>
         </arguments>
     </type>
 
