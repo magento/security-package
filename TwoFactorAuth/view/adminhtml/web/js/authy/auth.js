@@ -100,10 +100,7 @@ define([
             this.selectedMethod('code');
 
             if (via !== 'token') {
-                $.getJSON(
-                    this.getTokenRequestUrl() + '?via=' +
-                    via + '&tfa_trust_device=' + (me.trustThisDevice() ? 1 : 0)
-                )
+                $.getJSON(this.getTokenRequestUrl() + '?via=' + via)
                     .fail(function () {
                         error.display('There was an error trying to contact Authy services');
                         me.switchAnotherMethod();
@@ -144,7 +141,7 @@ define([
 
             this.stopWaitingOnetouchApproval();
 
-            $.getJSON(this.getOneTouchUrl() + '?tfa_trust_device=' + (me.trustThisDevice() ? 1 : 0))
+            $.getJSON(this.getOneTouchUrl())
                 .done(function () {
                     me.waitForOneTouchApproval();
                 })
@@ -162,7 +159,7 @@ define([
 
             this.waitingText('Waiting for approval...');
 
-            $.getJSON(this.getVerifyOneTouchUrl())
+            $.getJSON(this.getVerifyOneTouchUrl() + '?tfa_trust_device=' + (me.trustThisDevice() ? 1 : 0))
                 .done(function (res) {
                     if (res.status === 'retry') {
                         me.waitForOneTouchApprovalTimeout = window.setTimeout(function () {
@@ -202,7 +199,8 @@ define([
             this.waitingText('Please wait...');
 
             $.post(this.getPostUrl(), {
-                'tfa_code': this.tokenCode
+                'tfa_code': this.tokenCode,
+                'tfa_trust_device': me.trustThisDevice() ? 1 : 0
             })
                 .done(function (res) {
                     if (res.success) {

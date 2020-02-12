@@ -42,6 +42,11 @@
                     class="action-choose">
                 <span data-bind='i18n: "Send me a code via phone call"'></span>
             </button>
+
+            <br/><br/>
+            <!-- ko foreach: getRegion('trust-device') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
         </div>
 
         <div class="tfa-waitbox" visible='(selectedMethod() === "onetouch") && !success()'>
@@ -75,11 +80,7 @@
             </div>
         </div>
 
-        <div visible='(selectedMethod() === "code") && !success()'>
-            <!-- ko foreach: getRegion('trust-device') -->
-            <!-- ko template: getTemplate() --><!-- /ko -->
-            <!--/ko-->
-        </div><br/>
+        <br/>
 
         <div class="form-actions tfa-authy-request-code" visible='(selectedMethod() === "code") && !success()'>
             <div class="actions">
