@@ -40,7 +40,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture createUserFixture
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldSetAndGetProviderConfiguration(): void
     {
@@ -64,7 +64,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture createUserFixture
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldSetAndGetConfiguredProviders(): void
     {
@@ -84,7 +84,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture createUserFixture
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldSetAndGetDefaultProvider(): void
     {
@@ -105,7 +105,7 @@ class UserConfigManagerTest extends TestCase
 
 
     /**
-     * @magentoDataFixture createUserFixture
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldResetProviderConfiguration(): void
     {
@@ -129,7 +129,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture createUserFixture
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldActivateProvider(): void
     {
@@ -158,7 +158,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture createUserFixture
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      * @magentoDbIsolation disabled
      */
     public function testShouldEncryptConfiguration(): void
@@ -195,7 +195,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture createUserFixture
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      * @magentoDbIsolation disabled
      */
     public function testShouldGetLegacyNonEncryptedProviderConfiguration(): void
@@ -235,7 +235,7 @@ class UserConfigManagerTest extends TestCase
     }
 
     /**
-     * @magentoDataFixture createUserFixture
+     * @magentoDataFixture ../../../../app/code/Magento/TwoFactorAuth/Test/Integration/_files/dummy_user.php
      */
     public function testShouldAddProviderConfiguration(): void
     {
@@ -266,52 +266,6 @@ class UserConfigManagerTest extends TestCase
             $configPayload2,
             $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider2')
         );
-    }
-
-    /**
-     * Create user
-     */
-    public static function createUserFixture()
-    {
-        Bootstrap::getInstance()->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
-        $user = Bootstrap::getObjectManager()->create(\Magento\User\Model\User::class);
-        $user->setFirstname(
-            'Dummy'
-        )->setLastname(
-            'Dummy'
-        )->setEmail(
-            'dummy@dummy.com'
-        )->setUsername(
-            'dummy_username'
-        )->setPassword(
-            'dummy_password1'
-        )->save();
-    }
-
-
-    /**
-     * Rollback
-     */
-    public static function createUserFixtureRollback()
-    {
-        /** @var Registry $registry */
-        $registry = Bootstrap::getObjectManager()->get(\Magento\Framework\Registry::class);
-
-        $registry->unregister('isSecureArea');
-        $registry->register('isSecureArea', true);
-
-        try {
-            /** @var User $user */
-            $user = Bootstrap::getObjectManager()->create(\Magento\User\Model\User::class);
-            $user->load('dummy_username', 'username');
-            $user->delete();
-
-        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-            //already removed
-        }
-
-        $registry->unregister('isSecureArea');
-        $registry->register('isSecureArea', false);
     }
 
 }
