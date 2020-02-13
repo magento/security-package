@@ -20,9 +20,9 @@ class Type implements OptionSourceInterface
     public function toOptionArray()
     {
         return [
-            ['value' => 'recaptcha_v3', 'label' => __('Invisible reCaptcha v3')],
-            ['value' => 'invisible', 'label' => __('Invisible reCaptcha v2')],
-            ['value' => 'recaptcha', 'label' => __('reCaptcha v2')],
+            ['value' => 'recaptcha_v3', 'label' => __('Invisible reCAPTCHA v3')],
+            ['value' => 'invisible', 'label' => __('Invisible reCAPTCHA v2')],
+            ['value' => 'recaptcha', 'label' => __('reCAPTCHA v2')],
         ];
     }
 }

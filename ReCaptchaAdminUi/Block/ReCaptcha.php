@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaAdminUi\Block;
 
 use Magento\Framework\View\Element\Template;
-use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaUi\Model\CaptchaUiConfigInterface;
 
 /**
  * @api
@@ -16,60 +16,77 @@ use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 class ReCaptcha extends Template
 {
     /**
-     * @var CaptchaConfigInterface
+     * @var CaptchaUiConfigInterface
      */
-    private $captchaConfig;
+    private $captchaUiConfig;
 
     /**
      * @param Template\Context $context
-     * @param CaptchaConfigInterface $captchaConfig
+     * @param CaptchaUiConfigInterface $captchaUiConfig
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        CaptchaConfigInterface $captchaConfig,
+        CaptchaUiConfigInterface $captchaUiConfig,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->captchaConfig = $captchaConfig;
+        $this->captchaUiConfig = $captchaUiConfig;
     }
 
     /**
      * Get public reCaptcha key
      * @return string
      */
-    public function getPublicKey()
+    public function getPublicKey(): string
     {
-        return $this->captchaConfig->getPublicKey();
+        return $this->captchaUiConfig->getPublicKey();
     }
 
     /**
      * Get backend theme
      * @return string
      */
-    public function getTheme()
+    public function getTheme(): string
     {
-        return $this->captchaConfig->getTheme();
+        return $this->captchaUiConfig->getTheme();
     }
 
     /**
      * Get backend size
      * @return string
      */
-    public function getSize()
+    public function getSize(): string
     {
-        return $this->captchaConfig->getSize();
+        return $this->captchaUiConfig->getSize();
+    }
+
+    /**
+     * Get position
+     * @return string|null
+     */
+    public function getPosition(): string
+    {
+        return $this->captchaUiConfig->getPosition();
+    }
+
+    /**
+     * Get language code
+     * @return string|null
+     */
+    public function getLanguageCode(): string
+    {
+        return $this->captchaUiConfig->getLanguageCode();
     }
 
     /**
      * @return string
      */
-    public function toHtml()
+    public function toHtml(): string
     {
-        if (!$this->captchaConfig->areKeysConfigured()) {
+        if ('' === $this->captchaUiConfig->getPublicKey()) {
             return '';
         }
-
         return parent::toHtml();
     }
 }

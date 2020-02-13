@@ -10,13 +10,14 @@
     <system>
         <section id="recaptcha">
             <group id="frontend">
-                <field id="enabled_for_newsletter" translate="label" type="select" sortOrder="250" showInDefault="1"
+                <field id="enabled_for_newsletter" translate="label comment" type="select" sortOrder="250" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Use invisible ReCaptcha in newsletter</label>
-                    <comment>Requires an Invisible ReCaptcha v2 or ReCaptcha v3 key. If enabled, a badge will be displayed in every page.</comment>
+                    <label>Enable Invisible reCAPTCHA in Newsletter Subscription</label>
+                    <comment>Requires an Invisible reCAPTCHA v2 or reCAPTCHA v3 key. If enabled, a badge will be displayed in every page.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
-                        <field id="enabled">1</field>
+                        <field id="recaptcha/frontend/type">recaptcha_v3</field>
+                        <field id="recaptcha/frontend/type">invisible</field>
                     </depends>
                 </field>
             </group>

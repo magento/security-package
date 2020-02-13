@@ -12,7 +12,9 @@
             <backend>
                 <type>recaptcha_v3</type>
                 <size>normal</size>
+                <position>inline</position>
                 <theme>light</theme>
+                <lang/>
                 <score_threshold>0.9</score_threshold>
             </backend>
         </recaptcha>

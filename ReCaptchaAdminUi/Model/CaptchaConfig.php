@@ -24,6 +24,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     private const XML_PATH_SCORE_THRESHOLD = 'recaptcha/backend/score_threshold';
     private const XML_PATH_SIZE = 'recaptcha/backend/size';
     private const XML_PATH_THEME = 'recaptcha/backend/theme';
+    private const XML_PATH_POSITION = 'recaptcha/frontend/position';
+    private const XML_PATH_LANGUAGE_CODE = 'recaptcha/frontend/lang';
 
     private const XML_PATH_IS_ENABLED_FOR = 'recaptcha/backend/enabled_for_';
 
@@ -131,7 +133,9 @@ class CaptchaConfig implements CaptchaConfigInterface
      */
     public function getLanguageCode(): string
     {
-        throw new \RuntimeException('Support not implemented');
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_LANGUAGE_CODE
+        );
     }
 
     /**
@@ -139,7 +143,13 @@ class CaptchaConfig implements CaptchaConfigInterface
      */
     public function getPosition(): ?string
     {
-        throw new \RuntimeException('Support not implemented');
+        if (!$this->isInvisibleRecaptcha()) {
+            return null;
+        }
+
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_POSITION
+        );
     }
 
     /**

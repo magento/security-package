@@ -5,6 +5,7 @@
  */
 /** @var $block Magento\ReCaptchaAdminUi\Block\ReCaptcha */
 $class = $block->getSize() === 'invisible' ? 'field-invisible-recaptcha' : 'field-recaptcha';
+$languageCode = $block->getLanguageCode();
 ?>
 <div class="admin__field <?= /* @noEscape */ $class ?>">
     <div id="admin-recaptcha"></div>
@@ -21,15 +22,17 @@ $class = $block->getSize() === 'invisible' ? 'field-invisible-recaptcha' : 'fiel
 
         element.async = true;
         element.src = 'https://www.google.com/recaptcha/api.js'
-            + '?onload=globalOnRecaptchaOnLoadCallback&render=explicit';
+            + '?onload=globalOnRecaptchaOnLoadCallback&render=explicit'
+            <?php if ('' !== $languageCode): ?><?="+'&hl={$languageCode}'" ?><?php endif; ?>;
 
         window.globalOnRecaptchaOnLoadCallback = function () {
             let token = '';
 
             this.widgetId = grecaptcha.render('admin-recaptcha', {
                 'sitekey': '<?= $block->escapeJs($block->getPublicKey()) ?>',
+                'theme': '<?= $block->escapeJs($block->getTheme()) ?>',
                 'size': '<?= $block->escapeJs($block->getSize()) ?>',
-                'badge': 'inline',
+                'badge': '<?= $block->escapeJs($block->getPosition()) ?>',
                 'callback': function (token) { // jscs:ignore jsDoc
                     <?php if ($block->getSize() === 'invisible') : ?>
                     this.token = token;
