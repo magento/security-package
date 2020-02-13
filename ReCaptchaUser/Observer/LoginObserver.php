@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaUser\Observer;
 
-use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
@@ -44,21 +44,37 @@ class LoginObserver implements ObserverInterface
     private $validationConfigFactory;
 
     /**
+     * @var RequestInterface
+     */
+    private $request;
+
+    /**
+     * @var string
+     */
+    private $loginActionName;
+
+    /**
      * @param CaptchaValidatorInterface $captchaValidator
      * @param RemoteAddress $remoteAddress
      * @param CaptchaConfigInterface $captchaConfig
      * @param ValidationConfigInterfaceFactory $validationConfigFactory
+     * @param RequestInterface $request
+     * @param string $loginActionName
      */
     public function __construct(
         CaptchaValidatorInterface $captchaValidator,
         RemoteAddress $remoteAddress,
         CaptchaConfigInterface $captchaConfig,
-        ValidationConfigInterfaceFactory $validationConfigFactory
+        ValidationConfigInterfaceFactory $validationConfigFactory,
+        RequestInterface $request,
+        string $loginActionName
     ) {
         $this->captchaValidator = $captchaValidator;
         $this->remoteAddress = $remoteAddress;
         $this->captchaConfig = $captchaConfig;
         $this->validationConfigFactory = $validationConfigFactory;
+        $this->request = $request;
+        $this->loginActionName = $loginActionName;
     }
 
     /**
@@ -69,11 +85,10 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->captchaConfig->isCaptchaEnabledFor('user_login')) {
-            /** @var Action $controller */
-            $controller = $observer->getControllerAction();
-
-            $reCaptchaResponse = $controller->getRequest()->getParam(
+        if ($this->captchaConfig->isCaptchaEnabledFor('user_login')
+            && $this->request->getFullActionName() === $this->loginActionName
+        ) {
+            $reCaptchaResponse = $this->request->getParam(
                 CaptchaValidatorInterface::PARAM_RECAPTCHA_RESPONSE
             );
             /** @var ValidationConfigInterface $validationConfig */

@@ -8,16 +8,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
-    <type name="Magento\ReCaptchaFrontendUi\Model\LayoutSettings">
-        <arguments>
-            <argument name="configFlags" xsi:type="array">
-                <item name="customer_login" xsi:type="string">customer_login</item>
-                <item name="customer_create" xsi:type="string">customer_create</item>
-                <item name="customer_forgot_password" xsi:type="string">customer_forgot_password</item>
-            </argument>
-        </arguments>
-    </type>
-
     <!-- AjaxLogin Form -->
 
     <type name="Magento\Customer\Block\Account\AuthenticationPopup">

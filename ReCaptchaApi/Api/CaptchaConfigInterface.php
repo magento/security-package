@@ -85,7 +85,6 @@ interface CaptchaConfigInterface
     /**
      * @param string $key
      * @return bool
-     * @throws LocalizedException If captcha config flag does not exist
      */
     public function isCaptchaEnabledFor(string $key): bool;
 }

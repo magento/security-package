@@ -171,11 +171,8 @@ class CaptchaConfig implements CaptchaConfigInterface
         if (!$this->areKeysConfigured()) {
             return false;
         }
-        $flag = self::XML_PATH_IS_ENABLED_FOR . $key;
 
-        if (false === $this->scopeConfig->isSetFlag($flag, ScopeInterface::SCOPE_WEBSITE)) {
-            throw new LocalizedException(__('Captcha config with "%key" key does not exists.', ['key' => $key]));
-        }
-        return (bool)$this->scopeConfig->getValue($flag, ScopeInterface::SCOPE_WEBSITE);
+        $flag = self::XML_PATH_IS_ENABLED_FOR . $key;
+        return $this->scopeConfig->isSetFlag($flag, ScopeInterface::SCOPE_WEBSITE);
     }
 }

@@ -15,4 +15,9 @@
             </argument>
         </arguments>
     </type>
+    <type name="Magento\ReCaptchaUser\Observer\LoginObserver">
+        <arguments>
+            <argument name="loginActionName" xsi:type="string">adminhtml_index_index</argument>
+        </arguments>
+    </type>
 </config>
