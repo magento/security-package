@@ -50,6 +50,7 @@ class ReCaptcha extends Template
         $this->layoutSettings = $layoutSettings;
         $this->captchaConfig = $captchaConfig;
         $this->serializer = $serializer;
+        $this->_isScopePrivate = true;
     }
 
     /**
