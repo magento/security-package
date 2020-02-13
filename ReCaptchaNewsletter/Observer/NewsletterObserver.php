@@ -13,8 +13,7 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
-use Magento\ReCaptchaNewsletter\Model\IsEnabledForNewsletterInterface;
+use Magento\ReCaptchaUi\Api\RequestHandlerInterface;
 
 /**
  * NewsletterObserver

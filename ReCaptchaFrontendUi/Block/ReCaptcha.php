@@ -53,15 +53,6 @@ class ReCaptcha extends Template
     }
 
     /**
-     * Get public reCaptcha key
-     * @return string
-     */
-    public function getPublicKey()
-    {
-        return $this->captchaConfig->getPublicKey();
-    }
-
-    /**
      * Get current recaptcha ID
      */
     public function getRecaptchaId()

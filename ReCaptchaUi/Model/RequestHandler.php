@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptcha\Model;
+namespace Magento\ReCaptchaUi\Model;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
@@ -17,7 +17,7 @@ use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterfaceFactory;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
+use Magento\ReCaptchaUi\Api\RequestHandlerInterface;
 
 /**
  * @inheritdoc

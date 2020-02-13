@@ -14,7 +14,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Session\SessionManagerInterface;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
+use Magento\ReCaptchaUi\Api\RequestHandlerInterface;
 
 /**
  * LoginObserver
