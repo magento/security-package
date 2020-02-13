@@ -18,7 +18,6 @@ use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterfaceFactory;
-use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
 
 /**
  * AjaxLoginObserver
@@ -51,11 +50,6 @@ class AjaxLoginObserver implements ObserverInterface
     private $captchaConfig;
 
     /**
-     * @var IsEnabledForCustomerLoginInterface
-     */
-    private $isEnabledForCustomerLogin;
-
-    /**
      * @var ValidationConfigInterfaceFactory
      */
     private $validationConfigFactory;
@@ -66,7 +60,6 @@ class AjaxLoginObserver implements ObserverInterface
      * @param ActionFlag $actionFlag
      * @param SerializerInterface $serializer
      * @param CaptchaConfigInterface $captchaConfig
-     * @param IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
      * @param ValidationConfigInterfaceFactory $validationConfigFactory
      */
     public function __construct(
@@ -75,7 +68,6 @@ class AjaxLoginObserver implements ObserverInterface
         ActionFlag $actionFlag,
         SerializerInterface $serializer,
         CaptchaConfigInterface $captchaConfig,
-        IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin,
         ValidationConfigInterfaceFactory $validationConfigFactory
     ) {
         $this->captchaValidator = $captchaValidator;
@@ -83,7 +75,6 @@ class AjaxLoginObserver implements ObserverInterface
         $this->actionFlag = $actionFlag;
         $this->serializer = $serializer;
         $this->captchaConfig = $captchaConfig;
-        $this->isEnabledForCustomerLogin = $isEnabledForCustomerLogin;
         $this->validationConfigFactory = $validationConfigFactory;
     }
 
@@ -94,7 +85,7 @@ class AjaxLoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isEnabledForCustomerLogin->isEnabled()) {
+        if ($this->captchaConfig->isCaptchaEnabledFor('customer_login')) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
 

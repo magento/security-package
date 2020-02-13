@@ -20,6 +20,7 @@ define(
                 template: 'Magento_ReCaptchaFrontendUi/reCaptcha',
                 reCaptchaId: 'recaptcha'
             },
+            settings: {},
             _isApiRegistered: undefined,
 
             initialize: function () {
@@ -59,14 +60,6 @@ define(
 
                 scriptTag.parentNode.insertBefore(element, scriptTag);
 
-            },
-
-            /**
-             * Return true if reCaptcha is visible
-             * @returns {Boolean}
-             */
-            getIsVisible: function () {
-                return this.settings.enabled[this.zone];
             },
 
             /**
@@ -176,14 +169,12 @@ define(
             renderReCaptcha: function () {
                 var me = this;
 
-                if (this.getIsVisible()) {
-                    if (window.grecaptcha && window.grecaptcha.render) { // Check if recaptcha is already loaded
+                if (window.grecaptcha && window.grecaptcha.render) { // Check if recaptcha is already loaded
+                    me.initCaptcha();
+                } else { // Wait for recaptcha to be loaded
+                    $(window).on('recaptchaapiready', function () {
                         me.initCaptcha();
-                    } else { // Wait for recaptcha to be loaded
-                        $(window).on('recaptchaapiready', function () {
-                            me.initCaptcha();
-                        });
-                    }
+                    });
                 }
             },
 

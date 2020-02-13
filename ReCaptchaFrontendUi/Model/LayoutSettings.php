@@ -22,24 +22,17 @@ class LayoutSettings
     private $captchaConfig;
 
     /**
-     * @var ConfigEnabledInterface[]
-     */
-    private $configEnabledProviders;
-
-    /**
      * @param CaptchaConfigInterface $captchaConfig
-     * @param ConfigEnabledInterface[] $configEnabledProviders
      */
     public function __construct(
-        CaptchaConfigInterface $captchaConfig,
-        array $configEnabledProviders
+        CaptchaConfigInterface $captchaConfig
     ) {
         $this->captchaConfig = $captchaConfig;
-        $this->configEnabledProviders = $configEnabledProviders;
     }
 
     /**
-     * Return captcha config for frontend
+     * Return layout configuration setting
+     *
      * @return array
      */
     public function getCaptchaSettings(): array
@@ -51,9 +44,6 @@ class LayoutSettings
             'theme' => $this->captchaConfig->getTheme(),
             'lang' => $this->captchaConfig->getLanguageCode(),
         ];
-        foreach ($this->configEnabledProviders as $key => $configEnabledProvider) {
-            $settings['enabled'][$key] = $configEnabledProvider->isEnabled();
-        }
         return $settings;
     }
 }

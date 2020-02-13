@@ -6,7 +6,6 @@
 /** @var $block Magento\ReCaptchaAdminUi\Block\ReCaptcha */
 $class = $block->getSize() === 'invisible' ? 'field-invisible-recaptcha' : 'field-recaptcha';
 ?>
-<?php if ($block->canDisplayCaptcha()) : ?>
 <div class="admin__field <?= /* @noEscape */ $class ?>">
     <div id="admin-recaptcha"></div>
 </div>
@@ -53,4 +52,3 @@ $class = $block->getSize() === 'invisible' ? 'field-invisible-recaptcha' : 'fiel
         scriptTag.parentNode.insertBefore(element, scriptTag);
     });
 </script>
-<?php endif; ?>
