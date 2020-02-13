@@ -34,7 +34,7 @@
                     <label>Google API Website Key</label>
                 </field>
 
-                <field id="private_key" translate="label comment" type="password" sortOrder="30" showInDefault="1" showInWebsite="0"
+                <field id="private_key" translate="label comment" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="0">
                     <label>Google API Secret Key</label>
                 </field>
@@ -109,7 +109,7 @@
                     <label>Google API Website Key</label>
                 </field>
 
-                <field id="private_key" translate="label comment" type="password" sortOrder="30" showInDefault="1" showInWebsite="1"
+                <field id="private_key" translate="label comment" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="0">
                     <label>Google API Secret Key</label>
                 </field>
