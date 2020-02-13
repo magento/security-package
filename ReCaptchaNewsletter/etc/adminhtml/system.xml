@@ -16,8 +16,7 @@
                     <comment>Requires an Invisible reCAPTCHA v2 or reCAPTCHA v3 key. If enabled, a badge will be displayed in every page.</comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <depends>
-                        <field id="recaptcha/frontend/type">recaptcha_v3</field>
-                        <field id="recaptcha/frontend/type">invisible</field>
+                        <field id="recaptcha/frontend/type" separator=",">recaptcha_v3,invisible</field>
                     </depends>
                 </field>
             </group>

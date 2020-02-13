@@ -41,7 +41,7 @@
 
                 <field id="score_threshold" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
-                    <label>Score Threshold</label>
+                    <label>Minimum Score Threshold</label>
                     <comment>From 0.0 to 1.0, where 0.0 is absolutely a robot and 1.0 is a human.</comment>
                     <depends>
                         <field id="recaptcha/backend/type">recaptcha_v3</field>
@@ -89,8 +89,7 @@
                     <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Position</source_model>
                     <comment>Applicable only to Invisible reCAPTCHA v2 or reCAPTCHA v3.</comment>
                     <depends>
-                        <field id="recaptcha/backend/type">recaptcha_v3</field>
-                        <field id="recaptcha/backend/type">invisible</field>
+                        <field id="recaptcha/backend/type" separator=",">recaptcha_v3,invisible</field>
                     </depends>
                 </field>
             </group>
@@ -117,7 +116,7 @@
 
                 <field id="score_threshold" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
-                    <label>Score Threshold</label>
+                    <label>Minimum Score Threshold</label>
                     <comment>From 0.0 to 1.0, where 0.0 is absolutely a robot and 1.0 is a human.</comment>
                     <depends>
                         <field id="recaptcha/frontend/type">recaptcha_v3</field>
@@ -165,8 +164,7 @@
                     <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Position</source_model>
                     <comment>Applicable only to Invisible reCAPTCHA v2 or reCAPTCHA v3.</comment>
                     <depends>
-                        <field id="recaptcha/frontend/type">recaptcha_v3</field>
-                        <field id="recaptcha/frontend/type">invisible</field>
+                        <field id="recaptcha/frontend/type" separator=",">recaptcha_v3,invisible</field>
                     </depends>
                 </field>
             </group>
