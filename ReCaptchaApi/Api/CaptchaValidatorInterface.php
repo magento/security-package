@@ -11,7 +11,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 
 /**
- * Validate recaptcha response
+ * Validate reCAPTCHA response
  *
  * @api
  */
@@ -30,7 +30,7 @@ interface CaptchaValidatorInterface
      * @return bool
      * @throws LocalizedException
      */
-    public function validate(
+    public function isValid(
         string $reCaptchaResponse,
         ValidationConfigInterface $validationConfig
     ): bool;

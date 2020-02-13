@@ -101,7 +101,7 @@ class LoginObserver implements ObserverInterface
                 ]
             );
 
-            if (false === $this->captchaValidator->validate($reCaptchaResponse, $validationConfig)) {
+            if (false === $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig)) {
                 throw new AuthenticationException($this->captchaConfig->getErrorMessage());
             }
         }

@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaAdminUi\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 
@@ -79,22 +78,14 @@ class CaptchaConfig implements CaptchaConfigInterface
      */
     public function getSize(): string
     {
-        if ($this->isInvisibleRecaptcha()) {
-            return 'invisible';
-        }
-
         return (string)$this->scopeConfig->getValue(self::XML_PATH_SIZE);
     }
 
     /**
      * @inheritdoc
      */
-    public function getTheme(): ?string
+    public function getTheme(): string
     {
-        if ($this->isInvisibleRecaptcha()) {
-            return null;
-        }
-
         return (string)$this->scopeConfig->getValue(self::XML_PATH_THEME);
     }
 
@@ -121,14 +112,6 @@ class CaptchaConfig implements CaptchaConfigInterface
     }
 
     /**
-     * @return bool
-     */
-    public function isInvisibleRecaptcha(): bool
-    {
-        return in_array($this->getCaptchaType(), ['invisible', 'recaptcha_v3'], true);
-    }
-
-    /**
      * @inheritdoc
      */
     public function getLanguageCode(): string
@@ -141,12 +124,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     /**
      * @inheritdoc
      */
-    public function getPosition(): ?string
+    public function getInvisibleBadgePosition(): string
     {
-        if (!$this->isInvisibleRecaptcha()) {
-            return null;
-        }
-
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_POSITION
         );

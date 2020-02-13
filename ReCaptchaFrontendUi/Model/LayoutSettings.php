@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaFrontendUi\Model;
 
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\IsInvisibleCaptchaInterface;
 
 /**
  * Extension point of the layout configuration setting for reCaptcha
@@ -22,12 +23,20 @@ class LayoutSettings
     private $captchaConfig;
 
     /**
+     * @var IsInvisibleCaptchaInterface
+     */
+    private $isInvisibleCaptcha;
+
+    /**
      * @param CaptchaConfigInterface $captchaConfig
+     * @param IsInvisibleCaptchaInterface $isInvisibleCaptcha
      */
     public function __construct(
-        CaptchaConfigInterface $captchaConfig
+        CaptchaConfigInterface $captchaConfig,
+        IsInvisibleCaptchaInterface $isInvisibleCaptcha
     ) {
         $this->captchaConfig = $captchaConfig;
+        $this->isInvisibleCaptcha = $isInvisibleCaptcha;
     }
 
     /**
@@ -40,9 +49,10 @@ class LayoutSettings
         $settings = [
             'siteKey' => $this->captchaConfig->getPublicKey(),
             'size' => $this->captchaConfig->getSize(),
-            'badge' => $this->captchaConfig->getPosition(),
+            'badge' => $this->captchaConfig->getInvisibleBadgePosition(),
             'theme' => $this->captchaConfig->getTheme(),
             'lang' => $this->captchaConfig->getLanguageCode(),
+            'invisible' => $this->isInvisibleCaptcha->isInvisible($this->captchaConfig->getCaptchaType()),
         ];
         return $settings;
     }

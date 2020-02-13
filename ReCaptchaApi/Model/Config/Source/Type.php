@@ -5,12 +5,16 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaAdminUi\Model\Config\Source;
+namespace Magento\ReCaptchaApi\Model\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 
 /**
- * Recaptcha type options
+ * reCAPTCHA types
+ *
+ * Extension point for adding reCAPTCHA types
+ *
+ * @api
  */
 class Type implements OptionSourceInterface
 {

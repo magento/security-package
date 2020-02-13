@@ -112,7 +112,7 @@ class AjaxLoginObserver implements ObserverInterface
                 ]
             );
 
-            if (!$this->captchaValidator->validate($reCaptchaResponse, $validationConfig)) {
+            if (!$this->captchaValidator->isValid($reCaptchaResponse, $validationConfig)) {
                 $this->handleCaptchaError($controller);
             }
         }

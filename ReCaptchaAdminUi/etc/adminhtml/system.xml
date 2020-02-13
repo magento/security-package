@@ -26,7 +26,7 @@
                 <field id="type" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
                     <label>reCAPTCHA Type</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Type</source_model>
+                    <source_model>Magento\ReCaptchaApi\Model\Config\Source\Type</source_model>
                 </field>
 
                 <field id="public_key" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0"
@@ -51,8 +51,8 @@
                 <field id="theme" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
                     <label>Theme</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Theme</source_model>
-                    <comment>Applicable only to reCaptcha v2("I am not a robot").</comment>
+                    <source_model>Magento\ReCaptchaApi\Model\Config\Source\Theme</source_model>
+                    <comment>Applicable only to reCAPTCHA v2 ("I am not a robot").</comment>
                     <depends>
                         <field id="recaptcha/backend/type">recaptcha</field>
                     </depends>
@@ -61,8 +61,8 @@
                 <field id="size" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
                     <label>Size</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Size</source_model>
-                    <comment>Applicable only to reCaptcha v2("I am not a robot").</comment>
+                    <source_model>Magento\ReCaptchaApi\Model\Config\Source\Size</source_model>
+                    <comment>Applicable only to reCAPTCHA v2 ("I am not a robot").</comment>
                     <depends>
                         <field id="recaptcha/backend/type">recaptcha</field>
                     </depends>
@@ -73,7 +73,7 @@
                     <label>Language Code</label>
                     <comment><![CDATA[
                     <div>
-                        Applicable only to reCaptcha v2("I am not a robot").<br />
+                        Applicable only to reCAPTCHA v2 ("I am not a robot").<br />
                         Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified.<br />
                         See <strong><a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language codes</a></strong>.
                     </div>
@@ -86,7 +86,7 @@
                 <field id="position" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
                     <label>Invisible Badge Position</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Position</source_model>
+                    <source_model>Magento\ReCaptchaApi\Model\Config\Source\Position</source_model>
                     <comment>Applicable only to Invisible reCAPTCHA v2 or reCAPTCHA v3.</comment>
                     <depends>
                         <field id="recaptcha/backend/type" separator=",">recaptcha_v3,invisible</field>
@@ -101,7 +101,7 @@
                 <field id="type" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
                     <label>reCAPTCHA Type</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Type</source_model>
+                    <source_model>Magento\ReCaptchaApi\Model\Config\Source\Type</source_model>
                 </field>
 
                 <field id="public_key" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
@@ -126,8 +126,8 @@
                 <field id="theme" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
                     <label>Theme</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Theme</source_model>
-                    <comment>Applicable only to reCaptcha v2("I am not a robot").</comment>
+                    <source_model>Magento\ReCaptchaApi\Model\Config\Source\Theme</source_model>
+                    <comment>Applicable only to reCAPTCHA v2 ("I am not a robot").</comment>
                     <depends>
                         <field id="recaptcha/frontend/type">recaptcha</field>
                     </depends>
@@ -136,8 +136,8 @@
                 <field id="size" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
                     <label>Size</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Size</source_model>
-                    <comment>Applicable only to reCaptcha v2("I am not a robot").</comment>
+                    <source_model>Magento\ReCaptchaApi\Model\Config\Source\Size</source_model>
+                    <comment>Applicable only to reCAPTCHA v2 ("I am not a robot").</comment>
                     <depends>
                         <field id="recaptcha/frontend/type">recaptcha</field>
                     </depends>
@@ -148,7 +148,7 @@
                     <label>Language Code</label>
                     <comment><![CDATA[
                     <div>
-                        Applicable only to reCaptcha v2("I am not a robot").<br />
+                        Applicable only to reCAPTCHA v2 ("I am not a robot").<br />
                         Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified.<br />
                         See <strong><a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language codes</a></strong>.
                     </div>
@@ -161,7 +161,7 @@
                 <field id="position" translate="label comment" type="select" sortOrder="80" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="1">
                     <label>Invisible Badge Position</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Position</source_model>
+                    <source_model>Magento\ReCaptchaApi\Model\Config\Source\Position</source_model>
                     <comment>Applicable only to Invisible reCAPTCHA v2 or reCAPTCHA v3.</comment>
                     <depends>
                         <field id="recaptcha/frontend/type" separator=",">recaptcha_v3,invisible</field>

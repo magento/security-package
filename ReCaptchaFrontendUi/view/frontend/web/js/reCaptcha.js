@@ -20,7 +20,6 @@ define(
                 template: 'Magento_ReCaptchaFrontendUi/reCaptcha',
                 reCaptchaId: 'recaptcha'
             },
-            settings: {},
             _isApiRegistered: undefined,
 
             initialize: function () {
@@ -67,7 +66,7 @@ define(
              * @returns {Boolean}
              */
             getIsInvisibleRecaptcha: function () {
-                return this.settings.size === 'invisible';
+                return this.settings.invisible;
             },
 
             /**
@@ -75,7 +74,7 @@ define(
              * @param {String} token
              */
             reCaptchaCallback: function (token) {
-                if (this.settings.size === 'invisible') {
+                if (this.settings.invisible) {
                     this.tokenField.value = token;
                     this.$parentForm.submit();
                 }
@@ -118,7 +117,7 @@ define(
                     'sitekey': this.settings.siteKey,
                     'theme': this.settings.theme,
                     'size': this.settings.size,
-                    'badge': this.badge ? this.badge : this.settings.badge,
+                    'badge': this.settings.badge,
                     'callback': function (token) { // jscs:ignore jsDoc
                         me.reCaptchaCallback(token);
                         me.validateReCaptcha(true);
@@ -128,7 +127,7 @@ define(
                     }
                 });
 
-                if (this.settings.size === 'invisible' && $parentForm.length > 0) {
+                if (this.settings.invisible && $parentForm.length > 0) {
                     $parentForm.submit(function (event) {
                         if (!me.tokenField.value) {
                             // eslint-disable-next-line no-undef
@@ -158,7 +157,7 @@ define(
 
 
             validateReCaptcha: function(state){
-                if (this.settings.size !== 'invisible') {
+                if (!this.settings.invisible) {
                     return $(document).find('input[type=checkbox].required-captcha').prop( "checked", state );
                 }
             },

@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptcha\Model;
 
+use Magento\ReCaptchaApi\Api\Data\ValidationConfigExtensionInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 
 /**
@@ -35,21 +36,29 @@ class ValidationConfig implements ValidationConfigInterface
     private $scoreThreshold;
 
     /**
+     * @var ValidationConfigExtensionInterface|null
+     */
+    private $extensionAttributes;
+
+    /**
      * @param string $privateKey
      * @param string $captchaType
      * @param string $remoteIp
      * @param float|null $scoreThreshold
+     * @param ValidationConfigExtensionInterface|null $extensionAttributes
      */
     public function __construct(
         string $privateKey,
         string $captchaType,
         string $remoteIp,
-        ?float $scoreThreshold
+        ?float $scoreThreshold,
+        ValidationConfigExtensionInterface $extensionAttributes
     ) {
         $this->privateKey = $privateKey;
         $this->captchaType = $captchaType;
         $this->remoteIp = $remoteIp;
         $this->scoreThreshold = $scoreThreshold;
+        $this->extensionAttributes = $extensionAttributes;
     }
 
     /**
@@ -82,5 +91,13 @@ class ValidationConfig implements ValidationConfigInterface
     public function getScoreThreshold(): ?float
     {
         return $this->scoreThreshold;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getExtensionAttributes(): ?ValidationConfigExtensionInterface
+    {
+        return $this->extensionAttributes;
     }
 }
