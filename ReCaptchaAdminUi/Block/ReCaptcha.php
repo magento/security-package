@@ -62,12 +62,14 @@ class ReCaptcha extends Template
     }
 
     /**
-     * Return true if can display reCaptcha
-     * @return bool
+     * @return string
      */
-    public function canDisplayCaptcha()
+    public function toHtml()
     {
-        // TODO:
-        return true;
+        if (!$this->captchaConfig->areKeysConfigured()) {
+            return '';
+        }
+
+        return parent::toHtml();
     }
 }

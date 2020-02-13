@@ -66,7 +66,7 @@ class ReCaptcha extends Template
      */
     public function getRecaptchaId()
     {
-        return (string) $this->getData('recaptcha_id') ?: 'recaptcha-' . md5($this->getNameInLayout());
+        return (string)$this->getData('recaptcha_id') ?: 'recaptcha-' . md5($this->getNameInLayout());
     }
 
     /**
@@ -76,24 +76,22 @@ class ReCaptcha extends Template
     {
         $layout = $this->serializer->unserialize(parent::getJsLayout());
 
-        if ($this->captchaConfig->areKeysConfigured()) {
-            // Backward compatibility with fixed scope name
-            if (isset($layout['components']['recaptcha'])) {
-                $layout['components'][$this->getRecaptchaId()] = $layout['components']['recaptcha'];
-                unset($layout['components']['recaptcha']);
-            }
-
-            $recaptchaComponentSettings = [];
-            if (isset($layout['components'][$this->getRecaptchaId()]['settings'])) {
-                $recaptchaComponentSettings = $layout['components'][$this->getRecaptchaId()]['settings'];
-            }
-            $layout['components'][$this->getRecaptchaId()]['settings'] = array_replace_recursive(
-                $this->layoutSettings->getCaptchaSettings(),
-                $recaptchaComponentSettings
-            );
-
-            $layout['components'][$this->getRecaptchaId()]['reCaptchaId'] = $this->getRecaptchaId();
+        // Backward compatibility with fixed scope name
+        if (isset($layout['components']['recaptcha'])) {
+            $layout['components'][$this->getRecaptchaId()] = $layout['components']['recaptcha'];
+            unset($layout['components']['recaptcha']);
         }
+
+        $recaptchaComponentSettings = [];
+        if (isset($layout['components'][$this->getRecaptchaId()]['settings'])) {
+            $recaptchaComponentSettings = $layout['components'][$this->getRecaptchaId()]['settings'];
+        }
+        $layout['components'][$this->getRecaptchaId()]['settings'] = array_replace_recursive(
+            $this->layoutSettings->getCaptchaSettings(),
+            $recaptchaComponentSettings
+        );
+
+        $layout['components'][$this->getRecaptchaId()]['reCaptchaId'] = $this->getRecaptchaId();
 
         return $this->serializer->serialize($layout);
     }
@@ -103,10 +101,11 @@ class ReCaptcha extends Template
      */
     public function toHtml()
     {
-        if (!$this->captchaConfig->areKeysConfigured()) {
+        $key = $this->jsLayout['components']['recaptcha']['zone'];
+
+        if (!$this->captchaConfig->isCaptchaEnabledFor($key)) {
             return '';
         }
-
         return parent::toHtml();
     }
 }
