@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaApi\Api;
 
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 
 /**
@@ -80,4 +81,10 @@ interface CaptchaConfigInterface
      * @return string
      */
     public function getPosition(): ?string;
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function isCaptchaEnabledFor(string $key): bool;
 }

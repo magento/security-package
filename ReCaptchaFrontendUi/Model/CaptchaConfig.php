@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaFrontendUi\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\Store\Model\ScopeInterface;
@@ -26,6 +27,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     private const XML_PATH_THEME = 'recaptcha/frontend/theme';
     private const XML_PATH_POSITION = 'recaptcha/frontend/position';
     private const XML_PATH_LANGUAGE_CODE = 'recaptcha/frontend/lang';
+
+    private const XML_PATH_IS_ENABLED_FOR = 'recaptcha/frontend/enabled_for_';
 
     /**
      * @var ScopeConfigInterface
@@ -158,5 +161,18 @@ class CaptchaConfig implements CaptchaConfigInterface
         }
 
         return __('Incorrect ReCaptcha validation');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCaptchaEnabledFor(string $key): bool
+    {
+        if (!$this->areKeysConfigured()) {
+            return false;
+        }
+
+        $flag = self::XML_PATH_IS_ENABLED_FOR . $key;
+        return $this->scopeConfig->isSetFlag($flag, ScopeInterface::SCOPE_WEBSITE);
     }
 }

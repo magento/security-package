@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaAdminUi\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 
@@ -22,7 +23,9 @@ class CaptchaConfig implements CaptchaConfigInterface
 
     private const XML_PATH_SCORE_THRESHOLD = 'recaptcha/backend/score_threshold';
     private const XML_PATH_SIZE = 'recaptcha/backend/size';
-    private const XML_PATH_THEME= 'recaptcha/backend/theme';
+    private const XML_PATH_THEME = 'recaptcha/backend/theme';
+
+    private const XML_PATH_IS_ENABLED_FOR = 'recaptcha/backend/enabled_for_';
 
     /**
      * @var ScopeConfigInterface
@@ -137,5 +140,18 @@ class CaptchaConfig implements CaptchaConfigInterface
     public function getPosition(): ?string
     {
         throw new \RuntimeException('Support not implemented');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCaptchaEnabledFor(string $key): bool
+    {
+        if (!$this->areKeysConfigured()) {
+            return false;
+        }
+
+        $flag = self::XML_PATH_IS_ENABLED_FOR . $key;
+        return $this->scopeConfig->isSetFlag($flag);
     }
 }
