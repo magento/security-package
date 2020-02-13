@@ -27,6 +27,9 @@ class CheckReCaptchaVisibilityPlugin
      */
     public function afterIsCaptchaEnabledFor(CaptchaConfigInterface $subject, bool $result, string $key): bool
     {
-        return $result && !($key === 'newsletter' && !$subject->isInvisibleRecaptcha());
+        if ($result && $key === 'newsletter') {
+            $result = $subject->isInvisibleRecaptcha();
+        }
+        return $result;
     }
 }
