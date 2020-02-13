@@ -9,7 +9,4 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\ReCaptchaApi\Api\CaptchaConfigInterface"
                 type="Magento\ReCaptchaAdminUi\Model\CaptchaConfig"/>
-
-    <preference for="Magento\ReCaptchaUi\Model\CaptchaUiConfigInterface"
-                type="Magento\ReCaptchaAdminUi\Model\CaptchaUiConfig"/>
 </config>
