@@ -9,7 +9,7 @@ namespace Magento\ReCaptchaCustomer\Plugin\Block\Account;
 
 use Magento\Customer\Block\Account\AuthenticationPopup;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
+use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
 use Zend\Json\Json;
 
 /**
@@ -18,9 +18,9 @@ use Zend\Json\Json;
 class InjectRecaptchaInAuthenticationPopup
 {
     /**
-     * @var LayoutSettings
+     * @var CaptchaUiSettingsProviderInterface
      */
-    private $layoutSettings;
+    private $captchaUiSettingsProvider;
 
     /**
      * @var CaptchaConfigInterface
@@ -28,14 +28,14 @@ class InjectRecaptchaInAuthenticationPopup
     private $captchaConfig;
 
     /**
-     * @param LayoutSettings $layoutSettings
+     * @param CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider
      * @param CaptchaConfigInterface $captchaConfig
      */
     public function __construct(
-        LayoutSettings $layoutSettings,
+        CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider,
         CaptchaConfigInterface $captchaConfig
     ) {
-        $this->layoutSettings = $layoutSettings;
+        $this->captchaUiSettingsProvider = $captchaUiSettingsProvider;
         $this->captchaConfig = $captchaConfig;
     }
 
@@ -52,7 +52,7 @@ class InjectRecaptchaInAuthenticationPopup
 
         if ($this->captchaConfig->areKeysConfigured()) {
             $layout['components']['authenticationPopup']['children']['recaptcha']['settings']
-                = $this->layoutSettings->getCaptchaSettings();
+                = $this->captchaUiSettingsProvider->get();
         } else {
             unset($layout['components']['authenticationPopup']['children']['recaptcha']);
         }

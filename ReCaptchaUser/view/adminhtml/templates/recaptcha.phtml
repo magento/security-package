@@ -9,7 +9,8 @@ $isInvisible = $block->isInvisibleCaptchaType();
 $languageCode = $block->getLanguageCode();
 ?>
 <div class="admin__field <?= /* @noEscape */ $isInvisible ? 'field-invisible-recaptcha' : 'field-recaptcha' ?>">
-    <div id="admin-recaptcha"></div>
+    <div id="admin-recaptcha"
+         class="admin-recaptcha-content<?= /* @noEscape */ !empty($settings['size']) ? ' size-' . $settings['size'] : '' ?>"></div>
 </div>
 
 <script type="text/javascript">

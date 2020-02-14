@@ -10,7 +10,7 @@ namespace Magento\ReCaptchaFrontendUi\Block;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
+use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
 
 /**
  * @api
@@ -18,9 +18,9 @@ use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 class ReCaptcha extends Template
 {
     /**
-     * @var LayoutSettings
+     * @var CaptchaUiSettingsProviderInterface
      */
-    private $layoutSettings;
+    private $captchaUiSettingsProvider;
 
     /**
      * @var CaptchaConfigInterface
@@ -34,20 +34,20 @@ class ReCaptcha extends Template
 
     /**
      * @param Template\Context $context
-     * @param LayoutSettings $layoutSettings
+     * @param CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider
      * @param CaptchaConfigInterface $captchaConfig
      * @param Json $serializer
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        LayoutSettings $layoutSettings,
+        CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider,
         CaptchaConfigInterface $captchaConfig,
         Json $serializer,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->layoutSettings = $layoutSettings;
+        $this->captchaUiSettingsProvider = $captchaUiSettingsProvider;
         $this->captchaConfig = $captchaConfig;
         $this->serializer = $serializer;
     }
@@ -78,7 +78,7 @@ class ReCaptcha extends Template
             $recaptchaComponentSettings = $layout['components'][$this->getRecaptchaId()]['settings'];
         }
         $layout['components'][$this->getRecaptchaId()]['settings'] = array_replace_recursive(
-            $this->layoutSettings->getCaptchaSettings(),
+            $this->captchaUiSettingsProvider->get(),
             $recaptchaComponentSettings
         );
 

@@ -74,7 +74,7 @@ define(
              * @param {String} token
              */
             reCaptchaCallback: function (token) {
-                if (this.settings.invisible) {
+                if (this.getIsInvisibleRecaptcha()) {
                     this.tokenField.value = token;
                     this.$parentForm.submit();
                 }
@@ -112,22 +112,22 @@ define(
                 $parentForm = $wrapper.parents('form');
                 me = this;
 
-                // eslint-disable-next-line no-undef
-                widgetId = grecaptcha.render(this.getReCaptchaId(), {
-                    'sitekey': this.settings.siteKey,
-                    'theme': this.settings.theme,
-                    'size': this.settings.size,
-                    'badge': this.settings.badge,
-                    'callback': function (token) { // jscs:ignore jsDoc
-                        me.reCaptchaCallback(token);
-                        me.validateReCaptcha(true);
+                let parameters = _.extend(
+                    {
+                        'callback': function (token) { // jscs:ignore jsDoc
+                            me.reCaptchaCallback(token);
+                            me.validateReCaptcha(true);
+                        },
+                        'expired-callback': function () {
+                            me.validateReCaptcha(false);
+                        }
                     },
-                    'expired-callback': function () {
-                        me.validateReCaptcha(false);
-                    }
-                });
+                    this.settings.render
+                );
+                // eslint-disable-next-line no-undef
+                widgetId = grecaptcha.render(this.getReCaptchaId(), parameters);
 
-                if (this.settings.invisible && $parentForm.length > 0) {
+                if (this.getIsInvisibleRecaptcha() && $parentForm.length > 0) {
                     $parentForm.submit(function (event) {
                         if (!me.tokenField.value) {
                             // eslint-disable-next-line no-undef
@@ -157,7 +157,7 @@ define(
 
 
             validateReCaptcha: function(state){
-                if (!this.settings.invisible) {
+                if (!this.getIsInvisibleRecaptcha()) {
                     return $(document).find('input[type=checkbox].required-captcha').prop( "checked", state );
                 }
             },

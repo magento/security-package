@@ -9,7 +9,7 @@ namespace Magento\ReCaptchaCheckout\Block\LayoutProcessor\Checkout;
 
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
+use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
 
 /**
  * Checkout layout processor
@@ -17,9 +17,9 @@ use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 class Onepage implements LayoutProcessorInterface
 {
     /**
-     * @var LayoutSettings
+     * @var CaptchaUiSettingsProviderInterface
      */
-    private $layoutSettings;
+    private $captchaUiSettingsProvider;
 
     /**
      * @var CaptchaConfigInterface
@@ -27,14 +27,14 @@ class Onepage implements LayoutProcessorInterface
     private $captchaConfig;
 
     /**
-     * @param LayoutSettings $layoutSettings
+     * @param CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider
      * @param CaptchaConfigInterface $captchaConfig
      */
     public function __construct(
-        LayoutSettings $layoutSettings,
+        CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider,
         CaptchaConfigInterface $captchaConfig
     ) {
-        $this->layoutSettings = $layoutSettings;
+        $this->captchaUiSettingsProvider = $captchaUiSettingsProvider;
         $this->captchaConfig = $captchaConfig;
     }
 
@@ -46,10 +46,10 @@ class Onepage implements LayoutProcessorInterface
         if ($this->captchaConfig->areKeysConfigured()) {
             $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']
-                ['recaptcha']['settings'] = $this->layoutSettings->getCaptchaSettings();
+                ['recaptcha']['settings'] = $this->captchaUiSettingsProvider->get();
 
             $jsLayout['components']['checkout']['children']['authentication']['children']
-                ['recaptcha']['settings'] = $this->layoutSettings->getCaptchaSettings();
+                ['recaptcha']['settings'] = $this->captchaUiSettingsProvider->get();
         } else {
             if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']['recaptcha'])) {
