@@ -108,6 +108,7 @@ class AjaxLoginObserver implements ObserverInterface
                     'captchaType' => $this->captchaConfig->getCaptchaType(),
                     'remoteIp' => $this->remoteAddress->getRemoteAddress(),
                     'scoreThreshold' => $this->captchaConfig->getScoreThreshold(),
+                    'extensionAttributes' => null,
                 ]
             );
 
