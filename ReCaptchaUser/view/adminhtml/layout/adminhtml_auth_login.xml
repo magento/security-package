@@ -16,7 +16,11 @@
             <block class="Magento\ReCaptchaAdminUi\Block\ReCaptcha"
                    name="recaptcha"
                    template="Magento_ReCaptchaAdminUi::recaptcha.phtml"
-                   ifconfig="recaptcha/backend/enabled_for_user_login"/>
+                   ifconfig="recaptcha/backend/enabled_for_user_login">
+                <arguments>
+                    <argument name="enabled_for" xsi:type="string">user_login</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>

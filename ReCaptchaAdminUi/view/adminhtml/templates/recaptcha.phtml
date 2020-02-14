@@ -4,10 +4,11 @@
  * See COPYING.txt for license details.
  */
 /** @var $block Magento\ReCaptchaAdminUi\Block\ReCaptcha */
-$class = $block->getSize() === 'invisible' ? 'field-invisible-recaptcha' : 'field-recaptcha';
+$settings = $block->getRenderSettings();
+$isInvisible = $block->isInvisibleCaptchaType();
 $languageCode = $block->getLanguageCode();
 ?>
-<div class="admin__field <?= /* @noEscape */ $class ?>">
+<div class="admin__field <?= /* @noEscape */ $isInvisible ? 'field-invisible-recaptcha' : 'field-recaptcha' ?>">
     <div id="admin-recaptcha"></div>
 </div>
 
@@ -23,25 +24,24 @@ $languageCode = $block->getLanguageCode();
         element.async = true;
         element.src = 'https://www.google.com/recaptcha/api.js'
             + '?onload=globalOnRecaptchaOnLoadCallback&render=explicit'
-            <?php if ('' !== $languageCode): ?><?="+'&hl={$languageCode}'" ?><?php endif; ?>;
+            <?php if (null !== $languageCode): ?><?="+'&hl={$languageCode}'" ?><?php endif; ?>;
 
         window.globalOnRecaptchaOnLoadCallback = function () {
             let token = '';
 
             this.widgetId = grecaptcha.render('admin-recaptcha', {
-                'sitekey': '<?= $block->escapeJs($block->getPublicKey()) ?>',
-                'theme': '<?= $block->escapeJs($block->getTheme()) ?>',
-                'size': '<?= $block->escapeJs($block->getSize()) ?>',
-                'badge': '<?= $block->escapeJs($block->getPosition()) ?>',
+                <?php foreach($settings as $key => $value):?>
+                '<?= $block->escapeJs($key) ?>': '<?= $block->escapeJs($value) ?>',
+                <?php endforeach; ?>
                 'callback': function (token) { // jscs:ignore jsDoc
-                    <?php if ($block->getSize() === 'invisible') : ?>
+                    <?php if ($isInvisible) : ?>
                     this.token = token;
                     $('#login-form').submit();
                     <?php endif; ?>
                 }.bind(this)
             });
 
-            <?php if ($block->getSize() === 'invisible') : ?>
+            <?php if ($isInvisible) : ?>
             $('#login-form').submit(function (event) {
                 if (!this.token) {
                     event.preventDefault(event);

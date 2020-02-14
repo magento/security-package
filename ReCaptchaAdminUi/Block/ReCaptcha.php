@@ -9,6 +9,7 @@ namespace Magento\ReCaptchaAdminUi\Block;
 
 use Magento\Framework\View\Element\Template;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
 
 /**
  * @api
@@ -21,44 +22,52 @@ class ReCaptcha extends Template
     private $captchaConfig;
 
     /**
+     * @var CaptchaUiSettingsProviderInterface
+     */
+    private $captchaUiSettingsProvider;
+
+    /**
      * @param Template\Context $context
      * @param CaptchaConfigInterface $captchaConfig
+     * @param CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         CaptchaConfigInterface $captchaConfig,
+        CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->captchaConfig = $captchaConfig;
+        $this->captchaUiSettingsProvider = $captchaUiSettingsProvider;
     }
 
     /**
-     * Get public reCaptcha key
-     * @return string
+     * @return string|null
      */
-    public function getPublicKey()
+    public function getLanguageCode(): ?string
     {
-        return $this->captchaConfig->getPublicKey();
+        $settings = $this->captchaUiSettingsProvider->get();
+        return $settings['lang'] ?? null;
     }
 
     /**
-     * Get backend theme
-     * @return string
+     * @return array
      */
-    public function getTheme()
+    public function getRenderSettings(): array
     {
-        return $this->captchaConfig->getTheme();
+        $settings = $this->captchaUiSettingsProvider->get();
+        return $settings['render'] ?? [];
     }
 
     /**
-     * Get backend size
-     * @return string
+     * @return bool
      */
-    public function getSize()
+    public function isInvisibleCaptchaType(): bool
     {
-        return $this->captchaConfig->getSize();
+        $settings = $this->captchaUiSettingsProvider->get();
+        return !empty($settings['invisible']);
     }
 
     /**
@@ -66,7 +75,8 @@ class ReCaptcha extends Template
      */
     public function toHtml()
     {
-        if (!$this->captchaConfig->areKeysConfigured()) {
+        $enabledFor = $this->getData('enabled_for');
+        if (empty($enabledFor) || !$this->captchaConfig->isCaptchaEnabledFor($enabledFor)) {
             return '';
         }
 
