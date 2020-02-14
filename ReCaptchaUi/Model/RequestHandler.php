@@ -9,8 +9,8 @@ namespace Magento\ReCaptchaUi\Model;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
-use Magento\Framework\App\RequestInterface;
-use Magento\Framework\App\Response\HttpInterface;
+use Magento\Framework\App\Request\Http as HttpRequest;
+use Magento\Framework\App\Response\HttpInterface as HttpResponse;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
@@ -23,6 +23,11 @@ use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterfaceFactory;
  */
 class RequestHandler implements RequestHandlerInterface
 {
+    /**
+     * @var CaptchaResponseResolverInterface
+     */
+    private $captchaResponseResolver;
+
     /**
      * @var CaptchaValidatorInterface
      */
@@ -54,6 +59,7 @@ class RequestHandler implements RequestHandlerInterface
     private $validationConfigFactory;
 
     /**
+     * @param CaptchaResponseResolverInterface $captchaResponseResolver
      * @param CaptchaValidatorInterface $captchaValidator
      * @param RemoteAddress $remoteAddress
      * @param MessageManagerInterface $messageManager
@@ -62,6 +68,7 @@ class RequestHandler implements RequestHandlerInterface
      * @param ValidationConfigInterfaceFactory $validationConfigFactory
      */
     public function __construct(
+        CaptchaResponseResolverInterface $captchaResponseResolver,
         CaptchaValidatorInterface $captchaValidator,
         RemoteAddress $remoteAddress,
         MessageManagerInterface $messageManager,
@@ -69,6 +76,7 @@ class RequestHandler implements RequestHandlerInterface
         CaptchaConfigInterface $captchaConfig,
         ValidationConfigInterfaceFactory $validationConfigFactory
     ) {
+        $this->captchaResponseResolver = $captchaResponseResolver;
         $this->captchaValidator = $captchaValidator;
         $this->remoteAddress = $remoteAddress;
         $this->messageManager = $messageManager;
@@ -81,11 +89,12 @@ class RequestHandler implements RequestHandlerInterface
      * @inheritdoc
      */
     public function execute(
-        RequestInterface $request,
-        HttpInterface $response,
+        HttpRequest $request,
+        HttpResponse $response,
         string $redirectOnFailureUrl
     ): void {
-        $reCaptchaResponse = $request->getParam(CaptchaValidatorInterface::PARAM_RECAPTCHA_RESPONSE);
+        $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
+
         /** @var ValidationConfigInterface $validationConfig */
         $validationConfig = $this->validationConfigFactory->create(
             [
@@ -93,6 +102,7 @@ class RequestHandler implements RequestHandlerInterface
                 'captchaType' => $this->captchaConfig->getCaptchaType(),
                 'remoteIp' => $this->remoteAddress->getRemoteAddress(),
                 'scoreThreshold' => $this->captchaConfig->getScoreThreshold(),
+                'extensionAttributes' => null,
             ]
         );
 

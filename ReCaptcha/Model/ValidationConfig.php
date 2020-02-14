@@ -52,7 +52,7 @@ class ValidationConfig implements ValidationConfigInterface
         string $captchaType,
         string $remoteIp,
         ?float $scoreThreshold,
-        ValidationConfigExtensionInterface $extensionAttributes
+        ?ValidationConfigExtensionInterface $extensionAttributes
     ) {
         $this->privateKey = $privateKey;
         $this->captchaType = $captchaType;

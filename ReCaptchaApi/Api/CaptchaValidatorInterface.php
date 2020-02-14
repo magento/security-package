@@ -18,12 +18,7 @@ use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 interface CaptchaValidatorInterface
 {
     /**
-     * Parameter name for recaptcha response
-     */
-    public const PARAM_RECAPTCHA_RESPONSE = 'g-recaptcha-response';
-
-    /**
-     * Return true if reCaptcha validation has passed
+     * Return true if reCAPTCHA validation has passed
      *
      * @param string $reCaptchaResponse
      * @param ValidationConfigInterface $validationConfig
