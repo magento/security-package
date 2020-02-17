@@ -140,7 +140,32 @@ class ContactFormObserverTest extends AbstractController
     }
 
     /**
+     * Test for Validation captcha Error
+     */
+    public function testErrorValidatingRecaptcha()
+    {
+        $exception = new LocalizedException(__('error_message'));
+        $this->captchaValidatorMock->expects($this->once())->method('validate')->willThrowException($exception);
+        $this->expectException(LocalizedException::class);
+        $this->expectExceptionMessage($exception->getMessage());
+
+        $this->sendContactPostAction(true, true);
+
+        /** @var $messages \Magento\Framework\Message\AbstractMessage[] */
+        $messages = $this->messageManager->getMessages()->getItems();
+
+        $actualMessages = [];
+        foreach ($messages as $message) {
+            $actualMessages[] = $this->interpretationStrategy->interpret($message);
+        }
+
+        $expected = ['Thanks for contacting us with your comments and questions. We&#039;ll respond to you very soon.'];
+        $this->assertNotEquals($expected, $actualMessages);
+    }
+
+    /**
      * Send Contact form
+     * @throws LocalizedException
      **/
     private function sendContactPostAction(bool $captchaIsEnabled = true, bool $captchaIsEnabledForContact = true)
     {
