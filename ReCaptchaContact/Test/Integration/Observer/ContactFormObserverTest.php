@@ -7,8 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaContact\Test\Integration\Observer;
 
-use Magento\Customer\Model\AccountConfirmation;
-use Magento\Framework\App\Config\MutableScopeConfigInterface;
+use Magento\TestFramework\App\ReinitableConfig;
 use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Data\Form\FormKey;
@@ -44,7 +43,7 @@ class ContactFormObserverTest extends AbstractController
     private $captchaValidatorMock;
 
     /**
-     * @var MutableScopeConfigInterface
+     * @var ReinitableConfig
      */
     private $settingsConfiguration;
 
@@ -67,7 +66,7 @@ class ContactFormObserverTest extends AbstractController
         $this->formKey = $this->_objectManager->get(FormKey::class);
         $this->response = $this->_objectManager->get(ResponseInterface::class);
         $this->captchaValidatorMock = $this->createMock(CaptchaValidatorInterface::class);
-        $this->settingsConfiguration = $this->_objectManager->get(MutableScopeConfigInterface::class);
+        $this->settingsConfiguration = $this->_objectManager->get(ReinitableConfig::class);
         $this->messageManager = $this->_objectManager->get(MessageManager::class);
         $this->interpretationStrategy = $this->_objectManager->get(InterpretationStrategyInterface::class);
         $this->_objectManager->addSharedInstance($this->captchaValidatorMock, CaptchaValidator::class);
