@@ -11,6 +11,9 @@ namespace Magento\NotifierAdminUi\Ui\Component\Listing\Channel;
 use Magento\Ui\Component\Listing\Columns\Column;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
+/**
+ * @inheritDoc
+ */
 class Actions extends Column
 {
     /**

@@ -11,6 +11,9 @@ namespace Magento\NotifierAdminUi\Model\Source\Channel;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\NotifierApi\Api\AdaptersPoolInterface;
 
+/**
+ * @inheritDoc
+ */
 class Adapter implements OptionSourceInterface
 {
     /**
