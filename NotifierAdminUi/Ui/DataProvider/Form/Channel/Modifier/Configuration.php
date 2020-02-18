@@ -11,6 +11,9 @@ namespace Magento\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier;
 use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
 use Magento\NotifierApi\Model\SerializerInterface;
 
+/**
+ * @inheritDoc
+ */
 class Configuration extends AbstractModifier
 {
     /**

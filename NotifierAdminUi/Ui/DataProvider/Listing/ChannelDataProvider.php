@@ -15,6 +15,9 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
 
+/**
+ * @inheritDoc
+ */
 class ChannelDataProvider extends DataProvider
 {
     /**
