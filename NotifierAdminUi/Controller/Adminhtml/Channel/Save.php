@@ -17,6 +17,9 @@ use Magento\NotifierApi\Model\SerializerInterface;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
+/**
+ * @inheritDoc
+ */
 class Save extends Action implements HttpPostActionInterface
 {
     /**
@@ -46,6 +49,7 @@ class Save extends Action implements HttpPostActionInterface
 
     /**
      * Save constructor.
+     *
      * @param Action\Context $context
      * @param ChannelRepositoryInterface $channelRepository
      * @param SerializerInterface $channelParamsSerializer
@@ -100,6 +104,7 @@ class Save extends Action implements HttpPostActionInterface
 
     /**
      * Save channel
+     *
      * @param int $channelId
      * @param array $data
      * @return ChannelInterface
@@ -131,6 +136,7 @@ class Save extends Action implements HttpPostActionInterface
 
     /**
      * Return a redirect result
+     *
      * @param int $channelId
      * @return ResultInterface
      */
@@ -149,6 +155,7 @@ class Save extends Action implements HttpPostActionInterface
 
     /**
      * Return a redirect result after a successful save
+     *
      * @return ResultInterface
      */
     private function redirectAfterSave(): ResultInterface

@@ -14,6 +14,9 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
+/**
+ * @inheritDoc
+ */
 class Delete extends Action implements HttpGetActionInterface
 {
     /**
@@ -28,6 +31,7 @@ class Delete extends Action implements HttpGetActionInterface
 
     /**
      * Delete constructor.
+     *
      * @param Action\Context $context
      * @param ChannelRepositoryInterface $channelRepository
      */
