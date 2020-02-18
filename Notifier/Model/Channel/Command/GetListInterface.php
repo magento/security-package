@@ -25,6 +25,7 @@ interface GetListInterface
 {
     /**
      * Find Channel by given SearchCriteria
+     *
      * SearchCriteria is not required because load all sources is useful case
      *
      * @param SearchCriteriaInterface|null $searchCriteria
