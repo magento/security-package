@@ -73,8 +73,9 @@ class ContactFormObserverTest extends AbstractController
     }
 
     /**
-     * Test for Recaptcha is Disabled
-     **/
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     */
     public function testReCaptchaNotConfigured()
     {
         $this->sendContactPostAction(false, false);
@@ -88,8 +89,9 @@ class ContactFormObserverTest extends AbstractController
     }
 
     /**
-     * Test for Recaptcha is Disabled
-     **/
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     */
     public function testReCaptchaDisabled()
     {
         $this->sendContactPostAction(true, false);
@@ -103,7 +105,8 @@ class ContactFormObserverTest extends AbstractController
     }
 
     /**
-     * Test for Recaptcha is Enabled
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      */
     public function testCorrectRecaptcha()
     {
@@ -119,7 +122,8 @@ class ContactFormObserverTest extends AbstractController
     }
 
     /**
-     * Test for Incorrect captcha
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      */
     public function testIncorrectRecaptcha()
     {
@@ -140,27 +144,21 @@ class ContactFormObserverTest extends AbstractController
     }
 
     /**
-     * Test for Validation captcha Error
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @throws LocalizedException
      */
     public function testErrorValidatingRecaptcha()
     {
         $exception = new LocalizedException(__('error_message'));
-        $this->captchaValidatorMock->expects($this->once())->method('validate')->willThrowException($exception);
+
+        $this->captchaValidatorMock
+            ->expects($this->once())->method('validate')->willThrowException($exception);
+
         $this->expectException(LocalizedException::class);
         $this->expectExceptionMessage($exception->getMessage());
 
         $this->sendContactPostAction(true, true);
-
-        /** @var $messages \Magento\Framework\Message\AbstractMessage[] */
-        $messages = $this->messageManager->getMessages()->getItems();
-
-        $actualMessages = [];
-        foreach ($messages as $message) {
-            $actualMessages[] = $this->interpretationStrategy->interpret($message);
-        }
-
-        $expected = ['Thanks for contacting us with your comments and questions. We&#039;ll respond to you very soon.'];
-        $this->assertNotEquals($expected, $actualMessages);
     }
 
     /**
@@ -170,9 +168,21 @@ class ContactFormObserverTest extends AbstractController
     private function sendContactPostAction(bool $captchaIsEnabled = true, bool $captchaIsEnabledForContact = true)
     {
         if ($captchaIsEnabled) {
-            $this->settingsConfiguration->setValue('recaptcha/frontend/enabled_for_contact', (int)$captchaIsEnabledForContact, ScopeInterface::SCOPE_WEBSITES);
-            $this->settingsConfiguration->setValue('recaptcha/frontend/public_key', 'test_public_key', ScopeInterface::SCOPE_WEBSITES);
-            $this->settingsConfiguration->setValue('recaptcha/frontend/private_key', 'test_private_key', ScopeInterface::SCOPE_WEBSITES);
+            $this->settingsConfiguration->setValue(
+                'recaptcha/frontend/enabled_for_contact',
+                (int)$captchaIsEnabledForContact,
+                ScopeInterface::SCOPE_WEBSITES
+            );
+            $this->settingsConfiguration->setValue(
+                'recaptcha/frontend/public_key',
+                'test_public_key',
+                ScopeInterface::SCOPE_WEBSITES
+            );
+            $this->settingsConfiguration->setValue(
+                'recaptcha/frontend/private_key',
+                'test_private_key',
+                ScopeInterface::SCOPE_WEBSITES
+            );
         }
 
         $params = [
