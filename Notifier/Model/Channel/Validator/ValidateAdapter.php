@@ -15,6 +15,9 @@ use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
 use Magento\NotifierApi\Model\SerializerInterface;
 
+/**
+ * @inheritDoc
+ */
 class ValidateAdapter implements ValidateChannelInterface
 {
     /**

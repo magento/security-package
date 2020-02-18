@@ -12,6 +12,9 @@ use Magento\Framework\Exception\ValidatorException;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
 
+/**
+ * @inheritDoc
+ */
 class ValidateName implements ValidateChannelInterface
 {
     /**
