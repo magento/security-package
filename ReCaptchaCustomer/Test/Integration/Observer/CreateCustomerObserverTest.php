@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaUser\Test\Integration\Observer;
+namespace Magento\ReCaptchaCustomer\Test\Integration\Observer;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\ResponseInterface;

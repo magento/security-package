@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaUser\Test\Integration\Observer;
+namespace Magento\ReCaptchaCustomer\Test\Integration\Observer;
 
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Data\Form\FormKey;
