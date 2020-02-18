@@ -20,6 +20,9 @@ use Magento\NotifierAdminUi\Model\Channel\ModifierInterface;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
+/**
+ * @inheritDoc
+ */
 class ChannelDataProvider extends DataProvider
 {
     /**
@@ -44,6 +47,7 @@ class ChannelDataProvider extends DataProvider
 
     /**
      * ChannelDataProvider constructor.
+     *
      * @param string $name
      * @param string $primaryFieldName
      * @param string $requestFieldName
@@ -92,6 +96,7 @@ class ChannelDataProvider extends DataProvider
 
     /**
      * Get current channel
+     *
      * @return string
      * @throws NoSuchEntityException
      */
