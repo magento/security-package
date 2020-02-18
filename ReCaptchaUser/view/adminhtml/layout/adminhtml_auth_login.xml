@@ -13,7 +13,7 @@
 
     <body>
         <referenceContainer name="form.additional.info">
-            <block class="Magento\ReCaptchaAdminUi\Block\ReCaptcha"
+            <block class="Magento\ReCaptchaUi\Block\ReCaptcha"
                    name="recaptcha"
                    template="Magento_ReCaptchaUser::recaptcha.phtml"
                    ifconfig="recaptcha/backend/enabled_for_user_login">

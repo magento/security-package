@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaFrontendUi\Block;
+namespace Magento\ReCaptchaUi\Block;
 
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
@@ -67,36 +67,48 @@ class ReCaptcha extends Template
     {
         $layout = $this->serializer->unserialize(parent::getJsLayout());
 
-        // Backward compatibility with fixed scope name
+        $settings = $this->getCaptchaSettings();
+
         if (isset($layout['components']['recaptcha'])) {
-            $layout['components'][$this->getRecaptchaId()] = $layout['components']['recaptcha'];
+            $layout['components'][$this->getRecaptchaId()]['settings'] = array_replace_recursive(
+                $settings,
+                $layout['components']['recaptcha']
+            );
             unset($layout['components']['recaptcha']);
+        } else {
+            $layout['components'][$this->getRecaptchaId()]['settings'] = $settings;
         }
-
-        $recaptchaComponentSettings = [];
-        if (isset($layout['components'][$this->getRecaptchaId()]['settings'])) {
-            $recaptchaComponentSettings = $layout['components'][$this->getRecaptchaId()]['settings'];
-        }
-        $layout['components'][$this->getRecaptchaId()]['settings'] = array_replace_recursive(
-            $this->captchaUiSettingsProvider->get(),
-            $recaptchaComponentSettings
-        );
-
         $layout['components'][$this->getRecaptchaId()]['reCaptchaId'] = $this->getRecaptchaId();
 
         return $this->serializer->serialize($layout);
     }
 
     /**
+     * @return array
+     */
+    public function getCaptchaSettings(): array
+    {
+        $settings = $this->getData('captcha_settings');
+
+        if ($settings) {
+            $settings = array_replace_recursive( $this->captchaUiSettingsProvider->get(), $settings);
+        } else {
+            $settings = $this->captchaUiSettingsProvider->get();
+        }
+        return $settings;
+    }
+
+
+    /**
      * @return string
      */
     public function toHtml()
     {
-        $key = $this->jsLayout['components']['recaptcha']['zone'];
-
-        if (!$this->captchaConfig->isCaptchaEnabledFor($key)) {
+        $enabledFor = $this->getData('enabled_for');
+        if (empty($enabledFor) || !$this->captchaConfig->isCaptchaEnabledFor($enabledFor)) {
             return '';
         }
+
         return parent::toHtml();
     }
 }
