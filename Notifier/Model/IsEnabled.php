@@ -11,6 +11,9 @@ namespace Magento\Notifier\Model;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\NotifierApi\Api\IsEnabledInterface;
 
+/**
+ * @inheritDoc
+ */
 class IsEnabled implements IsEnabledInterface
 {
     /**
@@ -25,6 +28,7 @@ class IsEnabled implements IsEnabledInterface
 
     /**
      * IsEnabled constructor.
+     *
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
@@ -35,6 +39,7 @@ class IsEnabled implements IsEnabledInterface
 
     /**
      * Return true if module is enabled
+     *
      * @return bool
      */
     public function execute(): bool

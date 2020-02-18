@@ -12,7 +12,7 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Notifier\Model\ResourceModel\Channel;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritDoc
  */
 class Collection extends AbstractCollection
 {

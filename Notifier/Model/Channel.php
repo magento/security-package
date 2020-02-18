@@ -13,7 +13,7 @@ use Magento\NotifierApi\Api\Data\ChannelExtensionInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritDoc
  */
 class Channel extends AbstractExtensibleModel implements ChannelInterface
 {

@@ -10,6 +10,9 @@ namespace Magento\Notifier\Model;
 
 use Magento\Framework\Api\SearchResults;
 
+/**
+ * @inheritDoc
+ */
 class ChannelSearchResults extends SearchResults implements
     \Magento\NotifierApi\Api\ChannelSearchResultsInterface
 {

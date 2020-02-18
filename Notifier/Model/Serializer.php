@@ -11,6 +11,9 @@ namespace Magento\Notifier\Model;
 use Magento\Framework\Serialize\SerializerInterface as FrameworkSerializerInterface;
 use Magento\NotifierApi\Model\SerializerInterface;
 
+/**
+ * @inheritDoc
+ */
 class Serializer implements SerializerInterface
 {
     /**
@@ -29,6 +32,7 @@ class Serializer implements SerializerInterface
 
     /**
      * Serialize value
+     *
      * @param array $value
      * @return string
      * @throws \InvalidArgumentException
@@ -40,6 +44,7 @@ class Serializer implements SerializerInterface
 
     /**
      * Unserialize value
+     *
      * @param string $value
      * @return array
      * @throws \InvalidArgumentException
