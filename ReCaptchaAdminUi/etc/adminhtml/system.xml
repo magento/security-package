@@ -109,7 +109,7 @@
                        showInStore="0" canRestore="1">
                     <label>Score Threshold</label>
                     <depends>
-                        <field id="recaptcha/general/type">recaptcha_v3</field>
+                        <field id="recaptcha/frontend/type">recaptcha_v3</field>
                     </depends>
                     <comment>From 0.0 to 1.0, where 0.0 is absolutely a robot and 1.0 is a human.</comment>
                 </field>
