@@ -24,7 +24,6 @@ class Configuration extends AbstractModifier
     /**
      * Params constructor.
      * @param SerializerInterface $serializer
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         SerializerInterface $serializer

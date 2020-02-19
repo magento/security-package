@@ -36,7 +36,6 @@ class ChannelDataProvider extends DataProvider
      * @param PoolInterface $modifierPool
      * @param array $meta
      * @param array $data
-     * @SuppressWarnings(PHPMD.LongVariables)
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
