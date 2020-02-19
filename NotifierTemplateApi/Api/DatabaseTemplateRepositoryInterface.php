@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Magento\NotifierTemplateApi\Api;
 
+// phpcs:disable Generic.Files.LineLength
 /**
  * @api
  */
@@ -15,6 +16,7 @@ interface DatabaseTemplateRepositoryInterface
 {
     /**
      * Save DatabaseTemplate
+     *
      * @param \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface $databaseTemplate
      * @return int
      */
@@ -22,6 +24,7 @@ interface DatabaseTemplateRepositoryInterface
 
     /**
      * Get DatabaseTemplate by id
+     *
      * @param int $databaseTemplateIid
      * @return \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface
      */
@@ -29,6 +32,7 @@ interface DatabaseTemplateRepositoryInterface
 
     /**
      * Get by Code value
+     *
      * @param string $code
      * @return \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
@@ -37,6 +41,7 @@ interface DatabaseTemplateRepositoryInterface
 
     /**
      * Get by AdapterCode value
+     *
      * @param string $adapterCode
      * @return \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
@@ -45,6 +50,7 @@ interface DatabaseTemplateRepositoryInterface
 
     /**
      * Delete DatabaseTemplate
+     *
      * @param int $databaseTemplateIid
      * @return void
      */
@@ -52,6 +58,7 @@ interface DatabaseTemplateRepositoryInterface
 
     /**
      * Get a list of DatabaseTemplate
+     *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface
      */

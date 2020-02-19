@@ -18,6 +18,7 @@ interface DecorateVariablesInterface
 
     /**
      * Decorate array with variables
+     *
      * @param array $data
      * @return array
      */

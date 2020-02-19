@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Magento\NotifierTemplateApi\Model\VariablesDecorator;
 
 /**
+ * @inheritdoc
  * @api
  */
 class DecorateVariables implements DecorateVariablesInterface
@@ -20,7 +21,6 @@ class DecorateVariables implements DecorateVariablesInterface
 
     /**
      * @param array $decorators
-     * @SuppressWarnings(PHPMD.LongVariables)
      */
     public function __construct(
         array $decorators

@@ -11,6 +11,7 @@ namespace Magento\NotifierTemplateApi\Model\DatabaseTemplate\Validator;
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 /**
+ * @inheritdoc
  * @api
  */
 class ValidateDatabaseTemplate implements ValidateDatabaseTemplateInterface
@@ -22,6 +23,7 @@ class ValidateDatabaseTemplate implements ValidateDatabaseTemplateInterface
 
     /**
      * DatabaseTemplateValidatorChain constructor.
+     *
      * @param array $validators
      */
     public function __construct(
@@ -40,7 +42,7 @@ class ValidateDatabaseTemplate implements ValidateDatabaseTemplateInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(DatabaseTemplateInterface $template): bool
     {

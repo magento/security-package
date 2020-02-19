@@ -20,6 +20,7 @@ interface ValidateDatabaseTemplateInterface
 {
     /**
      * Execute validation. Return true on success or trigger an exception on failure
+     *
      * @param DatabaseTemplateInterface $template
      * @return bool
      * @throws ValidatorException

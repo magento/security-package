@@ -19,6 +19,7 @@ interface GetMessageTextInterface
 {
     /**
      * Get a template formatted message
+     *
      * @param string $channelCode
      * @param string $templateId
      * @param array $params

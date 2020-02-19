@@ -15,12 +15,14 @@ interface DatabaseTemplateSearchResultsInterface extends \Magento\Framework\Api\
 {
     /**
      * Get an array of objects
+     *
      * @return \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface[]
      */
     public function getItems();
 
     /**
      * Set objects list
+     *
      * @param \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface[] $items
      * @return $this
      */
