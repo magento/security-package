@@ -17,7 +17,9 @@ use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
 
 /**
- * LoginObserver
+ * Class for Login Observer
+ *
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class LoginObserver implements ObserverInterface
 {
@@ -60,6 +62,8 @@ class LoginObserver implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      * @throws LocalizedException

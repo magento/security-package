@@ -40,6 +40,8 @@ class InjectRecaptchaInAuthenticationPopup
     }
 
     /**
+     * After execute plugin
+     *
      * @param AuthenticationPopup $subject
      * @param string $result
      * @return string

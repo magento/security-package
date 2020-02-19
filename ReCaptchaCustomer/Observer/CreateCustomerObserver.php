@@ -15,7 +15,7 @@ use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
 
 /**
- * CreateCustomerObserver
+ * Class for Create Customer Observer
  */
 class CreateCustomerObserver implements ObserverInterface
 {
@@ -50,6 +50,8 @@ class CreateCustomerObserver implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
