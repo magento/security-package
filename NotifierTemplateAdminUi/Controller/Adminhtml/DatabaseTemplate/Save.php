@@ -16,6 +16,9 @@ use Magento\NotifierTemplate\Model\DatabaseTemplateFactory;
 use Magento\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
+/**
+ * @inheritdoc
+ */
 class Save extends Action implements HttpPostActionInterface
 {
     /**
@@ -44,7 +47,6 @@ class Save extends Action implements HttpPostActionInterface
      * @param DatabaseTemplateRepositoryInterface $templateRepository
      * @param DatabaseTemplateFactory $templateFactory
      * @param DataObjectHelper $dataObjectHelper
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         Action\Context $context,
@@ -87,6 +89,7 @@ class Save extends Action implements HttpPostActionInterface
 
     /**
      * Save template
+     *
      * @param int $templateId
      * @param array $data
      * @return DatabaseTemplateInterface
@@ -112,6 +115,7 @@ class Save extends Action implements HttpPostActionInterface
 
     /**
      * Return a redirect result
+     *
      * @param int $templateId
      * @return ResultInterface
      */
@@ -130,6 +134,7 @@ class Save extends Action implements HttpPostActionInterface
 
     /**
      * Return a redirect result after a successful save
+     *
      * @return ResultInterface
      */
     private function redirectAfterSave(): ResultInterface

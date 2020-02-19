@@ -16,6 +16,9 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
+/**
+ * @inheritdoc
+ */
 class Edit extends Action implements HttpGetActionInterface
 {
     /**

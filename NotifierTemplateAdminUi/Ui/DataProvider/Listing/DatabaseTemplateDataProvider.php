@@ -10,6 +10,9 @@ namespace Magento\NotifierTemplateAdminUi\Ui\DataProvider\Listing;
 
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 
+/**
+ * @inheritdoc
+ */
 class DatabaseTemplateDataProvider extends DataProvider
 {
 
