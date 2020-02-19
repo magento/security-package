@@ -7,9 +7,9 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptcha\Model;
 
-use Magento\Framework\Exception\LocalizedException;
 use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
+use Psr\Log\LoggerInterface;
 use ReCaptcha\ReCaptcha;
 
 /**
@@ -18,12 +18,26 @@ use ReCaptcha\ReCaptcha;
 class CaptchaValidator implements CaptchaValidatorInterface
 {
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
      * @inheritdoc
      */
     public function validate(
         string $reCaptchaResponse,
         ValidationConfigInterface $validationConfig
     ): bool {
+        $result = false;
         $secret = $validationConfig->getPrivateKey();
 
         if ($reCaptchaResponse) {
@@ -39,14 +53,12 @@ class CaptchaValidator implements CaptchaValidatorInterface
             $res = $reCaptcha->verify($reCaptchaResponse, $validationConfig->getRemoteIp());
 
             if (($validationConfig->getCaptchaType() === 'recaptcha_v3') && ($res->getScore() === null)) {
-                throw new LocalizedException(__('Internal error: Make sure you are using reCaptcha V3 api keys'));
-            }
-
-            if ($res->isSuccess()) {
-                return true;
+                $this->logger->alert(__('Internal error: Make sure you are using reCaptcha V3 api keys'));
+            } else if ($res->isSuccess()) {
+                $result = true;
             }
         }
 
-        return false;
+        return $result;
     }
 }
