@@ -14,6 +14,9 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
+/**
+ * @inheritdoc
+ */
 class Delete extends Action implements HttpGetActionInterface
 {
     /**

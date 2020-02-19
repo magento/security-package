@@ -16,6 +16,9 @@ use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 use Magento\NotifierApi\Model\SerializerInterface;
 use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
 
+/**
+ * @inheritdoc
+ */
 class RuleDataProvider extends DataProvider
 {
     /**

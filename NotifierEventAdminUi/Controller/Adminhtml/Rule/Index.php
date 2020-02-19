@@ -14,6 +14,9 @@ use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 
+/**
+ * @inheritdoc
+ */
 class Index extends Action implements HttpGetActionInterface
 {
     /**

@@ -10,6 +10,9 @@ namespace Magento\NotifierEventAdminUi\Model\Source\Rule;
 
 use Magento\Framework\Data\OptionSourceInterface;
 
+/**
+ * @inheritdoc
+ */
 class Enabled implements OptionSourceInterface
 {
     /**

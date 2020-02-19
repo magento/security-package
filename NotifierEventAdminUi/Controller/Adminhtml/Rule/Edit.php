@@ -16,6 +16,9 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
+/**
+ * @inheritdoc
+ */
 class Edit extends Action implements HttpGetActionInterface
 {
     /**
