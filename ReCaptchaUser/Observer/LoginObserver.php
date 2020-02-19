@@ -19,7 +19,7 @@ use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterfaceFactory;
 
 /**
- * LoginObserver
+ * Class for Login Observer
  */
 class LoginObserver implements ObserverInterface
 {
@@ -78,6 +78,8 @@ class LoginObserver implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      * @throws AuthenticationException

@@ -12,6 +12,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @inheritdoc
+ */
 class DisableReCaptchaForUserForgotPasswordCommand extends Command
 {
     /**
@@ -42,7 +45,6 @@ class DisableReCaptchaForUserForgotPasswordCommand extends Command
 
     /**
      * @inheritdoc
-     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
