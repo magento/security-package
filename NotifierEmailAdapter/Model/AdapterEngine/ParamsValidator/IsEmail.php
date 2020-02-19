@@ -11,6 +11,9 @@ namespace Magento\NotifierEmailAdapter\Model\AdapterEngine\ParamsValidator;
 use Magento\Framework\Exception\ValidatorException;
 use Magento\NotifierApi\Model\AdapterEngine\ParamsValidatorInterface;
 
+/**
+ * @inheritdoc
+ */
 class IsEmail implements ParamsValidatorInterface
 {
     /**
