@@ -15,7 +15,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 class Size implements OptionSourceInterface
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function toOptionArray()
     {

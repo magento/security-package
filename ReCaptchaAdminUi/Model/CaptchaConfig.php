@@ -119,6 +119,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @return bool
      */
     public function isInvisibleRecaptcha(): bool
