@@ -17,12 +17,14 @@ interface RuleInterface extends ExtensibleDataInterface
 {
     /**
      * Get value for rule_id
+     *
      * @return int
      */
     public function getId();
 
     /**
      * Set value for rule_id
+     *
      * @param int $value
      * @return void
      */
@@ -30,12 +32,14 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Get value for name
+     *
      * @return string
      */
     public function getName(): string;
 
     /**
      * Set value for name
+     *
      * @param string $value
      * @return void
      */
@@ -43,12 +47,14 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Get value for events
+     *
      * @return string
      */
     public function getEvents(): string;
 
     /**
      * Set value for events
+     *
      * @param string $value
      * @return void
      */
@@ -56,12 +62,14 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Get value for channels_codes
+     *
      * @return string
      */
     public function getChannelsCodes(): string;
 
     /**
      * Set value for channels_codes
+     *
      * @param string $value
      * @return void
      */
@@ -69,12 +77,14 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Get value for template_id
+     *
      * @return string
      */
     public function getTemplateId(): string;
 
     /**
      * Set value for template_id
+     *
      * @param string $value
      * @return void
      */
@@ -82,12 +92,14 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Get value for throttle_limit
+     *
      * @return int
      */
     public function getThrottleLimit(): int;
 
     /**
      * Set value for template_id
+     *
      * @param int $value
      * @return void
      */
@@ -95,12 +107,14 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Get value for throttle_interval
+     *
      * @return int
      */
     public function getThrottleInterval(): int;
 
     /**
      * Set value for throttle_interval
+     *
      * @param int $value
      * @return void
      */
@@ -108,12 +122,14 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Get value for last_fired_at
+     *
      * @return int
      */
     public function getLastFiredAt(): int;
 
     /**
      * Set value for last_fired_at
+     *
      * @param int $value
      * @return void
      */
@@ -121,12 +137,14 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Get value for fire_count
+     *
      * @return int
      */
     public function getFireCount(): int;
 
     /**
      * Set value for fire_count
+     *
      * @param int $value
      * @return void
      */
@@ -134,12 +152,14 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Get value for enabled
+     *
      * @return bool
      */
     public function getEnabled(): bool;
 
     /**
      * Set value for enabled
+     *
      * @param bool $value
      * @return void
      */
@@ -147,12 +167,14 @@ interface RuleInterface extends ExtensibleDataInterface
 
     /**
      * Retrieve existing extension attributes object or create a new one
+     *
      * @return \Magento\NotifierEventApi\Api\Data\RuleExtensionInterface|null
      */
     public function getExtensionAttributes(): ?\Magento\NotifierEventApi\Api\Data\RuleExtensionInterface;
 
     /**
      * Set an extension attributes object
+     *
      * @param \Magento\NotifierEventApi\Api\Data\RuleExtensionInterface $extensionAttributes
      * @return $this
      */

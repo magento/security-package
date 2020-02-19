@@ -15,12 +15,14 @@ interface RuleSearchResultsInterface extends \Magento\Framework\Api\SearchResult
 {
     /**
      * Get an array of objects
+     *
      * @return \Magento\NotifierEventApi\Api\Data\RuleInterface[]
      */
     public function getItems();
 
     /**
      * Set objects list
+     *
      * @param \Magento\NotifierEventApi\Api\Data\RuleInterface[] $items
      * @return $this
      */

@@ -11,6 +11,7 @@ namespace Magento\NotifierEventApi\Model\Rule\Validator;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 /**
+ * @inheritdoc
  * @api
  */
 class ValidateRule implements ValidateRuleInterface

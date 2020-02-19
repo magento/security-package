@@ -20,6 +20,7 @@ interface ValidateRuleInterface
 {
     /**
      * Execute validation. Return true on success or trigger an exception on failure
+     *
      * @param RuleInterface $rule
      * @return bool
      * @throws ValidatorException

@@ -19,6 +19,7 @@ interface ThrottleInterface
 {
     /**
      * Update throttle information and true if rule exceeded the throttle quota
+     *
      * @param RuleInterface $rule
      * @return bool
      */
