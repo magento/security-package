@@ -22,7 +22,6 @@ class GetRulesIdsByEvent implements GetRulesIdsByEventInterface
 
     /**
      * @param GetRulesIdsByEventRegistry $getRulesIdsByEventRegistry
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         GetRulesIdsByEventRegistry $getRulesIdsByEventRegistry

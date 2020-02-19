@@ -31,7 +31,6 @@ class IsEventExcludedRegex implements IsEventExcludedInterface
 
     /**
      * @inheritdoc
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function execute(string $eventName, array $data = []): bool
     {

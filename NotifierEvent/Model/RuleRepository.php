@@ -19,9 +19,6 @@ use Magento\NotifierEventApi\Api\RuleSearchResultsInterface;
 
 /**
  * @inheritdoc
- *
- * @SuppressWarnings(PHPMD.ShortVariable)
- * @SuppressWarnings(PHPMD.LongVariable)
  */
 class RuleRepository implements RuleRepositoryInterface
 {

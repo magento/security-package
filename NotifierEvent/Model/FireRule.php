@@ -60,7 +60,6 @@ class FireRule implements FireRuleInterface
      * @param ThrottleInterface $throttle
      * @param GetAutomaticTemplateIdInterface $getAutomaticTemplateId
      * @param LoggerInterface $logger
-     * @SuppressWarnings(PHPMD.LongVariables)
      */
     public function __construct(
         RuleRepositoryInterface $ruleRepository,

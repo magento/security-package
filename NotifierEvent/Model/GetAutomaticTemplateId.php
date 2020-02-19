@@ -44,7 +44,6 @@ class GetAutomaticTemplateId implements GetAutomaticTemplateIdInterface
 
     /**
      * @inheritdoc
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function execute(RuleInterface $rule, string $eventName, array $data = []): string
     {
