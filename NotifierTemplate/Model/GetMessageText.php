@@ -14,6 +14,9 @@ use Magento\NotifierTemplateApi\Model\GetMessageTextInterface;
 use Magento\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @inheritdoc
+ */
 class GetMessageText implements GetMessageTextInterface
 {
     /**
@@ -41,7 +44,6 @@ class GetMessageText implements GetMessageTextInterface
      * @param TemplateGetterInterface $templateGetter
      * @param DecorateVariablesInterface $decorateVariables
      * @param LoggerInterface $logger
-     * @SuppressWarnings(PHPMD.LongVariables)
      */
     public function __construct(
         Template $template,
@@ -56,7 +58,7 @@ class GetMessageText implements GetMessageTextInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(string $channelCode, string $templateId, array $params = []): string
     {

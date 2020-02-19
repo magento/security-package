@@ -10,6 +10,9 @@ namespace Magento\NotifierTemplate\Model\Template\Config;
 
 use Magento\Framework\Config\ConverterInterface;
 
+/**
+ * @inheritdoc
+ */
 class Converter implements ConverterInterface
 {
     /**

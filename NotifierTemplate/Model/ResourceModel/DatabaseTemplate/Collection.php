@@ -13,7 +13,7 @@ use Magento\NotifierTemplate\Model\ResourceModel\DatabaseTemplate;
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritdoc
  */
 class Collection extends AbstractCollection
 {
@@ -32,6 +32,7 @@ class Collection extends AbstractCollection
 
     /**
      * Filter adapter candidates
+     *
      * @param string $adapterCode
      * @param string $templateId
      */

@@ -13,7 +13,7 @@ use Magento\Framework\Module\Dir\Reader;
 class ModuleDirReaderMock extends Reader
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getModuleDir($type, $moduleName)
     {

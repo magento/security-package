@@ -19,12 +19,14 @@ interface FilesystemTemplateRepositoryInterface
 {
     /**
      * Get a list of available templates
+     *
      * @return array
      */
     public function getList(): array;
 
     /**
      * Get template file by template ID
+     *
      * @param string $templateId
      * @return string
      * @throws NoSuchEntityException

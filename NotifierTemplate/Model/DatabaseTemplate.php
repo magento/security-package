@@ -13,7 +13,7 @@ use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface;
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritdoc
  */
 class DatabaseTemplate extends AbstractExtensibleModel implements
     DatabaseTemplateInterface

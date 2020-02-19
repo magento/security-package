@@ -20,9 +20,7 @@ use Magento\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
 use Magento\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
 
 /**
- * @SuppressWarnings(PHPMD.ShortVariable)
- * @SuppressWarnings(PHPMD.LongVariable)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @inheritdoc
  */
 class DatabaseTemplateRepository implements DatabaseTemplateRepositoryInterface
 {

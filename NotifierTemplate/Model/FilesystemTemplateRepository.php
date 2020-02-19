@@ -11,6 +11,9 @@ namespace Magento\NotifierTemplate\Model;
 use Magento\Framework\Config\Reader\Filesystem as ConfigReader;
 use Magento\Framework\Exception\NoSuchEntityException;
 
+/**
+ * @inheritdoc
+ */
 class FilesystemTemplateRepository implements FilesystemTemplateRepositoryInterface
 {
     /**

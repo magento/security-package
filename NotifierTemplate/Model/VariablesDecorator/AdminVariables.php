@@ -11,6 +11,10 @@ namespace Magento\NotifierTemplate\Model\VariablesDecorator;
 use Magento\Backend\Model\Auth\Session;
 use Magento\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
 
+/**
+ * @inheritdoc
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
+ */
 class AdminVariables implements DecorateVariablesInterface
 {
     /**

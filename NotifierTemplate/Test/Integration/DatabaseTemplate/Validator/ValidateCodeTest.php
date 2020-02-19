@@ -30,7 +30,7 @@ class ValidateCodeTest extends TestCase
     private $objectManager;
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function setUp()
     {

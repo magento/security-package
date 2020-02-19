@@ -12,10 +12,13 @@ use Magento\Framework\Exception\ValidatorException;
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 use Magento\NotifierTemplateApi\Model\DatabaseTemplate\Validator\ValidateDatabaseTemplateInterface;
 
+/**
+ * @inheritdoc
+ */
 class ValidateName implements ValidateDatabaseTemplateInterface
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(DatabaseTemplateInterface $template): bool
     {

@@ -12,10 +12,13 @@ use Magento\Framework\Exception\ValidatorException;
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 use Magento\NotifierTemplateApi\Model\DatabaseTemplate\Validator\ValidateDatabaseTemplateInterface;
 
+/**
+ * @inheritdoc
+ */
 class ValidateCode implements ValidateDatabaseTemplateInterface
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(DatabaseTemplateInterface $template): bool
     {
@@ -24,8 +27,7 @@ class ValidateCode implements ValidateDatabaseTemplateInterface
         }
 
         if (!preg_match('/^(\w+:)?[\w_]+$/', $template->getCode())) {
-            throw new ValidatorException(__('Invalid template identifier: Only alphanumeric chars + columns')
-            );
+            throw new ValidatorException(__('Invalid template identifier: Only alphanumeric chars + columns'));
         }
 
         return true;

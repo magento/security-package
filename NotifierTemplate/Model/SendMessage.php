@@ -12,6 +12,9 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\NotifierTemplateApi\Model\SendMessageInterface;
 use Magento\NotifierTemplateApi\Model\GetMessageTextInterface;
 
+/**
+ * @inheritdoc
+ */
 class SendMessage implements SendMessageInterface
 {
     /**
@@ -38,7 +41,8 @@ class SendMessage implements SendMessageInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
+     *
      * @throws NoSuchEntityException
      */
     public function execute(string $channelCode, string $template, array $params = []): bool

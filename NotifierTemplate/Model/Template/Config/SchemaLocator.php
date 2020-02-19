@@ -12,6 +12,9 @@ use Magento\Framework\Config\SchemaLocatorInterface;
 use Magento\Framework\Module\Dir;
 use Magento\Framework\Module\Dir\Reader;
 
+/**
+ * @inheritdoc
+ */
 class SchemaLocator implements SchemaLocatorInterface
 {
     private $schema;

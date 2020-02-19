@@ -13,7 +13,7 @@ use Magento\NotifierTemplate\Model\FilesystemTemplateRepository;
 class FilesystemTemplateRepositoryMock extends FilesystemTemplateRepository
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function get(string $templateId): string
     {

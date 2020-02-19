@@ -17,6 +17,9 @@ use Magento\Framework\View\FileSystem;
 use Magento\NotifierTemplate\Model\FilesystemTemplateRepository;
 use Magento\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
 
+/**
+ * Class for Get Template file
+ */
 class GetTemplateFile
 {
     /**
@@ -38,7 +41,6 @@ class GetTemplateFile
      * @param File $file
      * @param Reader $reader
      * @param FilesystemTemplateRepositoryInterface $filesystemTemplateRepository
-     * @SuppressWarnings(PHPMD.LongVariables)
      */
     public function __construct(
         File $file,

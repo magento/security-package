@@ -15,6 +15,9 @@ use Magento\NotifierTemplate\Model\ResourceModel\DatabaseTemplate\CollectionFact
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
+/**
+ * @inheritdoc
+ */
 class DatabaseTemplateGetter implements TemplateGetterInterface
 {
     /**
@@ -27,6 +30,10 @@ class DatabaseTemplateGetter implements TemplateGetterInterface
      */
     private $channelRepository;
 
+    /**
+     * @param CollectionFactory $collectionFactory
+     * @param ChannelRepositoryInterface $channelRepository
+     */
     public function __construct(
         CollectionFactory $collectionFactory,
         ChannelRepositoryInterface $channelRepository
