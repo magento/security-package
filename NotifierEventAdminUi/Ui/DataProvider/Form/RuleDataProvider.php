@@ -37,7 +37,6 @@ class RuleDataProvider extends DataProvider
      * @param SerializerInterface $serializer
      * @param array $meta
      * @param array $data
-     * @SuppressWarnings(PHPMD.LongVariable)
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(

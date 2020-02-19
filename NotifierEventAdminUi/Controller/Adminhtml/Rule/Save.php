@@ -63,7 +63,6 @@ class Save extends Action implements HttpPostActionInterface
      * @param SerializerInterface $serializer
      * @param RuleFactory $ruleFactory
      * @param DataObjectHelper $dataObjectHelper
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         Action\Context $context,
