@@ -38,7 +38,7 @@ class ThrottleTest extends TestCase
     private $ruleRepository;
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function setUp()
     {

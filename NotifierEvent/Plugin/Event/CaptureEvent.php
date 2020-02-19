@@ -12,6 +12,9 @@ use Exception;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\NotifierEventApi\Model\CaptureEventInterface\Proxy as CaptureEventInterface;
 
+/**
+ * Class for Capture Event
+ */
 class CaptureEvent
 {
     /**
@@ -26,6 +29,7 @@ class CaptureEvent
 
     /**
      * ManagerInterfacePlugin constructor.
+     *
      * @param CaptureEventInterface $captureEvent
      */
     public function __construct(
@@ -35,6 +39,8 @@ class CaptureEvent
     }
 
     /**
+     * Capture Event
+     *
      * @param ManagerInterface $subject
      * @param string $eventName
      * @param array $data

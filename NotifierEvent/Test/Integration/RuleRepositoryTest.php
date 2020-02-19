@@ -29,7 +29,7 @@ class RuleRepositoryTest extends TestCase
     private $objectManager;
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function setUp()
     {
@@ -53,7 +53,7 @@ class RuleRepositoryTest extends TestCase
     public function testShouldGetById(): void
     {
         $firstItem = current($this->subject->getList()->getItems());
-        
+
         /** @noinspection PhpUnhandledExceptionInspection */
         $rule = $this->subject->get((int) $firstItem->getId());
         $this->assertSame((int) $firstItem->getId(), (int) $rule->getId());

@@ -14,7 +14,7 @@ use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 class MockTemplateGetter implements TemplateGetterInterface
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      * @throws FileSystemException
      */
     public function getTemplate(string $channelCode, string $templateId): ?string
@@ -27,7 +27,7 @@ class MockTemplateGetter implements TemplateGetterInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getList(): array
     {
