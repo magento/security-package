@@ -40,10 +40,7 @@ class CopyConfigFromOldModule implements DataPatchInterface, PatchVersionInterfa
     }
 
     /**
-     * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @inheritdoc
      */
     public function apply()
     {
@@ -86,7 +83,7 @@ class CopyConfigFromOldModule implements DataPatchInterface, PatchVersionInterfa
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function getDependencies()
     {
@@ -94,7 +91,7 @@ class CopyConfigFromOldModule implements DataPatchInterface, PatchVersionInterfa
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function getVersion()
     {
@@ -102,7 +99,7 @@ class CopyConfigFromOldModule implements DataPatchInterface, PatchVersionInterfa
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAliases()
     {

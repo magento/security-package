@@ -10,7 +10,7 @@ namespace Magento\ReCaptcha\Model;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class ValidationConfig implements ValidationConfigInterface
 {
@@ -53,6 +53,8 @@ class ValidationConfig implements ValidationConfigInterface
     }
 
     /**
+     * Get Private key
+     *
      * @return string
      */
     public function getPrivateKey(): string
@@ -61,6 +63,8 @@ class ValidationConfig implements ValidationConfigInterface
     }
 
     /**
+     * Get Captcha type
+     *
      * @return string
      */
     public function getCaptchaType(): string
@@ -69,6 +73,8 @@ class ValidationConfig implements ValidationConfigInterface
     }
 
     /**
+     * Get Remote IP
+     *
      * @return string
      */
     public function getRemoteIp(): string
@@ -77,6 +83,8 @@ class ValidationConfig implements ValidationConfigInterface
     }
 
     /**
+     * Get Score threshold
+     *
      * @return float|null
      */
     public function getScoreThreshold(): ?float
