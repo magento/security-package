@@ -32,8 +32,9 @@ class CaptchaValidator implements CaptchaValidatorInterface
             // @codingStandardsIgnoreEmd
 
             if ($validationConfig->getCaptchaType() === 'recaptcha_v3') {
-                if (isset($options['threshold'])) {
-                    $reCaptcha->setScoreThreshold($validationConfig->getScoreThreshold());
+                $scoreThreshold = $validationConfig->getScoreThreshold();
+                if ($validationConfig->getCaptchaType() === 'recaptcha_v3' && $scoreThreshold !== null) {
+                    $reCaptcha->setScoreThreshold($scoreThreshold);
                 }
             }
             $res = $reCaptcha->verify($reCaptchaResponse, $validationConfig->getRemoteIp());
