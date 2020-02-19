@@ -19,7 +19,7 @@ class ExcludeFromMinification
      *
      * @param Minification $subject
      * @param callable $proceed
-     * @param $contentType
+     * @param string[] $contentType
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
