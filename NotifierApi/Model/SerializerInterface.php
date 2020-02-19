@@ -18,6 +18,7 @@ interface SerializerInterface
 {
     /**
      * Serialize value
+     *
      * @param array $value
      * @return string
      */
@@ -25,6 +26,7 @@ interface SerializerInterface
 
     /**
      * Unserialize value
+     *
      * @param string $value
      * @return array
      */

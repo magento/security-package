@@ -11,6 +11,9 @@ namespace Magento\NotifierApi\Model\Channel\Validator;
 use InvalidArgumentException;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
+/**
+ * @inheritdoc
+ */
 class ValidateChannel implements ValidateChannelInterface
 {
     /**
@@ -35,7 +38,7 @@ class ValidateChannel implements ValidateChannelInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(ChannelInterface $channel): void
     {

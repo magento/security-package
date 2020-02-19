@@ -10,24 +10,28 @@ namespace Magento\NotifierApi\Api;
 
 /**
  * Interface AdapterInterface
+ *
  * @api
  */
 interface AdapterInterface
 {
     /**
      * Get adapter code
+     *
      * @return string
      */
     public function getCode(): string;
 
     /**
      * Get adapter description
+     *
      * @return string
      */
     public function getDescription(): string;
 
     /**
      * Validate message without sending it. Return true on success, throws exception on failure.
+     *
      * @param string $message
      * @return bool
      * @throws \Magento\Framework\Exception\ValidatorException
@@ -36,6 +40,7 @@ interface AdapterInterface
 
     /**
      * Validate message without sending it. Return true on success, throws exception on failure.
+     *
      * @param array $params
      * @return bool
      * @throws \Magento\Framework\Exception\ValidatorException
@@ -44,6 +49,7 @@ interface AdapterInterface
 
     /**
      * Send message to adapter. Return true on success, throws exception on failure.
+     *
      * @param string $message
      * @param array $configParams
      * @param array $params

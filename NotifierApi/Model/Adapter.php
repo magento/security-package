@@ -12,6 +12,9 @@ use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterValidatorInterface;
 use Magento\NotifierApi\Api\AdapterInterface;
 
+/**
+ * @inheritdoc
+ */
 class Adapter implements AdapterInterface
 {
     /**

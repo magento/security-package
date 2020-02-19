@@ -10,6 +10,9 @@ namespace Magento\NotifierApi\Model\AdapterEngine;
 
 use InvalidArgumentException;
 
+/**
+ * @inheritdoc
+ */
 class AdapterValidator implements AdapterValidatorInterface
 {
     /**
