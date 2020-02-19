@@ -14,7 +14,6 @@ class FakeAdapterEngine implements AdapterEngineInterface
 {
     /**
      * @inheritDoc
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function execute(string $message, array $configParams = [], array $params = []): bool
     {

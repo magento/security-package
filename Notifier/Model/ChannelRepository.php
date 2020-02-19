@@ -20,7 +20,6 @@ use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
  * @inheritDoc
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ChannelRepository implements ChannelRepositoryInterface
 {
