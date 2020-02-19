@@ -12,6 +12,9 @@ use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
 use Magento\NotifierEventApi\Model\ThrottleInterface;
 
+/**
+ * @inheritdoc
+ */
 class Throttle implements ThrottleInterface
 {
     /**

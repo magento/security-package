@@ -18,6 +18,9 @@ use Magento\NotifierEventApi\Model\ThrottleInterface;
 use Magento\NotifierTemplateApi\Model\SendMessageInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @inheritdoc
+ */
 class FireRule implements FireRuleInterface
 {
     /**

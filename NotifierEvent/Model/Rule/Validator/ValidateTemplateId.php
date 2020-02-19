@@ -16,6 +16,9 @@ use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use Magento\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
 use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
+/**
+ * @inheritdoc
+ */
 class ValidateTemplateId implements ValidateRuleInterface
 {
     /**
@@ -41,7 +44,7 @@ class ValidateTemplateId implements ValidateRuleInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(RuleInterface $rule): bool
     {

@@ -12,6 +12,9 @@ use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\NotifierEventApi\Api\Data\RuleExtensionInterface;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
+/**
+ * @inheritdoc
+ */
 class Rule extends AbstractExtensibleModel implements RuleInterface
 {
     /**

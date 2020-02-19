@@ -13,6 +13,9 @@ use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
 use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
+/**
+ * @inheritdoc
+ */
 class GetAutomaticTemplateId implements GetAutomaticTemplateIdInterface
 {
     /**
@@ -40,7 +43,7 @@ class GetAutomaticTemplateId implements GetAutomaticTemplateIdInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function execute(RuleInterface $rule, string $eventName, array $data = []): string

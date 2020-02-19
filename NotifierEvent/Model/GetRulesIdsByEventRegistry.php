@@ -12,6 +12,9 @@ use Magento\NotifierApi\Model\SerializerInterface;
 use Magento\NotifierEvent\Model\ResourceModel\Rule\CollectionFactory;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
+/**
+ * Class for Get RulesIds by Event Registry
+ */
 class GetRulesIdsByEventRegistry
 {
     /**
@@ -80,6 +83,8 @@ class GetRulesIdsByEventRegistry
     }
 
     /**
+     * Get Rules
+     *
      * @param string $eventName
      * @return array
      */

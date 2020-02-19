@@ -13,6 +13,9 @@ use Magento\NotifierEventApi\Model\FireRuleInterface\Proxy as FireRuleInterface;
 use Magento\NotifierEventApi\Model\GetRulesIdsByEventInterface\Proxy as GetRulesIdsByEventInterface;
 use Magento\NotifierEventApi\Model\IsEventExcludedInterface\Proxy as IsEventExcludedInterface;
 
+/**
+ * @inheritdoc
+ */
 class CaptureEvent implements CaptureEventInterface
 {
     /**

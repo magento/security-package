@@ -31,6 +31,8 @@ class GetRulesIdsByEvent implements GetRulesIdsByEventInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param string $eventName
      * @return array
      */
