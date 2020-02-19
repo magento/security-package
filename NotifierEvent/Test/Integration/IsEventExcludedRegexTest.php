@@ -12,7 +12,6 @@ namespace Magento\NotifierEvent\Test\Integration;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\NotifierEvent\Model\GetAutomaticTemplateId;
 use Magento\NotifierEvent\Model\IsEventExcludedRegex;
 use PHPUnit\Framework\TestCase;
 
@@ -22,11 +21,6 @@ class IsEventExcludedRegexTest extends TestCase
      * @var ObjectManagerInterface
      */
     private $objectManager;
-
-    /**
-     * @var GetAutomaticTemplateId
-     */
-    private $subject;
 
     /**
      * @inheritdoc
