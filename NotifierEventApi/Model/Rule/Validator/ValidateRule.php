@@ -37,7 +37,7 @@ class ValidateRule implements ValidateRuleInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(RuleInterface $rule): bool
     {
