@@ -10,6 +10,9 @@ namespace Magento\NotifierEvent\Model;
 
 use Magento\NotifierEventApi\Model\IsEventExcludedInterface;
 
+/**
+ * @inheritdoc
+ */
 class IsEventExcludedRegex implements IsEventExcludedInterface
 {
     /**
