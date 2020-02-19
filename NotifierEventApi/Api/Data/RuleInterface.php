@@ -154,6 +154,7 @@ interface RuleInterface extends ExtensibleDataInterface
      * Get value for enabled
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getEnabled(): bool;
 
