@@ -15,6 +15,9 @@ use Magento\NotifierApi\Model\SendMessageInterface;
 use Magento\NotifierAsync\Model\BypassFlag;
 use Magento\NotifierAsync\Model\EnqueueMessage;
 
+/**
+ * Class for Send Message Asynchronously
+ */
 class SendMessageAsynchronously
 {
     /**
@@ -56,6 +59,8 @@ class SendMessageAsynchronously
     }
 
     /**
+     *  Around execute plugin
+     *
      * @param SendMessageInterface $subject
      * @param callable $proceed
      * @param string $channelCode
@@ -63,6 +68,7 @@ class SendMessageAsynchronously
      * @param array $params
      * @return bool
      * @throws NoSuchEntityException
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundExecute(
         SendMessageInterface $subject,

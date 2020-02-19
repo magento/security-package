@@ -47,6 +47,8 @@ class Consumer
     }
 
     /**
+     * Process
+     *
      * @param string $channelCode
      * @param string $message
      * @param string $params
