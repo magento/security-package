@@ -37,7 +37,7 @@ class Save implements SaveInterface
     /**
      * @param DatabaseTemplate $resource
      * @param ValidateDatabaseTemplateInterface $validateDatabaseTemplate
-     * @SuppressWarnings(PHPMD.LongVariables)
+     * @param LoggerInterface $logger
      */
     public function __construct(
         DatabaseTemplate $resource,
