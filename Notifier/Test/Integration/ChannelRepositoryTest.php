@@ -29,7 +29,7 @@ class ChannelRepositoryTest extends TestCase
     private $objectManager;
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function setUp()
     {

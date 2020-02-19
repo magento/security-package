@@ -13,7 +13,7 @@ use Magento\NotifierApi\Api\Data\ChannelExtensionInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class Channel extends AbstractExtensibleModel implements ChannelInterface
 {

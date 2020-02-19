@@ -13,12 +13,12 @@ use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class ValidateName implements ValidateChannelInterface
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(ChannelInterface $channel): void
     {

@@ -12,7 +12,7 @@ use Magento\Framework\Serialize\SerializerInterface as FrameworkSerializerInterf
 use Magento\NotifierApi\Model\SerializerInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class Serializer implements SerializerInterface
 {

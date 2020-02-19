@@ -13,7 +13,7 @@ use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 class FakeAdapterEngine implements AdapterEngineInterface
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(string $message, array $configParams = [], array $params = []): bool
     {

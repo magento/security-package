@@ -12,7 +12,7 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Notifier\Model\ResourceModel\Channel;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class Collection extends AbstractCollection
 {

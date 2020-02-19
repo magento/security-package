@@ -15,7 +15,7 @@ use Magento\NotifierApi\Model\SendMessageInterface;
 use Magento\NotifierApi\Model\SerializerInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class SendMessage implements SendMessageInterface
 {

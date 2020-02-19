@@ -12,7 +12,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\NotifierApi\Api\IsEnabledInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class IsEnabled implements IsEnabledInterface
 {

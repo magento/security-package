@@ -12,7 +12,7 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class Channel extends AbstractDb
 {

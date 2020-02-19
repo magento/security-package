@@ -26,7 +26,7 @@ class IsEnabledTest extends TestCase
     private $objectManager;
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function setUp()
     {
