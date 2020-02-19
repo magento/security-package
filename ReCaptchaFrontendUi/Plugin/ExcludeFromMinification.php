@@ -15,6 +15,8 @@ use Magento\Framework\View\Asset\Minification;
 class ExcludeFromMinification
 {
     /**
+     * Around execute plugin
+     *
      * @param Minification $subject
      * @param callable $proceed
      * @param $contentType

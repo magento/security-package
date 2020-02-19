@@ -13,6 +13,7 @@ use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 
 /**
+ * @inheritdoc
  * @api
  */
 class ReCaptcha extends Template
@@ -54,6 +55,7 @@ class ReCaptcha extends Template
 
     /**
      * Get public reCaptcha key
+     *
      * @return string
      */
     public function getPublicKey()
@@ -97,6 +99,8 @@ class ReCaptcha extends Template
     }
 
     /**
+     * @inheritdoc
+     *
      * @return string
      */
     public function toHtml()

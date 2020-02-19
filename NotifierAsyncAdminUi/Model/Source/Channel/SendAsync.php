@@ -10,6 +10,9 @@ namespace Magento\NotifierAsyncAdminUi\Model\Source\Channel;
 
 use Magento\Framework\Data\OptionSourceInterface;
 
+/**
+ * @inheritdoc
+ */
 class SendAsync implements OptionSourceInterface
 {
     /**

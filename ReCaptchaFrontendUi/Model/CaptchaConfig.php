@@ -115,6 +115,7 @@ class CaptchaConfig implements CaptchaConfigInterface
 
     /**
      * Get language code
+     *
      * @return string
      */
     public function getLanguageCode(): string
