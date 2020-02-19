@@ -11,6 +11,9 @@ namespace Magento\NotifierSecurity\Model\Source;
 use Magento\Framework\Option\ArrayInterface;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 
+/**
+ * @inheritdoc
+ */
 class Channel implements ArrayInterface
 {
     /**

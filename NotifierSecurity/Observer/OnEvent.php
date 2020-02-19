@@ -11,6 +11,9 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\NotifierSecurity\Model\NotifyByEvent;
 
+/**
+ * @inheritdoc
+ */
 class OnEvent implements ObserverInterface
 {
     /**
@@ -27,6 +30,8 @@ class OnEvent implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      */

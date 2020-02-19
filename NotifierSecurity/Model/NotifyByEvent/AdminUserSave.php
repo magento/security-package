@@ -11,6 +11,9 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\NotifierSecurity\Model\NotifierInterface;
 use Magento\NotifierTemplateApi\Model\SendMessageInterface;
 
+/**
+ * Class for Admin User Save
+ */
 class AdminUserSave implements NotifierInterface
 {
     /**
@@ -68,6 +71,8 @@ class AdminUserSave implements NotifierInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param string $eventName
      * @param array $eventData
      * @return void

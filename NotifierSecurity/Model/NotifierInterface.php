@@ -10,6 +10,8 @@ namespace Magento\NotifierSecurity\Model;
 interface NotifierInterface
 {
     /**
+     * Notifier by Event
+     *
      * @param string $eventName
      * @param array $eventData
      * @return void
