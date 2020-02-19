@@ -12,7 +12,7 @@ use Magento\Framework\Data\OptionSourceInterface;
 use Magento\NotifierApi\Api\AdaptersPoolInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class Adapter implements OptionSourceInterface
 {

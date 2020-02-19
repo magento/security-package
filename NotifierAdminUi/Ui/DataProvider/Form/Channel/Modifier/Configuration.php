@@ -12,7 +12,7 @@ use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
 use Magento\NotifierApi\Model\SerializerInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class Configuration extends AbstractModifier
 {

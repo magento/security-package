@@ -18,7 +18,7 @@ use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class Save extends Action implements HttpPostActionInterface
 {

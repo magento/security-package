@@ -16,7 +16,7 @@ use Magento\NotifierApi\Api\AdaptersPoolInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class NewButton extends Generic
 {

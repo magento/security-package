@@ -15,7 +15,7 @@ use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class Delete extends Action implements HttpGetActionInterface
 {

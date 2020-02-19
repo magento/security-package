@@ -17,7 +17,7 @@ use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class Edit extends Action implements HttpGetActionInterface
 {
