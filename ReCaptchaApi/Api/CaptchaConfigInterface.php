@@ -84,13 +84,6 @@ interface CaptchaConfigInterface
     public function getLanguageCode(): string;
 
     /**
-     * Sugar method. Return true if reCAPTCHA keys (public and private) are configured
-     *
-     * @return bool
-     */
-    public function areKeysConfigured(): bool;
-
-    /**
      * Get error message
      *
      * @return Phrase

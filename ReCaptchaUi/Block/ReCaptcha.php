@@ -67,17 +67,17 @@ class ReCaptcha extends Template
     {
         $layout = $this->serializer->unserialize(parent::getJsLayout());
 
-        $settings = $this->getCaptchaSettings();
-
         if (isset($layout['components']['recaptcha'])) {
-            $layout['components'][$this->getRecaptchaId()]['settings'] = array_replace_recursive(
-                $settings,
-                $layout['components']['recaptcha']
-            );
+            $layout['components'][$this->getRecaptchaId()] = $layout['components']['recaptcha'];
             unset($layout['components']['recaptcha']);
-        } else {
-            $layout['components'][$this->getRecaptchaId()]['settings'] = $settings;
         }
+
+        $layout['components'][$this->getRecaptchaId()] = array_replace_recursive(
+            [
+                'settings' => $this->getCaptchaSettings(),
+            ],
+            $layout['components'][$this->getRecaptchaId()]
+        );
         $layout['components'][$this->getRecaptchaId()]['reCaptchaId'] = $this->getRecaptchaId();
 
         return $this->serializer->serialize($layout);

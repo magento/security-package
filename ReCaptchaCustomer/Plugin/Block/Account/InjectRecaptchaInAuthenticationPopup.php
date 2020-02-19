@@ -8,9 +8,9 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCustomer\Plugin\Block\Account;
 
 use Magento\Customer\Block\Account\AuthenticationPopup;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
-use Zend\Json\Json;
 
 /**
  * Inject authentication popup in layout
@@ -28,15 +28,23 @@ class InjectRecaptchaInAuthenticationPopup
     private $captchaConfig;
 
     /**
+     * @var Json
+     */
+    private $serializer;
+
+    /**
      * @param CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider
      * @param CaptchaConfigInterface $captchaConfig
+     * @param Json $serializer
      */
     public function __construct(
         CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider,
-        CaptchaConfigInterface $captchaConfig
+        CaptchaConfigInterface $captchaConfig,
+        Json $serializer
     ) {
         $this->captchaUiSettingsProvider = $captchaUiSettingsProvider;
         $this->captchaConfig = $captchaConfig;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -47,15 +55,14 @@ class InjectRecaptchaInAuthenticationPopup
      */
     public function afterGetJsLayout(AuthenticationPopup $subject, $result)
     {
-        // TODO: serializer
-        $layout = Json::decode($result, Json::TYPE_ARRAY);
+        $layout = $this->serializer->unserialize($result);
 
-        if ($this->captchaConfig->areKeysConfigured()) {
+        if ($this->captchaConfig->isCaptchaEnabledFor('customer_login')) {
             $layout['components']['authenticationPopup']['children']['recaptcha']['settings']
                 = $this->captchaUiSettingsProvider->get();
         } else {
             unset($layout['components']['authenticationPopup']['children']['recaptcha']);
         }
-        return Json::encode($layout);
+        return $this->serializer->serialize($layout);
     }
 }

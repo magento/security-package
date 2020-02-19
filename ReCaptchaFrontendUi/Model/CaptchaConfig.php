@@ -69,14 +69,6 @@ class CaptchaConfig implements CaptchaConfigInterface
     /**
      * @inheritdoc
      */
-    public function areKeysConfigured(): bool
-    {
-        return $this->getPrivateKey() && $this->getPublicKey();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getSize(): string
     {
         return (string)$this->scopeConfig->getValue(
@@ -153,5 +145,15 @@ class CaptchaConfig implements CaptchaConfigInterface
 
         $flag = self::XML_PATH_IS_ENABLED_FOR . $key;
         return $this->scopeConfig->isSetFlag($flag, ScopeInterface::SCOPE_WEBSITE);
+    }
+
+    /**
+     * Return true if reCAPTCHA keys (public and private) are configured
+     *
+     * @return bool
+     */
+    private function areKeysConfigured(): bool
+    {
+        return $this->getPrivateKey() && $this->getPublicKey();
     }
 }

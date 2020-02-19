@@ -43,7 +43,7 @@ class Onepage implements LayoutProcessorInterface
      */
     public function process($jsLayout)
     {
-        if ($this->captchaConfig->areKeysConfigured()) {
+        if ($this->captchaConfig->isCaptchaEnabledFor('customer_login')) {
             $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']
                 ['recaptcha']['settings'] = $this->captchaUiSettingsProvider->get();
