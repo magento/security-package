@@ -16,6 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use Symfony\Component\Console\Helper\Table;
 
+/**
+ * @inheritdoc
+ */
 class GetChatIdsCommand extends Command
 {
     /**
@@ -48,7 +51,6 @@ class GetChatIdsCommand extends Command
 
     /**
      * @inheritdoc
-     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

@@ -10,8 +10,17 @@ namespace Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram;
 
 use TelegramBot\Api\BotApi;
 
+/**
+ * Class for Bot Factory
+ */
 class BotFactory
 {
+    /**
+     * Create
+     *
+     * @param string $token
+     * @return BotApi
+     */
     public function create(string $token): BotApi
     {
         return new BotApi($token);
