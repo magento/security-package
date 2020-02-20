@@ -22,7 +22,7 @@ class CaptchaConfig implements CaptchaConfigInterface
 
     private const XML_PATH_SCORE_THRESHOLD = 'recaptcha/backend/score_threshold';
     private const XML_PATH_SIZE = 'recaptcha/backend/size';
-    private const XML_PATH_THEME= 'recaptcha/backend/theme';
+    private const XML_PATH_THEME = 'recaptcha/backend/theme';
 
     /**
      * @var ScopeConfigInterface
@@ -30,11 +30,28 @@ class CaptchaConfig implements CaptchaConfigInterface
     private $scopeConfig;
 
     /**
-     * @param ScopeConfigInterface $scopeConfig
+     * @var array
      */
-    public function __construct(ScopeConfigInterface $scopeConfig)
-    {
+    private $invisibleTypes;
+
+    /**
+     * @var array
+     */
+    private $captchaErrorMessages;
+
+    /**
+     * @param ScopeConfigInterface $scopeConfig
+     * @param array $invisibleTypes
+     * @param array $captchaErrorMessages
+     */
+    public function __construct(
+        ScopeConfigInterface $scopeConfig,
+        array $invisibleTypes = [],
+        array $captchaErrorMessages = []
+    ) {
         $this->scopeConfig = $scopeConfig;
+        $this->invisibleTypes = $invisibleTypes;
+        $this->captchaErrorMessages = $captchaErrorMessages;
     }
 
     /**
@@ -98,7 +115,7 @@ class CaptchaConfig implements CaptchaConfigInterface
      */
     public function getScoreThreshold(): float
     {
-        return min(1.0, max(0.1, (float) $this->scopeConfig->getValue(
+        return min(1.0, max(0.1, (float)$this->scopeConfig->getValue(
             self::XML_PATH_SCORE_THRESHOLD
         )));
     }
@@ -108,8 +125,10 @@ class CaptchaConfig implements CaptchaConfigInterface
      */
     public function getErrorMessage(): Phrase
     {
-        if ($this->getCaptchaType() === 'recaptcha_v3') {
-            return __('You cannot proceed with such operation, your reCaptcha reputation is too low.');
+        foreach ($this->captchaErrorMessages as $captchaErrorMessage) {
+            if ($this->getCaptchaType() === $captchaErrorMessage['type']) {
+                return __($captchaErrorMessage['message']);
+            }
         }
 
         return __('Incorrect ReCaptcha validation');
@@ -120,7 +139,7 @@ class CaptchaConfig implements CaptchaConfigInterface
      */
     public function isInvisibleRecaptcha(): bool
     {
-        return in_array($this->getCaptchaType(), ['invisible', 'recaptcha_v3'], true);
+        return in_array($this->getCaptchaType(), $this->invisibleTypes, true);
     }
 
     /**

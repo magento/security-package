@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaAdminUi\Model\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
+use Magento\ReCaptchaApi\Model\Config\Source\Type\OptionInterface;
 
 /**
  * Recaptcha type options
@@ -15,14 +16,27 @@ use Magento\Framework\Data\OptionSourceInterface;
 class Type implements OptionSourceInterface
 {
     /**
+     * @var OptionInterface[]
+     */
+    private $options;
+
+    /**
+     * @param OptionInterface[] $options
+     */
+    public function __construct(array $options = [])
+    {
+        $this->options = $options;
+    }
+
+    /**
      * @inheritDoc
      */
     public function toOptionArray()
     {
-        return [
-            ['value' => 'recaptcha_v3', 'label' => __('Invisible reCaptcha v3')],
-            ['value' => 'invisible', 'label' => __('Invisible reCaptcha v2')],
-            ['value' => 'recaptcha', 'label' => __('reCaptcha v2')],
-        ];
+        return array_map(
+            function (OptionInterface $option) {
+                return ['value' => $option->getValue(), 'label' => __($option->getLabel())];
+            },
+            $this->options);
     }
 }
