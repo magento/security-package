@@ -18,6 +18,28 @@ use ReCaptcha\ReCaptcha;
 class CaptchaValidator implements CaptchaValidatorInterface
 {
     /**
+     * @var string[]
+     */
+    private $thresholdApplicable;
+
+    /**
+     * @var string[]
+     */
+    private $scoreRequired;
+
+    /**
+     * @param string[] $thresholdApplicable
+     * @param string[] $scoreRequired
+     */
+    public function __construct(
+        array $thresholdApplicable = [],
+        array $scoreRequired = []
+    ) {
+        $this->thresholdApplicable = $thresholdApplicable;
+        $this->scoreRequired = $scoreRequired;
+    }
+
+    /**
      * @inheritdoc
      */
     public function validate(
@@ -29,17 +51,18 @@ class CaptchaValidator implements CaptchaValidatorInterface
         if ($reCaptchaResponse) {
             // @codingStandardsIgnoreStart
             $reCaptcha = new ReCaptcha($secret);
-            // @codingStandardsIgnoreEmd
+            // @codingStandardsIgnoreEnd
 
-            if ($validationConfig->getCaptchaType() === 'recaptcha_v3') {
-                if (isset($options['threshold'])) {
-                    $reCaptcha->setScoreThreshold($validationConfig->getScoreThreshold());
+            if (in_array($validationConfig->getCaptchaType(), $this->thresholdApplicable)) {
+                $scoreThreshold = $validationConfig->getScoreThreshold();
+                if (isset($scoreThreshold)) {
+                    $reCaptcha->setScoreThreshold($scoreThreshold);
                 }
             }
             $res = $reCaptcha->verify($reCaptchaResponse, $validationConfig->getRemoteIp());
 
-            if (($validationConfig->getCaptchaType() === 'recaptcha_v3') && ($res->getScore() === null)) {
-                throw new LocalizedException(__('Internal error: Make sure you are using reCaptcha V3 api keys'));
+            if (in_array($validationConfig->getCaptchaType(), $this->scoreRequired) && ($res->getScore() === null)) {
+                throw new LocalizedException(__('Internal error: Make sure you are using correct api keys'));
             }
 
             if ($res->isSuccess()) {
