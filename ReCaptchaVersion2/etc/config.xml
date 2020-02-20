@@ -10,11 +10,14 @@
     <default>
         <recaptcha>
             <backend>
-                <type>recaptcha_v3</type>
+                <type>recaptcha</type>
+            </backend>
+            <frontend>
+                <type>recaptcha</type>
                 <size>normal</size>
                 <theme>light</theme>
-                <score_threshold>0.9</score_threshold>
-            </backend>
+                <position>inline</position>
+            </frontend>
         </recaptcha>
     </default>
 </config>
