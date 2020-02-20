@@ -1,0 +1,29 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="recaptcha">
+            <group id="backend">
+                <field id="score_threshold" translate="label" type="text" sortOrder="60" showInDefault="1"
+                       showInWebsite="0"
+                       showInStore="0" canRestore="1">
+                    <label>Score Threshold</label>
+                    <depends>
+                        <field id="recaptcha/backend/type">recaptcha_v3</field>
+                    </depends>
+                    <comment>From 0.0 to 1.0, where 0.0 is absolutely a robot and 1.0 is a human.</comment>
+                </field>
+            </group>
+            <group id="frontend">
+                <field id="score_threshold" translate="label" type="text" sortOrder="60" showInDefault="1"
+                       showInWebsite="1"
+                       showInStore="0" canRestore="1">
+                    <label>Score Threshold</label>
+                    <depends>
+                        <field id="recaptcha/frontend/type">recaptcha_v3</field>
+                    </depends>
+                    <comment>From 0.0 to 1.0, where 0.0 is absolutely a robot and 1.0 is a human.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

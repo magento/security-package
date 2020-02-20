@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="recaptcha">
+            <group id="backend">
+                <field id="theme" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+                    <label>Theme</label>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Theme</source_model>
+                    <depends>
+                        <field id="recaptcha/backend/type">recaptcha</field>
+                    </depends>
+                </field>
+                <field id="size" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+                    <label>Size</label>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Size</source_model>
+                    <depends>
+                        <field id="recaptcha/backend/type">recaptcha</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="frontend">
+                <field id="theme" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1"
+                       showInStore="0" canRestore="1">
+                    <label>Theme</label>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Theme</source_model>
+                    <depends>
+                        <field id="recaptcha/frontend/type">recaptcha</field>
+                    </depends>
+                </field>
+                <field id="size" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1"
+                       showInStore="0" canRestore="1">
+                    <label>Size</label>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Size</source_model>
+                    <depends>
+                        <field id="recaptcha/frontend/type">recaptcha</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
