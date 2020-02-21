@@ -10,7 +10,6 @@ namespace Magento\ReCaptcha\Model;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
-use ReCaptcha\ReCaptcha;
 
 /**
  * @inheritDoc
@@ -18,25 +17,17 @@ use ReCaptcha\ReCaptcha;
 class CaptchaValidator implements CaptchaValidatorInterface
 {
     /**
-     * @var string[]
+     * @var CaptchaTypeValidatorInterface[]
      */
-    private $thresholdApplicable;
+    private $validators;
 
     /**
-     * @var string[]
-     */
-    private $scoreRequired;
-
-    /**
-     * @param string[] $thresholdApplicable
-     * @param string[] $scoreRequired
+     * @param CaptchaTypeValidatorInterface[] $validators
      */
     public function __construct(
-        array $thresholdApplicable = [],
-        array $scoreRequired = []
+        array $validators = []
     ) {
-        $this->thresholdApplicable = $thresholdApplicable;
-        $this->scoreRequired = $scoreRequired;
+        $this->validators = $validators;
     }
 
     /**
@@ -46,30 +37,16 @@ class CaptchaValidator implements CaptchaValidatorInterface
         string $reCaptchaResponse,
         ValidationConfigInterface $validationConfig
     ): bool {
-        $secret = $validationConfig->getPrivateKey();
-
-        if ($reCaptchaResponse) {
-            // @codingStandardsIgnoreStart
-            $reCaptcha = new ReCaptcha($secret);
-            // @codingStandardsIgnoreEnd
-
-            if (in_array($validationConfig->getCaptchaType(), $this->thresholdApplicable)) {
-                $scoreThreshold = $validationConfig->getScoreThreshold();
-                if (isset($scoreThreshold)) {
-                    $reCaptcha->setScoreThreshold($scoreThreshold);
-                }
-            }
-            $res = $reCaptcha->verify($reCaptchaResponse, $validationConfig->getRemoteIp());
-
-            if (in_array($validationConfig->getCaptchaType(), $this->scoreRequired) && ($res->getScore() === null)) {
-                throw new LocalizedException(__('Internal error: Make sure you are using correct api keys'));
-            }
-
-            if ($res->isSuccess()) {
-                return true;
+        /**
+         * @var string $validatorCode
+         * @var CaptchaTypeValidatorInterface $validatorInstance
+         */
+        foreach ($this->validators as $validatorCode => $validatorInstance) {
+            if ($validatorCode === $validationConfig->getCaptchaType()) {
+                return $validatorInstance->validate($reCaptchaResponse, $validationConfig);
             }
         }
 
-        return false;
+        throw new LocalizedException(__('No reCAPTCHA validator found.'));
     }
 }

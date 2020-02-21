@@ -7,6 +7,13 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\ReCaptcha\Model\CaptchaValidator">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="invisible" xsi:type="object">Magento\ReCaptchaInvisibleVersion2\Model\CaptchaValidator</item>
+            </argument>
+        </arguments>
+    </type>
     <type name="Magento\ReCaptchaAdminUi\Model\Config\Source\Type">
         <arguments>
             <argument name="options" xsi:type="array">
