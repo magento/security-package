@@ -10,7 +10,7 @@
     <default>
         <recaptcha>
             <frontend>
-                <enabled>0</enabled>
+                <type>recaptcha_v3</type>
                 <size>normal</size>
                 <position>inline</position>
                 <theme>light</theme>
