@@ -3,7 +3,9 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
-/** @var $block \Magento\ReCaptchaFrontendUi\Block\ReCaptcha */
+declare(strict_types=1);
+
+/** @var $block \Magento\ReCaptchaUi\Block\ReCaptcha */
 ?>
 <div
     class="field-recaptcha"
@@ -13,7 +15,7 @@
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>
 
-<script type="text/javascript">
+<script>
     require(['jquery', 'domReady!'], function ($) {
         $('#<?= /* @noEscape */ $block->getRecaptchaId() ?>-container')
             .appendTo('#newsletter-validate-detail');
