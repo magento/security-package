@@ -15,7 +15,7 @@ declare(strict_types=1);
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>
 
-<script type="text/javascript">
+<script>
     require(['jquery', 'domReady!'], function ($) {
         $('#<?= /* @noEscape */ $block->getRecaptchaId() ?>-container')
             .appendTo('#newsletter-validate-detail');

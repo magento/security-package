@@ -98,10 +98,10 @@ class CaptchaConfig implements CaptchaConfigInterface
     public function getErrorMessage(): Phrase
     {
         if ($this->getCaptchaType() === 'recaptcha_v3') {
-            return __('You cannot proceed with such operation, your reCaptcha reputation is too low.');
+            return __('You cannot proceed with such operation, your reCAPTCHA reputation is too low.');
         }
 
-        return __('Incorrect ReCaptcha validation');
+        return __('Incorrect reCAPTCHA validation');
     }
 
     /**

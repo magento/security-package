@@ -3,8 +3,8 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
+/* eslint-disable no-undef */
+// jscs:disable jsDoc
 define(
     [
         'uiComponent',
@@ -13,6 +13,7 @@ define(
         'Magento_ReCaptchaFrontendUi/js/registry'
     ],
     function (Component, $, ko, registry, undefined) {
+        'use strict';
 
         return Component.extend({
 
@@ -23,14 +24,14 @@ define(
             _isApiRegistered: undefined,
 
             initialize: function () {
-              this._super();
-              this._loadApi();
+                this._super();
+                this._loadApi();
             },
 
             /**
-              * Loads recaptchaapi API and triggers event, when loaded
-              * @private
-              */
+             * Loads recaptchaapi API and triggers event, when loaded
+             * @private
+             */
             _loadApi: function () {
                 var element, scriptTag;
 
@@ -44,18 +45,18 @@ define(
                 this._isApiRegistered = false;
 
                 // global function
-                window.globalOnRecaptchaOnLoadCallback = function() {
+                window.globalOnRecaptchaOnLoadCallback = function () {
                     this._isApiRegistered = true;
                     $(window).trigger('recaptchaapiready');
                 }.bind(this);
 
-                element   = document.createElement('script');
+                element = document.createElement('script');
                 scriptTag = document.getElementsByTagName('script')[0];
 
                 element.async = true;
-                element.src = 'https://www.google.com/recaptcha/api.js'
-                    + '?onload=globalOnRecaptchaOnLoadCallback&render=explicit'
-                    + (this.settings.lang ? '&hl=' + this.settings.lang : '');
+                element.src = 'https://www.google.com/recaptcha/api.js' +
+                    '?onload=globalOnRecaptchaOnLoadCallback&render=explicit' +
+                    (this.settings.lang ? '&hl=' + this.settings.lang : '');
 
                 scriptTag.parentNode.insertBefore(element, scriptTag);
 
@@ -100,7 +101,8 @@ define(
                 /*
                  * Workaround for data-bind issue:
                  * We cannot use data-bind to link a dynamic id to our component
-                 * See: https://stackoverflow.com/questions/46657573/recaptcha-the-bind-parameter-must-be-an-element-or-id
+                 * See:
+                 * https://stackoverflow.com/questions/46657573/recaptcha-the-bind-parameter-must-be-an-element-or-id
                  *
                  * We create a wrapper element with a wrapping id and we inject the real ID with jQuery.
                  * In this way we have no data-bind attribute at all in our reCaptcha div
@@ -124,6 +126,7 @@ define(
                     },
                     this.settings.render
                 );
+
                 // eslint-disable-next-line no-undef
                 widgetId = grecaptcha.render(this.getReCaptchaId(), parameters);
 
@@ -155,10 +158,9 @@ define(
 
             },
 
-
-            validateReCaptcha: function(state){
+            validateReCaptcha: function (state) {
                 if (!this.getIsInvisibleRecaptcha()) {
-                    return $(document).find('input[type=checkbox].required-captcha').prop( "checked", state );
+                    return $(document).find('input[type=checkbox].required-captcha').prop('checked', state);
                 }
             },
 
