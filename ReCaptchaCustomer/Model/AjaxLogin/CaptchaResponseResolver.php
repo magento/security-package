@@ -46,9 +46,9 @@ class CaptchaResponseResolver implements CaptchaResponseResolverInterface
             throw new InputException(__('Can not resolve reCAPTCHA response.'), $e);
         }
 
-        if (empty($jsonParams[self::PARAM_RECAPTCHA_RESPONSE])) {
+        if (empty($jsonParams[self::PARAM_RECAPTCHA])) {
             throw new InputException(__('Can not resolve reCAPTCHA response.'));
         }
-        return $jsonParams[self::PARAM_RECAPTCHA_RESPONSE];
+        return $jsonParams[self::PARAM_RECAPTCHA];
     }
 }

@@ -23,7 +23,7 @@ interface CaptchaResponseResolverInterface
     /**
      * Parameter name for reCAPTCHA response
      */
-    public const PARAM_RECAPTCHA_RESPONSE = 'g-recaptcha-response';
+    public const PARAM_RECAPTCHA = 'g-recaptcha-response';
 
     /**
      * Extract reCAPTCHA response parameter from Request object
