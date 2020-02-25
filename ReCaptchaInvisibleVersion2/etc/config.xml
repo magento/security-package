@@ -8,13 +8,15 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <recaptcha>
-            <backend>
-                <type>invisible</type>
-            </backend>
-            <frontend>
-                <type>invisible</type>
-            </frontend>
-        </recaptcha>
+        <recaptcha_backend>
+            <type_invisible>
+                <position>inline</position>
+            </type_invisible>
+        </recaptcha_backend>
+        <recaptcha_frontend>
+            <type_invisible>
+                <position>inline</position>
+            </type_invisible>
+        </recaptcha_frontend>
     </default>
 </config>

@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaApi\Model\Config\Source;
+namespace Magento\ReCaptchaVersion2\Model\OptionSource;
 
 use Magento\Framework\Data\OptionSourceInterface;
 
@@ -13,7 +13,7 @@ use Magento\Framework\Data\OptionSourceInterface;
  * reCAPTCHA sizes
  *
  * Extension point for adding reCAPTCHA sizes
- * Applicable only for visible captcha type (for example "reCAPTCHA v2")
+ * Applicable only for visible captcha type ("reCAPTCHA v2")
  *
  * @api
  */

@@ -1,27 +1,72 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <section id="recaptcha">
-            <group id="backend">
-                <field id="score_threshold" translate="label" type="text" sortOrder="60" showInDefault="1"
-                       showInWebsite="0"
+        <section id="recaptcha_backend">
+            <group id="type_recaptcha_v3" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>Invisible reCAPTCHA v3</label>
+
+                <field id="public_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="0">
+                    <label>Google API Website Key</label>
+                </field>
+
+                <field id="private_key" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="0">
+                    <label>Google API Secret Key</label>
+                </field>
+
+                <field id="score_threshold" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
-                    <label>Score Threshold</label>
-                    <depends>
-                        <field id="recaptcha/backend/type">recaptcha_v3</field>
-                    </depends>
-                    <comment>From 0.0 to 1.0, where 0.0 is absolutely a robot and 1.0 is a human.</comment>
+                    <label>Minimum Score Threshold</label>
+                    <comment><![CDATA[
+                        From 0.0 to 1.0, where 1.0 is very likely a good interaction, and 0.0 is very likely a bot.<br />
+                        For more details, see the official documentation
+                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/v3#interpreting_the_score">Interpreting the score</a>.
+                ]]></comment>
+                </field>
+
+                <field id="position" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+                    <label>Invisible Badge Position</label>
+                    <source_model>Magento\ReCaptchaInvisibleVersion3\Model\OptionSource\Position</source_model>
                 </field>
             </group>
-            <group id="frontend">
-                <field id="score_threshold" translate="label" type="text" sortOrder="60" showInDefault="1"
-                       showInWebsite="1"
+        </section>
+        <section id="recaptcha_frontend">
+            <group id="type_recaptcha_v3" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
+                   showInStore="0">
+                <label>Invisible reCAPTCHA v3</label>
+
+                <field id="public_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                       showInStore="0" canRestore="0">
+                    <label>Google API Website Key</label>
+                </field>
+
+                <field id="private_key" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1"
+                       showInStore="0" canRestore="0">
+                    <label>Google API Secret Key</label>
+                </field>
+
+                <field id="score_threshold" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
-                    <label>Score Threshold</label>
-                    <depends>
-                        <field id="recaptcha/frontend/type">recaptcha_v3</field>
-                    </depends>
-                    <comment>From 0.0 to 1.0, where 0.0 is absolutely a robot and 1.0 is a human.</comment>
+                    <label>Minimum Score Threshold</label>
+                    <comment><![CDATA[
+                        From 0.0 to 1.0, where 1.0 is very likely a good interaction, and 0.0 is very likely a bot.<br />
+                        For more details, see the official documentation
+                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/v3#interpreting_the_score">Interpreting the score</a>.
+                ]]></comment>
+                </field>
+
+                <field id="position" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1"
+                       showInStore="0" canRestore="1">
+                    <label>Invisible Badge Position</label>
+                    <source_model>Magento\ReCaptchaInvisibleVersion3\Model\OptionSource\Position</source_model>
+                    <comment><![CDATA[
+                        From 0.0 to 1.0, where 1.0 is very likely a good interaction, and 0.0 is very likely a bot.<br />
+                        For more details, see the official documentation
+                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/v3#interpreting_the_score">Interpreting the score</a>.
+                ]]></comment>
                 </field>
             </group>
         </section>

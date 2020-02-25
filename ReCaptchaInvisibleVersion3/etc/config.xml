@@ -8,15 +8,15 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <recaptcha>
-            <backend>
-                <type>recaptcha_v3</type>
-                <score_threshold>0.9</score_threshold>
-            </backend>
-            <frontend>
-                <type>recaptcha_v3</type>
-                <score_threshold>0.6</score_threshold>
-            </frontend>
-        </recaptcha>
+        <recaptcha_backend>
+            <type_recaptcha_v3>
+                <score_threshold>0.5</score_threshold>
+            </type_recaptcha_v3>
+        </recaptcha_backend>
+        <recaptcha_frontend>
+            <type_recaptcha_v3>
+                <score_threshold>0.5</score_threshold>
+            </type_recaptcha_v3>
+        </recaptcha_frontend>
     </default>
 </config>

@@ -8,12 +8,12 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <recaptcha>
-            <frontend>
-                <enabled_for_customer_login>1</enabled_for_customer_login>
-                <enabled_for_customer_forgot_password>1</enabled_for_customer_forgot_password>
-                <enabled_for_customer_create>1</enabled_for_customer_create>
-            </frontend>
-        </recaptcha>
+        <recaptcha_frontend>
+            <enabled_for>
+                <enabled_for_customer_login>0</enabled_for_customer_login>
+                <enabled_for_customer_forgot_password>0</enabled_for_customer_forgot_password>
+                <enabled_for_customer_create>0</enabled_for_customer_create>
+            </enabled_for>
+        </recaptcha_frontend>
     </default>
 </config>

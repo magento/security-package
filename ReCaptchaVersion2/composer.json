@@ -1,11 +1,10 @@
 {
     "name": "magento/module-re-captcha-version-2",
-    "version": "3.0.0",
+    "version": "1.0.0",
     "description": "Google reCaptcha V2 integration for Magento2",
     "require": {
         "php": "~7.1.3||~7.2.0||~7.3.0",
-        "magento/framework": "102.0.*",
-        "magento/magento-composer-installer": "*"
+        "magento/framework": "102.0.*"
     },
     "authors": [
         {
@@ -20,7 +19,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Magento\\ReCaptcha\\": ""
+            "Magento\\ReCaptchaVersion2\\": ""
         }
     }
 }
