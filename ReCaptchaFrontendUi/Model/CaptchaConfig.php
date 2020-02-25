@@ -131,7 +131,7 @@ class CaptchaConfig implements CaptchaConfigInterface
             return __('You cannot proceed with such operation, your reCAPTCHA reputation is too low.');
         }
 
-        return __('Incorrect reCAPTCHA validation');
+        return __('Incorrect reCAPTCHA validation.');
     }
 
     /**
