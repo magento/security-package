@@ -12,8 +12,8 @@ use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
-use Magento\ReCaptchaReview\Model\IsEnabledForProductReviewInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
  * ReviewFormObserver
@@ -26,9 +26,9 @@ class ReviewFormObserver implements ObserverInterface
     private $redirect;
 
     /**
-     * @var IsEnabledForProductReviewInterface
+     * @var CaptchaConfigInterface
      */
-    private $isEnabledForProductReview;
+    private $captchaConfig;
 
     /**
      * @var RequestHandlerInterface
@@ -37,16 +37,16 @@ class ReviewFormObserver implements ObserverInterface
 
     /**
      * @param RedirectInterface $redirect
-     * @param IsEnabledForProductReviewInterface $isEnabledForProductReview
+     * @param CaptchaConfigInterface $captchaConfig
      * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         RedirectInterface $redirect,
-        IsEnabledForProductReviewInterface $isEnabledForProductReview,
+        CaptchaConfigInterface $captchaConfig,
         RequestHandlerInterface $requestHandler
     ) {
         $this->redirect = $redirect;
-        $this->isEnabledForProductReview = $isEnabledForProductReview;
+        $this->captchaConfig = $captchaConfig;
         $this->requestHandler = $requestHandler;
     }
 
@@ -57,7 +57,7 @@ class ReviewFormObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isEnabledForProductReview->isEnabled()) {
+        if ($this->captchaConfig->isCaptchaEnabledFor('product_review')) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();

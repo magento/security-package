@@ -27,6 +27,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     private const XML_PATH_POSITION = 'recaptcha/frontend/position';
     private const XML_PATH_LANGUAGE_CODE = 'recaptcha/frontend/lang';
 
+    private const XML_PATH_IS_ENABLED_FOR = 'recaptcha/frontend/enabled_for_';
+
     /**
      * @var ScopeConfigInterface
      */
@@ -92,20 +94,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     /**
      * @inheritdoc
      */
-    public function areKeysConfigured(): bool
-    {
-        return $this->getPrivateKey() && $this->getPublicKey();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getSize(): string
     {
-        if ($this->isInvisibleRecaptcha()) {
-            return 'invisible';
-        }
-
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_SIZE,
             ScopeInterface::SCOPE_WEBSITE
@@ -115,12 +105,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     /**
      * @inheritdoc
      */
-    public function getTheme(): ?string
+    public function getTheme(): string
     {
-        if ($this->isInvisibleRecaptcha()) {
-            return null;
-        }
-
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_THEME,
             ScopeInterface::SCOPE_WEBSITE
@@ -142,12 +128,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     /**
      * @inheritdoc
      */
-    public function getPosition(): ?string
+    public function getInvisibleBadgePosition(): string
     {
-        if (!$this->isInvisibleRecaptcha()) {
-            return null;
-        }
-
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_POSITION,
             ScopeInterface::SCOPE_WEBSITE
@@ -177,5 +159,28 @@ class CaptchaConfig implements CaptchaConfigInterface
         }
 
         return __('Incorrect ReCaptcha validation');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCaptchaEnabledFor(string $key): bool
+    {
+        if (!$this->areKeysConfigured()) {
+            return false;
+        }
+
+        $flag = self::XML_PATH_IS_ENABLED_FOR . $key;
+        return $this->scopeConfig->isSetFlag($flag, ScopeInterface::SCOPE_WEBSITE);
+    }
+
+    /**
+     * Return true if reCAPTCHA keys (public and private) are configured
+     *
+     * @return bool
+     */
+    private function areKeysConfigured(): bool
+    {
+        return $this->getPrivateKey() && $this->getPublicKey();
     }
 }

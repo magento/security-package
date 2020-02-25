@@ -11,8 +11,8 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
-use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerCreateInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
  * CreateCustomerObserver
@@ -25,9 +25,9 @@ class CreateCustomerObserver implements ObserverInterface
     private $url;
 
     /**
-     * @var IsEnabledForCustomerCreateInterface
+     * @var CaptchaConfigInterface
      */
-    private $isEnabledForCustomerCreate;
+    private $captchaConfig;
 
     /**
      * @var RequestHandlerInterface
@@ -36,16 +36,16 @@ class CreateCustomerObserver implements ObserverInterface
 
     /**
      * @param UrlInterface $url
-     * @param IsEnabledForCustomerCreateInterface $isEnabledForCustomerCreate
+     * @param CaptchaConfigInterface $captchaConfig
      * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         UrlInterface $url,
-        IsEnabledForCustomerCreateInterface $isEnabledForCustomerCreate,
+        CaptchaConfigInterface $captchaConfig,
         RequestHandlerInterface $requestHandler
     ) {
         $this->url = $url;
-        $this->isEnabledForCustomerCreate = $isEnabledForCustomerCreate;
+        $this->captchaConfig = $captchaConfig;
         $this->requestHandler = $requestHandler;
     }
 
@@ -56,7 +56,7 @@ class CreateCustomerObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isEnabledForCustomerCreate->isEnabled()) {
+        if ($this->captchaConfig->isCaptchaEnabledFor('customer_create')) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();

@@ -23,6 +23,10 @@ class CaptchaConfig implements CaptchaConfigInterface
     private const XML_PATH_SCORE_THRESHOLD = 'recaptcha/backend/score_threshold';
     private const XML_PATH_SIZE = 'recaptcha/backend/size';
     private const XML_PATH_THEME = 'recaptcha/backend/theme';
+    private const XML_PATH_POSITION = 'recaptcha/frontend/position';
+    private const XML_PATH_LANGUAGE_CODE = 'recaptcha/frontend/lang';
+
+    private const XML_PATH_IS_ENABLED_FOR = 'recaptcha/backend/enabled_for_';
 
     /**
      * @var ScopeConfigInterface
@@ -73,14 +77,6 @@ class CaptchaConfig implements CaptchaConfigInterface
     /**
      * @inheritdoc
      */
-    public function areKeysConfigured(): bool
-    {
-        return $this->getPrivateKey() && $this->getPublicKey();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getCaptchaType(): string
     {
         return (string)$this->scopeConfig->getValue(self::XML_PATH_TYPE);
@@ -91,22 +87,14 @@ class CaptchaConfig implements CaptchaConfigInterface
      */
     public function getSize(): string
     {
-        if ($this->isInvisibleRecaptcha()) {
-            return 'invisible';
-        }
-
         return (string)$this->scopeConfig->getValue(self::XML_PATH_SIZE);
     }
 
     /**
      * @inheritdoc
      */
-    public function getTheme(): ?string
+    public function getTheme(): string
     {
-        if ($this->isInvisibleRecaptcha()) {
-            return null;
-        }
-
         return (string)$this->scopeConfig->getValue(self::XML_PATH_THEME);
     }
 
@@ -115,7 +103,7 @@ class CaptchaConfig implements CaptchaConfigInterface
      */
     public function getScoreThreshold(): float
     {
-        return min(1.0, max(0.1, (float)$this->scopeConfig->getValue(
+        return min(1.0, max(0.1, (float) $this->scopeConfig->getValue(
             self::XML_PATH_SCORE_THRESHOLD
         )));
     }
@@ -147,14 +135,41 @@ class CaptchaConfig implements CaptchaConfigInterface
      */
     public function getLanguageCode(): string
     {
-        throw new \RuntimeException('Support not implemented');
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_LANGUAGE_CODE
+        );
     }
 
     /**
      * @inheritdoc
      */
-    public function getPosition(): ?string
+    public function getInvisibleBadgePosition(): string
     {
-        throw new \RuntimeException('Support not implemented');
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_POSITION
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isCaptchaEnabledFor(string $key): bool
+    {
+        if (!$this->areKeysConfigured()) {
+            return false;
+        }
+
+        $flag = self::XML_PATH_IS_ENABLED_FOR . $key;
+        return $this->scopeConfig->isSetFlag($flag);
+    }
+
+    /**
+     * Return true if reCAPTCHA keys (public and private) are configured
+     *
+     * @return bool
+     */
+    private function areKeysConfigured(): bool
+    {
+        return $this->getPrivateKey() && $this->getPublicKey();
     }
 }

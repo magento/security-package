@@ -10,74 +10,91 @@ namespace Magento\ReCaptchaApi\Api;
 use Magento\Framework\Phrase;
 
 /**
- * Represents base ReCaptcha configuration
+ * Represents reCAPTCHA base configuration
  *
  * @api
  */
 interface CaptchaConfigInterface
 {
     /**
-     * Get google recaptcha public key
+     * Get Google API Website Key
+     *
      * @return string
      */
     public function getPublicKey(): string;
 
     /**
-     * Get google recaptcha private key
+     * Get Google API Secret Key
+     *
      * @return string
      */
     public function getPrivateKey(): string;
 
     /**
-     * Sugar method. Return true if captcha keys (public and private) are configured
-     * @return bool
-     */
-    public function areKeysConfigured(): bool;
-
-    /**
-     * Get reCaptcha type
+     * Get reCAPTCHA Type
+     *
      * @return string
      */
     public function getCaptchaType(): string;
 
     /**
-     * @return bool
-     */
-    public function isInvisibleRecaptcha(): bool;
-
-    /**
-     * Get size
-     * @return string
-     */
-    public function getSize(): string;
-
-    /**
-     * Get theme
-     * @return string
-     */
-    public function getTheme(): ?string;
-
-    /**
-     * Get minimum frontend score
+     * Get Minimum Score Threshold
+     *
+     * Applicable only to "reCAPTCHA v3" type
+     * From 0.0 to 1.0, where 0.0 is absolutely a robot and 1.0 is a human.
+     *
      * @return float
      */
     public function getScoreThreshold(): float;
 
     /**
-     * Get error message
-     * @return Phrase
+     * Get Invisible Badge Position
+     *
+     * Applicable only to Invisible reCAPTCHA types
+     *
+     * @return string
      */
-    public function getErrorMessage(): Phrase;
+    public function getInvisibleBadgePosition(): string;
+
+    /**
+     * Get theme
+     *
+     * Applicable only for visible captcha type (for example "reCAPTCHA v2")
+     *
+     * @return string
+     */
+    public function getTheme(): string;
+
+    /**
+     * Get size
+     *
+     * Applicable only for visible captcha type (for example "reCAPTCHA v2")
+     *
+     * @return string
+     */
+    public function getSize(): string;
 
     /**
      * Get language code
+     *
+     * Applicable only for visible captcha type (for example "reCAPTCHA v2")
+     *
      * @return string
      */
     public function getLanguageCode(): string;
 
     /**
-     * Get position
-     * @return string
+     * Get error message
+     *
+     * @return Phrase
      */
-    public function getPosition(): ?string;
+    public function getErrorMessage(): Phrase;
+
+    /**
+     * Return true if reCAPTCHA is enabled for specific functionality
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function isCaptchaEnabledFor(string $key): bool;
 }

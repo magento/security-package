@@ -13,8 +13,8 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Session\SessionManagerInterface;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
-use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
+use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
  * LoginObserver
@@ -22,9 +22,9 @@ use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
 class LoginObserver implements ObserverInterface
 {
     /**
-     * @var IsEnabledForCustomerLoginInterface
+     * @var CaptchaConfigInterface
      */
-    private $isEnabledForCustomerLogin;
+    private $captchaConfig;
 
     /**
      * @var RequestHandlerInterface
@@ -42,18 +42,18 @@ class LoginObserver implements ObserverInterface
     private $url;
 
     /**
-     * @param IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
+     * @param CaptchaConfigInterface $captchaConfig
      * @param RequestHandlerInterface $requestHandler
      * @param SessionManagerInterface $sessionManager
      * @param Url $url
      */
     public function __construct(
-        IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin,
+        CaptchaConfigInterface $captchaConfig,
         RequestHandlerInterface $requestHandler,
         SessionManagerInterface $sessionManager,
         Url $url
     ) {
-        $this->isEnabledForCustomerLogin = $isEnabledForCustomerLogin;
+        $this->captchaConfig = $captchaConfig;
         $this->requestHandler = $requestHandler;
         $this->sessionManager = $sessionManager;
         $this->url = $url;
@@ -66,7 +66,7 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isEnabledForCustomerLogin->isEnabled()) {
+        if ($this->captchaConfig->isCaptchaEnabledFor('customer_login')) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();

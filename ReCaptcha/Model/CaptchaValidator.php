@@ -33,7 +33,7 @@ class CaptchaValidator implements CaptchaValidatorInterface
     /**
      * @inheritdoc
      */
-    public function validate(
+    public function isValid(
         string $reCaptchaResponse,
         ValidationConfigInterface $validationConfig
     ): bool {
