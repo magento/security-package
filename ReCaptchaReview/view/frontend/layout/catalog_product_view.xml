@@ -11,9 +11,9 @@
             <block class="Magento\ReCaptchaUi\Block\ReCaptcha"
                    name="recaptcha" after="-"
                    template="Magento_ReCaptchaFrontendUi::recaptcha.phtml"
-                   ifconfig="recaptcha/frontend/enabled_for_product_review">
+                   ifconfig="recaptcha_frontend/type_for/product_review">
                 <arguments>
-                    <argument name="enabled_for" xsi:type="string">product_review</argument>
+                    <argument name="recaptcha_for" xsi:type="string">product_review</argument>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">
                             <item name="recaptcha" xsi:type="array">

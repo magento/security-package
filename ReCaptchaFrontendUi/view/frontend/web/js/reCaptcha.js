@@ -63,7 +63,7 @@ define(
             },
 
             /**
-             * Checking that reCaptcha is invisible type
+             * Checking that reCAPTCHA is invisible type
              * @returns {Boolean}
              */
             getIsInvisibleRecaptcha: function () {
@@ -71,7 +71,7 @@ define(
             },
 
             /**
-             * Recaptcha callback
+             * reCAPTCHA callback
              * @param {String} token
              */
             reCaptchaCallback: function (token) {
@@ -82,7 +82,7 @@ define(
             },
 
             /**
-             * Initialize reCaptcha after first rendering
+             * Initialize reCAPTCHA after first rendering
              */
             initCaptcha: function () {
                 var me = this,
@@ -105,7 +105,7 @@ define(
                  * https://stackoverflow.com/questions/46657573/recaptcha-the-bind-parameter-must-be-an-element-or-id
                  *
                  * We create a wrapper element with a wrapping id and we inject the real ID with jQuery.
-                 * In this way we have no data-bind attribute at all in our reCaptcha div
+                 * In this way we have no data-bind attribute at all in our reCAPTCHA div
                  */
                 $wrapper = $('#' + this.getReCaptchaId() + '-wrapper');
                 $reCaptcha = $wrapper.find('.g-recaptcha');
@@ -124,7 +124,7 @@ define(
                             me.validateReCaptcha(false);
                         }
                     },
-                    this.settings.render
+                    this.settings.rendering
                 );
 
                 // eslint-disable-next-line no-undef
@@ -165,14 +165,14 @@ define(
             },
 
             /**
-             * Render reCaptcha
+             * Render reCAPTCHA
              */
             renderReCaptcha: function () {
                 var me = this;
 
-                if (window.grecaptcha && window.grecaptcha.render) { // Check if recaptcha is already loaded
+                if (window.grecaptcha && window.grecaptcha.render) { // Check if reCAPTCHA is already loaded
                     me.initCaptcha();
-                } else { // Wait for recaptcha to be loaded
+                } else { // Wait for reCAPTCHA to be loaded
                     $(window).on('recaptchaapiready', function () {
                         me.initCaptcha();
                     });
@@ -180,7 +180,7 @@ define(
             },
 
             /**
-             * Get reCaptcha ID
+             * Get reCAPTCHA ID
              * @returns {String}
              */
             getReCaptchaId: function () {

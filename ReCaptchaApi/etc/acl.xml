@@ -14,7 +14,7 @@
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
                             <resource id="Magento_ReCaptcha::config"
-                                      title="ReCaptcha"
+                                      title="reCAPTCHA"
                                       translate="title"
                                       sortOrder="10" />
                         </resource>

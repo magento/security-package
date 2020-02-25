@@ -94,7 +94,8 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->captchaConfig->isCaptchaEnabledFor('user_login')
+        $key = 'user_login';
+        if ($this->captchaConfig->isCaptchaEnabledFor($key)
             && $this->request->getFullActionName() === $this->loginActionName
         ) {
             $reCaptchaResponse = $this->captchaResponseResolver->resolve($this->request);
@@ -102,7 +103,7 @@ class LoginObserver implements ObserverInterface
             $validationConfig = $this->validationConfigFactory->create(
                 [
                     'privateKey' => $this->captchaConfig->getPrivateKey(),
-                    'captchaType' => $this->captchaConfig->getCaptchaType(),
+                    'captchaType' => $this->captchaConfig->getCaptchaTypeFor($key),
                     'remoteIp' => $this->remoteAddress->getRemoteAddress(),
                     'scoreThreshold' => $this->captchaConfig->getScoreThreshold(),
                     'extensionAttributes' => null,

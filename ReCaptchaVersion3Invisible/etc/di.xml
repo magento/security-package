@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\ReCaptchaApi\Model\OptionSource\Type">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <item name="recaptcha_v3" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">reCAPTCHA v3 Invisible</item>
+                    <item name="value" xsi:type="string">recaptcha_v3</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\ReCaptchaVersion3Invisible\Model\OptionSource\Position">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <item name="inline" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Inline</item>
+                    <item name="value" xsi:type="string">inline</item>
+                </item>
+                <item name="bottomright" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Bottom Right</item>
+                    <item name="value" xsi:type="string">bottomright</item>
+                </item>
+                <item name="bottomleft" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Bottom Left</item>
+                    <item name="value" xsi:type="string">bottomleft</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\ReCaptchaApi\Model\IsInvisibleCaptcha">
+        <arguments>
+            <argument name="invisibleTypes" xsi:type="array">
+                <item name="recaptcha_v3" xsi:type="string">recaptcha_v3</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\ReCaptcha\Model\CaptchaValidator">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="recaptcha_v3" xsi:type="object">Magento\ReCaptchaVersion3Invisible\Model\CaptchaValidator</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

@@ -9,12 +9,12 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="recaptcha_frontend">
-            <group id="enabled_for">
-                <field id="enabled_for_newsletter" translate="label comment" type="select" sortOrder="160" showInDefault="1"
+            <group id="type_for">
+                <field id="newsletter" translate="label comment" type="select" sortOrder="160" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Enable Invisible reCAPTCHA in Newsletter Subscription</label>
                     <comment>If enabled, a badge will be displayed in every page.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <source_model>Magento\ReCaptchaApi\Model\OptionSource\Type</source_model>
                 </field>
             </group>
         </section>

@@ -94,7 +94,8 @@ class AjaxLoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->captchaConfig->isCaptchaEnabledFor('customer_login')) {
+        $key = 'customer_login';
+        if ($this->captchaConfig->isCaptchaEnabledFor($key)) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
@@ -105,7 +106,7 @@ class AjaxLoginObserver implements ObserverInterface
             $validationConfig = $this->validationConfigFactory->create(
                 [
                     'privateKey' => $this->captchaConfig->getPrivateKey(),
-                    'captchaType' => $this->captchaConfig->getCaptchaType(),
+                    'captchaType' => $this->captchaConfig->getCaptchaTypeFor($key),
                     'remoteIp' => $this->remoteAddress->getRemoteAddress(),
                     'scoreThreshold' => $this->captchaConfig->getScoreThreshold(),
                     'extensionAttributes' => null,

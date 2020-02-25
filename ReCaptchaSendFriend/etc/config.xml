@@ -9,9 +9,9 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <recaptcha_frontend>
-            <enabled_for>
-                <enabled_for_sendfriend>0</enabled_for_sendfriend>
-            </enabled_for>
+            <type_for>
+                <sendfriend>null</sendfriend>
+            </type_for>
         </recaptcha_frontend>
     </default>
 </config>

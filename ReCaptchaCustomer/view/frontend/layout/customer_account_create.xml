@@ -14,9 +14,9 @@
                    name="recaptcha"
                    after="-"
                    template="Magento_ReCaptchaFrontendUi::recaptcha.phtml"
-                   ifconfig="recaptcha/frontend/enabled_for_customer_create">
+                   ifconfig="recaptcha_frontend/type_for/for_customer_create">
                 <arguments>
-                    <argument name="enabled_for" xsi:type="string">customer_create</argument>
+                    <argument name="recaptcha_for" xsi:type="string">customer_create</argument>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">
                             <item name="recaptcha" xsi:type="array">

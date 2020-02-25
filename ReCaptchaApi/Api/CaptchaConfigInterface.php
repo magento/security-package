@@ -17,13 +17,6 @@ use Magento\Framework\Phrase;
 interface CaptchaConfigInterface
 {
     /**
-     * Get Google API Website Key
-     *
-     * @return string
-     */
-    public function getPublicKey(): string;
-
-    /**
      * Get Google API Secret Key
      *
      * @return string
@@ -48,42 +41,6 @@ interface CaptchaConfigInterface
     public function getScoreThreshold(): float;
 
     /**
-     * Get Invisible Badge Position
-     *
-     * Applicable only to Invisible reCAPTCHA types
-     *
-     * @return string
-     */
-    public function getInvisibleBadgePosition(): string;
-
-    /**
-     * Get theme
-     *
-     * Applicable only for visible captcha type (for example "reCAPTCHA v2")
-     *
-     * @return string
-     */
-    public function getTheme(): string;
-
-    /**
-     * Get size
-     *
-     * Applicable only for visible captcha type (for example "reCAPTCHA v2")
-     *
-     * @return string
-     */
-    public function getSize(): string;
-
-    /**
-     * Get language code
-     *
-     * Applicable only for visible captcha type (for example "reCAPTCHA v2")
-     *
-     * @return string
-     */
-    public function getLanguageCode(): string;
-
-    /**
      * Get error message
      *
      * @return Phrase
@@ -97,4 +54,12 @@ interface CaptchaConfigInterface
      * @return bool
      */
     public function isCaptchaEnabledFor(string $key): bool;
+
+    /**
+     * Get reCAPTCHA type for specific functionality. Return NULL id reCAPTCHA is disabled for this functionality
+     *
+     * @param string $key
+     * @return string|null
+     */
+    public function getCaptchaTypeFor(string $key): ?string;
 }

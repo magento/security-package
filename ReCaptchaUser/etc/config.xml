@@ -9,10 +9,10 @@
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <recaptcha_backend>
-            <enabled_for>
-                <enabled_for_user_login>0</enabled_for_user_login>
-                <enabled_for_user_forgot_password>0</enabled_for_user_forgot_password>
-            </enabled_for>
+            <type_for>
+                <user_login>null</user_login>
+                <user_forgot_password>null</user_forgot_password>
+            </type_for>
         </recaptcha_backend>
     </default>
 </config>
