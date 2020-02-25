@@ -8,9 +8,9 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCustomer\Plugin\Block\Account;
 
 use Magento\Customer\Block\Account\AuthenticationPopup;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
-use Zend\Json\Json;
+use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
 
 /**
  * Inject authentication popup in layout
@@ -18,9 +18,9 @@ use Zend\Json\Json;
 class InjectRecaptchaInAuthenticationPopup
 {
     /**
-     * @var LayoutSettings
+     * @var CaptchaUiSettingsProviderInterface
      */
-    private $layoutSettings;
+    private $captchaUiSettingsProvider;
 
     /**
      * @var CaptchaConfigInterface
@@ -28,15 +28,23 @@ class InjectRecaptchaInAuthenticationPopup
     private $captchaConfig;
 
     /**
-     * @param LayoutSettings $layoutSettings
+     * @var Json
+     */
+    private $serializer;
+
+    /**
+     * @param CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider
      * @param CaptchaConfigInterface $captchaConfig
+     * @param Json $serializer
      */
     public function __construct(
-        LayoutSettings $layoutSettings,
-        CaptchaConfigInterface $captchaConfig
+        CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider,
+        CaptchaConfigInterface $captchaConfig,
+        Json $serializer
     ) {
-        $this->layoutSettings = $layoutSettings;
+        $this->captchaUiSettingsProvider = $captchaUiSettingsProvider;
         $this->captchaConfig = $captchaConfig;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -47,15 +55,14 @@ class InjectRecaptchaInAuthenticationPopup
      */
     public function afterGetJsLayout(AuthenticationPopup $subject, $result)
     {
-        // TODO: serializer
-        $layout = Json::decode($result, Json::TYPE_ARRAY);
+        $layout = $this->serializer->unserialize($result);
 
-        if ($this->captchaConfig->areKeysConfigured()) {
+        if ($this->captchaConfig->isCaptchaEnabledFor('customer_login')) {
             $layout['components']['authenticationPopup']['children']['recaptcha']['settings']
-                = $this->layoutSettings->getCaptchaSettings();
+                = $this->captchaUiSettingsProvider->get();
         } else {
             unset($layout['components']['authenticationPopup']['children']['recaptcha']);
         }
-        return Json::encode($layout);
+        return $this->serializer->serialize($layout);
     }
 }

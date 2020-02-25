@@ -17,12 +17,18 @@ use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterfaceFactory;
+use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
 
 /**
  * LoginObserver
  */
 class LoginObserver implements ObserverInterface
 {
+    /**
+     * @var CaptchaResponseResolverInterface
+     */
+    private $captchaResponseResolver;
+
     /**
      * @var CaptchaValidatorInterface
      */
@@ -54,6 +60,7 @@ class LoginObserver implements ObserverInterface
     private $loginActionName;
 
     /**
+     * @param CaptchaResponseResolverInterface $captchaResponseResolver
      * @param CaptchaValidatorInterface $captchaValidator
      * @param RemoteAddress $remoteAddress
      * @param CaptchaConfigInterface $captchaConfig
@@ -62,6 +69,7 @@ class LoginObserver implements ObserverInterface
      * @param string $loginActionName
      */
     public function __construct(
+        CaptchaResponseResolverInterface $captchaResponseResolver,
         CaptchaValidatorInterface $captchaValidator,
         RemoteAddress $remoteAddress,
         CaptchaConfigInterface $captchaConfig,
@@ -69,6 +77,7 @@ class LoginObserver implements ObserverInterface
         RequestInterface $request,
         string $loginActionName
     ) {
+        $this->captchaResponseResolver = $captchaResponseResolver;
         $this->captchaValidator = $captchaValidator;
         $this->remoteAddress = $remoteAddress;
         $this->captchaConfig = $captchaConfig;
@@ -88,9 +97,7 @@ class LoginObserver implements ObserverInterface
         if ($this->captchaConfig->isCaptchaEnabledFor('user_login')
             && $this->request->getFullActionName() === $this->loginActionName
         ) {
-            $reCaptchaResponse = $this->request->getParam(
-                CaptchaValidatorInterface::PARAM_RECAPTCHA_RESPONSE
-            );
+            $reCaptchaResponse = $this->captchaResponseResolver->resolve($this->request);
             /** @var ValidationConfigInterface $validationConfig */
             $validationConfig = $this->validationConfigFactory->create(
                 [
@@ -98,10 +105,11 @@ class LoginObserver implements ObserverInterface
                     'captchaType' => $this->captchaConfig->getCaptchaType(),
                     'remoteIp' => $this->remoteAddress->getRemoteAddress(),
                     'scoreThreshold' => $this->captchaConfig->getScoreThreshold(),
+                    'extensionAttributes' => null,
                 ]
             );
 
-            if (false === $this->captchaValidator->validate($reCaptchaResponse, $validationConfig)) {
+            if (false === $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig)) {
                 throw new AuthenticationException($this->captchaConfig->getErrorMessage());
             }
         }

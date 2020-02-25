@@ -8,12 +8,26 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaNewsletter\Plugin;
 
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaApi\Api\IsInvisibleCaptchaInterface;
 
 /**
  * Check ReCaptcha visibility for newsletters.
  */
 class CheckReCaptchaVisibilityPlugin
 {
+    /**
+     * @var IsInvisibleCaptchaInterface
+     */
+    private $isInvisibleCaptcha;
+
+    /**
+     * @param IsInvisibleCaptchaInterface $isInvisibleCaptcha
+     */
+    public function __construct(IsInvisibleCaptchaInterface $isInvisibleCaptcha)
+    {
+        $this->isInvisibleCaptcha = $isInvisibleCaptcha;
+    }
+
     /**
      * Check ReCaptcha visibility for newsletters.
      *
@@ -28,7 +42,7 @@ class CheckReCaptchaVisibilityPlugin
     public function afterIsCaptchaEnabledFor(CaptchaConfigInterface $subject, bool $result, string $key): bool
     {
         if ($result && $key === 'newsletter') {
-            $result = $subject->isInvisibleRecaptcha();
+            $result = $this->isInvisibleCaptcha->isInvisible($subject->getCaptchaType());
         }
         return $result;
     }

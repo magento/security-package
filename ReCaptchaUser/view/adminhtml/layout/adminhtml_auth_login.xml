@@ -13,10 +13,14 @@
 
     <body>
         <referenceContainer name="form.additional.info">
-            <block class="Magento\ReCaptchaAdminUi\Block\ReCaptcha"
+            <block class="Magento\ReCaptchaUi\Block\ReCaptcha"
                    name="recaptcha"
-                   template="Magento_ReCaptchaAdminUi::recaptcha.phtml"
-                   ifconfig="recaptcha/backend/enabled_for_user_login"/>
+                   template="Magento_ReCaptchaUser::recaptcha.phtml"
+                   ifconfig="recaptcha/backend/enabled_for_user_login">
+                <arguments>
+                    <argument name="enabled_for" xsi:type="string">user_login</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>
