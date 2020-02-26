@@ -10,7 +10,7 @@
     <type name="Magento\ReCaptchaUi\Model\UiConfigResolver">
         <arguments>
             <argument name="captchaUiConfigProviders" xsi:type="array">
-                <item name="recaptcha_v3" xsi:type="object">Magento\ReCaptchaVersion3Invisible\Model\UiConfigProvider\Proxy</item>
+                <item name="recaptcha_v3" xsi:type="object">Magento\ReCaptchaVersion3Invisible\Model\Frontend\UiConfigProvider\Proxy</item>
             </argument>
         </arguments>
     </type>

@@ -54,12 +54,4 @@
             </argument>
         </arguments>
     </type>
-
-    <type name="Magento\ReCaptcha\Model\CaptchaValidator">
-        <arguments>
-            <argument name="validators" xsi:type="array">
-                <item name="invisible" xsi:type="object">Magento\ReCaptchaVersion2Invisible\Model\CaptchaValidator</item>
-            </argument>
-        </arguments>
-    </type>
 </config>

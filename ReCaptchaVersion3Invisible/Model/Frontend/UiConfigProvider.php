@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaVersion3Invisible\Model;
+namespace Magento\ReCaptchaVersion3Invisible\Model\Frontend;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\ReCaptchaUi\Model\UiConfigProviderInterface;

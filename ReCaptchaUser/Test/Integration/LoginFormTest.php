@@ -67,7 +67,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha/backend/enabled_for_user_login 0
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 0
      */
     public function testGetRequestIfReCaptchaIsDisabled()
     {
@@ -78,7 +78,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
      * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha/backend/enabled_for_user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -91,7 +91,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha/backend/type invisible
      * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/enabled_for_user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
@@ -104,7 +104,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha/backend/enabled_for_user_login 0
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 0
      */
     public function testPostRequestIfReCaptchaIsDisabled()
     {
@@ -115,7 +115,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
      * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha/backend/enabled_for_user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -128,7 +128,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha/backend/enabled_for_user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
      */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
@@ -147,7 +147,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha/backend/enabled_for_user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
      */
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
@@ -177,7 +177,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha/backend/enabled_for_user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
      */
     public function testPostRequestWithFailedReCaptchaValidation()
     {

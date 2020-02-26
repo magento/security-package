@@ -63,7 +63,7 @@ class UiConfigResolver implements UiConfigResolverInterface
 
         if (!isset($this->captchaUiConfigProviders[$captchaType])) {
             throw new InputException(
-                __('UI config provider for "%type" does not configured.', ['type' => $captchaType])
+                __('UI config provider for "%type" is not configured.', ['type' => $captchaType])
             );
         }
         return $this->captchaUiConfigProviders[$key]->get();

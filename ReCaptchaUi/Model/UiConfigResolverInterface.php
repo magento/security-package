@@ -21,7 +21,7 @@ interface UiConfigResolverInterface
      *
      * @param string $key Functionality identifier
      * @return array
-     * @throws InputException If UI config for "%key" does not configured
+     * @throws InputException If UI config for "%key" is not configured
      */
     public function get(string $key): array;
 }
