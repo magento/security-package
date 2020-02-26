@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaFrontendUi\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 use Magento\Store\Model\ScopeInterface;
@@ -62,14 +61,6 @@ class CaptchaConfig implements CaptchaConfigInterface
     /**
      * @inheritdoc
      */
-    public function isInvisibleRecaptcha(): bool
-    {
-        return in_array($this->getCaptchaType(), ['invisible', 'recaptcha_v3'], true);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getCaptchaType(): string
     {
         return (string)$this->scopeConfig->getValue(self::XML_PATH_TYPE);
@@ -78,20 +69,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     /**
      * @inheritdoc
      */
-    public function areKeysConfigured(): bool
-    {
-        return $this->getPrivateKey() && $this->getPublicKey();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getSize(): string
     {
-        if ($this->isInvisibleRecaptcha()) {
-            return 'invisible';
-        }
-
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_SIZE,
             ScopeInterface::SCOPE_WEBSITE
@@ -101,12 +80,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     /**
      * @inheritdoc
      */
-    public function getTheme(): ?string
+    public function getTheme(): string
     {
-        if ($this->isInvisibleRecaptcha()) {
-            return null;
-        }
-
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_THEME,
             ScopeInterface::SCOPE_WEBSITE
@@ -128,12 +103,8 @@ class CaptchaConfig implements CaptchaConfigInterface
     /**
      * @inheritdoc
      */
-    public function getPosition(): ?string
+    public function getInvisibleBadgePosition(): string
     {
-        if (!$this->isInvisibleRecaptcha()) {
-            return null;
-        }
-
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_POSITION,
             ScopeInterface::SCOPE_WEBSITE
@@ -157,10 +128,10 @@ class CaptchaConfig implements CaptchaConfigInterface
     public function getErrorMessage(): Phrase
     {
         if ($this->getCaptchaType() === 'recaptcha_v3') {
-            return __('You cannot proceed with such operation, your reCaptcha reputation is too low.');
+            return __('You cannot proceed with such operation, your reCAPTCHA reputation is too low.');
         }
 
-        return __('Incorrect ReCaptcha validation');
+        return __('Incorrect reCAPTCHA validation.');
     }
 
     /**
@@ -174,5 +145,15 @@ class CaptchaConfig implements CaptchaConfigInterface
 
         $flag = self::XML_PATH_IS_ENABLED_FOR . $key;
         return $this->scopeConfig->isSetFlag($flag, ScopeInterface::SCOPE_WEBSITE);
+    }
+
+    /**
+     * Return true if reCAPTCHA keys (public and private) are configured
+     *
+     * @return bool
+     */
+    private function areKeysConfigured(): bool
+    {
+        return $this->getPrivateKey() && $this->getPublicKey();
     }
 }

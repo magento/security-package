@@ -9,6 +9,5 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
         <script src="https://www.google.com/recaptcha/api.js" src_type="url" />
-        <css src="Magento_ReCaptchaAdminUi::css/recaptcha.css"/>
     </head>
 </page>

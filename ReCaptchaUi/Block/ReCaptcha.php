@@ -5,12 +5,12 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaFrontendUi\Block;
+namespace Magento\ReCaptchaUi\Block;
 
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
 use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
+use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
 
 /**
  * @api
@@ -18,9 +18,9 @@ use Magento\ReCaptchaFrontendUi\Model\LayoutSettings;
 class ReCaptcha extends Template
 {
     /**
-     * @var LayoutSettings
+     * @var CaptchaUiSettingsProviderInterface
      */
-    private $layoutSettings;
+    private $captchaUiSettingsProvider;
 
     /**
      * @var CaptchaConfigInterface
@@ -34,31 +34,22 @@ class ReCaptcha extends Template
 
     /**
      * @param Template\Context $context
-     * @param LayoutSettings $layoutSettings
+     * @param CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider
      * @param CaptchaConfigInterface $captchaConfig
      * @param Json $serializer
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        LayoutSettings $layoutSettings,
+        CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider,
         CaptchaConfigInterface $captchaConfig,
         Json $serializer,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->layoutSettings = $layoutSettings;
+        $this->captchaUiSettingsProvider = $captchaUiSettingsProvider;
         $this->captchaConfig = $captchaConfig;
         $this->serializer = $serializer;
-    }
-
-    /**
-     * Get public reCaptcha key
-     * @return string
-     */
-    public function getPublicKey()
-    {
-        return $this->captchaConfig->getPublicKey();
     }
 
     /**
@@ -76,36 +67,48 @@ class ReCaptcha extends Template
     {
         $layout = $this->serializer->unserialize(parent::getJsLayout());
 
-        // Backward compatibility with fixed scope name
         if (isset($layout['components']['recaptcha'])) {
             $layout['components'][$this->getRecaptchaId()] = $layout['components']['recaptcha'];
             unset($layout['components']['recaptcha']);
         }
 
-        $recaptchaComponentSettings = [];
-        if (isset($layout['components'][$this->getRecaptchaId()]['settings'])) {
-            $recaptchaComponentSettings = $layout['components'][$this->getRecaptchaId()]['settings'];
-        }
-        $layout['components'][$this->getRecaptchaId()]['settings'] = array_replace_recursive(
-            $this->layoutSettings->getCaptchaSettings(),
-            $recaptchaComponentSettings
+        $layout['components'][$this->getRecaptchaId()] = array_replace_recursive(
+            [
+                'settings' => $this->getCaptchaSettings(),
+            ],
+            $layout['components'][$this->getRecaptchaId()]
         );
-
         $layout['components'][$this->getRecaptchaId()]['reCaptchaId'] = $this->getRecaptchaId();
 
         return $this->serializer->serialize($layout);
     }
 
     /**
+     * @return array
+     */
+    public function getCaptchaSettings(): array
+    {
+        $settings = $this->getData('captcha_settings');
+
+        if ($settings) {
+            $settings = array_replace_recursive( $this->captchaUiSettingsProvider->get(), $settings);
+        } else {
+            $settings = $this->captchaUiSettingsProvider->get();
+        }
+        return $settings;
+    }
+
+
+    /**
      * @return string
      */
     public function toHtml()
     {
-        $key = $this->jsLayout['components']['recaptcha']['zone'];
-
-        if (!$this->captchaConfig->isCaptchaEnabledFor($key)) {
+        $enabledFor = $this->getData('enabled_for');
+        if (empty($enabledFor) || !$this->captchaConfig->isCaptchaEnabledFor($enabledFor)) {
             return '';
         }
+
         return parent::toHtml();
     }
 }

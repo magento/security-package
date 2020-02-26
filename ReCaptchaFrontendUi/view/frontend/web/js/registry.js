@@ -3,12 +3,12 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define(['ko'], function (ko) {
-return {
-    ids: ko.observableArray([]),
-    captchaList: ko.observableArray([]),
-    tokenFields: ko.observableArray([])
-};
+    'use strict';
+
+    return {
+        ids: ko.observableArray([]),
+        captchaList: ko.observableArray([]),
+        tokenFields: ko.observableArray([])
+    };
 });

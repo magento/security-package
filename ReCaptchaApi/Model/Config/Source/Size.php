@@ -5,12 +5,17 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaAdminUi\Model\Config\Source;
+namespace Magento\ReCaptchaApi\Model\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 
 /**
- * Recaptcha size options
+ * reCAPTCHA sizes
+ *
+ * Extension point for adding reCAPTCHA sizes
+ * Applicable only for visible captcha type (for example "reCAPTCHA v2")
+ *
+ * @api
  */
 class Size implements OptionSourceInterface
 {
