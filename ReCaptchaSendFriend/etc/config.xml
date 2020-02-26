@@ -10,7 +10,7 @@
     <default>
         <recaptcha_frontend>
             <type_for>
-                <sendfriend>null</sendfriend>
+                <sendfriend/>
             </type_for>
         </recaptcha_frontend>
     </default>

@@ -10,8 +10,8 @@
     <default>
         <recaptcha_backend>
             <type_for>
-                <user_login>null</user_login>
-                <user_forgot_password>null</user_forgot_password>
+                <user_login/>
+                <user_forgot_password/>
             </type_for>
         </recaptcha_backend>
     </default>

@@ -10,7 +10,7 @@
     <default>
         <recaptcha_frontend>
             <type_for>
-                <contact>null</contact>
+                <contact/>
             </type_for>
         </recaptcha_frontend>
     </default>

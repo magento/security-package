@@ -10,7 +10,7 @@
     <default>
         <recaptcha_frontend>
             <type_for>
-                <product_review>null</product_review>
+                <product_review/>
             </type_for>
         </recaptcha_frontend>
     </default>

@@ -10,9 +10,9 @@
     <default>
         <recaptcha_frontend>
             <type_for>
-                <customer_login>null</customer_login>
-                <customer_forgot_password>null</customer_forgot_password>
-                <customer_create>null</customer_create>
+                <customer_login/>
+                <customer_forgot_password/>
+                <customer_create/>
             </type_for>
         </recaptcha_frontend>
     </default>
