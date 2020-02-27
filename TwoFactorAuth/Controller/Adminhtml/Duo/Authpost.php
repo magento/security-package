@@ -16,6 +16,8 @@ use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
+use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
+use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * Duo security authentication post controller
@@ -59,6 +61,16 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     private $context;
 
     /**
+     * @var HtmlAreaTokenVerifier
+     */
+    private $tokenVerifier;
+
+    /**
+     * @var UserConfigManagerInterface
+     */
+    private $userConfig;
+
+    /**
      * Authpost constructor.
      * @param Action\Context $context
      * @param Session $session
@@ -67,6 +79,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      * @param DataObjectFactory $dataObjectFactory
      * @param AlertInterface $alert
      * @param TfaInterface $tfa
+     * @param HtmlAreaTokenVerifier $tokenVerifier
+     * @param UserConfigManagerInterface $userConfig
      */
     public function __construct(
         Action\Context $context,
@@ -75,7 +89,9 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         TfaSessionInterface $tfaSession,
         DataObjectFactory $dataObjectFactory,
         AlertInterface $alert,
-        TfaInterface $tfa
+        TfaInterface $tfa,
+        HtmlAreaTokenVerifier $tokenVerifier,
+        UserConfigManagerInterface $userConfig
     ) {
         parent::__construct($context);
         $this->tfa = $tfa;
@@ -85,6 +101,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
         $this->context = $context;
+        $this->tokenVerifier = $tokenVerifier;
+        $this->userConfig = $userConfig;
     }
 
     /**
@@ -128,11 +146,19 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      */
     protected function _isAllowed()
     {
-        // Do not check for activation
+        if (!parent::_isAllowed()) {
+            return false;
+        }
+
+        // 1st time users must have the token.
         $user = $this->getUser();
 
         return
             $user &&
-            $this->tfa->getProviderIsAllowed((int) $user->getId(), DuoSecurity::CODE);
+            $this->tfa->getProviderIsAllowed((int)$user->getId(), DuoSecurity::CODE)
+            && (
+                $this->userConfig->isProviderConfigurationActive((int)$user->getId(), DuoSecurity::CODE)
+                || $this->tokenVerifier->isConfigTokenProvided()
+            );
     }
 }

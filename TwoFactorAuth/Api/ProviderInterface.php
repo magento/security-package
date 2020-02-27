@@ -14,6 +14,7 @@ interface ProviderInterface
 {
     /**
      * Return true if this provider has been enabled by admin
+     *
      * @return bool
      */
     public function isEnabled(): bool;
@@ -50,7 +51,9 @@ interface ProviderInterface
 
     /**
      * Return true if this provider allows trusted devices
+     *
      * @return bool
+     * @deprecated Trusted Devices functionality was removed.
      */
     public function isTrustedDevicesAllowed(): bool;
 

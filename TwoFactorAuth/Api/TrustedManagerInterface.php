@@ -12,6 +12,8 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Trusted management service
+ *
+ * @deprecated Trusted Device functionality was removed.
  */
 interface TrustedManagerInterface
 {
@@ -22,29 +24,37 @@ interface TrustedManagerInterface
 
     /**
      * Rotate secret trust token
+     *
      * @return void
+     * @deprecated Trusted Device functionality was removed.
      */
     public function rotateTrustedDeviceToken(): void;
 
     /**
      * Return true if device is trusted
+     *
      * @return bool
+     * @deprecated Trusted Device functionality was removed.
      */
     public function isTrustedDevice(): bool;
 
     /**
      * Revoke trusted device
+     *
      * @param int $tokenId
      * @return void
      * @throws NoSuchEntityException
+     * @deprecated Trusted Device functionality was removed.
      */
     public function revokeTrustedDevice(int $tokenId): void;
 
     /**
      * Trust a device
+     *
      * @param string $providerCode
      * @param RequestInterface $request
      * @return bool
+     * @deprecated Trusted Device functionality was removed.
      */
     public function handleTrustDeviceRequest(string $providerCode, RequestInterface $request): bool;
 }

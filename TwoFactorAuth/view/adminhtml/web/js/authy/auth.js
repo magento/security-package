@@ -3,8 +3,6 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'jquery',
     'ko',
@@ -13,6 +11,8 @@ define([
     'Magento_TwoFactorAuth/js/registry',
     'mage/translate'
 ], function ($, ko, Component, error, registry) {
+    'use strict';
+
     return Component.extend({
         selectedMethod: ko.observable(''),
         waitingText: ko.observable(''),

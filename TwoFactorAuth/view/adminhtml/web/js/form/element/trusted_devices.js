@@ -3,11 +3,11 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'Magento_Ui/js/form/element/abstract'
 ], function (Abstract) {
+    'use strict';
+
     return Abstract.extend({
         /**
          * Get a list of trusted devices

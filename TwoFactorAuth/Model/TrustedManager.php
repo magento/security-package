@@ -183,6 +183,8 @@ class TrustedManager implements TrustedManagerInterface
      */
     public function rotateTrustedDeviceToken(): void
     {
+        trigger_error('Trusted devices are no longer supported', E_USER_DEPRECATED);
+
         $user = $this->getUser();
         $tokenCollection = $this->getTokenCollection();
 
@@ -208,6 +210,8 @@ class TrustedManager implements TrustedManagerInterface
      */
     public function isTrustedDevice(): bool
     {
+        trigger_error('Trusted devices are no longer supported', E_USER_DEPRECATED);
+
         if ($this->isTrustedDevice === null) { // Must cache this in a single session to avoid rotation issues
             $user = $this->getUser();
             $tokenCollection = $this->getTokenCollection();
@@ -234,6 +238,8 @@ class TrustedManager implements TrustedManagerInterface
      */
     public function revokeTrustedDevice(int $tokenId): void
     {
+        trigger_error('Trusted devices are no longer supported', E_USER_DEPRECATED);
+
         $token = $this->trustedRepository->getById($tokenId);
         $this->trustedRepository->delete($token);
     }
@@ -243,6 +249,8 @@ class TrustedManager implements TrustedManagerInterface
      */
     public function handleTrustDeviceRequest(string $providerCode, RequestInterface $request): bool
     {
+        trigger_error('Trusted devices are no longer supported', E_USER_DEPRECATED);
+
         $provider = $this->tfa->getProvider($providerCode);
         if ($provider) {
             if ($provider->isTrustedDevicesAllowed() &&

@@ -11,6 +11,8 @@ use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * Trusted devices search results interface
+ *
+ * @deprecated Trusted Devices functionality was removed.
  */
 interface TrustedSearchResultsInterface extends SearchResultsInterface
 {

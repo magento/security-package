@@ -7,30 +7,29 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Controller\Adminhtml\Tfa;
 
-use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\TwoFactorAuth\Api\TrustedManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 
 /**
  * Revoke 2FA trusted host authorization controller
+ *
+ * @deprecated Trusted Devices functionality was removed.
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Revoke extends AbstractAction implements HttpGetActionInterface, HttpPostActionInterface
 {
     /**
-     * @var TrustedManagerInterface
+     * @param Context $context
+     * @param \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager
      */
-    private $trustedManager;
-
     public function __construct(
-        Action\Context $context,
-        TrustedManagerInterface $trustedManager
+        Context $context,
+        \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager
     ) {
         parent::__construct($context);
-        $this->trustedManager = $trustedManager;
     }
 
     /**
@@ -39,12 +38,7 @@ class Revoke extends AbstractAction implements HttpGetActionInterface, HttpPostA
      */
     public function execute()
     {
-        $tokenId = (int) $this->getRequest()->getParam('id');
-        $userId = (int) $this->getRequest()->getParam('user_id');
-        $this->trustedManager->revokeTrustedDevice($tokenId);
-
-        $this->messageManager->addSuccessMessage(__('Device authorization revoked'));
-        return $this->_redirect('adminhtml/user/edit', ['user_id' => $userId]);
+        trigger_error('Trusted devices are no longer supported', E_USER_DEPRECATED);
     }
 
     /**

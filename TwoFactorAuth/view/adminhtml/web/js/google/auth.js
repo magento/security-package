@@ -3,8 +3,6 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'jquery',
     'ko',
@@ -12,6 +10,8 @@ define([
     'Magento_TwoFactorAuth/js/error',
     'Magento_TwoFactorAuth/js/registry'
 ], function ($, ko, Component, error, registry) {
+    'use strict';
+
     return Component.extend({
         currentStep: ko.observable('register'),
         waitText: ko.observable(''),
@@ -45,10 +45,10 @@ define([
 
         /**
          * Get plain Secret Code
-         * @returns {string}
+         * @returns {String}
          * @author Konrad Skrzynski <konrad.skrzynski@accenture.com>
          */
-        getSecretCode: function() {
+        getSecretCode: function () {
             return this.secretCode;
         },
 

@@ -3,11 +3,11 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'ko'
 ], function (ko) {
+    'use strict';
+
     return {
         currentStep: ko.observable('register'),
         messageText: ko.observable(''),

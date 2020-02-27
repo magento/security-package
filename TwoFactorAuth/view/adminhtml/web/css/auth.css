@@ -108,3 +108,9 @@
 .tfa-waitbox .spinner {
     margin-left: -20px;
 }
+
+.tfa-provider .tfa-checkbox {
+    width: 32px;
+    margin-right: 1em;
+    float: left;
+}

@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Provider\Engine;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -28,16 +27,22 @@ class U2fKey implements EngineInterface
 {
     /**
      * Engine code
+     *
+     * Must be the same as defined in di.xml
      */
-    public const CODE = 'u2fkey'; // Must be the same as defined in di.xml
+    public const CODE = 'u2fkey';
 
     /**
      * Configuration XML path for enabled flag
+     *
+     * @deprecated Providers are now enabled via "forced_providers" config
      */
     public const XML_PATH_ENABLED = 'twofactorauth/u2fkey/enabled';
 
     /**
      * Configuration XML path to allow trusted devices
+     *
+     * @deprecated Trusted devices functionality is now deprecated
      */
     public const XML_PATH_ALLOW_TRUSTED_DEVICES = 'twofactorauth/u2fkey/allow_trusted_devices';
 
@@ -52,23 +57,17 @@ class U2fKey implements EngineInterface
     private $storeManager;
 
     /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
-
-    /**
      * @param StoreManagerInterface $storeManager
-     * @param ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param UserConfigManagerInterface $userConfigManager
      */
     public function __construct(
         StoreManagerInterface $storeManager,
-        ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         UserConfigManagerInterface $userConfigManager
     ) {
         $this->userConfigManager = $userConfigManager;
         $this->storeManager = $storeManager;
-        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -195,7 +194,7 @@ class U2fKey implements EngineInterface
      */
     public function isEnabled(): bool
     {
-        return (bool) $this->scopeConfig->getValue(static::XML_PATH_ENABLED);
+        return true;
     }
 
     /**
@@ -203,7 +202,7 @@ class U2fKey implements EngineInterface
      */
     public function isTrustedDevicesAllowed(): bool
     {
-        return (bool) $this->scopeConfig->getValue(static::XML_PATH_ALLOW_TRUSTED_DEVICES);
+        return false;
     }
 
     /**

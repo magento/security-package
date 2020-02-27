@@ -31,7 +31,7 @@
     <preference for="Magento\TwoFactorAuth\Api\TfaSessionInterface" type="Magento\TwoFactorAuth\Model\TfaSession"/>
     <preference for="Magento\TwoFactorAuth\Model\AlertInterface" type="Magento\TwoFactorAuth\Model\Alert"/>
 
-    <type name="Magento\Framework\Console\CommandList">
+    <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="tfa_disable" xsi:type="object">Magento\TwoFactorAuth\Command\TfaDisable</item>
@@ -140,4 +140,9 @@
             <argument name="canReset" xsi:type="boolean">true</argument>
         </arguments>
     </virtualType>
+
+    <preference for="Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface" type="Magento\TwoFactorAuth\Model\UserConfig\UserConfigRequestManager" />
+    <preference for="Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface" type="Magento\TwoFactorAuth\Model\UserConfig\SignedTokenManager" />
+    <preference for="Magento\TwoFactorAuth\Api\UserNotifierInterface" type="Magento\TwoFactorAuth\Model\EmailUserNotifier" />
+    <preference for="Magento\TwoFactorAuth\Observer\ControllerActionPredispatch" type="Magento\TwoFactorAuth\TestFramework\ControllerActionPredispatch" />
 </config>

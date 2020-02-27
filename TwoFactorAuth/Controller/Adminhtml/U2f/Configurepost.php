@@ -8,22 +8,23 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Controller\Adminhtml\U2f;
 
 use Exception;
-use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
-use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
+use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractConfigureAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 use Magento\TwoFactorAuth\Model\Tfa;
 use Magento\User\Model\User;
+use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * UbiKey configuration post controller
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
-class Configurepost extends AbstractAction implements HttpPostActionInterface
+class Configurepost extends AbstractConfigureAction implements HttpPostActionInterface
 {
     /**
      * @var Tfa
@@ -62,7 +63,8 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
      * @param TfaSessionInterface $tfaSession
      * @param U2fKey $u2fKey
      * @param AlertInterface $alert
-     * @param Action\Context $context
+     * @param Context $context
+     * @param HtmlAreaTokenVerifier $tokenVerifier
      */
     public function __construct(
         Tfa $tfa,
@@ -71,9 +73,10 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
         TfaSessionInterface $tfaSession,
         U2fKey $u2fKey,
         AlertInterface $alert,
-        Action\Context $context
+        Context $context,
+        HtmlAreaTokenVerifier $tokenVerifier
     ) {
-        parent::__construct($context);
+        parent::__construct($context, $tokenVerifier);
 
         $this->tfa = $tfa;
         $this->session = $session;
@@ -105,7 +108,7 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
             );
 
             $res = ['success' => true];
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->alert->event(
                 'Magento_TwoFactorAuth',
                 'U2F error while adding device',
@@ -134,6 +137,10 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
      */
     protected function _isAllowed()
     {
+        if (!parent::_isAllowed()) {
+            return false;
+        }
+
         $user = $this->getUser();
 
         return

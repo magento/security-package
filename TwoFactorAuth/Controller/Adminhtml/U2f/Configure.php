@@ -7,20 +7,21 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Controller\Adminhtml\U2f;
 
-use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\View\Result\PageFactory;
-use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
+use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractConfigureAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 use Magento\TwoFactorAuth\Model\Tfa;
 use Magento\User\Model\User;
+use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * CUbiKey configuration page controller
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
-class Configure extends AbstractAction implements HttpGetActionInterface
+class Configure extends AbstractConfigureAction implements HttpGetActionInterface
 {
     /**
      * @var Tfa
@@ -41,18 +42,20 @@ class Configure extends AbstractAction implements HttpGetActionInterface
      * @param Tfa $tfa
      * @param Session $session
      * @param PageFactory $pageFactory
-     * @param Action\Context $context
+     * @param Context $context
+     * @param HtmlAreaTokenVerifier $tokenVerifier
      */
     public function __construct(
         Tfa $tfa,
         Session $session,
         PageFactory $pageFactory,
-        Action\Context $context
+        Context $context,
+        HtmlAreaTokenVerifier $tokenVerifier
     ) {
 
         $this->tfa = $tfa;
         $this->session = $session;
-        parent::__construct($context);
+        parent::__construct($context, $tokenVerifier);
         $this->pageFactory = $pageFactory;
     }
 
@@ -77,6 +80,10 @@ class Configure extends AbstractAction implements HttpGetActionInterface
      */
     protected function _isAllowed()
     {
+        if (!parent::_isAllowed()) {
+            return false;
+        }
+
         $user = $this->getUser();
 
         return

@@ -3,8 +3,6 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'jquery',
     'ko',
@@ -13,6 +11,8 @@ define([
     'Magento_TwoFactorAuth/js/registry',
     'Magento_TwoFactorAuth/js/u2fkey/api'
 ], function ($, ko, Component, error, registry) {
+    'use strict';
+
     return Component.extend({
         currentStep: ko.observable('register'),
         trustThisDevice: registry.trustThisDevice,
@@ -56,6 +56,7 @@ define([
         getSuccessUrl: function () {
             return this.successUrl;
         },
+
         /**
          * Wait for key touch
          */

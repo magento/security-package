@@ -103,6 +103,8 @@ class TrustedRepository implements TrustedRepositoryInterface
      */
     public function save(TrustedInterface $trusted): TrustedInterface
     {
+        trigger_error('Trusted devices are no longer supported', E_USER_DEPRECATED);
+
         $trustedData = $this->extensibleDataObjectConverter->toNestedArray(
             $trusted,
             [],
@@ -126,6 +128,8 @@ class TrustedRepository implements TrustedRepositoryInterface
      */
     public function getById(int $id): TrustedInterface
     {
+        trigger_error('Trusted devices are no longer supported', E_USER_DEPRECATED);
+
         $fromRegistry = $this->registry->retrieveById($id);
         if ($fromRegistry === null) {
             $trusted = $this->trustedFactory->create();
@@ -147,6 +151,8 @@ class TrustedRepository implements TrustedRepositoryInterface
      */
     public function getByUserId(int $value): TrustedInterface
     {
+        trigger_error('Trusted devices are no longer supported', E_USER_DEPRECATED);
+
         $fromRegistry = $this->registry->retrieveByUserId($value);
         if ($fromRegistry === null) {
             $trusted = $this->trustedFactory->create();
@@ -167,6 +173,8 @@ class TrustedRepository implements TrustedRepositoryInterface
      */
     public function delete(TrustedInterface $trusted): void
     {
+        trigger_error('Trusted devices are no longer supported', E_USER_DEPRECATED);
+
         $trustedData = $this->extensibleDataObjectConverter->toNestedArray(
             $trusted,
             [],
@@ -186,8 +194,9 @@ class TrustedRepository implements TrustedRepositoryInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
     {
-        $collection = $this->collectionFactory->create();
+        trigger_error('Trusted devices are no longer supported', E_USER_DEPRECATED);
 
+        $collection = $this->collectionFactory->create();
         if (null === $searchCriteria) {
             $searchCriteria = $this->searchCriteriaBuilder->create();
         } else {

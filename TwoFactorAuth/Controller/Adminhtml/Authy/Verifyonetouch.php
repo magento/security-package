@@ -16,7 +16,6 @@ use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
-use Magento\TwoFactorAuth\Api\TrustedManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
@@ -42,11 +41,6 @@ class Verifyonetouch extends AbstractAction implements HttpGetActionInterface, H
     private $tfa;
 
     /**
-     * @var TrustedManagerInterface
-     */
-    private $trustedManager;
-
-    /**
      * @var TfaSessionInterface
      */
     private $tfaSession;
@@ -65,7 +59,7 @@ class Verifyonetouch extends AbstractAction implements HttpGetActionInterface, H
      * Verifyonetouch constructor.
      * @param Action\Context $context
      * @param JsonFactory $jsonFactory
-     * @param TrustedManagerInterface $trustedManager
+     * @param \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager
      * @param TfaSessionInterface $tfaSession
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
@@ -75,7 +69,7 @@ class Verifyonetouch extends AbstractAction implements HttpGetActionInterface, H
     public function __construct(
         Action\Context $context,
         JsonFactory $jsonFactory,
-        TrustedManagerInterface $trustedManager,
+        \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager,
         TfaSessionInterface $tfaSession,
         TfaInterface $tfa,
         AlertInterface $alert,
@@ -86,7 +80,6 @@ class Verifyonetouch extends AbstractAction implements HttpGetActionInterface, H
         $this->session = $session;
         $this->jsonFactory = $jsonFactory;
         $this->tfa = $tfa;
-        $this->trustedManager = $trustedManager;
         $this->tfaSession = $tfaSession;
         $this->alert = $alert;
         $this->oneTouch = $oneTouch;
@@ -111,7 +104,6 @@ class Verifyonetouch extends AbstractAction implements HttpGetActionInterface, H
         try {
             $res = $this->oneTouch->verify($this->getUser());
             if ($res === 'approved') {
-                $this->trustedManager->handleTrustDeviceRequest(Authy::CODE, $this->getRequest());
                 $this->tfaSession->grantAccess();
                 $res = ['success' => true, 'status' => 'approved'];
             } else {

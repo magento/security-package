@@ -83,23 +83,4 @@
             </settings>
         </field>
     </fieldset>
-    <fieldset name="trusted_fieldset">
-        <settings>
-            <label translate="true">Trusted devices</label>
-        </settings>
-        <field name="tfa_reset_providers" formElement="input"
-               component="Magento_TwoFactorAuth/js/form/element/trusted_devices" template="ui/form/field">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">tfa_edit_user_form_data_source</item>
-                </item>
-            </argument>
-            <settings>
-                <visible>true</visible>
-                <label>Trusted devices</label>
-                <dataType>text</dataType>
-                <elementTmpl>Magento_TwoFactorAuth/form/element/trusted_devices</elementTmpl>
-            </settings>
-        </field>
-    </fieldset>
 </form>

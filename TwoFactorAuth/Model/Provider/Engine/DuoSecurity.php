@@ -223,7 +223,11 @@ class DuoSecurity implements EngineInterface
     {
         $time = time();
 
-        [$authSig, $appSig] = explode(':', $request->getData('sig_response'));
+        $signatures = explode(':', (string)$request->getData('sig_response'));
+        if (count($signatures) !== 2) {
+            return false;
+        }
+        [$authSig, $appSig] = $signatures;
 
         $authUser = $this->parseValues($this->getSecretKey(), $authSig, static::AUTH_PREFIX, $time);
         $appUser = $this->parseValues($this->getApplicationKey(), $appSig, static::APP_PREFIX, $time);
@@ -236,12 +240,15 @@ class DuoSecurity implements EngineInterface
      */
     public function isEnabled(): bool
     {
-        return
-            (bool) $this->scopeConfig->getValue(static::XML_PATH_ENABLED) &&
-            (bool) $this->getApiHostname() &&
-            (bool) $this->getIntegrationKey() &&
-            (bool) $this->getApiHostname() &&
-            (bool) $this->getSecretKey();
+        try {
+            return !!$this->getApiHostname() &&
+                !!$this->getIntegrationKey() &&
+                !!$this->getApiHostname() &&
+                !!$this->getSecretKey();
+        } catch (\TypeError $exception) {
+            //At least one of the methods returned null instead of a string
+            return false;
+        }
     }
 
     /**

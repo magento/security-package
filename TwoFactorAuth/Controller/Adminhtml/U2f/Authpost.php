@@ -16,7 +16,6 @@ use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\DataObjectFactory;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
-use Magento\TwoFactorAuth\Api\TrustedManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 use Magento\TwoFactorAuth\Model\Tfa;
@@ -55,11 +54,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     private $tfaSession;
 
     /**
-     * @var TrustedManagerInterface
-     */
-    private $trustedManager;
-
-    /**
      * @var DataObjectFactory
      */
     private $dataObjectFactory;
@@ -74,7 +68,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         Session $session,
         JsonFactory $jsonFactory,
         TfaSessionInterface $tfaSession,
-        TrustedManagerInterface $trustedManager,
+        \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager,
         U2fKey $u2fKey,
         DataObjectFactory $dataObjectFactory,
         AlertInterface $alert,
@@ -87,7 +81,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $this->u2fKey = $u2fKey;
         $this->jsonFactory = $jsonFactory;
         $this->tfaSession = $tfaSession;
-        $this->trustedManager = $trustedManager;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
     }
@@ -104,7 +97,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
                 'data' => $this->getRequest()->getParams(),
             ]));
             $this->tfaSession->grantAccess();
-            $this->trustedManager->handleTrustDeviceRequest(U2fKey::CODE, $this->getRequest());
 
             $res = ['success' => true];
         } catch (Exception $e) {

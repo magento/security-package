@@ -3,8 +3,6 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'jquery',
     'ko',
@@ -12,6 +10,8 @@ define([
     'Magento_TwoFactorAuth/js/error',
     'Magento_TwoFactorAuth/js/u2fkey/api'
 ], function ($, ko, Component, error) {
+    'use strict';
+
     return Component.extend({
         currentStep: ko.observable('register'),
 

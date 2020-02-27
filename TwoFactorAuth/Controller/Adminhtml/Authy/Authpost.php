@@ -16,7 +16,6 @@ use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
-use Magento\TwoFactorAuth\Api\TrustedManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
@@ -47,11 +46,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     private $tfaSession;
 
     /**
-     * @var TrustedManagerInterface
-     */
-    private $trustedManager;
-
-    /**
      * @var Authy
      */
     private $authy;
@@ -72,7 +66,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      * @param JsonFactory $jsonFactory
      * @param Authy $authy
      * @param TfaSessionInterface $tfaSession
-     * @param TrustedManagerInterface $trustedManager
+     * @param \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
@@ -83,7 +77,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         JsonFactory $jsonFactory,
         Authy $authy,
         TfaSessionInterface $tfaSession,
-        TrustedManagerInterface $trustedManager,
+        \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager,
         TfaInterface $tfa,
         AlertInterface $alert,
         DataObjectFactory $dataObjectFactory
@@ -93,7 +87,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $this->session = $session;
         $this->jsonFactory = $jsonFactory;
         $this->tfaSession = $tfaSession;
-        $this->trustedManager = $trustedManager;
         $this->authy = $authy;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
@@ -120,7 +113,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
             $this->authy->verify($user, $this->dataObjectFactory->create([
                 'data' => $this->getRequest()->getParams(),
             ]));
-            $this->trustedManager->handleTrustDeviceRequest(Authy::CODE, $this->getRequest());
             $this->tfaSession->grantAccess();
             $result->setData(['success' => true]);
         } catch (Exception $e) {

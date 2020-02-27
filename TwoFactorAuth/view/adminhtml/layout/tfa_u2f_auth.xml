@@ -24,12 +24,6 @@
                         <item name="components" xsi:type="array">
                             <item name="tfa-auth" xsi:type="array">
                                 <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/u2fkey/auth</item>
-                                <item name="children" xsi:type="array">
-                                    <item name="tfa-trust-device" xsi:type="array">
-                                        <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/trust_device</item>
-                                        <item name="displayArea" xsi:type="string">trust-device</item>
-                                    </item>
-                                </item>
                             </item>
                         </item>
                     </argument>

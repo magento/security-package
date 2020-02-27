@@ -10,19 +10,11 @@
     <default>
         <twofactorauth>
             <general>
-                <enabled>0</enabled>
                 <force_providers></force_providers>
             </general>
-            <google>
-                <allow_trusted_devices>1</allow_trusted_devices>
-            </google>
             <authy>
-                <allow_trusted_devices>1</allow_trusted_devices>
                 <onetouch_message>Login request to your Magento Admin</onetouch_message>
             </authy>
-            <u2fkey>
-                <allow_trusted_devices>1</allow_trusted_devices>
-            </u2fkey>
         </twofactorauth>
     </default>
 </config>

@@ -3,12 +3,12 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'uiComponent',
     'Magento_TwoFactorAuth/js/registry'
 ], function (Component, registry) {
+    'use strict';
+
     return Component.extend({
         checked: registry.trustThisDevice,
 

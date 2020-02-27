@@ -24,17 +24,21 @@ use Zend\Json\Json;
 class Authy implements EngineInterface
 {
     /**
-     * Engine code
+     * Must be the same as defined in di.xml
      */
-    public const CODE = 'authy'; // Must be the same as defined in di.xml
+    public const CODE = 'authy';
 
     /**
      * Configuration XML path for enabled flag
+     *
+     * @deprecated Providers are now enabled via "forced_providers" config
      */
     public const XML_PATH_ENABLED = 'twofactorauth/authy/enabled';
 
     /**
      * Configuration XML path to allow trusted devices
+     *
+     * @deprecated Trusted devices functionality is now deprecated
      */
     public const XML_PATH_ALLOW_TRUSTED_DEVICES = 'twofactorauth/authy/allow_trusted_devices';
 
@@ -128,9 +132,12 @@ class Authy implements EngineInterface
      */
     public function isEnabled(): bool
     {
-        return
-            (bool) $this->scopeConfig->getValue(static::XML_PATH_ENABLED) &&
-            (bool) $this->service->getApiKey();
+        try {
+            return !!$this->service->getApiKey();
+        } catch (\TypeError $exception) {
+            //API key is empty, returned null instead of a string
+            return false;
+        }
     }
 
     /**
@@ -146,6 +153,6 @@ class Authy implements EngineInterface
      */
     public function isTrustedDevicesAllowed(): bool
     {
-        return (bool) $this->scopeConfig->getValue(static::XML_PATH_ALLOW_TRUSTED_DEVICES);
+        return false;
     }
 }

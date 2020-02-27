@@ -11,6 +11,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Trusted platform entity interface
+ *
+ * @deprecated Trusted Devices functionality was removed.
  */
 interface TrustedInterface extends ExtensibleDataInterface
 {
@@ -51,6 +53,7 @@ interface TrustedInterface extends ExtensibleDataInterface
 
     /**
      * Get value for tfa_trusted_id
+     *
      * @return int
      */
     public function getId(): int;

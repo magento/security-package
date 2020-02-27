@@ -15,6 +15,7 @@ use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
+use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * Duo security authentication page
@@ -42,18 +43,25 @@ class Auth extends AbstractAction implements HttpGetActionInterface
      */
     private $userConfigManager;
 
+    /**
+     * @var HtmlAreaTokenVerifier
+     */
+    private $tokenVerifier;
+
     public function __construct(
         Action\Context $context,
         Session $session,
         PageFactory $pageFactory,
         UserConfigManagerInterface $userConfigManager,
-        TfaInterface $tfa
+        TfaInterface $tfa,
+        HtmlAreaTokenVerifier $tokenVerifier
     ) {
         parent::__construct($context);
         $this->tfa = $tfa;
         $this->session = $session;
         $this->pageFactory = $pageFactory;
         $this->userConfigManager = $userConfigManager;
+        $this->tokenVerifier = $tokenVerifier;
     }
 
     /**
@@ -70,7 +78,7 @@ class Auth extends AbstractAction implements HttpGetActionInterface
      */
     public function execute()
     {
-        $this->userConfigManager->setDefaultProvider((int) $this->getUser()->getId(), DuoSecurity::CODE);
+        $this->userConfigManager->setDefaultProvider((int)$this->getUser()->getId(), DuoSecurity::CODE);
         return $this->pageFactory->create();
     }
 
@@ -81,11 +89,19 @@ class Auth extends AbstractAction implements HttpGetActionInterface
      */
     protected function _isAllowed()
     {
-        // Do not check for activation
+        if (!parent::_isAllowed()) {
+            return false;
+        }
+
+        // 1st time users must have the token.
         $user = $this->getUser();
 
         return
             $user &&
-            $this->tfa->getProviderIsAllowed((int) $user->getId(), DuoSecurity::CODE);
+            $this->tfa->getProviderIsAllowed((int)$user->getId(), DuoSecurity::CODE)
+            && (
+                $this->userConfigManager->isProviderConfigurationActive((int)$user->getId(), DuoSecurity::CODE)
+                || $this->tokenVerifier->isConfigTokenProvided()
+            );
     }
 }

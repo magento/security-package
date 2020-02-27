@@ -3,12 +3,18 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
+define(
+    [],
+    function () {
+    'use strict';
 
-define([
-    'ko'
-], function (ko) {
     return {
-        trustThisDevice: ko.observable(false)
+        /**
+         * Trusted devices are not allowed.
+         * @returns {Boolean}
+         */
+        trustThisDevice: function () {
+            return false;
+        }
     };
 });

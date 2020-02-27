@@ -11,7 +11,6 @@ use Endroid\QrCode\Exception\ValidationException;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Exception;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
@@ -28,16 +27,22 @@ class Google implements EngineInterface
 {
     /**
      * Engine code
+     *
+     * Must be the same as defined in di.xml
      */
-    public const CODE = 'google'; // Must be the same as defined in di.xml
+    public const CODE = 'google';
 
     /**
      * Configuration XML path for enabled flag
+     *
+     * @deprecated Providers are now enabled via "forced_providers" config
      */
     public const XML_PATH_ENABLED = 'twofactorauth/google/enabled';
 
     /**
      * Configuration XML path to allow trusted devices
+     *
+     * @deprecated Trusted devices functionality is now deprecated
      */
     public const XML_PATH_ALLOW_TRUSTED_DEVICES = 'twofactorauth/google/allow_trusted_devices';
 
@@ -57,23 +62,17 @@ class Google implements EngineInterface
     private $storeManager;
 
     /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
-
-    /**
      * @param StoreManagerInterface $storeManager
-     * @param ScopeConfigInterface $scopeConfig
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param UserConfigManagerInterface $configManager
      */
     public function __construct(
         StoreManagerInterface $storeManager,
-        ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         UserConfigManagerInterface $configManager
     ) {
         $this->configManager = $configManager;
         $this->storeManager = $storeManager;
-        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -95,22 +94,16 @@ class Google implements EngineInterface
      */
     private function getTotp(UserInterface $user): TOTP
     {
-        if ($this->totp === null) {
-            $config = $this->configManager->getProviderConfig((int) $user->getId(), static::CODE);
-
-            if (!isset($config['secret'])) {
-                $config['secret'] = $this->getSecretCode($user);
-            }
-
-            // @codingStandardsIgnoreStart
-            $this->totp = new TOTP(
-                $user->getEmail(),
-                $config['secret']
-            );
-            // @codingStandardsIgnoreEnd
+        $config = $this->configManager->getProviderConfig((int)$user->getId(), static::CODE);
+        if (!isset($config['secret'])) {
+            $config['secret'] = $this->getSecretCode($user);
         }
+        if (!$config['secret']) {
+            throw new NoSuchEntityException(__('Secret for user with ID#%1 was not found', $user->getId()));
+        }
+        $totp = new TOTP($user->getEmail(), $config['secret']);
 
-        return $this->totp;
+        return $totp;
     }
 
     /**
@@ -122,11 +115,11 @@ class Google implements EngineInterface
      */
     public function getSecretCode(UserInterface $user): ?string
     {
-        $config = $this->configManager->getProviderConfig((int) $user->getId(), static::CODE);
+        $config = $this->configManager->getProviderConfig((int)$user->getId(), static::CODE);
 
         if (!isset($config['secret'])) {
             $config['secret'] = $this->generateSecret();
-            $this->configManager->setProviderConfig((int) $user->getId(), static::CODE, $config);
+            $this->configManager->setProviderConfig((int)$user->getId(), static::CODE, $config);
         }
 
         return $config['secret'] ?? null;
@@ -158,6 +151,9 @@ class Google implements EngineInterface
     public function verify(UserInterface $user, DataObject $request): bool
     {
         $token = $request->getData('tfa_code');
+        if (!$token) {
+            return false;
+        }
 
         $totp = $this->getTotp($user);
         $totp->now();
@@ -195,7 +191,7 @@ class Google implements EngineInterface
      */
     public function isEnabled(): bool
     {
-        return (bool) $this->scopeConfig->getValue(static::XML_PATH_ENABLED);
+        return true;
     }
 
     /**
@@ -203,6 +199,6 @@ class Google implements EngineInterface
      */
     public function isTrustedDevicesAllowed(): bool
     {
-        return (bool) $this->scopeConfig->getValue(static::XML_PATH_ALLOW_TRUSTED_DEVICES);
+        return false;
     }
 }

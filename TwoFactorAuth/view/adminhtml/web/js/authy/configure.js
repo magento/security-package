@@ -3,13 +3,13 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'ko',
     'uiComponent',
     'Magento_TwoFactorAuth/js/authy/configure/registry'
 ], function (ko, Component, registry) {
+    'use strict';
+
     return Component.extend({
         currentStep: registry.currentStep,
         defaults: {

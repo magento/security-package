@@ -12,6 +12,7 @@ use Magento\TwoFactorAuth\Api\Data\TrustedInterface;
 /**
  * Trusted hosts registry
  * @SuppressWarnings(PHPMD.ShortVariable)
+ * @deprecated Trusted Devices functionality was removed.
  */
 class TrustedRegistry
 {
