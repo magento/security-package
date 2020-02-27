@@ -8,9 +8,8 @@ define([
     'ko',
     'uiComponent',
     'Magento_TwoFactorAuth/js/error',
-    'Magento_TwoFactorAuth/js/registry',
     'mage/translate'
-], function ($, ko, Component, error, registry) {
+], function ($, ko, Component, error) {
     'use strict';
 
     return Component.extend({
@@ -18,8 +17,6 @@ define([
         waitingText: ko.observable(''),
         success: ko.observable(false),
         tokenCode: ko.observable(''),
-
-        trustThisDevice: registry.trustThisDevice,
 
         defaults: {
             template: 'Magento_TwoFactorAuth/authy/auth'
@@ -102,7 +99,7 @@ define([
             if (via !== 'token') {
                 $.getJSON(
                     this.getTokenRequestUrl() + '?via=' +
-                    via + '&tfa_trust_device=' + (me.trustThisDevice() ? 1 : 0)
+                    via
                 )
                     .fail(function () {
                         error.display('There was an error trying to contact Authy services');
@@ -144,7 +141,7 @@ define([
 
             this.stopWaitingOnetouchApproval();
 
-            $.getJSON(this.getOneTouchUrl() + '?tfa_trust_device=' + (me.trustThisDevice() ? 1 : 0))
+            $.getJSON(this.getOneTouchUrl())
                 .done(function () {
                     me.waitForOneTouchApproval();
                 })

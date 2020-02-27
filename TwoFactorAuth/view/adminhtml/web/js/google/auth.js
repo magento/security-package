@@ -8,8 +8,7 @@ define([
     'ko',
     'uiComponent',
     'Magento_TwoFactorAuth/js/error',
-    'Magento_TwoFactorAuth/js/registry'
-], function ($, ko, Component, error, registry) {
+], function ($, ko, Component, error) {
     'use strict';
 
     return Component.extend({
@@ -19,8 +18,6 @@ define([
         defaults: {
             template: 'Magento_TwoFactorAuth/google/auth'
         },
-
-        trustThisDevice: registry.trustThisDevice,
 
         qrCodeUrl: '',
         postUrl: '',
@@ -68,8 +65,7 @@ define([
 
             this.waitText('Please wait...');
             $.post(this.getPostUrl(), {
-                'tfa_code': this.verifyCode(),
-                'tfa_trust_device': me.trustThisDevice() ? 1 : 0
+                'tfa_code': this.verifyCode()
             })
                 .done(function (res) {
                     if (res.success) {

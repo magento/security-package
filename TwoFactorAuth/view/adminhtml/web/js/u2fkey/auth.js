@@ -8,14 +8,12 @@ define([
     'ko',
     'uiComponent',
     'Magento_TwoFactorAuth/js/error',
-    'Magento_TwoFactorAuth/js/registry',
     'Magento_TwoFactorAuth/js/u2fkey/api'
-], function ($, ko, Component, error, registry) {
+], function ($, ko, Component, error) {
     'use strict';
 
     return Component.extend({
         currentStep: ko.observable('register'),
-        trustThisDevice: registry.trustThisDevice,
 
         defaults: {
             template: 'Magento_TwoFactorAuth/u2fkey/auth'
@@ -70,8 +68,7 @@ define([
                 function (signResponse) {
                     $.post(me.getPostUrl(), {
                         'request': requestData,
-                        'response': signResponse,
-                        'tfa_trust_device': me.trustThisDevice() ? 1 : 0
+                        'response': signResponse
                     }).done(function (res) {
                         if (res.success) {
                             me.currentStep('login');
