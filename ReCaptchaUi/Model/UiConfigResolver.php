@@ -66,6 +66,6 @@ class UiConfigResolver implements UiConfigResolverInterface
                 __('UI config provider for "%type" is not configured.', ['type' => $captchaType])
             );
         }
-        return $this->captchaUiConfigProviders[$key]->get();
+        return $this->captchaUiConfigProviders[$captchaType]->get();
     }
 }

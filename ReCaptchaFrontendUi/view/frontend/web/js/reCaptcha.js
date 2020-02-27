@@ -122,7 +122,8 @@ define(
                         },
                         'expired-callback': function () {
                             me.validateReCaptcha(false);
-                        }
+                        },
+                        'size': 'invisible'
                     },
                     this.settings.rendering
                 );

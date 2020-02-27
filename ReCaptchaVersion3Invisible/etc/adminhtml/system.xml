@@ -14,6 +14,7 @@
                 <field id="private_key" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="0">
                     <label>Google API Secret Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
 
                 <field id="score_threshold" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"
@@ -46,6 +47,7 @@
                 <field id="private_key" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="0">
                     <label>Google API Secret Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
 
                 <field id="score_threshold" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"
