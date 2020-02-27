@@ -36,20 +36,6 @@
         </resources>
     </route>
 
-    <route url="/V1/tfa/trusted-devices/:userId" method="GET">
-        <service class="\Magento\TwoFactorAuth\Api\TfaInterface" method="getTrustedDevices"/>
-        <resources>
-            <resource ref="Magento_TwoFactorAuth::tfa" />
-        </resources>
-    </route>
-
-    <route url="/V1/tfa/trusted-devices/:tokenId" method="DELETE">
-        <service class="\Magento\TwoFactorAuth\Api\TrustedManagerInterface" method="revokeTrustedDevice"/>
-        <resources>
-            <resource ref="Magento_TwoFactorAuth::tfa" />
-        </resources>
-    </route>
-
     <route url="/V1/tfa/default-provider-code/:userId" method="GET">
         <service class="\Magento\TwoFactorAuth\Api\UserConfigManagerInterface" method="getDefaultProvider"/>
         <resources>

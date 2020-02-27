@@ -215,16 +215,6 @@ class TfaTest extends TestCase
     }
 
     /**
-     * Verify that Trusted Devices functionality was removed.
-     *
-     * @return void
-     */
-    public function testGetTrustedDevices(): void
-    {
-        $this->assertEmpty($this->model->getTrustedDevices(1));
-    }
-
-    /**
      * Verify that 2FA is always enabled
      *
      * @return void

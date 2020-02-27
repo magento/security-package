@@ -25,16 +25,6 @@ class U2fKeyTest extends TestCase
     }
 
     /**
-     * Check that trusted devices functionality is disabled.
-     *
-     * @return void
-     */
-    public function testIsTrustedDevicesAllowed(): void
-    {
-        $this->assertFalse($this->model->isTrustedDevicesAllowed());
-    }
-
-    /**
      * Check that the provider is available based on configuration.
      *
      * @return void

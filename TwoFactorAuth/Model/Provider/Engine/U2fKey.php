@@ -33,20 +33,6 @@ class U2fKey implements EngineInterface
     public const CODE = 'u2fkey';
 
     /**
-     * Configuration XML path for enabled flag
-     *
-     * @deprecated Providers are now enabled via "forced_providers" config
-     */
-    public const XML_PATH_ENABLED = 'twofactorauth/u2fkey/enabled';
-
-    /**
-     * Configuration XML path to allow trusted devices
-     *
-     * @deprecated Trusted devices functionality is now deprecated
-     */
-    public const XML_PATH_ALLOW_TRUSTED_DEVICES = 'twofactorauth/u2fkey/allow_trusted_devices';
-
-    /**
      * @var UserConfigManagerInterface
      */
     private $userConfigManager;
@@ -195,14 +181,6 @@ class U2fKey implements EngineInterface
     public function isEnabled(): bool
     {
         return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isTrustedDevicesAllowed(): bool
-    {
-        return false;
     }
 
     /**

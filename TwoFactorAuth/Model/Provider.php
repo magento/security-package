@@ -144,14 +144,6 @@ class Provider implements ProviderInterface
     }
 
     /**
-     * @inheritDoc
-     */
-    public function isTrustedDevicesAllowed(): bool
-    {
-        return false;
-    }
-
-    /**
      * @inheritdoc
      */
     public function resetConfiguration(int $userId): void

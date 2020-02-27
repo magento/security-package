@@ -147,7 +147,6 @@ class DataProvider extends AbstractDataProvider
 
                 $data = [
                     'reset_providers' => $resetProviders,
-                    'trusted_devices' => [],
                     'tfa_providers' => $providerCodes,
                 ];
                 $this->loadedData[(int) $user->getId()] = $data;

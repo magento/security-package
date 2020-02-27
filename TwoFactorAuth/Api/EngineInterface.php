@@ -23,14 +23,6 @@ interface EngineInterface
     public function isEnabled(): bool;
 
     /**
-     * Return true if this provider allows trusted devices
-     *
-     * @return bool
-     * @deprecated Trusted Devices functionality is deprecated.
-     */
-    public function isTrustedDevicesAllowed(): bool;
-
-    /**
      * Return true on token validation
      * @param UserInterface $user
      * @param DataObject $request

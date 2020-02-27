@@ -7,20 +7,11 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Api;
 
-use Magento\TwoFactorAuth\Api\Data\TrustedInterface;
-
 /**
  * 2FA configuration manager.
  */
 interface TfaInterface
 {
-    /**
-     * Enabled field
-     *
-     * @deprecated 2FA cannot be disabled anymore.
-     */
-    public const XML_PATH_ENABLED = 'twofactorauth/general/enabled';
-
     /**
      * Forced providers fields
      */
@@ -73,15 +64,6 @@ interface TfaInterface
      * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
      */
     public function getAllEnabledProviders(): array;
-
-    /**
-     * Return a list of trusted devices for given user id
-     *
-     * @param int $userId
-     * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
-     * @deprecated Trusted Devices functionality was removed.
-     */
-    public function getTrustedDevices(int $userId): array;
 
     /**
      * Get allowed URLs

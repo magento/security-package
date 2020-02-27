@@ -49,14 +49,12 @@ class Tfa implements TfaInterface
 
     /**
      * @param ScopeConfigInterface $scopeConfig
-     * @param \Magento\TwoFactorAuth\Api\TrustedRepositoryInterface $trustedRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param UserConfigManagerInterface $userConfigManager
      * @param ProviderPoolInterface $providerPool
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        \Magento\TwoFactorAuth\Api\TrustedRepositoryInterface $trustedRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         UserConfigManagerInterface $userConfigManager,
         ProviderPoolInterface $providerPool
@@ -157,14 +155,6 @@ class Tfa implements TfaInterface
     public function getUserProviders(int $userId): array
     {
         return $this->getForcedProviders();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTrustedDevices(int $userId): array
-    {
-        return [];
     }
 
     /**

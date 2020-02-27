@@ -8,22 +8,6 @@
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
 
-    <table name="tfa_trusted" resource="default" engine="innodb" comment="tfa_trusted">
-        <column xsi:type="int" name="trusted_id" padding="10" unsigned="true" nullable="false" identity="true"
-                comment="Trusted device ID"/>
-        <column xsi:type="datetime" name="date_time" on_update="false" nullable="false" comment="Date and time"/>
-        <column xsi:type="int" name="user_id" padding="10" unsigned="true" nullable="false" identity="false"
-                comment="User ID"/>
-        <column xsi:type="varchar" name="device_name" nullable="false" comment="Device name"/>
-        <column xsi:type="text" name="token" nullable="false" comment="Token"/>
-        <column xsi:type="varchar" name="last_ip" nullable="false" comment="Last IP"/>
-        <constraint xsi:type="primary" referenceId="PRIMARY">
-            <column name="trusted_id"/>
-        </constraint>
-        <constraint xsi:type="foreign" referenceId="TFA_TRUSTED_USER_ID_ADMIN_USER_USER_ID" table="tfa_trusted"
-                    column="user_id" referenceTable="admin_user" referenceColumn="user_id" onDelete="CASCADE"/>
-    </table>
-
     <table name="tfa_user_config" resource="default" engine="innodb" comment="tfa_user_config">
         <column xsi:type="int" name="config_id" padding="10" unsigned="true" nullable="false"
                 identity="true" comment="TFA admin user ID"/>

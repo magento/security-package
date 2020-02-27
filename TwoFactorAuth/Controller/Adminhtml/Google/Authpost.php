@@ -66,7 +66,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      * @param JsonFactory $jsonFactory
      * @param Google $google
      * @param TfaSessionInterface $tfaSession
-     * @param \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
@@ -77,7 +76,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         JsonFactory $jsonFactory,
         Google $google,
         TfaSessionInterface $tfaSession,
-        \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager,
         TfaInterface $tfa,
         AlertInterface $alert,
         DataObjectFactory $dataObjectFactory
@@ -88,7 +86,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $this->jsonFactory = $jsonFactory;
         $this->google = $google;
         $this->tfaSession = $tfaSession;
-        $this->trustedManager = $trustedManager;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
     }

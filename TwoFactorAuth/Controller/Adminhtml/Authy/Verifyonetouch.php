@@ -59,7 +59,6 @@ class Verifyonetouch extends AbstractAction implements HttpGetActionInterface, H
      * Verifyonetouch constructor.
      * @param Action\Context $context
      * @param JsonFactory $jsonFactory
-     * @param \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager
      * @param TfaSessionInterface $tfaSession
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
@@ -69,7 +68,6 @@ class Verifyonetouch extends AbstractAction implements HttpGetActionInterface, H
     public function __construct(
         Action\Context $context,
         JsonFactory $jsonFactory,
-        \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager,
         TfaSessionInterface $tfaSession,
         TfaInterface $tfa,
         AlertInterface $alert,

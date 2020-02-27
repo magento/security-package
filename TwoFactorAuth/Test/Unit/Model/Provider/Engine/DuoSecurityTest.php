@@ -33,16 +33,6 @@ class DuoSecurityTest extends TestCase
     }
 
     /**
-     * Check that trusted devices functionality is disabled.
-     *
-     * @return void
-     */
-    public function testIsTrustedDevicesAllowed(): void
-    {
-        $this->assertFalse($this->model->isTrustedDevicesAllowed());
-    }
-
-    /**
      * Enabled test dataset.
      *
      * @return array

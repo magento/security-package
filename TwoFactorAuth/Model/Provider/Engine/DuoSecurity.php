@@ -250,12 +250,4 @@ class DuoSecurity implements EngineInterface
             return false;
         }
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function isTrustedDevicesAllowed(): bool
-    {
-        return false;
-    }
 }

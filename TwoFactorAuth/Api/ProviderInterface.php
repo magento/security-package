@@ -50,14 +50,6 @@ interface ProviderInterface
     public function isResetAllowed(): bool;
 
     /**
-     * Return true if this provider allows trusted devices
-     *
-     * @return bool
-     * @deprecated Trusted Devices functionality was removed.
-     */
-    public function isTrustedDevicesAllowed(): bool;
-
-    /**
      * Reset provider configuration
      * @param int $userId
      */

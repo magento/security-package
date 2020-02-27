@@ -68,7 +68,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         Session $session,
         JsonFactory $jsonFactory,
         TfaSessionInterface $tfaSession,
-        \Magento\TwoFactorAuth\Api\TrustedManagerInterface $trustedManager,
         U2fKey $u2fKey,
         DataObjectFactory $dataObjectFactory,
         AlertInterface $alert,

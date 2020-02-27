@@ -9,11 +9,6 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 
     <preference for="Magento\TwoFactorAuth\Api\ProviderPoolInterface" type="Magento\TwoFactorAuth\Model\ProviderPool"/>
-    <preference for="Magento\TwoFactorAuth\Api\Data\TrustedInterface" type="Magento\TwoFactorAuth\Model\Data\Trusted"/>
-    <preference for="Magento\TwoFactorAuth\Api\TrustedRepositoryInterface"
-                type="Magento\TwoFactorAuth\Model\ResourceModel\TrustedRepository"/>
-    <preference for="Magento\TwoFactorAuth\Api\Data\TrustedSearchResultsInterface"
-                type="Magento\Framework\Api\SearchResults"/>
     <preference for="Magento\TwoFactorAuth\Api\Data\CountryInterface" type="Magento\TwoFactorAuth\Model\Data\Country"/>
     <preference for="Magento\TwoFactorAuth\Api\CountryRepositoryInterface"
                 type="Magento\TwoFactorAuth\Model\ResourceModel\CountryRepository"/>
@@ -27,7 +22,6 @@
     <preference for="Magento\TwoFactorAuth\Api\TfaInterface" type="Magento\TwoFactorAuth\Model\Tfa"/>
     <preference for="Magento\TwoFactorAuth\Api\UserConfigManagerInterface"
                 type="Magento\TwoFactorAuth\Model\UserConfigManager"/>
-    <preference for="Magento\TwoFactorAuth\Api\TrustedManagerInterface" type="Magento\TwoFactorAuth\Model\TrustedManager"/>
     <preference for="Magento\TwoFactorAuth\Api\TfaSessionInterface" type="Magento\TwoFactorAuth\Model\TfaSession"/>
     <preference for="Magento\TwoFactorAuth\Model\AlertInterface" type="Magento\TwoFactorAuth\Model\Alert"/>
 

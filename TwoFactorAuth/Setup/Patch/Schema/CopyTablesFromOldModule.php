@@ -57,12 +57,10 @@ class CopyTablesFromOldModule implements SchemaPatchInterface
         }
 
         if ($connection->isTableExists($sourceTrustedDevicesTable)) {
-            $cols = ['date_time', 'user_id', 'device_name', 'token', 'last_ip'];
-            $connection->query($connection->insertFromSelect(
-                $connection->select()->from($sourceTrustedDevicesTable, $cols),
-                $trustedDevicesTable,
-                $cols
-            ));
+            $connection->dropTable($sourceTrustedDevicesTable);
+        }
+        if ($connection->isTableExists($trustedDevicesTable)) {
+            $connection->dropTable($trustedDevicesTable);
         }
 
         $this->schemaSetup->endSetup();

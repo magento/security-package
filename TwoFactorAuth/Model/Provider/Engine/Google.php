@@ -33,20 +33,6 @@ class Google implements EngineInterface
     public const CODE = 'google';
 
     /**
-     * Configuration XML path for enabled flag
-     *
-     * @deprecated Providers are now enabled via "forced_providers" config
-     */
-    public const XML_PATH_ENABLED = 'twofactorauth/google/enabled';
-
-    /**
-     * Configuration XML path to allow trusted devices
-     *
-     * @deprecated Trusted devices functionality is now deprecated
-     */
-    public const XML_PATH_ALLOW_TRUSTED_DEVICES = 'twofactorauth/google/allow_trusted_devices';
-
-    /**
      * @var null
      */
     private $totp = null;
@@ -192,13 +178,5 @@ class Google implements EngineInterface
     public function isEnabled(): bool
     {
         return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isTrustedDevicesAllowed(): bool
-    {
-        return false;
     }
 }

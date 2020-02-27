@@ -1,10 +1,4 @@
 {
-    "tfa_trusted": {
-        "constraint": {
-            "PRIMARY": true,
-            "TFA_TRUSTED_USER_ID_ADMIN_USER_USER_ID": true
-        }
-    },
     "tfa_user_config": {
         "constraint": {
             "PRIMARY": true,

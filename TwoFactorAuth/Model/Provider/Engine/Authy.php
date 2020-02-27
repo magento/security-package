@@ -29,20 +29,6 @@ class Authy implements EngineInterface
     public const CODE = 'authy';
 
     /**
-     * Configuration XML path for enabled flag
-     *
-     * @deprecated Providers are now enabled via "forced_providers" config
-     */
-    public const XML_PATH_ENABLED = 'twofactorauth/authy/enabled';
-
-    /**
-     * Configuration XML path to allow trusted devices
-     *
-     * @deprecated Trusted devices functionality is now deprecated
-     */
-    public const XML_PATH_ALLOW_TRUSTED_DEVICES = 'twofactorauth/authy/allow_trusted_devices';
-
-    /**
      * @var UserConfigManagerInterface
      */
     private $userConfigManager;
@@ -146,13 +132,5 @@ class Authy implements EngineInterface
     public function verify(UserInterface $user, DataObject $request): bool
     {
         return $this->token->verify($user, $request);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isTrustedDevicesAllowed(): bool
-    {
-        return false;
     }
 }
