@@ -8,12 +8,6 @@
         "magento/module-re-captcha-api": "*",
         "magento/module-re-captcha-ui": "*"
     },
-    "authors": [
-        {
-            "name": "Riccardo Tempesta",
-            "email": "riccardo.tempesta@magespecialist.it"
-        }
-    ],
     "type": "magento2-module",
     "license": "OSL-3.0",
     "autoload": {

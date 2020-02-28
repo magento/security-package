@@ -17,7 +17,7 @@
             <class>separator-top</class>
             <label>Google reCAPTCHA Admin Panel</label>
             <tab>security</tab>
-            <resource>Magento_ReCaptcha::config</resource>
+            <resource>Magento_ReCaptchaUi::config</resource>
 
             <group id="type_for" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="0"
                    showInStore="0">
@@ -30,7 +30,7 @@
             <class>separator-top</class>
             <label>Google reCAPTCHA Storefront</label>
             <tab>security</tab>
-            <resource>Magento_ReCaptcha::config</resource>
+            <resource>Magento_ReCaptchaUi::config</resource>
 
             <group id="type_for" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1"
                    showInStore="0">

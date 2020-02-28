@@ -12,12 +12,14 @@
             <type_recaptcha_v3>
                 <score_threshold>0.5</score_threshold>
                 <position>inline</position>
+                <validation_failure_message>You cannot proceed with such operation, your reCAPTCHA reputation is too low.</validation_failure_message>
             </type_recaptcha_v3>
         </recaptcha_backend>
         <recaptcha_frontend>
             <type_recaptcha_v3>
                 <score_threshold>0.5</score_threshold>
                 <position>inline</position>
+                <validation_failure_message>You cannot proceed with such operation, your reCAPTCHA reputation is too low.</validation_failure_message>
             </type_recaptcha_v3>
         </recaptcha_frontend>
     </default>

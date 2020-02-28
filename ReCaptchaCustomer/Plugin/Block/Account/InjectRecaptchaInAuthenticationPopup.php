@@ -10,7 +10,7 @@ namespace Magento\ReCaptchaCustomer\Plugin\Block\Account;
 use Magento\Customer\Block\Account\AuthenticationPopup;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Serialize\Serializer\Json;
-use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\UiConfigResolverInterface;
 
 /**
@@ -24,9 +24,9 @@ class InjectRecaptchaInAuthenticationPopup
     private $captchaUiConfigResolver;
 
     /**
-     * @var CaptchaConfigInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $captchaConfig;
+    private $isCaptchaEnabled;
 
     /**
      * @var Json
@@ -35,16 +35,16 @@ class InjectRecaptchaInAuthenticationPopup
 
     /**
      * @param UiConfigResolverInterface $captchaUiConfigResolver
-     * @param CaptchaConfigInterface $captchaConfig
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param Json $serializer
      */
     public function __construct(
         UiConfigResolverInterface $captchaUiConfigResolver,
-        CaptchaConfigInterface $captchaConfig,
+        IsCaptchaEnabledInterface $isCaptchaEnabled,
         Json $serializer
     ) {
         $this->captchaUiConfigResolver = $captchaUiConfigResolver;
-        $this->captchaConfig = $captchaConfig;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->serializer = $serializer;
     }
 
@@ -60,7 +60,7 @@ class InjectRecaptchaInAuthenticationPopup
         $layout = $this->serializer->unserialize($result);
         $key = 'customer_login';
 
-        if ($this->captchaConfig->isCaptchaEnabledFor($key)) {
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             $layout['components']['authenticationPopup']['children']['recaptcha']['settings']
                 = $this->captchaUiConfigResolver->get($key);
         } else {

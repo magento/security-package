@@ -11,7 +11,7 @@ use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Response\HttpInterface as HttpResponse;
 use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\InputException;
 
 /**
  * Request handler interface (sugar service for avoiding boilerplate code)
@@ -25,13 +25,15 @@ interface RequestHandlerInterface
     /**
      * Validate reCAPTCHA data in request, set message and redirect if validation was failed
      *
+     * @param string $key Functionality identifier (like customer login, contact)
      * @param HttpRequest|RequestInterface $request
      * @param HttpResponse|ResponseInterface $response
      * @param string $redirectOnFailureUrl
      * @return void
-     * @throws LocalizedException
+     * @throws InputException
      */
     public function execute(
+        string $key,
         HttpRequest $request,
         HttpResponse $response,
         string $redirectOnFailureUrl

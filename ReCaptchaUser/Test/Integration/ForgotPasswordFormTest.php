@@ -10,9 +10,8 @@ namespace Magento\ReCaptchaUser\Test\Integration;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Message\MessageInterface;
-use Magento\ReCaptcha\Model\CaptchaValidator;
-use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
+use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Magento\TestFramework\Mail\Template\TransportBuilderMock;
 use PHPUnit\Framework\MockObject\MockObject;
 use Magento\TestFramework\TestCase\AbstractController;
@@ -40,7 +39,7 @@ class ForgotPasswordFormTest extends AbstractController
     private $transportMock;
 
     /**
-     * @var CaptchaValidatorInterface|MockObject
+     * @var ValidatorInterface|MockObject
      */
     private $captchaValidatorMock;
 
@@ -54,8 +53,8 @@ class ForgotPasswordFormTest extends AbstractController
         $this->backendUrl = $this->_objectManager->get(UrlInterface::class);
         $this->transportMock = $this->_objectManager->get(TransportBuilderMock::class);
 
-        $this->captchaValidatorMock = $this->createMock(CaptchaValidatorInterface::class);
-        $this->_objectManager->addSharedInstance($this->captchaValidatorMock, CaptchaValidator::class);
+        $this->captchaValidatorMock = $this->createMock(ValidatorInterface::class);
+        $this->_objectManager->addSharedInstance($this->captchaValidatorMock, ValidatorInterface::class);
     }
 
     /**

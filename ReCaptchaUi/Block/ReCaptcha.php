@@ -10,7 +10,7 @@ namespace Magento\ReCaptchaUi\Block;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\View\Element\Template;
-use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\UiConfigResolverInterface;
 
 /**
@@ -24,9 +24,9 @@ class ReCaptcha extends Template
     private $captchaUiConfigResolver;
 
     /**
-     * @var CaptchaConfigInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $captchaConfig;
+    private $isCaptchaEnabled;
 
     /**
      * @var Json
@@ -36,20 +36,20 @@ class ReCaptcha extends Template
     /**
      * @param Template\Context $context
      * @param UiConfigResolverInterface $captchaUiConfigResolver
-     * @param CaptchaConfigInterface $captchaConfig
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param Json $serializer
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         UiConfigResolverInterface $captchaUiConfigResolver,
-        CaptchaConfigInterface $captchaConfig,
+        IsCaptchaEnabledInterface $isCaptchaEnabled,
         Json $serializer,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->captchaUiConfigResolver = $captchaUiConfigResolver;
-        $this->captchaConfig = $captchaConfig;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->serializer = $serializer;
     }
 
@@ -58,7 +58,7 @@ class ReCaptcha extends Template
      */
     public function getRecaptchaId()
     {
-        return (string)$this->getData('recaptcha_id') ?: 'recaptcha-' . md5($this->getNameInLayout());
+        return (string)$this->getData('recaptcha_id') ?: 'recaptcha-' . sha1($this->getNameInLayout());
     }
 
     /**
@@ -109,11 +109,12 @@ class ReCaptcha extends Template
 
     /**
      * @return string
+     * @throws InputException
      */
     public function toHtml()
     {
         $key = $this->getData('recaptcha_for');
-        if (empty($key) || !$this->captchaConfig->isCaptchaEnabledFor($key)) {
+        if (empty($key) || !$this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             return '';
         }
 

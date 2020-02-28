@@ -19,7 +19,7 @@ interface UiConfigResolverInterface
     /**
      * Resolve UI config for reCAPTCHA rendering
      *
-     * @param string $key Functionality identifier
+     * @param string $key Functionality identifier (like customer login, contact)
      * @return array
      * @throws InputException If UI config for "%key" is not configured
      */

@@ -32,6 +32,11 @@
                     <label>Invisible Badge Position</label>
                     <source_model>Magento\ReCaptchaVersion3Invisible\Model\OptionSource\Position</source_model>
                 </field>
+
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="50" showInDefault="1"
+                       showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>reCAPTCHA Validation Failure Message</label>
+                </field>
             </group>
         </section>
         <section id="recaptcha_frontend">
@@ -69,6 +74,11 @@
                         For more details, see the official documentation
                         <a target="_blank" href="https://developers.google.com/recaptcha/docs/v3#interpreting_the_score">Interpreting the score</a>.
                 ]]></comment>
+                </field>
+
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="50" showInDefault="1"
+                       showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>reCAPTCHA Validation Failure Message</label>
                 </field>
             </group>
         </section>

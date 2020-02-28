@@ -8,39 +8,38 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaUi\Model;
 
 use Magento\Framework\Exception\InputException;
-use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
 
 /**
  * Extension point for reCAPTCHA UI config
  *
  * @api Class name should be used in DI for adding new UI config providers
- *      but for retrieving values need to use UiConfigProviderInterface
+ *      but for config resolving need to use UiConfigResolverInterface
  */
 class UiConfigResolver implements UiConfigResolverInterface
 {
     /**
-     * @var CaptchaConfigInterface
+     * @var CaptchaTypeResolverInterface
      */
-    private $captchaConfig;
+    private $captchaTypeResolver;
 
     /**
      * @var UiConfigProviderInterface[]
      */
-    private $captchaUiConfigProviders;
+    private $uiConfigProviders;
 
     /**
-     * @param CaptchaConfigInterface $captchaConfig
-     * @param UiConfigProviderInterface[] $captchaUiConfigProviders
+     * @param CaptchaTypeResolverInterface $captchaTypeResolver
+     * @param UiConfigProviderInterface[] $uiConfigProviders
      * @throws InputException
      */
     public function __construct(
-        CaptchaConfigInterface $captchaConfig,
-        array $captchaUiConfigProviders = []
+        CaptchaTypeResolverInterface $captchaTypeResolver,
+        array $uiConfigProviders = []
     ) {
-        $this->captchaConfig = $captchaConfig;
+        $this->captchaTypeResolver = $captchaTypeResolver;
 
-        foreach ($captchaUiConfigProviders as $captchaUiConfigProvider) {
-            if (!$captchaUiConfigProvider instanceof UiConfigProviderInterface) {
+        foreach ($uiConfigProviders as $uiConfigProvider) {
+            if (!$uiConfigProvider instanceof UiConfigProviderInterface) {
                 throw new InputException(
                     __(
                         'UI config provider must implement %interface.',
@@ -51,7 +50,7 @@ class UiConfigResolver implements UiConfigResolverInterface
                 );
             }
         }
-        $this->captchaUiConfigProviders = $captchaUiConfigProviders;
+        $this->uiConfigProviders = $uiConfigProviders;
     }
 
     /**
@@ -59,13 +58,13 @@ class UiConfigResolver implements UiConfigResolverInterface
      */
     public function get(string $key): array
     {
-        $captchaType = $this->captchaConfig->getCaptchaTypeFor($key);
+        $captchaType = $this->captchaTypeResolver->getCaptchaTypeFor($key);
 
-        if (!isset($this->captchaUiConfigProviders[$captchaType])) {
+        if (!isset($this->uiConfigProviders[$captchaType])) {
             throw new InputException(
                 __('UI config provider for "%type" is not configured.', ['type' => $captchaType])
             );
         }
-        return $this->captchaUiConfigProviders[$captchaType]->get();
+        return $this->uiConfigProviders[$captchaType]->get();
     }
 }

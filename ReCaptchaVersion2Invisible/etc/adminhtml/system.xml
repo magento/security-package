@@ -22,6 +22,11 @@
                     <label>Invisible Badge Position</label>
                     <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Position</source_model>
                 </field>
+
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="40" showInDefault="1"
+                       showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>reCAPTCHA Validation Failure Message</label>
+                </field>
             </group>
         </section>
         <section id="recaptcha_frontend">
@@ -44,6 +49,11 @@
                        showInStore="0" canRestore="1">
                     <label>Invisible Badge Position</label>
                     <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Position</source_model>
+                </field>
+
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="40" showInDefault="1"
+                       showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>reCAPTCHA Validation Failure Message</label>
                 </field>
             </group>
         </section>

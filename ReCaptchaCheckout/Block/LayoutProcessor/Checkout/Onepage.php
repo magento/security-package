@@ -9,7 +9,7 @@ namespace Magento\ReCaptchaCheckout\Block\LayoutProcessor\Checkout;
 
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
 use Magento\Framework\Exception\InputException;
-use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\UiConfigResolverInterface;
 
 /**
@@ -23,20 +23,20 @@ class Onepage implements LayoutProcessorInterface
     private $captchaUiConfigResolver;
 
     /**
-     * @var CaptchaConfigInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $captchaConfig;
+    private $isCaptchaEnabled;
 
     /**
      * @param UiConfigResolverInterface $captchaUiConfigResolver
-     * @param CaptchaConfigInterface $captchaConfig
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      */
     public function __construct(
         UiConfigResolverInterface $captchaUiConfigResolver,
-        CaptchaConfigInterface $captchaConfig
+        IsCaptchaEnabledInterface $isCaptchaEnabled
     ) {
         $this->captchaUiConfigResolver = $captchaUiConfigResolver;
-        $this->captchaConfig = $captchaConfig;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
     }
 
     /**
@@ -49,7 +49,7 @@ class Onepage implements LayoutProcessorInterface
     public function process($jsLayout)
     {
         $key = 'customer_login';
-        if ($this->captchaConfig->isCaptchaEnabledFor($key)) {
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']
                 ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);

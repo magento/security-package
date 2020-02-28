@@ -11,9 +11,8 @@ use Magento\Backend\Model\Auth;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Message\MessageInterface;
-use Magento\ReCaptcha\Model\CaptchaValidator;
-use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
+use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Magento\TestFramework\Bootstrap;
 use Magento\TestFramework\TestCase\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -43,7 +42,7 @@ class LoginFormTest extends AbstractController
     private $backendUrl;
 
     /**
-     * @var CaptchaValidatorInterface|MockObject
+     * @var ValidatorInterface|MockObject
      */
     private $captchaValidatorMock;
 
@@ -57,17 +56,16 @@ class LoginFormTest extends AbstractController
         $this->formKey = $this->_objectManager->get(FormKey::class);
         $this->backendUrl = $this->_objectManager->get(UrlInterface::class);
 
-        $this->captchaValidatorMock = $this->createMock(CaptchaValidatorInterface::class);
-        $this->_objectManager->addSharedInstance($this->captchaValidatorMock, CaptchaValidator::class);
+        $this->captchaValidatorMock = $this->createMock(ValidatorInterface::class);
+        $this->_objectManager->addSharedInstance($this->captchaValidatorMock, ValidatorInterface::class);
     }
 
     /**
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 0
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
     public function testGetRequestIfReCaptchaIsDisabled()
     {
@@ -77,8 +75,8 @@ class LoginFormTest extends AbstractController
     /**
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
+     * @magentoAdminConfigFixture recaptcha/backend/type type_invisible
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -88,10 +86,9 @@ class LoginFormTest extends AbstractController
     /**
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
@@ -101,10 +98,9 @@ class LoginFormTest extends AbstractController
     /**
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 0
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
     public function testPostRequestIfReCaptchaIsDisabled()
     {
@@ -114,8 +110,7 @@ class LoginFormTest extends AbstractController
     /**
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -125,10 +120,9 @@ class LoginFormTest extends AbstractController
     /**
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
@@ -144,10 +138,9 @@ class LoginFormTest extends AbstractController
     /**
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
@@ -174,10 +167,9 @@ class LoginFormTest extends AbstractController
     /**
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
     public function testPostRequestWithFailedReCaptchaValidation()
     {
@@ -207,7 +199,7 @@ class LoginFormTest extends AbstractController
     /**
      * @param bool $shouldContainReCaptcha
      */
-    private function checkSuccessfulGetResponse($shouldContainReCaptcha = false)
+    private function checkSuccessfulGetResponse($shouldContainReCaptcha = false): void
     {
         $this->getRequest()->setUri($this->backendUrl->getUrl('admin'));
 
@@ -226,7 +218,7 @@ class LoginFormTest extends AbstractController
     /**
      * @param array $postValues
      */
-    private function checkSuccessfulPostResponse(array $postValues = [])
+    private function checkSuccessfulPostResponse(array $postValues = []): void
     {
         $this->getRequest()->setPostValue(array_replace_recursive(
             [

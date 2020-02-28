@@ -11,11 +11,13 @@
         <recaptcha_backend>
             <type_invisible>
                 <position>inline</position>
+                <validation_failure_message>reCAPTCHA verification failed</validation_failure_message>
             </type_invisible>
         </recaptcha_backend>
         <recaptcha_frontend>
             <type_invisible>
                 <position>inline</position>
+                <validation_failure_message>reCAPTCHA verification failed</validation_failure_message>
             </type_invisible>
         </recaptcha_frontend>
     </default>
