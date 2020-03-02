@@ -77,4 +77,5 @@ class CaptchaValidator implements CaptchaValidatorInterface
             }
         }
     }
+
 }
