@@ -60,20 +60,21 @@ class CaptchaValidator implements CaptchaValidatorInterface
                     $reCaptcha->setScoreThreshold($validationConfig->getScoreThreshold());
                 }
             }
+
             $res = $reCaptcha->verify($reCaptchaResponse, $validationConfig->getRemoteIp());
 
-            $validationErrors = [];
-
             if ($res->getErrorCodes() && is_array($res->getErrorCodes()) && count($res->getErrorCodes()) > 0) {
+                $validationErrors = [];
+
                 foreach ($res->getErrorCodes() as $errorCode) {
                     $validationErrors[] = __($this->errorLabels->getErrorCodeLabel($errorCode));
                 }
-            }
 
-            $validationResult = $this->validationResultFactory->create(['errors' => $validationErrors]);
+                $validationResult = $this->validationResultFactory->create(['errors' => $validationErrors]);
 
-            if (false === $validationResult->isValid()) {
-                throw new ValidationException(__('Validation Failed.'), null, 0, $validationResult);
+                if (false === $validationResult->isValid()) {
+                    throw new ValidationException(__('Validation Failed.'), null, 0, $validationResult);
+                }
             }
         }
     }

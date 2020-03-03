@@ -30,6 +30,6 @@ class ErrorLabels
      */
     public function getErrorCodeLabel(string $key): string
     {
-        return isset($this->errorCodes[$key]) ? $this->errorCodes[$key] : $key;
+        return $this->errorCodes[$key] ?? $key;
     }
 }
