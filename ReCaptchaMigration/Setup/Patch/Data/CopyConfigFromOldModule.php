@@ -13,9 +13,9 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\Patch\PatchVersionInterface;
 
 /**
- * Migrate config values from general to frontend and backend scopes.
+ * Change namespace from MageSpecialist to Magento
  */
-class MigrateConfigFromGeneralScope implements DataPatchInterface, PatchVersionInterface
+class CopyConfigFromOldModule implements DataPatchInterface, PatchVersionInterface
 {
     /**
      * @var ModuleDataSetupInterface
@@ -41,28 +41,29 @@ class MigrateConfigFromGeneralScope implements DataPatchInterface, PatchVersionI
 
     /**
      * @inheritdoc
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function apply()
     {
-        $this->copyConfig(
-            [
-                'recaptcha/general' => 'recaptcha/frontend',
-            ]
-        );
-        $this->copyConfig(
-            [
-                'recaptcha/general' => 'recaptcha/backend',
-            ]
-        );
+        $this->copyConfig([
+            'msp_securitysuite_recaptcha' => 'recaptcha'
+        ]);
     }
 
     /**
-     * Move config values from srcPath to dstPath.
+     * Move config from srcPath to dstPath
      *
      * @param array $paths
      */
     private function copyConfig(array $paths): void
     {
+        $connection = $this->moduleDataSetup->getConnection();
+
+        $configDataTable = $this->moduleDataSetup->getTable('core_config_data');
+
         foreach ($paths as $srcPath => $dstPath) {
             $value = $this->scopeConfig->getValue($srcPath);
             if (is_array($value)) {
@@ -70,41 +71,19 @@ class MigrateConfigFromGeneralScope implements DataPatchInterface, PatchVersionI
                     $this->copyConfig([$srcPath . '/' . $v => $dstPath . '/' . $v]);
                 }
             } else {
-                $this->copyRecord($srcPath, $dstPath);
+                $sel = $connection->select()
+                    ->from($configDataTable)
+                    ->where('path = ?', $srcPath);
+
+                $rows = $connection->fetchAll($sel);
+                foreach ($rows as $row) {
+                    unset($row['config_id']);
+                    $row['path'] = $dstPath;
+
+                    $connection->insert($configDataTable, $row);
+                }
             }
         }
-    }
-
-    /**
-     * Copy one config record.
-     *
-     * Skip if record on destination path already exists.
-     *
-     * @param string $srcPath
-     * @param string $dstPath
-     */
-    private function copyRecord(string $srcPath, string $dstPath): void
-    {
-        $connection = $this->moduleDataSetup->getConnection();
-        $configDataTable = $this->moduleDataSetup->getTable('core_config_data');
-
-        $dstSelect = $connection->select()
-            ->from($configDataTable)
-            ->where('path = ?', $dstPath);
-
-        if (!$connection->fetchOne($dstSelect)) {
-            $srcSelect = $connection->select()
-                ->from($configDataTable)
-                ->where('path = ?', $srcPath);
-
-            $rows = $connection->fetchAll($srcSelect);
-            foreach ($rows as $row) {
-                unset($row['config_id']);
-                $row['path'] = $dstPath;
-
-                $connection->insert($configDataTable, $row);
-            }
-        };
     }
 
     /**
