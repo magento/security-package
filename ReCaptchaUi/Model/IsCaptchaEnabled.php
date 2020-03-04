@@ -49,7 +49,7 @@ class IsCaptchaEnabled implements IsCaptchaEnabledInterface
      */
     public function isCaptchaEnabledFor(string $key): bool
     {
-        return $this->areKeysConfigured($key) && (null !== $this->captchaTypeResolver->getCaptchaTypeFor($key));
+        return (null !== $this->captchaTypeResolver->getCaptchaTypeFor($key)) && $this->areKeysConfigured($key);
     }
 
     /**
