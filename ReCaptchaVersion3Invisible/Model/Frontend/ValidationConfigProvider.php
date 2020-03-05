@@ -10,6 +10,8 @@ namespace Magento\ReCaptchaVersion3Invisible\Model\Frontend;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\ReCaptchaUi\Model\ValidationConfigProviderInterface;
+use Magento\ReCaptchaValidation\Model\ValidationConfigFactory;
+use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigExtensionFactory;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterfaceFactory;
 use Magento\Store\Model\ScopeInterface;
@@ -39,6 +41,11 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
     private $validationConfigFactory;
 
     /**
+     * @var ValidationConfigExtensionFactory
+     */
+    private $validationConfigExtensionFactory;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param RemoteAddress $remoteAddress
      * @param ValidationConfigInterfaceFactory $validationConfigFactory
@@ -46,11 +53,13 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         RemoteAddress $remoteAddress,
-        ValidationConfigInterfaceFactory $validationConfigFactory
+        ValidationConfigInterfaceFactory $validationConfigFactory,
+        ValidationConfigExtensionFactory $validationConfigExtensionFactory
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->remoteAddress = $remoteAddress;
         $this->validationConfigFactory = $validationConfigFactory;
+        $this->validationConfigExtensionFactory = $validationConfigExtensionFactory;
     }
 
     /**
@@ -58,15 +67,15 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
      */
     public function get(): ValidationConfigInterface
     {
+        $extensionAttributes = $this->validationConfigExtensionFactory->create();
+        $extensionAttributes->setData('scoreThreshold', $this->getScoreThreshold());
         /** @var ValidationConfigInterface $validationConfig */
         $validationConfig = $this->validationConfigFactory->create(
             [
                 'privateKey' => $this->getPrivateKey(),
                 'remoteIp' => $this->remoteAddress->getRemoteAddress(),
                 'validationFailureMessage' => $this->getValidationFailureMessage(),
-                'extensionAttributes' => [
-                    'scoreThreshold' => $this->getScoreThreshold(),
-                ],
+                'extensionAttributes' => $extensionAttributes,
             ]
         );
         return $validationConfig;

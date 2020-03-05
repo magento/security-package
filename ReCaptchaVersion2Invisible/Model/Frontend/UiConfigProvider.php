@@ -42,6 +42,7 @@ class UiConfigProvider implements UiConfigProviderInterface
             'rendering' => [
                 'sitekey' => $this->getPublicKey(),
                 'badge' => $this->getInvisibleBadgePosition(),
+                'size' => 'invisible'
             ],
             'invisible' => true,
         ];
