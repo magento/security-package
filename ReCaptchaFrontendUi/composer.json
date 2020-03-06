@@ -6,7 +6,8 @@
         "magento/framework": "102.0.*",
         "magento/module-store": "*",
         "magento/module-config": "*",
-        "magento/module-re-captcha-api": "*"
+        "magento/module-re-captcha-api": "*",
+        "magento/module-re-captcha-ui": "*"
     },
     "type": "magento2-module",
     "license": "OSL-3.0",

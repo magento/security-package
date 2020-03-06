@@ -11,7 +11,7 @@ use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Message\MessageInterface;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
-use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
+use Magento\ReCaptchaValidation\Model\Validator;
 use Magento\TestFramework\Mail\Template\TransportBuilderMock;
 use PHPUnit\Framework\MockObject\MockObject;
 use Magento\TestFramework\TestCase\AbstractController;
@@ -39,7 +39,7 @@ class ForgotPasswordFormTest extends AbstractController
     private $transportMock;
 
     /**
-     * @var ValidatorInterface|MockObject
+     * @var Validator|MockObject
      */
     private $captchaValidatorMock;
 
@@ -53,16 +53,14 @@ class ForgotPasswordFormTest extends AbstractController
         $this->backendUrl = $this->_objectManager->get(UrlInterface::class);
         $this->transportMock = $this->_objectManager->get(TransportBuilderMock::class);
 
-        $this->captchaValidatorMock = $this->createMock(ValidatorInterface::class);
-        $this->_objectManager->addSharedInstance($this->captchaValidatorMock, ValidatorInterface::class);
+        $this->captchaValidatorMock = $this->createMock(Validator::class);
+        $this->_objectManager->addSharedInstance($this->captchaValidatorMock, Validator::class);
     }
 
     /**
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password 0
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      */
     public function testGetRequestIfReCaptchaIsDisabled()
     {
@@ -71,8 +69,8 @@ class ForgotPasswordFormTest extends AbstractController
 
     /**
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
+     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -81,10 +79,10 @@ class ForgotPasswordFormTest extends AbstractController
 
     /**
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
+     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
@@ -93,10 +91,8 @@ class ForgotPasswordFormTest extends AbstractController
 
     /**
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password 0
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      */
     public function testPostRequestIfReCaptchaIsDisabled()
     {
@@ -105,9 +101,9 @@ class ForgotPasswordFormTest extends AbstractController
 
     /**
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
      * @magentoAdminConfigFixture admin/captcha/always_for/backend_forgotpassword 0
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
+     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -116,10 +112,10 @@ class ForgotPasswordFormTest extends AbstractController
 
     /**
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
+     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
@@ -134,10 +130,10 @@ class ForgotPasswordFormTest extends AbstractController
 
     /**
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
+     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Can not resolve reCAPTCHA parameter.
      */
@@ -156,10 +152,10 @@ class ForgotPasswordFormTest extends AbstractController
 
     /**
      * @magentoAdminConfigFixture admin/captcha/enable 0
-     * @magentoAdminConfigFixture recaptcha/backend/public_key test_public_key
-     * @magentoAdminConfigFixture recaptcha/backend/private_key test_private_key
-     * @magentoAdminConfigFixture recaptcha/backend/type invisible
-     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password 1
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
+     * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
+     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testPostRequestWithFailedReCaptchaValidation()
     {
@@ -175,7 +171,7 @@ class ForgotPasswordFormTest extends AbstractController
         $this->dispatch('backend/admin/auth/forgotpassword');
 
         $this->assertSessionMessages(
-            self::equalTo(['Incorrect reCAPTCHA validation.']),
+            self::equalTo(['reCAPTCHA verification failed']),
             MessageInterface::TYPE_ERROR
         );
         self::assertEmpty($this->transportMock->getSentMessage());

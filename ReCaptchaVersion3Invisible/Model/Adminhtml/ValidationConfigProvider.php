@@ -10,7 +10,6 @@ namespace Magento\ReCaptchaVersion3Invisible\Model\Adminhtml;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\ReCaptchaUi\Model\ValidationConfigProviderInterface;
-use Magento\ReCaptchaValidation\Model\ValidationConfigFactory;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigExtensionFactory;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterfaceFactory;

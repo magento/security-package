@@ -41,12 +41,7 @@ class UiConfigResolver implements UiConfigResolverInterface
         foreach ($uiConfigProviders as $uiConfigProvider) {
             if (!$uiConfigProvider instanceof UiConfigProviderInterface) {
                 throw new InputException(
-                    __(
-                        'UI config provider must implement %interface.',
-                        [
-                            'interface' => UiConfigResolverInterface::class,
-                        ]
-                    )
+                    __('UI config provider must implement %1', [ UiConfigResolverInterface::class])
                 );
             }
         }
