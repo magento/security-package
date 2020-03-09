@@ -9,8 +9,8 @@ namespace Magento\ReCaptchaUi\Model;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
-use Magento\Framework\App\Request\Http as HttpRequest;
-use Magento\Framework\App\Response\HttpInterface as HttpResponse;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Response\HttpInterface as HttpResponseInterface;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
 use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 
@@ -70,8 +70,8 @@ class RequestHandler implements RequestHandlerInterface
      */
     public function execute(
         string $key,
-        HttpRequest $request,
-        HttpResponse $response,
+        RequestInterface $request,
+        HttpResponseInterface $response,
         string $redirectOnFailureUrl
     ): void {
         $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);

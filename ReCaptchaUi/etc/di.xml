@@ -12,4 +12,5 @@
     <preference for="Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface" type="Magento\ReCaptchaUi\Model\IsCaptchaEnabled"/>
     <preference for="Magento\ReCaptchaUi\Model\UiConfigResolverInterface" type="Magento\ReCaptchaUi\Model\UiConfigResolver"/>
     <preference for="Magento\ReCaptchaUi\Model\ValidationConfigResolverInterface" type="Magento\ReCaptchaUi\Model\ValidationConfigResolver"/>
+    <preference for="Magento\ReCaptchaUi\Model\CaptchaTypeResolverInterface" type="Magento\ReCaptchaUi\Model\CaptchaTypeResolver"/>
 </config>
