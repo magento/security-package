@@ -61,7 +61,7 @@ class Validator implements ValidatorInterface
         $result = $reCaptcha->verify($reCaptchaResponse, $validationConfig->getRemoteIp());
 
         if ($result->isSuccess()) {
-            $validationResult = $this->validationResultFactory->create();
+            $validationResult = $this->validationResultFactory->create(['errors' => []]);
         } else {
             foreach ($result->getErrorCodes() as $errorCode) {
                 $validationErrors[] = $this->errorMessages->getErrorMessage($errorCode);
