@@ -7,7 +7,8 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaCustomer\Model\AjaxLogin;
 
-use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\PlainTextRequestInterface;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
@@ -31,9 +32,13 @@ class CaptchaResponseResolver implements CaptchaResponseResolverInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @param RequestInterface|PlainTextRequestInterface $request
+     * @return string
+     * @throws InputException
      */
-    public function resolve(Http $request): string
+    public function resolve(RequestInterface $request): string
     {
         $content = $request->getContent();
         if (empty($content)) {

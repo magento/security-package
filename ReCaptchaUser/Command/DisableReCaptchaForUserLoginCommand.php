@@ -35,7 +35,7 @@ class DisableReCaptchaForUserLoginCommand extends Command
     protected function configure()
     {
         $this->setName('security:recaptcha:disable-for-user-login');
-        $this->setDescription('Disable backend reCaptcha for user login form');
+        $this->setDescription('Disable reCAPTCHA for admin user login form');
 
         parent::configure();
     }
