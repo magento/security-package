@@ -14,12 +14,12 @@
                    name="recaptcha-newsletter"
                    after="-"
                    template="Magento_ReCaptchaNewsletter::recaptcha_newsletter.phtml"
-                   ifconfig="recaptcha/frontend/enabled_for_newsletter">
+                   ifconfig="recaptcha_frontend/type_for/newsletter">
                 <arguments>
-                    <argument name="enabled_for" xsi:type="string">newsletter</argument>
-                    <argument name="captcha_settings" xsi:type="array">
+                    <argument name="recaptcha_for" xsi:type="string">newsletter</argument>
+                    <argument name="captcha_ui_config" xsi:type="array">
                         <item name="invisible" xsi:type="boolean">true</item>
-                        <item name="render" xsi:type="array">
+                        <item name="rendering" xsi:type="array">
                             <item name="badge" xsi:type="string">bottomright</item>
                             <item name="size" xsi:type="string">invisible</item>
                         </item>

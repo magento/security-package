@@ -8,9 +8,10 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCustomer\Plugin\Block\Account;
 
 use Magento\Customer\Block\Account\AuthenticationPopup;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Serialize\Serializer\Json;
-use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
+use Magento\ReCaptchaUi\Model\UiConfigResolverInterface;
 
 /**
  * Inject authentication popup in layout
@@ -18,14 +19,14 @@ use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
 class InjectRecaptchaInAuthenticationPopup
 {
     /**
-     * @var CaptchaUiSettingsProviderInterface
+     * @var UiConfigResolverInterface
      */
-    private $captchaUiSettingsProvider;
+    private $captchaUiConfigResolver;
 
     /**
-     * @var CaptchaConfigInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $captchaConfig;
+    private $isCaptchaEnabled;
 
     /**
      * @var Json
@@ -33,17 +34,17 @@ class InjectRecaptchaInAuthenticationPopup
     private $serializer;
 
     /**
-     * @param CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider
-     * @param CaptchaConfigInterface $captchaConfig
+     * @param UiConfigResolverInterface $captchaUiConfigResolver
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param Json $serializer
      */
     public function __construct(
-        CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider,
-        CaptchaConfigInterface $captchaConfig,
+        UiConfigResolverInterface $captchaUiConfigResolver,
+        IsCaptchaEnabledInterface $isCaptchaEnabled,
         Json $serializer
     ) {
-        $this->captchaUiSettingsProvider = $captchaUiSettingsProvider;
-        $this->captchaConfig = $captchaConfig;
+        $this->captchaUiConfigResolver = $captchaUiConfigResolver;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->serializer = $serializer;
     }
 
@@ -51,15 +52,17 @@ class InjectRecaptchaInAuthenticationPopup
      * @param AuthenticationPopup $subject
      * @param string $result
      * @return string
+     * @throws InputException
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterGetJsLayout(AuthenticationPopup $subject, $result)
     {
         $layout = $this->serializer->unserialize($result);
+        $key = 'customer_login';
 
-        if ($this->captchaConfig->isCaptchaEnabledFor('customer_login')) {
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             $layout['components']['authenticationPopup']['children']['recaptcha']['settings']
-                = $this->captchaUiSettingsProvider->get();
+                = $this->captchaUiConfigResolver->get($key);
         } else {
             unset($layout['components']['authenticationPopup']['children']['recaptcha']);
         }
