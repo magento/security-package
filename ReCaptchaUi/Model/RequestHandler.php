@@ -77,7 +77,8 @@ class RequestHandler implements RequestHandlerInterface
         $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
         $validationConfig = $this->validationConfigResolver->get($key);
 
-        if (false === $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig)) {
+        $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
+        if (false === $validationResult->isValid()) {
             $this->messageManager->addErrorMessage($validationConfig->getValidationFailureMessage());
             $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 

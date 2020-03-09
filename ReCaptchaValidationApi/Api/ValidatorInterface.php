@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaValidationApi\Api;
 
-use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Validation\ValidationResult;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 
 /**
@@ -22,11 +22,10 @@ interface ValidatorInterface
      *
      * @param string $reCaptchaResponse
      * @param ValidationConfigInterface $validationConfig
-     * @return bool
-     * @throws LocalizedException
+     * @return ValidationResult
      */
     public function isValid(
         string $reCaptchaResponse,
         ValidationConfigInterface $validationConfig
-    ): bool;
+    ): ValidationResult;
 }

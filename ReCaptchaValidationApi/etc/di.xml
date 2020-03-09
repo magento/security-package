@@ -7,19 +7,9 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Magento\ReCaptchaApi\Api\IsInvisibleCaptchaInterface" type="Magento\ReCaptchaApi\Model\IsInvisibleCaptcha"/>
-
-    <type name="Magento\ReCaptchaApi\Model\IsInvisibleCaptcha">
+    <type name="Magento\ReCaptchaValidationApi\Model\ErrorMessages">
         <arguments>
-            <argument name="invisibleTypes" xsi:type="array">
-                <item name="invisible" xsi:type="string">invisible</item>
-                <item name="recaptcha_v3" xsi:type="string">recaptcha_v3</item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Magento\ReCaptchaApi\Model\ErrorLabels">
-        <arguments>
-            <argument name="errorCodes" xsi:type="array">
+            <argument name="errors" xsi:type="array">
                 <item name="invalid-json" xsi:type="string" translatable="true">Invalid JSON received.</item>
                 <item name="connection-failed" xsi:type="string" translatable="true">Could not connect to service.</item>
                 <item name="bad-response" xsi:type="string" translatable="true">Did not receive a 200 from the service.</item>

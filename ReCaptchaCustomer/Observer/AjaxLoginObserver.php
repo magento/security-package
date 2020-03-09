@@ -94,7 +94,8 @@ class AjaxLoginObserver implements ObserverInterface
             $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
             $validationConfig = $this->validationConfigResolver->get($key);
 
-            if (!$this->captchaValidator->isValid($reCaptchaResponse, $validationConfig)) {
+            $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
+            if (false === $validationResult->isValid()) {
                 $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
                 $jsonPayload = $this->serializer->serialize([
