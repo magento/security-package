@@ -65,8 +65,6 @@
                                             <item name="displayArea" xsi:type="string">additional-login-form-fields</item>
                                             <item name="configSource" xsi:type="string">checkoutConfig</item>
                                             <item name="reCaptchaId" xsi:type="string">recaptcha-checkout-login</item>
-                                            <item name="zone" xsi:type="string">login</item>
-                                            <item name="badge" xsi:type="string">inline</item>
                                         </item>
                                     </item>
                                 </item>

@@ -12,8 +12,8 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
+use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
  * ForgotPasswordObserver
@@ -31,23 +31,23 @@ class ForgotPasswordObserver implements ObserverInterface
     private $requestHandler;
 
     /**
-     * @var CaptchaConfigInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $captchaConfig;
+    private $isCaptchaEnabled;
 
     /**
      * @param UrlInterface $url
      * @param RequestHandlerInterface $requestHandler
-     * @param CaptchaConfigInterface $captchaConfig
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      */
     public function __construct(
         UrlInterface $url,
         RequestHandlerInterface $requestHandler,
-        CaptchaConfigInterface $captchaConfig
+        IsCaptchaEnabledInterface $isCaptchaEnabled
     ) {
         $this->url = $url;
         $this->requestHandler = $requestHandler;
-        $this->captchaConfig = $captchaConfig;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
     }
 
     /**
@@ -61,11 +61,12 @@ class ForgotPasswordObserver implements ObserverInterface
         $controller = $observer->getControllerAction();
         $request = $controller->getRequest();
 
-        if ($this->captchaConfig->isCaptchaEnabledFor('user_forgot_password') && null !== $request->getParam('email')) {
+        $key = 'user_forgot_password';
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key) && null !== $request->getParam('email')) {
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('*/*/forgotpassword', ['_secure' => true]);
 
-            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($key, $request, $response, $redirectOnFailureUrl);
         }
     }
 }

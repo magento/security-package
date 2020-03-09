@@ -12,125 +12,29 @@
             <label>Security</label>
         </tab>
 
-        <section id="recaptcha" translate="label" type="text" sortOrder="510" showInDefault="1"
-                 showInWebsite="1" showInStore="1">
+        <section id="recaptcha_backend" translate="label" type="text" sortOrder="600" showInDefault="1"
+                 showInWebsite="0" showInStore="0">
             <class>separator-top</class>
-            <label>Google reCaptcha</label>
+            <label>Google reCAPTCHA Admin Panel</label>
             <tab>security</tab>
-            <resource>Magento_ReCaptcha::config</resource>
+            <resource>Magento_ReCaptchaUi::config</resource>
 
-            <group id="backend" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0"
-                   showInStore="1">
+            <group id="type_for" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
                 <label>Admin Panel</label>
-
-                <field id="type" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0"
-                       showInStore="0" canRestore="1">
-                    <label>reCaptcha type</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Type</source_model>
-                </field>
-
-                <field id="public_key" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0"
-                       showInStore="0" canRestore="0">
-                    <label>Google API website key</label>
-                </field>
-
-                <field id="private_key" translate="label comment" type="password" sortOrder="30" showInDefault="1" showInWebsite="0"
-                       showInStore="0" canRestore="0">
-                    <label>Google API secret key</label>
-                </field>
-
-                <field id="theme" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0"
-                       showInStore="0" canRestore="1">
-                    <label>Theme</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Theme</source_model>
-                    <depends>
-                        <field id="recaptcha/backend/type">recaptcha</field>
-                    </depends>
-                </field>
-
-                <field id="size" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0"
-                       showInStore="0" canRestore="1">
-                    <label>Size</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Size</source_model>
-                    <depends>
-                        <field id="recaptcha/backend/type">recaptcha</field>
-                    </depends>
-                </field>
-
-                <field id="score_threshold" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0"
-                       showInStore="0" canRestore="1">
-                    <label>Score Threshold</label>
-                    <depends>
-                        <field id="recaptcha/backend/type">recaptcha_v3</field>
-                    </depends>
-                    <comment>From 0.0 to 1.0, where 0.0 is absolutely a robot and 1.0 is a human.</comment>
-                </field>
             </group>
+        </section>
 
-            <group id="frontend" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
-                   showInStore="1">
-                <label>Frontend</label>
+        <section id="recaptcha_frontend" translate="label" type="text" sortOrder="700" showInDefault="1"
+                 showInWebsite="1" showInStore="0">
+            <class>separator-top</class>
+            <label>Google reCAPTCHA Storefront</label>
+            <tab>security</tab>
+            <resource>Magento_ReCaptchaUi::config</resource>
 
-                <field id="type" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
-                       showInStore="0" canRestore="1">
-                    <label>reCaptcha type</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Type</source_model>
-                </field>
-
-                <field id="public_key" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
-                       showInStore="0" canRestore="0">
-                    <label>Google API website key</label>
-                </field>
-
-                <field id="private_key" translate="label comment" type="password" sortOrder="30" showInDefault="1" showInWebsite="1"
-                       showInStore="0" canRestore="0">
-                    <label>Google API secret key</label>
-                </field>
-
-                <field id="theme" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1"
-                       showInStore="0" canRestore="1">
-                    <label>Theme</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Theme</source_model>
-                    <depends>
-                        <field id="recaptcha/frontend/type">recaptcha</field>
-                    </depends>
-                </field>
-
-                <field id="size" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1"
-                       showInStore="0" canRestore="1">
-                    <label>Size</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Size</source_model>
-                    <depends>
-                        <field id="recaptcha/frontend/type">recaptcha</field>
-                    </depends>
-                </field>
-
-                <field id="score_threshold" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1"
-                       showInStore="0" canRestore="1">
-                    <label>Score Threshold</label>
-                    <depends>
-                        <field id="recaptcha/general/type">recaptcha_v3</field>
-                    </depends>
-                    <comment>From 0.0 to 1.0, where 0.0 is absolutely a robot and 1.0 is a human.</comment>
-                </field>
-
-                <field id="lang" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1"
-                       showInStore="1" canRestore="1">
-                    <label>Language Code</label>
-                    <comment><![CDATA[
-                    <div>
-                        Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified.<br />
-                        See <strong><a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language codes</a></strong>.
-                    </div>
-                ]]></comment>
-                </field>
-
-                <field id="position" translate="label" type="select" sortOrder="80" showInDefault="1" showInWebsite="1"
-                       showInStore="0" canRestore="1">
-                    <label>Invisible badge position</label>
-                    <source_model>Magento\ReCaptchaAdminUi\Model\Config\Source\Position</source_model>
-                    <comment>Only for Invisible ReCaptcha v2 or ReCaptcha v3.</comment>
-                </field>
+            <group id="type_for" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1"
+                   showInStore="0">
+                <label>Storefront</label>
             </group>
         </section>
     </system>

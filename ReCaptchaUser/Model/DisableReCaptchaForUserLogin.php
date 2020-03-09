@@ -11,11 +11,11 @@ use Magento\Framework\App\Cache\Manager;
 use Magento\Framework\App\Config\ConfigResource\ConfigInterface;
 
 /**
- * Disable ReCaptcha for user login (causes config cache flush)
+ * Disable reCAPTCHA for user login (causes config cache flush)
  */
 class DisableReCaptchaForUserLogin
 {
-    private const XML_PATH_ENABLED = 'recaptcha/backend/enabled_for_user_forgot_password';
+    private const XML_PATH_ENABLED = 'recaptcha_backend/type_for/user_forgot_password';
 
     /**
      * @var ConfigInterface
@@ -40,7 +40,7 @@ class DisableReCaptchaForUserLogin
     }
 
     /**
-     * Disable ReCaptcha for user login (causes config cache flush)
+     * Disable reCAPTCHA for user login (causes config cache flush)
      */
     public function execute()
     {

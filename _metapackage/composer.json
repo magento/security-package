@@ -23,6 +23,21 @@
         "magento/module-notifier-template": "*",
         "magento/module-notifier-template-admin-ui": "*",
         "magento/module-notifier-template-api": "*",
+        "magento/module-re-captcha-admin-ui": "*",
+        "magento/module-re-captcha-checkout": "*",
+        "magento/module-re-captcha-contact": "*",
+        "magento/module-re-captcha-customer": "*",
+        "magento/module-re-captcha-frontend-ui": "*",
+        "magento/module-re-captcha-newsletter": "*",
+        "magento/module-re-captcha-review": "*",
+        "magento/module-re-captcha-send-friend": "*",
+        "magento/module-re-captcha-ui": "*",
+        "magento/module-re-captcha-user": "*",
+        "magento/module-re-captcha-validation": "*",
+        "magento/module-re-captcha-validation-api": "*",
+        "magento/module-re-captcha-version-2-checkbox": "*",
+        "magento/module-re-captcha-version-2-invisible": "*",
+        "magento/module-re-captcha-version-3-invisible": "*",
         "magento/module-securitytxt": "*"
     }
 }
