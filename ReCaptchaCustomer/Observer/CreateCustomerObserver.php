@@ -11,8 +11,8 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
-use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerCreateInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
+use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
  * CreateCustomerObserver
@@ -25,9 +25,9 @@ class CreateCustomerObserver implements ObserverInterface
     private $url;
 
     /**
-     * @var IsEnabledForCustomerCreateInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $isEnabledForCustomerCreate;
+    private $isCaptchaEnabled;
 
     /**
      * @var RequestHandlerInterface
@@ -36,16 +36,16 @@ class CreateCustomerObserver implements ObserverInterface
 
     /**
      * @param UrlInterface $url
-     * @param IsEnabledForCustomerCreateInterface $isEnabledForCustomerCreate
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         UrlInterface $url,
-        IsEnabledForCustomerCreateInterface $isEnabledForCustomerCreate,
+        IsCaptchaEnabledInterface $isCaptchaEnabled,
         RequestHandlerInterface $requestHandler
     ) {
         $this->url = $url;
-        $this->isEnabledForCustomerCreate = $isEnabledForCustomerCreate;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->requestHandler = $requestHandler;
     }
 
@@ -56,14 +56,15 @@ class CreateCustomerObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isEnabledForCustomerCreate->isEnabled()) {
+        $key = 'customer_create';
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('*/*/create', ['_secure' => true]);
 
-            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($key, $request, $response, $redirectOnFailureUrl);
         }
     }
 }

@@ -12,8 +12,8 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
-use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerForgotPasswordInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
+use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
  * ForgotPasswordObserver
@@ -26,9 +26,9 @@ class ForgotPasswordObserver implements ObserverInterface
     private $url;
 
     /**
-     * @var IsEnabledForCustomerForgotPasswordInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $isEnabledForCustomerForgotPassword;
+    private $isCaptchaEnabled;
 
     /**
      * @var RequestHandlerInterface
@@ -37,16 +37,16 @@ class ForgotPasswordObserver implements ObserverInterface
 
     /**
      * @param UrlInterface $url
-     * @param IsEnabledForCustomerForgotPasswordInterface $isEnabledForCustomerForgotPassword
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         UrlInterface $url,
-        IsEnabledForCustomerForgotPasswordInterface $isEnabledForCustomerForgotPassword,
+        IsCaptchaEnabledInterface $isCaptchaEnabled,
         RequestHandlerInterface $requestHandler
     ) {
         $this->url = $url;
-        $this->isEnabledForCustomerForgotPassword = $isEnabledForCustomerForgotPassword;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->requestHandler = $requestHandler;
     }
 
@@ -57,14 +57,15 @@ class ForgotPasswordObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isEnabledForCustomerForgotPassword->isEnabled()) {
+        $key = 'customer_forgot_password';
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor('customer_forgot_password')) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->url->getUrl('*/*/forgotpassword', ['_secure' => true]);
 
-            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($key, $request, $response, $redirectOnFailureUrl);
         }
     }
 }

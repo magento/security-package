@@ -13,8 +13,8 @@ use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Session\SessionManagerInterface;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
-use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
+use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
  * LoginObserver
@@ -22,9 +22,9 @@ use Magento\ReCaptchaCustomer\Model\IsEnabledForCustomerLoginInterface;
 class LoginObserver implements ObserverInterface
 {
     /**
-     * @var IsEnabledForCustomerLoginInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $isEnabledForCustomerLogin;
+    private $isCaptchaEnabled;
 
     /**
      * @var RequestHandlerInterface
@@ -42,18 +42,18 @@ class LoginObserver implements ObserverInterface
     private $url;
 
     /**
-     * @param IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param RequestHandlerInterface $requestHandler
      * @param SessionManagerInterface $sessionManager
      * @param Url $url
      */
     public function __construct(
-        IsEnabledForCustomerLoginInterface $isEnabledForCustomerLogin,
+        IsCaptchaEnabledInterface $isCaptchaEnabled,
         RequestHandlerInterface $requestHandler,
         SessionManagerInterface $sessionManager,
         Url $url
     ) {
-        $this->isEnabledForCustomerLogin = $isEnabledForCustomerLogin;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->requestHandler = $requestHandler;
         $this->sessionManager = $sessionManager;
         $this->url = $url;
@@ -66,14 +66,15 @@ class LoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isEnabledForCustomerLogin->isEnabled()) {
+        $key = 'customer_login';
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->sessionManager->getBeforeAuthUrl() ?: $this->url->getLoginUrl();
 
-            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($key, $request, $response, $redirectOnFailureUrl);
         }
     }
 }

@@ -10,22 +10,24 @@
 
     <body>
         <referenceContainer name="footer">
-            <block class="Magento\ReCaptchaFrontendUi\Block\ReCaptcha"
+            <block class="Magento\ReCaptchaUi\Block\ReCaptcha"
                    name="recaptcha-newsletter"
                    after="-"
                    template="Magento_ReCaptchaNewsletter::recaptcha_newsletter.phtml"
-                   ifconfig="recaptcha/frontend/enabled_for_newsletter">
+                   ifconfig="recaptcha_frontend/type_for/newsletter">
                 <arguments>
+                    <argument name="recaptcha_for" xsi:type="string">newsletter</argument>
+                    <argument name="captcha_ui_config" xsi:type="array">
+                        <item name="invisible" xsi:type="boolean">true</item>
+                        <item name="rendering" xsi:type="array">
+                            <item name="badge" xsi:type="string">bottomright</item>
+                            <item name="size" xsi:type="string">invisible</item>
+                        </item>
+                    </argument>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">
                             <item name="recaptcha" xsi:type="array">
                                 <item name="component" xsi:type="string">Magento_ReCaptchaFrontendUi/js/reCaptcha</item>
-                                <item name="reCaptchaId" xsi:type="string">recaptcha-newsletter</item>
-                                <item name="zone" xsi:type="string">newsletter</item>
-                                <item name="badge" xsi:type="string">bottomright</item>
-                                <item name="settings" xsi:type="array">
-                                    <item name="size" xsi:type="string">invisible</item>
-                                </item>
                             </item>
                         </item>
                     </argument>

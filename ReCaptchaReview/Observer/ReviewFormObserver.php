@@ -12,8 +12,8 @@ use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
-use Magento\ReCaptchaReview\Model\IsEnabledForProductReviewInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
+use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
  * ReviewFormObserver
@@ -26,9 +26,9 @@ class ReviewFormObserver implements ObserverInterface
     private $redirect;
 
     /**
-     * @var IsEnabledForProductReviewInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $isEnabledForProductReview;
+    private $isCaptchaEnabled;
 
     /**
      * @var RequestHandlerInterface
@@ -37,16 +37,16 @@ class ReviewFormObserver implements ObserverInterface
 
     /**
      * @param RedirectInterface $redirect
-     * @param IsEnabledForProductReviewInterface $isEnabledForProductReview
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         RedirectInterface $redirect,
-        IsEnabledForProductReviewInterface $isEnabledForProductReview,
+        IsCaptchaEnabledInterface $isCaptchaEnabled,
         RequestHandlerInterface $requestHandler
     ) {
         $this->redirect = $redirect;
-        $this->isEnabledForProductReview = $isEnabledForProductReview;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->requestHandler = $requestHandler;
     }
 
@@ -57,14 +57,15 @@ class ReviewFormObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isEnabledForProductReview->isEnabled()) {
+        $key = 'product_review';
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->redirect->getRedirectUrl();
 
-            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($key, $request, $response, $redirectOnFailureUrl);
         }
     }
 }

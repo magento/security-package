@@ -8,15 +8,19 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 
-    <update handle="admin_login" />
-    <update handle="recaptcha" />
+    <update handle="admin_login"/>
+    <update handle="recaptcha"/>
 
     <body>
         <referenceContainer name="form.additional.info">
-            <block class="Magento\ReCaptchaAdminUi\Block\ReCaptcha"
+            <block class="Magento\ReCaptchaUi\Block\ReCaptcha"
                    name="recaptcha"
-                   template="Magento_ReCaptchaAdminUi::recaptcha.phtml"
-                   ifconfig="recaptcha/backend/enabled_for_user_login"/>
+                   template="Magento_ReCaptchaUser::recaptcha.phtml"
+                   ifconfig="recaptcha_backend/type_for/user_login">
+                <arguments>
+                    <argument name="recaptcha_for" xsi:type="string">user_login</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>

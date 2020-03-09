@@ -12,8 +12,8 @@ use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\ReCaptchaApi\Api\RequestHandlerInterface;
-use Magento\ReCaptchaNewsletter\Model\IsEnabledForNewsletterInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
+use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
  * NewsletterObserver
@@ -26,9 +26,9 @@ class NewsletterObserver implements ObserverInterface
     private $redirect;
 
     /**
-     * @var IsEnabledForNewsletterInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $isEnabledForNewsletter;
+    private $isCaptchaEnabled;
 
     /**
      * @var RequestHandlerInterface
@@ -37,16 +37,16 @@ class NewsletterObserver implements ObserverInterface
 
     /**
      * @param RedirectInterface $redirect
-     * @param IsEnabledForNewsletterInterface $isEnabledForNewsletter
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param RequestHandlerInterface $requestHandler
      */
     public function __construct(
         RedirectInterface $redirect,
-        IsEnabledForNewsletterInterface $isEnabledForNewsletter,
+        IsCaptchaEnabledInterface $isCaptchaEnabled,
         RequestHandlerInterface $requestHandler
     ) {
         $this->redirect = $redirect;
-        $this->isEnabledForNewsletter = $isEnabledForNewsletter;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->requestHandler = $requestHandler;
     }
 
@@ -57,14 +57,15 @@ class NewsletterObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isEnabledForNewsletter->isEnabled()) {
+        $key = 'newsletter';
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->redirect->getRefererUrl();
 
-            $this->requestHandler->execute($request, $response, $redirectOnFailureUrl);
+            $this->requestHandler->execute($key, $request, $response, $redirectOnFailureUrl);
         }
     }
 }
