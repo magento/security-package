@@ -56,7 +56,7 @@ class Onepage implements LayoutProcessorInterface
 
             $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
                 ['payment']['children']['customer-email']['children']
-                ['recaptcha']['settings'] = $this->layoutSettings->getCaptchaSettings();
+                ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
 
             $jsLayout['components']['checkout']['children']['authentication']['children']
                 ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
