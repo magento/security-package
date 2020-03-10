@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Magento\NotifierEvent\Model;
 
-use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\NotifierEvent\Model\ResourceModel\Rule\CollectionFactory;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 

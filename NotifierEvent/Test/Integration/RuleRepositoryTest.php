@@ -10,8 +10,8 @@ namespace Magento\NotifierEvent\Test\Integration;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\NotifierApi\Model\SerializerInterface;
 use Magento\NotifierEvent\Model\Rule;
 use Magento\NotifierEvent\Model\RuleRepository;
 use PHPUnit\Framework\TestCase;
@@ -53,7 +53,7 @@ class RuleRepositoryTest extends TestCase
     public function testShouldGetById(): void
     {
         $firstItem = current($this->subject->getList()->getItems());
-        
+
         /** @noinspection PhpUnhandledExceptionInspection */
         $rule = $this->subject->get((int) $firstItem->getId());
         $this->assertSame((int) $firstItem->getId(), (int) $rule->getId());
