@@ -9,15 +9,14 @@ namespace Magento\ReCaptchaCustomer\Test\Integration;
 
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\Session;
-use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Message\MessageInterface;
 use Magento\Framework\UrlInterface;
-use Magento\ReCaptcha\Model\CaptchaValidator;
-use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
+use Magento\Framework\Validation\ValidationResult;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
+use Magento\ReCaptchaValidation\Model\Validator;
 use Magento\Store\Model\ScopeInterface;
 use Magento\TestFramework\App\MutableScopeConfig;
 use Magento\TestFramework\TestCase\AbstractController;
@@ -59,14 +58,9 @@ class LoginFromTest extends AbstractController
     private $url;
 
     /**
-     * @var ResponseInterface
+     * @var ValidationResult|MockObject
      */
-    private $response;
-
-    /**
-     * @var CaptchaValidatorInterface|MockObject
-     */
-    private $captchaValidatorMock;
+    private $captchaValidationResultMock;
 
     /**
      * @inheritDoc
@@ -76,12 +70,15 @@ class LoginFromTest extends AbstractController
         parent::setUp();
         $this->mutableScopeConfig = $this->_objectManager->get(MutableScopeConfig::class);
         $this->formKey = $this->_objectManager->get(FormKey::class);
-        $this->response = $this->_objectManager->get(ResponseInterface::class);
         $this->customerRepository = $this->_objectManager->get(CustomerRepositoryInterface::class);
         $this->session = $this->_objectManager->get(Session::class);
         $this->url = $this->_objectManager->get(UrlInterface::class);
-        $this->captchaValidatorMock = $this->createMock(CaptchaValidatorInterface::class);
-        $this->_objectManager->addSharedInstance($this->captchaValidatorMock, CaptchaValidator::class);
+        $this->captchaValidationResultMock = $this->createMock(ValidationResult::class);
+        $captchaValidationResultMock = $this->createMock(Validator::class);
+        $captchaValidationResultMock->expects($this->any())
+            ->method('isValid')
+            ->willReturn($this->captchaValidationResultMock);
+        $this->_objectManager->addSharedInstance($captchaValidationResultMock, Validator::class);
     }
 
     public function testGetRequestIfReCaptchaIsDisabled()
@@ -91,6 +88,9 @@ class LoginFromTest extends AbstractController
         $this->checkSuccessfulGetResponse();
     }
 
+    /**
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_login invisible
+     */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
         $this->initConfig(1, null, null);
@@ -98,6 +98,9 @@ class LoginFromTest extends AbstractController
         $this->checkSuccessfulGetResponse();
     }
 
+    /**
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_login invisible
+     */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
         $this->initConfig(1, 'test_public_key', 'test_private_key');
@@ -122,7 +125,7 @@ class LoginFromTest extends AbstractController
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
         $this->initConfig(1, 'test_public_key', 'test_private_key');
-        $this->captchaValidatorMock->expects($this->once())->method('isValid')->willReturn(true);
+        $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(true);
 
         $this->checkSuccessfulPostResponse(
             true,
@@ -133,7 +136,7 @@ class LoginFromTest extends AbstractController
     public function testPostRequestWithFailedReCaptchaValidation()
     {
         $this->initConfig(1, 'test_public_key', 'test_private_key');
-        $this->captchaValidatorMock->expects($this->once())->method('isValid')->willReturn(false);
+        $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
         $this->checkSuccessfulPostResponse(
             false,
@@ -144,7 +147,7 @@ class LoginFromTest extends AbstractController
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
         $this->initConfig(1, 'test_public_key', 'test_private_key');
-        $this->captchaValidatorMock->expects($this->never())->method('isValid');
+        $this->captchaValidationResultMock->expects($this->never())->method('isValid');
         $this->expectException(InputException::class);
         $this->expectExceptionMessage('Can not resolve reCAPTCHA parameter.');
 
@@ -197,7 +200,7 @@ class LoginFromTest extends AbstractController
                 $sessionCustomerId
             );
             $this->assertSessionMessages(
-                self::equalTo(['You cannot proceed with such operation, your reCAPTCHA reputation is too low.']),
+                self::equalTo(['reCAPTCHA verification failed']),
                 MessageInterface::TYPE_ERROR
             );
         }
@@ -227,10 +230,9 @@ class LoginFromTest extends AbstractController
      */
     private function initConfig(?int $enabled, ?string $public, ?string $private): void
     {
-        $this->mutableScopeConfig->setValue('recaptcha/frontend/type', 'invisible', ScopeInterface::SCOPE_WEBSITE);
-        $this->mutableScopeConfig->setValue('recaptcha/frontend/enabled_for_newsletter', 0, ScopeInterface::SCOPE_WEBSITE);
-        $this->mutableScopeConfig->setValue('recaptcha/frontend/enabled_for_customer_login', $enabled, ScopeInterface::SCOPE_WEBSITE);
-        $this->mutableScopeConfig->setValue('recaptcha/frontend/public_key', $public, ScopeInterface::SCOPE_WEBSITE);
-        $this->mutableScopeConfig->setValue('recaptcha/frontend/private_key', $private, ScopeInterface::SCOPE_WEBSITE);
+        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_for/newsletter', null, ScopeInterface::SCOPE_WEBSITE);
+        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_for/customer_login', $enabled ? 'invisible' : null, ScopeInterface::SCOPE_WEBSITE);
+        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_invisible/public_key', $public, ScopeInterface::SCOPE_WEBSITE);
+        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_invisible/private_key', $private, ScopeInterface::SCOPE_WEBSITE);
     }
 }
