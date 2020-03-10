@@ -10,7 +10,7 @@ namespace Magento\NotifierEvent\Model;
 
 use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
 use Magento\NotifierEventApi\Model\FireRuleInterface;
 use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;

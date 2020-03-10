@@ -13,9 +13,9 @@
                    name="recaptcha"
                    after="-"
                    template="Magento_ReCaptchaFrontendUi::recaptcha.phtml"
-                   ifconfig="recaptcha/frontend/enabled_for_sendfriend">
+                   ifconfig="recaptcha_frontend/type_for/sendfriend">
                 <arguments>
-                    <argument name="enabled_for" xsi:type="string">sendfriend</argument>
+                    <argument name="recaptcha_for" xsi:type="string">sendfriend</argument>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">
                             <item name="recaptcha" xsi:type="array">

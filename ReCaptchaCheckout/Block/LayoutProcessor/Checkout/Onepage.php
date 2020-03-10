@@ -8,8 +8,9 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCheckout\Block\LayoutProcessor\Checkout;
 
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
-use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
+use Magento\Framework\Exception\InputException;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
+use Magento\ReCaptchaUi\Model\UiConfigResolverInterface;
 
 /**
  * Checkout layout processor
@@ -17,39 +18,44 @@ use Magento\ReCaptchaUi\Model\CaptchaUiSettingsProviderInterface;
 class Onepage implements LayoutProcessorInterface
 {
     /**
-     * @var CaptchaUiSettingsProviderInterface
+     * @var UiConfigResolverInterface
      */
-    private $captchaUiSettingsProvider;
+    private $captchaUiConfigResolver;
 
     /**
-     * @var CaptchaConfigInterface
+     * @var IsCaptchaEnabledInterface
      */
-    private $captchaConfig;
+    private $isCaptchaEnabled;
 
     /**
-     * @param CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider
-     * @param CaptchaConfigInterface $captchaConfig
+     * @param UiConfigResolverInterface $captchaUiConfigResolver
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      */
     public function __construct(
-        CaptchaUiSettingsProviderInterface $captchaUiSettingsProvider,
-        CaptchaConfigInterface $captchaConfig
+        UiConfigResolverInterface $captchaUiConfigResolver,
+        IsCaptchaEnabledInterface $isCaptchaEnabled
     ) {
-        $this->captchaUiSettingsProvider = $captchaUiSettingsProvider;
-        $this->captchaConfig = $captchaConfig;
+        $this->captchaUiConfigResolver = $captchaUiConfigResolver;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
+     *
+     * @param array $jsLayout
+     * @return array
+     * @throws InputException
      */
     public function process($jsLayout)
     {
-        if ($this->captchaConfig->isCaptchaEnabledFor('customer_login')) {
+        $key = 'customer_login';
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']
-                ['recaptcha']['settings'] = $this->captchaUiSettingsProvider->get();
+                ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
 
             $jsLayout['components']['checkout']['children']['authentication']['children']
-                ['recaptcha']['settings'] = $this->captchaUiSettingsProvider->get();
+                ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
         } else {
             if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']['recaptcha'])) {
