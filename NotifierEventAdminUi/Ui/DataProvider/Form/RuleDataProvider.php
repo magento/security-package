@@ -13,7 +13,7 @@ use Magento\Framework\Api\Search\ReportingInterface;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
-use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
 
 class RuleDataProvider extends DataProvider
