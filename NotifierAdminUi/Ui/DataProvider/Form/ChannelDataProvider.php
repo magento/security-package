@@ -11,11 +11,11 @@ namespace Magento\NotifierAdminUi\Ui\DataProvider\Form;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Ui\DataProvider\Modifier\PoolInterface;
+use Magento\Notifier\Model\ResourceModel\Channel\CollectionFactory;
 use Magento\NotifierAdminUi\Model\Channel\ModifierInterface;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
-use Magento\Notifier\Model\ResourceModel\Channel\CollectionFactory;
 use Magento\Ui\DataProvider\AbstractDataProvider;
+use Magento\Ui\DataProvider\Modifier\PoolInterface;
 
 /**
  * Class Channel Data Provider

@@ -72,18 +72,18 @@ class GetList implements GetListInterface
      */
     public function __construct(
         CollectionFactory $collectionFactory,
+        SearchResultFactory $searchResultFactory,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         CollectionProcessorInterface $collectionProcessor,
         EntityManager $entityManager,
-        SearchResultFactory $searchResultFactory,
         JoinProcessorInterface $joinProcessor,
         ChannelExtensionInterfaceFactory $operationExtension
     ) {
         $this->collectionFactory = $collectionFactory;
+        $this->searchResultFactory = $searchResultFactory;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->collectionProcessor = $collectionProcessor;
         $this->entityManager = $entityManager;
-        $this->searchResultFactory = $searchResultFactory;
         $this->joinProcessor = $joinProcessor;
         $this->operationExtensionFactory = $operationExtension;
     }
@@ -95,6 +95,10 @@ class GetList implements GetListInterface
     {
         /** @var ChannelSearchResultsInterface $searchResult */
         $searchResult = $this->searchResultFactory->create();
+
+        if (null === $searchCriteria) {
+            $searchCriteria = $this->searchCriteriaBuilder->create();
+        }
 
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();
