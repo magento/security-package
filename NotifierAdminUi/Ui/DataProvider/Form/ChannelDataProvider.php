@@ -10,7 +10,9 @@ namespace Magento\NotifierAdminUi\Ui\DataProvider\Form;
 
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
+use Magento\NotifierAdminUi\Model\Channel\ModifierInterface;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\Notifier\Model\ResourceModel\Channel\CollectionFactory;
 use Magento\Ui\DataProvider\AbstractDataProvider;
@@ -39,21 +41,6 @@ class ChannelDataProvider extends AbstractDataProvider
      * @var UrlInterface
      */
     private $url;
-
-    /**
-     * @var RequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var string
-     */
-    protected $requestFieldName;
-
-    /**
-     * @var array
-     */
-    protected $data;
 
     public function __construct(
         string $name,
@@ -86,7 +73,7 @@ class ChannelDataProvider extends AbstractDataProvider
      * Get current channel
      *
      * @return string
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException
      */
     private function getChannelAdapterCode(): string
     {
@@ -130,7 +117,7 @@ class ChannelDataProvider extends AbstractDataProvider
 
         $modifiers = $this->modifierPool->getModifiersInstances();
         foreach ($modifiers as $modifier) {
-            if ($modifier instanceof \Magento\NotifierAdminUi\Model\Channel\ModifierInterface) {
+            if ($modifier instanceof ModifierInterface) {
                 if (!$channelAdapterCode || ($modifier->getAdapterCode() !== $channelAdapterCode)) {
                     continue;
                 }
@@ -153,7 +140,7 @@ class ChannelDataProvider extends AbstractDataProvider
 
         $modifiers = $this->modifierPool->getModifiersInstances();
         foreach ($modifiers as $modifier) {
-            if ($modifier instanceof \Magento\NotifierAdminUi\Model\Channel\ModifierInterface) {
+            if ($modifier instanceof ModifierInterface) {
                 if (!$channelAdapterCode || ($modifier->getAdapterCode() !== $channelAdapterCode)) {
                     continue;
                 }
