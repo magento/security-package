@@ -49,10 +49,9 @@ class ChannelDataProvider extends DataProvider
      * @param FilterBuilder $filterBuilder
      * @param PoolInterface $modifierPool
      * @param ChannelRepositoryInterface $channelRepository
+     * @param SearchResultFactory $searchResultFactory
      * @param array $meta
      * @param array $data
-     * @SuppressWarnings(PHPMD.LongVariables)
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         string $name,
@@ -80,9 +79,12 @@ class ChannelDataProvider extends DataProvider
             $data
         );
 
-        $this->modifierPool = $modifierPool;
-        $this->channelRepository = $channelRepository;
-        $this->searchResultFactory = $searchResultFactory;
+        $this->modifierPool = $modifierPool ?: \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Magento\Ui\DataProvider\Modifier\PoolInterface::class);
+        $this->channelRepository = $channelRepository ?: \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Magento\NotifierApi\Api\ChannelRepositoryInterface::class);
+        $this->searchResultFactory = $searchResultFactory ?: \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Magento\Ui\DataProvider\SearchResultFactory::class);
     }
 
     /**

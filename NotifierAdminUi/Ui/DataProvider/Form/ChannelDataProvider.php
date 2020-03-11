@@ -42,15 +42,20 @@ class ChannelDataProvider extends AbstractDataProvider
      */
     private $url;
 
+    /**
+     * @var RequestInterface
+     */
+    private $request;
+
     public function __construct(
         string $name,
         string $primaryFieldName,
         string $requestFieldName,
         CollectionFactory $collection,
-        RequestInterface $request,
-        PoolInterface $modifierPool,
-        ChannelRepositoryInterface $channelRepository,
-        UrlInterface $url,
+        RequestInterface $request = null,
+        PoolInterface $modifierPool = null,
+        ChannelRepositoryInterface $channelRepository = null,
+        UrlInterface $url = null,
         array $meta = [],
         array $data = []
     ) {
@@ -63,10 +68,14 @@ class ChannelDataProvider extends AbstractDataProvider
         );
 
         $this->collection = $collection->create();
-        $this->request = $request;
-        $this->channelRepository = $channelRepository;
-        $this->modifierPool = $modifierPool;
-        $this->url = $url;
+        $this->request = $request ?: \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Magento\Framework\App\RequestInterface::class);
+        $this->modifierPool = $modifierPool ?: \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Magento\Ui\DataProvider\Modifier\PoolInterface::class);
+        $this->channelRepository = $channelRepository ?: \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Magento\NotifierApi\Api\ChannelRepositoryInterface::class);
+        $this->url = $url ?: \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\Magento\Backend\Model\UrlInterface::class);
     }
 
     /**

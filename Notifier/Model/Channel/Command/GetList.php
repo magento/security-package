@@ -14,7 +14,7 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Notifier\Model\ResourceModel\Channel\Collection;
 use Magento\Notifier\Model\ResourceModel\Channel\CollectionFactory;
 use Magento\NotifierApi\Api\ChannelSearchResultsInterface;
-use Magento\NotifierApi\Api\ChannelSearchResultsInterfaceFactory as SearchResultFactory;
+use Magento\NotifierApi\Api\ChannelSearchResultsInterfaceFactory as SearchResultsFactory;
 use Magento\NotifierApi\Api\Data\ChannelExtensionInterfaceFactory;
 use Magento\Framework\Api\ExtensionAttribute\JoinProcessorInterface;
 use Magento\Framework\EntityManager\EntityManager;
@@ -32,6 +32,11 @@ class GetList implements GetListInterface
     private $collectionFactory;
 
     /**
+     * @var SearchResultsFactory
+     */
+    private $searchResultsFactory;
+
+    /**
      * @var SearchCriteriaBuilder
      */
     private $searchCriteriaBuilder;
@@ -47,11 +52,6 @@ class GetList implements GetListInterface
     private $entityManager;
 
     /**
-     * @var SearchResultFactory
-     */
-    private $searchResultFactory;
-
-    /**
      * @var JoinProcessorInterface
      */
     private $joinProcessor;
@@ -63,16 +63,16 @@ class GetList implements GetListInterface
 
     /**
      * @param CollectionFactory $collectionFactory
+     * @param SearchResultsFactory $searchResultsFactory
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param CollectionProcessorInterface $collectionProcessor
      * @param EntityManager $entityManager
-     * @param SearchResultFactory $searchResultFactory
      * @param JoinProcessorInterface $joinProcessor
      * @param ChannelExtensionInterfaceFactory $operationExtension
      */
     public function __construct(
         CollectionFactory $collectionFactory,
-        SearchResultFactory $searchResultFactory,
+        SearchResultsFactory $searchResultsFactory,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         CollectionProcessorInterface $collectionProcessor,
         EntityManager $entityManager,
@@ -80,7 +80,7 @@ class GetList implements GetListInterface
         ChannelExtensionInterfaceFactory $operationExtension
     ) {
         $this->collectionFactory = $collectionFactory;
-        $this->searchResultFactory = $searchResultFactory;
+        $this->searchResultsFactory = $searchResultsFactory;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->collectionProcessor = $collectionProcessor;
         $this->entityManager = $entityManager;
@@ -94,7 +94,7 @@ class GetList implements GetListInterface
     public function execute(SearchCriteriaInterface $searchCriteria = null): ChannelSearchResultsInterface
     {
         /** @var ChannelSearchResultsInterface $searchResult */
-        $searchResult = $this->searchResultFactory->create();
+        $searchResult = $this->searchResultsFactory->create();
 
         if (null === $searchCriteria) {
             $searchCriteria = $this->searchCriteriaBuilder->create();
@@ -102,7 +102,10 @@ class GetList implements GetListInterface
 
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();
-        $this->joinProcessor->process($collection, \Magento\NotifierApi\Api\Data\ChannelInterface::class);
+        $this->joinProcessor->process(
+            $collection,
+            \Magento\NotifierApi\Api\Data\ChannelInterface::class
+        );
         $this->collectionProcessor->process($searchCriteria, $collection);
         $searchResult->setSearchCriteria($searchCriteria);
         $searchResult->setTotalCount($collection->getSize());
