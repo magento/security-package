@@ -32,6 +32,9 @@
             </item>
         </argument>
         <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">channel_id</param>
+            </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
         <aclResource>Magento_Notifier::channel</aclResource>

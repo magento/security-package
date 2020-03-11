@@ -21,25 +21,6 @@
         </arguments>
     </virtualType>
 
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
-        <arguments>
-            <argument name="collections" xsi:type="array">
-                <item name="magento_notifier_channel_data_source"
-                      xsi:type="string">Magento\NotifierAdminUi\Model\ResourceModel\UI\Channel\Collection</item>
-            </argument>
-        </arguments>
-    </type>
-
-    <virtualType name="Magento\NotifierAdminUi\Model\ResourceModel\UI\Channel\Collection"
-                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
-        <arguments>
-            <argument name="mainTable" xsi:type="string">notifier_channel</argument>
-            <argument name="resourceModel"
-                      xsi:type="string">Magento\Notifier\Model\ResourceModel\Channel\Collection</argument>
-        </arguments>
-    </virtualType>
-    <!-- Channel grid: END -->
-
     <type name="Magento\NotifierAdminUi\Ui\DataProvider\Form\ChannelDataProvider">
         <arguments>
             <argument name="modifierPool"

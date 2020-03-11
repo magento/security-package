@@ -13,14 +13,31 @@ use Magento\Framework\Api\Search\ReportingInterface;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
+use Magento\NotifierApi\Api\ChannelRepositoryInterface;
+use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
+use Magento\Ui\DataProvider\SearchResultFactory;
+use Magento\Framework\Api\Filter;
 
+/**
+ * Class Channel Data Provider
+ */
 class ChannelDataProvider extends DataProvider
 {
     /**
      * @var PoolInterface
      */
     private $modifierPool;
+
+    /**
+     * @var ChannelRepositoryInterface
+     */
+    private $channelRepository;
+
+    /**
+     * @var SearchResultFactory
+     */
+    private $searchResultFactory;
 
     /**
      * @param string $name
@@ -31,6 +48,7 @@ class ChannelDataProvider extends DataProvider
      * @param RequestInterface $request
      * @param FilterBuilder $filterBuilder
      * @param PoolInterface $modifierPool
+     * @param ChannelRepositoryInterface $channelRepository
      * @param array $meta
      * @param array $data
      * @SuppressWarnings(PHPMD.LongVariables)
@@ -45,6 +63,8 @@ class ChannelDataProvider extends DataProvider
         RequestInterface $request,
         FilterBuilder $filterBuilder,
         PoolInterface $modifierPool,
+        ChannelRepositoryInterface $channelRepository,
+        SearchResultFactory $searchResultFactory,
         array $meta = [],
         array $data = []
     ) {
@@ -61,6 +81,8 @@ class ChannelDataProvider extends DataProvider
         );
 
         $this->modifierPool = $modifierPool;
+        $this->channelRepository = $channelRepository;
+        $this->searchResultFactory = $searchResultFactory;
     }
 
     /**
@@ -91,5 +113,50 @@ class ChannelDataProvider extends DataProvider
         }
 
         return $meta;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSearchResult()
+    {
+        $searchCriteria = $this->getSearchCriteria();
+        $result = $this->channelRepository->getList($searchCriteria);
+        $searchResult = $this->searchResultFactory->create(
+            $result->getItems(),
+            $result->getTotalCount(),
+            $searchCriteria,
+            ChannelInterface::ID
+        );
+
+        return $searchResult;
+    }
+
+    /**
+     * Add full text search filter to collection
+     *
+     * @param Filter $filter
+     * @return void
+     */
+    public function addFilter(Filter $filter): void
+    {
+        if ($filter->getField() !== 'fulltext') {
+            parent::addFilter($filter);
+        } else {
+            $filter->setField('name');
+            $filter->setValue('%' . $filter->getValue() . '%');
+            $filter->setConditionType('like');
+            parent::addFilter($filter);
+
+            $filter->setField('adapter_code');
+            $filter->setValue('%' . $filter->getValue() . '%');
+            $filter->setConditionType('like');
+            parent::addFilter($filter);
+
+            $filter->setField('code');
+            $filter->setValue('%' . $filter->getValue() . '%');
+            $filter->setConditionType('like');
+            parent::addFilter($filter);
+        }
     }
 }

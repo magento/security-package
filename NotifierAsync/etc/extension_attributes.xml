@@ -9,6 +9,10 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
 
     <extension_attributes for="Magento\NotifierApi\Api\Data\ChannelInterface">
-        <attribute code="send_async" type="bool" />
+        <attribute code="send_async" type="bool" >
+            <join reference_table="notifier_async_channel" reference_field="channel_id" join_on_field="channel_id">
+                <field column="send_async">send_async</field>
+            </join>
+        </attribute>
     </extension_attributes>
 </config>

@@ -32,17 +32,17 @@ interface ChannelInterface extends ExtensibleDataInterface
     public const CODE = 'code';
 
     /**
-     * Get value for channel_id
+     * Get value for channel id
      * @return int
      */
-    public function getId();
+    public function getChannelId();
 
     /**
-     * Set value for channel_id
+     * Set value for channel id
      * @param int $value
      * @return void
      */
-    public function setId($value);
+    public function setChannelId($value);
 
     /**
      * Get value for name

@@ -43,9 +43,18 @@ class Channel extends AbstractExtensibleModel implements ChannelInterface
     /**
      * @inheritdoc
      */
-    public function getId()
+    public function getChannelId()
     {
         return $this->getData(self::ID);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setChannelId($value)
+    {
+        return $this->setData(self::ID);
+        // TODO: Implement setChannelId() method.
     }
 
     /**

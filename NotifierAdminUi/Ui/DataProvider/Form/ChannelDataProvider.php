@@ -9,18 +9,16 @@ declare(strict_types=1);
 namespace Magento\NotifierAdminUi\Ui\DataProvider\Form;
 
 use Magento\Backend\Model\UrlInterface;
-use Magento\Framework\Api\FilterBuilder;
-use Magento\Framework\Api\Search\ReportingInterface;
-use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
-use Magento\NotifierAdminUi\Model\Channel\ModifierInterface;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
-use Magento\NotifierApi\Api\Data\ChannelInterface;
+use Magento\Notifier\Model\ResourceModel\Channel\CollectionFactory;
+use Magento\Ui\DataProvider\AbstractDataProvider;
 
-class ChannelDataProvider extends DataProvider
+/**
+ * Class Channel Data Provider
+ */
+class ChannelDataProvider extends AbstractDataProvider
 {
     /**
      * @var string
@@ -43,30 +41,26 @@ class ChannelDataProvider extends DataProvider
     private $url;
 
     /**
-     * ChannelDataProvider constructor.
-     * @param string $name
-     * @param string $primaryFieldName
-     * @param string $requestFieldName
-     * @param ReportingInterface $reporting
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
-     * @param RequestInterface $request
-     * @param FilterBuilder $filterBuilder
-     * @param PoolInterface $modifierPool
-     * @param ChannelRepositoryInterface $channelRepository
-     * @param UrlInterface $url
-     * @param array $meta
-     * @param array $data
-     * @SuppressWarnings(PHPMD.LongVariable)
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @var RequestInterface
      */
+    protected $request;
+
+    /**
+     * @var string
+     */
+    protected $requestFieldName;
+
+    /**
+     * @var array
+     */
+    protected $data;
+
     public function __construct(
         string $name,
         string $primaryFieldName,
         string $requestFieldName,
-        ReportingInterface $reporting,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
+        CollectionFactory $collection,
         RequestInterface $request,
-        FilterBuilder $filterBuilder,
         PoolInterface $modifierPool,
         ChannelRepositoryInterface $channelRepository,
         UrlInterface $url,
@@ -77,14 +71,12 @@ class ChannelDataProvider extends DataProvider
             $name,
             $primaryFieldName,
             $requestFieldName,
-            $reporting,
-            $searchCriteriaBuilder,
-            $request,
-            $filterBuilder,
             $meta,
             $data
         );
 
+        $this->collection = $collection->create();
+        $this->request = $request;
         $this->channelRepository = $channelRepository;
         $this->modifierPool = $modifierPool;
         $this->url = $url;
@@ -92,8 +84,9 @@ class ChannelDataProvider extends DataProvider
 
     /**
      * Get current channel
+     *
      * @return string
-     * @throws NoSuchEntityException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     private function getChannelAdapterCode(): string
     {
@@ -137,7 +130,7 @@ class ChannelDataProvider extends DataProvider
 
         $modifiers = $this->modifierPool->getModifiersInstances();
         foreach ($modifiers as $modifier) {
-            if ($modifier instanceof ModifierInterface) {
+            if ($modifier instanceof \Magento\NotifierAdminUi\Model\Channel\ModifierInterface) {
                 if (!$channelAdapterCode || ($modifier->getAdapterCode() !== $channelAdapterCode)) {
                     continue;
                 }
@@ -160,7 +153,7 @@ class ChannelDataProvider extends DataProvider
 
         $modifiers = $this->modifierPool->getModifiersInstances();
         foreach ($modifiers as $modifier) {
-            if ($modifier instanceof ModifierInterface) {
+            if ($modifier instanceof \Magento\NotifierAdminUi\Model\Channel\ModifierInterface) {
                 if (!$channelAdapterCode || ($modifier->getAdapterCode() !== $channelAdapterCode)) {
                     continue;
                 }
