@@ -169,7 +169,7 @@ class Validate extends Value
      */
     private function existDataValue(array $fieldData): bool
     {
-        if (isset($fieldData['value']) && $fieldData['value'] !== '') {
+        if (isset($fieldData['value']) && empty($fieldData['value']) === true) {
             return true;
         }
 
