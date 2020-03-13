@@ -134,31 +134,4 @@ class ChannelDataProvider extends DataProvider
         return $searchResult;
     }
 
-    /**
-     * Add full text search filter to collection
-     *
-     * @param Filter $filter
-     * @return void
-     */
-    public function addFilter(Filter $filter): void
-    {
-        if ($filter->getField() !== 'fulltext') {
-            parent::addFilter($filter);
-        } else {
-            $filter->setField('name');
-            $filter->setValue('%' . $filter->getValue() . '%');
-            $filter->setConditionType('like');
-            parent::addFilter($filter);
-
-            $filter->setField('adapter_code');
-            $filter->setValue('%' . $filter->getValue() . '%');
-            $filter->setConditionType('like');
-            parent::addFilter($filter);
-
-            $filter->setField('code');
-            $filter->setValue('%' . $filter->getValue() . '%');
-            $filter->setConditionType('like');
-            parent::addFilter($filter);
-        }
-    }
 }
