@@ -51,7 +51,6 @@ class ChannelDataProvider extends AbstractDataProvider
         string $name,
         string $primaryFieldName,
         string $requestFieldName,
-        CollectionFactory $collection,
         RequestInterface $request = null,
         PoolInterface $modifierPool = null,
         ChannelRepositoryInterface $channelRepository = null,
@@ -67,7 +66,10 @@ class ChannelDataProvider extends AbstractDataProvider
             $data
         );
 
-        $this->collection = $collection->create();
+        $this->collection = \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(CollectionFactory::class)
+            ->create();
+
         $this->request = $request ?: \Magento\Framework\App\ObjectManager::getInstance()
             ->get(\Magento\Framework\App\RequestInterface::class);
         $this->modifierPool = $modifierPool ?: \Magento\Framework\App\ObjectManager::getInstance()

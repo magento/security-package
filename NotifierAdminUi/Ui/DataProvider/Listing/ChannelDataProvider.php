@@ -61,9 +61,9 @@ class ChannelDataProvider extends DataProvider
         SearchCriteriaBuilder $searchCriteriaBuilder,
         RequestInterface $request,
         FilterBuilder $filterBuilder,
-        PoolInterface $modifierPool,
-        ChannelRepositoryInterface $channelRepository,
-        SearchResultFactory $searchResultFactory,
+        PoolInterface $modifierPool = null,
+        ChannelRepositoryInterface $channelRepository = null,
+        SearchResultFactory $searchResultFactory = null,
         array $meta = [],
         array $data = []
     ) {
