@@ -35,26 +35,47 @@ class Validate extends Value
         $dataGroup = $this->getData()['groups'];
         $contactInformationFields = $dataGroup['contact_information']['fields'];
         $otherInformationFields = $dataGroup['other_information']['fields'];
-        $isExtensionEnabled = (bool)$dataGroup['general']['fields']['enabled']['value'];
-        $contactEmail = $contactInformationFields['email']['value'];
-        $contactPhone = $contactInformationFields['phone']['value'];
-        $contactWebPage = $contactInformationFields['contact_page']['value'];
+        $isEnabledField = $dataGroup['general']['fields']['enabled'];
 
-        if ($isExtensionEnabled) {
-            if ($contactEmail === '' && $contactPhone === '' && $contactWebPage === '') {
+        if ($this->existValue($isEnabledField) && (bool)$this->getDataValue($isEnabledField) == true) {
+            if (!$this->existValue($contactInformationFields['email'])
+                && !$this->existValue($contactInformationFields['phone'])
+                && !$this->existValue($contactInformationFields['contact_page'])) {
                 throw new ValidatorException(__('At least one contact information is required.'));
             }
-        } else {
-            return parent::validateBeforeSave();
         }
 
-        $this->validateContactEmail($contactEmail);
-        $this->validateContactWebpageUrl($contactWebPage);
-        $this->validateUrlField("Contact Page URL", $contactWebPage);
-        $this->validateUrlField("Encryption URL", $otherInformationFields['encryption']['value']);
-        $this->validateUrlField("Acknowledgements URL", $otherInformationFields['acknowledgements']['value']);
-        $this->validateUrlField("Hiring URL", $otherInformationFields['hiring']['value']);
-        $this->validateUrlField("Policy URL", $otherInformationFields['policy']['value']);
+        /**
+         * Validate Email
+         */
+        if ($this->existValue($contactInformationFields['email'])) {
+            $this->validateContactEmail($this->getDataValue($contactInformationFields['email']));
+        }
+
+        /**
+         * Validate Contact URL
+         */
+        if ($this->existValue($contactInformationFields['contact_page'])) {
+            $this->validateContactWebpageUrl($this->getDataValue($contactInformationFields['contact_page']));
+        }
+
+        /**
+         * Validate Other Information URLs
+         */
+        ($this->getDataValue($otherInformationFields['acknowledgements']) != '') ? $this->validateUrlField(
+            "Acknowledgements URL",
+            $this->getDataValue($otherInformationFields['acknowledgements'])
+        ) : true;
+
+        ($this->getDataValue($otherInformationFields['hiring']) != '') ? $this->validateUrlField(
+            "Hiring URL",
+            $this->getDataValue($otherInformationFields['hiring'])
+        ) : true;
+
+        ($this->getDataValue($otherInformationFields['policy']) != '') ? $this->validateUrlField(
+            "Policy URL",
+            $this->getDataValue($otherInformationFields['policy'])
+        ) : true;
 
         return parent::validateBeforeSave();
     }
@@ -123,4 +144,36 @@ class Validate extends Value
             );
         }
     }
+
+    /**
+     * Get Value from form or inheriting value.
+     *
+     * @param array $fieldData
+     * @return string
+     */
+    private function getDataValue(array $fieldData): string
+    {
+        $result = '';
+        if (isset($fieldData['value'])) {
+            $result = $fieldData['value'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check exists value data
+     *
+     * @param array $fieldData
+     * @return bool
+     */
+    private function existValue(array $fieldData): bool
+    {
+        if (isset($fieldData['value']) && $fieldData['value'] !== '') {
+            return true;
+        }
+
+        return false;
+    }
+
 }
