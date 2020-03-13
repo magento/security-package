@@ -48,6 +48,7 @@ class Validate extends Value
         /**
          * Validate Email
          */
+
         if ($this->existDataValue($contactInformationFields['email'])) {
             $this->validateContactEmail($this->getDataValue($contactInformationFields['email']));
         }
@@ -169,7 +170,7 @@ class Validate extends Value
      */
     private function existDataValue(array $fieldData): bool
     {
-        if (isset($fieldData['value']) && empty($fieldData['value']) === true) {
+        if (isset($fieldData['value']) && $fieldData['value'] !== '') {
             return true;
         }
 
