@@ -10,8 +10,10 @@ namespace Magento\TwoFactorAuth\Observer;
 use Magento\Backend\App\AbstractAction;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\ActionFlag;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\UrlInterface;
 use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
@@ -54,24 +56,40 @@ class ControllerActionPredispatch implements ObserverInterface
     private $tokenManager;
 
     /**
+     * @var ActionFlag
+     */
+    private $actionFlag;
+
+    /**
+     * @var UrlInterface
+     */
+    private $url;
+
+    /**
      * @param TfaInterface $tfa
      * @param TfaSessionInterface $tfaSession
      * @param Session $session
      * @param UserConfigRequestManagerInterface $configRequestManager
      * @param HtmlAreaTokenVerifier $tokenManager
+     * @param ActionFlag $actionFlag
+     * @param UrlInterface $url
      */
     public function __construct(
         TfaInterface $tfa,
         TfaSessionInterface $tfaSession,
         Session $session,
         UserConfigRequestManagerInterface $configRequestManager,
-        HtmlAreaTokenVerifier $tokenManager
+        HtmlAreaTokenVerifier $tokenManager,
+        ActionFlag $actionFlag,
+        UrlInterface $url
     ) {
         $this->tfa = $tfa;
         $this->tfaSession = $tfaSession;
         $this->session = $session;
         $this->configRequestManager = $configRequestManager;
         $this->tokenManager = $tokenManager;
+        $this->actionFlag = $actionFlag;
+        $this->url = $url;
     }
 
     /**
@@ -91,8 +109,8 @@ class ControllerActionPredispatch implements ObserverInterface
      */
     private function redirect(string $url): void
     {
-        $this->action->getActionFlag()->set('', Action::FLAG_NO_DISPATCH, true);
-        $this->action->getResponse()->setRedirect($this->action->getUrl($url));
+        $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
+        $this->action->getResponse()->setRedirect($this->url->getUrl($url));
     }
 
     /**

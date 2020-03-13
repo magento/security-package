@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\Exception\NotificationExceptionInterface;
@@ -43,21 +44,29 @@ class EmailUserNotifier implements UserNotifierInterface
     private $logger;
 
     /**
+     * @var UrlInterface
+     */
+    private $url;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param TransportBuilder $transportBuilder
      * @param StoreManagerInterface $storeManager
      * @param LoggerInterface $logger
+     * @param UrlInterface $url
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        UrlInterface $url
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
+        $this->url = $url;
     }
 
     /**
@@ -82,7 +91,8 @@ class EmailUserNotifier implements UserNotifierInterface
                     [
                         'username' => $user->getFirstName() . ' ' . $user->getLastName(),
                         'token' => $token,
-                        'store_name' => $this->storeManager->getStore()->getFrontendName()
+                        'store_name' => $this->storeManager->getStore()->getFrontendName(),
+                        'url' => $this->url->getUrl('admin/dashboard/index', ['tfat' => $token])
                     ]
                 )
                 ->setFromByScope(
