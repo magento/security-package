@@ -38,9 +38,9 @@ class Validate extends Value
         $isEnabledField = $dataGroup['general']['fields']['enabled'];
 
         if ($this->existDataValue($isEnabledField) && (bool)$this->getDataValue($isEnabledField) == true) {
-            if (!$this->existDataValue($contactInformationFields['email'])
-                && !$this->existDataValue($contactInformationFields['phone'])
-                && !$this->existDataValue($contactInformationFields['contact_page'])) {
+            if ($this->isEmptyValue('email', $contactInformationFields)
+                && $this->isEmptyValue('phone', $contactInformationFields)
+                && $this->isEmptyValue('contact_page', $contactInformationFields)) {
                 throw new ValidatorException(__('At least one contact information is required.'));
             }
         }
@@ -170,7 +170,23 @@ class Validate extends Value
      */
     private function existDataValue(array $fieldData): bool
     {
-        if (isset($fieldData['value']) && $fieldData['value'] !== '') {
+        if (isset($fieldData['value'])) {
+            if ($fieldData['value'] !== '' || empty($fieldData['value'])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $key
+     * @param array $fieldData
+     * @return bool
+     */
+    private function isEmptyValue(string $key, array $fieldData): bool
+    {
+        if ($this->existDataValue($fieldData[$key]) && $this->getDataValue($fieldData[$key]) === '') {
             return true;
         }
 
