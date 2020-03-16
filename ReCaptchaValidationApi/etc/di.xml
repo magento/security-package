@@ -7,7 +7,7 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <type name="Magento\ReCaptchaValidationApi\Model\ErrorMessages">
+    <type name="Magento\ReCaptchaValidationApi\Model\ErrorMessagesProvider">
         <arguments>
             <argument name="errors" xsi:type="array">
                 <item name="invalid-json" xsi:type="string" translatable="true">Invalid JSON received.</item>
