@@ -33,12 +33,14 @@ interface ChannelInterface extends ExtensibleDataInterface
 
     /**
      * Get value for channel id
+     *
      * @return int
      */
     public function getChannelId();
 
     /**
      * Set value for channel id
+     *
      * @param int $value
      * @return void
      */
@@ -46,12 +48,14 @@ interface ChannelInterface extends ExtensibleDataInterface
 
     /**
      * Get value for name
+     *
      * @return string
      */
     public function getName(): string;
 
     /**
      * Set value for name
+     *
      * @param string $value
      * @return void
      */
@@ -59,12 +63,14 @@ interface ChannelInterface extends ExtensibleDataInterface
 
     /**
      * Get value for code
+     *
      * @return string
      */
     public function getCode(): string;
 
     /**
      * Set value for code
+     *
      * @param string $value
      * @return void
      */
@@ -72,12 +78,14 @@ interface ChannelInterface extends ExtensibleDataInterface
 
     /**
      * Get value for adapter_code
+     *
      * @return string
      */
     public function getAdapterCode(): string;
 
     /**
      * Set value for adapter_code
+     *
      * @param string $value
      * @return void
      */
@@ -85,12 +93,15 @@ interface ChannelInterface extends ExtensibleDataInterface
 
     /**
      * Get value for enabled
+     *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getEnabled(): bool;
 
     /**
      * Set value for enabled
+     *
      * @param bool $value
      * @return void
      */
@@ -98,12 +109,14 @@ interface ChannelInterface extends ExtensibleDataInterface
 
     /**
      * Get value for configuration_json
+     *
      * @return string
      */
     public function getConfigurationJson(): string;
 
     /**
      * Set value for configuration_json
+     *
      * @param string $value
      * @return void
      */
@@ -111,12 +124,14 @@ interface ChannelInterface extends ExtensibleDataInterface
 
     /**
      * Retrieve existing extension attributes object or create a new one
+     *
      * @return \Magento\NotifierApi\Api\Data\ChannelExtensionInterface|null
      */
     public function getExtensionAttributes(): ?\Magento\NotifierApi\Api\Data\ChannelExtensionInterface;
 
     /**
      * Set an extension attributes object
+     *
      * @param \Magento\NotifierApi\Api\Data\ChannelExtensionInterface $extensionAttributes
      * @return void
      */

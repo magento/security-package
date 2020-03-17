@@ -18,7 +18,7 @@ use Magento\Ui\DataProvider\AbstractDataProvider;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
 
 /**
- * Class Channel Data Provider
+ * Class for Channel Data Provider
  */
 class ChannelDataProvider extends AbstractDataProvider
 {
@@ -47,6 +47,17 @@ class ChannelDataProvider extends AbstractDataProvider
      */
     private $request;
 
+    /**
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
+     * @param RequestInterface|null $request
+     * @param PoolInterface|null $modifierPool
+     * @param ChannelRepositoryInterface|null $channelRepository
+     * @param UrlInterface|null $url
+     * @param array $meta
+     * @param array $data
+     */
     public function __construct(
         string $name,
         string $primaryFieldName,

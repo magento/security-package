@@ -20,7 +20,7 @@ use Magento\Ui\DataProvider\SearchResultFactory;
 use Magento\Framework\Api\Filter;
 
 /**
- * Class Channel Data Provider
+ * Class for Channel Data Provider
  */
 class ChannelDataProvider extends DataProvider
 {
@@ -52,6 +52,7 @@ class ChannelDataProvider extends DataProvider
      * @param SearchResultFactory $searchResultFactory
      * @param array $meta
      * @param array $data
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         string $name,
@@ -133,5 +134,4 @@ class ChannelDataProvider extends DataProvider
 
         return $searchResult;
     }
-
 }
