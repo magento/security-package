@@ -37,46 +37,38 @@ class Validate extends Value
         $otherInformationFields = $dataGroup['other_information']['fields'];
         $isEnabledField = $dataGroup['general']['fields']['enabled'];
 
-        if ($this->existDataValue($isEnabledField) && (bool)$this->getDataValue($isEnabledField) == true) {
-            if ($this->isEmptyValue('email', $contactInformationFields)
-                && $this->isEmptyValue('phone', $contactInformationFields)
-                && $this->isEmptyValue('contact_page', $contactInformationFields)) {
-                throw new ValidatorException(__('At least one contact information is required.'));
-            }
+        if ($this->isEnabledDataValue($isEnabledField)
+            && $this->isEmptyContactInformationFields($contactInformationFields)) {
+            throw new ValidatorException(__('At least one contact information is required.'));
         }
 
         /**
          * Validate Email
          */
-
-        if ($this->existDataValue($contactInformationFields['email'])) {
-            $this->validateContactEmail($this->getDataValue($contactInformationFields['email']));
-        }
+        $this->validateContactEmail($contactInformationFields['email']);
 
         /**
          * Validate Contact URL
          */
-        if ($this->existDataValue($contactInformationFields['contact_page'])) {
-            $this->validateContactWebpageUrl($this->getDataValue($contactInformationFields['contact_page']));
-        }
+        $this->validateContactWebPageUrl($contactInformationFields['contact_page']);
 
         /**
          * Validate Other Information URLs
          */
-        ($this->getDataValue($otherInformationFields['acknowledgements']) != '') ? $this->validateUrlField(
+        $this->validateUrlField(
             "Acknowledgements URL",
             $this->getDataValue($otherInformationFields['acknowledgements'])
-        ) : true;
+        );
 
-        ($this->getDataValue($otherInformationFields['hiring']) != '') ? $this->validateUrlField(
+        $this->validateUrlField(
             "Hiring URL",
             $this->getDataValue($otherInformationFields['hiring'])
-        ) : true;
+        );
 
-        ($this->getDataValue($otherInformationFields['policy']) != '') ? $this->validateUrlField(
+        $this->validateUrlField(
             "Policy URL",
             $this->getDataValue($otherInformationFields['policy'])
-        ) : true;
+        );
 
         return parent::validateBeforeSave();
     }
@@ -101,12 +93,17 @@ class Validate extends Value
     /**
      * Validate contact email configuration field.
      *
-     * @param string $contactEmail
-     * @return void
+     * @param array $contactEmailFieldData
      * @throws ValidatorException
      */
-    private function validateContactEmail(string $contactEmail): void
+    private function validateContactEmail(array $contactEmailFieldData): void
     {
+        $contactEmail = '';
+
+        if ($this->existDataValue($contactEmailFieldData)) {
+            $contactEmail = $this->getDataValue($contactEmailFieldData);
+        }
+
         if ($contactEmail !== '' && !filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
             throw new ValidatorException(
                 __('Contact Information: Email validation failed. Please enter in correct format.')
@@ -117,13 +114,18 @@ class Validate extends Value
     /**
      * Validate contact web page configuration field.
      *
-     * @param string $contactWebpage
-     * @return void
+     * @param array $contactWebPageFieldData
      * @throws ValidatorException
      */
-    private function validateContactWebpageUrl(string $contactWebpage): void
+    private function validateContactWebPageUrl(array $contactWebPageFieldData): void
     {
-        if ($contactWebpage !== '' && !$this->validateSecureUrl($contactWebpage)) {
+        $contactWebPage = '';
+
+        if ($this->existDataValue($contactWebPageFieldData)) {
+            $contactWebPage = $this->getDataValue($contactWebPageFieldData);
+        }
+
+        if ($contactWebPage !== '' && !$this->validateSecureUrl($contactWebPage)) {
             throw new ValidatorException(
                 __('Contact Information: Contact Page URL should be in correct format and must start with HTTPS.')
             );
@@ -180,6 +182,8 @@ class Validate extends Value
     }
 
     /**
+     * Check is Empty value
+     *
      * @param string $key
      * @param array $fieldData
      * @return bool
@@ -193,4 +197,35 @@ class Validate extends Value
         return false;
     }
 
+    /**
+     * Check for Empty Contact Information fields
+     *
+     * @param array $contactInformationFields
+     * @return bool
+     */
+    private function isEmptyContactInformationFields(array $contactInformationFields): bool
+    {
+        if ($this->isEmptyValue('email', $contactInformationFields)
+            && $this->isEmptyValue('phone', $contactInformationFields)
+            && $this->isEmptyValue('contact_page', $contactInformationFields)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Check if exist data value Enabled form value
+     *
+     * @param array $isEnabledField
+     * @return bool
+     */
+    private function isEnabledDataValue(array $isEnabledField): bool
+    {
+        if ($this->existDataValue($isEnabledField) && (bool)$this->getDataValue($isEnabledField) == true) {
+            return true;
+        }
+
+        return false;
+    }
 }
