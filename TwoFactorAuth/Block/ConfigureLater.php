@@ -59,13 +59,17 @@ class ConfigureLater extends Template
         $this->formKey = $formKey;
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function _toHtml()
     {
         $userId = (int)$this->session->getUser()->getId();
+        $providers = $this->tfa->getUserProviders($userId);
         $toActivate = $this->tfa->getProvidersToActivate($userId);
 
         foreach ($toActivate as $toActivateProvider) {
-            if ($toActivateProvider->getCode() === $this->getData('provider')) {
+            if ($toActivateProvider->getCode() === $this->getData('provider') && count($providers) > 1) {
                 return parent::_toHtml();
             }
         }

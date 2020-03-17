@@ -26,6 +26,7 @@
                        showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Providers to use</label>
                     <source_model>Magento\TwoFactorAuth\Model\Config\Source\Provider</source_model>
+                    <frontend_model>Magento\TwoFactorAuth\Block\Adminhtml\System\Config\Providers</frontend_model>
                     <comment>Two-factor authorization providers for admin users to use during login</comment>
                     <backend_model>Magento\TwoFactorAuth\Model\Config\Backend\ForceProviders</backend_model>
                 </field>
