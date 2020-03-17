@@ -168,6 +168,7 @@ class Tfa implements TfaInterface
                 'adminhtml_auth_logout',
                 'adminhtml_auth_forgotpassword',
                 'tfa_tfa_requestconfig',
+                'tfa_tfa_configurelater',
                 'tfa_tfa_configure',
                 'tfa_tfa_configurepost',
                 'tfa_tfa_index'

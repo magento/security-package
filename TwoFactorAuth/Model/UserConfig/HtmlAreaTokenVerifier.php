@@ -83,7 +83,7 @@ class HtmlAreaTokenVerifier
      */
     public function isConfigTokenProvided(): bool
     {
-        return !!$this->readConfigToken();
+        return (bool)$this->readConfigToken();
     }
 
     /**
@@ -93,24 +93,24 @@ class HtmlAreaTokenVerifier
      */
     public function readConfigToken(): ?string
     {
-
         $user = $this->session->getUser();
         if (!$user) {
             return null;
         }
-        $token = $this->cookies->getCookie('tfa-ct');
-        if (!$token) {
-            $token = $this->request->getParam('tfat');
-        }
-        if (!$token || !$this->tokenManager->isValidFor((int)$user->getId(), $token)) {
+        $cookieToken = $this->cookies->getCookie('tfa-ct');
+        $paramToken = $this->request->getParam('tfat');
+        $cookieTokenValid = $cookieToken && $this->tokenManager->isValidFor((int)$user->getId(), $cookieToken);
+        $paramTokenValid = $paramToken && $this->tokenManager->isValidFor((int)$user->getId(), $paramToken);
+
+        if (!$cookieTokenValid && !$paramTokenValid) {
             return null;
-        }
-        if (!$this->cookies->getCookie('tfa-ct')) {
+        } elseif ($paramTokenValid && !$cookieTokenValid) {
             $metadata = $this->cookieMetadataFactory->createSensitiveCookieMetadata()
                 ->setPath($this->sessionManager->getCookiePath());
-            $this->cookies->setSensitiveCookie('tfa-ct', $token, $metadata);
+            $this->cookies->setSensitiveCookie('tfa-ct', $paramToken, $metadata);
+            return $paramToken;
+        } elseif (!$paramTokenValid && $cookieTokenValid) {
+            return $cookieToken;
         }
-
-        return $token;
     }
 }

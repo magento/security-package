@@ -30,6 +30,12 @@
                     </argument>
                 </arguments>
             </block>
+            <block class="Magento\TwoFactorAuth\Block\ConfigureLater" name="configure-later"
+                   template="Magento_TwoFactorAuth::tfa/configure_later.phtml">
+                <arguments>
+                    <argument name="provider" xsi:type="string">google</argument>
+                </arguments>
+            </block>
         </referenceContainer>
     </body>
 </page>

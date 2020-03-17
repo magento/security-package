@@ -124,15 +124,23 @@ class ControllerActionPredispatch implements ObserverInterface
         $fullActionName = $controllerAction->getRequest()->getFullActionName();
         $user = $this->getUser();
 
+        $this->tokenManager->readConfigToken();
+
         if (in_array($fullActionName, $this->tfa->getAllowedUrls(), true)) {
             //Actions that are used for 2FA must remain accessible.
             return;
         }
 
         if ($user) {
-            if ($this->configRequestManager->isConfigurationRequiredFor((int)$user->getId())) {
-                //User must configure 2FA first
-                $this->tokenManager->readConfigToken();
+            $configurationStillRequired = $this->configRequestManager->isConfigurationRequiredFor((int)$user->getId());
+            $toActivate = $this->tfa->getProvidersToActivate((int)$user->getId());
+            $toActivateCodes = [];
+            foreach ($toActivate as $toActivateProvider) {
+                $toActivateCodes[] = $toActivateProvider->getCode();
+            }
+            $currentlySkipped = $this->session->getData('tfa_skipped_config') ?? [];
+
+            if ($configurationStillRequired && array_diff($toActivateCodes, array_keys($currentlySkipped))) {
                 //User needs special link with a token to be allowed to configure 2FA
                 $this->redirect('tfa/tfa/requestconfig');
             } else {

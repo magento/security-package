@@ -22,6 +22,9 @@ use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
  */
 class Index extends AbstractAction implements HttpGetActionInterface
 {
+    // To give the email link a place to set the token without causing a loop
+    protected $_publicActions = ['index'];
+
     /**
      * @see _isAllowed()
      */
@@ -96,15 +99,28 @@ class Index extends AbstractAction implements HttpGetActionInterface
             return $this->_redirect('tfa/tfa/requestconfig');
         }
         $providersToConfigure = $this->tfa->getProvidersToActivate((int) $user->getId());
-        if (!empty($providersToConfigure)) {
-            //2FA provider not activated - redirect to the provider form.
-            return $this->_redirect($providersToConfigure[0]->getConfigureAction());
+        $toActivateCodes = [];
+        foreach ($providersToConfigure as $toActivateProvider) {
+            $toActivateCodes[] = $toActivateProvider->getCode();
+        }
+        $currentlySkipped = array_keys($this->session->getData('tfa_skipped_config') ?? []);
+        $configRemaining = array_diff($toActivateCodes, $currentlySkipped);
+
+        if (!empty($providersToConfigure) && $configRemaining) {
+            foreach ($providersToConfigure as $providerToConfigure) {
+                if (in_array($providerToConfigure->getCode(), $configRemaining)) {
+                    //2FA provider not activated - redirect to the provider form.
+                    return $this->_redirect($providerToConfigure->getConfigureAction());
+                }
+            }
         }
 
         $providerCode = '';
 
         $defaultProviderCode = $this->userConfigManager->getDefaultProvider((int) $user->getId());
-        if ($this->tfa->getProviderIsAllowed((int) $user->getId(), $defaultProviderCode)) {
+        if ($this->tfa->getProviderIsAllowed((int) $user->getId(), $defaultProviderCode)
+            && !in_array($defaultProviderCode, $currentlySkipped)
+        ) {
             //If default provider was configured - select it.
             $providerCode = $defaultProviderCode;
         }
@@ -113,7 +129,12 @@ class Index extends AbstractAction implements HttpGetActionInterface
             //Select one random provider.
             $providers = $this->tfa->getUserProviders((int) $user->getId());
             if (!empty($providers)) {
-                $providerCode = $providers[0]->getCode();
+                foreach ($providers as $enabledProvider) {
+                    if (!in_array($enabledProvider->getCode(), $currentlySkipped)) {
+                        $providerCode = $enabledProvider->getCode();
+                        continue;
+                    }
+                }
             }
         }
 

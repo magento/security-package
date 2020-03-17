@@ -9,6 +9,7 @@ namespace Magento\TwoFactorAuth\Block;
 
 use Magento\Backend\Block\Template;
 use Magento\Backend\Model\Auth\Session;
+use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\ProviderInterface;
@@ -33,6 +34,7 @@ class ChangeProvider extends Template
      * @param Template\Context $context
      * @param Session $session
      * @param TfaInterface $tfa
+     * @param TfaSessionInterface $tfaSession
      * @param array $data
      */
     public function __construct(
@@ -46,6 +48,20 @@ class ChangeProvider extends Template
         $this->session = $session;
     }
 
+    protected function _toHtml()
+    {
+        $userId = (int)$this->session->getUser()->getId();
+        $toActivate = $this->tfa->getProvidersToActivate($userId);
+
+        foreach ($toActivate as $toActivateProvider) {
+            if ($toActivateProvider->getCode() === $this->getData('provider')) {
+                return '';
+            }
+        }
+
+        return parent::_toHtml();
+    }
+
     /**
      * @inheritdoc
      */
@@ -53,6 +69,9 @@ class ChangeProvider extends Template
     {
         $providers = [];
         foreach ($this->getProvidersList() as $provider) {
+            if (!$provider->isActive((int)$this->session->getUser()->getId())) {
+                continue;
+            }
             $providers[] = [
                 'code' => $provider->getCode(),
                 'name' => $provider->getName(),

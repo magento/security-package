@@ -92,7 +92,7 @@ class EmailUserNotifier implements UserNotifierInterface
                         'username' => $user->getFirstName() . ' ' . $user->getLastName(),
                         'token' => $token,
                         'store_name' => $this->storeManager->getStore()->getFrontendName(),
-                        'url' => $this->url->getUrl('admin/dashboard/index', ['tfat' => $token])
+                        'url' => $this->url->getUrl('tfa/tfa/index', ['tfat' => $token])
                     ]
                 )
                 ->setFromByScope(
