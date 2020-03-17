@@ -98,10 +98,10 @@ class Validate extends Value
      */
     private function validateContactEmail(array $contactEmailFieldData): void
     {
-        $contactEmail = '';
-
         if ($this->existDataValue($contactEmailFieldData)) {
             $contactEmail = $this->getDataValue($contactEmailFieldData);
+        } else {
+            $contactEmail = '';
         }
 
         if ($contactEmail !== '' && !filter_var($contactEmail, FILTER_VALIDATE_EMAIL)) {
@@ -119,10 +119,10 @@ class Validate extends Value
      */
     private function validateContactWebPageUrl(array $contactWebPageFieldData): void
     {
-        $contactWebPage = '';
-
         if ($this->existDataValue($contactWebPageFieldData)) {
             $contactWebPage = $this->getDataValue($contactWebPageFieldData);
+        } else {
+            $contactWebPage = '';
         }
 
         if ($contactWebPage !== '' && !$this->validateSecureUrl($contactWebPage)) {
@@ -156,12 +156,7 @@ class Validate extends Value
      */
     private function getDataValue(array $fieldData): string
     {
-        $result = '';
-        if (isset($fieldData['value'])) {
-            $result = $fieldData['value'];
-        }
-
-        return $result;
+        return isset($fieldData['value']) ? $fieldData['value'] : '';
     }
 
     /**
@@ -172,13 +167,7 @@ class Validate extends Value
      */
     private function existDataValue(array $fieldData): bool
     {
-        if (isset($fieldData['value'])) {
-            if ($fieldData['value'] !== '' || empty($fieldData['value'])) {
-                return true;
-            }
-        }
-
-        return false;
+        return isset($fieldData['value']) && ($fieldData['value'] !== '' || empty($fieldData['value']));
     }
 
     /**
@@ -190,11 +179,7 @@ class Validate extends Value
      */
     private function isEmptyValue(string $key, array $fieldData): bool
     {
-        if ($this->existDataValue($fieldData[$key]) && $this->getDataValue($fieldData[$key]) === '') {
-            return true;
-        }
-
-        return false;
+        return ($this->existDataValue($fieldData[$key]) && $this->getDataValue($fieldData[$key]) === '');
     }
 
     /**
@@ -205,13 +190,9 @@ class Validate extends Value
      */
     private function isEmptyContactInformationFields(array $contactInformationFields): bool
     {
-        if ($this->isEmptyValue('email', $contactInformationFields)
+        return ($this->isEmptyValue('email', $contactInformationFields)
             && $this->isEmptyValue('phone', $contactInformationFields)
-            && $this->isEmptyValue('contact_page', $contactInformationFields)) {
-            return true;
-        }
-
-        return false;
+            && $this->isEmptyValue('contact_page', $contactInformationFields));
     }
 
     /**
@@ -222,10 +203,6 @@ class Validate extends Value
      */
     private function isEnabledDataValue(array $isEnabledField): bool
     {
-        if ($this->existDataValue($isEnabledField) && (bool)$this->getDataValue($isEnabledField) == true) {
-            return true;
-        }
-
-        return false;
+        return ($this->existDataValue($isEnabledField) && $this->getDataValue($isEnabledField));
     }
 }
