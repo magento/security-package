@@ -62,14 +62,15 @@ class ConfigureLater extends Template
     protected function _toHtml()
     {
         $userId = (int)$this->session->getUser()->getId();
-        $forced = $this->tfa->getUserProviders($userId);
         $toActivate = $this->tfa->getProvidersToActivate($userId);
 
-        if (count($toActivate) === count($forced)) {
-            return '';
+        foreach ($toActivate as $toActivateProvider) {
+            if ($toActivateProvider->getCode() === $this->getData('provider')) {
+                return parent::_toHtml();
+            }
         }
 
-        return parent::_toHtml();
+        return '';
     }
 
     /**
