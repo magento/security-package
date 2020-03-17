@@ -11,9 +11,11 @@ use Magento\Backend\App\AbstractAction;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\UrlInterface;
+use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Index;
 use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
@@ -66,6 +68,11 @@ class ControllerActionPredispatch implements ObserverInterface
     private $url;
 
     /**
+     * @var AuthorizationInterface
+     */
+    private $authorization;
+
+    /**
      * @param TfaInterface $tfa
      * @param TfaSessionInterface $tfaSession
      * @param Session $session
@@ -73,6 +80,7 @@ class ControllerActionPredispatch implements ObserverInterface
      * @param HtmlAreaTokenVerifier $tokenManager
      * @param ActionFlag $actionFlag
      * @param UrlInterface $url
+     * @param AuthorizationInterface $authorization
      */
     public function __construct(
         TfaInterface $tfa,
@@ -81,7 +89,8 @@ class ControllerActionPredispatch implements ObserverInterface
         UserConfigRequestManagerInterface $configRequestManager,
         HtmlAreaTokenVerifier $tokenManager,
         ActionFlag $actionFlag,
-        UrlInterface $url
+        UrlInterface $url,
+        AuthorizationInterface $authorization
     ) {
         $this->tfa = $tfa;
         $this->tfaSession = $tfaSession;
@@ -90,6 +99,7 @@ class ControllerActionPredispatch implements ObserverInterface
         $this->tokenManager = $tokenManager;
         $this->actionFlag = $actionFlag;
         $this->url = $url;
+        $this->authorization = $authorization;
     }
 
     /**
@@ -147,7 +157,11 @@ class ControllerActionPredispatch implements ObserverInterface
                 //2FA required
                 $accessGranted = $this->tfaSession->isGranted();
                 if (!$accessGranted) {
-                    $this->redirect('tfa/tfa/index');
+                    if ($this->authorization->isAllowed(Index::ADMIN_RESOURCE)) {
+                        $this->redirect('tfa/tfa/index');
+                    } else {
+                        $this->redirect('tfa/tfa/accessdenied');
+                    }
                 }
             }
         }
