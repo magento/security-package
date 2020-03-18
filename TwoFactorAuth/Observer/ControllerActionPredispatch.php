@@ -150,8 +150,12 @@ class ControllerActionPredispatch implements ObserverInterface
                 $toActivateCodes[] = $toActivateProvider->getCode();
             }
             $currentlySkipped = $this->session->getData('tfa_skipped_config') ?? [];
+            $accessGranted = $this->tfaSession->isGranted();
 
-            if ($configurationStillRequired && array_diff($toActivateCodes, array_keys($currentlySkipped))) {
+            if (!$accessGranted
+                && $configurationStillRequired
+                && array_diff($toActivateCodes, array_keys($currentlySkipped))
+            ) {
                 //User needs special link with a token to be allowed to configure 2FA
                 if ($this->authorization->isAllowed(Requestconfig::ADMIN_RESOURCE)) {
                     $this->redirect('tfa/tfa/requestconfig');
@@ -159,8 +163,6 @@ class ControllerActionPredispatch implements ObserverInterface
                     $this->redirect('tfa/tfa/accessdenied');
                 }
             } else {
-                //2FA required
-                $accessGranted = $this->tfaSession->isGranted();
                 if (!$accessGranted) {
                     if ($this->authorization->isAllowed(Index::ADMIN_RESOURCE)) {
                         $this->redirect('tfa/tfa/index');

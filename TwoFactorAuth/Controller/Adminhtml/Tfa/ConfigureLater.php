@@ -23,7 +23,7 @@ use Magento\Framework\App\Config\ReinitableConfigInterface as ConfigInterface;
  */
 class ConfigureLater extends AbstractAction implements HttpPostActionInterface
 {
-    const ADMIN_RESOURCE = 'Magento_TwoFactorAuth::config';
+    const ADMIN_RESOURCE = 'Magento_TwoFactorAuth::tfa';
 
     /**
      * @var ConfigInterface
@@ -85,11 +85,14 @@ class ConfigureLater extends AbstractAction implements HttpPostActionInterface
      */
     protected function _isAllowed()
     {
-        $forced = $this->tfa->getForcedProviders();
-        $toActivate = $this->tfa->getProvidersToActivate((int)$this->session->getUser()->getId());
+        $userId = (int)$this->session->getUser()->getId();
+        $providers = $this->tfa->getUserProviders($userId);
+        $toActivate = $this->tfa->getProvidersToActivate($userId);
 
-        if (count($toActivate) < count($forced)) {
-            return parent::_isAllowed();
+        foreach ($toActivate as $toActivateProvider) {
+            if ($toActivateProvider->getCode() === $this->_request->getParam('provider') && count($providers) > 1) {
+                return true;
+            }
         }
 
         return false;
@@ -106,9 +109,11 @@ class ConfigureLater extends AbstractAction implements HttpPostActionInterface
             throw new \InvalidArgumentException('Invalid provider');
         }
 
-        $forced = $this->tfa->getUserProviders((int)$this->session->getUser()->getId());
+        $userId = (int)$this->session->getUser()->getId();
+        $providers = $this->tfa->getUserProviders($userId);
+        $needActivation = $this->tfa->getProvidersToActivate($userId);
         $providerCodes = [];
-        foreach ($forced as $forcedProvider) {
+        foreach ($providers as $forcedProvider) {
             $providerCodes[] = $forcedProvider->getCode();
         }
 
@@ -118,6 +123,17 @@ class ConfigureLater extends AbstractAction implements HttpPostActionInterface
 
         $currentlySkipped = $this->session->getData('tfa_skipped_config') ?? [];
         $currentlySkipped[$provider] = true;
+
+        // Catch users trying to skip all available providers when there are none configured
+        if (count($needActivation) === count($providers)
+            && count($providerCodes) === count(array_intersect($providerCodes, array_keys($currentlySkipped)))
+        ) {
+            $this->messageManager->addErrorMessage(
+                __('At least one two-factor authentication provider must be configured.')
+            );
+            $currentlySkipped = [];
+        }
+
         $this->session->setTfaSkippedConfig($currentlySkipped);
 
         $redirect = $this->resultRedirectFactory->create();

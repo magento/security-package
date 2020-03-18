@@ -104,11 +104,11 @@ class Index extends AbstractAction implements HttpGetActionInterface
             $toActivateCodes[] = $toActivateProvider->getCode();
         }
         $currentlySkipped = array_keys($this->session->getData('tfa_skipped_config') ?? []);
-        $configRemaining = array_diff($toActivateCodes, $currentlySkipped);
+        $notSkippedProvidersToConfigured = array_diff($toActivateCodes, $currentlySkipped);
 
-        if (!empty($providersToConfigure) && $configRemaining) {
+        if ($notSkippedProvidersToConfigured) {
             foreach ($providersToConfigure as $providerToConfigure) {
-                if (in_array($providerToConfigure->getCode(), $configRemaining)) {
+                if (in_array($providerToConfigure->getCode(), $notSkippedProvidersToConfigured)) {
                     //2FA provider not activated - redirect to the provider form.
                     return $this->_redirect($providerToConfigure->getConfigureAction());
                 }
@@ -130,10 +130,8 @@ class Index extends AbstractAction implements HttpGetActionInterface
             $providers = $this->tfa->getUserProviders((int) $user->getId());
             if (!empty($providers)) {
                 foreach ($providers as $enabledProvider) {
-                    if (!in_array($enabledProvider->getCode(), $currentlySkipped)) {
-                        $providerCode = $enabledProvider->getCode();
-                        continue;
-                    }
+                    $providerCode = $enabledProvider->getCode();
+                    break;
                 }
             }
         }
