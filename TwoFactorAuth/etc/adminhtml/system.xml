@@ -47,6 +47,7 @@
                 <field id="api_hostname" translate="label comment" type="text" sortOrder="40" showInDefault="1"
                        showInWebsite="0" showInStore="0">
                     <label>API hostname</label>
+                    <backend_model>Magento\TwoFactorAuth\Model\Config\Backend\Duo\ApiHostname</backend_model>
                 </field>
             </group>
 
