@@ -111,6 +111,8 @@ class HtmlAreaTokenVerifier
             return $paramToken;
         } elseif (!$paramTokenValid && $cookieTokenValid) {
             return $cookieToken;
+        } else {
+            return $cookieToken;
         }
     }
 }

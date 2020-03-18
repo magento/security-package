@@ -19,7 +19,9 @@ define([
         element.on('blur', function () {
             var currentValue = $element.val();
 
-            if (currentValue.some(item => initialValue.indexOf(item) !== -1)) {
+            if (currentValue && currentValue.some(function (item) {
+                return initialValue.indexOf(item) !== -1;
+            })) {
                 return;
             }
 

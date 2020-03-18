@@ -94,10 +94,13 @@ class ControllerActionPredispatchTest extends AbstractBackendController
     /**
      * Verify that users would be redirected to "2FA Config Request" page when 2FA is not configured for the app.
      *
+     * @magentoConfigFixture default/twofactorauth/general/force_providers google,duo_security
      * @return void
      */
     public function testConfigRequested(): void
     {
+        $this->tfa->getProvider(Google::CODE)->resetConfiguration((int)$this->_session->getUser()->getId());
+
         //Accessing a page in adminhtml area
         $this->dispatch('backend/admin/user/');
         //Authenticated user gets a redirect to 2FA configuration page since none is configured.
@@ -121,10 +124,13 @@ class ControllerActionPredispatchTest extends AbstractBackendController
     /**
      * Verify that users returning with a token from the E-mail get a new cookie with it.
      *
+     * @magentoConfigFixture default/twofactorauth/general/force_providers google,duo_security
      * @return void
      */
     public function testCookieSet(): void
     {
+        $this->tfa->getProvider(Google::CODE)->resetConfiguration((int)$this->_session->getUser()->getId());
+
         //Accessing a page in adminhtml area with a valid token.
         $this->getRequest()
             ->setQueryValue('tfat', $token = $this->tokenManager->issueFor((int)$this->_session->getUser()->getId()));

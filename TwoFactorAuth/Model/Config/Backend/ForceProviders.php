@@ -71,13 +71,14 @@ class ForceProviders extends Value
             $codes[] = $provider->getCode();
         }
 
-        $value = array_intersect($codes, $this->getValue());
-        if (!$value) {
+        $value = $this->getValue();
+        $validValues = is_array($value) ? array_intersect($codes, $value) : [];
+        if (empty($value) || !$validValues) {
             throw new ValidatorException(__('You have to select at least one Two-Factor Authorization provider'));
         }
 
         // Removes invalid codes
-        $this->setValue($value);
+        $this->setValue($validValues);
 
         return parent::beforeSave();
     }
