@@ -29,7 +29,7 @@ class ApiHostname extends Value
     public function beforeSave()
     {
         $value = $this->getValue();
-        if (!$value || !preg_match('%^[^./:]+\.duosecurity\.com$%', $value)) {
+        if ($value && !preg_match('%^[^./:]+\.duosecurity\.com$%', $value)) {
             throw new ValidatorException(__('Invalid API hostname.'));
         }
 
