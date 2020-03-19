@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Block;
 
 use Magento\Backend\Block\Template;
+use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Serialize\SerializerInterface;
@@ -37,7 +38,7 @@ class ConfigureLater extends Template
 
     /**
      * ChangeProvider constructor.
-     * @param Template\Context $context
+     * @param Context $context
      * @param Session $session
      * @param TfaInterface $tfa
      * @param SerializerInterface $serializer
@@ -45,7 +46,7 @@ class ConfigureLater extends Template
      * @param array $data
      */
     public function __construct(
-        Template\Context $context,
+        Context $context,
         Session $session,
         TfaInterface $tfa,
         SerializerInterface $serializer,

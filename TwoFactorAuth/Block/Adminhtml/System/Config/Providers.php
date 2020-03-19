@@ -9,6 +9,7 @@ namespace Magento\TwoFactorAuth\Block\Adminhtml\System\Config;
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Backend\Block\Template\Context;
+use Magento\Framework\Phrase;
 use Magento\Framework\Serialize\SerializerInterface;
 
 /**
@@ -57,9 +58,9 @@ class Providers extends Field
     /**
      * Get text for the modal title heading when user switches to disable
      *
-     * @return \Magento\Framework\Phrase
+     * @return Phrase
      */
-    private function getModalTitleText() : \Magento\Framework\Phrase
+    private function getModalTitleText() : Phrase
     {
         return __('Are you sure you want to disable all currently active providers?');
     }
@@ -69,7 +70,7 @@ class Providers extends Field
      *
      * @return string
      */
-    private function getModalContentBody()
+    private function getModalContentBody(): string
     {
         $templateFileName = $this->getTemplateFile(
             'Magento_TwoFactorAuth::system/config/providers/modal_content_body.phtml'
