@@ -26,14 +26,14 @@
         </section>
 
         <section id="recaptcha_frontend" translate="label" type="text" sortOrder="700" showInDefault="1"
-                 showInWebsite="1" showInStore="0">
+                 showInWebsite="1" showInStore="1">
             <class>separator-top</class>
             <label>Google reCAPTCHA Storefront</label>
             <tab>security</tab>
             <resource>Magento_ReCaptchaUi::config</resource>
 
             <group id="type_for" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1"
-                   showInStore="0">
+                   showInStore="1">
                 <label>Storefront</label>
             </group>
         </section>

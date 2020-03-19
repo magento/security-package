@@ -41,7 +41,7 @@
         </section>
         <section id="recaptcha_frontend">
             <group id="type_recaptcha_v3" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
-                   showInStore="0">
+                   showInStore="1">
                 <label>reCAPTCHA v3 Invisible</label>
 
                 <field id="public_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
