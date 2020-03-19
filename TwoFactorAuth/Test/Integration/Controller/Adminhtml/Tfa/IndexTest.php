@@ -4,9 +4,12 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Test\Integration\Controller\Adminhtml\Tfa;
 
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
+use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
 use Magento\TwoFactorAuth\TestFramework\TestCase\AbstractBackendController;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
+use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 
 /**
  * Testing the controller for the page that redirects user to proper pages depending on 2FA state.
@@ -26,12 +29,18 @@ class IndexTest extends AbstractBackendController
     private $tfa;
 
     /**
+     * @var UserConfigManagerInterface
+     */
+    private $userManager;
+
+    /**
      * @inheritDoc
      */
     protected function setUp()
     {
         parent::setUp();
 
+        $this->userManager = Bootstrap::getObjectManager()->get(UserConfigManagerInterface::class);
         $this->tfa = Bootstrap::getObjectManager()->get(TfaInterface::class);
     }
 
@@ -55,7 +64,7 @@ class IndexTest extends AbstractBackendController
     public function testUserNotConfigured(): void
     {
         $this->dispatch($this->uri);
-        $this->assertRedirect($this->stringContains('google'));
+        $this->assertRedirect($this->stringContains('google/configure'));
     }
 
     /**
@@ -72,6 +81,76 @@ class IndexTest extends AbstractBackendController
 
         $this->dispatch($this->uri);
         //Taken to the provider's challenge page.
-        $this->assertRedirect($this->stringContains('google'));
+        $this->assertRedirect($this->stringContains('google/auth'));
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers google,authy
+     * @magentoConfigFixture default/twofactorauth/authy/api_key abc123
+     * @magentoDbIsolation enabled
+     */
+    public function testNotConfiguredWithSkipped(): void
+    {
+        $this->_session->setTfaSkippedConfig(['google' => true]);
+
+        $this->dispatch($this->uri);
+        $this->assertRedirect($this->stringContains('authy/configure'));
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers google,authy,duo_security
+     * @magentoConfigFixture default/twofactorauth/authy/api_key abc123
+     * @magentoConfigFixture default/twofactorauth/duo/integration_key abc123
+     * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
+     * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
+     * @magentoDbIsolation enabled
+     */
+    public function testDefaultProviderIsUsedForAuth(): void
+    {
+        $userId = (int)$this->_session->getUser()->getId();
+        $this->tfa->getProvider(Google::CODE)->activate($userId);
+        $this->tfa->getProvider(Authy::CODE)->activate($userId);
+        $this->tfa->getProvider(DuoSecurity::CODE)->activate($userId);
+        $this->userManager->setDefaultProvider($userId, Authy::CODE);
+        $this->dispatch($this->uri);
+        $this->assertRedirect($this->stringContains('authy/auth'));
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers google,authy,duo_security
+     * @magentoConfigFixture default/twofactorauth/authy/api_key abc123
+     * @magentoConfigFixture default/twofactorauth/duo/integration_key abc123
+     * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
+     * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
+     * @magentoDbIsolation enabled
+     */
+    public function testFirstProviderIsUsedForAuthWithoutADefault(): void
+    {
+        $userId = (int)$this->_session->getUser()->getId();
+        $this->userManager->setDefaultProvider($userId, '');
+        $this->tfa->getProvider(Google::CODE)->activate($userId);
+        $this->tfa->getProvider(Authy::CODE)->activate($userId);
+        $this->tfa->getProvider(DuoSecurity::CODE)->activate($userId);
+        $this->dispatch($this->uri);
+        $this->assertRedirect($this->stringContains('google/auth'));
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers google,authy,duo_security
+     * @magentoConfigFixture default/twofactorauth/authy/api_key abc123
+     * @magentoConfigFixture default/twofactorauth/duo/integration_key abc123
+     * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
+     * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
+     * @magentoDbIsolation enabled
+     */
+    public function testFirstProviderIsUsedForAuthWhenDefaultIsInvalid(): void
+    {
+        $userId = (int)$this->_session->getUser()->getId();
+        $this->userManager->setDefaultProvider($userId, 'foobar');
+        $this->tfa->getProvider(Google::CODE)->activate($userId);
+        $this->tfa->getProvider(Authy::CODE)->activate($userId);
+        $this->tfa->getProvider(DuoSecurity::CODE)->activate($userId);
+        $this->dispatch($this->uri);
+        $this->assertRedirect($this->stringContains('google/auth'));
     }
 }

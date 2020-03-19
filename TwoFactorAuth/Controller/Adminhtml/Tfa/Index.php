@@ -118,9 +118,7 @@ class Index extends AbstractAction implements HttpGetActionInterface
         $providerCode = '';
 
         $defaultProviderCode = $this->userConfigManager->getDefaultProvider((int) $user->getId());
-        if ($this->tfa->getProviderIsAllowed((int) $user->getId(), $defaultProviderCode)
-            && !in_array($defaultProviderCode, $currentlySkipped)
-        ) {
+        if ($this->tfa->getProviderIsAllowed((int) $user->getId(), $defaultProviderCode)) {
             //If default provider was configured - select it.
             $providerCode = $defaultProviderCode;
         }

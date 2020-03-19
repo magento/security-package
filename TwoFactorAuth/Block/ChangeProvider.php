@@ -34,7 +34,6 @@ class ChangeProvider extends Template
      * @param Template\Context $context
      * @param Session $session
      * @param TfaInterface $tfa
-     * @param TfaSessionInterface $tfaSession
      * @param array $data
      */
     public function __construct(
@@ -48,6 +47,9 @@ class ChangeProvider extends Template
         $this->session = $session;
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function _toHtml()
     {
         $userId = (int)$this->session->getUser()->getId();

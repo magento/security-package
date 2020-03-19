@@ -243,7 +243,6 @@ class DuoSecurity implements EngineInterface
         try {
             return !!$this->getApiHostname() &&
                 !!$this->getIntegrationKey() &&
-                !!$this->getApiHostname() &&
                 !!$this->getSecretKey();
         } catch (\TypeError $exception) {
             //At least one of the methods returned null instead of a string
