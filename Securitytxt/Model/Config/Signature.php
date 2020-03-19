@@ -24,7 +24,7 @@ class Signature implements CommentInterface
      */
     public function getCommentText($elementValue): string
     {
-        return "<a href='https://devdocs.magento.com/' target='_blank'>
+        return "<a href='https://github.com/magento/security-package/blob/1.0-develop/Securitytxt/README.md' target='_blank'>
                     Read instructions on how to generate signature
                 </a>";
     }
