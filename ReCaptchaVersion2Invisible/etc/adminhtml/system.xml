@@ -23,8 +23,8 @@
                     <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Position</source_model>
                 </field>
 
-                <field id="lang" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1"
-                       showInStore="1" canRestore="1">
+                <field id="lang" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
                     <label>Language Code</label>
                     <comment><![CDATA[
                         Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified. See
