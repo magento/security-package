@@ -23,7 +23,16 @@
                     <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Position</source_model>
                 </field>
 
-                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="40" showInDefault="1"
+                <field id="lang" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1"
+                       showInStore="1" canRestore="1">
+                    <label>Language Code</label>
+                    <comment><![CDATA[
+                        Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified. See
+                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language Codes</a>.
+                ]]></comment>
+                </field>
+
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="50" showInDefault="1"
                        showInWebsite="0" showInStore="0" canRestore="1">
                     <label>reCAPTCHA Validation Failure Message</label>
                 </field>
@@ -51,7 +60,16 @@
                     <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Position</source_model>
                 </field>
 
-                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="40" showInDefault="1"
+                <field id="lang" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1"
+                       showInStore="1" canRestore="1">
+                    <label>Language Code</label>
+                    <comment><![CDATA[
+                        Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified. See
+                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language Codes</a>.
+                ]]></comment>
+                </field>
+
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="50" showInDefault="1"
                        showInWebsite="1" showInStore="1" canRestore="1">
                     <label>reCAPTCHA Validation Failure Message</label>
                 </field>
