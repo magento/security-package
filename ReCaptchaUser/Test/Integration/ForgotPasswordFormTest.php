@@ -10,6 +10,7 @@ namespace Magento\ReCaptchaUser\Test\Integration;
 use Magento\Backend\Model\UrlInterface;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Message\MessageInterface;
+use Magento\Framework\Validation\ValidationResult;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
 use Magento\ReCaptchaValidation\Model\Validator;
 use Magento\TestFramework\Mail\Template\TransportBuilderMock;
@@ -39,9 +40,9 @@ class ForgotPasswordFormTest extends AbstractController
     private $transportMock;
 
     /**
-     * @var Validator|MockObject
+     * @var ValidationResult|MockObject
      */
-    private $captchaValidatorMock;
+    private $captchaValidationResultMock;
 
     /**
      * @inheritDoc
@@ -53,8 +54,12 @@ class ForgotPasswordFormTest extends AbstractController
         $this->backendUrl = $this->_objectManager->get(UrlInterface::class);
         $this->transportMock = $this->_objectManager->get(TransportBuilderMock::class);
 
-        $this->captchaValidatorMock = $this->createMock(Validator::class);
-        $this->_objectManager->addSharedInstance($this->captchaValidatorMock, Validator::class);
+        $this->captchaValidationResultMock = $this->createMock(ValidationResult::class);
+        $captchaValidatorMock = $this->createMock(Validator::class);
+        $captchaValidatorMock->expects($this->any())
+            ->method('isValid')
+            ->willReturn($this->captchaValidationResultMock);
+        $this->_objectManager->addSharedInstance($captchaValidatorMock, Validator::class);
     }
 
     /**
@@ -119,7 +124,7 @@ class ForgotPasswordFormTest extends AbstractController
      */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
-        $this->captchaValidatorMock->expects($this->once())->method('isValid')->willReturn(true);
+        $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(true);
 
         $this->checkSuccessfulPostResponse(
             [
@@ -159,7 +164,7 @@ class ForgotPasswordFormTest extends AbstractController
      */
     public function testPostRequestWithFailedReCaptchaValidation()
     {
-        $this->captchaValidatorMock->expects($this->once())->method('isValid')->willReturn(false);
+        $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
         $this->getRequest()->setPostValue(
             [

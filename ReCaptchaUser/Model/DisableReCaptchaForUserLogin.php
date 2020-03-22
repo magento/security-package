@@ -15,7 +15,7 @@ use Magento\Framework\App\Config\ConfigResource\ConfigInterface;
  */
 class DisableReCaptchaForUserLogin
 {
-    private const XML_PATH_ENABLED = 'recaptcha_backend/type_for/user_forgot_password';
+    private const XML_PATH_ENABLED = 'recaptcha_backend/type_for/user_login';
 
     /**
      * @var ConfigInterface
@@ -46,7 +46,7 @@ class DisableReCaptchaForUserLogin
     {
         $this->config->saveConfig(
             self::XML_PATH_ENABLED,
-            '0'
+            null
         );
 
         $this->cacheManager->flush(['config']);

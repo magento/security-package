@@ -54,6 +54,10 @@ class Onepage implements LayoutProcessorInterface
                 ['shippingAddress']['children']['customer-email']['children']
                 ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
 
+            $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['customer-email']['children']
+                ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
+
             $jsLayout['components']['checkout']['children']['authentication']['children']
                 ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
         } else {
@@ -61,6 +65,11 @@ class Onepage implements LayoutProcessorInterface
                 ['shippingAddress']['children']['customer-email']['children']['recaptcha'])) {
                 unset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                     ['shippingAddress']['children']['customer-email']['children']['recaptcha']);
+            }
+            if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['customer-email']['children']['recaptcha'])) {
+                unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                    ['payment']['children']['customer-email']['children']['recaptcha']);
             }
 
             if (isset($jsLayout['components']['checkout']['children']['authentication']['children']['recaptcha'])) {
