@@ -75,7 +75,6 @@ class ForgotPasswordFormTest extends AbstractController
     /**
      * @magentoAdminConfigFixture admin/captcha/enable 0
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
-     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -87,7 +86,6 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
-     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
@@ -108,7 +106,6 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture admin/captcha/enable 0
      * @magentoAdminConfigFixture admin/captcha/always_for/backend_forgotpassword 0
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
-     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -120,7 +117,6 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
-     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
@@ -138,18 +134,19 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
-     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      * @expectedException \Magento\Framework\Exception\InputException
      * @expectedExceptionMessage Can not resolve reCAPTCHA parameter.
      */
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
-        $this->getRequest()->setPostValue(
-            [
-                'form_key' => $this->formKey->getFormKey(),
-                'email' => 'adminUser@example.com'
-            ]
-        );
+        $this->getRequest()
+            ->setMethod(HttpRequest::METHOD_POST)
+            ->setPostValue(
+                [
+                    'form_key' => $this->formKey->getFormKey(),
+                    'email' => 'adminUser@example.com'
+                ]
+            );
         $this->dispatch('backend/admin/auth/forgotpassword');
 
         self::assertEmpty($this->transportMock->getSentMessage());
@@ -160,19 +157,20 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
-     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testPostRequestWithFailedReCaptchaValidation()
     {
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
-        $this->getRequest()->setPostValue(
-            [
-                'form_key' => $this->formKey->getFormKey(),
-                'email' => 'adminUser@example.com',
-                CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test',
-            ]
-        );
+        $this->getRequest()
+            ->setMethod(HttpRequest::METHOD_POST)
+            ->setPostValue(
+                [
+                    'form_key' => $this->formKey->getFormKey(),
+                    'email' => 'adminUser@example.com',
+                    CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test',
+                ]
+            );
         $this->dispatch('backend/admin/auth/forgotpassword');
 
         $this->assertSessionMessages(

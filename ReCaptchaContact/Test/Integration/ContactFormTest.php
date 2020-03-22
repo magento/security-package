@@ -20,10 +20,7 @@ use Magento\TestFramework\TestCase\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * Test for \Magento\ReCaptchaContact\Observer\ContactFormObserver class.
- *
  * @magentoAppArea frontend
- * @magentoDbIsolation enabled
  * @magentoAppIsolation enabled
  */
 class ContactFormTest extends AbstractController
@@ -60,6 +57,11 @@ class ContactFormTest extends AbstractController
         $this->_objectManager->addSharedInstance($captchaValidatorMock, Validator::class);
     }
 
+    /**
+     * @magentoConfigFixture base_website customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     */
     public function testGetRequestIfReCaptchaIsDisabled()
     {
         $this->initConfig(0, 'test_public_key', 'test_private_key');
@@ -68,7 +70,8 @@ class ContactFormTest extends AbstractController
     }
 
     /**
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -78,7 +81,10 @@ class ContactFormTest extends AbstractController
     }
 
     /**
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
@@ -87,51 +93,78 @@ class ContactFormTest extends AbstractController
         $this->checkSuccessfulGetResponse(true);
     }
 
-    public function testPostRequestIfReCaptchaKeysAreNotConfigured()
-    {
-        $this->initConfig(1, null, null);
-
-        $this->checkSuccessfulPostResponse(true);
-    }
-
+    /**
+     * @magentoConfigFixture base_website customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     */
     public function testPostRequestIfReCaptchaIsDisabled()
     {
         $this->initConfig(0, 'test_public_key', 'test_private_key');
 
-        $this->checkSuccessfulPostResponse(true);
+        $this->checkPostResponse(true);
     }
 
+    /**
+     * @magentoConfigFixture base_website customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     */
+    public function testPostRequestIfReCaptchaKeysAreNotConfigured()
+    {
+        $this->initConfig(1, null, null);
+
+        $this->checkPostResponse(true);
+    }
+
+    /**
+     * @magentoConfigFixture base_website customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
         $this->initConfig(1, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(true);
 
-        $this->checkSuccessfulPostResponse(
+        $this->checkPostResponse(
             true,
-            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test_response']
+            [
+                CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test',
+            ]
         );
     }
 
+    /**
+     * @magentoConfigFixture base_website customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     */
+    public function testPostRequestIfReCaptchaParameterIsMissed()
+    {
+        $this->initConfig(1, 'test_public_key', 'test_private_key');
+
+        $this->expectException(InputException::class);
+        $this->expectExceptionMessage('Can not resolve reCAPTCHA parameter.');
+
+        $this->checkPostResponse(false);
+    }
+
+    /**
+     * @magentoConfigFixture base_website customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     */
     public function testPostRequestWithFailedReCaptchaValidation()
     {
         $this->initConfig(1, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
-        $this->checkSuccessfulPostResponse(
+        $this->checkPostResponse(
             false,
-            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test_response']
-        );
-    }
-
-    public function testPostRequestIfReCaptchaParameterIsMissed()
-    {
-        $this->initConfig(1, 'test_public_key', 'test_private_key');
-        $this->captchaValidationResultMock->expects($this->never())->method('isValid');
-        $this->expectException(InputException::class);
-        $this->expectExceptionMessage('Can not resolve reCAPTCHA parameter.');
-
-        $this->checkSuccessfulPostResponse(
-            false
+            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
         );
     }
 
@@ -153,28 +186,28 @@ class ContactFormTest extends AbstractController
     }
 
     /**
-     * @param bool $result
+     * @param bool $isSuccessfulRequest
      * @param array $postValues
-     * @throws LocalizedException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    private function checkSuccessfulPostResponse(bool $result, array $postValues = [])
+    private function checkPostResponse(bool $isSuccessfulRequest, array $postValues = [])
     {
-        $this->getRequest()->setPostValue(array_replace_recursive(
-            [
-                'form_key' => $this->formKey->getFormKey(),
-                'name' => 'customer name',
-                'comment' => 'comment',
-                'email' => 'user@example.com',
-            ],
-            $postValues
-        ))->setMethod(HttpRequest::METHOD_POST);
+        $this->getRequest()
+            ->setMethod(HttpRequest::METHOD_POST)
+            ->setPostValue(array_replace_recursive(
+                [
+                    'form_key' => $this->formKey->getFormKey(),
+                    'name' => 'customer name',
+                    'comment' => 'comment',
+                    'email' => 'user@example.com',
+                ],
+                $postValues
+            ));
 
         $this->dispatch('contact/index/post');
 
         $this->assertRedirect($this->stringContains('contact/index'));
 
-        if ($result) {
+        if ($isSuccessfulRequest) {
             $this->assertSessionMessages(
                 $this->contains(
                     "Thanks for contacting us with your comments and questions. We&#039;ll respond to you very soon."
@@ -197,9 +230,20 @@ class ContactFormTest extends AbstractController
      */
     private function initConfig(?int $enabled, ?string $public, ?string $private): void
     {
-        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_for/newsletter', null, ScopeInterface::SCOPE_WEBSITE);
-        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_for/contact', $enabled ? 'invisible' : null, ScopeInterface::SCOPE_WEBSITE);
-        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_invisible/public_key', $public, ScopeInterface::SCOPE_WEBSITE);
-        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_invisible/private_key', $private, ScopeInterface::SCOPE_WEBSITE);
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_for/contact',
+            $enabled ? 'invisible' : null,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_invisible/public_key',
+            $public,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_invisible/private_key',
+            $private,
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 }
