@@ -12,7 +12,7 @@ namespace Magento\ReCaptchaValidationApi\Model;
  *
  * @api Class name should be used in DI for adding new validation errors
  */
-class ErrorMessages
+class ErrorMessagesProvider
 {
     /**
      * @var array
