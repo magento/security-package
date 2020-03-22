@@ -32,7 +32,7 @@ class CaptchaResponseResolver implements CaptchaResponseResolverInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @param RequestInterface|PlainTextRequestInterface $request
      * @return string

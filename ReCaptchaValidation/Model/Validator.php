@@ -12,6 +12,7 @@ use Magento\Framework\Validation\ValidationResultFactory;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Magento\ReCaptchaValidationApi\Model\ErrorMessagesProvider;
+use ReCaptcha\ReCaptcha;
 use ReCaptcha\ReCaptchaFactory;
 
 /**
@@ -56,22 +57,22 @@ class Validator implements ValidatorInterface
         string $reCaptchaResponse,
         ValidationConfigInterface $validationConfig
     ): ValidationResult {
-        $secret = $validationConfig->getPrivateKey();
-        $reCaptcha = $this->reCaptchaFactory->create(['secret' => $secret]);
+        /** @var ReCaptcha $reCaptcha */
+        $reCaptcha = $this->reCaptchaFactory->create(['secret' => $validationConfig->getPrivateKey()]);
+
         $extensionAttributes = $validationConfig->getExtensionAttributes();
         if ($extensionAttributes && (null !== $extensionAttributes->getScoreThreshold())) {
             $reCaptcha->setScoreThreshold($extensionAttributes->getScoreThreshold());
         }
+
         $result = $reCaptcha->verify($reCaptchaResponse, $validationConfig->getRemoteIp());
 
-        if ($result->isSuccess()) {
-            $validationResult = $this->validationResultFactory->create(['errors' => []]);
-        } else {
+        $validationErrors = [];
+        if (false === $result->isSuccess()) {
             foreach ($result->getErrorCodes() as $errorCode) {
                 $validationErrors[] = $this->errorMessagesProvider->getErrorMessage($errorCode);
             }
-            $validationResult = $this->validationResultFactory->create(['errors' => $validationErrors]);
         }
-        return $validationResult;
+        return $this->validationResultFactory->create(['errors' => $validationErrors]);
     }
 }
