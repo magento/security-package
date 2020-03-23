@@ -16,7 +16,7 @@ use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
- * ShareWishlistObserver
+ * Class for Share Wishlist Observer
  */
 class ShareWishlistObserver implements ObserverInterface
 {
@@ -51,6 +51,8 @@ class ShareWishlistObserver implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      * @throws LocalizedException
