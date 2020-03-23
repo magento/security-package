@@ -9,6 +9,7 @@ namespace Magento\ReCaptchaUser\Test\Integration;
 
 use Magento\Backend\Model\Auth;
 use Magento\Backend\Model\UrlInterface;
+use Magento\Framework\App\Request\Http;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Message\MessageInterface;
 use Magento\Framework\Validation\ValidationResult;
@@ -147,7 +148,7 @@ class LoginFormTest extends AbstractController
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
         $this->getRequest()
-            ->setMethod(HttpRequest::METHOD_POST)
+            ->setMethod(Http::METHOD_POST)
             ->setPostValue(
                 [
                     'form_key' => $this->formKey->getFormKey(),
@@ -180,7 +181,7 @@ class LoginFormTest extends AbstractController
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
         $this->getRequest()
-            ->setMethod(HttpRequest::METHOD_POST)
+            ->setMethod(Http::METHOD_POST)
             ->setPostValue(
                 [
                     'form_key' => $this->formKey->getFormKey(),
@@ -227,7 +228,7 @@ class LoginFormTest extends AbstractController
     private function checkSuccessfulPostResponse(array $postValues = []): void
     {
         $this->getRequest()
-            ->setMethod(HttpRequest::METHOD_POST)
+            ->setMethod(Http::METHOD_POST)
             ->setPostValue(array_replace_recursive(
                 [
                     'form_key' => $this->formKey->getFormKey(),

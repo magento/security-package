@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaUser\Test\Integration;
 
 use Magento\Backend\Model\UrlInterface;
+use Magento\Framework\App\Request\Http;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Message\MessageInterface;
 use Magento\Framework\Validation\ValidationResult;
@@ -140,7 +141,7 @@ class ForgotPasswordFormTest extends AbstractController
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
         $this->getRequest()
-            ->setMethod(HttpRequest::METHOD_POST)
+            ->setMethod(Http::METHOD_POST)
             ->setPostValue(
                 [
                     'form_key' => $this->formKey->getFormKey(),
@@ -163,7 +164,7 @@ class ForgotPasswordFormTest extends AbstractController
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
         $this->getRequest()
-            ->setMethod(HttpRequest::METHOD_POST)
+            ->setMethod(Http::METHOD_POST)
             ->setPostValue(
                 [
                     'form_key' => $this->formKey->getFormKey(),
@@ -202,13 +203,15 @@ class ForgotPasswordFormTest extends AbstractController
      */
     private function checkSuccessfulPostResponse(array $postValues = [])
     {
-        $this->getRequest()->setPostValue(array_replace_recursive(
-            [
-                'form_key' => $this->formKey->getFormKey(),
-                'email' => 'adminUser@example.com',
-            ],
-            $postValues
-        ));
+        $this->getRequest()
+            ->setMethod(Http::METHOD_POST)
+            ->setPostValue(array_replace_recursive(
+                [
+                    'form_key' => $this->formKey->getFormKey(),
+                    'email' => 'adminUser@example.com',
+                ],
+                $postValues
+            ));
         $this->dispatch('backend/admin/auth/forgotpassword');
 
         $this->assertRedirect(self::equalTo($this->backendUrl->getRouteUrl('adminhtml')));
