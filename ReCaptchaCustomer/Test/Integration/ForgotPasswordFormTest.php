@@ -7,14 +7,9 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaCustomer\Test\Integration;
 
-use Magento\Captcha\Helper\Data as CaptchaHelper;
-use Magento\Captcha\Model\DefaultModel;
-use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Model\CustomerRegistry;
+use Magento\Framework\App\Request\Http;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\MessageInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\Validation\ValidationResult;
@@ -27,12 +22,9 @@ use Magento\TestFramework\TestCase\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
- * Test for \Magento\ReCaptchaCustomer\Observer\ForgotPasswordObserver class.
- *
  * @magentoDataFixture Magento/Customer/_files/customer.php
  * @magentoAppArea frontend
  * @magentoAppIsolation enabled
- * @magentoDbIsolation enabled
  */
 class ForgotPasswordFormTest extends AbstractController
 {
@@ -45,21 +37,6 @@ class ForgotPasswordFormTest extends AbstractController
      * @var FormKey
      */
     private $formKey;
-
-    /**
-     * @var CaptchaHelper
-     */
-    private $captchaHelper;
-
-    /**
-     * @var CustomerRegistry
-     */
-    private $customerRegistry;
-
-    /**
-     * @var CustomerRepositoryInterface
-     */
-    private $customerRepository;
 
     /**
      * @var UrlInterface
@@ -84,9 +61,7 @@ class ForgotPasswordFormTest extends AbstractController
         parent::setUp();
         $this->mutableScopeConfig = $this->_objectManager->get(MutableScopeConfig::class);
         $this->formKey = $this->_objectManager->get(FormKey::class);
-        $this->captchaHelper = $this->_objectManager->create(CaptchaHelper::class);
-        $this->customerRegistry = $this->_objectManager->get(CustomerRegistry::class);
-        $this->customerRepository = $this->_objectManager->get(CustomerRepositoryInterface::class);
+
         $this->url = $this->_objectManager->get(UrlInterface::class);
         $this->transportMock = $this->_objectManager->get(TransportBuilderMock::class);
         $this->captchaValidationResultMock = $this->createMock(ValidationResult::class);
@@ -97,142 +72,121 @@ class ForgotPasswordFormTest extends AbstractController
         $this->_objectManager->addSharedInstance($captchaValidationResultMock, Validator::class);
     }
 
+    /**
+     * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     */
     public function testGetRequestIfReCaptchaIsDisabled()
     {
-        $this->initConfig(0, 'test_public_key', 'test_private_key');
+        $this->setConfig(false, 'test_public_key', 'test_private_key');
 
         $this->checkSuccessfulGetResponse();
     }
 
     /**
+     * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_forgot_password invisible
+     *
+     * It's  needed for proper work of "ifconfig" in layout during tests running
      * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_forgot_password invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
-        $this->initConfig(1, null, null);
+        $this->setConfig(true, null, null);
 
         $this->checkSuccessfulGetResponse();
     }
 
     /**
+     * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_forgot_password invisible
+     *
+     * It's  needed for proper work of "ifconfig" in layout during tests running
      * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_forgot_password invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
-        $this->initConfig(1, 'test_public_key', 'test_private_key');
+        $this->setConfig(true, 'test_public_key', 'test_private_key');
 
         $this->checkSuccessfulGetResponse(true);
     }
 
-    public function testPostRequestIfReCaptchaKeysAreNotConfigured()
-    {
-        $this->initConfig(1, null, null);
-
-        $this->checkSuccessfulPostResponse(true);
-    }
-
+    /**
+     * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     */
     public function testPostRequestIfReCaptchaIsDisabled()
     {
-        $this->initConfig(0, 'test_public_key', 'test_private_key');
+        $this->setConfig(false, 'test_public_key', 'test_private_key');
 
-        $this->checkSuccessfulPostResponse(true);
+        $this->checkPostResponse(true);
     }
 
+    /**
+     * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_forgot_password invisible
+     */
+    public function testPostRequestIfReCaptchaKeysAreNotConfigured()
+    {
+        $this->setConfig(true, null, null);
+
+        $this->checkPostResponse(true);
+    }
+
+    /**
+     * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_forgot_password invisible
+     */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
-        $this->initConfig(1, 'test_public_key', 'test_private_key');
+        $this->setConfig(true, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(true);
 
-        $this->checkSuccessfulPostResponse(
+        $this->checkPostResponse(
             true,
-            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test_response']
-        );
-    }
-
-    public function testPostRequestWithFailedReCaptchaValidation()
-    {
-        $this->initConfig(1, 'test_public_key', 'test_private_key');
-        $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
-
-        $this->checkSuccessfulPostResponse(
-            false,
-            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test_response']
-        );
-    }
-
-    public function testPostRequestIfReCaptchaParameterIsMissed()
-    {
-        $this->initConfig(1, 'test_public_key', 'test_private_key');
-        $this->captchaValidationResultMock->expects($this->never())->method('isValid');
-        $this->expectException(InputException::class);
-        $this->expectExceptionMessage('Can not resolve reCAPTCHA parameter.');
-
-        $this->checkSuccessfulPostResponse(
-            false
+            [
+                CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test',
+            ]
         );
     }
 
     /**
-     * @param bool $result
-     * @param array $postValues
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
+     * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_forgot_password invisible
      */
-    private function checkSuccessfulPostResponse(bool $result, array $postValues = [])
+    public function testPostRequestIfReCaptchaParameterIsMissed()
     {
-        $email = 'customer@example.com';
-        $formId = 'user_forgotpassword';
-        $customerInitialToken = $this->getCustomerRpToken($email);
+        $this->setConfig(true, 'test_public_key', 'test_private_key');
 
-        /** @var DefaultModel $captchaModel */
-        $captchaModel = $this->captchaHelper->getCaptcha($formId);
-        $captchaModel->generate();
+        $this->expectException(InputException::class);
+        $this->expectExceptionMessage('Can not resolve reCAPTCHA parameter.');
 
-        $this->getRequest()->setMethod('POST');
-        $this->getRequest()->setPostValue(
-            array_merge_recursive(
-                [
-                    'email' => $email,
-                    'form_key' => $this->formKey->getFormKey(),
-                    'captcha' => [
-                        $formId => $captchaModel->getWord()
-                    ]
-                ],
-                $postValues
-            )
+        $this->checkPostResponse(false);
+    }
+
+    /**
+     * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_forgot_password invisible
+     */
+    public function testPostRequestWithFailedReCaptchaValidation()
+    {
+        $this->setConfig(true, 'test_public_key', 'test_private_key');
+        $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
+
+        $this->checkPostResponse(
+            false,
+            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
         );
-
-        $this->dispatch('customer/account/forgotpasswordpost');
-
-        $customerNewToken = $this->getCustomerRpToken($email);
-        $message = $this->transportMock->getSentMessage();
-
-        if ($result) {
-            $this->assertRedirect(self::equalTo($this->url->getRouteUrl('customer/account')));
-            self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
-            $this->assertNotEquals(
-                $customerNewToken,
-                $customerInitialToken
-            );
-            self::assertNotEmpty($message);
-            self::assertEquals((string)__('Reset your Main Website Store password'), $message->getSubject());
-        } else {
-            $this->assertRedirect(self::equalTo($this->url->getRouteUrl('customer/account/forgotpassword')));
-            $this->assertSessionMessages(
-                self::equalTo(['reCAPTCHA verification failed']),
-                MessageInterface::TYPE_ERROR
-            );
-            $this->assertEquals(
-                $customerNewToken,
-                $customerInitialToken
-            );
-            self::assertEmpty($message);
-        }
-
-
-        $this->assertEquals(
-            $result,
-            $customerNewToken !== $customerInitialToken);
     }
 
     /**
@@ -253,29 +207,65 @@ class ForgotPasswordFormTest extends AbstractController
     }
 
     /**
-     * @param string $customerEmail
-     * @return string|null
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
+     * @param bool $isSuccessfulRequest
+     * @param array $postValues
      */
-    private function getCustomerRpToken(string $customerEmail): ?string
+    private function checkPostResponse(bool $isSuccessfulRequest, array $postValues = [])
     {
-        $customer = $this->customerRepository->get($customerEmail);
-        $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
+        $email = 'customer@example.com';
 
-        return $customerSecure->getRpToken();
+        $this->getRequest()
+            ->setMethod(Http::METHOD_POST)
+            ->setPostValue(
+                array_merge_recursive(
+                    [
+                        'email' => $email,
+                        'form_key' => $this->formKey->getFormKey(),
+                    ],
+                    $postValues
+                )
+            );
+
+        $this->dispatch('customer/account/forgotpasswordpost');
+
+        $message = $this->transportMock->getSentMessage();
+
+        if ($isSuccessfulRequest) {
+            $this->assertRedirect(self::equalTo($this->url->getRouteUrl('customer/account')));
+            self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
+            self::assertNotEmpty($message);
+            self::assertEquals('Reset your Main Website Store password', $message->getSubject());
+        } else {
+            $this->assertRedirect(self::equalTo($this->url->getRouteUrl('customer/account/forgotpassword')));
+            $this->assertSessionMessages(
+                self::equalTo(['reCAPTCHA verification failed']),
+                MessageInterface::TYPE_ERROR
+            );
+            self::assertEmpty($message);
+        }
     }
 
     /**
-     * @param int|null $enabled
+     * @param bool $isEnabled
      * @param string|null $public
      * @param string|null $private
      */
-    private function initConfig(?int $enabled, ?string $public, ?string $private): void
+    private function setConfig(bool $isEnabled, ?string $public, ?string $private): void
     {
-        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_for/newsletter', null, ScopeInterface::SCOPE_WEBSITE);
-        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_for/customer_forgot_password', $enabled ? 'invisible' : null, ScopeInterface::SCOPE_WEBSITE);
-        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_invisible/public_key', $public, ScopeInterface::SCOPE_WEBSITE);
-        $this->mutableScopeConfig->setValue('recaptcha_frontend/type_invisible/private_key', $private, ScopeInterface::SCOPE_WEBSITE);
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_for/customer_forgot_password',
+            $isEnabled ? 'invisible' : null,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_invisible/public_key',
+            $public,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_invisible/private_key',
+            $private,
+            ScopeInterface::SCOPE_WEBSITE
+        );
     }
 }
