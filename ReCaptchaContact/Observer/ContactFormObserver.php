@@ -16,7 +16,7 @@ use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
- * ContactFormObserver
+ * Class for Contact Form Observer
  */
 class ContactFormObserver implements ObserverInterface
 {
@@ -51,6 +51,8 @@ class ContactFormObserver implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      * @throws LocalizedException

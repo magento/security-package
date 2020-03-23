@@ -40,7 +40,7 @@ class Onepage implements LayoutProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * @param array $jsLayout
      * @return array

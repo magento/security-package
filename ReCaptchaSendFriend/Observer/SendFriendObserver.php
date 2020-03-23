@@ -16,7 +16,7 @@ use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
- * SendFriendObserver
+ * Class for Send Friend Observer
  */
 class SendFriendObserver implements ObserverInterface
 {
@@ -51,6 +51,8 @@ class SendFriendObserver implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      * @throws LocalizedException

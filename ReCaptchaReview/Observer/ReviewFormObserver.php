@@ -16,7 +16,7 @@ use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
- * ReviewFormObserver
+ * Class for Review Form Observer
  */
 class ReviewFormObserver implements ObserverInterface
 {
@@ -51,6 +51,8 @@ class ReviewFormObserver implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      * @throws LocalizedException

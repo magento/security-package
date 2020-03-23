@@ -62,7 +62,7 @@ class ReCaptcha extends Template
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      *
      * @return string
      * @throws InputException
@@ -106,8 +106,9 @@ class ReCaptcha extends Template
         return $uiConfig;
     }
 
-
     /**
+     * @inheritdoc
+     *
      * @return string
      * @throws InputException
      */

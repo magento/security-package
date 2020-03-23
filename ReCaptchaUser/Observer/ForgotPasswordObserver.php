@@ -16,7 +16,7 @@ use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
- * ForgotPasswordObserver
+ * Class for Forgot Password Observer
  */
 class ForgotPasswordObserver implements ObserverInterface
 {
@@ -51,6 +51,8 @@ class ForgotPasswordObserver implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      * @throws LocalizedException

@@ -11,7 +11,7 @@ use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigExtensionInterface;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class ValidationConfig implements ValidationConfigInterface
 {
