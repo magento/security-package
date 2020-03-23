@@ -81,6 +81,9 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
+     *
+     * It's  needed for proper work of "ifconfig" in layout during tests running
+     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_login invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -93,6 +96,9 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
+     *
+     * It's  needed for proper work of "ifconfig" in layout during tests running
+     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_login invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {

@@ -61,8 +61,6 @@ class ContactFormTest extends AbstractController
      * @magentoConfigFixture base_website customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     *
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible Needed for ifconfig in layout
      */
     public function testGetRequestIfReCaptchaIsDisabled()
     {
@@ -75,7 +73,8 @@ class ContactFormTest extends AbstractController
      * @magentoConfigFixture base_website customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
      *
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible Needed for ifconfig in layout
+     * It's  needed for proper work of "ifconfig" in layout during tests running
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -90,7 +89,8 @@ class ContactFormTest extends AbstractController
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
      *
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible Needed for ifconfig in layout
+     * It's  needed for proper work of "ifconfig" in layout during tests running
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {

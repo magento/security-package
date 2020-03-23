@@ -76,6 +76,9 @@ class ForgotPasswordFormTest extends AbstractController
     /**
      * @magentoAdminConfigFixture admin/captcha/enable 0
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
+     *
+     * It's  needed for proper work of "ifconfig" in layout during tests running
+     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -87,6 +90,9 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
+     *
+     * It's  needed for proper work of "ifconfig" in layout during tests running
+     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
