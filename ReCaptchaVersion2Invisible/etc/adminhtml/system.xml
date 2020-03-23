@@ -23,7 +23,13 @@
                     <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Position</source_model>
                 </field>
 
-                <field id="lang" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="0"
+                <field id="theme" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+                    <label>Theme</label>
+                    <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Theme</source_model>
+                </field>
+
+                <field id="lang" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="1">
                     <label>Language Code</label>
                     <comment><![CDATA[
@@ -32,7 +38,7 @@
                 ]]></comment>
                 </field>
 
-                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="50" showInDefault="1"
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="60" showInDefault="1"
                        showInWebsite="0" showInStore="0" canRestore="1">
                     <label>reCAPTCHA Validation Failure Message</label>
                 </field>
@@ -60,7 +66,13 @@
                     <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Position</source_model>
                 </field>
 
-                <field id="lang" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1"
+                <field id="theme" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1"
+                       showInStore="0" canRestore="1">
+                    <label>Theme</label>
+                    <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Theme</source_model>
+                </field>
+
+                <field id="lang" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
                        showInStore="1" canRestore="1">
                     <label>Language Code</label>
                     <comment><![CDATA[
@@ -69,7 +81,7 @@
                 ]]></comment>
                 </field>
 
-                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="50" showInDefault="1"
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="60" showInDefault="1"
                        showInWebsite="1" showInStore="1" canRestore="1">
                     <label>reCAPTCHA Validation Failure Message</label>
                 </field>

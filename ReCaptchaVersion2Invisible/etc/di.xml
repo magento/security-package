@@ -52,4 +52,19 @@
             </argument>
         </arguments>
     </virtualType>
+    <virtualType name="Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Theme"
+                 type="Magento\ReCaptchaAdminUi\Model\OptionSource">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <item name="light" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Light Theme</item>
+                    <item name="value" xsi:type="string">light</item>
+                </item>
+                <item name="dark" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Dark Theme</item>
+                    <item name="value" xsi:type="string">dark</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
 </config>
