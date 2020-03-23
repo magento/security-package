@@ -12,8 +12,6 @@ use Magento\TwoFactorAuth\Model\ResourceModel\UserConfig;
 
 /**
  * User's configuration collection
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class Collection extends AbstractCollection
 {

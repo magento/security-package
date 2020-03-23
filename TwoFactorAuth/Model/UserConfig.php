@@ -18,9 +18,6 @@ use Magento\TwoFactorAuth\Api\Data\UserConfigInterfaceFactory;
 
 /**
  * User configuration data model
- *
- * @SuppressWarnings(PHPMD.LongVariable)
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class UserConfig extends AbstractModel
 {

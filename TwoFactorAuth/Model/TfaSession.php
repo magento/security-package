@@ -12,6 +12,7 @@ use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 
 /**
  * @inheritDoc
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class TfaSession extends SessionManager implements TfaSessionInterface
 {

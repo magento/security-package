@@ -12,11 +12,12 @@ use Magento\Framework\App\RequestInterface;
 
 /**
  * Abstraction for 2FA controllers
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 abstract class AbstractAction extends Action
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function dispatch(RequestInterface $request)
     {

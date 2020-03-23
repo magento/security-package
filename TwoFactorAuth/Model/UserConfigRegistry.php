@@ -11,8 +11,6 @@ use Magento\TwoFactorAuth\Api\Data\UserConfigInterface;
 
 /**
  * User configuration registry
- *
- * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class UserConfigRegistry
 {
@@ -30,6 +28,7 @@ class UserConfigRegistry
 
     /**
      * Remove registry entity by id
+     *
      * @param int $id
      */
     public function removeById(int $id): void
@@ -48,6 +47,7 @@ class UserConfigRegistry
 
     /**
      * Push one object into registry
+     *
      * @param int $id
      * @return UserConfigInterface|null
      */
@@ -58,6 +58,7 @@ class UserConfigRegistry
 
     /**
      * Retrieve by UserId value
+     *
      * @param int $value
      * @return UserConfigInterface|null
      */
@@ -72,6 +73,7 @@ class UserConfigRegistry
 
     /**
      * Push one object into registry
+     *
      * @param UserConfig $userConfig
      */
     public function push(UserConfig $userConfig): void

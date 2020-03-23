@@ -62,7 +62,7 @@ class TfaReset extends Command
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function configure()
     {
@@ -76,7 +76,11 @@ class TfaReset extends Command
     }
 
     /**
-     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
+     * @inheritdoc
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|void
      * @throws LocalizedException
      */
     protected function execute(InputInterface $input, OutputInterface $output)

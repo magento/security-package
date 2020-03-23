@@ -24,7 +24,6 @@ use Magento\User\Model\User;
 
 /**
  * Google authenticator configuration post controller
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Configurepost extends AbstractAction implements HttpPostActionInterface
 {
@@ -95,6 +94,7 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -104,6 +104,7 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
 
     /**
      * @inheritdoc
+     *
      * @return ResponseInterface|ResultInterface
      * @throws NoSuchEntityException
      */
@@ -140,7 +141,7 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function _isAllowed()
     {

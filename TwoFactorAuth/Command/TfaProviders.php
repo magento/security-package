@@ -33,7 +33,7 @@ class TfaProviders extends Command
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function configure()
     {
@@ -44,6 +44,8 @@ class TfaProviders extends Command
     }
 
     /**
+     * @inheritdoc
+     *
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     protected function execute(InputInterface $input, OutputInterface $output)

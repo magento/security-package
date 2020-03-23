@@ -11,10 +11,12 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 /**
  * Country model
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Country extends AbstractDb
 {
+    /**
+     * Country constructor.
+     */
     protected function _construct()
     {
         $this->_init('tfa_country_codes', 'country_id');

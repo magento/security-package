@@ -24,8 +24,6 @@ use Magento\User\Model\User;
 
 /**
  * UbiKey Authentication post controller
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Authpost extends AbstractAction implements HttpPostActionInterface
 {
@@ -69,6 +67,17 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      */
     private $alert;
 
+    /**
+     * @param Tfa $tfa
+     * @param Session $session
+     * @param JsonFactory $jsonFactory
+     * @param TfaSessionInterface $tfaSession
+     * @param TrustedManagerInterface $trustedManager
+     * @param U2fKey $u2fKey
+     * @param DataObjectFactory $dataObjectFactory
+     * @param AlertInterface $alert
+     * @param Action\Context $context
+     */
     public function __construct(
         Tfa $tfa,
         Session $session,
@@ -93,7 +102,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute()
     {
@@ -124,6 +133,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     }
 
     /**
+     * Get User
+     *
      * @return User|null
      */
     private function getUser(): ?User

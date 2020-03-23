@@ -14,7 +14,7 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
 
 /**
- * Generate duo security key
+ * Class for Generate duo security key
  */
 class GenerateDuoSecurityKey implements DataPatchInterface
 {
@@ -49,10 +49,7 @@ class GenerateDuoSecurityKey implements DataPatchInterface
     }
 
     /**
-     * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @inheritdoc
      */
     public function apply()
     {
@@ -74,7 +71,7 @@ class GenerateDuoSecurityKey implements DataPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function getDependencies()
     {
@@ -84,7 +81,7 @@ class GenerateDuoSecurityKey implements DataPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAliases()
     {

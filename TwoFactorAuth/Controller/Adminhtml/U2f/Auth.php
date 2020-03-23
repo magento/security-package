@@ -19,7 +19,6 @@ use Magento\User\Model\User;
 
 /**
  * UbiKey authentication controller
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Auth extends AbstractAction implements HttpGetActionInterface
 {
@@ -66,6 +65,7 @@ class Auth extends AbstractAction implements HttpGetActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -74,7 +74,7 @@ class Auth extends AbstractAction implements HttpGetActionInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute()
     {
@@ -83,7 +83,7 @@ class Auth extends AbstractAction implements HttpGetActionInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function _isAllowed()
     {

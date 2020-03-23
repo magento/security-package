@@ -30,6 +30,7 @@ class ChangeProvider extends Template
 
     /**
      * ChangeProvider constructor.
+     *
      * @param Template\Context $context
      * @param Session $session
      * @param TfaInterface $tfa
@@ -70,6 +71,7 @@ class ChangeProvider extends Template
 
     /**
      * Get user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -79,6 +81,7 @@ class ChangeProvider extends Template
 
     /**
      * Get a list of available providers
+     *
      * @return ProviderInterface[]
      */
     private function getProvidersList(): array

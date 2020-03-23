@@ -19,7 +19,7 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritdoc
  */
 class Auth extends AbstractAction implements HttpGetActionInterface
 {
@@ -66,6 +66,7 @@ class Auth extends AbstractAction implements HttpGetActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser()
@@ -75,6 +76,7 @@ class Auth extends AbstractAction implements HttpGetActionInterface
 
     /**
      * @inheritdoc
+     *
      * @throws NoSuchEntityException
      */
     public function execute()

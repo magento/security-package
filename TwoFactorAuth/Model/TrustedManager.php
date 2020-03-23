@@ -22,7 +22,9 @@ use Magento\Framework\Session\SessionManagerInterface;
 use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
 
 /**
- * @inheritDoc
+ * @inheritdoc
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class TrustedManager implements TrustedManagerInterface
 {
@@ -124,7 +126,7 @@ class TrustedManager implements TrustedManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     private function getUser(): User
     {
@@ -132,7 +134,7 @@ class TrustedManager implements TrustedManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     private function getDeviceName(): string
     {
@@ -141,7 +143,7 @@ class TrustedManager implements TrustedManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     private function getTokenCollection(): array
     {
@@ -155,7 +157,7 @@ class TrustedManager implements TrustedManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     private function sendTokenCookie(string $token): void
     {
@@ -179,7 +181,7 @@ class TrustedManager implements TrustedManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function rotateTrustedDeviceToken(): void
     {
@@ -204,7 +206,7 @@ class TrustedManager implements TrustedManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isTrustedDevice(): bool
     {
@@ -230,7 +232,7 @@ class TrustedManager implements TrustedManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function revokeTrustedDevice(int $tokenId): void
     {
@@ -239,7 +241,7 @@ class TrustedManager implements TrustedManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function handleTrustDeviceRequest(string $providerCode, RequestInterface $request): bool
     {

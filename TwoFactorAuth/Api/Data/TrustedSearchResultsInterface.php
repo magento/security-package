@@ -16,12 +16,14 @@ interface TrustedSearchResultsInterface extends SearchResultsInterface
 {
     /**
      * Get an array of objects
+     *
      * @return TrustedInterface[]
      */
     public function getItems(): array;
 
     /**
      * Set objects list
+     *
      * @param TrustedInterface[] $items
      * @return TrustedSearchResultsInterface
      */

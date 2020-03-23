@@ -27,6 +27,10 @@ class BackendAuthUserLoginSuccess implements ObserverInterface
      */
     private $tfa;
 
+    /**
+     * @param TfaInterface $tfa
+     * @param TrustedManagerInterface $trustedManager
+     */
     public function __construct(
         TfaInterface $tfa,
         TrustedManagerInterface $trustedManager
@@ -36,6 +40,8 @@ class BackendAuthUserLoginSuccess implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")

@@ -21,7 +21,7 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritdoc
  */
 class Verify extends AbstractAction implements HttpPostActionInterface, HttpGetActionInterface
 {
@@ -52,6 +52,7 @@ class Verify extends AbstractAction implements HttpPostActionInterface, HttpGetA
 
     /**
      * Verify constructor.
+     *
      * @param Action\Context $context
      * @param Session $session
      * @param TfaInterface $tfa
@@ -77,6 +78,7 @@ class Verify extends AbstractAction implements HttpPostActionInterface, HttpGetA
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -86,6 +88,7 @@ class Verify extends AbstractAction implements HttpPostActionInterface, HttpGetA
 
     /**
      * Get verify information
+     *
      * @return verify payload
      * @throws NoSuchEntityException
      */

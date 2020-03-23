@@ -22,7 +22,7 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritdoc
  */
 class Authpost extends AbstractAction implements HttpPostActionInterface
 {
@@ -101,6 +101,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -117,9 +118,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $result = $this->jsonFactory->create();
 
         try {
-            $this->authy->verify($user, $this->dataObjectFactory->create([
-                'data' => $this->getRequest()->getParams(),
-            ]));
+            $this->authy->verify($user, $this->dataObjectFactory->create(['data' => $this->getRequest()->getParams()]));
             $this->trustedManager->handleTrustDeviceRequest(Authy::CODE, $this->getRequest());
             $this->tfaSession->grantAccess();
             $result->setData(['success' => true]);

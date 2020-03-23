@@ -78,6 +78,7 @@ class Google implements EngineInterface
 
     /**
      * Generate random secret
+     *
      * @return string
      * @throws Exception
      */
@@ -89,6 +90,7 @@ class Google implements EngineInterface
 
     /**
      * Get TOTP object
+     *
      * @param UserInterface $user
      * @return TOTP
      * @throws NoSuchEntityException
@@ -115,6 +117,7 @@ class Google implements EngineInterface
 
     /**
      * Get the secret code used for Google Authentication
+     *
      * @param UserInterface $user
      * @return string|null
      * @throws NoSuchEntityException
@@ -134,6 +137,7 @@ class Google implements EngineInterface
 
     /**
      * Get TFA provisioning URL
+     *
      * @param UserInterface $user
      * @return string
      * @throws NoSuchEntityException
@@ -153,7 +157,7 @@ class Google implements EngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function verify(UserInterface $user, DataObject $request): bool
     {
@@ -167,6 +171,7 @@ class Google implements EngineInterface
 
     /**
      * Render TFA QrCode
+     *
      * @param UserInterface $user
      * @return string
      * @throws NoSuchEntityException
@@ -191,7 +196,7 @@ class Google implements EngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {
@@ -199,7 +204,7 @@ class Google implements EngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isTrustedDevicesAllowed(): bool
     {

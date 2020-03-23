@@ -21,7 +21,6 @@ use Magento\User\Model\User;
 
 /**
  * UbiKey configuration post controller
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Configurepost extends AbstractAction implements HttpPostActionInterface
 {
@@ -122,6 +121,8 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
     }
 
     /**
+     * Get User
+     *
      * @return User|null
      */
     private function getUser(): ?User

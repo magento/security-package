@@ -18,7 +18,6 @@ use Magento\User\Model\User;
 
 /**
  * Google authenticator configuration page
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Configure extends AbstractAction implements HttpGetActionInterface
 {
@@ -57,6 +56,7 @@ class Configure extends AbstractAction implements HttpGetActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -65,7 +65,7 @@ class Configure extends AbstractAction implements HttpGetActionInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute()
     {
@@ -73,7 +73,7 @@ class Configure extends AbstractAction implements HttpGetActionInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function _isAllowed()
     {

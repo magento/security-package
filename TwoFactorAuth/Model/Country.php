@@ -18,9 +18,6 @@ use Magento\TwoFactorAuth\Api\Data\CountryInterfaceFactory;
 
 /**
  * Country Data model
- *
- * @SuppressWarnings(PHPMD.LongVariable)
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Country extends AbstractModel
 {

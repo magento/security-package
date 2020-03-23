@@ -24,7 +24,8 @@ use Magento\TwoFactorAuth\Model\TrustedFactory;
 use Magento\TwoFactorAuth\Model\TrustedRegistry;
 
 /**
- * @inheritDoc
+ * @inheritdoc
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class TrustedRepository implements TrustedRepositoryInterface
 {
@@ -99,7 +100,7 @@ class TrustedRepository implements TrustedRepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function save(TrustedInterface $trusted): TrustedInterface
     {
@@ -121,7 +122,8 @@ class TrustedRepository implements TrustedRepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
+     *
      * @throws NoSuchEntityException
      */
     public function getById(int $id): TrustedInterface
@@ -142,7 +144,8 @@ class TrustedRepository implements TrustedRepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
+     *
      * @throws NoSuchEntityException
      */
     public function getByUserId(int $value): TrustedInterface
@@ -163,7 +166,7 @@ class TrustedRepository implements TrustedRepositoryInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function delete(TrustedInterface $trusted): void
     {
@@ -182,7 +185,7 @@ class TrustedRepository implements TrustedRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
     {

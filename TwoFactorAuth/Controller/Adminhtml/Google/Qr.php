@@ -18,7 +18,6 @@ use Magento\User\Model\User;
 
 /**
  * QR code generator for google authenticator
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Qr extends AbstractAction implements HttpGetActionInterface
 {
@@ -65,6 +64,7 @@ class Qr extends AbstractAction implements HttpGetActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -73,7 +73,7 @@ class Qr extends AbstractAction implements HttpGetActionInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute()
     {
@@ -87,7 +87,7 @@ class Qr extends AbstractAction implements HttpGetActionInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function _isAllowed()
     {

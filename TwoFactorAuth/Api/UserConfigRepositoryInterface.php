@@ -14,12 +14,12 @@ use Magento\TwoFactorAuth\Api\Data\UserConfigSearchResultsInterface;
 
 /**
  * User configuration repository
- * @SuppressWarnings(PHPMD.ShortVariable)
  */
 interface UserConfigRepositoryInterface
 {
     /**
      * Save object
+     *
      * @param UserConfigInterface $object
      * @return UserConfigInterface
      */
@@ -27,6 +27,7 @@ interface UserConfigRepositoryInterface
 
     /**
      * Get object by id
+     *
      * @param int $id
      * @return UserConfigInterface
      */
@@ -34,6 +35,7 @@ interface UserConfigRepositoryInterface
 
     /**
      * Get by UserId value
+     *
      * @param int $value
      * @return UserConfigInterface
      */
@@ -41,6 +43,7 @@ interface UserConfigRepositoryInterface
 
     /**
      * Delete object
+     *
      * @param UserConfigInterface $object
      * @return bool
      */
@@ -48,6 +51,7 @@ interface UserConfigRepositoryInterface
 
     /**
      * Get a list of object
+     *
      * @param SearchCriteriaInterface $searchCriteria
      * @return UserConfigSearchResultsInterface
      */

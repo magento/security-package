@@ -24,6 +24,7 @@ interface TfaSessionInterface
 
     /**
      * Return true if 2FA session has been passed
+     *
      * @return bool
      */
     public function isGranted(): bool;

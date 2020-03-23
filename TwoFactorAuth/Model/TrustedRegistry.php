@@ -11,7 +11,6 @@ use Magento\TwoFactorAuth\Api\Data\TrustedInterface;
 
 /**
  * Trusted hosts registry
- * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class TrustedRegistry
 {
@@ -29,6 +28,7 @@ class TrustedRegistry
 
     /**
      * Remove registry entity by id
+     *
      * @param int $id
      */
     public function removeById(int $id): void
@@ -47,6 +47,7 @@ class TrustedRegistry
 
     /**
      * Push one object into registry
+     *
      * @param int $id
      * @return TrustedInterface|null
      */
@@ -61,6 +62,7 @@ class TrustedRegistry
 
     /**
      * Retrieve by UserId value
+     *
      * @param int $value
      * @return TrustedInterface|null
      */
@@ -75,6 +77,7 @@ class TrustedRegistry
 
     /**
      * Push one object into registry
+     *
      * @param Trusted $trusted
      */
     public function push(Trusted $trusted): void

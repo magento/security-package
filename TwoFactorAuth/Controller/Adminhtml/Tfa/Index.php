@@ -67,6 +67,7 @@ class Index extends AbstractAction implements HttpGetActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -76,6 +77,7 @@ class Index extends AbstractAction implements HttpGetActionInterface
 
     /**
      * @inheritdoc
+     *
      * @throws LocalizedException
      */
     public function execute()

@@ -86,6 +86,7 @@ class Authy implements EngineInterface
 
     /**
      * Enroll in Authy
+     *
      * @param UserInterface $user
      * @return bool
      * @throws LocalizedException
@@ -124,7 +125,7 @@ class Authy implements EngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {
@@ -134,7 +135,7 @@ class Authy implements EngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function verify(UserInterface $user, DataObject $request): bool
     {
@@ -142,7 +143,7 @@ class Authy implements EngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isTrustedDevicesAllowed(): bool
     {

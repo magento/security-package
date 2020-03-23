@@ -16,7 +16,6 @@ use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 
 /**
  * Revoke 2FA trusted host authorization controller
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Revoke extends AbstractAction implements HttpGetActionInterface, HttpPostActionInterface
 {
@@ -25,6 +24,10 @@ class Revoke extends AbstractAction implements HttpGetActionInterface, HttpPostA
      */
     private $trustedManager;
 
+    /**
+     * @param Action\Context $context
+     * @param TrustedManagerInterface $trustedManager
+     */
     public function __construct(
         Action\Context $context,
         TrustedManagerInterface $trustedManager
@@ -35,6 +38,7 @@ class Revoke extends AbstractAction implements HttpGetActionInterface, HttpPostA
 
     /**
      * @inheritdoc
+     *
      * @throws NoSuchEntityException
      */
     public function execute()

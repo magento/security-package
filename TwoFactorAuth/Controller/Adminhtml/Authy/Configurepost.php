@@ -20,7 +20,7 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritdoc
  */
 class Configurepost extends AbstractAction implements HttpPostActionInterface
 {
@@ -75,6 +75,7 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User

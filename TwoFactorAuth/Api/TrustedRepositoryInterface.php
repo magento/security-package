@@ -13,12 +13,12 @@ use Magento\TwoFactorAuth\Api\Data\TrustedInterface;
 
 /**
  * Trusted repository
- * @SuppressWarnings(PHPMD.ShortVariable)
  */
 interface TrustedRepositoryInterface
 {
     /**
      * Save object
+     *
      * @param TrustedInterface $object
      * @return TrustedInterface
      */
@@ -26,6 +26,7 @@ interface TrustedRepositoryInterface
 
     /**
      * Get object by id
+     *
      * @param int $id
      * @return TrustedInterface
      */
@@ -33,6 +34,7 @@ interface TrustedRepositoryInterface
 
     /**
      * Get by UserId value
+     *
      * @param int $value
      * @return TrustedInterface
      */
@@ -40,12 +42,14 @@ interface TrustedRepositoryInterface
 
     /**
      * Delete object
+     *
      * @param TrustedInterface $object
      */
     public function delete(TrustedInterface $object): void;
 
     /**
      * Get a list of object
+     *
      * @param SearchCriteriaInterface $searchCriteria
      * @return SearchResultsInterface
      */

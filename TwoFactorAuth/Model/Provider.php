@@ -13,7 +13,7 @@ use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Api\EngineInterface;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class Provider implements ProviderInterface
 {
@@ -169,6 +169,7 @@ class Provider implements ProviderInterface
 
     /**
      * Retrieve user's configuration
+     *
      * @param int $userId
      * @return array|null
      * @throws NoSuchEntityException

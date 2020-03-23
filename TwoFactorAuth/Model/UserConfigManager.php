@@ -11,7 +11,7 @@ use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\ResourceModel\UserConfig as UserConfigResource;
 
 /**
- * @inheritDoc
+ * @inheritdoc
  */
 class UserConfigManager implements UserConfigManagerInterface
 {
@@ -33,7 +33,6 @@ class UserConfigManager implements UserConfigManagerInterface
     /**
      * @param UserConfigFactory $userConfigFactory
      * @param UserConfigResource|null $userConfigResource
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function __construct(
         UserConfigFactory $userConfigFactory,
@@ -44,7 +43,7 @@ class UserConfigManager implements UserConfigManagerInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getProviderConfig(int $userId, string $providerCode): ?array
     {
@@ -61,7 +60,7 @@ class UserConfigManager implements UserConfigManagerInterface
     /**
      * @inheritdoc
      */
-    public function setProviderConfig(int $userId, string $providerCode, ?array $config=null): bool
+    public function setProviderConfig(int $userId, string $providerCode, ?array $config = null): bool
     {
         $userConfig = $this->getUserConfiguration($userId);
         $providersConfig = $userConfig->getData('config');
@@ -83,7 +82,7 @@ class UserConfigManager implements UserConfigManagerInterface
     /**
      * @inheritdoc
      */
-    public function addProviderConfig(int $userId, string $providerCode, ?array $config=null): bool
+    public function addProviderConfig(int $userId, string $providerCode, ?array $config = null): bool
     {
         $userConfig = $this->getProviderConfig($userId, $providerCode);
         if ($userConfig === null) {
@@ -106,6 +105,7 @@ class UserConfigManager implements UserConfigManagerInterface
 
     /**
      * Get user TFA config
+     *
      * @param int $userId
      * @return UserConfig
      */

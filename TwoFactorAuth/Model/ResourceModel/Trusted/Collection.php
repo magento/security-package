@@ -12,8 +12,6 @@ use Magento\TwoFactorAuth\Model\ResourceModel\Trusted;
 
 /**
  * Trusted devices collection
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class Collection extends AbstractCollection
 {

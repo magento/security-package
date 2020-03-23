@@ -51,12 +51,14 @@ interface TrustedInterface extends ExtensibleDataInterface
 
     /**
      * Get value for tfa_trusted_id
+     *
      * @return int
      */
     public function getId(): int;
 
     /**
      * Set value for tfa_trusted_id
+     *
      * @param int $value
      * @return void
      */
@@ -64,12 +66,14 @@ interface TrustedInterface extends ExtensibleDataInterface
 
     /**
      * Get value for date_time
+     *
      * @return string
      */
     public function getDateTime(): string;
 
     /**
      * Set value for date_time
+     *
      * @param string $value
      * @return void
      */
@@ -77,12 +81,14 @@ interface TrustedInterface extends ExtensibleDataInterface
 
     /**
      * Get value for user_id
+     *
      * @return int
      */
     public function getUserId(): int;
 
     /**
      * Set value for user_id
+     *
      * @param int $value
      * @return void
      */
@@ -90,12 +96,14 @@ interface TrustedInterface extends ExtensibleDataInterface
 
     /**
      * Get value for device_name
+     *
      * @return string
      */
     public function getDeviceName(): string;
 
     /**
      * Set value for device_name
+     *
      * @param string $value
      * @return void
      */
@@ -103,12 +111,14 @@ interface TrustedInterface extends ExtensibleDataInterface
 
     /**
      * Get value for last_ip
+     *
      * @return string
      */
     public function getLastIp(): string;
 
     /**
      * Set value for last_ip
+     *
      * @param string $value
      * @return void
      */
@@ -116,12 +126,14 @@ interface TrustedInterface extends ExtensibleDataInterface
 
     /**
      * Get value for user_agent
+     *
      * @return string
      */
     public function getUserAgent(): string;
 
     /**
      * Set value for user_agent
+     *
      * @param string $value
      * @return void
      */
@@ -138,6 +150,7 @@ interface TrustedInterface extends ExtensibleDataInterface
 
     /**
      * Set an extension attributes object
+     *
      * @param \Magento\TwoFactorAuth\Api\Data\TrustedExtensionInterface $extensionAttributes
      * @return void
      */

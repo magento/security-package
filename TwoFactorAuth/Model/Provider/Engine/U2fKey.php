@@ -73,6 +73,7 @@ class U2fKey implements EngineInterface
 
     /**
      * Converts array to object
+     *
      * @param array $hash
      * @return stdClass
      */
@@ -89,7 +90,7 @@ class U2fKey implements EngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function verify(UserInterface $user, DataObject $request): bool
     {
@@ -112,6 +113,7 @@ class U2fKey implements EngineInterface
 
     /**
      * Create the registration challenge
+     *
      * @return array
      * @throws LocalizedException
      * @throws Error
@@ -124,6 +126,7 @@ class U2fKey implements EngineInterface
 
     /**
      * Get authenticate data
+     *
      * @param UserInterface $user
      * @return array
      * @throws LocalizedException
@@ -143,6 +146,7 @@ class U2fKey implements EngineInterface
 
     /**
      * Get registration information
+     *
      * @param UserInterface $user
      * @return array
      * @throws NoSuchEntityException
@@ -160,6 +164,7 @@ class U2fKey implements EngineInterface
 
     /**
      * Register a new key
+     *
      * @param UserInterface $user
      * @param array $request
      * @param array $response
@@ -191,7 +196,7 @@ class U2fKey implements EngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isEnabled(): bool
     {
@@ -199,7 +204,7 @@ class U2fKey implements EngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isTrustedDevicesAllowed(): bool
     {
@@ -207,6 +212,8 @@ class U2fKey implements EngineInterface
     }
 
     /**
+     * Get U2f
+     *
      * @return U2F
      * @throws LocalizedException
      * @throws Error

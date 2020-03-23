@@ -17,7 +17,7 @@ use Magento\TwoFactorAuth\Api\Data\CountryInterface;
 class Country extends AbstractExtensibleObject implements CountryInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId(): int
     {
@@ -25,7 +25,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setId(int $value): void
     {
@@ -33,7 +33,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCode(): string
     {
@@ -41,7 +41,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCode(string $value): void
     {
@@ -49,7 +49,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName(): string
     {
@@ -57,7 +57,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setName(string $value): void
     {
@@ -65,7 +65,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getDialCode(): string
     {
@@ -73,7 +73,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setDialCode(string $value): void
     {
@@ -81,7 +81,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getExtensionAttributes(): ?CountryExtensionInterface
     {
@@ -89,7 +89,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setExtensionAttributes(CountryExtensionInterface $extensionAttributes): void
     {

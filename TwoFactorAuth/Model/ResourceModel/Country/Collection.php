@@ -12,9 +12,6 @@ use Magento\TwoFactorAuth\Model\ResourceModel\Country;
 
 /**
  * Country codes collection
- *
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
- * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
 class Collection extends AbstractCollection
 {

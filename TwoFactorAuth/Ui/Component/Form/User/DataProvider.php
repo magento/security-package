@@ -42,6 +42,7 @@ class DataProvider extends AbstractDataProvider
 
     /**
      * DataProvider constructor.
+     *
      * @param CollectionFactory $collectionFactory
      * @param EnabledProvider $enabledProvider
      * @param UserConfigManagerInterface $userConfigManager
@@ -76,6 +77,7 @@ class DataProvider extends AbstractDataProvider
 
     /**
      * Get a list of forced providers
+     *
      * @return array
      */
     private function getForcedProviders()
@@ -93,6 +95,7 @@ class DataProvider extends AbstractDataProvider
 
     /**
      * Get reset provider urls
+     *
      * @param User $user
      * @return array
      */
@@ -119,6 +122,7 @@ class DataProvider extends AbstractDataProvider
 
     /**
      * Get a list of trusted devices as array
+     *
      * @param User $user
      * @return array
      */

@@ -17,7 +17,7 @@ use Magento\TwoFactorAuth\Api\TrustedRepositoryInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 
 /**
- * @SuppressWarnings(PHPMD.LongVariable)
+ * Class for Tfa Model
  */
 class Tfa implements TfaInterface
 {
@@ -260,6 +260,7 @@ class Tfa implements TfaInterface
 
     /**
      * Return true if a provider code is allowed
+     *
      * @param int $userId
      * @param string $providerCode
      * @throws NoSuchEntityException
@@ -281,6 +282,7 @@ class Tfa implements TfaInterface
 
     /**
      * Set default provider code
+     *
      * @param int $userId
      * @param string $providerCode
      * @return boolean

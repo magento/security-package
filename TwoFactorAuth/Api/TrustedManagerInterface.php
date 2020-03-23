@@ -22,18 +22,21 @@ interface TrustedManagerInterface
 
     /**
      * Rotate secret trust token
+     *
      * @return void
      */
     public function rotateTrustedDeviceToken(): void;
 
     /**
      * Return true if device is trusted
+     *
      * @return bool
      */
     public function isTrustedDevice(): bool;
 
     /**
      * Revoke trusted device
+     *
      * @param int $tokenId
      * @return void
      * @throws NoSuchEntityException
@@ -42,6 +45,7 @@ interface TrustedManagerInterface
 
     /**
      * Trust a device
+     *
      * @param string $providerCode
      * @param RequestInterface $request
      * @return bool

@@ -11,8 +11,6 @@ use Magento\TwoFactorAuth\Api\Data\CountryInterface;
 
 /**
  * Country entity registry
- *
- * @SuppressWarnings(PHPMD.ShortVariable)
  */
 class CountryRegistry
 {
@@ -30,6 +28,7 @@ class CountryRegistry
 
     /**
      * Remove registry entity by id
+     *
      * @param int $id
      */
     public function removeById(int $id): void
@@ -48,6 +47,7 @@ class CountryRegistry
 
     /**
      * Push one object into registry
+     *
      * @param int $id
      * @return CountryInterface|null
      */
@@ -62,6 +62,7 @@ class CountryRegistry
 
     /**
      * Retrieve by Code value
+     *
      * @param string $value
      * @return CountryInterface|null
      */
@@ -76,6 +77,7 @@ class CountryRegistry
 
     /**
      * Push one object into registry
+     *
      * @param Country $country
      */
     public function push(Country $country): void

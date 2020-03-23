@@ -54,6 +54,11 @@ class TfaDisable extends Command
     }
 
     /**
+     * @inheritdoc
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|void
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     protected function execute(InputInterface $input, OutputInterface $output)

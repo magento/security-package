@@ -12,7 +12,6 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 
 /**
  * Copy table contents after migrating from MageSpecialist to Magento
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CopyTablesFromOldModule implements SchemaPatchInterface
 {
@@ -31,10 +30,7 @@ class CopyTablesFromOldModule implements SchemaPatchInterface
     }
 
     /**
-     * {@inheritdoc}
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @inheritdoc
      */
     public function apply()
     {
@@ -69,7 +65,7 @@ class CopyTablesFromOldModule implements SchemaPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function getDependencies()
     {
@@ -77,7 +73,7 @@ class CopyTablesFromOldModule implements SchemaPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAliases()
     {

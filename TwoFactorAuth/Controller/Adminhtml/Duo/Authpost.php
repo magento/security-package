@@ -19,7 +19,6 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
 
 /**
  * Duo security authentication post controller
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Authpost extends AbstractAction implements HttpPostActionInterface
 {
@@ -89,6 +88,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
 
     /**
      * Get current user
+     *
      * @return \Magento\User\Model\User|null
      */
     private function getUser()

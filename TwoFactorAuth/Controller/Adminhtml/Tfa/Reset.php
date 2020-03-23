@@ -18,7 +18,6 @@ use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 
 /**
  * Reset 2FA configuration controller
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Reset extends AbstractAction implements HttpGetActionInterface, HttpPostActionInterface
 {
@@ -57,6 +56,7 @@ class Reset extends AbstractAction implements HttpGetActionInterface, HttpPostAc
 
     /**
      * @inheritdoc
+     *
      * @throws LocalizedException
      */
     public function execute()

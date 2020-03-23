@@ -75,6 +75,7 @@ class OneTouch
 
     /**
      * Request one-touch
+     *
      * @param UserInterface $user
      * @throws LocalizedException
      */
@@ -111,6 +112,7 @@ class OneTouch
 
     /**
      * Verify one-touch
+     *
      * @param UserInterface $user
      * @return string
      * @throws LocalizedException

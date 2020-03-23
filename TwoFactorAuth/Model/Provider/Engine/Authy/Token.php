@@ -52,6 +52,7 @@ class Token
 
     /**
      * Request a token
+     *
      * @param UserInterface $user
      * @param string $via
      * @throws LocalizedException
@@ -83,6 +84,7 @@ class Token
 
     /**
      * Return true on token validation
+     *
      * @param UserInterface $user
      * @param DataObject $request
      * @return bool

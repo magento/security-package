@@ -26,12 +26,14 @@ interface TfaInterface
 
     /**
      * Return true if 2FA is enabled
+     *
      * @return bool
      */
     public function isEnabled(): bool;
 
     /**
      * Get provider by code
+     *
      * @param string $providerCode
      * @param bool $onlyEnabled = true
      * @return ProviderInterface|null
@@ -40,12 +42,14 @@ interface TfaInterface
 
     /**
      * Retrieve forced providers list
+     *
      * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
      */
     public function getForcedProviders(): array;
 
     /**
      * Get a user provider
+     *
      * @param int $userId
      * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
      */
@@ -53,12 +57,14 @@ interface TfaInterface
 
     /**
      * Get a list of providers
+     *
      * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
      */
     public function getAllProviders(): array;
 
     /**
      * Get a list of providers
+     *
      * @param string $code
      * @return \Magento\TwoFactorAuth\Api\ProviderInterface|null
      */
@@ -67,12 +73,14 @@ interface TfaInterface
 
     /**
      * Get a list of providers
+     *
      * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
      */
     public function getAllEnabledProviders(): array;
 
     /**
      * Return a list of trusted devices for given user id
+     *
      * @param int $userId
      * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
      */
@@ -80,12 +88,14 @@ interface TfaInterface
 
     /**
      * Get allowed URLs
+     *
      * @return array
      */
     public function getAllowedUrls(): array;
 
     /**
      * Returns a list of providers to configure/enroll
+     *
      * @param int $userId
      * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
      */
@@ -93,14 +103,17 @@ interface TfaInterface
 
     /**
      * Return true if a provider is allowed for a given user
+     *
      * @param int $userId
      * @param string $providerCode
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getProviderIsAllowed(int $userId, string $providerCode): bool;
 
     /**
      * Get default provider code
+     *
      * @param int $userId
      * @return string
      */
@@ -108,6 +121,7 @@ interface TfaInterface
 
     /**
      * Set default provider code
+     *
      * @param int $userId
      * @param string $providerCode
      * @return bool
@@ -116,6 +130,7 @@ interface TfaInterface
 
     /**
      * Set providers
+     *
      * @param int $userId
      * @param string $providersCodes
      * @return bool
@@ -124,6 +139,7 @@ interface TfaInterface
 
     /**
      * Reset default provider code
+     *
      * @param int $userId
      * @param string $providerCode
      * @return bool

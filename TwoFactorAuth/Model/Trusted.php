@@ -18,8 +18,7 @@ use Magento\TwoFactorAuth\Api\Data\TrustedInterface;
 use Magento\TwoFactorAuth\Api\Data\TrustedInterfaceFactory;
 
 /**
- * @SuppressWarnings(PHPMD.LongVariable)
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritdoc
  */
 class Trusted extends AbstractModel
 {
@@ -34,6 +33,8 @@ class Trusted extends AbstractModel
     private $trustedDataFactory;
 
     /**
+     * Trusted constructor.
+     *
      * @param Context $context
      * @param Registry $registry
      * @param DataObjectHelper $dataObjectHelper
@@ -56,6 +57,9 @@ class Trusted extends AbstractModel
         $this->trustedDataFactory = $trustedDataFactory;
     }
 
+    /**
+     * Trusted constructor.
+     */
     protected function _construct()
     {
         $this->_init(ResourceModel\Trusted::class);

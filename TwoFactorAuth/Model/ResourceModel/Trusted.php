@@ -11,10 +11,13 @@ namespace Magento\TwoFactorAuth\Model\ResourceModel;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritdoc
  */
 class Trusted extends AbstractDb
 {
+    /**
+     * Trusted constructor.
+     */
     protected function _construct()
     {
         $this->_init('tfa_trusted', 'trusted_id');

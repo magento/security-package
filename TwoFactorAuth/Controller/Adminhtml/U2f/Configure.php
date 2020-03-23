@@ -18,7 +18,6 @@ use Magento\User\Model\User;
 
 /**
  * CUbiKey configuration page controller
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Configure extends AbstractAction implements HttpGetActionInterface
 {
@@ -57,7 +56,7 @@ class Configure extends AbstractAction implements HttpGetActionInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute()
     {
@@ -65,6 +64,8 @@ class Configure extends AbstractAction implements HttpGetActionInterface
     }
 
     /**
+     * Get User
+     *
      * @return User|null
      */
     private function getUser(): ?User

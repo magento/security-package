@@ -21,6 +21,7 @@ use Magento\User\Model\User;
 
 /**
  * Handle redirection to 2FA page if required
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class ControllerActionPredispatch implements ObserverInterface
 {
@@ -80,6 +81,7 @@ class ControllerActionPredispatch implements ObserverInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -88,7 +90,7 @@ class ControllerActionPredispatch implements ObserverInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(Observer $observer)
     {

@@ -18,7 +18,6 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
 
 /**
  * Duo security authentication page
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Auth extends AbstractAction implements HttpGetActionInterface
 {
@@ -42,6 +41,13 @@ class Auth extends AbstractAction implements HttpGetActionInterface
      */
     private $userConfigManager;
 
+    /**
+     * @param Action\Context $context
+     * @param Session $session
+     * @param PageFactory $pageFactory
+     * @param UserConfigManagerInterface $userConfigManager
+     * @param TfaInterface $tfa
+     */
     public function __construct(
         Action\Context $context,
         Session $session,
@@ -58,6 +64,7 @@ class Auth extends AbstractAction implements HttpGetActionInterface
 
     /**
      * Get current user
+     *
      * @return \Magento\User\Model\User|null
      */
     private function getUser()
