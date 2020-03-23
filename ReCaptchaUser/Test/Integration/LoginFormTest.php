@@ -9,6 +9,7 @@ namespace Magento\ReCaptchaUser\Test\Integration;
 
 use Magento\Backend\Model\Auth;
 use Magento\Backend\Model\UrlInterface;
+use Magento\Framework\App\Request\Http;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Message\MessageInterface;
 use Magento\Framework\Validation\ValidationResult;
@@ -80,6 +81,8 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
+     *
+     * It's  needed for proper work of "ifconfig" in layout during tests running
      * @magentoConfigFixture default_store recaptcha_backend/type_for/user_login invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
@@ -93,6 +96,8 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
+     *
+     * It's  needed for proper work of "ifconfig" in layout during tests running
      * @magentoConfigFixture default_store recaptcha_backend/type_for/user_login invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
@@ -115,7 +120,6 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture admin/security/use_form_key 0
      * @magentoAdminConfigFixture admin/captcha/enable 0
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
-     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_login invisible
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -128,7 +132,6 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
-     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_login invisible
      */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
@@ -147,19 +150,20 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
-     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_login invisible
      */
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
-        $this->getRequest()->setPostValue(
-            [
-                'form_key' => $this->formKey->getFormKey(),
-                'login' => [
-                    'username' => Bootstrap::ADMIN_NAME,
-                    'password' => Bootstrap::ADMIN_PASSWORD,
-                ],
-            ]
-        );
+        $this->getRequest()
+            ->setMethod(Http::METHOD_POST)
+            ->setPostValue(
+                [
+                    'form_key' => $this->formKey->getFormKey(),
+                    'login' => [
+                        'username' => Bootstrap::ADMIN_NAME,
+                        'password' => Bootstrap::ADMIN_PASSWORD,
+                    ],
+                ]
+            );
         $this->dispatch('backend/admin/index/index');
 
         // Location header is different than in the successful case
@@ -177,22 +181,23 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
-     * @magentoConfigFixture default_store recaptcha_backend/type_for/user_login invisible
      */
     public function testPostRequestWithFailedReCaptchaValidation()
     {
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
-        $this->getRequest()->setPostValue(
-            [
-                'form_key' => $this->formKey->getFormKey(),
-                'login' => [
-                    'username' => Bootstrap::ADMIN_NAME,
-                    'password' => Bootstrap::ADMIN_PASSWORD,
-                ],
-                CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test',
-            ]
-        );
+        $this->getRequest()
+            ->setMethod(Http::METHOD_POST)
+            ->setPostValue(
+                [
+                    'form_key' => $this->formKey->getFormKey(),
+                    'login' => [
+                        'username' => Bootstrap::ADMIN_NAME,
+                        'password' => Bootstrap::ADMIN_PASSWORD,
+                    ],
+                    CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test',
+                ]
+            );
         $this->dispatch('backend/admin/index/index');
 
         // Location header is different than in the successful case
@@ -228,16 +233,18 @@ class LoginFormTest extends AbstractController
      */
     private function checkSuccessfulPostResponse(array $postValues = []): void
     {
-        $this->getRequest()->setPostValue(array_replace_recursive(
-            [
-                'form_key' => $this->formKey->getFormKey(),
-                'login' => [
-                    'username' => Bootstrap::ADMIN_NAME,
-                    'password' => Bootstrap::ADMIN_PASSWORD,
+        $this->getRequest()
+            ->setMethod(Http::METHOD_POST)
+            ->setPostValue(array_replace_recursive(
+                [
+                    'form_key' => $this->formKey->getFormKey(),
+                    'login' => [
+                        'username' => Bootstrap::ADMIN_NAME,
+                        'password' => Bootstrap::ADMIN_PASSWORD,
+                    ],
                 ],
-            ],
-            $postValues
-        ));
+                $postValues
+            ));
         $this->dispatch('backend/admin/index/index');
 
         $this->assertRedirect(self::equalTo('backend/admin/index/index'));

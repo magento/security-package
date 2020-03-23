@@ -46,7 +46,7 @@ class DisableReCaptchaForUserForgotPassword
     {
         $this->config->saveConfig(
             self::XML_PATH_ENABLED,
-            '0'
+            null
         );
 
         $this->cacheManager->flush(['config']);

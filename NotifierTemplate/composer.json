@@ -3,11 +3,11 @@
     "description": "Templating system for Magento 2 Notifier module",
     "require": {
         "php": "~7.1.3||~7.2.0||~7.3.0",
-        "magento/framework": "102.0.*",
-        "magento/module-notifier-api": "^1.0",
-        "magento/module-notifier-template-api": "*",
+        "magento/framework": "*",
         "magento/module-backend": "*",
-        "magento/module-store": "*"
+        "magento/module-store": "*",
+        "magento/module-notifier-api": "*",
+        "magento/module-notifier-template-api": "*"
     },
     "support": {
         "issues": "https://github.com/magento/security-package/issues"

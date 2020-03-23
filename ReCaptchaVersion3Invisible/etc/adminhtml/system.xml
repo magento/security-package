@@ -78,11 +78,6 @@
                        showInStore="0" canRestore="1">
                     <label>Invisible Badge Position</label>
                     <source_model>Magento\ReCaptchaVersion3Invisible\Model\OptionSource\Position</source_model>
-                    <comment><![CDATA[
-                        From 0.0 to 1.0, where 1.0 is very likely a good interaction, and 0.0 is very likely a bot.<br />
-                        For more details, see the official documentation
-                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/v3#interpreting_the_score">Interpreting the score</a>.
-                ]]></comment>
                 </field>
 
                 <field id="lang" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
