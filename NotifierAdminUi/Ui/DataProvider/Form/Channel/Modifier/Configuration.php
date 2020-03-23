@@ -11,6 +11,9 @@ namespace Magento\NotifierAdminUi\Ui\DataProvider\Form\Channel\Modifier;
 use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
 use Magento\Framework\Serialize\SerializerInterface;
 
+/**
+ * @inheritdoc
+ */
 class Configuration extends AbstractModifier
 {
     /**
@@ -21,7 +24,6 @@ class Configuration extends AbstractModifier
     /**
      * Params constructor.
      * @param SerializerInterface $serializer
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         SerializerInterface $serializer

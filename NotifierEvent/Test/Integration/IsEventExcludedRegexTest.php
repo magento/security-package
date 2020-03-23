@@ -29,7 +29,7 @@ class IsEventExcludedRegexTest extends TestCase
     private $subject;
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function setUp()
     {

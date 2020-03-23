@@ -19,6 +19,8 @@ namespace Magento\NotifierEventApi\Model;
 interface GetRulesIdsByEventInterface
 {
     /**
+     * Get RulesIds by Event
+     *
      * @param string $eventName
      * @return array
      */

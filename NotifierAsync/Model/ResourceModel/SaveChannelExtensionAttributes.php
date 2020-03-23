@@ -10,6 +10,9 @@ namespace Magento\NotifierAsync\Model\ResourceModel;
 
 use Magento\Framework\App\ResourceConnection;
 
+/**
+ * Class for Save Channel Extension attributes
+ */
 class SaveChannelExtensionAttributes
 {
     /**
@@ -26,6 +29,8 @@ class SaveChannelExtensionAttributes
     }
 
     /**
+     * Save Channel Extension attributes
+     *
      * @param int $channelId
      * @param array $data
      */

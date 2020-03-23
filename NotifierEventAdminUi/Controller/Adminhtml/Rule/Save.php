@@ -21,6 +21,9 @@ use Magento\NotifierEventApi\Api\RuleRepositoryInterface;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
 
+/**
+ * @inheritdoc
+ */
 class Save extends Action implements HttpPostActionInterface
 {
     /**
@@ -60,7 +63,6 @@ class Save extends Action implements HttpPostActionInterface
      * @param SerializerInterface $serializer
      * @param RuleFactory $ruleFactory
      * @param DataObjectHelper $dataObjectHelper
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         Action\Context $context,
@@ -107,6 +109,7 @@ class Save extends Action implements HttpPostActionInterface
 
     /**
      * Save rule
+     *
      * @param int $ruleId
      * @param array $data
      * @return RuleInterface
@@ -154,6 +157,7 @@ class Save extends Action implements HttpPostActionInterface
 
     /**
      * Return a redirect result
+     *
      * @param int $ruleId
      * @return ResultInterface
      */
@@ -172,6 +176,7 @@ class Save extends Action implements HttpPostActionInterface
 
     /**
      * Return a redirect result after a successful save
+     *
      * @return ResultInterface
      */
     private function redirectAfterSave(): ResultInterface

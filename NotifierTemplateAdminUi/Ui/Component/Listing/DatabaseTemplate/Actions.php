@@ -11,6 +11,9 @@ namespace Magento\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate;
 use Magento\Ui\Component\Listing\Columns\Column;
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
+/**
+ * @inheritdoc
+ */
 class Actions extends Column
 {
     /**

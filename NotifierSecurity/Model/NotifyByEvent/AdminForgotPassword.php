@@ -11,6 +11,9 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\NotifierSecurity\Model\NotifierInterface;
 use Magento\NotifierTemplateApi\Model\SendMessageInterface;
 
+/**
+ * Class for Admin Forgot Password
+ */
 class AdminForgotPassword implements NotifierInterface
 {
     /**
@@ -52,6 +55,8 @@ class AdminForgotPassword implements NotifierInterface
     }
 
     /**
+     * Send message
+     *
      * @param string $eventName
      * @param array $eventData
      * @return void

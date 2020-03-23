@@ -10,6 +10,9 @@ namespace Magento\NotifierEvent\Model;
 
 use Magento\Framework\Api\SearchResults;
 
+/**
+ * @inheritdoc
+ */
 class RuleSearchResults extends SearchResults implements
     \Magento\NotifierEventApi\Api\RuleSearchResultsInterface
 {

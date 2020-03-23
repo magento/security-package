@@ -13,6 +13,9 @@ use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Api\Data\ChannelExtensionFactory;
 use Magento\NotifierAsync\Model\ResourceModel\GetChannelExtensionAttributes;
 
+/**
+ * Class for Add Extension attributes to Channel
+ */
 class AddExtensionAttributesToChannel
 {
     /**
@@ -38,6 +41,8 @@ class AddExtensionAttributesToChannel
     }
 
     /**
+     * Add Extension attributes
+     *
      * @param ChannelInterface $channel
      */
     private function addExtensionAttributes(ChannelInterface $channel): void
@@ -52,6 +57,8 @@ class AddExtensionAttributesToChannel
     }
 
     /**
+     * After execute plugin
+     *
      * @param ChannelRepositoryInterface $subject
      * @param ChannelInterface $result
      * @return ChannelInterface
@@ -64,6 +71,8 @@ class AddExtensionAttributesToChannel
     }
 
     /**
+     * After execute plugin
+     *
      * @param ChannelRepositoryInterface $subject
      * @param ChannelInterface $result
      * @return ChannelInterface

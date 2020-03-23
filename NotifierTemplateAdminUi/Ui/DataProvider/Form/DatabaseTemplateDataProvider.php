@@ -20,6 +20,9 @@ use Magento\NotifierApi\Api\AdaptersPoolInterface;
 use Magento\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
 use Magento\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter;
 
+/**
+ * @inheritdoc
+ */
 class DatabaseTemplateDataProvider extends DataProvider
 {
     /**
@@ -55,7 +58,6 @@ class DatabaseTemplateDataProvider extends DataProvider
      * @param AdaptersPoolInterface $adapterRepository
      * @param array $meta
      * @param array $data
-     * @SuppressWarnings(PHPMD.LongVariables)
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -91,6 +93,7 @@ class DatabaseTemplateDataProvider extends DataProvider
 
     /**
      * Get templates list
+     *
      * @return array
      */
     private function getTemplates(): array
@@ -103,6 +106,8 @@ class DatabaseTemplateDataProvider extends DataProvider
     }
 
     /**
+     * Get System Template by Adapter
+     *
      * @param AdapterInterface|null $adapter
      * @return array
      * @throws LocalizedException
@@ -137,6 +142,7 @@ class DatabaseTemplateDataProvider extends DataProvider
 
     /**
      * Get system templates
+     *
      * @return array
      * @throws LocalizedException
      */

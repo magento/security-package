@@ -13,6 +13,9 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\NotifierApi\Api\AdapterInterface;
 use Magento\NotifierApi\Api\AdaptersPoolInterface;
 
+/**
+ * @inheritdoc
+ */
 class AdaptersPool implements AdaptersPoolInterface
 {
     /**
@@ -22,6 +25,7 @@ class AdaptersPool implements AdaptersPoolInterface
 
     /**
      * AdapterRepository constructor.
+     *
      * @param AdapterInterface[] $adapters
      * @throws InvalidArgumentException
      */

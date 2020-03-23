@@ -15,6 +15,7 @@ interface RuleRepositoryInterface
 {
     /**
      * Save Rule
+     *
      * @param \Magento\NotifierEventApi\Api\Data\RuleInterface $rule
      * @return int
      */
@@ -22,6 +23,7 @@ interface RuleRepositoryInterface
 
     /**
      * Get Rule by id
+     *
      * @param int $ruleId
      * @return \Magento\NotifierEventApi\Api\Data\RuleInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
@@ -30,6 +32,7 @@ interface RuleRepositoryInterface
 
     /**
      * Delete Rule
+     *
      * @param int $ruleId
      * @return void
      */
@@ -37,6 +40,7 @@ interface RuleRepositoryInterface
 
     /**
      * Get a list of Rule
+     *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\NotifierEventApi\Api\RuleSearchResultsInterface
      */

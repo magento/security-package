@@ -16,6 +16,7 @@ interface SendMessageInterface
 {
     /**
      * Send a message, return true, Exception on failure
+     *
      * @param string $channelCode
      * @param string $message
      * @param array $params

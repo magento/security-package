@@ -19,8 +19,7 @@ use Magento\NotifierApi\Api\ChannelSearchResultsInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
 /**
- * @SuppressWarnings(PHPMD.LongVariable)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @inheritdoc
  */
 class ChannelRepository implements ChannelRepositoryInterface
 {

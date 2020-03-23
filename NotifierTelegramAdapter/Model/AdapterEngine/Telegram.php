@@ -13,6 +13,9 @@ use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 use Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram\ClientRepository;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @inheritdoc
+ */
 class Telegram implements AdapterEngineInterface
 {
     /**
@@ -53,7 +56,8 @@ class Telegram implements AdapterEngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
+     *
      * @throws LocalizedException
      */
     public function execute(string $message, array $configParams = [], array $params = []): bool

@@ -16,6 +16,9 @@ use Magento\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
 use Magento\NotifierTemplate\Model\TemplateGetter\FilesystemTemplateGetter\GetTemplateFile;
 use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
+/**
+ * @inheritdoc
+ */
 class FilesystemTemplateGetter implements TemplateGetterInterface
 {
     /**
@@ -43,7 +46,6 @@ class FilesystemTemplateGetter implements TemplateGetterInterface
      * @param File $file
      * @param FilesystemTemplateRepositoryInterface $filesystemTemplateRepository
      * @param GetTemplateFile $getTemplateFile
-     * @SuppressWarnings(PHPMD.LongVariables)
      */
     public function __construct(
         ChannelRepositoryInterface $channelRepository,
@@ -59,6 +61,7 @@ class FilesystemTemplateGetter implements TemplateGetterInterface
 
     /**
      * Get an adapter template
+     *
      * @param string $adapterCode
      * @param string $templateId
      * @return string
@@ -81,6 +84,7 @@ class FilesystemTemplateGetter implements TemplateGetterInterface
 
     /**
      * @inheritdoc
+     *
      * @throws LocalizedException
      */
     public function getTemplate(string $channelCode, string $templateId): ?string

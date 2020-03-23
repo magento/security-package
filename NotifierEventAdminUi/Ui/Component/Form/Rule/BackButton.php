@@ -11,6 +11,9 @@ namespace Magento\NotifierEventAdminUi\Ui\Component\Form\Rule;
 use Magento\Cms\Block\Adminhtml\Page\Edit\GenericButton;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
+/**
+ * @inheritdoc
+ */
 class BackButton extends GenericButton implements ButtonProviderInterface
 {
     /**

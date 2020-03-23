@@ -16,6 +16,8 @@ namespace Magento\NotifierEventApi\Model;
 interface FireRuleInterface
 {
     /**
+     * Fire a rule
+     *
      * @param int $ruleId
      * @param string $eventName
      * @param array $data

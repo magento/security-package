@@ -16,12 +16,14 @@ interface AdaptersPoolInterface
 {
     /**
      * Get adapters list
+     *
      * @return \Magento\NotifierApi\Api\AdapterInterface[]
      */
     public function getAdapters(): array;
 
     /**
      * Get adapter by code
+     *
      * @param string $code
      * @return \Magento\NotifierApi\Api\AdapterInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException

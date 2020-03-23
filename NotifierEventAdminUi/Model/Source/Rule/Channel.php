@@ -10,6 +10,9 @@ namespace Magento\NotifierEventAdminUi\Model\Source\Rule;
 
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 
+/**
+ * @inheritdoc
+ */
 class Channel implements \Magento\Framework\Data\OptionSourceInterface
 {
     /**

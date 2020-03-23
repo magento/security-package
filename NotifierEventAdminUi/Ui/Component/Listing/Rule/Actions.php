@@ -11,6 +11,9 @@ namespace Magento\NotifierEventAdminUi\Ui\Component\Listing\Rule;
 use Magento\Ui\Component\Listing\Columns\Column;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
+/**
+ * @inheritdoc
+ */
 class Actions extends Column
 {
     /**

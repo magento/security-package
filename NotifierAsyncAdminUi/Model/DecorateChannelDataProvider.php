@@ -10,6 +10,9 @@ namespace Magento\NotifierAsyncAdminUi\Model;
 
 use Magento\NotifierAsync\Model\ResourceModel\GetChannelExtensionAttributes;
 
+/**
+ * @inheritdoc
+ */
 class DecorateChannelDataProvider
 {
     /**
@@ -26,6 +29,8 @@ class DecorateChannelDataProvider
     }
 
     /**
+     * @inheritdoc
+     *
      * @param int $channelId
      * @param array $data
      * @return array

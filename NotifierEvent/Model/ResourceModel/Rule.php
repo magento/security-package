@@ -12,7 +12,7 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritdoc
  */
 class Rule extends AbstractDb
 {
@@ -21,6 +21,9 @@ class Rule extends AbstractDb
      */
     private const TABLE_NAME = 'notifier_event_rule';
 
+    /**
+     * @inheritdoc
+     */
     protected function _construct()
     {
         $this->_init(

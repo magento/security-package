@@ -15,6 +15,9 @@ use Magento\Ui\Component\Control\Container;
 use Magento\NotifierApi\Api\AdaptersPoolInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
+/**
+ * @inheritdoc
+ */
 class NewButton extends Generic
 {
     /**
@@ -24,6 +27,7 @@ class NewButton extends Generic
 
     /**
      * NewButton constructor.
+     *
      * @param Context $context
      * @param Registry $registry
      * @param AdaptersPoolInterface $adapterRepository
@@ -52,6 +56,7 @@ class NewButton extends Generic
 
     /**
      * Get adapters list
+     *
      * @return array
      */
     private function getOptions(): array

@@ -10,6 +10,9 @@ namespace Magento\NotifierTemplateAdminUi\Ui\Component\Listing\DatabaseTemplate;
 
 use Magento\Catalog\Block\Adminhtml\Product\Edit\Button\Generic;
 
+/**
+ * @inheritdoc
+ */
 class NewButton extends Generic
 {
     /**

@@ -14,6 +14,9 @@ use Magento\NotifierApi\Api\IsEnabledInterface;
 use Magento\NotifierApi\Model\SendMessageInterface;
 use Magento\Framework\Serialize\SerializerInterface;
 
+/**
+ * @inheritdoc
+ */
 class SendMessage implements SendMessageInterface
 {
     /**
@@ -37,7 +40,6 @@ class SendMessage implements SendMessageInterface
     private $isEnabled;
 
     /**
-     * SendMessage constructor.
      * @param ChannelRepositoryInterface $channelRepository
      * @param AdaptersPoolInterface $adapterRepository
      * @param SerializerInterface $serializer

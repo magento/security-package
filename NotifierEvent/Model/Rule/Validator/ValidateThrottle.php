@@ -12,10 +12,13 @@ use Magento\Framework\Exception\ValidatorException;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 use Magento\NotifierEventApi\Model\Rule\Validator\ValidateRuleInterface;
 
+/**
+ * @inheritdoc
+ */
 class ValidateThrottle implements ValidateRuleInterface
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(RuleInterface $rule): bool
     {

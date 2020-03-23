@@ -16,6 +16,9 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
+/**
+ * @inheritdoc
+ */
 class Edit extends Action implements HttpGetActionInterface
 {
     /**
@@ -30,6 +33,7 @@ class Edit extends Action implements HttpGetActionInterface
 
     /**
      * Edit constructor.
+     *
      * @param Action\Context $context
      * @param ChannelRepositoryInterface $channelRepository
      */

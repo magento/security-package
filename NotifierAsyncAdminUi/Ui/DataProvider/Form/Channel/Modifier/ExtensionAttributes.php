@@ -12,6 +12,9 @@ use Magento\Ui\DataProvider\Modifier\ModifierInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierAsyncAdminUi\Model\DecorateChannelDataProvider;
 
+/**
+ * @inheritdoc
+ */
 class ExtensionAttributes implements ModifierInterface
 {
     /**

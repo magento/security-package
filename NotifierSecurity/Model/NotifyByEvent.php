@@ -9,6 +9,9 @@ namespace Magento\NotifierSecurity\Model;
 
 use Psr\Log\LoggerInterface;
 
+/**
+ * Class for Notify by Event
+ */
 class NotifyByEvent implements NotifierInterface
 {
     /**

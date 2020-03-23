@@ -10,6 +10,9 @@ namespace Magento\NotifierTemplate\Model\TemplateGetter;
 
 use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
+/**
+ * @inheritdoc
+ */
 class TemplateGetter implements TemplateGetterInterface
 {
     /**

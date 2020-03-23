@@ -14,6 +14,9 @@ use Magento\NotifierApi\Api\AdaptersPoolInterface;
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 use Magento\NotifierTemplateApi\Model\DatabaseTemplate\Validator\ValidateDatabaseTemplateInterface;
 
+/**
+ * @inheritdoc
+ */
 class ValidateAdapter implements ValidateDatabaseTemplateInterface
 {
     /**
@@ -31,7 +34,7 @@ class ValidateAdapter implements ValidateDatabaseTemplateInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(DatabaseTemplateInterface $template): bool
     {

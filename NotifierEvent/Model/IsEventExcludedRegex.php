@@ -10,6 +10,9 @@ namespace Magento\NotifierEvent\Model;
 
 use Magento\NotifierEventApi\Model\IsEventExcludedInterface;
 
+/**
+ * @inheritdoc
+ */
 class IsEventExcludedRegex implements IsEventExcludedInterface
 {
     /**
@@ -28,7 +31,6 @@ class IsEventExcludedRegex implements IsEventExcludedInterface
 
     /**
      * @inheritdoc
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function execute(string $eventName, array $data = []): bool
     {

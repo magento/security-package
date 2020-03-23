@@ -17,12 +17,14 @@ interface DatabaseTemplateInterface extends ExtensibleDataInterface
 {
     /**
      * Get value for rule_id
+     *
      * @return int
      */
     public function getId();
 
     /**
      * Set value for rule_id
+     *
      * @param int $value
      * @return void
      */
@@ -30,12 +32,14 @@ interface DatabaseTemplateInterface extends ExtensibleDataInterface
 
     /**
      * Get value for code
+     *
      * @return string
      */
     public function getCode(): string;
 
     /**
      * Set value for code
+     *
      * @param string $value
      * @return void
      */
@@ -43,12 +47,14 @@ interface DatabaseTemplateInterface extends ExtensibleDataInterface
 
     /**
      * Get value for adapter_code
+     *
      * @return string
      */
     public function getAdapterCode(): string;
 
     /**
      * Set value for adapter_code
+     *
      * @param string $value
      * @return void
      */
@@ -56,12 +62,14 @@ interface DatabaseTemplateInterface extends ExtensibleDataInterface
 
     /**
      * Get value for name
+     *
      * @return string
      */
     public function getName(): string;
 
     /**
      * Set value for name
+     *
      * @param string $value
      * @return void
      */
@@ -69,12 +77,14 @@ interface DatabaseTemplateInterface extends ExtensibleDataInterface
 
     /**
      * Get value for template
+     *
      * @return string
      */
     public function getTemplate(): string;
 
     /**
      * Set value for template
+     *
      * @param string $value
      * @return void
      */
@@ -82,12 +92,14 @@ interface DatabaseTemplateInterface extends ExtensibleDataInterface
 
     /**
      * Retrieve existing extension attributes object or create a new one
+     *
      * @return \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface|null
      */
     public function getExtensionAttributes(): ?\Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface;
 
     /**
      * Set an extension attributes object
+     *
      * @param \Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateExtensionInterface $extensionAttributes
      * @return $this
      */

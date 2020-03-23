@@ -11,6 +11,7 @@ namespace Magento\NotifierEventApi\Model\Rule\Validator;
 use Magento\NotifierEventApi\Api\Data\RuleInterface;
 
 /**
+ * @inheritdoc
  * @api
  */
 class ValidateRule implements ValidateRuleInterface
@@ -36,7 +37,7 @@ class ValidateRule implements ValidateRuleInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(RuleInterface $rule): bool
     {

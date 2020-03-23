@@ -18,6 +18,9 @@ use Magento\NotifierEventApi\Model\ThrottleInterface;
 use Magento\NotifierTemplateApi\Model\SendMessageInterface;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @inheritdoc
+ */
 class FireRule implements FireRuleInterface
 {
     /**
@@ -57,7 +60,6 @@ class FireRule implements FireRuleInterface
      * @param ThrottleInterface $throttle
      * @param GetAutomaticTemplateIdInterface $getAutomaticTemplateId
      * @param LoggerInterface $logger
-     * @SuppressWarnings(PHPMD.LongVariables)
      */
     public function __construct(
         RuleRepositoryInterface $ruleRepository,

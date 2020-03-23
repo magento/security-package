@@ -19,6 +19,7 @@ interface AdapterValidatorInterface
 {
     /**
      * Validate a message
+     *
      * @param string $message
      * @return bool
      * @throws ValidatorException
@@ -27,6 +28,7 @@ interface AdapterValidatorInterface
 
     /**
      * Validate parameters
+     *
      * @param array $params
      * @return bool
      * @throws ValidatorException

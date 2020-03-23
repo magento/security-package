@@ -9,13 +9,14 @@ declare(strict_types=1);
 namespace Magento\NotifierApi\Api;
 
 /**
- * Channel repository interface
+ * Interface ChannelRepositoryInterface
  * @api
  */
 interface ChannelRepositoryInterface
 {
     /**
      * Save Channel
+     *
      * @param \Magento\NotifierApi\Api\Data\ChannelInterface $channel
      * @return int
      */
@@ -23,6 +24,7 @@ interface ChannelRepositoryInterface
 
     /**
      * Get Channel by id
+     *
      * @param int $channelIid
      * @return \Magento\NotifierApi\Api\Data\ChannelInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
@@ -31,6 +33,7 @@ interface ChannelRepositoryInterface
 
     /**
      * Get Channel by code
+     *
      * @param string $code
      * @return \Magento\NotifierApi\Api\Data\ChannelInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
@@ -39,6 +42,7 @@ interface ChannelRepositoryInterface
 
     /**
      * Delete Channel
+     *
      * @param int $channelId
      * @return void
      */
@@ -46,6 +50,7 @@ interface ChannelRepositoryInterface
 
     /**
      * Get a list of Channel
+     *
      * @param \Magento\Framework\Api\SearchCriteriaInterface $searchCriteria
      * @return \Magento\NotifierApi\Api\ChannelSearchResultsInterface
      */

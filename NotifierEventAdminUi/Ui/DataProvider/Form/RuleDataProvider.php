@@ -16,6 +16,9 @@ use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\NotifierEventApi\Model\GetAutomaticTemplateIdInterface;
 
+/**
+ * @inheritdoc
+ */
 class RuleDataProvider extends DataProvider
 {
     /**
@@ -34,7 +37,6 @@ class RuleDataProvider extends DataProvider
      * @param SerializerInterface $serializer
      * @param array $meta
      * @param array $data
-     * @SuppressWarnings(PHPMD.LongVariable)
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(

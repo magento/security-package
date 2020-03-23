@@ -16,12 +16,14 @@ interface ChannelSearchResultsInterface extends \Magento\Framework\Api\SearchRes
 {
     /**
      * Get an array of objects
+     *
      * @return \Magento\NotifierApi\Api\Data\ChannelInterface[]
      */
     public function getItems();
 
     /**
      * Set objects list
+     *
      * @param \Magento\NotifierApi\Api\Data\ChannelInterface[] $items
      * @return $this
      */

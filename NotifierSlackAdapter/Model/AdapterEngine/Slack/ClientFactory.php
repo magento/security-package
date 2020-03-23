@@ -10,9 +10,14 @@ namespace Magento\NotifierSlackAdapter\Model\AdapterEngine\Slack;
 
 use Maknz\Slack\Client;
 
+/**
+ * Class for Client Factory
+ */
 class ClientFactory
 {
     /**
+     * Client
+     *
      * @param string $webhook
      * @param array $settings
      * @return Client

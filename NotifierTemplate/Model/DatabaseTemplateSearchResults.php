@@ -11,6 +11,9 @@ namespace Magento\NotifierTemplate\Model;
 use Magento\Framework\Api\SearchResults;
 use Magento\NotifierTemplateApi\Api\DatabaseTemplateSearchResultsInterface;
 
+/**
+ * @inheritdoc
+ */
 class DatabaseTemplateSearchResults extends SearchResults implements
     DatabaseTemplateSearchResultsInterface
 {

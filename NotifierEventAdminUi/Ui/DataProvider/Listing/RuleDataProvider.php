@@ -10,6 +10,9 @@ namespace Magento\NotifierEventAdminUi\Ui\DataProvider\Listing;
 
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 
+/**
+ * @inheritdoc
+ */
 class RuleDataProvider extends DataProvider
 {
 

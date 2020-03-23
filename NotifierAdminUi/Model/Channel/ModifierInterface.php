@@ -15,6 +15,7 @@ interface ModifierInterface extends \Magento\Ui\DataProvider\Modifier\ModifierIn
 {
     /**
      * Return adapter code for this modifier
+     *
      * @return string
      */
     public function getAdapterCode(): string;

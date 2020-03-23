@@ -15,6 +15,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @inheritdoc
+ */
 class SendMessage extends Command
 {
     /**
@@ -24,6 +27,7 @@ class SendMessage extends Command
 
     /**
      * SendMessage constructor.
+     *
      * @param ObjectManagerInterface $sendMessage
      */
     public function __construct(
@@ -49,7 +53,6 @@ class SendMessage extends Command
 
     /**
      * @inheritdoc
-     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

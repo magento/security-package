@@ -13,6 +13,9 @@ use Maknz\Slack\Client;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 use Magento\NotifierSlackAdapter\Model\AdapterEngine\Slack\ClientFactory;
 
+/**
+ * @inheritdoc
+ */
 class Slack implements AdapterEngineInterface
 {
     /**
@@ -73,7 +76,7 @@ class Slack implements AdapterEngineInterface
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(string $message, array $configParams = [], array $params = []): bool
     {
@@ -89,6 +92,8 @@ class Slack implements AdapterEngineInterface
     }
 
     /**
+     * Params to Settings
+     *
      * @param array $params
      * @return array
      */
@@ -102,6 +107,8 @@ class Slack implements AdapterEngineInterface
     }
 
     /**
+     * Get Client
+     *
      * @param array $params
      * @return Client
      */

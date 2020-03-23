@@ -12,10 +12,13 @@ use Magento\Framework\Exception\ValidatorException;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierApi\Model\Channel\Validator\ValidateChannelInterface;
 
+/**
+ * @inheritdoc
+ */
 class ValidateCode implements ValidateChannelInterface
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function execute(ChannelInterface $channel): void
     {

@@ -11,6 +11,9 @@ namespace Magento\NotifierAsync\Model;
 use Magento\Framework\MessageQueue\PublisherInterface;
 use Magento\Framework\Serialize\SerializerInterface;
 
+/**
+ * Class for Enqueue Message
+ */
 class EnqueueMessage
 {
     /**
@@ -36,6 +39,8 @@ class EnqueueMessage
     }
 
     /**
+     * Publish a message
+     *
      * @param string $channelCode
      * @param string $message
      * @param array $params

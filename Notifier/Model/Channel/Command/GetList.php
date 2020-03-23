@@ -46,7 +46,6 @@ class GetList implements GetListInterface
      * @param ChannelSearchResultsInterfaceFactory $searchResultsFactory
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param CollectionProcessorInterface $collectionProcessor
-     * @SuppressWarnings(PHPMD.LongVariable)
      */
     public function __construct(
         CollectionFactory $collectionFactory,

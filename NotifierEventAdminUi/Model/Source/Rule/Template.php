@@ -11,6 +11,9 @@ namespace Magento\NotifierEventAdminUi\Model\Source\Rule;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\NotifierTemplateApi\Model\TemplateGetter\TemplateGetterInterface;
 
+/**
+ * @inheritdoc
+ */
 class Template implements OptionSourceInterface
 {
     /**

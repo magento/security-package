@@ -12,12 +12,15 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\NotifierEvent\Model\ResourceModel\Rule;
 
 /**
- * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @inheritdoc
  */
 class Collection extends AbstractCollection
 {
     protected $_idFieldName = 'rule_id';
 
+    /**
+     * @inheritdoc
+     */
     protected function _construct()
     {
         $this->_init(

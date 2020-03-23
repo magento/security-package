@@ -11,6 +11,9 @@ namespace Magento\NotifierTemplateAdminUi\Model\Source\DatabaseTemplate;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\NotifierApi\Api\AdaptersPoolInterface;
 
+/**
+ * @inheritdoc
+ */
 class Adapter implements OptionSourceInterface
 {
     /**
@@ -18,6 +21,9 @@ class Adapter implements OptionSourceInterface
      */
     private $adapterRepository;
 
+    /**
+     * @param AdaptersPoolInterface $adapterRepository
+     */
     public function __construct(
         AdaptersPoolInterface $adapterRepository
     ) {

@@ -16,6 +16,7 @@ interface IsEnabledInterface
 {
     /**
      * Return true if module is enabled
+     *
      * @return bool
      */
     public function execute(): bool;

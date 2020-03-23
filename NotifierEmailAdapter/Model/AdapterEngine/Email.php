@@ -14,6 +14,9 @@ use Magento\Framework\Mail\MailMessageInterfaceFactory;
 use Magento\Framework\Mail\TransportInterfaceFactory;
 use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
 
+/**
+ * @inheritdoc
+ */
 class Email implements AdapterEngineInterface
 {
     /**
@@ -49,7 +52,6 @@ class Email implements AdapterEngineInterface
     /**
      * @param MailMessageInterfaceFactory $messageFactory
      * @param TransportInterfaceFactory $transportFactory
-     * @SuppressWarnings(PHPMD.LongVariables)
      */
     public function __construct(
         MailMessageInterfaceFactory $messageFactory,
@@ -61,11 +63,13 @@ class Email implements AdapterEngineInterface
 
     /**
      * Execute engine and return true on success. Throw exception on failure.
+     *
      * @param string $message
      * @param array $configParams
      * @param array $params
      * @return bool
      * @throws MailException
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function execute(string $message, array $configParams = [], array $params = []): bool
     {

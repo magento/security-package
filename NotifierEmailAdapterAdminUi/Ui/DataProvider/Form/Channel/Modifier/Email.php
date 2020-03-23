@@ -13,6 +13,9 @@ use Magento\Ui\Component\Form\Fieldset;
 use Magento\NotifierAdminUi\Model\Channel\ModifierInterface;
 use Magento\NotifierEmailAdapter\Model\AdapterEngine\Email as EmailAdapter;
 
+/**
+ * @inheritdoc
+ */
 class Email implements ModifierInterface
 {
     /**

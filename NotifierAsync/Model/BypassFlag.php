@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Magento\NotifierAsync\Model;
 
+/**
+ * Class for Bypass Flag
+ */
 class BypassFlag
 {
     /**
@@ -16,6 +19,8 @@ class BypassFlag
     private $status = false;
 
     /**
+     * Set Status
+     *
      * @param bool $status
      */
     public function setStatus(bool $status): void
@@ -24,7 +29,10 @@ class BypassFlag
     }
 
     /**
+     * Get Status
+     *
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getStatus(): bool
     {

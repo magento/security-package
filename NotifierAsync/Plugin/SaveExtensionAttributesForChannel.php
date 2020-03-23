@@ -12,6 +12,9 @@ use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 use Magento\NotifierAsync\Model\ResourceModel\SaveChannelExtensionAttributes;
 
+/**
+ * Class for Save Extension attributes for Channel
+ */
 class SaveExtensionAttributesForChannel
 {
     /**
@@ -29,10 +32,13 @@ class SaveExtensionAttributesForChannel
     }
 
     /**
+     * After execute plugin
+     *
      * @param ChannelRepositoryInterface $subject
      * @param int $result
      * @param ChannelInterface $channel
      * @return int
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterSave(ChannelRepositoryInterface $subject, int $result, ChannelInterface $channel): int
     {

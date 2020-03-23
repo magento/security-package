@@ -13,6 +13,9 @@ use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\NotifierTemplateApi\Model\VariablesDecorator\DecorateVariablesInterface;
 
+/**
+ * @inheritdoc
+ */
 class CoreVariables implements DecorateVariablesInterface
 {
     /**

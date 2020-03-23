@@ -11,6 +11,9 @@ namespace Magento\NotifierAdminUi\Ui\Component\Listing\Channel;
 use Magento\Ui\Component\Listing\Columns\Column;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
+/**
+ * @inheritdoc
+ */
 class Actions extends Column
 {
     /**
@@ -18,6 +21,7 @@ class Actions extends Column
      */
     public function prepareDataSource(array $dataSource): array
     {
+        // phpcs:disable Generic.Files.LineLength
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as &$item) {
                 $name = $this->getData('name');

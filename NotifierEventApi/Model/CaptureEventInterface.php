@@ -18,6 +18,7 @@ interface CaptureEventInterface
 {
     /**
      * Capture event and return true if handled
+     *
      * @param string $eventName
      * @param array $data
      * @return bool

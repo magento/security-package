@@ -15,6 +15,9 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
 
+/**
+ * @inheritdoc
+ */
 class ChannelDataProvider extends DataProvider
 {
     /**
@@ -33,7 +36,6 @@ class ChannelDataProvider extends DataProvider
      * @param PoolInterface $modifierPool
      * @param array $meta
      * @param array $data
-     * @SuppressWarnings(PHPMD.LongVariables)
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(

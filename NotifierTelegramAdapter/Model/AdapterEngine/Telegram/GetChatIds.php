@@ -11,6 +11,9 @@ namespace Magento\NotifierTelegramAdapter\Model\AdapterEngine\Telegram;
 use TelegramBot\Api\Exception;
 use TelegramBot\Api\InvalidArgumentException;
 
+/**
+ * Class for Get Telegram Chat Ids
+ */
 class GetChatIds
 {
     /**
@@ -20,6 +23,7 @@ class GetChatIds
 
     /**
      * GetChatIds constructor.
+     *
      * @param ClientRepository $clientRepository
      */
     public function __construct(
@@ -30,6 +34,7 @@ class GetChatIds
 
     /**
      * Get a telegram client by token
+     *
      * @param string $token
      * @return array
      * @throws Exception

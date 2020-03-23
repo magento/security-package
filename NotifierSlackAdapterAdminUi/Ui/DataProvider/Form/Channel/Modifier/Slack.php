@@ -12,6 +12,9 @@ use Magento\Ui\Component\Form\Field;
 use Magento\Ui\Component\Form\Fieldset;
 use Magento\NotifierAdminUi\Model\Channel\ModifierInterface;
 
+/**
+ * @inheritdoc
+ */
 class Slack implements ModifierInterface
 {
     /**

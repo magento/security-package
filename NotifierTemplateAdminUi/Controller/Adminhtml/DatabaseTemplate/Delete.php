@@ -14,6 +14,9 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\NotifierTemplateApi\Api\DatabaseTemplateRepositoryInterface;
 use Magento\NotifierTemplateApi\Api\Data\DatabaseTemplateInterface;
 
+/**
+ * @inheritdoc
+ */
 class Delete extends Action implements HttpGetActionInterface
 {
     /**
@@ -28,6 +31,7 @@ class Delete extends Action implements HttpGetActionInterface
 
     /**
      * Delete constructor.
+     *
      * @param Action\Context $context
      * @param DatabaseTemplateRepositoryInterface $templateRepository
      */

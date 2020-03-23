@@ -15,6 +15,7 @@ interface SendMessageInterface
 {
     /**
      * Send a template formatted message
+     *
      * @param string $channelCode
      * @param string $template
      * @param array $params

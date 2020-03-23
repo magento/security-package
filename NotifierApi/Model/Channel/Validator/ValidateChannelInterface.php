@@ -20,6 +20,7 @@ interface ValidateChannelInterface
 {
     /**
      * Execute validation. Return true on success or trigger an exception on failure
+     *
      * @param ChannelInterface $channel
      * @return void
      * @throws ValidatorException;

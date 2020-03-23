@@ -26,7 +26,7 @@ class ExtensionAttributesTest extends TestCase
     private $objectManager;
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function setUp()
     {

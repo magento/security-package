@@ -19,6 +19,7 @@ interface TemplateGetterInterface
 {
     /**
      * Get template content
+     *
      * @param string $channelCode
      * @param string $templateId
      * @return string|null
@@ -28,6 +29,7 @@ interface TemplateGetterInterface
 
     /**
      * Get a list of available templates
+     *
      * @return array
      */
     public function getList(): array;
