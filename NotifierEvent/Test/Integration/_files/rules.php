@@ -7,7 +7,7 @@
 declare(strict_types=1);
 
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\NotifierApi\Model\SerializerInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\NotifierEvent\Model\GetRulesIdsByEventRegistry;
 use Magento\NotifierEvent\Model\Rule;
 use Magento\NotifierEventApi\Api\RuleRepositoryInterface;

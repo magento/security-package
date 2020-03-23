@@ -8,15 +8,12 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <section id="recaptcha">
-            <group id="frontend">
-                <field id="enabled_for_sendfriend" translate="label" type="select" sortOrder="260" showInDefault="1"
+        <section id="recaptcha_frontend">
+            <group id="type_for">
+                <field id="sendfriend" translate="label" type="select" sortOrder="170" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Use in Send To Friend</label>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <depends>
-                        <field id="enabled">1</field>
-                    </depends>
+                    <label>Enable for Send To Friend</label>
+                    <source_model>Magento\ReCaptchaApi\Model\OptionSource\Type</source_model>
                 </field>
             </group>
         </section>

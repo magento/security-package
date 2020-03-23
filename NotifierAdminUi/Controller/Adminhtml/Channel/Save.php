@@ -12,8 +12,8 @@ use Magento\Backend\App\Action;
 use Magento\Framework\Api\DataObjectHelper;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Notifier\Model\ChannelFactory;
-use Magento\NotifierApi\Model\SerializerInterface;
 use Magento\NotifierApi\Api\ChannelRepositoryInterface;
 use Magento\NotifierApi\Api\Data\ChannelInterface;
 
