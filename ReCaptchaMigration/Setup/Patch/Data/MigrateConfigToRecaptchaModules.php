@@ -110,7 +110,6 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
                 $this->copyRecord("recaptcha/general/$specificRecord", "recaptcha_$scope/type_$module/$specificRecord");
             }
         }
-
     }
 
     /**
@@ -121,9 +120,9 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
     private function getModuleSpecificRecords(): array
     {
         return [
-            'recaptcha' => ['theme', 'size', 'lang'],
-            'invisible' => ['position'],
-            'recaptcha_v3' => ['score_threshold', 'position'],
+            'recaptcha' => ['theme', 'lang', 'size'],
+            'invisible' => ['theme', 'lang', 'position'],
+            'recaptcha_v3' => ['theme', 'lang', 'score_threshold', 'position'],
         ];
     }
 
@@ -190,7 +189,7 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
 
                 $connection->insert($configDataTable, $row);
             }
-        };
+        }
     }
 
     /**
