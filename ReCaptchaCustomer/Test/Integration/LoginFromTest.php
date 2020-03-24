@@ -182,6 +182,8 @@ class LoginFromTest extends AbstractController
         $this->setConfig(true, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
+        $this->session->setBeforeAuthUrl($this->url->getRouteUrl('customer/account/login'));
+
         $this->checkPostResponse(
             false,
             [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
