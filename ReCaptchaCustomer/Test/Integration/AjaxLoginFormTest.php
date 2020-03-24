@@ -5,9 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaContact\Test\Integration;
+namespace Magento\ReCaptchaCustomer\Test\Integration;
 
-use Magento\Framework\App\Request\Http as HttpRequest;
+use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Message\MessageInterface;
@@ -18,22 +19,29 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\TestFramework\App\MutableScopeConfig;
 use Magento\TestFramework\TestCase\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
+use Zend\Http\Headers;
 
 /**
+ * @magentoDataFixture Magento/Customer/_files/customer.php
  * @magentoAppArea frontend
  * @magentoAppIsolation enabled
  */
-class ContactFormTest extends AbstractController
+class AjaxLoginFormTest extends AbstractController
 {
+    /**
+     * @var MutableScopeConfig
+     */
+    private $mutableScopeConfig;
+
     /**
      * @var FormKey
      */
     private $formKey;
 
     /**
-     * @var MutableScopeConfig
+     * @var ResponseInterface
      */
-    private $mutableScopeConfig;
+    private $response;
 
     /**
      * @var ValidationResult|MockObject
@@ -46,15 +54,16 @@ class ContactFormTest extends AbstractController
     protected function setUp()
     {
         parent::setUp();
-        $this->formKey = $this->_objectManager->get(FormKey::class);
         $this->mutableScopeConfig = $this->_objectManager->get(MutableScopeConfig::class);
+        $this->formKey = $this->_objectManager->get(FormKey::class);
 
+        $this->response = $this->_objectManager->get(ResponseInterface::class);
         $this->captchaValidationResultMock = $this->createMock(ValidationResult::class);
-        $captchaValidatorMock = $this->createMock(Validator::class);
-        $captchaValidatorMock->expects($this->any())
+        $captchaValidationResultMock = $this->createMock(Validator::class);
+        $captchaValidationResultMock->expects($this->any())
             ->method('isValid')
             ->willReturn($this->captchaValidationResultMock);
-        $this->_objectManager->addSharedInstance($captchaValidatorMock, Validator::class);
+        $this->_objectManager->addSharedInstance($captchaValidationResultMock, Validator::class);
     }
 
     /**
@@ -71,10 +80,10 @@ class ContactFormTest extends AbstractController
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_login invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -87,10 +96,10 @@ class ContactFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_login invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
@@ -108,68 +117,56 @@ class ContactFormTest extends AbstractController
     {
         $this->setConfig(false, 'test_public_key', 'test_private_key');
 
-        $this->checkPostResponse(true);
+        $this->checkPostResponse(false, 'Login successful.', [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']);
     }
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured()
     {
         $this->setConfig(true, null, null);
 
-        $this->checkPostResponse(true);
+        $this->checkPostResponse(false, 'Login successful.', [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']);
     }
 
-    /**
-     * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
-     */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(true);
 
-        $this->checkPostResponse(
-            true,
-            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
-        );
+        $this->checkPostResponse(false, 'Login successful.', [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']);
     }
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
      */
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
 
         $this->expectException(InputException::class);
-        $this->expectExceptionMessage('Can not resolve reCAPTCHA parameter.');
+        $this->expectExceptionMessage('Can not resolve reCAPTCHA response.');
 
-        $this->checkPostResponse(false);
+        $this->checkPostResponse(null, null);
     }
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
      */
     public function testPostRequestWithFailedReCaptchaValidation()
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
-        $this->checkPostResponse(
-            false,
-            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
-        );
+        $this->checkPostResponse(true, 'reCAPTCHA verification failed', [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']);
     }
 
     /**
@@ -177,54 +174,53 @@ class ContactFormTest extends AbstractController
      */
     private function checkSuccessfulGetResponse($shouldContainReCaptcha = false)
     {
-        $this->dispatch('contact/index');
+        $this->dispatch('/');
         $content = $this->getResponse()->getBody();
 
         self::assertNotEmpty($content);
 
         $shouldContainReCaptcha
-            ? $this->assertContains('field-recaptcha', $content)
-            : $this->assertNotContains('field-recaptcha', $content);
+            ? $this->assertContains('recaptcha-popup-login', $content)
+            : $this->assertNotContains('recaptcha-popup-login', $content);
 
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
     }
 
     /**
-     * @param bool $isSuccessfulRequest
-     * @param array $postValues
+     * @param bool|null $errors
+     * @param string|null $message
      */
-    private function checkPostResponse(bool $isSuccessfulRequest, array $postValues = [])
+    private function checkPostResponse(?bool $errors, ?string $message, array $postValues = [])
     {
+        $data = array_replace_recursive(
+            [
+                'username' => 'customer@example.com',
+                'password' => 'password',
+                'captcha_form_id' => 'user_login',
+                'context' => 'checkout',
+            ],
+            $postValues
+        );
         $this->getRequest()
-            ->setMethod(HttpRequest::METHOD_POST)
-            ->setPostValue(array_replace_recursive(
-                [
-                    'form_key' => $this->formKey->getFormKey(),
-                    'name' => 'customer name',
-                    'comment' => 'comment',
-                    'email' => 'user@example.com',
-                ],
-                $postValues
-            ));
+            ->setMethod(Http::METHOD_POST)
+            ->setHeaders(Headers::fromString('X_REQUESTED_WITH: XMLHttpRequest'))
+            ->setContent(json_encode($data));
 
-        $this->dispatch('contact/index/post');
+        $this->dispatch('customer/ajax/login');
 
-        $this->assertRedirect($this->stringContains('contact/index'));
+        $code = $this->response->getHttpResponseCode();
+        $this->assertEquals(
+            200,
+            $code,
+            'Incorrect response code'
+        );
 
-        if ($isSuccessfulRequest) {
-            $this->assertSessionMessages(
-                $this->contains(
-                    "Thanks for contacting us with your comments and questions. We&#039;ll respond to you very soon."
-                ),
-                MessageInterface::TYPE_SUCCESS
-            );
-            $this->assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
-        } else {
-            $this->assertSessionMessages(
-                $this->equalTo(['reCAPTCHA verification failed']),
-                MessageInterface::TYPE_ERROR
-            );
-        }
+        $expected = json_encode(['errors' => $errors, 'message' => $message]);
+
+        $this->assertEquals(
+            $expected,
+            $this->response->getContent()
+        );
     }
 
     /**
@@ -235,7 +231,7 @@ class ContactFormTest extends AbstractController
     private function setConfig(bool $isEnabled, ?string $public, ?string $private): void
     {
         $this->mutableScopeConfig->setValue(
-            'recaptcha_frontend/type_for/contact',
+            'recaptcha_frontend/type_for/customer_login',
             $isEnabled ? 'invisible' : null,
             ScopeInterface::SCOPE_WEBSITE
         );
