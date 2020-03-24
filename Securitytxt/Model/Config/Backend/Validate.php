@@ -22,6 +22,8 @@ class Validate extends Value
      *
      * @return Value
      * @throws ValidatorException
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function validateBeforeSave()
     {
@@ -42,33 +44,34 @@ class Validate extends Value
             throw new ValidatorException(__('At least one contact information is required.'));
         }
 
-        /**
-         * Validate Email
-         */
-        $this->validateContactEmail($contactInformationFields['email']);
+        if (isset($contactInformationFields['email'])) {
+            $this->validateContactEmail($contactInformationFields['email']);
+        }
 
-        /**
-         * Validate Contact URL
-         */
-        $this->validateContactWebPageUrl($contactInformationFields['contact_page']);
+        if (isset($contactInformationFields['contact_page'])) {
+            $this->validateContactWebPageUrl($contactInformationFields['contact_page']);
+        }
 
-        /**
-         * Validate Other Information URLs
-         */
-        $this->validateUrlField(
-            "Acknowledgements URL",
-            $this->getDataValue($otherInformationFields['acknowledgements'])
-        );
+        if (isset($otherInformationFields['acknowledgements'])) {
+            $this->validateUrlField(
+                "Acknowledgements URL",
+                $this->getDataValue($otherInformationFields['acknowledgements'])
+            );
+        }
 
-        $this->validateUrlField(
-            "Hiring URL",
-            $this->getDataValue($otherInformationFields['hiring'])
-        );
+        if (isset($otherInformationFields['hiring'])) {
+            $this->validateUrlField(
+                "Hiring URL",
+                $this->getDataValue($otherInformationFields['hiring'])
+            );
+        }
 
-        $this->validateUrlField(
-            "Policy URL",
-            $this->getDataValue($otherInformationFields['policy'])
-        );
+        if (isset($otherInformationFields['policy'])) {
+            $this->validateUrlField(
+                "Policy URL",
+                $this->getDataValue($otherInformationFields['policy'])
+            );
+        }
 
         return parent::validateBeforeSave();
     }
@@ -179,7 +182,7 @@ class Validate extends Value
      */
     private function isEmptyValue(string $key, array $fieldData): bool
     {
-        return ($this->existDataValue($fieldData[$key]) && $this->getDataValue($fieldData[$key]) === '');
+        return (isset($fieldData[$key]) && $this->existDataValue($fieldData[$key]) && $this->getDataValue($fieldData[$key]) === '');
     }
 
     /**
