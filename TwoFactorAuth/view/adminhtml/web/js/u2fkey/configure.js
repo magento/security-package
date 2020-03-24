@@ -18,7 +18,8 @@ define([
 
         defaults: {
             template: 'Magento_TwoFactorAuth/u2fkey/configure',
-            idle: ko.observable(true)
+            idle: ko.observable(true),
+            loading: ko.observable(false)
         },
 
         postUrl: '',
@@ -125,6 +126,7 @@ define([
                 return;
             }
 
+            this.loading(true);
             $.post(this.getPostUrl(), {
                 publicKeyCredential: {
                     id: utils.arrayBufferToBase64(credentialData.rawId),
@@ -137,6 +139,8 @@ define([
                 }
             })
             .done(function (res) {
+                this.loading(false);
+
                 if (res.success) {
                     this.currentStep('login');
                     self.location.href = this.getSuccessUrl();
@@ -147,6 +151,7 @@ define([
             }.bind(this))
             .fail(function () {
                 error.display($t('Unable to register your device'));
+                this.loading(false);
                 this.idle(true);
             }.bind(this));
         },

@@ -223,8 +223,6 @@ class WebAuthn
         $attestationObject = CBOREncoder::decode($byteString);
         if (empty($attestationObject['fmt'])
             || empty($attestationObject['authData'])
-            || $attestationObject['fmt'] === 'fido-u2f'
-            || $attestationObject['fmt'] !== 'none' && $attestationObject['fmt'] !== 'packed'
         ) {
             throw new ValidationException(__('Invalid U2F key data'));
         }
@@ -240,8 +238,8 @@ class WebAuthn
             throw new ValidationException(__('Invalid U2F key data'));
         }
 
-        // User presence, attestation data, user verified
-        if (!($attestationObject['flags'] & 0b1000011)) {
+        // User presence, attestation data
+        if (!($attestationObject['flags'] & 0b1000001)) {
             throw new ValidationException(__('Invalid U2F key data'));
         }
 
@@ -266,7 +264,8 @@ class WebAuthn
 
         return [
             'key' => $attestationObject['attestationData']['keyBytes'],
-            'id' => $data['id']
+            'id' => $data['id'],
+            'aaguid' => $attestationObject['attestationData']['aaguid'] ?? null
         ];
     }
 
