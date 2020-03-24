@@ -18,6 +18,8 @@ class UiConfigProvider implements UiConfigProviderInterface
 {
     private const XML_PATH_PUBLIC_KEY = 'recaptcha_frontend/type_recaptcha_v3/public_key';
     private const XML_PATH_POSITION = 'recaptcha_frontend/type_recaptcha_v3/position';
+    private const XML_PATH_THEME = 'recaptcha_frontend/type_recaptcha_v3/theme';
+    private const XML_PATH_LANGUAGE_CODE = 'recaptcha_frontend/type_recaptcha_v3/lang';
 
     /**
      * @var ScopeConfigInterface
@@ -43,6 +45,8 @@ class UiConfigProvider implements UiConfigProviderInterface
                 'sitekey' => $this->getPublicKey(),
                 'badge' => $this->getInvisibleBadgePosition(),
                 'size' => 'invisible',
+                'theme' => $this->getTheme(),
+                'lang'=> $this->getLanguageCode()
             ],
             'invisible' => true,
         ];
@@ -69,6 +73,32 @@ class UiConfigProvider implements UiConfigProviderInterface
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_POSITION,
             ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * Get theme
+     *
+     * @return string
+     */
+    private function getTheme(): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_THEME,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * Get language code
+     *
+     * @return string
+     */
+    private function getLanguageCode(): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_LANGUAGE_CODE,
+            ScopeInterface::SCOPE_STORE
         );
     }
 }

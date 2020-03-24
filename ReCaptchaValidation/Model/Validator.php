@@ -9,10 +9,11 @@ namespace Magento\ReCaptchaValidation\Model;
 
 use Magento\Framework\Validation\ValidationResult;
 use Magento\Framework\Validation\ValidationResultFactory;
-use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
-use Magento\ReCaptchaValidationApi\Model\ErrorMessages;
+use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
+use Magento\ReCaptchaValidationApi\Model\ErrorMessagesProvider;
 use ReCaptcha\ReCaptcha;
+use ReCaptcha\ReCaptchaFactory;
 
 /**
  * @inheritdoc
@@ -25,20 +26,28 @@ class Validator implements ValidatorInterface
     private $validationResultFactory;
 
     /**
-     * @var ErrorMessages
+     * @var ErrorMessagesProvider
      */
-    private $errorMessages;
+    private $errorMessagesProvider;
+
+    /**
+     * @var ReCaptchaFactory
+     */
+    private $reCaptchaFactory;
 
     /**
      * @param ValidationResultFactory $validationResultFactory
-     * @param ErrorMessages $errorMessages
+     * @param ErrorMessagesProvider $errorMessagesProvider
+     * @param ReCaptchaFactory $reCaptchaFactory
      */
     public function __construct(
         ValidationResultFactory $validationResultFactory,
-        ErrorMessages $errorMessages
+        ErrorMessagesProvider $errorMessagesProvider,
+        ReCaptchaFactory $reCaptchaFactory
     ) {
         $this->validationResultFactory = $validationResultFactory;
-        $this->errorMessages = $errorMessages;
+        $this->errorMessagesProvider = $errorMessagesProvider;
+        $this->reCaptchaFactory = $reCaptchaFactory;
     }
 
     /**
@@ -48,26 +57,22 @@ class Validator implements ValidatorInterface
         string $reCaptchaResponse,
         ValidationConfigInterface $validationConfig
     ): ValidationResult {
-        $secret = $validationConfig->getPrivateKey();
-
-        // @codingStandardsIgnoreStart
-        $reCaptcha = new ReCaptcha($secret);
-        // @codingStandardsIgnoreEnd
+        /** @var ReCaptcha $reCaptcha */
+        $reCaptcha = $this->reCaptchaFactory->create(['secret' => $validationConfig->getPrivateKey()]);
 
         $extensionAttributes = $validationConfig->getExtensionAttributes();
         if ($extensionAttributes && (null !== $extensionAttributes->getScoreThreshold())) {
             $reCaptcha->setScoreThreshold($extensionAttributes->getScoreThreshold());
         }
+
         $result = $reCaptcha->verify($reCaptchaResponse, $validationConfig->getRemoteIp());
 
-        if ($result->isSuccess()) {
-            $validationResult = $this->validationResultFactory->create(['errors' => []]);
-        } else {
+        $validationErrors = [];
+        if (false === $result->isSuccess()) {
             foreach ($result->getErrorCodes() as $errorCode) {
-                $validationErrors[] = $this->errorMessages->getErrorMessage($errorCode);
+                $validationErrors[] = $this->errorMessagesProvider->getErrorMessage($errorCode);
             }
-            $validationResult = $this->validationResultFactory->create(['errors' => $validationErrors]);
         }
-        return $validationResult;
+        return $this->validationResultFactory->create(['errors' => $validationErrors]);
     }
 }

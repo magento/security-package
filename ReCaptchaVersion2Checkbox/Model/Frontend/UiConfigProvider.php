@@ -43,8 +43,8 @@ class UiConfigProvider implements UiConfigProviderInterface
         $config = [
             'rendering' => [
                 'sitekey' => $this->getPublicKey(),
-                'theme' => $this->getTheme(),
                 'size' => $this->getSize(),
+                'theme' => $this->getTheme(),
                 'lang' => $this->getLanguageCode(),
             ],
             'invisible' => false,

@@ -12,6 +12,8 @@
             <type_invisible>
                 <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <position>inline</position>
+                <theme>light</theme>
+                <lang/>
                 <validation_failure_message>reCAPTCHA verification failed</validation_failure_message>
             </type_invisible>
         </recaptcha_backend>
@@ -19,6 +21,8 @@
             <type_invisible>
                 <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <position>inline</position>
+                <theme>light</theme>
+                <lang/>
                 <validation_failure_message>reCAPTCHA verification failed</validation_failure_message>
             </type_invisible>
         </recaptcha_frontend>
