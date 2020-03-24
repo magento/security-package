@@ -4,14 +4,14 @@
  * See COPYING.txt for license details.
  */
 -->
-<div data-bind="afterRender: onAfterRender">
+<div afterRender="onAfterRender">
     <div visible='currentStep() === "register"'>
         <fieldset class="admin__fieldset">
             <legend class="admin__legend">
-                <span data-bind='i18n: "2FA - U2F key verification"'></span>
+                <span translate="'2FA - U2F key verification'"></span>
             </legend><br/>
             <div class="tfa-u2f-touch-key">
-                <h3 data-bind='i18n: "Plug in your U2F key, then touch button"'></h3>
+                <h3 translate="'Plug in your U2F key and follow instructions'"></h3>
                 <div visible="$data.idle" class="tfa-u2f-try-again">
                     <a href="javascript:void(0)" click="waitForTouch" translate="'Try again'"></a>
                 </div>
@@ -25,6 +25,6 @@
                 <span/><span/><span/><span/><span/><span/><span/><span/>
             </div>
         </div>
-        <div data-bind='i18n: "Redirecting to Magento Admin Panel..."'></div>
+        <div translate="'Redirecting to Magento Admin Panel...'"></div>
     </div>
 </div>

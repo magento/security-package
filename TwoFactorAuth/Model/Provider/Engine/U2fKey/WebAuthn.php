@@ -140,10 +140,9 @@ class WebAuthn
         $data = [
             'credentialRequestOptions' => [
                 'challenge' => $this->convertBytesToArray($challenge),
-                'mediation' => 'required',
                 'timeout' => 60000,
                 'allowCredentials' => $allowedCredentials,
-                'userVerification' => 'required',
+                'userVerification' => 'discouraged',
                 'extensions' => [
                     'txAuthSimple' => 'Authenticate with ' . $store->getName(),
                 ],
@@ -192,7 +191,7 @@ class WebAuthn
                 'authenticatorSelection' => [
                     'authenticatorAttachment' => 'cross-platform',
                     'requireResidentKey' => false,
-                    'userVerification' => 'required'
+                    'userVerification' => 'discouraged'
                 ],
                 'timeout' => 60000,
                 // Currently only one device may be registered at a time
