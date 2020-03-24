@@ -33,7 +33,7 @@
             <resource>Magento_ReCaptchaUi::config</resource>
 
             <group id="type_for" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1"
-                   showInStore="1">
+                   showInStore="0">
                 <label>Storefront</label>
             </group>
         </section>
