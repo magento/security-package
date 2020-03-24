@@ -16,4 +16,5 @@
         <plugin sortOrder="1" name="avoid_2fa_recursion_on_admin_password_change"
                 type="Magento\TwoFactorAuth\Plugin\AvoidRecursionOnPasswordChange"/>
     </type>
+    <type name="Magento\TwoFactorAuth\Block\Provider\U2fKey\Auth" shared="false"/>
 </config>

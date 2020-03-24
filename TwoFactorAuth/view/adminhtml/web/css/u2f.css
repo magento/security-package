@@ -10,3 +10,8 @@ fieldset {
 .tfa-u2f-touch-key {
     margin-bottom: 1em;
 }
+
+.tfa-u2f-try-again {
+    margin-bottom: 1em;
+}
+

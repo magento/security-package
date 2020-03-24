@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Block\Provider\U2fKey;
 
 use Magento\Backend\Block\Template;
+use Magento\Backend\Model\Auth\Session;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 /**
@@ -21,18 +22,26 @@ class Configure extends Template
     private $u2fKey;
 
     /**
+     * @var Session
+     */
+    private $session;
+
+    /**
      * @param Template\Context $context
      * @param U2fKey $u2fKey
+     * @param Session $session
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         U2fKey $u2fKey,
+        Session $session,
         array $data = []
     ) {
 
         parent::__construct($context, $data);
         $this->u2fKey = $u2fKey;
+        $this->session = $session;
     }
 
     /**
@@ -50,7 +59,7 @@ class Configure extends Template
             $this->getViewFileUrl('Magento_TwoFactorAuth::images/u2f/touch.png');
 
         $this->jsLayout['components']['tfa-configure']['registerData'] =
-            $this->u2fKey->getRegisterData();
+            $this->u2fKey->getRegisterData($this->session->getUser());
 
         return parent::getJsLayout();
     }

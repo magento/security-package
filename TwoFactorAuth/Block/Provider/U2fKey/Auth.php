@@ -27,6 +27,11 @@ class Auth extends Template
     private $session;
 
     /**
+     * @var array
+     */
+    private $authenticateData;
+
+    /**
      * @param Template\Context $context
      * @param Session $session
      * @param U2fKey $u2fKey
@@ -57,9 +62,20 @@ class Auth extends Template
         $this->jsLayout['components']['tfa-auth']['touchImageUrl'] =
             $this->getViewFileUrl('Magento_TwoFactorAuth::images/u2f/touch.png');
 
-        $this->jsLayout['components']['tfa-auth']['authenticateData'] =
-            $this->u2fKey->getAuthenticateData($this->session->getUser());
-
+        $this->jsLayout['components']['tfa-auth']['authenticateData'] = $this->generateAuthenticateData();
         return parent::getJsLayout();
+    }
+
+    /**
+     * Get the data needed to authenticate a webauthn request
+     *
+     * @return array
+     */
+    public function generateAuthenticateData(): array
+    {
+        $authenticateData = $this->u2fKey->getAuthenticateData($this->session->getUser());
+        $this->session->setTfaU2fChallenge($authenticateData['credentialRequestOptions']['challenge']);
+
+        return $authenticateData;
     }
 }

@@ -10,15 +10,11 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\WebAuthn;
 use Magento\User\Api\Data\UserInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Api\EngineInterface;
-use stdClass;
-use u2flib_server\Error;
-use u2flib_server\Registration;
-use u2flib_server\U2F;
 
 /**
  * UbiKey engine
@@ -43,34 +39,23 @@ class U2fKey implements EngineInterface
     private $storeManager;
 
     /**
+     * @var WebAuthn
+     */
+    private $webAuthn;
+
+    /**
      * @param StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param UserConfigManagerInterface $userConfigManager
+     * @param WebAuthn $webAuthn
      */
     public function __construct(
         StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        UserConfigManagerInterface $userConfigManager
+        UserConfigManagerInterface $userConfigManager,
+        WebAuthn $webAuthn
     ) {
         $this->userConfigManager = $userConfigManager;
         $this->storeManager = $storeManager;
-    }
-
-    /**
-     * Converts array to object
-     * @param array $hash
-     * @return stdClass
-     */
-    private function hashToObject(array $hash): stdClass
-    {
-        // @codingStandardsIgnoreStart
-        $object = new stdClass();
-        // @codingStandardsIgnoreEnd
-        foreach ($hash as $key => $value) {
-            $object->$key = $value;
-        }
-
-        return $object;
+        $this->webAuthn = $webAuthn;
     }
 
     /**
@@ -78,56 +63,47 @@ class U2fKey implements EngineInterface
      */
     public function verify(UserInterface $user, DataObject $request): bool
     {
-        $u2f = $this->getU2f();
-
         $registration = $this->getRegistration($user);
         if ($registration === null) {
             throw new LocalizedException(__('Missing registration data'));
         }
 
-        $requests = [$this->hashToObject($request->getData('request')[0])];
-        $registrations = [$this->hashToObject($registration)];
-        $response = $this->hashToObject($request->getData('response'));
-
-        // it triggers an error in case of auth failure
-        $u2f->doAuthenticate($requests, $registrations, $response);
+        $this->webAuthn->assertCredentialDataIsValid(
+            $request->getData('publicKeyCredential'),
+            $registration['public_keys'],
+            $request->getData('originalChallenge')
+        );
 
         return true;
     }
 
     /**
      * Create the registration challenge
+     *
+     * @param UserInterface $user
      * @return array
      * @throws LocalizedException
-     * @throws Error
      */
-    public function getRegisterData(): array
+    public function getRegisterData(UserInterface $user): array
     {
-        $u2f = $this->getU2f();
-        return $u2f->getRegisterData();
+        return $this->webAuthn->getRegisterData($user);
     }
 
     /**
      * Get authenticate data
+     *
      * @param UserInterface $user
      * @return array
      * @throws LocalizedException
-     * @throws Error
      */
     public function getAuthenticateData(UserInterface $user): array
     {
-        $u2f = $this->getU2f();
-
-        $registration = $this->getRegistration($user);
-        if ($registration === null) {
-            throw new LocalizedException(__('Missing registration data'));
-        }
-
-        return $u2f->getAuthenticateData([$this->hashToObject($registration)]);
+        return $this->webAuthn->getAuthenticateData($this->getRegistration($user)['public_keys']);
     }
 
     /**
      * Get registration information
+     *
      * @param UserInterface $user
      * @return array
      * @throws NoSuchEntityException
@@ -145,34 +121,22 @@ class U2fKey implements EngineInterface
 
     /**
      * Register a new key
+     *
      * @param UserInterface $user
-     * @param array $request
-     * @param array $response
-     * @return Registration
-     * @throws LocalizedException
+     * @param array $data
      * @throws NoSuchEntityException
-     * @throws Error
+     * @throws \Magento\Framework\Validation\ValidationException
      */
-    public function registerDevice(UserInterface $user, array $request, array $response): Registration
+    public function registerDevice(UserInterface $user, array $data): void
     {
-        // Must convert to object
-        $request = $this->hashToObject($request);
-        $response = $this->hashToObject($response);
-
-        $u2f = $this->getU2f();
-        $res = $u2f->doRegister($request, $response);
+        $publicKey = $this->webAuthn->getPublicKeyFromRegistrationData($data);
 
         $this->userConfigManager->addProviderConfig((int) $user->getId(), static::CODE, [
             'registration' => [
-                'certificate' => $res->certificate,
-                'keyHandle' => $res->keyHandle,
-                'publicKey' => $res->publicKey,
-                'counter' => $res->counter,
+                'public_keys' => [$publicKey]
             ]
         ]);
         $this->userConfigManager->activateProviderConfiguration((int) $user->getId(), static::CODE);
-
-        return $res;
     }
 
     /**
@@ -181,28 +145,5 @@ class U2fKey implements EngineInterface
     public function isEnabled(): bool
     {
         return true;
-    }
-
-    /**
-     * @return U2F
-     * @throws LocalizedException
-     * @throws Error
-     */
-    private function getU2f(): U2F
-    {
-        /** @var Store $store */
-        $store = $this->storeManager->getStore(Store::ADMIN_CODE);
-
-        $baseUrl = $store->getBaseUrl();
-        if (preg_match('/^(https?:\/\/.+?)\//', $baseUrl, $matches)) {
-            $domain = $matches[1];
-        } else {
-            throw new LocalizedException(__('Unexpected error while parsing domain name'));
-        }
-
-        /** @var U2F $u2f */
-        // @codingStandardsIgnoreStart
-        return new U2F($domain);
-        // @codingStandardsIgnoreEnd
     }
 }

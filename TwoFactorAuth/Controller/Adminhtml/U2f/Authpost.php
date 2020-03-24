@@ -22,7 +22,8 @@ use Magento\TwoFactorAuth\Model\Tfa;
 use Magento\User\Model\User;
 
 /**
- * UbiKey Authentication post controller
+ * U2f key Authentication post controller
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
@@ -92,12 +93,21 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $result = $this->jsonFactory->create();
 
         try {
-            $this->u2fKey->verify($this->getUser(), $this->dataObjectFactory->create([
-                'data' => $this->getRequest()->getParams(),
-            ]));
-            $this->tfaSession->grantAccess();
+            $challenge = $this->session->getTfaU2fChallenge();
+            if (!empty($challenge)) {
+                $this->u2fKey->verify($this->getUser(), $this->dataObjectFactory->create([
+                    'data' => [
+                        'publicKeyCredential' => $this->getRequest()->getParams()['publicKeyCredential'],
+                        'originalChallenge' => $challenge
+                    ]
+                ]));
+                $this->tfaSession->grantAccess();
+                $this->session->unsTfaU2fChallenge();
 
-            $res = ['success' => true];
+                $res = ['success' => true];
+            } else {
+                $res = ['success' => false];
+            }
         } catch (Exception $e) {
             $this->alert->event(
                 'Magento_TwoFactorAuth',

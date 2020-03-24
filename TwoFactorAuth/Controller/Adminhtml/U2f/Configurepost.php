@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Controller\Adminhtml\U2f;
 
-use Exception;
 use Magento\Backend\App\Action\Context;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\App\Action\HttpPostActionInterface;
@@ -21,7 +20,8 @@ use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
- * UbiKey configuration post controller
+ * U2f key configuration post controller
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Configurepost extends AbstractConfigureAction implements HttpPostActionInterface
@@ -94,10 +94,9 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
         $result = $this->jsonFactory->create();
 
         try {
-            $request = $this->getRequest()->getParam('request');
-            $response = $this->getRequest()->getParam('response');
+            $data = $this->getRequest()->getParam('publicKeyCredential');
 
-            $this->u2fKey->registerDevice($this->getUser(), $request, $response);
+            $this->u2fKey->registerDevice($this->getUser(), $data);
             $this->tfaSession->grantAccess();
 
             $this->alert->event(

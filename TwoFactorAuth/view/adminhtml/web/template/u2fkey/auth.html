@@ -8,10 +8,13 @@
     <div visible='currentStep() === "register"'>
         <fieldset class="admin__fieldset">
             <legend class="admin__legend">
-                <span data-bind='i18n: "2FA - U2F key auth"'></span>
+                <span data-bind='i18n: "2FA - U2F key verification"'></span>
             </legend><br/>
             <div class="tfa-u2f-touch-key">
                 <h3 data-bind='i18n: "Plug in your U2F key, then touch button"'></h3>
+                <div visible="$data.idle" class="tfa-u2f-try-again">
+                    <a href="javascript:void(0)" click="waitForTouch" translate="'Try again'"></a>
+                </div>
                 <img attr='src: getTouchImageUrl()' />
             </div>
         </fieldset>
