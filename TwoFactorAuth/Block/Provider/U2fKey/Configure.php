@@ -58,9 +58,16 @@ class Configure extends Template
         $this->jsLayout['components']['tfa-configure']['touchImageUrl'] =
             $this->getViewFileUrl('Magento_TwoFactorAuth::images/u2f/touch.png');
 
-        $this->jsLayout['components']['tfa-configure']['registerData'] =
-            $this->u2fKey->getRegisterData($this->session->getUser());
+        $this->jsLayout['components']['tfa-configure']['registerData'] = $this->getRegisterData();
 
         return parent::getJsLayout();
+    }
+
+    public function getRegisterData(): array
+    {
+        $registerData = $this->u2fKey->getRegisterData($this->session->getUser());
+        $this->session->setTfaU2fChallenge($registerData['publicKey']['challenge']);
+
+        return $registerData;
     }
 }

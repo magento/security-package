@@ -214,18 +214,30 @@ class WebAuthn
      */
     public function getPublicKeyFromRegistrationData(array $data): array
     {
-        // Remaining steps (8+) of @see https://www.w3.org/TR/webauthn/#registering-a-new-credential
-        if (empty($data['response']['attestationObject']) || empty($data['id'])) {
-            throw new ValidationException(__('Invalid U2F key data'));
+        // Verification process as defined by w3 @see https://www.w3.org/TR/webauthn/#registering-a-new-credential
+
+        $credentialData = $data['publicKeyCredential'];
+        $domain = $this->getDomainName();
+
+        if (rtrim(strtr(base64_encode($this->convertArrayToBytes($data['challenge'])), '+/', '-_'), '=')
+            !== $credentialData['response']['clientData']['challenge']
+            || 'https://' . $domain !== $credentialData['response']['clientData']['origin']
+            || $credentialData['response']['clientData']['type'] !== 'webauthn.create'
+        ) {
+            throw new LocalizedException(__('Invalid U2F key.'));
         }
 
-        $byteString = base64_decode($data['response']['attestationObject']);
+        if (empty($credentialData['response']['attestationObject']) || empty($credentialData['id'])) {
+            throw new ValidationException(__('Invalid U2F key data'));
+        }
+        $byteString = base64_decode($credentialData['response']['attestationObject']);
         $attestationObject = CBOREncoder::decode($byteString);
         if (empty($attestationObject['fmt'])
             || empty($attestationObject['authData'])
         ) {
             throw new ValidationException(__('Invalid U2F key data'));
         }
+
         $byteString = $attestationObject['authData']->get_byte_string();
 
         // @see https://www.w3.org/TR/webauthn/#sec-authenticator-data
@@ -257,14 +269,14 @@ class WebAuthn
         $attestationObject['attestationData']['keyBytes'] = $this->COSEECDHAtoPKCS($cborPublicKey);
 
         if (empty($attestationObject['attestationData']['keyBytes'])
-            || $attestationObject['attestationData']['credId'] !== base64_decode($data['id'])
+            || $attestationObject['attestationData']['credId'] !== base64_decode($credentialData['id'])
         ) {
             throw new ValidationException(__('Invalid U2F key data'));
         }
 
         return [
             'key' => $attestationObject['attestationData']['keyBytes'],
-            'id' => $data['id'],
+            'id' => $credentialData['id'],
             'aaguid' => $attestationObject['attestationData']['aaguid'] ?? null
         ];
     }

@@ -94,19 +94,28 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
         $result = $this->jsonFactory->create();
 
         try {
-            $data = $this->getRequest()->getParam('publicKeyCredential');
+            $challenge = $this->session->getTfaU2fChallenge();
+            if (!empty($challenge)) {
+                $data = [
+                   'publicKeyCredential' => $this->getRequest()->getParam('publicKeyCredential'),
+                   'challenge' => $challenge
+                ];
 
-            $this->u2fKey->registerDevice($this->getUser(), $data);
-            $this->tfaSession->grantAccess();
+                $this->u2fKey->registerDevice($this->getUser(), $data);
+                $this->tfaSession->grantAccess();
+                $this->session->unsTfaU2fChallenge();
 
-            $this->alert->event(
-                'Magento_TwoFactorAuth',
-                'U2F New device registered',
-                AlertInterface::LEVEL_INFO,
-                $this->getUser()->getUserName()
-            );
+                $this->alert->event(
+                    'Magento_TwoFactorAuth',
+                    'U2F New device registered',
+                    AlertInterface::LEVEL_INFO,
+                    $this->getUser()->getUserName()
+                );
+                $res = ['success' => true];
+            } else {
+                $res = ['success' => false];
+            }
 
-            $res = ['success' => true];
         } catch (\Throwable $e) {
             $this->alert->event(
                 'Magento_TwoFactorAuth',

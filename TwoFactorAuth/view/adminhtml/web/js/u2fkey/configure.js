@@ -107,25 +107,6 @@ define([
          * @private
          */
         _processCredentialData: function (credentialData) {
-            // Steps 1-5 of @see https://www.w3.org/TR/webauthn/#registering-a-new-credential
-            var b64Challenge = window.btoa(
-                    String.fromCharCode.apply(null, new Uint8Array(this.registerData.publicKey.challenge))
-                )
-                .replace(/=+$/g, '')
-                .replace(/\+/g, '-')
-                .replace(/\//g, '_');
-
-            if (b64Challenge !== credentialData.clientData.challenge ||
-                'https://' + this.registerData.publicKey.rp.name !== credentialData.clientData.origin ||
-                !('type' in credentialData.clientData) ||
-                credentialData.clientData.type !== 'webauthn.create'
-            ) {
-                error.display($t('Invalid key'));
-                this.idle(true);
-
-                return;
-            }
-
             this.loading(true);
             $.post(this.getPostUrl(), {
                 publicKeyCredential: {
