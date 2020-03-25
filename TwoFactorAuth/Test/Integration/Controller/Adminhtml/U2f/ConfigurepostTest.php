@@ -10,6 +10,7 @@ use Magento\TwoFactorAuth\TestFramework\TestCase\AbstractConfigureBackendControl
  * Test for the configure U2F 2FA form processor.
  *
  * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
  */
 class ConfigurepostTest extends AbstractConfigureBackendController
 {

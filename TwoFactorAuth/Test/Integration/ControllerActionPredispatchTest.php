@@ -15,6 +15,7 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
  * Test for 2FA enforcement.
  *
  * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
  */
 class ControllerActionPredispatchTest extends AbstractBackendController
 {

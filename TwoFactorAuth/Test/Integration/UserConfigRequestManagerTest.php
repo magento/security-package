@@ -13,6 +13,9 @@ use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class UserConfigRequestManagerTest extends TestCase
 {
     /**

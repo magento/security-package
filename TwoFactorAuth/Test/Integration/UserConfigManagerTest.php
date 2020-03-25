@@ -15,6 +15,9 @@ use Magento\User\Model\ResourceModel\User\Collection as AdminUserCollection;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class UserConfigManagerTest extends TestCase
 {
     /**

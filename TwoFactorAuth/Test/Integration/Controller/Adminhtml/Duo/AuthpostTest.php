@@ -10,6 +10,7 @@ use Magento\TwoFactorAuth\TestFramework\TestCase\AbstractConfigureBackendControl
  * Test for the DuoSecurity form processor.
  *
  * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
  */
 class AuthpostTest extends AbstractConfigureBackendController
 {

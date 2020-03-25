@@ -145,32 +145,6 @@ define([
             }.bind(this));
         },
 
-        oldwaitForTouch: function () {
-            var requestData = this.authenticateData,
-                me = this;
-
-            // eslint-disable-next-line no-undef
-            u2f.sign(
-                requestData,
-                function (signResponse) {
-                    $.post(me.getPostUrl(), {
-                        'request': requestData,
-                        'response': signResponse
-                    }).done(function (res) {
-                        if (res.success) {
-                            me.currentStep('login');
-                            self.location.href = me.getSuccessUrl();
-                        } else {
-                            me.waitForTouch();
-                        }
-                    }).fail(function () {
-                        error.display('Invalid device');
-                        this.idle(true);
-                    });
-                }, 120
-            );
-        },
-
         /**
          * Handle WebAuthn failure
          *

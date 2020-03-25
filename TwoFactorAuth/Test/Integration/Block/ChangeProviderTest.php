@@ -20,6 +20,9 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class ChangeProviderTest extends TestCase
 {
     /**

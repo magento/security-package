@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\User\Model\UserFactory;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class UserConfigTokenManagerTest extends TestCase
 {
     /**

@@ -15,6 +15,7 @@ use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
  * Testing the controller for the page that redirects user to proper pages depending on 2FA state.
  *
  * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
  */
 class IndexTest extends AbstractBackendController
 {

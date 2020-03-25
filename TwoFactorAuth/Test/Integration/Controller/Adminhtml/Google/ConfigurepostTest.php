@@ -10,6 +10,7 @@ use Magento\TwoFactorAuth\TestFramework\TestCase\AbstractConfigureBackendControl
  * Test for the configure google 2FA form page processor.
  *
  * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
  */
 class ConfigurepostTest extends AbstractConfigureBackendController
 {

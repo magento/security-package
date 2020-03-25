@@ -10,6 +10,7 @@ use Magento\TwoFactorAuth\TestFramework\TestCase\AbstractConfigureBackendControl
  * Test for the configure authy 2FA form page.
  *
  * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
  */
 class ConfigureTest extends AbstractConfigureBackendController
 {

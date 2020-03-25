@@ -14,6 +14,7 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
  * Testing the controller for the page that requests 2FA config from users.
  *
  * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
  */
 class RequestconfigTest extends AbstractBackendController
 {

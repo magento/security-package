@@ -12,6 +12,7 @@ use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
  * Testing the controller for the page that presents forced providers list to users.
  *
  * @magentoAppArea adminhtml
+ * @magentoDbIsolation enabled
  */
 class ConfigureTest extends AbstractBackendController
 {
