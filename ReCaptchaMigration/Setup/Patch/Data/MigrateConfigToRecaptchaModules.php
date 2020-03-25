@@ -74,12 +74,14 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
         }
 
         $availableRecaptchaPreferences = $this->getAvailableRecaptchaPreferences();
-        foreach ($availableRecaptchaPreferences[$scope] as $availableRecaptchaPreference) {
-            $availableRecaptchaPreferencePath = "recaptcha_$scope/type_for/$availableRecaptchaPreference";
+        foreach ($availableRecaptchaPreferences[$scope] as $availablePreference => $legacyPreference) {
+            $availableRecaptchaPreferencePath = "recaptcha_$scope/type_for/$availablePreference";
             $recaptchaPreferenceEnabled = $this->scopeConfig->getValue($availableRecaptchaPreferencePath);
-            $recaptchaPreferenceEnabledLegacy = $this->scopeConfig->getValue("recaptcha/general/enabled_for_$availableRecaptchaPreference");
-            if (null === $recaptchaPreferenceEnabled && null !== $recaptchaPreferenceEnabledLegacy) {
-                $this->writer->save($availableRecaptchaPreferencePath, (int)$recaptchaPreferenceEnabledLegacy ? $type : null);
+            $recaptchaPreferenceEnabledLegacy = $this->scopeConfig->getValue(
+                "msp_securitysuite_recaptcha/$scope/enabled$legacyPreference"
+            );
+            if (null === $recaptchaPreferenceEnabled && '0' !== $recaptchaPreferenceEnabledLegacy) {
+                $this->writer->save($availableRecaptchaPreferencePath, $type);
             }
         }
     }
@@ -93,8 +95,13 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
     {
         $keys = ['public_key', 'private_key'];
         $type = $this->getActiveRecaptchaType();
-        foreach ($keys as $key) {
-            $this->copyRecord("recaptcha/general/$key", "recaptcha_$scope/type_$type/$key");
+        if ($type) {
+            foreach ($keys as $key) {
+                $this->copyRecord(
+                    "msp_securitysuite_recaptcha/general/$key",
+                    "recaptcha_$scope/type_$type/$key"
+                );
+            }
         }
     }
 
@@ -106,8 +113,11 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
     private function copyModuleSpecificRecords(string $scope): void
     {
         foreach ($this->getModuleSpecificRecords() as $module => $specificRecords) {
-            foreach ($specificRecords as $specificRecord) {
-                $this->copyRecord("recaptcha/general/$specificRecord", "recaptcha_$scope/type_$module/$specificRecord");
+            foreach ($specificRecords as $actualRecord => $legacyRecord) {
+                $this->copyRecord(
+                    "msp_securitysuite_recaptcha/$scope/$legacyRecord",
+                    "recaptcha_$scope/type_$module/$actualRecord"
+                );
             }
         }
     }
@@ -120,9 +130,21 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
     private function getModuleSpecificRecords(): array
     {
         return [
-            'recaptcha' => ['theme', 'lang', 'size'],
-            'invisible' => ['theme', 'lang', 'position'],
-            'recaptcha_v3' => ['theme', 'lang', 'score_threshold', 'position'],
+            'recaptcha' => [
+                'theme' => 'theme',
+                'lang' => 'lang',
+                'size' => 'size'
+            ],
+            'invisible' => [
+                'theme' => 'theme',
+                'lang' => 'lang',
+                'position' => 'position'
+            ],
+            'recaptcha_v3' => [
+                'theme' => 'theme',
+                'lang' => 'lang',
+                'score_threshold' => 'min_score',
+                'position' => 'position'],
         ];
     }
 
@@ -135,17 +157,17 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
     {
         return [
             'frontend' => [
-                'customer_login',
-                'customer_forgot_password',
-                'customer_create',
-                'contact',
-                'product_review',
-                'newsletter',
-                'sendfriend',
+                'customer_login' => '_login',
+                'customer_forgot_password' => '_forgot',
+                'customer_create' => '_create',
+                'contact' => '_contact',
+                'product_review' => '_review',
+                'newsletter' => '_newsletter',
+                'sendfriend' => '_sendfriend',
             ],
             'backend' => [
-                'user_login',
-                'user_forgot_password',
+                'user_login' => '',
+                'user_forgot_password' => '',
             ],
         ];
     }
@@ -157,7 +179,7 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
      */
     private function getActiveRecaptchaType(): ?string
     {
-        return $this->scopeConfig->getValue('recaptcha/general/type');
+        return $this->scopeConfig->getValue('msp_securitysuite_recaptcha/general/type');
     }
 
     /**
@@ -197,9 +219,7 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
      */
     public static function getDependencies()
     {
-        return [
-            CopyConfigFromOldModule::class,
-        ];
+        return [];
     }
 
     /**
