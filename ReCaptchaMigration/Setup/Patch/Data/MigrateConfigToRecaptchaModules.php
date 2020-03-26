@@ -9,12 +9,13 @@ namespace Magento\ReCaptchaMigration\Setup\Patch\Data;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Config\Storage\WriterInterface;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\Patch\PatchVersionInterface;
 
 /**
- * Migrate config from frontend and backend scopes to recaptcha modules.
+ * Migrate config from frontend and backend scopes to reCAPTCHA modules.
  */
 class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersionInterface
 {
@@ -34,18 +35,26 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
     private $writer;
 
     /**
+     * @var EncryptorInterface
+     */
+    private $encryptor;
+
+    /**
      * @param ModuleDataSetupInterface $moduleDataSetup
      * @param ScopeConfigInterface $scopeConfig
      * @param WriterInterface $writer
+     * @param EncryptorInterface $encryptor
      */
     public function __construct(
         ModuleDataSetupInterface $moduleDataSetup,
         ScopeConfigInterface $scopeConfig,
-        WriterInterface $writer
+        WriterInterface $writer,
+        EncryptorInterface $encryptor
     ) {
         $this->moduleDataSetup = $moduleDataSetup;
         $this->scopeConfig = $scopeConfig;
         $this->writer = $writer;
+        $this->encryptor = $encryptor;
     }
 
     /**
@@ -58,6 +67,7 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
             $this->copyRecaptchaKeys($scope);
             $this->copyModuleSpecificRecords($scope);
             $this->copyEnabledRecaptcha($scope);
+            $this->disableLegacyRecaptcha($scope);
         }
     }
 
@@ -87,20 +97,37 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
     }
 
     /**
+     * Disable legacy reCAPTCHA module to prevent multiple widget rendering.
+     *
+     * @param string $scope
+     */
+    private function disableLegacyRecaptcha(string $scope): void
+    {
+        $this->writer->save("msp_securitysuite_recaptcha/$scope/enabled", 0);
+    }
+
+    /**
      * Copy reCAPTCHA keys.
      *
      * @param string $scope
      */
     private function copyRecaptchaKeys(string $scope): void
     {
-        $keys = ['public_key', 'private_key'];
         $type = $this->getActiveRecaptchaType();
         if ($type) {
-            foreach ($keys as $key) {
-                $this->copyRecord(
-                    "msp_securitysuite_recaptcha/general/$key",
-                    "recaptcha_$scope/type_$type/$key"
-                );
+            $this->copyRecord(
+                "msp_securitysuite_recaptcha/general/public_key",
+                "recaptcha_$scope/type_$type/public_key"
+            );
+            $privateKey = $this->scopeConfig->getValue(
+                "recaptcha_$scope/type_$type/private_key"
+            );
+            $privateKeyLegacy = $this->scopeConfig->getValue(
+                'msp_securitysuite_recaptcha/general/private_key'
+            );
+            if (!$privateKey && $privateKeyLegacy) {
+                $privateKeyEncrypted = $this->encryptor->encrypt($privateKeyLegacy);
+                $this->writer->save("recaptcha_$scope/type_$type/private_key", $privateKeyEncrypted);
             }
         }
     }
