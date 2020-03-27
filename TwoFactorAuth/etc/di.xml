@@ -24,6 +24,8 @@
                 type="Magento\TwoFactorAuth\Model\UserConfigManager"/>
     <preference for="Magento\TwoFactorAuth\Api\TfaSessionInterface" type="Magento\TwoFactorAuth\Model\TfaSession"/>
     <preference for="Magento\TwoFactorAuth\Model\AlertInterface" type="Magento\TwoFactorAuth\Model\Alert"/>
+    <preference for="Magento\TwoFactorAuth\Api\GoogleConfigureInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Google\Configure"/>
+    <preference for="Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Google\Authenticate"/>
 
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>

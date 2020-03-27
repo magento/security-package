@@ -8,9 +8,12 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model;
 
+use Magento\Framework\App\Area;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\State;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\Exception\NotificationExceptionInterface;
 use Magento\TwoFactorAuth\Api\UserNotifierInterface;
@@ -49,24 +52,32 @@ class EmailUserNotifier implements UserNotifierInterface
     private $url;
 
     /**
+     * @var State
+     */
+    private $appState;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param TransportBuilder $transportBuilder
      * @param StoreManagerInterface $storeManager
      * @param LoggerInterface $logger
      * @param UrlInterface $url
+     * @param State $appState
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
-        UrlInterface $url
+        UrlInterface $url,
+        State $appState
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
         $this->url = $url;
+        $this->appState = $appState;
     }
 
     /**
@@ -75,12 +86,25 @@ class EmailUserNotifier implements UserNotifierInterface
      * @param User $user
      * @param string $token
      * @param string $emailTemplateId
+     * @param bool $useWebApiUrl
      * @return void
-     * @throws NotificationExceptionInterface
      */
-    private function sendConfigRequired(User $user, string $token, string $emailTemplateId): void
-    {
+    private function sendConfigRequired(
+        User $user,
+        string $token,
+        string $emailTemplateId,
+        bool $useWebApiUrl = false
+    ): void {
         try {
+            $userUrl = $this->scopeConfig->getValue(TfaInterface::XML_PATH_WEBAPI_CONFIG_EMAIL_URL);
+            if ($useWebApiUrl && $userUrl) {
+                $url = $userUrl .
+                    (parse_url($userUrl, PHP_URL_QUERY) ? '&' : '?') .
+                    http_build_query(['tfat' => $token, 'user_id' => $user->getId()]);
+            } else {
+                $url = $this->url->getUrl('tfa/tfa/index', ['tfat' => $token]);
+            }
+
             $transport = $this->transportBuilder
                 ->setTemplateIdentifier($emailTemplateId)
                 ->setTemplateOptions([
@@ -92,7 +116,7 @@ class EmailUserNotifier implements UserNotifierInterface
                         'username' => $user->getFirstName() . ' ' . $user->getLastName(),
                         'token' => $token,
                         'store_name' => $this->storeManager->getStore()->getFrontendName(),
-                        'url' => $this->url->getUrl('tfa/tfa/index', ['tfat' => $token])
+                        'url' => $url
                     ]
                 )
                 ->setFromByScope(
@@ -112,7 +136,7 @@ class EmailUserNotifier implements UserNotifierInterface
      */
     public function sendUserConfigRequestMessage(User $user, string $token): void
     {
-        $this->sendConfigRequired($user, $token, 'tfa_admin_user_config_required');
+        $this->sendConfigRequired($user, $token, 'tfa_admin_user_config_required', $this->isWebapi());
     }
 
     /**
@@ -120,6 +144,16 @@ class EmailUserNotifier implements UserNotifierInterface
      */
     public function sendAppConfigRequestMessage(User $user, string $token): void
     {
-        $this->sendConfigRequired($user, $token, 'tfa_admin_app_config_required');
+        $this->sendConfigRequired($user, $token, 'tfa_admin_app_config_required', false);
+    }
+
+    /**
+     * Determine if the environment is webapi or not
+     *
+     * @return bool
+     */
+    private function isWebapi(): bool
+    {
+        return in_array($this->appState->getAreaCode(), [Area::AREA_WEBAPI_REST, Area::AREA_WEBAPI_SOAP]);
     }
 }
