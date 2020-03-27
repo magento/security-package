@@ -9,10 +9,14 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 use CBOR\CBOREncoder;
+use Magento\Framework\App\Area;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\State;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Validation\ValidationException;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 use Magento\User\Api\Data\UserInterface;
 
 /**
@@ -33,12 +37,28 @@ class WebAuthn
     private $storeManager;
 
     /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
+     * @var State
+     */
+    private $appState;
+
+    /**
      * @param StoreManagerInterface $storeManager
+     * @param ScopeConfigInterface $scopeConfig
+     * @param State $appState
      */
     public function __construct(
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        ScopeConfigInterface $scopeConfig,
+        State $appState
     ) {
         $this->storeManager = $storeManager;
+        $this->scopeConfig = $scopeConfig;
+        $this->appState = $appState;
     }
 
     /**
@@ -74,7 +94,7 @@ class WebAuthn
         // Steps 7-9
         if (rtrim(strtr(base64_encode($this->convertArrayToBytes($originalChallenge)), '+/', '-_'), '=')
             !== $credentialData['response']['clientData']['challenge']
-            || 'https://' . $domain !== $credentialData['response']['clientData']['origin']
+            || $domain !== parse_url($credentialData['response']['clientData']['origin'], \PHP_URL_HOST)
             || $credentialData['response']['clientData']['type'] !== 'webauthn.get'
         ) {
             throw new LocalizedException(__('Invalid U2F key.'));
@@ -221,7 +241,7 @@ class WebAuthn
 
         if (rtrim(strtr(base64_encode($this->convertArrayToBytes($data['challenge'])), '+/', '-_'), '=')
             !== $credentialData['response']['clientData']['challenge']
-            || 'https://' . $domain !== $credentialData['response']['clientData']['origin']
+            || $domain !== parse_url($credentialData['response']['clientData']['origin'], \PHP_URL_HOST)
             || $credentialData['response']['clientData']['type'] !== 'webauthn.create'
         ) {
             throw new LocalizedException(__('Invalid U2F key.'));
@@ -322,6 +342,13 @@ class WebAuthn
      */
     private function getDomainName(): string
     {
+        $configValue = $this->scopeConfig->getValue(U2fKey::XML_PATH_WEBAPI_DOMAIN);
+        if ($configValue &&
+            in_array($this->appState->getAreaCode(), [Area::AREA_WEBAPI_REST, Area::AREA_WEBAPI_SOAP])
+        ) {
+            return $configValue;
+        }
+
         $store = $this->storeManager->getStore(Store::ADMIN_CODE);
         $baseUrl = $store->getBaseUrl();
         if (!preg_match('/^(https?:\/\/(?P<domain>.+?))\//', $baseUrl, $matches)) {

@@ -142,9 +142,9 @@ class Google implements EngineInterface
         }
 
         $totp = $this->getTotp($user);
-        $totp->now();
+        $config = $this->configManager->getProviderConfig((int)$user->getId(), static::CODE);
 
-        return $totp->verify($token);
+        return $totp->verify($token, null, $config['window'] ?? null);
     }
 
     /**

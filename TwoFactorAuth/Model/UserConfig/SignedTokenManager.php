@@ -64,8 +64,8 @@ class SignedTokenManager implements UserConfigTokenManagerInterface
     public function isValidFor(int $userId, string $token): bool
     {
         $isValid = false;
-        [$encodedData, $signatureProvided] = explode('.', base64_decode($token));
         try {
+            [$encodedData, $signatureProvided] = explode('.', base64_decode($token));
             $data = $this->json->unserialize($encodedData);
             if (array_key_exists('user_id', $data)
                 && array_key_exists('tfa_configuration', $data)
