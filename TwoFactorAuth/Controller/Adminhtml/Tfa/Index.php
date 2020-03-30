@@ -7,14 +7,14 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Controller\Adminhtml\Tfa;
 
-use Magento\Backend\Model\Auth\Session;
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\TwoFactorAuth\Api\TfaInterface;
+use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
-use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
 
 /**
@@ -36,7 +36,7 @@ class Index extends AbstractAction implements HttpGetActionInterface
     private $tfa;
 
     /**
-     * @var Session
+     * @var TfaSessionInterface
      */
     private $session;
 
@@ -56,18 +56,25 @@ class Index extends AbstractAction implements HttpGetActionInterface
     private $userConfigRequest;
 
     /**
-     * @param Action\Context $context
-     * @param Session $session
+     * @var UserContextInterface
+     */
+    private $userContext;
+
+    /**
+     * @param Context $context
+     * @param TfaSessionInterface $session
      * @param UserConfigManagerInterface $userConfigManager
      * @param TfaInterface $tfa
      * @param UserConfigRequestManagerInterface $userConfigRequestManager
+     * @param UserContextInterface $userContext
      */
     public function __construct(
         Context $context,
-        Session $session,
+        TfaSessionInterface $session,
         UserConfigManagerInterface $userConfigManager,
         TfaInterface $tfa,
-        UserConfigRequestManagerInterface $userConfigRequestManager
+        UserConfigRequestManagerInterface $userConfigRequestManager,
+        UserContextInterface $userContext
     ) {
         parent::__construct($context);
         $this->tfa = $tfa;
@@ -75,15 +82,7 @@ class Index extends AbstractAction implements HttpGetActionInterface
         $this->userConfigManager = $userConfigManager;
         $this->context = $context;
         $this->userConfigRequest = $userConfigRequestManager;
-    }
-
-    /**
-     * Get current user
-     * @return User|null
-     */
-    private function getUser(): ?User
-    {
-        return $this->session->getUser();
+        $this->userContext = $userContext;
     }
 
     /**
@@ -92,18 +91,19 @@ class Index extends AbstractAction implements HttpGetActionInterface
      */
     public function execute()
     {
-        $user = $this->getUser();
+        $userId = $this->userContext->getUserId();
 
-        if (!$this->tfa->getUserProviders((int)$user->getId())) {
+        if (!$this->tfa->getUserProviders($userId)) {
             //If 2FA is not configured - request configuration.
             return $this->_redirect('tfa/tfa/requestconfig');
         }
-        $providersToConfigure = $this->tfa->getProvidersToActivate((int) $user->getId());
+
+        $providersToConfigure = $this->tfa->getProvidersToActivate($userId);
         $toActivateCodes = [];
         foreach ($providersToConfigure as $toActivateProvider) {
             $toActivateCodes[] = $toActivateProvider->getCode();
         }
-        $currentlySkipped = array_keys($this->session->getData('tfa_skipped_config') ?? []);
+        $currentlySkipped = array_keys($this->session->getSkippedProviderConfig());
         $notSkippedProvidersToConfigured = array_diff($toActivateCodes, $currentlySkipped);
 
         if ($notSkippedProvidersToConfigured) {
@@ -117,9 +117,9 @@ class Index extends AbstractAction implements HttpGetActionInterface
 
         $providerCode = '';
 
-        $defaultProviderCode = $this->userConfigManager->getDefaultProvider((int) $user->getId());
-        if ($this->tfa->getProviderIsAllowed((int) $user->getId(), $defaultProviderCode)
-            && $this->tfa->getProvider($defaultProviderCode)->isActive((int) $user->getId())
+        $defaultProviderCode = $this->userConfigManager->getDefaultProvider($userId);
+        if ($this->tfa->getProviderIsAllowed($userId, $defaultProviderCode)
+            && $this->tfa->getProvider($defaultProviderCode)->isActive($userId)
         ) {
             //If default provider was configured - select it.
             $providerCode = $defaultProviderCode;
@@ -127,7 +127,7 @@ class Index extends AbstractAction implements HttpGetActionInterface
 
         if (!$providerCode) {
             //Select one random provider.
-            $providers = $this->tfa->getUserProviders((int) $user->getId());
+            $providers = $this->tfa->getUserProviders($userId);
             if (!empty($providers)) {
                 foreach ($providers as $enabledProvider) {
                     /*

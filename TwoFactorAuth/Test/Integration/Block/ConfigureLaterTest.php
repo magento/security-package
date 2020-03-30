@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Integration\Block;
 
+use Magento\Authorization\Model\CompositeUserContext;
 use Magento\Backend\Model\Auth;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\View\LayoutInterface;
@@ -17,6 +18,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Block\ConfigureLater;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
+use Magento\User\Model\Authorization\AdminSessionUserContext;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -42,6 +44,18 @@ class ConfigureLaterTest extends TestCase
     protected function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
+        $objectManager->configure([
+            CompositeUserContext::class => [
+                'arguments' => [
+                    'userContexts' => [
+                        'adminSessionUserContext' => [
+                            'type' => ['instance' => AdminSessionUserContext::class],
+                            'sortOrder' => 10
+                        ]
+                    ]
+                ]
+            ]
+        ]);
         $auth = $objectManager->get(Auth::class);
         $auth->login(TestFrameworkBootstrap::ADMIN_NAME, TestFrameworkBootstrap::ADMIN_PASSWORD);
         $objectManager->get(AuthPlugin::class)

@@ -15,6 +15,7 @@ use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractConfigureAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Session as U2fSession;
 use Magento\TwoFactorAuth\Model\Tfa;
 use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
@@ -57,10 +58,16 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
     private $alert;
 
     /**
+     * @var U2fSession
+     */
+    private $u2fSession;
+
+    /**
      * @param Tfa $tfa
      * @param Session $session
      * @param JsonFactory $jsonFactory
      * @param TfaSessionInterface $tfaSession
+     * @param U2fSession $u2fSession
      * @param U2fKey $u2fKey
      * @param AlertInterface $alert
      * @param Context $context
@@ -71,6 +78,7 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
         Session $session,
         JsonFactory $jsonFactory,
         TfaSessionInterface $tfaSession,
+        U2fSession $u2fSession,
         U2fKey $u2fKey,
         AlertInterface $alert,
         Context $context,
@@ -84,6 +92,7 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
         $this->jsonFactory = $jsonFactory;
         $this->tfaSession = $tfaSession;
         $this->alert = $alert;
+        $this->u2fSession = $u2fSession;
     }
 
     /**
@@ -94,7 +103,7 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
         $result = $this->jsonFactory->create();
 
         try {
-            $challenge = $this->session->getTfaU2fChallenge();
+            $challenge = $this->u2fSession->getU2fChallenge();
             if (!empty($challenge)) {
                 $data = [
                    'publicKeyCredential' => $this->getRequest()->getParam('publicKeyCredential'),
@@ -103,7 +112,7 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
 
                 $this->u2fKey->registerDevice($this->getUser(), $data);
                 $this->tfaSession->grantAccess();
-                $this->session->unsTfaU2fChallenge();
+                $this->u2fSession->setU2fChallenge(null);
 
                 $this->alert->event(
                     'Magento_TwoFactorAuth',

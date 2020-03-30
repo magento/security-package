@@ -10,6 +10,7 @@ namespace Magento\TwoFactorAuth\Block\Provider\U2fKey;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Model\Auth\Session;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Session as U2fSession;
 
 /**
  * @api
@@ -22,6 +23,11 @@ class Configure extends Template
     private $u2fKey;
 
     /**
+     * @var U2fSession
+     */
+    private $u2fSession;
+
+    /**
      * @var Session
      */
     private $session;
@@ -29,18 +35,21 @@ class Configure extends Template
     /**
      * @param Template\Context $context
      * @param U2fKey $u2fKey
+     * @param U2fSession $u2fSession
      * @param Session $session
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         U2fKey $u2fKey,
+        U2fSession $u2fSession,
         Session $session,
         array $data = []
     ) {
 
         parent::__construct($context, $data);
         $this->u2fKey = $u2fKey;
+        $this->u2fSession = $u2fSession;
         $this->session = $session;
     }
 
@@ -63,10 +72,15 @@ class Configure extends Template
         return parent::getJsLayout();
     }
 
+    /**
+     * Get the data required to issue a WebAuthn request
+     *
+     * @return array
+     */
     public function getRegisterData(): array
     {
         $registerData = $this->u2fKey->getRegisterData($this->session->getUser());
-        $this->session->setTfaU2fChallenge($registerData['publicKey']['challenge']);
+        $this->u2fSession->setU2fChallenge($registerData['publicKey']['challenge']);
 
         return $registerData;
     }

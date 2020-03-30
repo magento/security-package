@@ -10,30 +10,30 @@ use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Backend\Block\Template\Context;
 use Magento\Framework\Phrase;
-use Magento\Framework\Serialize\SerializerInterface;
+use Magento\Framework\Serialize\Serializer\Json;
 
 /**
- * Providers field
+ * Displays a warning modal if the all currently available providers are deselected
  */
 class Providers extends Field
 {
     /**
-     * @var SerializerInterface
+     * @var Json
      */
-    private $serializer;
+    private $json;
 
     /**
      * @param Context $context
-     * @param SerializerInterface $serializer
+     * @param Json $json
      * @param array $data
      */
     public function __construct(
         Context $context,
-        SerializerInterface $serializer,
+        Json $json,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->serializer = $serializer;
+        $this->json = $json;
     }
 
     /**
@@ -50,7 +50,7 @@ class Providers extends Field
                 ]
             ]
         ];
-        $html .= '<script type="text/x-magento-init">' . $this->serializer->serialize($config) . '</script>';
+        $html .= '<script type="text/x-magento-init">' . $this->json->serialize($config) . '</script>';
 
         return $html;
     }

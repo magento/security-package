@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Test\Integration\Controller\Adminhtml\Tfa;
 
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
 use Magento\TwoFactorAuth\TestFramework\TestCase\AbstractBackendController;
@@ -35,14 +36,22 @@ class IndexTest extends AbstractBackendController
     private $userManager;
 
     /**
+     * @var TfaSessionInterface
+     */
+    private $tfaSession;
+
+    /**
      * @inheritDoc
      */
     protected function setUp()
     {
         parent::setUp();
 
-        $this->userManager = Bootstrap::getObjectManager()->get(UserConfigManagerInterface::class);
-        $this->tfa = Bootstrap::getObjectManager()->get(TfaInterface::class);
+        $objectManager = Bootstrap::getObjectManager();
+
+        $this->tfaSession = $objectManager->get(TfaSessionInterface::class);
+        $this->userManager = $objectManager->get(UserConfigManagerInterface::class);
+        $this->tfa = $objectManager->get(TfaInterface::class);
     }
 
     /**
@@ -92,7 +101,7 @@ class IndexTest extends AbstractBackendController
      */
     public function testNotConfiguredWithSkipped(): void
     {
-        $this->_session->setTfaSkippedConfig(['google' => true]);
+        $this->tfaSession->setSkippedProviderConfig(['google' => true]);
 
         $this->dispatch($this->uri);
         $this->assertRedirect($this->stringContains('authy/configure'));

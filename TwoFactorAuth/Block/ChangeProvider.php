@@ -7,10 +7,9 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Block;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Model\Auth\Session;
-use Magento\TwoFactorAuth\Api\TfaSessionInterface;
-use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\ProviderInterface;
 
@@ -25,6 +24,11 @@ class ChangeProvider extends Template
     private $tfa;
 
     /**
+     * @var UserContextInterface
+     */
+    private $userContext;
+
+    /**
      * @var Session
      */
     private $session;
@@ -33,18 +37,21 @@ class ChangeProvider extends Template
      * ChangeProvider constructor.
      * @param Template\Context $context
      * @param Session $session
+     * @param UserContextInterface $userContext
      * @param TfaInterface $tfa
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
         Session $session,
+        UserContextInterface $userContext,
         TfaInterface $tfa,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->tfa = $tfa;
         $this->session = $session;
+        $this->userContext = $userContext;
     }
 
     /**
@@ -52,8 +59,7 @@ class ChangeProvider extends Template
      */
     protected function _toHtml()
     {
-        $userId = (int)$this->session->getUser()->getId();
-        $toActivate = $this->tfa->getProvidersToActivate($userId);
+        $toActivate = $this->tfa->getProvidersToActivate($this->userContext->getUserId());
 
         foreach ($toActivate as $toActivateProvider) {
             if ($toActivateProvider->getCode() === $this->getData('provider')) {
@@ -71,7 +77,7 @@ class ChangeProvider extends Template
     {
         $providers = [];
         foreach ($this->getProvidersList() as $provider) {
-            if (!$provider->isActive((int)$this->session->getUser()->getId())) {
+            if (!$provider->isActive($this->userContext->getUserId())) {
                 continue;
             }
             $providers[] = [
@@ -90,15 +96,6 @@ class ChangeProvider extends Template
     }
 
     /**
-     * Get user
-     * @return User|null
-     */
-    private function getUser(): ?User
-    {
-        return $this->session->getUser();
-    }
-
-    /**
      * Get a list of available providers
      * @return ProviderInterface[]
      */
@@ -106,7 +103,7 @@ class ChangeProvider extends Template
     {
         $res = [];
 
-        $providers = $this->tfa->getUserProviders((int) $this->getUser()->getId());
+        $providers = $this->tfa->getUserProviders((int) $this->userContext->getUserId());
         foreach ($providers as $provider) {
             if ($provider->getCode() !== $this->getData('provider')) {
                 $res[] = $provider;

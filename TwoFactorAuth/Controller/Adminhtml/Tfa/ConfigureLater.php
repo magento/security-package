@@ -8,11 +8,12 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Controller\Adminhtml\Tfa;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
+use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
-use Magento\Backend\Model\Auth\Session;
 
 /**
  * Configure 2FA for the application.
@@ -27,23 +28,31 @@ class ConfigureLater extends AbstractAction implements HttpPostActionInterface
     private $tfa;
 
     /**
-     * @var Session
+     * @var TfaSessionInterface
      */
     private $session;
 
     /**
+     * @var UserContextInterface
+     */
+    private $userContext;
+
+    /**
      * @param Context $context
      * @param TfaInterface $tfa
-     * @param Session $session
+     * @param TfaSessionInterface $session
+     * @param UserContextInterface $userContext
      */
     public function __construct(
         Context $context,
         TfaInterface $tfa,
-        Session $session
+        TfaSessionInterface $session,
+        UserContextInterface $userContext
     ) {
         parent::__construct($context);
         $this->tfa = $tfa;
         $this->session = $session;
+        $this->userContext = $userContext;
     }
 
     /**
@@ -51,7 +60,7 @@ class ConfigureLater extends AbstractAction implements HttpPostActionInterface
      */
     protected function _isAllowed()
     {
-        $userId = (int)$this->session->getUser()->getId();
+        $userId = $this->userContext->getUserId();
         $providers = $this->tfa->getUserProviders($userId);
         $toActivate = $this->tfa->getProvidersToActivate($userId);
 
@@ -70,7 +79,7 @@ class ConfigureLater extends AbstractAction implements HttpPostActionInterface
     public function execute()
     {
         $provider = $this->getRequest()->getParam('provider');
-        $userId = (int)$this->session->getUser()->getId();
+        $userId = $this->userContext->getUserId();
         $providers = $this->tfa->getUserProviders($userId);
         $needActivation = $this->tfa->getProvidersToActivate($userId);
         $providerCodes = [];
@@ -78,7 +87,7 @@ class ConfigureLater extends AbstractAction implements HttpPostActionInterface
             $providerCodes[] = $forcedProvider->getCode();
         }
 
-        $currentlySkipped = $this->session->getData('tfa_skipped_config') ?? [];
+        $currentlySkipped = $this->session->getSkippedProviderConfig();
         $currentlySkipped[$provider] = true;
 
         // Catch users trying to skip all available providers when there are none configured
@@ -91,7 +100,7 @@ class ConfigureLater extends AbstractAction implements HttpPostActionInterface
             $currentlySkipped = [];
         }
 
-        $this->session->setTfaSkippedConfig($currentlySkipped);
+        $this->session->setSkippedProviderConfig($currentlySkipped);
 
         $redirect = $this->resultRedirectFactory->create();
         return $redirect->setPath('tfa/tfa/index');
