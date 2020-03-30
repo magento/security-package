@@ -10,6 +10,7 @@ namespace Magento\TwoFactorAuth\Block\Provider\U2fKey;
 use Magento\Backend\Block\Template;
 use Magento\Backend\Model\Auth\Session;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Session as U2fSession;
 
 /**
  * @api
@@ -22,29 +23,32 @@ class Auth extends Template
     private $u2fKey;
 
     /**
+     * @var U2fSession
+     */
+    private $u2fSession;
+
+    /**
      * @var Session
      */
     private $session;
 
     /**
-     * @var array
-     */
-    private $authenticateData;
-
-    /**
      * @param Template\Context $context
-     * @param Session $session
+     * @param U2fSession $u2fSession
      * @param U2fKey $u2fKey
+     * @param Session $session
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        Session $session,
+        U2fSession $u2fSession,
         U2fKey $u2fKey,
+        Session $session,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->u2fKey = $u2fKey;
+        $this->u2fSession = $u2fSession;
         $this->session = $session;
     }
 
@@ -74,7 +78,7 @@ class Auth extends Template
     public function generateAuthenticateData(): array
     {
         $authenticateData = $this->u2fKey->getAuthenticateData($this->session->getUser());
-        $this->session->setTfaU2fChallenge($authenticateData['credentialRequestOptions']['challenge']);
+        $this->u2fSession->setU2fChallenge($authenticateData['credentialRequestOptions']['challenge']);
 
         return $authenticateData;
     }

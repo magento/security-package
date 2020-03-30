@@ -15,6 +15,8 @@ use Magento\TwoFactorAuth\Api\TfaSessionInterface;
  */
 class TfaSession extends SessionManager implements TfaSessionInterface
 {
+    const SKIPPED_PROVIDERS_KEY = 'tfa_skipped_config';
+
     /**
      * @inheritDoc
      */
@@ -29,5 +31,23 @@ class TfaSession extends SessionManager implements TfaSessionInterface
     public function isGranted(): bool
     {
         return (bool) $this->storage->getData(TfaSessionInterface::KEY_PASSED);
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @return array
+     */
+    public function getSkippedProviderConfig(): array
+    {
+        return $this->getData(static::SKIPPED_PROVIDERS_KEY) ?? [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setSkippedProviderConfig(array $config): void
+    {
+        $this->storage->setData(static::SKIPPED_PROVIDERS_KEY, $config);
     }
 }

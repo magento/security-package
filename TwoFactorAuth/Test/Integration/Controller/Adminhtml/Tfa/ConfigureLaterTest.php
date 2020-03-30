@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Test\Integration\Controller\Adminhtml\Tfa;
 
 use Magento\TwoFactorAuth\Api\TfaInterface;
+use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
 use Magento\TwoFactorAuth\TestFramework\TestCase\AbstractBackendController;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
@@ -39,10 +40,16 @@ class ConfigureLaterTest extends AbstractBackendController
      */
     private $tokenManager;
 
+    /**
+     * @var TfaSessionInterface
+     */
+    private $tfaSession;
+
     protected function setUp()
     {
         parent::setUp();
         $this->tfa = $this->_objectManager->get(TfaInterface::class);
+        $this->tfaSession = $this->_objectManager->get(TfaSessionInterface::class);
         $this->tokenManager = $this->_objectManager->get(UserConfigTokenManagerInterface::class);
     }
 
@@ -96,7 +103,7 @@ class ConfigureLaterTest extends AbstractBackendController
             ->setQueryValue('tfat', $this->tokenManager->issueFor($userId))
             ->setPostValue('provider', 'authy');
         $this->dispatch($this->uri);
-        self::assertTrue($this->_session->getData('tfa_skipped_config')['authy']);
+        self::assertTrue($this->tfaSession->getSkippedProviderConfig()['authy']);
         $this->assertRedirect($this->stringContains('tfa/index'));
     }
 
@@ -110,7 +117,7 @@ class ConfigureLaterTest extends AbstractBackendController
     public function testSkippingAllProvidersWhenThereAreNoneConfigured(): void
     {
         $userId = (int)$this->_session->getUser()->getId();
-        $this->_session->setTfaSkippedConfig(
+        $this->tfaSession->setSkippedProviderConfig(
             [
                 'duo_security' => true,
                 'already disabled provider' => true,
