@@ -3,6 +3,14 @@
         "constraint": {
             "PRIMARY": true,
             "NOTIFIER_CHANNEL_CODE": true
+        },
+        "column": {
+            "channel_id": true,
+            "name": true,
+            "adapter_code": true,
+            "code": true,
+            "configuration_json": true,
+            "enabled": true
         }
     },
     "notifier_event_rule": {

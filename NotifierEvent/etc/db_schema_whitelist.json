@@ -1,0 +1,19 @@
+{
+    "notifier_event_rule": {
+        "column": {
+            "rule_id": true,
+            "name": true,
+            "events": true,
+            "template_id": true,
+            "channels_codes": true,
+            "throttle_limit": true,
+            "throttle_interval": true,
+            "last_fired_at": true,
+            "fire_count": true,
+            "enabled": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}
