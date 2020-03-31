@@ -11,10 +11,12 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Webapi\Exception as WebApiException;
 use Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface as GoogleConfigurationData;
+use Magento\TwoFactorAuth\Api\Data\TfaTokenInterface;
 use Magento\TwoFactorAuth\Api\GoogleConfigureInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
+use Magento\TwoFactorAuth\Model\Data\Provider\Engine\Google\ConfigurationDataFactory;
 use Magento\User\Model\ResourceModel\User;
 use Magento\User\Model\UserFactory;
 
@@ -80,13 +82,13 @@ class Configure implements GoogleConfigureInterface
     /**
      * @inheritDoc
      */
-    public function getConfigurationData(int $userId, string $tfat): GoogleConfigurationData
+    public function getConfigurationData(int $userId, TfaTokenInterface $tfaToken): GoogleConfigurationData
     {
         if (!$this->tfa->getProviderIsAllowed($userId, Google::CODE)) {
             throw new WebApiException(__('Provider is not allowed.'));
         }
 
-        if (!$this->tokenManager->isValidFor($userId, $tfat)) {
+        if (!$this->tokenManager->isValidFor($userId, $tfaToken->getToken())) {
             throw new AuthorizationException(
                 __('Invalid tfat token')
             );

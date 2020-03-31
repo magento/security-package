@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Api;
 
+use Magento\TwoFactorAuth\Api\Data\TfaTokenInterface;
+
 /**
  * Represents the google provider
  */
@@ -17,11 +19,11 @@ interface GoogleConfigureInterface
      * Get the information required to configure google
      *
      * @param int $userId
-     * @param string $tfat
+     * @param TfaTokenInterface $tfaToken
      * @return \Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface
      */
     public function getConfigurationData(
         int $userId,
-        string $tfat
+        TfaTokenInterface $tfaToken
     ): \Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface;
 }

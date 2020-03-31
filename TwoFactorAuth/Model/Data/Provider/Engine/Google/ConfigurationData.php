@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\Model\Provider\Engine\Google;
+namespace Magento\TwoFactorAuth\Model\Data\Provider\Engine\Google;
 
 use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\TwoFactorAuth\Api\Data\GoogleConfigureExtensionInterface;
@@ -17,7 +17,6 @@ use Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface;
  */
 class ConfigurationData extends AbstractExtensibleObject implements GoogleConfigureInterface
 {
-
     /**
      * Get value for qr code url
      *

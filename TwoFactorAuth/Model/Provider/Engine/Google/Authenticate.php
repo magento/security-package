@@ -11,6 +11,7 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Webapi\Exception as WebApiException;
+use Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateInterface as GoogleAuthenticateInterfaceData;
 use Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
@@ -88,10 +89,12 @@ class Authenticate implements GoogleAuthenticateInterface
      * Get an admin token by authenticating using google
      *
      * @param int $userId
-     * @param string $otp
+     * @param GoogleAuthenticateInterfaceData $data
      * @return string
+     * @throws AuthorizationException
+     * @throws WebApiException
      */
-    public function getToken(int $userId, string $otp): string
+    public function getToken(int $userId, GoogleAuthenticateInterfaceData $data): string
     {
         if (!$this->tfa->getProviderIsAllowed($userId, Google::CODE)) {
             throw new WebApiException(__('Provider is not allowed.'));
@@ -102,7 +105,7 @@ class Authenticate implements GoogleAuthenticateInterface
 
         if ($this->google->verify($user, $this->dataObjectFactory->create([
                 'data' => [
-                    'tfa_code' => $otp
+                    'tfa_code' => $data->getOtp()
                 ],
             ]))
         ) {

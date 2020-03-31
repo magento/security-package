@@ -57,21 +57,14 @@
         </resources>
     </route>
 
-    <route url="/V1/tfa/reset-provider/:userId/:providerCode" method="POST">
-        <service class="Magento\TwoFactorAuth\Api\TfaInterface" method="resetProviderConfig"/>
-        <resources>
-            <resource ref="Magento_TwoFactorAuth::tfa" />
-        </resources>
-    </route>
-
-    <route url="/V1/tfa/provider/google/configure/:userId/:tfat" method="GET">
+    <route url="/V1/tfa/provider/google/configure/:userId" method="POST">
         <service class="Magento\TwoFactorAuth\Api\GoogleConfigureInterface" method="getConfigurationData"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
-    <route url="/V1/tfa/provider/google/authenticate/:userId/:otp" method="POST">
+    <route url="/V1/tfa/provider/google/authenticate/:userId" method="POST">
         <service class="Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface" method="getToken"/>
         <resources>
             <resource ref="anonymous" />

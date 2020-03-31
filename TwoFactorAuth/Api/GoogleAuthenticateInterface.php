@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Api;
 
 /**
- * Represents the google provider
+ * Represents google authentication
  */
 interface GoogleAuthenticateInterface
 {
@@ -17,8 +17,8 @@ interface GoogleAuthenticateInterface
      * Get an admin token by authenticating using google
      *
      * @param int $userId
-     * @param string $otp
+     * @param Data\GoogleAuthenticateInterface $data
      * @return string
      */
-    public function getToken(int $userId, string $otp): string;
+    public function getToken(int $userId, Data\GoogleAuthenticateInterface $data): string;
 }
