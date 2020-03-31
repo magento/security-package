@@ -14,7 +14,7 @@
                 comment="Channel ID"/>
 
         <column xsi:type="varchar" name="name" nullable="false" comment="Name"/>
-        <column xsi:type="varchar" name="adapter_code" nullable="false" comment="Adapter Code"/>
+        <column xsi:type="varchar" name="adapter_code" nullable="true" comment="Adapter Code"/>
         <column xsi:type="varchar" name="code" nullable="false" comment="Template Code"/>
         <column xsi:type="longtext" name="template" nullable="false" comment="Template content"/>
 
