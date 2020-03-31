@@ -61,4 +61,18 @@
         <plugin sortOrder="1" name="magento_notifier_event_capture_event"
                 type="Magento\NotifierEvent\Plugin\Event\CaptureEvent"/>
     </type>
+
+    <type name="Magento\NotifierEvent\Plugin\Event\CaptureEvent">
+        <arguments>
+            <argument name="captureEvent" xsi:type="object">Magento\NotifierEventApi\Model\CaptureEventInterface\Proxy</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\NotifierEvent\Model\CaptureEvent">
+        <arguments>
+            <argument name="getRulesIdsByEvent" xsi:type="object">Magento\NotifierEventApi\Model\GetRulesIdsByEventInterface\Proxy</argument>
+            <argument name="fireRule" xsi:type="object">Magento\NotifierEventApi\Model\FireRuleInterface\Proxy</argument>
+            <argument name="isEventExcluded" xsi:type="object">Magento\NotifierEventApi\Model\IsEventExcludedInterface\Proxy</argument>
+        </arguments>
+    </type>
 </config>
