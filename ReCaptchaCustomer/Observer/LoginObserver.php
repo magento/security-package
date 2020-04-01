@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaCustomer\Observer;
 
+use Magento\Customer\Model\Session;
 use Magento\Customer\Model\Url;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Event\Observer;
@@ -32,9 +33,9 @@ class LoginObserver implements ObserverInterface
     private $requestHandler;
 
     /**
-     * @var SessionManagerInterface
+     * @var Session
      */
-    private $sessionManager;
+    private $session;
 
     /**
      * @var Url
@@ -44,18 +45,18 @@ class LoginObserver implements ObserverInterface
     /**
      * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param RequestHandlerInterface $requestHandler
-     * @param SessionManagerInterface $sessionManager
+     * @param Session $session
      * @param Url $url
      */
     public function __construct(
         IsCaptchaEnabledInterface $isCaptchaEnabled,
         RequestHandlerInterface $requestHandler,
-        SessionManagerInterface $sessionManager,
+        Session $session,
         Url $url
     ) {
         $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->requestHandler = $requestHandler;
-        $this->sessionManager = $sessionManager;
+        $this->session = $session;
         $this->url = $url;
     }
 
@@ -72,7 +73,7 @@ class LoginObserver implements ObserverInterface
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
-            $redirectOnFailureUrl = $this->sessionManager->getBeforeAuthUrl() ?: $this->url->getLoginUrl();
+            $redirectOnFailureUrl = $this->session->getBeforeAuthUrl() ?: $this->url->getLoginUrl();
 
             $this->requestHandler->execute($key, $request, $response, $redirectOnFailureUrl);
         }

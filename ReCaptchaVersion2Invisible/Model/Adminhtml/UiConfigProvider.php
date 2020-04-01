@@ -17,6 +17,8 @@ class UiConfigProvider implements UiConfigProviderInterface
 {
     private const XML_PATH_PUBLIC_KEY = 'recaptcha_backend/type_invisible/public_key';
     private const XML_PATH_POSITION = 'recaptcha_backend/type_invisible/position';
+    private const XML_PATH_THEME = 'recaptcha_backend/type_invisible/theme';
+    private const XML_PATH_LANGUAGE_CODE = 'recaptcha_backend/type_invisible/lang';
 
     /**
      * @var ScopeConfigInterface
@@ -41,7 +43,9 @@ class UiConfigProvider implements UiConfigProviderInterface
             'rendering' => [
                 'sitekey' => $this->getPublicKey(),
                 'badge' => $this->getInvisibleBadgePosition(),
-                'size' => 'invisible'
+                'size' => 'invisible',
+                'theme' => $this->getTheme(),
+                'lang'=> $this->getLanguageCode()
             ],
             'invisible' => true,
         ];
@@ -67,6 +71,30 @@ class UiConfigProvider implements UiConfigProviderInterface
     {
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_POSITION
+        );
+    }
+
+    /**
+     * Get theme
+     *
+     * @return string
+     */
+    private function getTheme(): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_THEME
+        );
+    }
+
+    /**
+     * Get language code
+     *
+     * @return string
+     */
+    private function getLanguageCode(): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_LANGUAGE_CODE
         );
     }
 }

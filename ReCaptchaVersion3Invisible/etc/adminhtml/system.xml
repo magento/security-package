@@ -33,7 +33,22 @@
                     <source_model>Magento\ReCaptchaVersion3Invisible\Model\OptionSource\Position</source_model>
                 </field>
 
-                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="50" showInDefault="1"
+                <field id="theme" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+                    <label>Theme</label>
+                    <source_model>Magento\ReCaptchaVersion3Invisible\Model\OptionSource\Theme</source_model>
+                </field>
+
+                <field id="lang" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+                    <label>Language Code</label>
+                    <comment><![CDATA[
+                        Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified. See
+                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language Codes</a>.
+                ]]></comment>
+                </field>
+
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="70" showInDefault="1"
                        showInWebsite="0" showInStore="0" canRestore="1">
                     <label>reCAPTCHA Validation Failure Message</label>
                 </field>
@@ -41,7 +56,7 @@
         </section>
         <section id="recaptcha_frontend">
             <group id="type_recaptcha_v3" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1"
-                   showInStore="0">
+                   showInStore="1">
                 <label>reCAPTCHA v3 Invisible</label>
 
                 <field id="public_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
@@ -69,14 +84,24 @@
                        showInStore="0" canRestore="1">
                     <label>Invisible Badge Position</label>
                     <source_model>Magento\ReCaptchaVersion3Invisible\Model\OptionSource\Position</source_model>
+                </field>
+
+                <field id="theme" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1"
+                       showInStore="0" canRestore="1">
+                    <label>Theme</label>
+                    <source_model>Magento\ReCaptchaVersion3Invisible\Model\OptionSource\Theme</source_model>
+                </field>
+
+                <field id="lang" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1"
+                       showInStore="1" canRestore="1">
+                    <label>Language Code</label>
                     <comment><![CDATA[
-                        From 0.0 to 1.0, where 1.0 is very likely a good interaction, and 0.0 is very likely a bot.<br />
-                        For more details, see the official documentation
-                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/v3#interpreting_the_score">Interpreting the score</a>.
+                        Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified. See
+                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language Codes</a>.
                 ]]></comment>
                 </field>
 
-                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="50" showInDefault="1"
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="70" showInDefault="1"
                        showInWebsite="1" showInStore="1" canRestore="1">
                     <label>reCAPTCHA Validation Failure Message</label>
                 </field>
