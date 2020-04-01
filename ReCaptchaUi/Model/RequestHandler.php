@@ -74,12 +74,20 @@ class RequestHandler implements RequestHandlerInterface
         HttpResponseInterface $response,
         string $redirectOnFailureUrl
     ): void {
-        $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
-        $validationConfig = $this->validationConfigResolver->get($key);
 
-        $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
-        if (false === $validationResult->isValid()) {
-            $this->messageManager->addErrorMessage($validationConfig->getValidationFailureMessage());
+        try {
+            $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
+            $validationConfig = $this->validationConfigResolver->get($key);
+
+            $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
+            if (false === $validationResult->isValid()) {
+                $this->messageManager->addErrorMessage($validationConfig->getValidationFailureMessage());
+                $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
+
+                $response->setRedirect($redirectOnFailureUrl);
+            }
+        } catch (\Exception $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
             $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
             $response->setRedirect($redirectOnFailureUrl);
