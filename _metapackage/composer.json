@@ -29,6 +29,7 @@
         "magento/module-re-captcha-customer": "*",
         "magento/module-re-captcha-frontend-ui": "*",
         "magento/module-re-captcha-newsletter": "*",
+        "magento/module-re-captcha-paypal": "*",
         "magento/module-re-captcha-review": "*",
         "magento/module-re-captcha-send-friend": "*",
         "magento/module-re-captcha-ui": "*",
