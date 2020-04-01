@@ -7,7 +7,7 @@
  -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <virtualType name="Magento\ReCaptchaApi\Model\OptionSource\Type"
+    <virtualType name="Magento\ReCaptchaAdminUi\Model\OptionSource\Type"
                  type="Magento\ReCaptchaAdminUi\Model\OptionSource">
         <arguments>
             <argument name="options" xsi:type="array">

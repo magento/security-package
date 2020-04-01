@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaPaypal\Block\LayoutProcessor\Checkout;
 
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
+use Magento\Framework\Exception\InputException;
 use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\UiConfigResolverInterface;
 
@@ -39,10 +40,11 @@ class Onepage implements LayoutProcessorInterface
     }
 
     /**
-     * Process js Layout of block
+     * {@inheritdoc}
      *
      * @param array $jsLayout
      * @return array
+     * @throws InputException
      */
     public function process($jsLayout)
     {

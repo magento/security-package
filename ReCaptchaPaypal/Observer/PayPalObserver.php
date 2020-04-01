@@ -103,13 +103,21 @@ class PayPalObserver implements ObserverInterface
             $request = $controller->getRequest();
             $response = $controller->getResponse();
 
+            $validationConfig = $this->validationConfigResolver->get($key);
+
             try {
                 $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
             } catch (InputException $e) {
-                $reCaptchaResponse = '';
                 $this->logger->error($e);
+
+                $jsonPayload = $this->serializer->serialize([
+                    'success' => false,
+                    'error' => true,
+                    'error_messages' => $validationConfig->getValidationFailureMessage(),
+                ]);
+                $response->representJson($jsonPayload);
+                return;
             }
-            $validationConfig = $this->validationConfigResolver->get($key);
 
             $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
             if (false === $validationResult->isValid()) {

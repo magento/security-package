@@ -23,7 +23,7 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Magento\ReCaptchaApi\Model\OptionSource\Type">
+    <virtualType name="Magento\ReCaptchaAdminUi\Model\OptionSource\Type">
         <arguments>
             <argument name="options" xsi:type="array">
                 <item name="invisible" xsi:type="array">

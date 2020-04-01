@@ -28,7 +28,6 @@
                                                                     <item name="displayArea" xsi:type="string">additional-login-form-fields</item>
                                                                     <item name="configSource" xsi:type="string">checkoutConfig</item>
                                                                     <item name="reCaptchaId" xsi:type="string">recaptcha-checkout-inline-login</item>
-                                                                    <item name="zone" xsi:type="string">login</item>
                                                                 </item>
                                                             </item>
                                                         </item>
@@ -47,7 +46,6 @@
                                                                     <item name="displayArea" xsi:type="string">additional-login-form-fields</item>
                                                                     <item name="configSource" xsi:type="string">checkoutConfig</item>
                                                                     <item name="reCaptchaId" xsi:type="string">recaptcha-checkout-inline-login-billing</item>
-                                                                    <item name="zone" xsi:type="string">login</item>
                                                                 </item>
                                                             </item>
                                                         </item>
