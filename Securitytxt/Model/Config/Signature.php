@@ -16,6 +16,20 @@ use Magento\Config\Model\Config\CommentInterface;
 class Signature implements CommentInterface
 {
     /**
+     * @var string
+     */
+    private $instructionLink;
+
+    /**
+     * @param string $instructionLink
+     */
+    public function __construct(
+        string $instructionLink = ''
+    ) {
+        $this->instructionLink = $instructionLink;
+    }
+
+    /**
      * Get comment for signature field of security txt extension.
      *
      * @param string $elementValue
@@ -24,7 +38,7 @@ class Signature implements CommentInterface
      */
     public function getCommentText($elementValue): string
     {
-        return "<a href='https://github.com/magento/security-package/blob/1.0-develop/Securitytxt/README.md' target='_blank'>
+        return "<a href='{$this->instructionLink}' target='_blank'>
                     Read instructions on how to generate signature
                 </a>";
     }
