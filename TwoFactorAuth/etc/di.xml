@@ -23,11 +23,13 @@
     <preference for="Magento\TwoFactorAuth\Api\UserConfigManagerInterface"
                 type="Magento\TwoFactorAuth\Model\UserConfigManager"/>
     <preference for="Magento\TwoFactorAuth\Api\TfaSessionInterface" type="Magento\TwoFactorAuth\Model\TfaSession"/>
+    <preference for="Magento\TwoFactorAuth\Api\TfatActionsInterface" type="Magento\TwoFactorAuth\Model\TfatActions"/>
     <preference for="Magento\TwoFactorAuth\Model\AlertInterface" type="Magento\TwoFactorAuth\Model\Alert"/>
     <preference for="Magento\TwoFactorAuth\Api\GoogleConfigureInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Google\Configure"/>
     <preference for="Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Google\Authenticate"/>
-    <preference for="Magento\TwoFactorAuth\Api\Data\TfaTokenInterface" type="Magento\TwoFactorAuth\Model\Data\TfaToken"/>
     <preference for="Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\Google\AuthenticateData"/>
+    <preference for="Magento\TwoFactorAuth\Api\AdminTokenServiceInterface" type="Magento\TwoFactorAuth\Model\AdminAccessTokenService"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\AdminTokenResponseInterface" type="Magento\TwoFactorAuth\Model\Data\AdminTokenResponse"/>
 
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>

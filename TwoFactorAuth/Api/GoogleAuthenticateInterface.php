@@ -16,9 +16,10 @@ interface GoogleAuthenticateInterface
     /**
      * Get an admin token by authenticating using google
      *
-     * @param int $userId
-     * @param Data\GoogleAuthenticateInterface $data
+     * @param string $username
+     * @param string $password
+     * @param string $otp
      * @return string
      */
-    public function getToken(int $userId, Data\GoogleAuthenticateInterface $data): string;
+    public function getToken(string $username, string $password, string $otp): string;
 }

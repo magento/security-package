@@ -12,6 +12,7 @@ use Magento\Framework\Webapi\Rest\Request;
 use Magento\TestFramework\Bootstrap as TestBootstrap;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\TwoFactorAuth\Api\Data\AdminTokenResponseInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\User\Model\UserFactory;
 
@@ -85,44 +86,41 @@ class AdminIntegrationTokenTest extends WebapiAbstract
         $this->tfa->getProviderByCode(Google::CODE)->activate($userId);
         $serviceInfo = $this->buildServiceInfo();
 
-        try {
-            $this->_webApiCall(
-                $serviceInfo,
-                ['username' => 'customRoleUser', 'password' => TestBootstrap::ADMIN_PASSWORD]
-            );
-            self::fail('Endpoint should have thrown an exception');
-        } catch (\Throwable $exception) {
-            $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
-            self::assertSame('Please use the 2fa provider-specific endpoints to obtain a token.', $response['message']);
-        }
+        $response = $this->_webApiCall(
+            $serviceInfo,
+            ['username' => 'customRoleUser', 'password' => TestBootstrap::ADMIN_PASSWORD]
+        );
+        self::assertSame($userId, (int)$response[AdminTokenResponseInterface::USER_ID]);
+        self::assertSame(
+            'Please use the 2fa provider-specific endpoints to obtain a token.',
+            $response[AdminTokenResponseInterface::MESSAGE]
+        );
+        self::assertCount(1, $response[AdminTokenResponseInterface::ACTIVE_PROVIDERS]);
+        self::assertSame('google', $response[AdminTokenResponseInterface::ACTIVE_PROVIDERS][0]['code']);
     }
 
     /**
-     * @magentoConfigFixture twofactorauth/general/force_providers duo_security
+     * @magentoConfigFixture twofactorauth/general/force_providers google,duo_security
      * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
      */
-    public function testUserWithAvailableButUnconfigured2fa()
+    public function testUserWithAvailableUnconfigured2fa()
     {
         $userId = $this->getUserId();
         $this->tfa->getProviderByCode(Google::CODE)->activate($userId);
         $serviceInfo = $this->buildServiceInfo();
 
-        try {
-            $this->_webApiCall(
-                $serviceInfo,
-                ['username' => 'customRoleUser', 'password' => TestBootstrap::ADMIN_PASSWORD]
-            );
-            self::fail('Endpoint should have thrown an exception');
-        } catch (\Throwable $exception) {
-            $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
-            self::assertSame(
-                'You are required to configure personal Two-Factor Authorization in order to login. '
-                . 'Please check your email.',
-                $response['message']
-            );
-        }
+        $response = $this->_webApiCall(
+            $serviceInfo,
+            ['username' => 'customRoleUser', 'password' => TestBootstrap::ADMIN_PASSWORD]
+        );
+        self::assertSame($userId, (int)$response[AdminTokenResponseInterface::USER_ID]);
+        self::assertSame(
+            'You are required to configure personal Two-Factor Authorization in order to login. '
+            . 'Please check your email.',
+            $response[AdminTokenResponseInterface::MESSAGE]
+        );
+        self::assertCount(1, $response[AdminTokenResponseInterface::ACTIVE_PROVIDERS]);
+        self::assertSame('google', $response[AdminTokenResponseInterface::ACTIVE_PROVIDERS][0]['code']);
     }
 
     /**

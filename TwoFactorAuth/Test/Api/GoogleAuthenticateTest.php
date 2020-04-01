@@ -37,12 +37,42 @@ class GoogleAuthenticateTest extends WebapiAbstract
      */
     private $userConfig;
 
+    /**
+     * @var TfaInterface
+     */
+    private $tfa;
+
     protected function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->userFactory = $objectManager->get(UserFactory::class);
         $this->google = $objectManager->get(Google::class);
         $this->userConfig = $objectManager->get(UserConfigManagerInterface::class);
+        $this->tfa = $objectManager->get(TfaInterface::class);
+    }
+
+    /**
+     * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
+     */
+    public function testInvalidCredentialsProvider()
+    {
+        $serviceInfo = $this->buildServiceInfo();
+
+        try {
+            $this->_webApiCall(
+                $serviceInfo,
+                [
+                    'username' => 'customRoleUser',
+                    'password' => 'bad',
+                    'otp' => 'foo'
+                ]
+            );
+            self::fail('Endpoint should have thrown an exception');
+        } catch (\Throwable $exception) {
+            $response = json_decode($exception->getMessage(), true);
+            self::assertEmpty(json_last_error());
+            self::assertSame('Invalid credentials', $response['message']);
+        }
     }
 
     /**
@@ -51,16 +81,22 @@ class GoogleAuthenticateTest extends WebapiAbstract
      */
     public function testUnavailableProvider()
     {
-        $userId = $this->getUserId();
-        $serviceInfo = $this->buildServiceInfo($userId);
+        $serviceInfo = $this->buildServiceInfo();
 
         try {
-            $this->_webApiCall($serviceInfo, ['data' => ['otp' => 'foo']]);
+            $this->_webApiCall(
+                $serviceInfo,
+                [
+                    'username' => 'customRoleUser',
+                    'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
+                    'otp' => 'foo'
+                ]
+            );
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
             self::assertEmpty(json_last_error());
-            self::assertSame($response['message'], 'Provider is not allowed.');
+            self::assertSame('Provider is not allowed.', $response['message']);
         }
     }
 
@@ -71,10 +107,19 @@ class GoogleAuthenticateTest extends WebapiAbstract
     public function testInvalidToken()
     {
         $userId = $this->getUserId();
-        $serviceInfo = $this->buildServiceInfo($userId);
+        $serviceInfo = $this->buildServiceInfo();
+        $this->tfa->getProviderByCode(Google::CODE)
+            ->activate($userId);
 
         try {
-            $this->_webApiCall($serviceInfo, ['data' => ['otp' => 'foo']]);
+            $this->_webApiCall(
+                $serviceInfo,
+                [
+                    'username' => 'customRoleUser',
+                    'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
+                    'otp' => 'bad'
+                ]
+            );
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
@@ -87,28 +132,64 @@ class GoogleAuthenticateTest extends WebapiAbstract
      * @magentoConfigFixture twofactorauth/general/force_providers google
      * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
      */
+    public function testNotConfiguredProvider()
+    {
+        $userId = $this->getUserId();
+        $serviceInfo = $this->buildServiceInfo();
+        $this->tfa->getProviderByCode(Google::CODE)
+            ->resetConfiguration($userId);
+
+        try {
+            $this->_webApiCall(
+                $serviceInfo,
+                [
+                    'username' => 'customRoleUser',
+                    'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
+                    'otp' => 'foo'
+                ]
+            );
+            self::fail('Endpoint should have thrown an exception');
+        } catch (\Throwable $exception) {
+            $response = json_decode($exception->getMessage(), true);
+            self::assertEmpty(json_last_error());
+            self::assertSame('Provider is not configured.', $response['message']);
+        }
+    }
+
+    /**
+     * @magentoConfigFixture twofactorauth/general/force_providers google
+     * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
+     */
     public function testValidToken()
     {
         $userId = $this->getUserId();
         $otp = $this->getUserOtp();
-        $serviceInfo = $this->buildServiceInfo($userId);
+        $serviceInfo = $this->buildServiceInfo();
+        $this->tfa->getProviderByCode(Google::CODE)
+            ->activate($userId);
 
-        $response = $this->_webApiCall($serviceInfo, ['data' => ['otp' => $otp]]);
+        $response = $this->_webApiCall(
+            $serviceInfo,
+            [
+                'username' => 'customRoleUser',
+                'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
+                'otp' => $otp
+            ]
+        );
         self::assertNotEmpty($response);
         self::assertRegExp('/^[a-z0-9]{32}$/', $response);
     }
 
     /**
-     * @param int $userId
      * @return array
      */
-    private function buildServiceInfo(int $userId): array
+    private function buildServiceInfo(): array
     {
         return [
             'rest' => [
                 // Ensure the default auth is invalidated
                 'token' => 'invalid',
-                'resourcePath' => self::RESOURCE_PATH . '/' . $userId,
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => Request::HTTP_METHOD_POST
             ],
             'soap' => [

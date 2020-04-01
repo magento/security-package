@@ -8,6 +8,13 @@
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
+    <route url="/V1/integration/admin/token" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\AdminTokenServiceInterface" method="createAdminAccessToken"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
     <route url="/V1/tfa/installed-providers" method="GET">
         <service class="Magento\TwoFactorAuth\Api\TfaInterface" method="getAllProviders"/>
         <resources>
@@ -57,6 +64,20 @@
         </resources>
     </route>
 
+    <route url="/V1/tfa/tfat-user-providers/:userId" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\TfatActionsInterface" method="getUserProviders"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/tfat-providers-to-activate/:userId" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\TfatActionsInterface" method="getProvidersToActivate"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
     <route url="/V1/tfa/provider/google/configure/:userId" method="POST">
         <service class="Magento\TwoFactorAuth\Api\GoogleConfigureInterface" method="getConfigurationData"/>
         <resources>
@@ -64,8 +85,15 @@
         </resources>
     </route>
 
-    <route url="/V1/tfa/provider/google/authenticate/:userId" method="POST">
+    <route url="/V1/tfa/provider/google/authenticate" method="POST">
         <service class="Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface" method="getToken"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/google/activate/:userId" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\GoogleConfigureInterface" method="activate"/>
         <resources>
             <resource ref="anonymous" />
         </resources>

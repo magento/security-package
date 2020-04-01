@@ -12,13 +12,14 @@ use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\User\Model\UserFactory;
+use OTPHP\TOTP;
 
-class GoogleConfigureTest extends WebapiAbstract
+class GoogleActivateTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'twoFactorAuthGoogleConfigureV1';
-    const OPERATION = 'GetConfigurationDataRequest';
-    const RESOURCE_PATH = '/V1/tfa/provider/google/configure';
+    const SERVICE_NAME = 'twoFactorAuthGoogleActivateV1';
+    const OPERATION = 'ActivateRequest';
+    const RESOURCE_PATH = '/V1/tfa/provider/google/activate';
 
     /**
      * @var UserFactory
@@ -35,12 +36,25 @@ class GoogleConfigureTest extends WebapiAbstract
      */
     private $tfa;
 
+    /**
+     * @var UserConfigManagerInterface
+     */
+    private $userConfig;
+
+    /**
+     * @var Google
+     */
+    private $google;
+
     protected function setUp()
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->userFactory = $objectManager->get(UserFactory::class);
         $this->tokenManager = $objectManager->get(UserConfigTokenManagerInterface::class);
         $this->tfa = $objectManager->get(TfaInterface::class);
+        $this->userFactory = $objectManager->get(UserFactory::class);
+        $this->google = $objectManager->get(Google::class);
+        $this->userConfig = $objectManager->get(UserConfigManagerInterface::class);
     }
 
     /**
@@ -52,7 +66,7 @@ class GoogleConfigureTest extends WebapiAbstract
         $serviceInfo = $this->buildServiceInfo($this->getUserId());
 
         try {
-            $this->_webApiCall($serviceInfo, ['tfaToken' => 'abc']);
+            $this->_webApiCall($serviceInfo, ['tfaToken' => 'abc', 'otp' => 'invalid']);
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
@@ -72,7 +86,7 @@ class GoogleConfigureTest extends WebapiAbstract
         $serviceInfo = $this->buildServiceInfo($userId);
 
         try {
-            $this->_webApiCall($serviceInfo, ['tfaToken' => $token]);
+            $this->_webApiCall($serviceInfo, ['tfaToken' => $token, 'otp' => 'invalid']);
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
@@ -85,16 +99,17 @@ class GoogleConfigureTest extends WebapiAbstract
      * @magentoConfigFixture twofactorauth/general/force_providers google
      * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
      */
-    public function testAlreadyConfiguredProvider()
+    public function testAlreadyActivatedProvider()
     {
         $userId = $this->getUserId();
         $token = $this->tokenManager->issueFor($userId);
         $serviceInfo = $this->buildServiceInfo($userId);
+        $otp = $this->getUserOtp();
         $this->tfa->getProviderByCode(Google::CODE)
             ->activate($userId);
 
         try {
-            $this->_webApiCall($serviceInfo, ['tfaToken' => $token]);
+            $this->_webApiCall($serviceInfo, ['tfaToken' => $token, 'otp' => $otp]);
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
@@ -107,16 +122,34 @@ class GoogleConfigureTest extends WebapiAbstract
      * @magentoConfigFixture twofactorauth/general/force_providers google
      * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
      */
-    public function testValidRequest()
+    public function testActivate()
     {
         $userId = $this->getUserId();
         $token = $this->tokenManager->issueFor($userId);
+        $otp = $this->getUserOtp();
         $serviceInfo = $this->buildServiceInfo($userId);
 
-        $response = $this->_webApiCall($serviceInfo, ['tfaToken' => $token]);
-        self::assertNotEmpty($response['qr_code_url']);
-        self::assertStringStartsWith('data:image/png', $response['qr_code_url']);
-        self::assertNotEmpty($response['secret_code']);
+        $response = $this->_webApiCall(
+            $serviceInfo,
+            [
+                'tfaToken' => $token,
+                'otp' => $otp
+            ]
+        );
+        self::assertNotEmpty($response);
+        self::assertRegExp('/^[a-z0-9]{32}$/', $response);
+    }
+
+    private function getUserOtp(): string
+    {
+        $user = $this->userFactory->create();
+        $user->loadByUsername('customRoleUser');
+        $totp = new TOTP($user->getEmail(), $this->google->getSecretCode($user));
+
+        // Enable longer window of valid tokens to prevent test race condition
+        $this->userConfig->addProviderConfig((int)$user->getId(), Google::CODE, ['window' => 120]);
+
+        return $totp->now();
     }
 
     /**

@@ -11,13 +11,11 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Webapi\Exception as WebApiException;
-use Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateInterface as GoogleAuthenticateInterfaceData;
 use Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
-use Magento\User\Model\ResourceModel\User;
-use Magento\User\Model\UserFactory;
+use Magento\TwoFactorAuth\Model\UserAuthenticator;
 use Magento\Integration\Model\Oauth\TokenFactory as TokenModelFactory;
 
 /**
@@ -31,16 +29,6 @@ class Authenticate implements GoogleAuthenticateInterface
     private $google;
 
     /**
-     * @var User
-     */
-    private $userFactory;
-
-    /**
-     * @var User
-     */
-    private $userResource;
-
-    /**
      * @var TfaInterface
      */
     private $tfa;
@@ -49,70 +37,75 @@ class Authenticate implements GoogleAuthenticateInterface
      * @var DataObjectFactory
      */
     private $dataObjectFactory;
+
     /**
      * @var AlertInterface
      */
     private $alert;
+
     /**
      * @var TokenModelFactory
      */
     private $tokenFactory;
 
     /**
+     * @var UserAuthenticator
+     */
+    private $userAuthenticator;
+
+    /**
      * @param Google $google
-     * @param User $userResource
-     * @param UserFactory $userFactory
      * @param TfaInterface $tfa
      * @param DataObjectFactory $dataObjectFactory
      * @param AlertInterface $alert
      * @param TokenModelFactory $tokenFactory
+     * @param UserAuthenticator $userAuthenticator
      */
     public function __construct(
         Google $google,
-        User $userResource,
-        UserFactory $userFactory,
         TfaInterface $tfa,
         DataObjectFactory $dataObjectFactory,
         AlertInterface $alert,
-        TokenModelFactory $tokenFactory
+        TokenModelFactory $tokenFactory,
+        UserAuthenticator $userAuthenticator
     ) {
         $this->google = $google;
-        $this->userResource = $userResource;
-        $this->userFactory = $userFactory;
         $this->tfa = $tfa;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
         $this->tokenFactory = $tokenFactory;
+        $this->userAuthenticator = $userAuthenticator;
     }
 
     /**
      * Get an admin token by authenticating using google
      *
-     * @param int $userId
-     * @param GoogleAuthenticateInterfaceData $data
+     * @param string $username
+     * @param string $password
+     * @param string $otp
      * @return string
      * @throws AuthorizationException
      * @throws WebApiException
      */
-    public function getToken(int $userId, GoogleAuthenticateInterfaceData $data): string
+    public function getToken(string $username, string $password, string $otp): string
     {
+        $user = $this->userAuthenticator->authenticateWithCredentials($username, $password);
+        $userId = (int)$user->getId();
+
         if (!$this->tfa->getProviderIsAllowed($userId, Google::CODE)) {
             throw new WebApiException(__('Provider is not allowed.'));
         }
 
-        $user = $this->userFactory->create();
-        $this->userResource->load($user, $userId);
+        if (!$this->tfa->getProviderByCode(Google::CODE)->isActive($userId)) {
+            throw new WebApiException(__('Provider is not configured.'));
+        }
 
         if ($this->google->verify($user, $this->dataObjectFactory->create([
                 'data' => [
-                    'tfa_code' => $data->getOtp()
+                    'tfa_code' => $otp
                 ],
             ]))
         ) {
-            if ($this->tfa->getProvider(Google::CODE)->isActive($userId)) {
-                $this->tfa->getProvider(Google::CODE)->activate((int)$user->getId());
-            }
-
             $this->alert->event(
                 'Magento_TwoFactorAuth',
                 'New Google Authenticator code issued',

@@ -19,11 +19,21 @@ interface GoogleConfigureInterface
      * Get the information required to configure google
      *
      * @param int $userId
-     * @param TfaTokenInterface $tfaToken
+     * @param string $tfaToken
      * @return \Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface
      */
     public function getConfigurationData(
         int $userId,
-        TfaTokenInterface $tfaToken
+        string $tfaToken
     ): \Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface;
+
+    /**
+     * Activate the provider and get an admin token
+     *
+     * @param int $userId
+     * @param string $tfaToken
+     * @param string $otp
+     * @return string
+     */
+    public function activate(int $userId, string $tfaToken, string $otp): string;
 }
