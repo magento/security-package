@@ -50,16 +50,19 @@ define(
                     $(window).trigger('recaptchaapiready');
                 }.bind(this);
 
-                element = document.createElement('script');
-                scriptTag = document.getElementsByTagName('script')[0];
+                if (window.addedScriptTag === undefined) {
 
-                element.async = true;
-                element.src = 'https://www.google.com/recaptcha/api.js' +
-                    '?onload=globalOnRecaptchaOnLoadCallback&render=explicit' +
-                    (this.settings.rendering.lang ? '&hl=' + this.settings.rendering.lang : '');
+                    element = document.createElement('script');
+                    scriptTag = document.getElementsByTagName('script')[0];
 
-                scriptTag.parentNode.insertBefore(element, scriptTag);
+                    element.async = true;
+                    element.src = 'https://www.google.com/recaptcha/api.js' +
+                        '?onload=globalOnRecaptchaOnLoadCallback&render=explicit';
 
+                    scriptTag.parentNode.insertBefore(element, scriptTag);
+
+                    window.addedScriptTag = true;
+                }
             },
 
             /**
