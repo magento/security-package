@@ -166,7 +166,7 @@ class LoginFromTest extends AbstractController
         $this->setConfig(true, 'test_public_key', 'test_private_key');
 
         $this->expectException(InputException::class);
-        $this->expectExceptionMessage('Can not resolve reCAPTCHA parameter.');
+        $this->expectExceptionMessage('reCapctha is required.');
 
         $this->checkPostResponse(false);
     }
