@@ -55,8 +55,7 @@ define(
 
                 element.async = true;
                 element.src = 'https://www.google.com/recaptcha/api.js' +
-                    '?onload=globalOnRecaptchaOnLoadCallback&render=explicit' +
-                    (this.settings.rendering.lang ? '&hl=' + this.settings.rendering.lang : '');
+                    '?onload=globalOnRecaptchaOnLoadCallback&render=explicit';
 
                 scriptTag.parentNode.insertBefore(element, scriptTag);
 
