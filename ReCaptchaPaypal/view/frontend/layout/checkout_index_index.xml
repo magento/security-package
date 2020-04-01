@@ -29,7 +29,6 @@
                                                                             <item name="displayArea" xsi:type="string">additional-payment-fields</item>
                                                                             <item name="configSource" xsi:type="string">checkoutConfig</item>
                                                                             <item name="reCaptchaId" xsi:type="string">recaptcha-checkout-paypal-form</item>
-                                                                            <item name="zone" xsi:type="string">paypal</item>
                                                                         </item>
                                                                     </item>
                                                                 </item>
