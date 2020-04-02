@@ -182,7 +182,9 @@ class Validate extends Value
      */
     private function isEmptyValue(string $key, array $fieldData): bool
     {
-        return (isset($fieldData[$key]) && $this->existDataValue($fieldData[$key]) && $this->getDataValue($fieldData[$key]) === '');
+        return (isset($fieldData[$key])
+            && $this->existDataValue($fieldData[$key])
+            && $this->getDataValue($fieldData[$key]) === '');
     }
 
     /**
