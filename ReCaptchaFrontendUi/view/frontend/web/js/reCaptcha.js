@@ -125,7 +125,7 @@ define(
                         },
                         'expired-callback': function () {
                             me.validateReCaptcha(false);
-                        },
+                        }
                     },
                     this.settings.rendering
                 );
