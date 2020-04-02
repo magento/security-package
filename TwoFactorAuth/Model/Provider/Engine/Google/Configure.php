@@ -12,15 +12,14 @@ use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Webapi\Exception as WebApiException;
 use Magento\Integration\Model\Oauth\TokenFactory as TokenModelFactory;
-use Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateInterface;
 use Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface as GoogleConfigurationData;
-use Magento\TwoFactorAuth\Api\Data\TfaTokenInterface;
 use Magento\TwoFactorAuth\Api\GoogleConfigureInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\TwoFactorAuth\Model\Data\Provider\Engine\Google\ConfigurationDataFactory;
+use Magento\User\Api\Data\UserInterface;
 use Magento\User\Model\ResourceModel\User;
 use Magento\User\Model\UserFactory;
 
@@ -112,21 +111,7 @@ class Configure implements GoogleConfigureInterface
      */
     public function getConfigurationData(int $userId, string $tfaToken): GoogleConfigurationData
     {
-        if (!$this->tfa->getProviderIsAllowed($userId, Google::CODE)) {
-            throw new WebApiException(__('Provider is not allowed.'));
-        }
-
-        if ($this->tfa->getProviderByCode(Google::CODE)->isActive($userId)) {
-            throw new WebApiException(__('Provider is already configured.'));
-        }
-
-        if (!$this->tokenManager->isValidFor($userId, $tfaToken)) {
-            throw new AuthorizationException(
-                __('Invalid tfat token')
-            );
-        }
-        $user = $this->userFactory->create();
-        $this->userResource->load($user, $userId);
+        $user = $this->validateAndGetUser($userId, $tfaToken);
 
         return $this->configurationDataFactory->create(
             [
@@ -151,22 +136,7 @@ class Configure implements GoogleConfigureInterface
      */
     public function activate(int $userId, string $tfaToken, string $otp): string
     {
-        if (!$this->tfa->getProviderIsAllowed($userId, Google::CODE)) {
-            throw new WebApiException(__('Provider is not allowed.'));
-        }
-
-        if ($this->tfa->getProviderByCode(Google::CODE)->isActive($userId)) {
-            throw new WebApiException(__('Provider is already configured.'));
-        }
-
-        if (!$this->tokenManager->isValidFor($userId, $tfaToken)) {
-            throw new AuthorizationException(
-                __('Invalid tfat token')
-            );
-        }
-
-        $user = $this->userFactory->create();
-        $this->userResource->load($user, $userId);
+        $user = $this->validateAndGetUser($userId, $tfaToken);
 
         if ($this->google->verify($user, $this->dataObjectFactory->create([
             'data' => [
@@ -187,5 +157,32 @@ class Configure implements GoogleConfigureInterface
         } else {
             throw new AuthorizationException(__('Invalid code.'));
         }
+    }
+
+    /**
+     * Validate input params and get a user
+     *
+     * @param int $userId
+     * @param string $tfaToken
+     * @return UserInterface
+     * @throws AuthorizationException
+     * @throws WebApiException
+     */
+    private function validateAndGetUser(int $userId, string $tfaToken): UserInterface
+    {
+        if (!$this->tfa->getProviderIsAllowed($userId, Google::CODE)) {
+            throw new WebApiException(__('Provider is not allowed.'));
+        } elseif ($this->tfa->getProviderByCode(Google::CODE)->isActive($userId)) {
+            throw new WebApiException(__('Provider is already configured.'));
+        } elseif (!$this->tokenManager->isValidFor($userId, $tfaToken)) {
+            throw new AuthorizationException(
+                __('Invalid tfa token')
+            );
+        }
+
+        $user = $this->userFactory->create();
+        $this->userResource->load($user, $userId);
+
+        return $user;
     }
 }

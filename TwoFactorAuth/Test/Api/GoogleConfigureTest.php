@@ -57,7 +57,7 @@ class GoogleConfigureTest extends WebapiAbstract
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
             self::assertEmpty(json_last_error());
-            self::assertSame('Invalid tfat token', $response['message']);
+            self::assertSame('Invalid tfa token', $response['message']);
         }
     }
 

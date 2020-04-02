@@ -94,13 +94,9 @@ class Authenticate implements GoogleAuthenticateInterface
 
         if (!$this->tfa->getProviderIsAllowed($userId, Google::CODE)) {
             throw new WebApiException(__('Provider is not allowed.'));
-        }
-
-        if (!$this->tfa->getProviderByCode(Google::CODE)->isActive($userId)) {
+        } elseif (!$this->tfa->getProviderByCode(Google::CODE)->isActive($userId)) {
             throw new WebApiException(__('Provider is not configured.'));
-        }
-
-        if ($this->google->verify($user, $this->dataObjectFactory->create([
+        } elseif ($this->google->verify($user, $this->dataObjectFactory->create([
                 'data' => [
                     'tfa_code' => $otp
                 ],

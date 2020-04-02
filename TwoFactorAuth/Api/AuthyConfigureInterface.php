@@ -8,22 +8,27 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Api;
 
+use Magento\TwoFactorAuth\Api\Data\AuthyDeviceInterface;
+use Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface as ResponseInterface;
+
 /**
- * Represents the google provider
+ * Represents the authy provider
  */
-interface GoogleConfigureInterface
+interface AuthyConfigureInterface
 {
     /**
      * Get the information required to configure google
      *
      * @param int $userId
      * @param string $tfaToken
-     * @return \Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface
+     * @param AuthyDeviceInterface $deviceData
+     * @return \Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface
      */
-    public function getConfigurationData(
+    public function sendDeviceRegistrationPrompt(
         int $userId,
-        string $tfaToken
-    ): \Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface;
+        string $tfaToken,
+        AuthyDeviceInterface $deviceData
+    ): ResponseInterface;
 
     /**
      * Activate the provider and get an admin token
