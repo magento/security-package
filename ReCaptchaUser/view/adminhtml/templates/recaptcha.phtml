@@ -7,7 +7,6 @@
 $config = $block->getCaptchaUiConfig();
 $renderingOptions = $config['rendering'] ?? [];
 $isInvisible = !empty($config['invisible']);
-$languageCode = $config['rendering']['lang'] ?? null;
 ?>
 <div class="admin__field <?= /* @noEscape */ $isInvisible ? 'field-invisible-recaptcha' : 'field-recaptcha' ?>">
     <div id="admin-recaptcha"
@@ -25,8 +24,7 @@ $languageCode = $config['rendering']['lang'] ?? null;
 
         element.async = true;
         element.src = 'https://www.google.com/recaptcha/api.js'
-            + '?onload=globalOnRecaptchaOnLoadCallback&render=explicit'
-            <?php if (null !== $languageCode): ?><?="+'&hl={$languageCode}'" ?><?php endif; ?>;
+            + '?onload=globalOnRecaptchaOnLoadCallback&render=explicit';
 
         window.globalOnRecaptchaOnLoadCallback = function () {
             let token = '';

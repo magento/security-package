@@ -45,7 +45,7 @@ class UiConfigProvider implements UiConfigProviderInterface
                 'badge' => $this->getInvisibleBadgePosition(),
                 'size' => 'invisible',
                 'theme' => $this->getTheme(),
-                'lang'=> $this->getLanguageCode()
+                'hl'=> $this->getLanguageCode()
             ],
             'invisible' => true,
         ];

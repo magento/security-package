@@ -45,8 +45,7 @@ class UiConfigProvider implements UiConfigProviderInterface
                 'sitekey' => $this->getPublicKey(),
                 'size' => $this->getSize(),
                 'theme' => $this->getTheme(),
-                'hl' => $this->getLanguageCode(),
-                'lang' => $this->getLanguageCode()
+                'hl' => $this->getLanguageCode()
             ],
             'invisible' => false,
         ];
