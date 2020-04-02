@@ -43,7 +43,7 @@ class NewButton extends Generic
     public function getButtonData(): array
     {
         return [
-            'label' => __('New channel'),
+            'label' => __('New Channel'),
             'class_name' => Container::SPLIT_BUTTON,
             'options' => $this->getOptions(),
             'sort_order' => 10
