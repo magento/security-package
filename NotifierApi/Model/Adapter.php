@@ -64,6 +64,14 @@ class Adapter implements AdapterInterface
     /**
      * @inheritdoc
      */
+    public function getEngine(): AdapterEngineInterface
+    {
+        return $this->engine;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getDescription(): string
     {
         return $this->description;

@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Magento\NotifierApi\Api;
 
+use Magento\NotifierApi\Model\AdapterEngine\AdapterEngineInterface;
+
 /**
  * Interface AdapterInterface
  * @api
@@ -19,6 +21,13 @@ interface AdapterInterface
      * @return string
      */
     public function getCode(): string;
+
+    /**
+     * Get Engine
+     *
+     * @return AdapterEngineInterface
+     */
+    public function getEngine(): AdapterEngineInterface;
 
     /**
      * Get adapter description
