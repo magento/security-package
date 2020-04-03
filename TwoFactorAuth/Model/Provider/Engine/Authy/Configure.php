@@ -10,6 +10,7 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Webapi\Exception as WebApiException;
+use Magento\Integration\Model\Oauth\TokenFactory as TokenModelFactory;
 use Magento\TwoFactorAuth\Api\AuthyConfigureInterface;
 use Magento\TwoFactorAuth\Api\Data\AuthyDeviceInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
@@ -63,6 +64,16 @@ class Configure implements AuthyConfigureInterface
     private $responseFactory;
 
     /**
+     * @var TokenModelFactory
+     */
+    private $tokenFactory;
+
+    /**
+     * @var Authy
+     */
+    private $authy;
+
+    /**
      * @param AlertInterface $alert
      * @param Verification $verification
      * @param TfaInterface $tfa
@@ -70,6 +81,8 @@ class Configure implements AuthyConfigureInterface
      * @param UserFactory $userFactory
      * @param ResponseFactory $responseFactory
      * @param UserConfigTokenManagerInterface $tokenManager
+     * @param TokenModelFactory $tokenFactory
+     * @param Authy $authy
      */
     public function __construct(
         AlertInterface $alert,
@@ -78,7 +91,9 @@ class Configure implements AuthyConfigureInterface
         User $userResource,
         UserFactory $userFactory,
         ResponseFactory $responseFactory,
-        UserConfigTokenManagerInterface $tokenManager
+        UserConfigTokenManagerInterface $tokenManager,
+        TokenModelFactory $tokenFactory,
+        Authy $authy
     ) {
         $this->alert = $alert;
         $this->verification = $verification;
@@ -87,6 +102,8 @@ class Configure implements AuthyConfigureInterface
         $this->userFactory = $userFactory;
         $this->responseFactory = $responseFactory;
         $this->tokenManager = $tokenManager;
+        $this->tokenFactory = $tokenFactory;
+        $this->authy = $authy;
     }
 
     /**
@@ -135,7 +152,33 @@ class Configure implements AuthyConfigureInterface
      */
     public function activate(int $userId, string $tfaToken, string $otp): string
     {
-        return 'foo';
+        $user = $this->validateAndGetUser($userId, $tfaToken);
+
+        try {
+            $this->verification->verify($user, $otp);
+            $this->authy->enroll($user);
+
+            $this->alert->event(
+                'Magento_TwoFactorAuth',
+                'Authy identity verified',
+                AlertInterface::LEVEL_INFO,
+                $user->getUserName()
+            );
+
+            return $this->tokenFactory->create()
+                ->createAdminToken($userId)
+                ->getToken();
+        } catch (\Throwable $e) {
+            $this->alert->event(
+                'Magento_TwoFactorAuth',
+                'Authy identity verification failure',
+                AlertInterface::LEVEL_ERROR,
+                $user->getUserName(),
+                $e->getMessage()
+            );
+
+            throw $e;
+        }
     }
 
     /**
