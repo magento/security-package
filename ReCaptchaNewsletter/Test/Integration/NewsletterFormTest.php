@@ -5,13 +5,15 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaContact\Test\Integration;
+namespace Magento\ReCaptchaNewsletter\Test\Integration;
 
-use Magento\Framework\App\Request\Http as HttpRequest;
+use Magento\Framework\App\Request\Http;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Message\MessageInterface;
+use Magento\Framework\UrlInterface;
 use Magento\Framework\Validation\ValidationResult;
+use Magento\Newsletter\Model\SubscriberFactory;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
 use Magento\ReCaptchaValidation\Model\Validator;
 use Magento\Store\Model\ScopeInterface;
@@ -23,17 +25,27 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @magentoAppArea frontend
  * @magentoAppIsolation enabled
  */
-class ContactFormTest extends AbstractController
+class NewsletterFormTest extends AbstractController
 {
+    /**
+     * @var MutableScopeConfig
+     */
+    private $mutableScopeConfig;
+
     /**
      * @var FormKey
      */
     private $formKey;
 
     /**
-     * @var MutableScopeConfig
+     * @var UrlInterface
      */
-    private $mutableScopeConfig;
+    private $url;
+
+    /**
+     * @var SubscriberFactory
+     */
+    private $subscriberFactory;
 
     /**
      * @var ValidationResult|MockObject
@@ -46,17 +58,18 @@ class ContactFormTest extends AbstractController
     protected function setUp()
     {
         parent::setUp();
-        $this->formKey = $this->_objectManager->get(FormKey::class);
         $this->mutableScopeConfig = $this->_objectManager->get(MutableScopeConfig::class);
+        $this->formKey = $this->_objectManager->get(FormKey::class);
+        $this->url = $this->_objectManager->get(UrlInterface::class);
+        $this->subscriberFactory = $this->_objectManager->get(SubscriberFactory::class);
 
         $this->captchaValidationResultMock = $this->createMock(ValidationResult::class);
-        $captchaValidatorMock = $this->createMock(Validator::class);
-        $captchaValidatorMock->expects($this->any())
+        $captchaValidationResultMock = $this->createMock(Validator::class);
+        $captchaValidationResultMock->expects($this->any())
             ->method('isValid')
             ->willReturn($this->captchaValidationResultMock);
-        $this->_objectManager->addSharedInstance($captchaValidatorMock, Validator::class);
+        $this->_objectManager->addSharedInstance($captchaValidationResultMock, Validator::class);
     }
-
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
@@ -71,10 +84,10 @@ class ContactFormTest extends AbstractController
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/newsletter invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -87,10 +100,10 @@ class ContactFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/newsletter invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
@@ -113,7 +126,7 @@ class ContactFormTest extends AbstractController
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -126,7 +139,7 @@ class ContactFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
@@ -143,7 +156,7 @@ class ContactFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      */
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
@@ -159,7 +172,7 @@ class ContactFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      */
     public function testPostRequestWithFailedReCaptchaValidation()
     {
@@ -177,7 +190,7 @@ class ContactFormTest extends AbstractController
      */
     private function checkSuccessfulGetResponse($shouldContainReCaptcha = false)
     {
-        $this->dispatch('contact/index');
+        $this->dispatch($this->url->getRouteUrl());
         $content = $this->getResponse()->getBody();
 
         self::assertNotEmpty($content);
@@ -196,25 +209,23 @@ class ContactFormTest extends AbstractController
     private function checkPostResponse(bool $isSuccessfulRequest, array $postValues = [])
     {
         $this->getRequest()
-            ->setMethod(HttpRequest::METHOD_POST)
+            ->setMethod(Http::METHOD_POST)
             ->setPostValue(array_replace_recursive(
                 [
                     'form_key' => $this->formKey->getFormKey(),
-                    'name' => 'customer name',
-                    'comment' => 'comment',
                     'email' => 'user@example.com',
                 ],
                 $postValues
             ));
 
-        $this->dispatch('contact/index/post');
+        $this->dispatch('newsletter/subscriber/new');
 
-        $this->assertRedirect(self::stringContains('contact/index'));
+        $this->assertRedirect(self::equalTo($this->url->getRouteUrl()));
 
         if ($isSuccessfulRequest) {
             $this->assertSessionMessages(
                 self::contains(
-                    "Thanks for contacting us with your comments and questions. We&#039;ll respond to you very soon."
+                    'Thank you for your subscription.'
                 ),
                 MessageInterface::TYPE_SUCCESS
             );
@@ -235,7 +246,7 @@ class ContactFormTest extends AbstractController
     private function setConfig(bool $isEnabled, ?string $public, ?string $private): void
     {
         $this->mutableScopeConfig->setValue(
-            'recaptcha_frontend/type_for/contact',
+            'recaptcha_frontend/type_for/newsletter',
             $isEnabled ? 'invisible' : null,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -249,5 +260,12 @@ class ContactFormTest extends AbstractController
             $private,
             ScopeInterface::SCOPE_WEBSITE
         );
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->subscriberFactory->create()->loadBySubscriberEmail('user@example.com', 1)->delete();
     }
 }
