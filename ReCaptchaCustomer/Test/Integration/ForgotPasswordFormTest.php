@@ -167,7 +167,7 @@ class ForgotPasswordFormTest extends AbstractController
         $this->setConfig(true, 'test_public_key', 'test_private_key');
 
         $this->expectException(InputException::class);
-        $this->expectExceptionMessage('reCapctha is required.');
+        $this->expectExceptionMessage('reCAPTCHA is required.');
 
         $this->checkPostResponse(false);
     }

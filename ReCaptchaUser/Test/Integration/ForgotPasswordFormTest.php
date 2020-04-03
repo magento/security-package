@@ -142,7 +142,7 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
      * @expectedException \Magento\Framework\Exception\InputException
-     * @expectedExceptionMessage reCapctha is required.
+     * @expectedExceptionMessage reCAPTCHA is required.
      */
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {

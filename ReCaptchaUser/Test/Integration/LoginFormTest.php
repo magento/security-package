@@ -169,7 +169,7 @@ class LoginFormTest extends AbstractController
         // Location header is different than in the successful case
         $this->assertRedirect(self::equalTo($this->backendUrl->getUrl('admin')));
         $this->assertSessionMessages(
-            self::equalTo(['reCapctha is required.']),
+            self::equalTo(['reCAPTCHA is required.']),
             MessageInterface::TYPE_ERROR
         );
         self::assertFalse($this->auth->isLoggedIn());

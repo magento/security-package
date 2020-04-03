@@ -22,7 +22,7 @@ class CaptchaResponseResolver implements CaptchaResponseResolverInterface
     {
         $reCaptchaParam = $request->getParam(self::PARAM_RECAPTCHA);
         if (empty($reCaptchaParam)) {
-            throw new InputException(__('reCapctha is required.'));
+            throw new InputException(__('reCAPTCHA is required.'));
         }
         return $reCaptchaParam;
     }
