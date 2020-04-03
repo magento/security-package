@@ -10,12 +10,14 @@ namespace Magento\ReCaptchaUser\Observer;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\Plugin\AuthenticationException;
-use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\ValidationConfigResolverInterface;
 use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * LoginObserver
@@ -53,11 +55,17 @@ class LoginObserver implements ObserverInterface
     private $loginActionName;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * @param CaptchaResponseResolverInterface $captchaResponseResolver
      * @param ValidationConfigResolverInterface $validationConfigResolver
      * @param ValidatorInterface $captchaValidator
      * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param RequestInterface $request
+     * @param LoggerInterface $logger
      * @param string $loginActionName
      */
     public function __construct(
@@ -66,6 +74,7 @@ class LoginObserver implements ObserverInterface
         ValidatorInterface $captchaValidator,
         IsCaptchaEnabledInterface $isCaptchaEnabled,
         RequestInterface $request,
+        LoggerInterface $logger,
         string $loginActionName
     ) {
         $this->captchaResponseResolver = $captchaResponseResolver;
@@ -74,6 +83,7 @@ class LoginObserver implements ObserverInterface
         $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->request = $request;
         $this->loginActionName = $loginActionName;
+        $this->logger = $logger;
     }
 
     /**
@@ -88,11 +98,18 @@ class LoginObserver implements ObserverInterface
         if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)
             && $this->request->getFullActionName() === $this->loginActionName
         ) {
-            $reCaptchaResponse = $this->captchaResponseResolver->resolve($this->request);
             $validationConfig = $this->validationConfigResolver->get($key);
+            try {
+                $reCaptchaResponse = $this->captchaResponseResolver->resolve($this->request);
+            } catch (InputException $e) {
+                $reCaptchaResponse = null;
+                $this->logger->error($e);
+            }
 
-            $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
-            if (false === $validationResult->isValid()) {
+            if (null !== $reCaptchaResponse) {
+                $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
+            }
+            if (null === $reCaptchaResponse || false === $validationResult->isValid()) {
                 throw new AuthenticationException(__($validationConfig->getValidationFailureMessage()));
             }
         }
