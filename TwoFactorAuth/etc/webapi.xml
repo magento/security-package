@@ -112,4 +112,25 @@
             <resource ref="anonymous" />
         </resources>
     </route>
+
+    <route url="/V1/tfa/provider/authy/authenticate" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" method="authenticateWithToken"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/authy/send-token/:via" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" method="sendToken"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/authy/authenticate-onetouch" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" method="authenticateWithOnetouch"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
 </routes>
