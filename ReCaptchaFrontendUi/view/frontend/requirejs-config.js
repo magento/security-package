@@ -3,6 +3,8 @@
  * See COPYING.txt for license details.
  */
 
+/*eslint strict: ["error", "global"]*/
+
 'use strict';
 
 var config = {
