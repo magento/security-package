@@ -53,20 +53,15 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
     }
 
     /**
-     * @inheritdoc
+     * Get validation failure message
+     *
+     * @return string
      */
-    public function get(): ValidationConfigInterface
+    private function getValidationFailureMessage(): string
     {
-        /** @var ValidationConfigInterface $validationConfig */
-        $validationConfig = $this->validationConfigFactory->create(
-            [
-                'privateKey' => $this->getPrivateKey(),
-                'remoteIp' => $this->remoteAddress->getRemoteAddress(),
-                'validationFailureMessage' => $this->getValidationFailureMessage(),
-                'extensionAttributes' => null,
-            ]
+        return trim(
+            (string)$this->scopeConfig->getValue(self::XML_PATH_VALIDATION_FAILURE, ScopeInterface::SCOPE_STORE)
         );
-        return $validationConfig;
     }
 
     /**
@@ -80,14 +75,21 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
     }
 
     /**
-     * Get validation failure message
+     * Return frontend Validation config for Invisible reCAPTCHA.
      *
-     * @return string
+     * @return ValidationConfigInterface
      */
-    private function getValidationFailureMessage(): string
+    public function get(): ValidationConfigInterface
     {
-        return trim(
-            (string)$this->scopeConfig->getValue(self::XML_PATH_VALIDATION_FAILURE, ScopeInterface::SCOPE_STORE)
+        /** @var ValidationConfigInterface $validationConfig */
+        $validationConfig = $this->validationConfigFactory->create(
+            [
+                'privateKey' => $this->getPrivateKey(),
+                'remoteIp' => $this->remoteAddress->getRemoteAddress(),
+                'validationFailureMessage' => $this->getValidationFailureMessage(),
+                'extensionAttributes' => null,
+            ]
         );
+        return $validationConfig;
     }
 }
