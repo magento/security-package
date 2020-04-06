@@ -54,7 +54,7 @@ class GoogleAuthenticateTest extends WebapiAbstract
     /**
      * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
      */
-    public function testInvalidCredentialsProvider()
+    public function testInvalidCredentials()
     {
         $serviceInfo = $this->buildServiceInfo();
 
@@ -71,7 +71,11 @@ class GoogleAuthenticateTest extends WebapiAbstract
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
             self::assertEmpty(json_last_error());
-            self::assertSame('Invalid credentials', $response['message']);
+            self::assertSame(
+                'The account sign-in was incorrect or your account is disabled temporarily. '
+                . 'Please wait and try again later.',
+                $response['message']
+            );
         }
     }
 

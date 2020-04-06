@@ -15,13 +15,10 @@ use Magento\Integration\Model\Oauth\TokenFactory as TokenModelFactory;
 use Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface as GoogleConfigurationData;
 use Magento\TwoFactorAuth\Api\GoogleConfigureInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
-use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\TwoFactorAuth\Model\Data\Provider\Engine\Google\ConfigurationDataFactory;
-use Magento\User\Api\Data\UserInterface;
-use Magento\User\Model\ResourceModel\User;
-use Magento\User\Model\UserFactory;
+use Magento\TwoFactorAuth\Model\UserAuthenticator;
 
 /**
  * Configure google provider
@@ -37,21 +34,6 @@ class Configure implements GoogleConfigureInterface
      * @var Google
      */
     private $google;
-
-    /**
-     * @var UserConfigTokenManagerInterface
-     */
-    private $tokenManager;
-
-    /**
-     * @var User
-     */
-    private $userFactory;
-
-    /**
-     * @var User
-     */
-    private $userResource;
 
     /**
      * @var TfaInterface
@@ -74,36 +56,35 @@ class Configure implements GoogleConfigureInterface
     private $tokenFactory;
 
     /**
+     * @var UserAuthenticator
+     */
+    private $userAuthenticator;
+
+    /**
      * @param ConfigurationDataFactory $configurationDataFactory
      * @param Google $google
-     * @param UserConfigTokenManagerInterface $tokenManager
-     * @param User $userResource
-     * @param UserFactory $userFactory
      * @param TfaInterface $tfa
      * @param DataObjectFactory $dataObjectFactory
      * @param AlertInterface $alert
      * @param TokenModelFactory $tokenFactory
+     * @param UserAuthenticator $userAuthenticator
      */
     public function __construct(
         ConfigurationDataFactory $configurationDataFactory,
         Google $google,
-        UserConfigTokenManagerInterface $tokenManager,
-        User $userResource,
-        UserFactory $userFactory,
         TfaInterface $tfa,
         DataObjectFactory $dataObjectFactory,
         AlertInterface $alert,
-        TokenModelFactory $tokenFactory
+        TokenModelFactory $tokenFactory,
+        UserAuthenticator $userAuthenticator
     ) {
         $this->configurationDataFactory = $configurationDataFactory;
         $this->google = $google;
-        $this->tokenManager = $tokenManager;
-        $this->userResource = $userResource;
-        $this->userFactory = $userFactory;
         $this->tfa = $tfa;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
         $this->tokenFactory = $tokenFactory;
+        $this->userAuthenticator = $userAuthenticator;
     }
 
     /**
@@ -111,7 +92,7 @@ class Configure implements GoogleConfigureInterface
      */
     public function getConfigurationData(int $userId, string $tfaToken): GoogleConfigurationData
     {
-        $user = $this->validateAndGetUser($userId, $tfaToken);
+        $user = $this->userAuthenticator->authenticateWithTokenAndProvider($userId, $tfaToken, Google::CODE);
 
         return $this->configurationDataFactory->create(
             [
@@ -136,7 +117,7 @@ class Configure implements GoogleConfigureInterface
      */
     public function activate(int $userId, string $tfaToken, string $otp): string
     {
-        $user = $this->validateAndGetUser($userId, $tfaToken);
+        $user = $this->userAuthenticator->authenticateWithTokenAndProvider($userId, $tfaToken, Google::CODE);
 
         if ($this->google->verify($user, $this->dataObjectFactory->create([
             'data' => [
@@ -157,32 +138,5 @@ class Configure implements GoogleConfigureInterface
         } else {
             throw new AuthorizationException(__('Invalid code.'));
         }
-    }
-
-    /**
-     * Validate input params and get a user
-     *
-     * @param int $userId
-     * @param string $tfaToken
-     * @return UserInterface
-     * @throws AuthorizationException
-     * @throws WebApiException
-     */
-    private function validateAndGetUser(int $userId, string $tfaToken): UserInterface
-    {
-        if (!$this->tfa->getProviderIsAllowed($userId, Google::CODE)) {
-            throw new WebApiException(__('Provider is not allowed.'));
-        } elseif ($this->tfa->getProviderByCode(Google::CODE)->isActive($userId)) {
-            throw new WebApiException(__('Provider is already configured.'));
-        } elseif (!$this->tokenManager->isValidFor($userId, $tfaToken)) {
-            throw new AuthorizationException(
-                __('Invalid tfa token')
-            );
-        }
-
-        $user = $this->userFactory->create();
-        $this->userResource->load($user, $userId);
-
-        return $user;
     }
 }

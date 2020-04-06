@@ -8,13 +8,10 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model;
 
-use Magento\Framework\Exception\AuthenticationException;
-use Magento\Integration\Model\Oauth\Token\RequestThrottler;
 use Magento\TwoFactorAuth\Api\AdminTokenServiceInterface;
 use Magento\Framework\Authorization\PolicyInterface;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Webapi\Exception as WebapiException;
-use Magento\Integration\Model\AdminTokenService;
 use Magento\TwoFactorAuth\Api\Data\AdminTokenResponseInterface;
 use Magento\TwoFactorAuth\Api\Data\AdminTokenResponseInterfaceFactory;
 use Magento\TwoFactorAuth\Api\Exception\NotificationExceptionInterface;
@@ -47,16 +44,6 @@ class AdminAccessTokenService implements AdminTokenServiceInterface
     private $userAuthenticator;
 
     /**
-     * @var AdminTokenService
-     */
-    private $adminTokenService;
-
-    /**
-     * @var RequestThrottler
-     */
-    private $requestThrottler;
-
-    /**
      * @var AdminTokenResponseInterfaceFactory
      */
     private $responseFactory;
@@ -66,8 +53,6 @@ class AdminAccessTokenService implements AdminTokenServiceInterface
      * @param UserConfigRequestManagerInterface $configRequestManager
      * @param PolicyInterface $auth
      * @param UserAuthenticator $userAuthenticator
-     * @param AdminTokenService $adminTokenService
-     * @param RequestThrottler $requestThrottler
      * @param AdminTokenResponseInterfaceFactory $responseFactory
      */
     public function __construct(
@@ -75,16 +60,12 @@ class AdminAccessTokenService implements AdminTokenServiceInterface
         UserConfigRequestManagerInterface $configRequestManager,
         PolicyInterface $auth,
         UserAuthenticator $userAuthenticator,
-        AdminTokenService $adminTokenService,
-        RequestThrottler $requestThrottler,
         AdminTokenResponseInterfaceFactory $responseFactory
     ) {
         $this->tfa = $tfa;
         $this->configRequestManager = $configRequestManager;
         $this->auth = $auth;
         $this->userAuthenticator = $userAuthenticator;
-        $this->adminTokenService = $adminTokenService;
-        $this->requestThrottler = $requestThrottler;
         $this->responseFactory = $responseFactory;
     }
 
@@ -97,18 +78,7 @@ class AdminAccessTokenService implements AdminTokenServiceInterface
      */
     public function createAdminAccessToken(string $username, string $password): AdminTokenResponseInterface
     {
-        try {
-            $user = $this->userAuthenticator->authenticateWithCredentials($username, $password);
-        } catch (\InvalidArgumentException $e) {
-            $this->requestThrottler->logAuthenticationFailure($username, RequestThrottler::USER_TYPE_ADMIN);
-            throw new AuthenticationException(
-                __(
-                    'The account sign-in was incorrect or your account is disabled temporarily. '
-                    . 'Please wait and try again later.'
-                )
-            );
-        }
-        $this->requestThrottler->resetAuthenticationFailuresCount($username, RequestThrottler::USER_TYPE_ADMIN);
+        $user = $this->userAuthenticator->authenticateWithCredentials($username, $password);
 
         $userId = (int)$user->getId();
 

@@ -79,7 +79,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
-     * @magentoDataFixture Magento/User/_files/user_with_custom_role.php
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
      * @expectedException \Magento\Framework\Exception\AuthorizationException
      * @expectedExceptionMessage Invalid tfa token
      */
@@ -107,7 +107,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
-     * @magentoDataFixture Magento/User/_files/user_with_custom_role.php
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
      * @expectedException \Magento\Framework\Webapi\Exception
      * @expectedExceptionMessage Provider is already configured.
      */
@@ -136,7 +136,7 @@ class ConfigureTest extends TestCase
 
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
-     * @magentoDataFixture Magento/User/_files/user_with_custom_role.php
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
      * @expectedException \Magento\Framework\Webapi\Exception
      * @expectedExceptionMessage Provider is not allowed.
      */
@@ -164,7 +164,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
-     * @magentoDataFixture Magento/User/_files/user_with_custom_role.php
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
      */
     public function testConfigureValidRequest()
     {
@@ -210,7 +210,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
-     * @magentoDataFixture Magento/User/_files/user_with_custom_role.php
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
      * @expectedException \Magento\Framework\Exception\AuthorizationException
      * @expectedExceptionMessage Invalid tfa token
      */
@@ -233,7 +233,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
-     * @magentoDataFixture Magento/User/_files/user_with_custom_role.php
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
      * @expectedException \Magento\Framework\Webapi\Exception
      * @expectedExceptionMessage Provider is already configured.
      */
@@ -257,7 +257,7 @@ class ConfigureTest extends TestCase
 
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
-     * @magentoDataFixture Magento/User/_files/user_with_custom_role.php
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
      * @expectedException \Magento\Framework\Webapi\Exception
      * @expectedExceptionMessage Provider is not allowed.
      */
@@ -280,7 +280,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
-     * @magentoDataFixture Magento/User/_files/user_with_custom_role.php
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
      */
     public function testActivateValidRequest()
     {
@@ -311,7 +311,7 @@ class ConfigureTest extends TestCase
     private function getUserId(): int
     {
         $user = $this->userFactory->create();
-        $user->loadByUsername('customRoleUser');
+        $user->loadByUsername('adminUser');
 
         return (int)$user->getId();
     }

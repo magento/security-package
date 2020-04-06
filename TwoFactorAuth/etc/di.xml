@@ -34,6 +34,9 @@
     <preference for="Magento\TwoFactorAuth\Api\Data\AuthyDeviceInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\Authy\Device"/>
     <preference for="Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\Authy\RegistrationResponse"/>
     <preference for="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Authenticate"/>
+    <preference for="Magento\TwoFactorAuth\Api\U2fKeyConfigureInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Configure"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\U2fkey\WebAuthnRequest"/>
+    <preference for="Magento\TwoFactorAuth\Api\U2fKeyAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Authenticate"/>
 
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
