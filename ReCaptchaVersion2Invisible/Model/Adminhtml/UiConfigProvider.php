@@ -35,21 +35,15 @@ class UiConfigProvider implements UiConfigProviderInterface
     }
 
     /**
-     * @inheritdoc
+     * Get language code
+     *
+     * @return string
      */
-    public function get(): array
+    private function getLanguageCode(): string
     {
-        $config = [
-            'rendering' => [
-                'sitekey' => $this->getPublicKey(),
-                'badge' => $this->getInvisibleBadgePosition(),
-                'size' => 'invisible',
-                'theme' => $this->getTheme(),
-                'hl' => $this->getLanguageCode()
-            ],
-            'invisible' => true,
-        ];
-        return $config;
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_LANGUAGE_CODE
+        );
     }
 
     /**
@@ -87,14 +81,20 @@ class UiConfigProvider implements UiConfigProviderInterface
     }
 
     /**
-     * Get language code
-     *
-     * @return string
+     * @inheritdoc
      */
-    private function getLanguageCode(): string
+    public function get(): array
     {
-        return (string)$this->scopeConfig->getValue(
-            self::XML_PATH_LANGUAGE_CODE
-        );
+        $config = [
+            'rendering' => [
+                'sitekey' => $this->getPublicKey(),
+                'badge' => $this->getInvisibleBadgePosition(),
+                'size' => 'invisible',
+                'theme' => $this->getTheme(),
+                'hl'=> $this->getLanguageCode()
+            ],
+            'invisible' => true,
+        ];
+        return $config;
     }
 }

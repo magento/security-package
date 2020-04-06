@@ -36,31 +36,16 @@ class UiConfigProvider implements UiConfigProviderInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function get(): array
-    {
-        $config = [
-            'rendering' => [
-                'sitekey' => $this->getPublicKey(),
-                'badge' => $this->getInvisibleBadgePosition(),
-                'size' => 'invisible',
-                'theme' => $this->getTheme(),
-                'hl' => $this->getLanguageCode()
-            ],
-            'invisible' => true,
-        ];
-        return $config;
-    }
-
-    /**
-     * Get Google API Website Key
+     * Get language code
      *
      * @return string
      */
-    private function getPublicKey(): string
+    private function getLanguageCode(): string
     {
-        return trim((string)$this->scopeConfig->getValue(self::XML_PATH_PUBLIC_KEY, ScopeInterface::SCOPE_WEBSITE));
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_LANGUAGE_CODE,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -77,6 +62,16 @@ class UiConfigProvider implements UiConfigProviderInterface
     }
 
     /**
+     * Get Google API Website Key
+     *
+     * @return string
+     */
+    private function getPublicKey(): string
+    {
+        return trim((string)$this->scopeConfig->getValue(self::XML_PATH_PUBLIC_KEY, ScopeInterface::SCOPE_WEBSITE));
+    }
+
+    /**
      * Get theme
      *
      * @return string
@@ -90,15 +85,20 @@ class UiConfigProvider implements UiConfigProviderInterface
     }
 
     /**
-     * Get language code
-     *
-     * @return string
+     * @inheritdoc
      */
-    private function getLanguageCode(): string
+    public function get(): array
     {
-        return (string)$this->scopeConfig->getValue(
-            self::XML_PATH_LANGUAGE_CODE,
-            ScopeInterface::SCOPE_STORE
-        );
+        $config = [
+            'rendering' => [
+                'sitekey' => $this->getPublicKey(),
+                'badge' => $this->getInvisibleBadgePosition(),
+                'size' => 'invisible',
+                'theme' => $this->getTheme(),
+                'hl' => $this->getLanguageCode()
+            ],
+            'invisible' => true,
+        ];
+        return $config;
     }
 }

@@ -35,24 +35,6 @@ class UiConfigProvider implements UiConfigProviderInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function get(): array
-    {
-        $config = [
-            'rendering' => [
-                'sitekey' => $this->getPublicKey(),
-                'badge' => $this->getInvisibleBadgePosition(),
-                'size' => 'invisible',
-                'theme' => $this->getTheme(),
-                'hl'=> $this->getLanguageCode()
-            ],
-            'invisible' => true,
-        ];
-        return $config;
-    }
-
-    /**
      * Get Google API Website Key
      *
      * @return string
@@ -96,5 +78,23 @@ class UiConfigProvider implements UiConfigProviderInterface
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_LANGUAGE_CODE
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function get(): array
+    {
+        $config = [
+            'rendering' => [
+                'sitekey' => $this->getPublicKey(),
+                'badge' => $this->getInvisibleBadgePosition(),
+                'size' => 'invisible',
+                'theme' => $this->getTheme(),
+                'hl'=> $this->getLanguageCode()
+            ],
+            'invisible' => true,
+        ];
+        return $config;
     }
 }

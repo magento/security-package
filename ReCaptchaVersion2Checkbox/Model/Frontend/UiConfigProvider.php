@@ -36,23 +36,6 @@ class UiConfigProvider implements UiConfigProviderInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function get(): array
-    {
-        $config = [
-            'rendering' => [
-                'sitekey' => $this->getPublicKey(),
-                'size' => $this->getSize(),
-                'theme' => $this->getTheme(),
-                'hl' => $this->getLanguageCode()
-            ],
-            'invisible' => false,
-        ];
-        return $config;
-    }
-
-    /**
      * Get Google API Website Key
      *
      * @return string
@@ -99,5 +82,24 @@ class UiConfigProvider implements UiConfigProviderInterface
             self::XML_PATH_LANGUAGE_CODE,
             ScopeInterface::SCOPE_STORE
         );
+    }
+
+    /**
+     * Return frontend UI config for reCAPTCHA v2.
+     *
+     * @return array
+     */
+    public function get(): array
+    {
+        $config = [
+            'rendering' => [
+                'sitekey' => $this->getPublicKey(),
+                'size' => $this->getSize(),
+                'theme' => $this->getTheme(),
+                'hl' => $this->getLanguageCode(),
+            ],
+            'invisible' => false,
+        ];
+        return $config;
     }
 }
