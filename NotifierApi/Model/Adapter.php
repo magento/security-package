@@ -35,22 +35,30 @@ class Adapter implements AdapterInterface
     private $adapterValidator;
 
     /**
+     * @var array
+     */
+    private $template_mapping;
+
+    /**
      * Adapter constructor.
      * @param AdapterEngineInterface $engine
      * @param AdapterValidatorInterface $adapterValidator
      * @param string $code
      * @param string $description
+     * @param array $template_mapping
      */
     public function __construct(
         AdapterEngineInterface $engine,
         AdapterValidatorInterface $adapterValidator,
         string $code,
-        string $description
+        string $description,
+        array $template_mapping = []
     ) {
         $this->engine = $engine;
         $this->adapterValidator = $adapterValidator;
         $this->code = $code;
         $this->description = $description;
+        $this->template_mapping = $template_mapping;
     }
 
     /**
@@ -64,17 +72,17 @@ class Adapter implements AdapterInterface
     /**
      * @inheritdoc
      */
-    public function getEngine(): AdapterEngineInterface
-    {
-        return $this->engine;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTemplateMapping(): array
+    {
+        return $this->template_mapping;
     }
 
     /**
