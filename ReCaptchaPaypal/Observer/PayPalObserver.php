@@ -14,8 +14,8 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\SerializerInterface;
-use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\ValidationConfigResolverInterface;
 use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Psr\Log\LoggerInterface;
@@ -108,19 +108,15 @@ class PayPalObserver implements ObserverInterface
             try {
                 $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
             } catch (InputException $e) {
+                $reCaptchaResponse = null;
                 $this->logger->error($e);
-
-                $jsonPayload = $this->serializer->serialize([
-                    'success' => false,
-                    'error' => true,
-                    'error_messages' => $validationConfig->getValidationFailureMessage(),
-                ]);
-                $response->representJson($jsonPayload);
-                return;
             }
 
-            $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
-            if (false === $validationResult->isValid()) {
+            if (null !== $reCaptchaResponse) {
+                $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
+            }
+
+            if (null === $reCaptchaResponse || false === $validationResult->isValid()) {
                 $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
                 $jsonPayload = $this->serializer->serialize([
