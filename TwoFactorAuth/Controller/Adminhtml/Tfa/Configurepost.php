@@ -120,7 +120,7 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
         if ($this->validate($selected)) {
             $this->configResource->saveConfig(
                 TfaInterface::XML_PATH_FORCED_PROVIDERS,
-                implode(', ',array_keys($selected))
+                implode(',', array_keys($selected))
             );
             $this->config->reinit();
             $this->getMessageManager()->addSuccessMessage(
