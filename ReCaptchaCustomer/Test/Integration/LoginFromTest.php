@@ -225,7 +225,7 @@ class LoginFromTest extends AbstractController
     {
         $this->makePostRequest($postValues);
 
-        $this->assertRedirect(self::equalTo($this->url->getRouteUrl('customer/account/login')));
+        $this->assertRedirect(self::stringStartsWith($this->url->getRouteUrl('customer/account/login')));
         $this->assertSessionMessages(
             self::equalTo(['reCAPTCHA verification failed']),
             MessageInterface::TYPE_ERROR
