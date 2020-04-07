@@ -9,6 +9,7 @@ namespace Magento\ReCaptchaPaypal\Observer;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\InputException;
@@ -108,25 +109,32 @@ class PayPalObserver implements ObserverInterface
             try {
                 $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
             } catch (InputException $e) {
-                $reCaptchaResponse = null;
                 $this->logger->error($e);
+                $this->processError($response, $validationConfig->getValidationFailureMessage());
+                return;
             }
 
-            if (null !== $reCaptchaResponse) {
-                $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
-            }
-
-            if (null === $reCaptchaResponse || false === $validationResult->isValid()) {
-                $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
-
-                $jsonPayload = $this->serializer->serialize([
-                    'success' => false,
-                    'error' => true,
-                    'error_messages' => $validationConfig->getValidationFailureMessage(),
-                ]);
-
-                $response->representJson($jsonPayload);
+            $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
+            if (false === $validationResult->isValid()) {
+                $this->processError($response, $validationConfig->getValidationFailureMessage());
             }
         }
+    }
+
+    /**
+     * @param ResponseInterface $response
+     * @param string $message
+     * @return void
+     */
+    private function processError(ResponseInterface $response, string $message): void
+    {
+        $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
+
+        $jsonPayload = $this->serializer->serialize([
+            'success' => false,
+            'errors' => true,
+            'error_messages' => $message,
+        ]);
+        $response->representJson($jsonPayload);
     }
 }

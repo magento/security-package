@@ -85,22 +85,32 @@ class RequestHandler implements RequestHandlerInterface
         string $redirectOnFailureUrl
     ): void {
         $validationConfig = $this->validationConfigResolver->get($key);
+
         try {
             $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
         } catch (InputException $e) {
-            $reCaptchaResponse = null;
             $this->logger->error($e);
+            $this->processError($response, $validationConfig->getValidationFailureMessage(), $redirectOnFailureUrl);
+            return;
         }
 
-        if (null !== $reCaptchaResponse) {
-            $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
+        $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
+        if (false === $validationResult->isValid()) {
+            $this->processError($response, $validationConfig->getValidationFailureMessage(), $redirectOnFailureUrl);
         }
+    }
 
-        if (null === $reCaptchaResponse || false === $validationResult->isValid()) {
-            $this->messageManager->addErrorMessage($validationConfig->getValidationFailureMessage());
-            $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
+    /**
+     * @param HttpResponseInterface $response
+     * @param string $message
+     * @param string $redirectOnFailureUrl
+     * @return void
+     */
+    private function processError(HttpResponseInterface $response, string $message, string $redirectOnFailureUrl): void
+    {
+        $this->messageManager->addErrorMessage($message);
+        $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
 
-            $response->setRedirect($redirectOnFailureUrl);
-        }
+        $response->setRedirect($redirectOnFailureUrl);
     }
 }

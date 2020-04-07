@@ -51,7 +51,7 @@ class LoginFormTest extends AbstractController
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->auth = $this->_objectManager->get(Auth::class);
@@ -72,7 +72,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      */
-    public function testGetRequestIfReCaptchaIsDisabled()
+    public function testGetRequestIfReCaptchaIsDisabled(): void
     {
         $this->checkSuccessfulGetResponse();
     }
@@ -85,7 +85,7 @@ class LoginFormTest extends AbstractController
      * It's  needed for proper work of "ifconfig" in layout during tests running
      * @magentoConfigFixture default_store recaptcha_backend/type_for/user_login invisible
      */
-    public function testGetRequestIfReCaptchaKeysAreNotConfigured()
+    public function testGetRequestIfReCaptchaKeysAreNotConfigured(): void
     {
         $this->checkSuccessfulGetResponse();
     }
@@ -100,7 +100,7 @@ class LoginFormTest extends AbstractController
      * It's  needed for proper work of "ifconfig" in layout during tests running
      * @magentoConfigFixture default_store recaptcha_backend/type_for/user_login invisible
      */
-    public function testGetRequestIfReCaptchaIsEnabled()
+    public function testGetRequestIfReCaptchaIsEnabled(): void
     {
         $this->checkSuccessfulGetResponse(true);
     }
@@ -111,7 +111,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      */
-    public function testPostRequestIfReCaptchaIsDisabled()
+    public function testPostRequestIfReCaptchaIsDisabled(): void
     {
         $this->checkSuccessfulPostResponse();
     }
@@ -121,7 +121,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture admin/captcha/enable 0
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
-    public function testPostRequestIfReCaptchaKeysAreNotConfigured()
+    public function testPostRequestIfReCaptchaKeysAreNotConfigured(): void
     {
         $this->checkSuccessfulPostResponse();
     }
@@ -133,7 +133,7 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
-    public function testPostRequestWithSuccessfulReCaptchaValidation()
+    public function testPostRequestWithSuccessfulReCaptchaValidation(): void
     {
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(true);
 
@@ -151,28 +151,9 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
-    public function testPostRequestIfReCaptchaParameterIsMissed()
+    public function testPostRequestIfReCaptchaParameterIsMissed(): void
     {
-        $this->getRequest()
-            ->setMethod(Http::METHOD_POST)
-            ->setPostValue(
-                [
-                    'form_key' => $this->formKey->getFormKey(),
-                    'login' => [
-                        'username' => Bootstrap::ADMIN_NAME,
-                        'password' => Bootstrap::ADMIN_PASSWORD,
-                    ],
-                ]
-            );
-        $this->dispatch('backend/admin/index/index');
-
-        // Location header is different than in the successful case
-        $this->assertRedirect(self::equalTo($this->backendUrl->getUrl('admin')));
-        $this->assertSessionMessages(
-            self::equalTo(['Can not resolve reCAPTCHA parameter.']),
-            MessageInterface::TYPE_ERROR
-        );
-        self::assertFalse($this->auth->isLoggedIn());
+        $this->checkFailedPostResponse();
     }
 
     /**
@@ -182,35 +163,16 @@ class LoginFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_login invisible
      */
-    public function testPostRequestWithFailedReCaptchaValidation()
+    public function testPostRequestWithFailedReCaptchaValidation(): void
     {
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
-        $this->getRequest()
-            ->setMethod(Http::METHOD_POST)
-            ->setPostValue(
-                [
-                    'form_key' => $this->formKey->getFormKey(),
-                    'login' => [
-                        'username' => Bootstrap::ADMIN_NAME,
-                        'password' => Bootstrap::ADMIN_PASSWORD,
-                    ],
-                    CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test',
-                ]
-            );
-        $this->dispatch('backend/admin/index/index');
-
-        // Location header is different than in the successful case
-        $this->assertRedirect(self::equalTo($this->backendUrl->getUrl('admin')));
-        $this->assertSessionMessages(
-            self::equalTo(['reCAPTCHA verification failed']),
-            MessageInterface::TYPE_ERROR
-        );
-        self::assertFalse($this->auth->isLoggedIn());
+        $this->checkFailedPostResponse([CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']);
     }
 
     /**
      * @param bool $shouldContainReCaptcha
+     * @return void
      */
     private function checkSuccessfulGetResponse($shouldContainReCaptcha = false): void
     {
@@ -230,8 +192,39 @@ class LoginFormTest extends AbstractController
 
     /**
      * @param array $postValues
+     * @return void
      */
     private function checkSuccessfulPostResponse(array $postValues = []): void
+    {
+        $this->makePostRequest($postValues);
+
+        $this->assertRedirect(self::equalTo('backend/admin/index/index'));
+        self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
+        self::assertTrue($this->auth->isLoggedIn());
+    }
+
+    /**
+     * @param array $postValues
+     * @return void
+     */
+    private function checkFailedPostResponse(array $postValues = []): void
+    {
+        $this->makePostRequest($postValues);
+
+        // Location header is different than in the successful case
+        $this->assertRedirect(self::equalTo($this->backendUrl->getUrl('admin')));
+        $this->assertSessionMessages(
+            self::equalTo(['reCAPTCHA verification failed']),
+            MessageInterface::TYPE_ERROR
+        );
+        self::assertFalse($this->auth->isLoggedIn());
+    }
+
+    /**
+     * @param array $postValues
+     * @return void
+     */
+    private function makePostRequest(array $postValues = []): void
     {
         $this->getRequest()
             ->setMethod(Http::METHOD_POST)
@@ -246,9 +239,5 @@ class LoginFormTest extends AbstractController
                 $postValues
             ));
         $this->dispatch('backend/admin/index/index');
-
-        $this->assertRedirect(self::equalTo('backend/admin/index/index'));
-        self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
-        self::assertTrue($this->auth->isLoggedIn());
     }
 }

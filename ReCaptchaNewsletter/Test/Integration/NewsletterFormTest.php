@@ -9,7 +9,6 @@ namespace Magento\ReCaptchaNewsletter\Test\Integration;
 
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\Data\Form\FormKey;
-use Magento\Framework\Exception\InputException;
 use Magento\Framework\Message\MessageInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\Validation\ValidationResult;
@@ -122,7 +121,7 @@ class NewsletterFormTest extends AbstractController
     {
         $this->setConfig(false, 'test_public_key', 'test_private_key');
 
-        $this->checkPostResponse(true);
+        $this->checkSuccessfulPostResponse();
     }
 
     /**
@@ -133,7 +132,7 @@ class NewsletterFormTest extends AbstractController
     {
         $this->setConfig(true, null, null);
 
-        $this->checkPostResponse(true);
+        $this->checkSuccessfulPostResponse();
     }
 
     /**
@@ -147,8 +146,7 @@ class NewsletterFormTest extends AbstractController
         $this->setConfig(true, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(true);
 
-        $this->checkPostResponse(
-            true,
+        $this->checkSuccessfulPostResponse(
             [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
         );
     }
@@ -163,10 +161,7 @@ class NewsletterFormTest extends AbstractController
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
 
-        $this->expectException(InputException::class);
-        $this->expectExceptionMessage('Can not resolve reCAPTCHA parameter.');
-
-        $this->checkPostResponse(false);
+        $this->checkFailedPostResponse();
     }
 
     /**
@@ -180,16 +175,16 @@ class NewsletterFormTest extends AbstractController
         $this->setConfig(true, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
-        $this->checkPostResponse(
-            false,
+        $this->checkFailedPostResponse(
             [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
         );
     }
 
     /**
      * @param bool $shouldContainReCaptcha
+     * @return void
      */
-    private function checkSuccessfulGetResponse($shouldContainReCaptcha = false)
+    private function checkSuccessfulGetResponse($shouldContainReCaptcha = false): void
     {
         $this->dispatch($this->url->getRouteUrl());
         $content = $this->getResponse()->getBody();
@@ -204,10 +199,47 @@ class NewsletterFormTest extends AbstractController
     }
 
     /**
-     * @param bool $isSuccessfulRequest
      * @param array $postValues
+     * @return void
      */
-    private function checkPostResponse(bool $isSuccessfulRequest, array $postValues = [])
+    private function checkSuccessfulPostResponse(array $postValues = []): void
+    {
+        $this->makePostRequest($postValues);
+
+        $this->assertSessionMessages(
+            self::contains(
+                'Thank you for your subscription.'
+            ),
+            MessageInterface::TYPE_SUCCESS
+        );
+        self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
+        self::assertNotEmpty(
+            $this->subscriberFactory->create()->loadBySubscriberEmail('user@example.com', 1)->getId()
+        );
+    }
+
+    /**
+     * @param array $postValues
+     * @return void
+     */
+    private function checkFailedPostResponse(array $postValues = []): void
+    {
+        $this->makePostRequest($postValues);
+
+        $this->assertSessionMessages(
+            self::equalTo(['reCAPTCHA verification failed']),
+            MessageInterface::TYPE_ERROR
+        );
+        self::assertEmpty(
+            $this->subscriberFactory->create()->loadBySubscriberEmail('user@example.com', 1)->getId()
+        );
+    }
+
+    /**
+     * @param array $postValues
+     * @return void
+     */
+    private function makePostRequest(array $postValues = []): void
     {
         $this->getRequest()
             ->setMethod(Http::METHOD_POST)
@@ -220,29 +252,14 @@ class NewsletterFormTest extends AbstractController
             ));
 
         $this->dispatch('newsletter/subscriber/new');
-
         $this->assertRedirect(self::equalTo($this->url->getRouteUrl()));
-
-        if ($isSuccessfulRequest) {
-            $this->assertSessionMessages(
-                self::contains(
-                    'Thank you for your subscription.'
-                ),
-                MessageInterface::TYPE_SUCCESS
-            );
-            self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
-        } else {
-            $this->assertSessionMessages(
-                self::equalTo(['reCAPTCHA verification failed']),
-                MessageInterface::TYPE_ERROR
-            );
-        }
     }
 
     /**
      * @param bool $isEnabled
      * @param string|null $public
      * @param string|null $private
+     * @return void
      */
     private function setConfig(bool $isEnabled, ?string $public, ?string $private): void
     {
@@ -266,6 +283,22 @@ class NewsletterFormTest extends AbstractController
     protected function tearDown(): void
     {
         parent::tearDown();
+
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_for/newsletter',
+            null,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_invisible/public_key',
+            null,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_invisible/private_key',
+            null,
+            ScopeInterface::SCOPE_WEBSITE
+        );
 
         $this->subscriberFactory->create()->loadBySubscriberEmail('user@example.com', 1)->delete();
     }
