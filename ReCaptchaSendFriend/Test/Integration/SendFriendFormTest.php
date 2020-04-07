@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaSendFriend\Test\Integration;
 
 use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Message\MessageInterface;
@@ -230,7 +231,7 @@ class SendFriendFormTest extends AbstractController
         $expectedUrl = 'http://localhost/index.php/simple-product.html';
 
         $this->getRequest()
-            ->setParam(\Magento\Framework\App\Response\RedirectInterface::PARAM_NAME_REFERER_URL, $expectedUrl)
+            ->setParam(RedirectInterface::PARAM_NAME_REFERER_URL, $expectedUrl)
             ->setMethod(Http::METHOD_POST)
             ->setPostValue(array_replace_recursive(
                 [
@@ -270,7 +271,7 @@ class SendFriendFormTest extends AbstractController
             self::assertEquals((string)__('Welcome, Recipient'), $message->getSubject());
         } else {
             $this->assertSessionMessages(
-                $this->equalTo(['reCAPTCHA verification failed']),
+                self::equalTo(['reCAPTCHA verification failed']),
                 MessageInterface::TYPE_ERROR
             );
             self::assertEmpty($this->transportMock->getSentMessage());
