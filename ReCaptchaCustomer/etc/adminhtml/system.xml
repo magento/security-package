@@ -10,6 +10,10 @@
     <system>
         <section id="recaptcha_frontend">
             <group id="type_for">
+                <field id="recaptcha_frontend_info_heading" translate="label" sortOrder="100" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <frontend_model>Magento\ReCaptchaAdminUi\Block\Adminhtml\System\Config\Form\Field\Notice</frontend_model>
+                </field>
                 <field id="customer_login" translate="label" type="select" sortOrder="110" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Enable for Customer Login</label>
