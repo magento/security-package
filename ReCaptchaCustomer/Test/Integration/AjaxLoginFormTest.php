@@ -10,7 +10,6 @@ namespace Magento\ReCaptchaCustomer\Test\Integration;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Data\Form\FormKey;
-use Magento\Framework\Exception\InputException;
 use Magento\Framework\Message\MessageInterface;
 use Magento\Framework\Validation\ValidationResult;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
@@ -51,7 +50,7 @@ class AjaxLoginFormTest extends AbstractController
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->mutableScopeConfig = $this->_objectManager->get(MutableScopeConfig::class);
@@ -71,7 +70,7 @@ class AjaxLoginFormTest extends AbstractController
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      */
-    public function testGetRequestIfReCaptchaIsDisabled()
+    public function testGetRequestIfReCaptchaIsDisabled(): void
     {
         $this->setConfig(false, 'test_public_key', 'test_private_key');
 
@@ -85,7 +84,7 @@ class AjaxLoginFormTest extends AbstractController
      * It's  needed for proper work of "ifconfig" in layout during tests running
      * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_login invisible
      */
-    public function testGetRequestIfReCaptchaKeysAreNotConfigured()
+    public function testGetRequestIfReCaptchaKeysAreNotConfigured(): void
     {
         $this->setConfig(true, null, null);
 
@@ -101,7 +100,7 @@ class AjaxLoginFormTest extends AbstractController
      * It's  needed for proper work of "ifconfig" in layout during tests running
      * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_login invisible
      */
-    public function testGetRequestIfReCaptchaIsEnabled()
+    public function testGetRequestIfReCaptchaIsEnabled(): void
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
 
@@ -113,30 +112,39 @@ class AjaxLoginFormTest extends AbstractController
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      */
-    public function testPostRequestIfReCaptchaIsDisabled()
+    public function testPostRequestIfReCaptchaIsDisabled(): void
     {
         $this->setConfig(false, 'test_public_key', 'test_private_key');
 
-        $this->checkPostResponse(false, 'Login successful.', [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']);
+        $this->checkSuccessfulPostResponse(
+            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
+        );
     }
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
      */
-    public function testPostRequestIfReCaptchaKeysAreNotConfigured()
+    public function testPostRequestIfReCaptchaKeysAreNotConfigured(): void
     {
         $this->setConfig(true, null, null);
 
-        $this->checkPostResponse(false, 'Login successful.', [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']);
+        $this->checkSuccessfulPostResponse(
+            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
+        );
     }
 
-    public function testPostRequestWithSuccessfulReCaptchaValidation()
+    /**
+     * @magentoConfigFixture default_store customer/captcha/enable 0
+     */
+    public function testPostRequestWithSuccessfulReCaptchaValidation(): void
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(true);
 
-        $this->checkPostResponse(false, 'Login successful.', [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']);
+        $this->checkSuccessfulPostResponse(
+            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
+        );
     }
 
     /**
@@ -145,14 +153,11 @@ class AjaxLoginFormTest extends AbstractController
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
      */
-    public function testPostRequestIfReCaptchaParameterIsMissed()
+    public function testPostRequestIfReCaptchaParameterIsMissed(): void
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
 
-        $this->expectException(InputException::class);
-        $this->expectExceptionMessage('Can not resolve reCAPTCHA response.');
-
-        $this->checkPostResponse(null, null);
+        $this->checkFailedPostResponse();
     }
 
     /**
@@ -161,18 +166,21 @@ class AjaxLoginFormTest extends AbstractController
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
      */
-    public function testPostRequestWithFailedReCaptchaValidation()
+    public function testPostRequestWithFailedReCaptchaValidation(): void
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
-        $this->checkPostResponse(true, 'reCAPTCHA verification failed', [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']);
+        $this->checkFailedPostResponse(
+            [CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']
+        );
     }
 
     /**
      * @param bool $shouldContainReCaptcha
+     * @return void
      */
-    private function checkSuccessfulGetResponse($shouldContainReCaptcha = false)
+    private function checkSuccessfulGetResponse($shouldContainReCaptcha = false): void
     {
         $this->dispatch('/');
         $content = $this->getResponse()->getBody();
@@ -187,13 +195,46 @@ class AjaxLoginFormTest extends AbstractController
     }
 
     /**
-     * @param bool|null $errors
-     * @param string|null $message
+     * @param array $postValues
+     * @return void
      */
-    private function checkPostResponse(?bool $errors, ?string $message, array $postValues = [])
+    private function checkSuccessfulPostResponse(array $postValues = []): void
+    {
+        $this->makePostRequest($postValues);
+
+        $expected = json_encode(['errors' => false, 'message' => 'Login successful.']);
+
+        $this->assertEquals(
+            $expected,
+            $this->response->getContent()
+        );
+    }
+
+    /**
+     * @param array $postValues
+     * @return void
+     */
+    private function checkFailedPostResponse(array $postValues = []): void
+    {
+        $this->makePostRequest($postValues);
+
+        $expected = json_encode(['errors' => true, 'message' => 'reCAPTCHA verification failed']);
+
+        $this->assertEquals(
+            $expected,
+            $this->response->getContent()
+        );
+    }
+
+    /**
+     * @param array $postValues
+     * @return void
+     */
+    private function makePostRequest(array $postValues = []): void
     {
         $data = array_replace_recursive(
             [
+                'form_key' => $this->formKey->getFormKey(),
                 'username' => 'customer@example.com',
                 'password' => 'password',
                 'captcha_form_id' => 'user_login',
@@ -207,26 +248,13 @@ class AjaxLoginFormTest extends AbstractController
             ->setContent(json_encode($data));
 
         $this->dispatch('customer/ajax/login');
-
-        $code = $this->response->getHttpResponseCode();
-        $this->assertEquals(
-            200,
-            $code,
-            'Incorrect response code'
-        );
-
-        $expected = json_encode(['errors' => $errors, 'message' => $message]);
-
-        $this->assertEquals(
-            $expected,
-            $this->response->getContent()
-        );
     }
 
     /**
      * @param bool $isEnabled
      * @param string|null $public
      * @param string|null $private
+     * @return void
      */
     private function setConfig(bool $isEnabled, ?string $public, ?string $private): void
     {
@@ -243,6 +271,27 @@ class AjaxLoginFormTest extends AbstractController
         $this->mutableScopeConfig->setValue(
             'recaptcha_frontend/type_invisible/private_key',
             $private,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_for/customer_login',
+            null,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_invisible/public_key',
+            null,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+        $this->mutableScopeConfig->setValue(
+            'recaptcha_frontend/type_invisible/private_key',
+            null,
             ScopeInterface::SCOPE_WEBSITE
         );
     }
