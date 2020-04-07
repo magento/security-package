@@ -5,27 +5,28 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaNewsletter\Test\Integration;
+namespace Magento\ReCaptchaReview\Test\Integration;
 
 use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Message\MessageInterface;
-use Magento\Framework\UrlInterface;
 use Magento\Framework\Validation\ValidationResult;
-use Magento\Newsletter\Model\SubscriberFactory;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
 use Magento\ReCaptchaValidation\Model\Validator;
+use Magento\Review\Model\ResourceModel\Review as ReviewResourceModel;
 use Magento\Store\Model\ScopeInterface;
 use Magento\TestFramework\App\MutableScopeConfig;
 use Magento\TestFramework\TestCase\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
+ * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  * @magentoAppArea frontend
  * @magentoAppIsolation enabled
  */
-class NewsletterFormTest extends AbstractController
+class ReviewFormTest extends AbstractController
 {
     /**
      * @var MutableScopeConfig
@@ -38,14 +39,9 @@ class NewsletterFormTest extends AbstractController
     private $formKey;
 
     /**
-     * @var UrlInterface
+     * @var
      */
-    private $url;
-
-    /**
-     * @var SubscriberFactory
-     */
-    private $subscriberFactory;
+    private $reviewResourceModel;
 
     /**
      * @var ValidationResult|MockObject
@@ -60,19 +56,19 @@ class NewsletterFormTest extends AbstractController
         parent::setUp();
         $this->mutableScopeConfig = $this->_objectManager->get(MutableScopeConfig::class);
         $this->formKey = $this->_objectManager->get(FormKey::class);
-        $this->url = $this->_objectManager->get(UrlInterface::class);
-        $this->subscriberFactory = $this->_objectManager->get(SubscriberFactory::class);
+        $this->reviewResourceModel = $this->_objectManager->get(ReviewResourceModel::class);
 
         $this->captchaValidationResultMock = $this->createMock(ValidationResult::class);
-        $captchaValidationResultMock = $this->createMock(Validator::class);
-        $captchaValidationResultMock->expects($this->any())
+        $captchaValidatorMock = $this->createMock(Validator::class);
+        $captchaValidatorMock->expects($this->any())
             ->method('isValid')
             ->willReturn($this->captchaValidationResultMock);
-        $this->_objectManager->addSharedInstance($captchaValidationResultMock, Validator::class);
+        $this->_objectManager->addSharedInstance($captchaValidatorMock, Validator::class);
     }
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/product_review invisible
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      */
@@ -85,10 +81,10 @@ class NewsletterFormTest extends AbstractController
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/product_review invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/newsletter invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/product_review invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -101,10 +97,10 @@ class NewsletterFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/product_review invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/newsletter invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/product_review invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
@@ -127,7 +123,7 @@ class NewsletterFormTest extends AbstractController
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/product_review invisible
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -140,7 +136,7 @@ class NewsletterFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/product_review invisible
      */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
@@ -157,7 +153,7 @@ class NewsletterFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/product_review invisible
      */
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
@@ -173,7 +169,7 @@ class NewsletterFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/product_review invisible
      */
     public function testPostRequestWithFailedReCaptchaValidation()
     {
@@ -191,7 +187,7 @@ class NewsletterFormTest extends AbstractController
      */
     private function checkSuccessfulGetResponse($shouldContainReCaptcha = false)
     {
-        $this->dispatch($this->url->getRouteUrl());
+        $this->dispatch('/simple-product.html');
         $content = $this->getResponse()->getBody();
 
         self::assertNotEmpty($content);
@@ -209,33 +205,40 @@ class NewsletterFormTest extends AbstractController
      */
     private function checkPostResponse(bool $isSuccessfulRequest, array $postValues = [])
     {
+        $expectedRedirectUrl = 'http://localhost/index.php/simple-product.html';
+
         $this->getRequest()
             ->setMethod(Http::METHOD_POST)
+            ->setParam(RedirectInterface::PARAM_NAME_REFERER_URL, $expectedRedirectUrl)
             ->setPostValue(array_replace_recursive(
                 [
                     'form_key' => $this->formKey->getFormKey(),
-                    'email' => 'user@example.com',
+                    'nickname' => 'review_author',
+                    'title' => 'review_title',
+                    'detail' => 'review_detail',
                 ],
                 $postValues
             ));
 
-        $this->dispatch('newsletter/subscriber/new');
+        $this->dispatch('review/product/post/id/1');
 
-        $this->assertRedirect(self::equalTo($this->url->getRouteUrl()));
+        $this->assertRedirect(self::equalTo($expectedRedirectUrl));
 
         if ($isSuccessfulRequest) {
             $this->assertSessionMessages(
                 self::contains(
-                    'Thank you for your subscription.'
+                    'You submitted your review for moderation.'
                 ),
                 MessageInterface::TYPE_SUCCESS
             );
             self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
+            self::assertEquals(1, $this->reviewResourceModel->getTotalReviews(1));
         } else {
             $this->assertSessionMessages(
                 self::equalTo(['reCAPTCHA verification failed']),
                 MessageInterface::TYPE_ERROR
             );
+            self::assertEquals(0, $this->reviewResourceModel->getTotalReviews(1));
         }
     }
 
@@ -247,7 +250,7 @@ class NewsletterFormTest extends AbstractController
     private function setConfig(bool $isEnabled, ?string $public, ?string $private): void
     {
         $this->mutableScopeConfig->setValue(
-            'recaptcha_frontend/type_for/newsletter',
+            'recaptcha_frontend/type_for/product_review',
             $isEnabled ? 'invisible' : null,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -267,6 +270,6 @@ class NewsletterFormTest extends AbstractController
     {
         parent::tearDown();
 
-        $this->subscriberFactory->create()->loadBySubscriberEmail('user@example.com', 1)->delete();
+        $this->reviewResourceModel->deleteReviewsByProductId(1);
     }
 }
