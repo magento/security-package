@@ -254,11 +254,13 @@ class AuthenticateTest extends TestCase
             ->method('verify')
             ->willThrowException(new \InvalidArgumentException('Something'));
 
-        $this->model->verify(
+        $result = $this->model->verify(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             json_encode(['foo' => 'bar'])
         );
+
+        self::assertEmpty($result);
     }
 
     private function getUserId(): int
