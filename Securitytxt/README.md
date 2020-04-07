@@ -1,9 +1,9 @@
 # Security.txt
 
 ### Summary
-> When security risks in web services are discovered by independent security researchers who understand the severity of the risk, they often lack the channels to properly disclose them. As a result, security issues may be left unreported. Security.txt defines a standard to help organizations define the process for security researchers to securely disclose security vulnerabilities.
+>  When security vulnerabilities are discovered by researchers, proper reporting channels are often lacking. As a result, vulnerabilities may be left unreported. This document defines a format ("security.txt") to help organizations describe their vulnerability disclosure practices to make it easier for researchers to report vulnerabilities.
 
-Source: https://tools.ietf.org/html/draft-foudil-securitytxt-01
+Source: https://tools.ietf.org/html/draft-foudil-securitytxt-09
 
 The Magento_Securitytxt module provides the following functionality: 
 * allows to save the security configurations in the admin panel
@@ -13,7 +13,8 @@ The Magento_Securitytxt module provides the following functionality:
 A valid security.txt file could look like the following example:
 
 ```
-Contact: security@example.com
+Contact: mailto:security@example.com
+Contact: tel:+1-201-555-0123
 Encryption: https://example.com/pgp.asc
 Acknowledgement: https://example.com/security/hall-of-fame
 Policy: https://example.com/security-policy.html

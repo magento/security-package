@@ -5,9 +5,9 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaContact\Test\Integration;
+namespace Magento\ReCaptchaSendFriend\Test\Integration;
 
-use Magento\Framework\App\Request\Http as HttpRequest;
+use Magento\Framework\App\Request\Http;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Message\MessageInterface;
@@ -16,24 +16,31 @@ use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
 use Magento\ReCaptchaValidation\Model\Validator;
 use Magento\Store\Model\ScopeInterface;
 use Magento\TestFramework\App\MutableScopeConfig;
+use Magento\TestFramework\Mail\Template\TransportBuilderMock;
 use Magento\TestFramework\TestCase\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @magentoAppArea frontend
  * @magentoAppIsolation enabled
+ * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-class ContactFormTest extends AbstractController
+class SendFriendFormTest extends AbstractController
 {
+    /**
+     * @var MutableScopeConfig
+     */
+    private $mutableScopeConfig;
+
     /**
      * @var FormKey
      */
     private $formKey;
 
     /**
-     * @var MutableScopeConfig
+     * @var TransportBuilderMock
      */
-    private $mutableScopeConfig;
+    private $transportMock;
 
     /**
      * @var ValidationResult|MockObject
@@ -46,19 +53,23 @@ class ContactFormTest extends AbstractController
     protected function setUp()
     {
         parent::setUp();
-        $this->formKey = $this->_objectManager->get(FormKey::class);
         $this->mutableScopeConfig = $this->_objectManager->get(MutableScopeConfig::class);
+        $this->formKey = $this->_objectManager->get(FormKey::class);
+        $this->transportMock = $this->_objectManager->get(TransportBuilderMock::class);
 
         $this->captchaValidationResultMock = $this->createMock(ValidationResult::class);
-        $captchaValidatorMock = $this->createMock(Validator::class);
-        $captchaValidatorMock->expects($this->any())
+        $captchaValidationResultMock = $this->createMock(Validator::class);
+        $captchaValidationResultMock->expects($this->any())
             ->method('isValid')
             ->willReturn($this->captchaValidationResultMock);
-        $this->_objectManager->addSharedInstance($captchaValidatorMock, Validator::class);
+        $this->_objectManager->addSharedInstance($captchaValidationResultMock, Validator::class);
     }
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      */
@@ -70,11 +81,14 @@ class ContactFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     *
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -84,13 +98,16 @@ class ContactFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled()
     {
@@ -100,7 +117,10 @@ class ContactFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      */
@@ -112,8 +132,11 @@ class ContactFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     *
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured()
     {
@@ -123,10 +146,13 @@ class ContactFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
@@ -140,10 +166,13 @@ class ContactFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testPostRequestIfReCaptchaParameterIsMissed()
     {
@@ -156,10 +185,13 @@ class ContactFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/contact invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testPostRequestWithFailedReCaptchaValidation()
     {
@@ -177,7 +209,7 @@ class ContactFormTest extends AbstractController
      */
     private function checkSuccessfulGetResponse($shouldContainReCaptcha = false)
     {
-        $this->dispatch('contact/index');
+        $this->dispatch('sendfriend/product/send/id/1');
         $content = $this->getResponse()->getBody();
 
         self::assertNotEmpty($content);
@@ -195,35 +227,53 @@ class ContactFormTest extends AbstractController
      */
     private function checkPostResponse(bool $isSuccessfulRequest, array $postValues = [])
     {
+        $expectedUrl = 'http://localhost/index.php/simple-product.html';
+
         $this->getRequest()
-            ->setMethod(HttpRequest::METHOD_POST)
+            ->setParam(\Magento\Framework\App\Response\RedirectInterface::PARAM_NAME_REFERER_URL, $expectedUrl)
+            ->setMethod(Http::METHOD_POST)
             ->setPostValue(array_replace_recursive(
                 [
+                    'sender' => [
+                        'name' => 'Sender',
+                        'email' => 'sender@example.com',
+                        'message' => 'Message',
+                    ],
+                    'recipients' => [
+                        'name' => [
+                            'Recipient',
+                        ],
+                        'email' => [
+                            'recipient@example.com',
+                        ]
+                    ],
                     'form_key' => $this->formKey->getFormKey(),
-                    'name' => 'customer name',
-                    'comment' => 'comment',
-                    'email' => 'user@example.com',
                 ],
                 $postValues
             ));
 
-        $this->dispatch('contact/index/post');
+        $this->dispatch('sendfriend/product/sendmail/id/1');
 
-        $this->assertRedirect(self::stringContains('contact/index'));
+        $this->assertRedirect(self::equalTo($expectedUrl));
 
         if ($isSuccessfulRequest) {
             $this->assertSessionMessages(
                 self::contains(
-                    "Thanks for contacting us with your comments and questions. We&#039;ll respond to you very soon."
+                    'The link to a friend was sent.'
                 ),
                 MessageInterface::TYPE_SUCCESS
             );
             self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
+
+            $message = $this->transportMock->getSentMessage();
+            self::assertNotEmpty($message);
+            self::assertEquals((string)__('Welcome, Recipient'), $message->getSubject());
         } else {
             $this->assertSessionMessages(
                 $this->equalTo(['reCAPTCHA verification failed']),
                 MessageInterface::TYPE_ERROR
             );
+            self::assertEmpty($this->transportMock->getSentMessage());
         }
     }
 
@@ -235,7 +285,7 @@ class ContactFormTest extends AbstractController
     private function setConfig(bool $isEnabled, ?string $public, ?string $private): void
     {
         $this->mutableScopeConfig->setValue(
-            'recaptcha_frontend/type_for/contact',
+            'recaptcha_frontend/type_for/sendfriend',
             $isEnabled ? 'invisible' : null,
             ScopeInterface::SCOPE_WEBSITE
         );
