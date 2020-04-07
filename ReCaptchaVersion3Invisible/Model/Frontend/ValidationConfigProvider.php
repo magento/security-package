@@ -48,6 +48,7 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
      * @param ScopeConfigInterface $scopeConfig
      * @param RemoteAddress $remoteAddress
      * @param ValidationConfigInterfaceFactory $validationConfigFactory
+     * @param ValidationConfigExtensionFactory $validationConfigExtensionFactory
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
