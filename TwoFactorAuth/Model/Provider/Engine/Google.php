@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Provider\Engine;
 
+use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\Exception\ValidationException;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
@@ -159,7 +160,8 @@ class Google implements EngineInterface
         // @codingStandardsIgnoreStart
         $qrCode = new QrCode($this->getProvisioningUrl($user));
         $qrCode->setSize(400);
-        $qrCode->setErrorCorrectionLevel('high');
+        $qrCode->setMargin(0);
+        $qrCode->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH());
         $qrCode->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0]);
         $qrCode->setBackgroundColor(['r' => 255, 'g' => 255, 'b' => 255, 'a' => 0]);
         $qrCode->setLabelFontSize(16);
