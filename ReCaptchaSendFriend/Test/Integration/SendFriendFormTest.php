@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaSendFriend\Test\Integration;
 
-use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Framework\Exception\InputException;
@@ -39,11 +38,6 @@ class SendFriendFormTest extends AbstractController
     private $formKey;
 
     /**
-     * @var ProductRepositoryInterface
-     */
-    private $productRepository;
-
-    /**
      * @var TransportBuilderMock
      */
     private $transportMock;
@@ -61,8 +55,6 @@ class SendFriendFormTest extends AbstractController
         parent::setUp();
         $this->mutableScopeConfig = $this->_objectManager->get(MutableScopeConfig::class);
         $this->formKey = $this->_objectManager->get(FormKey::class);
-
-        $this->productRepository = $this->_objectManager->get(ProductRepositoryInterface::class);
         $this->transportMock = $this->_objectManager->get(TransportBuilderMock::class);
 
         $this->captchaValidationResultMock = $this->createMock(ValidationResult::class);
