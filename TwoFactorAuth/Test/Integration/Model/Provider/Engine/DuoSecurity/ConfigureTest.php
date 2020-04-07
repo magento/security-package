@@ -124,7 +124,7 @@ class ConfigureTest extends TestCase
         $this->duo
             ->expects($this->never())
             ->method('getRequestSignature');
-        $this->model->getRegistrationData(
+        $this->model->getConfigurationData(
             $this->getUserId(),
             'abc'
         );
