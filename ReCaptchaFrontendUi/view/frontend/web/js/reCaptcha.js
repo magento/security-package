@@ -11,7 +11,7 @@ define(
         'jquery',
         'ko',
         'Magento_ReCaptchaFrontendUi/js/registry',
-        'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader',
+        'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader'
     ],
     function (Component, $, ko, registry, reCaptchaLoader, undefined) {
         'use strict';
