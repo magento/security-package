@@ -26,6 +26,8 @@ use Magento\TwoFactorAuth\Model\UserAuthenticator;
  */
 class Authenticate implements U2fKeyAuthenticateInterface
 {
+    private const AUTHENTICATION_CHALLENGE_KEY = 'webapi_authentication_challenge';
+
     /**
      * @var TfaInterface
      */
@@ -122,7 +124,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
         $this->configManager->addProviderConfig(
             $userId,
             U2fKey::CODE,
-            ['webapi_authentication_challenge' => $data['credentialRequestOptions']['challenge']]
+            [self::AUTHENTICATION_CHALLENGE_KEY => $data['credentialRequestOptions']['challenge']]
         );
 
         $json = $this->json->serialize($data);
@@ -149,7 +151,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
             throw new WebApiException(__('Provider is not allowed.'));
         } elseif (!$this->tfa->getProviderByCode(U2fKey::CODE)->isActive($userId)) {
             throw new WebApiException(__('Provider is not configured.'));
-        } elseif (empty($config['webapi_authentication_challenge'])) {
+        } elseif (empty($config[self::AUTHENTICATION_CHALLENGE_KEY])) {
             throw new WebApiException(__('U2f authentication prompt not sent.'));
         }
 
@@ -158,7 +160,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
                 [
                     'data' => [
                         'publicKeyCredential' => $this->json->unserialize($publicKeyCredentialJson),
-                        'originalChallenge' => $config['webapi_authentication_challenge']
+                        'originalChallenge' => $config[self::AUTHENTICATION_CHALLENGE_KEY]
                     ]
                 ]
             ));
@@ -176,7 +178,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
         $this->configManager->addProviderConfig(
             $userId,
             U2fKey::CODE,
-            ['webapi_authentication_challenge' => null]
+            [self::AUTHENTICATION_CHALLENGE_KEY => null]
         );
 
         return $this->tokenFactory->create()
