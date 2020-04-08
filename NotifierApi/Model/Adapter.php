@@ -78,6 +78,8 @@ class Adapter implements AdapterInterface
     }
 
     /**
+     * Get Template mapping
+     *
      * @return array
      */
     public function getTemplateMapping(): array

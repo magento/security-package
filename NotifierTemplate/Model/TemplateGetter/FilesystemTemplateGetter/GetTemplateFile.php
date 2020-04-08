@@ -105,5 +105,4 @@ class GetTemplateFile
 
         return $fullPath;
     }
-
 }
