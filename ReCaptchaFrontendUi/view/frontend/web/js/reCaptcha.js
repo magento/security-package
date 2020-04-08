@@ -10,9 +10,10 @@ define(
         'uiComponent',
         'jquery',
         'ko',
-        'Magento_ReCaptchaFrontendUi/js/registry'
+        'Magento_ReCaptchaFrontendUi/js/registry',
+        'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader'
     ],
-    function (Component, $, ko, registry, undefined) {
+    function (Component, $, ko, registry, reCaptchaLoader, undefined) {
         'use strict';
 
         return Component.extend({
@@ -50,16 +51,7 @@ define(
                     $(window).trigger('recaptchaapiready');
                 }.bind(this);
 
-                element = document.createElement('script');
-                scriptTag = document.getElementsByTagName('script')[0];
-
-                element.async = true;
-                element.src = 'https://www.google.com/recaptcha/api.js' +
-                    '?onload=globalOnRecaptchaOnLoadCallback&render=explicit' +
-                    (this.settings.rendering.lang ? '&hl=' + this.settings.rendering.lang : '');
-
-                scriptTag.parentNode.insertBefore(element, scriptTag);
-
+                reCaptchaLoader.addReCaptchaScriptTag();
             },
 
             /**
