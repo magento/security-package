@@ -31,7 +31,7 @@ $isInvisible = !empty($config['invisible']);
             let token = '';
 
             this.widgetId = grecaptcha.render('admin-recaptcha', {
-                <?php foreach($renderingOptions as $key => $value): ?>
+                <?php foreach ($renderingOptions as $key => $value): ?>
                 '<?= $block->escapeJs($key) ?>': '<?= $block->escapeJs($value) ?>',
                 <?php endforeach; ?>
                 'callback': function (token) { // jscs:ignore jsDoc

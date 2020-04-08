@@ -13,7 +13,9 @@ use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Serialize\SerializerInterface;
 
 /**
- * ErrorProcessor
+ * Process error during ajax login
+ *
+ * Set "no dispatch" flag and error message to Response
  */
 class ErrorProcessor
 {
@@ -40,6 +42,8 @@ class ErrorProcessor
     }
 
     /**
+     * Set "no dispatch" flag and error message to Response
+     *
      * @param ResponseInterface $response
      * @param string $message
      * @return void
