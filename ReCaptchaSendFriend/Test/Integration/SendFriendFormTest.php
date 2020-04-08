@@ -5,28 +5,27 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaCustomer\Test\Integration;
+namespace Magento\ReCaptchaSendFriend\Test\Integration;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\Response\RedirectInterface;
 use Magento\Framework\Data\Form\FormKey;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\MessageInterface;
-use Magento\Framework\Registry;
-use Magento\Framework\UrlInterface;
 use Magento\Framework\Validation\ValidationResult;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
 use Magento\ReCaptchaValidation\Model\Validator;
 use Magento\Store\Model\ScopeInterface;
 use Magento\TestFramework\App\MutableScopeConfig;
+use Magento\TestFramework\Mail\Template\TransportBuilderMock;
 use Magento\TestFramework\TestCase\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @magentoAppArea frontend
  * @magentoAppIsolation enabled
+ * @magentoDataFixture Magento/Catalog/_files/product_simple.php
  */
-class CreateCustomerFormTest extends AbstractController
+class SendFriendFormTest extends AbstractController
 {
     /**
      * @var MutableScopeConfig
@@ -39,19 +38,9 @@ class CreateCustomerFormTest extends AbstractController
     private $formKey;
 
     /**
-     * @var CustomerRepositoryInterface
+     * @var TransportBuilderMock
      */
-    private $customerRepository;
-
-    /**
-     * @var Registry
-     */
-    private $registry;
-
-    /**
-     * @var UrlInterface
-     */
-    private $url;
+    private $transportMock;
 
     /**
      * @var ValidationResult|MockObject
@@ -66,11 +55,8 @@ class CreateCustomerFormTest extends AbstractController
         parent::setUp();
         $this->mutableScopeConfig = $this->_objectManager->get(MutableScopeConfig::class);
         $this->formKey = $this->_objectManager->get(FormKey::class);
+        $this->transportMock = $this->_objectManager->get(TransportBuilderMock::class);
 
-        $this->customerRepository = $this->_objectManager->get(CustomerRepositoryInterface::class);
-        $this->registry = $this->_objectManager->get(Registry::class);
-
-        $this->url = $this->_objectManager->get(UrlInterface::class);
         $this->captchaValidationResultMock = $this->createMock(ValidationResult::class);
         $captchaValidationResultMock = $this->createMock(Validator::class);
         $captchaValidationResultMock->expects($this->any())
@@ -81,6 +67,9 @@ class CreateCustomerFormTest extends AbstractController
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      */
@@ -92,11 +81,14 @@ class CreateCustomerFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     *
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured(): void
     {
@@ -106,13 +98,16 @@ class CreateCustomerFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled(): void
     {
@@ -122,7 +117,10 @@ class CreateCustomerFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      */
@@ -134,8 +132,11 @@ class CreateCustomerFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     *
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured(): void
     {
@@ -145,10 +146,13 @@ class CreateCustomerFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testPostRequestWithSuccessfulReCaptchaValidation(): void
     {
@@ -161,10 +165,13 @@ class CreateCustomerFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testPostRequestIfReCaptchaParameterIsMissed(): void
     {
@@ -174,10 +181,13 @@ class CreateCustomerFormTest extends AbstractController
     }
 
     /**
+     * @magentoConfigFixture default_store sendfriend/email/enabled 1
+     * @magentoConfigFixture default_store sendfriend/email/allow_guest 1
      * @magentoConfigFixture default_store customer/captcha/enable 0
+     *
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/sendfriend invisible
      */
     public function testPostRequestWithFailedReCaptchaValidation(): void
     {
@@ -195,14 +205,14 @@ class CreateCustomerFormTest extends AbstractController
      */
     private function checkSuccessfulGetResponse($shouldContainReCaptcha = false): void
     {
-        $this->dispatch('customer/account/create');
+        $this->dispatch('sendfriend/product/send/id/1');
         $content = $this->getResponse()->getBody();
 
         self::assertNotEmpty($content);
 
         $shouldContainReCaptcha
-            ? $this->assertContains('field-recaptcha', $content)
-            : $this->assertNotContains('field-recaptcha', $content);
+            ? self::assertContains('field-recaptcha', $content)
+            : self::assertNotContains('field-recaptcha', $content);
 
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
     }
@@ -215,10 +225,17 @@ class CreateCustomerFormTest extends AbstractController
     {
         $this->makePostRequest($postValues);
 
-        $this->assertRedirect(self::equalTo($this->url->getRouteUrl('customer/account')));
-        $customer = $this->customerRepository->get('dummy@dummy.com');
-        self::assertNotNull($customer->getId());
+        $this->assertSessionMessages(
+            self::contains(
+                'The link to a friend was sent.'
+            ),
+            MessageInterface::TYPE_SUCCESS
+        );
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
+
+        $message = $this->transportMock->getSentMessage();
+        self::assertNotEmpty($message);
+        self::assertEquals((string)__('Welcome, Recipient'), $message->getSubject());
     }
 
     /**
@@ -229,17 +246,11 @@ class CreateCustomerFormTest extends AbstractController
     {
         $this->makePostRequest($postValues);
 
-        $this->assertRedirect(self::equalTo($this->url->getRouteUrl('customer/account/create')));
-        try {
-            $this->customerRepository->get('dummy@dummy.com');
-            self::fail('Customer should not be created');
-        } catch (NoSuchEntityException $e) {
-            // Customer should not be created
-        }
         $this->assertSessionMessages(
             self::equalTo(['reCAPTCHA verification failed']),
             MessageInterface::TYPE_ERROR
         );
+        self::assertEmpty($this->transportMock->getSentMessage());
     }
 
     /**
@@ -248,35 +259,44 @@ class CreateCustomerFormTest extends AbstractController
      */
     private function makePostRequest(array $postValues = []): void
     {
-        $this->getRequest()
-            ->setMethod(Http::METHOD_POST)
-            ->setPostValue(
-                array_merge_recursive(
-                    [
-                        'firstname' => 'first_name',
-                        'lastname' => 'last_name',
-                        'email' => 'dummy@dummy.com',
-                        'password' => 'Password1',
-                        'password_confirmation' => 'Password1',
-                        'form_key' => $this->formKey->getFormKey()
-                    ],
-                    $postValues
-                )
-            );
+        $expectedUrl = 'http://localhost/index.php/simple-product.html';
 
-        $this->dispatch('customer/account/createpost');
+        $this->getRequest()
+            ->setParam(RedirectInterface::PARAM_NAME_REFERER_URL, $expectedUrl)
+            ->setMethod(Http::METHOD_POST)
+            ->setPostValue(array_replace_recursive(
+                [
+                    'sender' => [
+                        'name' => 'Sender',
+                        'email' => 'sender@example.com',
+                        'message' => 'Message',
+                    ],
+                    'recipients' => [
+                        'name' => [
+                            'Recipient',
+                        ],
+                        'email' => [
+                            'recipient@example.com',
+                        ]
+                    ],
+                    'form_key' => $this->formKey->getFormKey(),
+                ],
+                $postValues
+            ));
+
+        $this->dispatch('sendfriend/product/sendmail/id/1');
+        $this->assertRedirect(self::equalTo($expectedUrl));
     }
 
     /**
      * @param bool $isEnabled
      * @param string|null $public
      * @param string|null $private
-     * @return void
      */
     private function setConfig(bool $isEnabled, ?string $public, ?string $private): void
     {
         $this->mutableScopeConfig->setValue(
-            'recaptcha_frontend/type_for/customer_create',
+            'recaptcha_frontend/type_for/sendfriend',
             $isEnabled ? 'invisible' : null,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -292,10 +312,10 @@ class CreateCustomerFormTest extends AbstractController
         );
     }
 
-    private function resetConfig(): void
+    public function tearDown(): void
     {
         $this->mutableScopeConfig->setValue(
-            'recaptcha_frontend/type_for/customer_create',
+            'recaptcha_frontend/type_for/sendfriend',
             null,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -309,29 +329,5 @@ class CreateCustomerFormTest extends AbstractController
             null,
             ScopeInterface::SCOPE_WEBSITE
         );
-    }
-
-    private function deleteCustomer(): void
-    {
-        $email = 'dummy@dummy.com';
-        try {
-            $customer = $this->customerRepository->get($email);
-        } catch (NoSuchEntityException $e) {
-            // Delete customer only it it exists
-            return;
-        }
-        $this->registry->unregister('isSecureArea');
-        $this->registry->register('isSecureArea', true);
-        $this->customerRepository->delete($customer);
-        $this->registry->unregister('isSecureArea');
-        $this->registry->register('isSecureArea', false);
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        $this->resetConfig();
-        $this->deleteCustomer();
     }
 }

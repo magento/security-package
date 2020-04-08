@@ -5,16 +5,14 @@
  */
 declare(strict_types=1);
 
-namespace Magento\ReCaptchaCustomer\Test\Integration;
+namespace Magento\ReCaptchaNewsletter\Test\Integration;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\Data\Form\FormKey;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Message\MessageInterface;
-use Magento\Framework\Registry;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\Validation\ValidationResult;
+use Magento\Newsletter\Model\SubscriberFactory;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
 use Magento\ReCaptchaValidation\Model\Validator;
 use Magento\Store\Model\ScopeInterface;
@@ -26,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @magentoAppArea frontend
  * @magentoAppIsolation enabled
  */
-class CreateCustomerFormTest extends AbstractController
+class NewsletterFormTest extends AbstractController
 {
     /**
      * @var MutableScopeConfig
@@ -39,19 +37,14 @@ class CreateCustomerFormTest extends AbstractController
     private $formKey;
 
     /**
-     * @var CustomerRepositoryInterface
-     */
-    private $customerRepository;
-
-    /**
-     * @var Registry
-     */
-    private $registry;
-
-    /**
      * @var UrlInterface
      */
     private $url;
+
+    /**
+     * @var SubscriberFactory
+     */
+    private $subscriberFactory;
 
     /**
      * @var ValidationResult|MockObject
@@ -61,16 +54,14 @@ class CreateCustomerFormTest extends AbstractController
     /**
      * @inheritDoc
      */
-    protected function setUp(): void
+    protected function setUp()
     {
         parent::setUp();
         $this->mutableScopeConfig = $this->_objectManager->get(MutableScopeConfig::class);
         $this->formKey = $this->_objectManager->get(FormKey::class);
-
-        $this->customerRepository = $this->_objectManager->get(CustomerRepositoryInterface::class);
-        $this->registry = $this->_objectManager->get(Registry::class);
-
         $this->url = $this->_objectManager->get(UrlInterface::class);
+        $this->subscriberFactory = $this->_objectManager->get(SubscriberFactory::class);
+
         $this->captchaValidationResultMock = $this->createMock(ValidationResult::class);
         $captchaValidationResultMock = $this->createMock(Validator::class);
         $captchaValidationResultMock->expects($this->any())
@@ -84,7 +75,7 @@ class CreateCustomerFormTest extends AbstractController
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      */
-    public function testGetRequestIfReCaptchaIsDisabled(): void
+    public function testGetRequestIfReCaptchaIsDisabled()
     {
         $this->setConfig(false, 'test_public_key', 'test_private_key');
 
@@ -93,12 +84,12 @@ class CreateCustomerFormTest extends AbstractController
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/newsletter invisible
      */
-    public function testGetRequestIfReCaptchaKeysAreNotConfigured(): void
+    public function testGetRequestIfReCaptchaKeysAreNotConfigured()
     {
         $this->setConfig(true, null, null);
 
@@ -109,12 +100,12 @@ class CreateCustomerFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/newsletter invisible
      */
-    public function testGetRequestIfReCaptchaIsEnabled(): void
+    public function testGetRequestIfReCaptchaIsEnabled()
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
 
@@ -126,7 +117,7 @@ class CreateCustomerFormTest extends AbstractController
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      */
-    public function testPostRequestIfReCaptchaIsDisabled(): void
+    public function testPostRequestIfReCaptchaIsDisabled()
     {
         $this->setConfig(false, 'test_public_key', 'test_private_key');
 
@@ -135,9 +126,9 @@ class CreateCustomerFormTest extends AbstractController
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      */
-    public function testPostRequestIfReCaptchaKeysAreNotConfigured(): void
+    public function testPostRequestIfReCaptchaKeysAreNotConfigured()
     {
         $this->setConfig(true, null, null);
 
@@ -148,9 +139,9 @@ class CreateCustomerFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      */
-    public function testPostRequestWithSuccessfulReCaptchaValidation(): void
+    public function testPostRequestWithSuccessfulReCaptchaValidation()
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(true);
@@ -164,9 +155,9 @@ class CreateCustomerFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      */
-    public function testPostRequestIfReCaptchaParameterIsMissed(): void
+    public function testPostRequestIfReCaptchaParameterIsMissed()
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
 
@@ -177,9 +168,9 @@ class CreateCustomerFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_create invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/newsletter invisible
      */
-    public function testPostRequestWithFailedReCaptchaValidation(): void
+    public function testPostRequestWithFailedReCaptchaValidation()
     {
         $this->setConfig(true, 'test_public_key', 'test_private_key');
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
@@ -195,14 +186,14 @@ class CreateCustomerFormTest extends AbstractController
      */
     private function checkSuccessfulGetResponse($shouldContainReCaptcha = false): void
     {
-        $this->dispatch('customer/account/create');
+        $this->dispatch($this->url->getRouteUrl());
         $content = $this->getResponse()->getBody();
 
         self::assertNotEmpty($content);
 
         $shouldContainReCaptcha
-            ? $this->assertContains('field-recaptcha', $content)
-            : $this->assertNotContains('field-recaptcha', $content);
+            ? self::assertContains('field-recaptcha', $content)
+            : self::assertNotContains('field-recaptcha', $content);
 
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
     }
@@ -215,10 +206,16 @@ class CreateCustomerFormTest extends AbstractController
     {
         $this->makePostRequest($postValues);
 
-        $this->assertRedirect(self::equalTo($this->url->getRouteUrl('customer/account')));
-        $customer = $this->customerRepository->get('dummy@dummy.com');
-        self::assertNotNull($customer->getId());
+        $this->assertSessionMessages(
+            self::contains(
+                'Thank you for your subscription.'
+            ),
+            MessageInterface::TYPE_SUCCESS
+        );
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
+        self::assertNotEmpty(
+            $this->subscriberFactory->create()->loadBySubscriberEmail('user@example.com', 1)->getId()
+        );
     }
 
     /**
@@ -229,16 +226,12 @@ class CreateCustomerFormTest extends AbstractController
     {
         $this->makePostRequest($postValues);
 
-        $this->assertRedirect(self::equalTo($this->url->getRouteUrl('customer/account/create')));
-        try {
-            $this->customerRepository->get('dummy@dummy.com');
-            self::fail('Customer should not be created');
-        } catch (NoSuchEntityException $e) {
-            // Customer should not be created
-        }
         $this->assertSessionMessages(
             self::equalTo(['reCAPTCHA verification failed']),
             MessageInterface::TYPE_ERROR
+        );
+        self::assertEmpty(
+            $this->subscriberFactory->create()->loadBySubscriberEmail('user@example.com', 1)->getId()
         );
     }
 
@@ -250,21 +243,16 @@ class CreateCustomerFormTest extends AbstractController
     {
         $this->getRequest()
             ->setMethod(Http::METHOD_POST)
-            ->setPostValue(
-                array_merge_recursive(
-                    [
-                        'firstname' => 'first_name',
-                        'lastname' => 'last_name',
-                        'email' => 'dummy@dummy.com',
-                        'password' => 'Password1',
-                        'password_confirmation' => 'Password1',
-                        'form_key' => $this->formKey->getFormKey()
-                    ],
-                    $postValues
-                )
-            );
+            ->setPostValue(array_replace_recursive(
+                [
+                    'form_key' => $this->formKey->getFormKey(),
+                    'email' => 'user@example.com',
+                ],
+                $postValues
+            ));
 
-        $this->dispatch('customer/account/createpost');
+        $this->dispatch('newsletter/subscriber/new');
+        $this->assertRedirect(self::equalTo($this->url->getRouteUrl()));
     }
 
     /**
@@ -276,7 +264,7 @@ class CreateCustomerFormTest extends AbstractController
     private function setConfig(bool $isEnabled, ?string $public, ?string $private): void
     {
         $this->mutableScopeConfig->setValue(
-            'recaptcha_frontend/type_for/customer_create',
+            'recaptcha_frontend/type_for/newsletter',
             $isEnabled ? 'invisible' : null,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -292,10 +280,12 @@ class CreateCustomerFormTest extends AbstractController
         );
     }
 
-    private function resetConfig(): void
+    protected function tearDown(): void
     {
+        parent::tearDown();
+
         $this->mutableScopeConfig->setValue(
-            'recaptcha_frontend/type_for/customer_create',
+            'recaptcha_frontend/type_for/newsletter',
             null,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -309,29 +299,7 @@ class CreateCustomerFormTest extends AbstractController
             null,
             ScopeInterface::SCOPE_WEBSITE
         );
-    }
 
-    private function deleteCustomer(): void
-    {
-        $email = 'dummy@dummy.com';
-        try {
-            $customer = $this->customerRepository->get($email);
-        } catch (NoSuchEntityException $e) {
-            // Delete customer only it it exists
-            return;
-        }
-        $this->registry->unregister('isSecureArea');
-        $this->registry->register('isSecureArea', true);
-        $this->customerRepository->delete($customer);
-        $this->registry->unregister('isSecureArea');
-        $this->registry->register('isSecureArea', false);
-    }
-
-    public function tearDown(): void
-    {
-        parent::tearDown();
-
-        $this->resetConfig();
-        $this->deleteCustomer();
+        $this->subscriberFactory->create()->loadBySubscriberEmail('user@example.com', 1)->delete();
     }
 }
