@@ -31,18 +31,18 @@ $isInvisible = !empty($config['invisible']);
             let token = '';
 
             this.widgetId = grecaptcha.render('admin-recaptcha', {
-                <?php foreach($renderingOptions as $key => $value):?>
+                <?php foreach($renderingOptions as $key => $value): ?>
                 '<?= $block->escapeJs($key) ?>': '<?= $block->escapeJs($value) ?>',
                 <?php endforeach; ?>
                 'callback': function (token) { // jscs:ignore jsDoc
-                    <?php if ($isInvisible) : ?>
+                    <?php if ($isInvisible): ?>
                     this.token = token;
                     $('#login-form').submit();
                     <?php endif; ?>
                 }.bind(this)
             });
 
-            <?php if ($isInvisible) : ?>
+            <?php if ($isInvisible): ?>
             $('#login-form').submit(function (event) {
                 if (!this.token) {
                     event.preventDefault(event);

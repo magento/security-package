@@ -101,7 +101,6 @@ class AjaxLoginObserver implements ObserverInterface
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
-
             $validationConfig = $this->validationConfigResolver->get($key);
 
             try {
