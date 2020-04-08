@@ -8,13 +8,11 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCustomer\Observer;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\ActionFlag;
-use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Serialize\SerializerInterface;
+use Magento\ReCaptchaCustomer\Model\AjaxLogin\ErrorProcessor;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
 use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\ValidationConfigResolverInterface;
@@ -42,16 +40,6 @@ class AjaxLoginObserver implements ObserverInterface
     private $captchaValidator;
 
     /**
-     * @var ActionFlag
-     */
-    private $actionFlag;
-
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    /**
      * @var IsCaptchaEnabledInterface
      */
     private $isCaptchaEnabled;
@@ -62,30 +50,32 @@ class AjaxLoginObserver implements ObserverInterface
     private $logger;
 
     /**
+     * @var ErrorProcessor
+     */
+    private $errorProcessor;
+
+    /**
      * @param CaptchaResponseResolverInterface $captchaResponseResolver
      * @param ValidationConfigResolverInterface $validationConfigResolver
      * @param ValidatorInterface $captchaValidator
-     * @param ActionFlag $actionFlag
-     * @param SerializerInterface $serializer
      * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param LoggerInterface $logger
+     * @param ErrorProcessor $errorProcessor
      */
     public function __construct(
         CaptchaResponseResolverInterface $captchaResponseResolver,
         ValidationConfigResolverInterface $validationConfigResolver,
         ValidatorInterface $captchaValidator,
-        ActionFlag $actionFlag,
-        SerializerInterface $serializer,
         IsCaptchaEnabledInterface $isCaptchaEnabled,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        ErrorProcessor $errorProcessor
     ) {
         $this->captchaResponseResolver = $captchaResponseResolver;
         $this->validationConfigResolver = $validationConfigResolver;
         $this->captchaValidator = $captchaValidator;
-        $this->actionFlag = $actionFlag;
-        $this->serializer = $serializer;
         $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->logger = $logger;
+        $this->errorProcessor = $errorProcessor;
     }
 
     /**
@@ -101,36 +91,27 @@ class AjaxLoginObserver implements ObserverInterface
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
+
             $validationConfig = $this->validationConfigResolver->get($key);
 
             try {
                 $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
             } catch (InputException $e) {
                 $this->logger->error($e);
-                $this->processError($response, $validationConfig->getValidationFailureMessage());
+                $this->errorProcessor->processError(
+                    $response,
+                    $validationConfig->getValidationFailureMessage()
+                );
                 return;
             }
 
             $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
             if (false === $validationResult->isValid()) {
-                $this->processError($response, $validationConfig->getValidationFailureMessage());
+                $this->errorProcessor->processError(
+                    $response,
+                    $validationConfig->getValidationFailureMessage()
+                );
             }
         }
-    }
-
-    /**
-     * @param ResponseInterface $response
-     * @param string $message
-     * @return void
-     */
-    private function processError(ResponseInterface $response, string $message): void
-    {
-        $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
-
-        $jsonPayload = $this->serializer->serialize([
-            'errors' => true,
-            'message' => $message,
-        ]);
-        $response->representJson($jsonPayload);
     }
 }
