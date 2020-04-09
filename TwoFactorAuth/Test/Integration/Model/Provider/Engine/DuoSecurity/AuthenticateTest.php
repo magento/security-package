@@ -73,6 +73,8 @@ class AuthenticateTest extends TestCase
      */
     public function testGetAuthenticateDataInvalidCredentials()
     {
+        $this->tfa->getProviderByCode(DuoSecurity::CODE)
+            ->activate($this->getUserId());
         $this->duo
             ->expects($this->never())
             ->method('getRequestSignature');
@@ -132,6 +134,8 @@ class AuthenticateTest extends TestCase
      */
     public function testVerifyInvalidCredentials()
     {
+        $this->tfa->getProviderByCode(DuoSecurity::CODE)
+            ->activate($this->getUserId());
         $this->duo
             ->expects($this->never())
             ->method('getRequestSignature');

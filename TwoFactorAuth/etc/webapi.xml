@@ -64,21 +64,21 @@
         </resources>
     </route>
 
-    <route url="/V1/tfa/tfat-user-providers/:userId" method="POST">
+    <route url="/V1/tfa/tfat-user-providers" method="POST">
         <service class="Magento\TwoFactorAuth\Api\TfatActionsInterface" method="getUserProviders"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
-    <route url="/V1/tfa/tfat-providers-to-activate/:userId" method="POST">
+    <route url="/V1/tfa/tfat-providers-to-activate" method="POST">
         <service class="Magento\TwoFactorAuth\Api\TfatActionsInterface" method="getProvidersToActivate"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
-    <route url="/V1/tfa/provider/google/configure/:userId" method="POST">
+    <route url="/V1/tfa/provider/google/configure" method="POST">
         <service class="Magento\TwoFactorAuth\Api\GoogleConfigureInterface" method="getConfigurationData"/>
         <resources>
             <resource ref="anonymous" />
@@ -92,21 +92,21 @@
         </resources>
     </route>
 
-    <route url="/V1/tfa/provider/google/activate/:userId" method="POST">
+    <route url="/V1/tfa/provider/google/activate" method="POST">
         <service class="Magento\TwoFactorAuth\Api\GoogleConfigureInterface" method="activate"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
-    <route url="/V1/tfa/provider/authy/configure/:userId" method="POST">
+    <route url="/V1/tfa/provider/authy/configure" method="POST">
         <service class="Magento\TwoFactorAuth\Api\AuthyConfigureInterface" method="sendDeviceRegistrationPrompt"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
-    <route url="/V1/tfa/provider/authy/activate/:userId" method="POST">
+    <route url="/V1/tfa/provider/authy/activate" method="POST">
         <service class="Magento\TwoFactorAuth\Api\AuthyConfigureInterface" method="activate"/>
         <resources>
             <resource ref="anonymous" />
@@ -134,14 +134,14 @@
         </resources>
     </route>
 
-    <route url="/V1/tfa/provider/u2fkey/configure/:userId" method="POST">
+    <route url="/V1/tfa/provider/u2fkey/configure" method="POST">
         <service class="Magento\TwoFactorAuth\Api\U2fKeyConfigureInterface" method="getRegistrationData"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
-    <route url="/V1/tfa/provider/u2fkey/activate/:userId" method="POST">
+    <route url="/V1/tfa/provider/u2fkey/activate" method="POST">
         <service class="Magento\TwoFactorAuth\Api\U2fKeyConfigureInterface" method="activate"/>
         <resources>
             <resource ref="anonymous" />
@@ -162,14 +162,14 @@
         </resources>
     </route>
 
-    <route url="/V1/tfa/provider/duo_security/configure/:userId" method="POST">
+    <route url="/V1/tfa/provider/duo_security/configure" method="POST">
         <service class="Magento\TwoFactorAuth\Api\DuoConfigureInterface" method="getConfigurationData"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
-    <route url="/V1/tfa/provider/duo_security/activate/:userId" method="POST">
+    <route url="/V1/tfa/provider/duo_security/activate" method="POST">
         <service class="Magento\TwoFactorAuth\Api\DuoConfigureInterface" method="activate"/>
         <resources>
             <resource ref="anonymous" />

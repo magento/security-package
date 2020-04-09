@@ -9,14 +9,15 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 
 use Magento\Framework\DataObjectFactory;
+use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Webapi\Exception as WebApiException;
+use Magento\Integration\Api\AdminTokenServiceInterface;
 use Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
-use Magento\TwoFactorAuth\Model\UserAuthenticator;
-use Magento\Integration\Model\Oauth\TokenFactory as TokenModelFactory;
+use Magento\User\Model\UserFactory;
 
 /**
  * Authenticate with google provider
@@ -44,53 +45,55 @@ class Authenticate implements GoogleAuthenticateInterface
     private $alert;
 
     /**
-     * @var TokenModelFactory
+     * @var AdminTokenServiceInterface
      */
-    private $tokenFactory;
+    private $adminTokenService;
 
     /**
-     * @var UserAuthenticator
+     * @var UserFactory
      */
-    private $userAuthenticator;
+    private $userFactory;
 
     /**
      * @param Google $google
      * @param TfaInterface $tfa
      * @param DataObjectFactory $dataObjectFactory
      * @param AlertInterface $alert
-     * @param TokenModelFactory $tokenFactory
-     * @param UserAuthenticator $userAuthenticator
+     * @param AdminTokenServiceInterface $adminTokenService
+     * @param UserFactory $userFactory
      */
     public function __construct(
         Google $google,
         TfaInterface $tfa,
         DataObjectFactory $dataObjectFactory,
         AlertInterface $alert,
-        TokenModelFactory $tokenFactory,
-        UserAuthenticator $userAuthenticator
+        AdminTokenServiceInterface $adminTokenService,
+        UserFactory $userFactory
     ) {
         $this->google = $google;
         $this->tfa = $tfa;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
-        $this->tokenFactory = $tokenFactory;
-        $this->userAuthenticator = $userAuthenticator;
+        $this->adminTokenService = $adminTokenService;
+        $this->userFactory = $userFactory;
     }
 
     /**
-     * Get an admin token by authenticating using google
-     *
-     * @param string $username
-     * @param string $password
-     * @param string $otp
-     * @return string
-     * @throws AuthorizationException
-     * @throws WebApiException
+     * @inheritDoc
      */
     public function getToken(string $username, string $password, string $otp): string
     {
-        $user = $this->userAuthenticator->authenticateWithCredentials($username, $password);
+        $user = $this->userFactory->create();
+        $user->loadByUsername($username);
         $userId = (int)$user->getId();
+        if ($userId === 0) {
+            throw new AuthenticationException(__(
+                'The account sign-in was incorrect or your account is disabled temporarily. '
+                . 'Please wait and try again later.'
+            ));
+        }
+
+        $token = $this->adminTokenService->createAdminAccessToken($username, $password);
 
         if (!$this->tfa->getProviderIsAllowed($userId, Google::CODE)) {
             throw new WebApiException(__('Provider is not allowed.'));
@@ -109,7 +112,7 @@ class Authenticate implements GoogleAuthenticateInterface
                 $user->getUserName()
             );
 
-            return $this->tokenFactory->create()->createAdminToken($userId)->getToken();
+            return $token;
         } else {
             throw new AuthorizationException(__('Invalid code.'));
         }

@@ -30,10 +30,10 @@
                     <comment>Two-factor authorization providers for admin users to use during login</comment>
                     <backend_model>Magento\TwoFactorAuth\Model\Config\Backend\ForceProviders</backend_model>
                 </field>
-                <field canRestore="1" id="webapi_email_config_url" translate="label" type="text" sortOrder="40"
+                <field canRestore="1" id="webapi_notification_url" translate="label" type="text" sortOrder="40"
                        showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Configuration Email URL for Web API</label>
-                    <comment>This can be used to override the default email configuration link that is sent when using the Magento Web API's to authenticate.</comment>
+                    <comment>This can be used to override the default email configuration link that is sent when using the Magento Web API's to authenticate. Use the placeholder :tfat to indicate where the token should be injected</comment>
                 </field>
             </group>
 

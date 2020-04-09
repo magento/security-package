@@ -63,7 +63,7 @@ class GoogleActivateTest extends WebapiAbstract
      */
     public function testInvalidTfat()
     {
-        $serviceInfo = $this->buildServiceInfo($this->getUserId());
+        $serviceInfo = $this->buildServiceInfo();
 
         try {
             $this->_webApiCall($serviceInfo, ['tfaToken' => 'abc', 'otp' => 'invalid']);
@@ -83,7 +83,7 @@ class GoogleActivateTest extends WebapiAbstract
     {
         $userId = $this->getUserId();
         $token = $this->tokenManager->issueFor($userId);
-        $serviceInfo = $this->buildServiceInfo($userId);
+        $serviceInfo = $this->buildServiceInfo();
 
         try {
             $this->_webApiCall($serviceInfo, ['tfaToken' => $token, 'otp' => 'invalid']);
@@ -103,7 +103,7 @@ class GoogleActivateTest extends WebapiAbstract
     {
         $userId = $this->getUserId();
         $token = $this->tokenManager->issueFor($userId);
-        $serviceInfo = $this->buildServiceInfo($userId);
+        $serviceInfo = $this->buildServiceInfo();
         $otp = $this->getUserOtp();
         $this->tfa->getProviderByCode(Google::CODE)
             ->activate($userId);
@@ -127,7 +127,7 @@ class GoogleActivateTest extends WebapiAbstract
         $userId = $this->getUserId();
         $token = $this->tokenManager->issueFor($userId);
         $otp = $this->getUserOtp();
-        $serviceInfo = $this->buildServiceInfo($userId);
+        $serviceInfo = $this->buildServiceInfo();
 
         $response = $this->_webApiCall(
             $serviceInfo,
@@ -137,7 +137,7 @@ class GoogleActivateTest extends WebapiAbstract
             ]
         );
         self::assertNotEmpty($response);
-        self::assertRegExp('/^[a-z0-9]{32}$/', $response);
+        self::assertTrue($response);
     }
 
     private function getUserOtp(): string
@@ -153,14 +153,13 @@ class GoogleActivateTest extends WebapiAbstract
     }
 
     /**
-     * @param int $userId
      * @return array
      */
-    private function buildServiceInfo(int $userId): array
+    private function buildServiceInfo(): array
     {
         return [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $userId,
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => Request::HTTP_METHOD_POST
             ],
             'soap' => [

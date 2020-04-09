@@ -9,14 +9,15 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 
 use Magento\Framework\DataObjectFactory;
-use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Webapi\Exception as WebApiException;
+use Magento\Integration\Api\AdminTokenServiceInterface;
 use Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
-use Magento\TwoFactorAuth\Model\UserAuthenticator;
-use Magento\Integration\Model\Oauth\TokenFactory as TokenModelFactory;
+use Magento\User\Api\Data\UserInterface;
+use Magento\User\Model\UserFactory;
 
 /**
  * Authenticate a user with authy
@@ -24,9 +25,9 @@ use Magento\Integration\Model\Oauth\TokenFactory as TokenModelFactory;
 class Authenticate implements AuthyAuthenticateInterface
 {
     /**
-     * @var UserAuthenticator
+     * @var UserFactory
      */
-    private $userAuthenticator;
+    private $userFactory;
 
     /**
      * @var Authy
@@ -42,10 +43,11 @@ class Authenticate implements AuthyAuthenticateInterface
      * @var DataObjectFactory
      */
     private $dataObjectFactory;
+
     /**
-     * @var TokenModelFactory
+     * @var AdminTokenServiceInterface
      */
-    private $tokenFactory;
+    private $adminTokenService;
 
     /**
      * @var Token
@@ -63,30 +65,30 @@ class Authenticate implements AuthyAuthenticateInterface
     private $oneTouch;
 
     /**
-     * @param UserAuthenticator $userAuthenticator
+     * @param UserFactory $userFactory
      * @param Authy $authy
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
-     * @param TokenModelFactory $tokenFactory
+     * @param AdminTokenServiceInterface $adminTokenService
      * @param Token $authyToken
      * @param TfaInterface $tfa
      * @param OneTouch $oneTouch
      */
     public function __construct(
-        UserAuthenticator $userAuthenticator,
+        UserFactory $userFactory,
         Authy $authy,
         AlertInterface $alert,
         DataObjectFactory $dataObjectFactory,
-        TokenModelFactory $tokenFactory,
+        AdminTokenServiceInterface $adminTokenService,
         Token $authyToken,
         TfaInterface $tfa,
         OneTouch $oneTouch
     ) {
-        $this->userAuthenticator = $userAuthenticator;
+        $this->userFactory = $userFactory;
         $this->authy = $authy;
         $this->alert = $alert;
         $this->dataObjectFactory = $dataObjectFactory;
-        $this->tokenFactory = $tokenFactory;
+        $this->adminTokenService = $adminTokenService;
         $this->authyToken = $authyToken;
         $this->tfa = $tfa;
         $this->oneTouch = $oneTouch;
@@ -97,13 +99,15 @@ class Authenticate implements AuthyAuthenticateInterface
      */
     public function authenticateWithToken(string $username, string $password, string $otp): string
     {
-        $user = $this->userAuthenticator->authenticateWithCredentials($username, $password);
+        $user = $this->getUser($username);
 
         if (!$this->tfa->getProviderIsAllowed((int)$user->getId(), Authy::CODE)) {
             throw new WebApiException(__('Provider is not allowed.'));
         } elseif (!$this->tfa->getProviderByCode(Authy::CODE)->isActive((int)$user->getId())) {
             throw new WebApiException(__('Provider is not configured.'));
         }
+
+        $token = $this->adminTokenService->createAdminAccessToken($username, $password);
 
         try {
             $this->authy->verify($user, $this->dataObjectFactory->create([
@@ -112,9 +116,7 @@ class Authenticate implements AuthyAuthenticateInterface
                 ],
             ]));
 
-            return $this->tokenFactory->create()
-                ->createAdminToken((int)$user->getId())
-                ->getToken();
+            return $token;
         } catch (\Exception $e) {
             $this->alert->event(
                 'Magento_TwoFactorAuth',
@@ -132,7 +134,7 @@ class Authenticate implements AuthyAuthenticateInterface
      */
     public function sendToken(string $username, string $password, string $via): bool
     {
-        $user = $this->userAuthenticator->authenticateWithCredentials($username, $password);
+        $user = $this->getUser($username);
 
         if (!$this->tfa->getProviderIsAllowed((int)$user->getId(), Authy::CODE)) {
             throw new WebApiException(__('Provider is not allowed.'));
@@ -154,7 +156,7 @@ class Authenticate implements AuthyAuthenticateInterface
      */
     public function authenticateWithOnetouch(string $username, string $password): string
     {
-        $user = $this->userAuthenticator->authenticateWithCredentials($username, $password);
+        $user = $this->getUser($username);
 
         if (!$this->tfa->getProviderIsAllowed((int)$user->getId(), Authy::CODE)) {
             throw new WebApiException(__('Provider is not allowed.'));
@@ -165,7 +167,7 @@ class Authenticate implements AuthyAuthenticateInterface
         try {
             $res = $this->oneTouch->verify($user);
             if ($res === 'approved') {
-                return $this->tokenFactory->create()
+                return $this->adminTokenService->create()
                     ->createAdminToken((int)$user->getId())
                     ->getToken();
             } else {
@@ -176,7 +178,7 @@ class Authenticate implements AuthyAuthenticateInterface
                     $user->getUserName()
                 );
 
-                throw new AuthorizationException(__('Onetouch prompt was denied or timed out.'));
+                throw new WebApiException(__('Onetouch prompt was denied or timed out.'));
             }
         } catch (\Exception $e) {
             $this->alert->event(
@@ -189,5 +191,27 @@ class Authenticate implements AuthyAuthenticateInterface
 
             throw $e;
         }
+    }
+
+    /**
+     * Retrieve a user using the username
+     *
+     * @param string $username
+     * @return UserInterface
+     * @throws AuthenticationException
+     */
+    private function getUser(string $username): UserInterface
+    {
+        $user = $this->userFactory->create();
+        $user->loadByUsername($username);
+        $userId = (int)$user->getId();
+        if ($userId === 0) {
+            throw new AuthenticationException(__(
+                'The account sign-in was incorrect or your account is disabled temporarily. '
+                . 'Please wait and try again later.'
+            ));
+        }
+
+        return $user;
     }
 }

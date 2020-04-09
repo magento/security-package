@@ -1,0 +1,10 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var $block \Magento\Framework\View\Element\Html\Link */
+/** @var $escaper \Magento\Framework\Escaper */
+?>
+<a <?= /* @noEscape */ $block->getLinkAttributes()?>><?=$escaper->escapeHtml($block->getLabel())?></a>

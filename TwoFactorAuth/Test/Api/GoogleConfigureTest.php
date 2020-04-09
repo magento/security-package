@@ -49,7 +49,7 @@ class GoogleConfigureTest extends WebapiAbstract
      */
     public function testInvalidTfat()
     {
-        $serviceInfo = $this->buildServiceInfo($this->getUserId());
+        $serviceInfo = $this->buildServiceInfo();
 
         try {
             $this->_webApiCall($serviceInfo, ['tfaToken' => 'abc']);
@@ -69,7 +69,7 @@ class GoogleConfigureTest extends WebapiAbstract
     {
         $userId = $this->getUserId();
         $token = $this->tokenManager->issueFor($userId);
-        $serviceInfo = $this->buildServiceInfo($userId);
+        $serviceInfo = $this->buildServiceInfo();
 
         try {
             $this->_webApiCall($serviceInfo, ['tfaToken' => $token]);
@@ -89,7 +89,7 @@ class GoogleConfigureTest extends WebapiAbstract
     {
         $userId = $this->getUserId();
         $token = $this->tokenManager->issueFor($userId);
-        $serviceInfo = $this->buildServiceInfo($userId);
+        $serviceInfo = $this->buildServiceInfo();
         $this->tfa->getProviderByCode(Google::CODE)
             ->activate($userId);
 
@@ -111,7 +111,7 @@ class GoogleConfigureTest extends WebapiAbstract
     {
         $userId = $this->getUserId();
         $token = $this->tokenManager->issueFor($userId);
-        $serviceInfo = $this->buildServiceInfo($userId);
+        $serviceInfo = $this->buildServiceInfo();
 
         $response = $this->_webApiCall($serviceInfo, ['tfaToken' => $token]);
         self::assertNotEmpty($response['qr_code_url']);
@@ -120,14 +120,13 @@ class GoogleConfigureTest extends WebapiAbstract
     }
 
     /**
-     * @param int $userId
      * @return array
      */
-    private function buildServiceInfo(int $userId): array
+    private function buildServiceInfo(): array
     {
         return [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH . '/' . $userId,
+                'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => Request::HTTP_METHOD_POST
             ],
             'soap' => [

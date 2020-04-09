@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Api;
 
-use Magento\TwoFactorAuth\Api\Data\AdminTokenResponseInterface;
+use Magento\Framework\Webapi\Exception as WebApiException;
 
 /**
  * Obtain basic information about the user required to setup or use 2fa
@@ -20,10 +20,11 @@ interface AdminTokenServiceInterface
      *
      * @param string $username
      * @param string $password
-     * @throws \Magento\Framework\Exception\InputException For invalid input
+     * @return void
+     * @throws WebApiException
+     * @throws \Magento\Framework\Exception\InputException
      * @throws \Magento\Framework\Exception\AuthenticationException
      * @throws \Magento\Framework\Exception\LocalizedException
-     * @return AdminTokenResponseInterface
      */
-    public function createAdminAccessToken(string $username, string $password): AdminTokenResponseInterface;
+    public function createAdminAccessToken(string $username, string $password): void;
 }

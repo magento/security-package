@@ -18,19 +18,17 @@ interface U2fKeyConfigureInterface
     /**
      * Get the information to initiate a WebAuthn registration ceremony
      *
-     * @param int $userId
      * @param string $tfaToken
      * @return U2FWebAuthnRequestInterface
      */
-    public function getRegistrationData(int $userId, string $tfaToken): U2FWebAuthnRequestInterface;
+    public function getRegistrationData(string $tfaToken): U2FWebAuthnRequestInterface;
 
     /**
      * Activate the provider and get a token
      *
-     * @param int $userId
      * @param string $tfaToken
      * @param string $publicKeyCredentialJson
-     * @return string
+     * @return bool
      */
-    public function activate(int $userId, string $tfaToken, string $publicKeyCredentialJson): string;
+    public function activate(string $tfaToken, string $publicKeyCredentialJson): bool;
 }

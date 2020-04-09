@@ -19,13 +19,11 @@ interface AuthyConfigureInterface
     /**
      * Get the information required to configure google
      *
-     * @param int $userId
      * @param string $tfaToken
      * @param AuthyDeviceInterface $deviceData
      * @return \Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface
      */
     public function sendDeviceRegistrationPrompt(
-        int $userId,
         string $tfaToken,
         AuthyDeviceInterface $deviceData
     ): ResponseInterface;
@@ -33,10 +31,9 @@ interface AuthyConfigureInterface
     /**
      * Activate the provider and get an admin token
      *
-     * @param int $userId
      * @param string $tfaToken
      * @param string $otp
-     * @return string
+     * @return bool
      */
-    public function activate(int $userId, string $tfaToken, string $otp): string;
+    public function activate(string $tfaToken, string $otp): bool;
 }

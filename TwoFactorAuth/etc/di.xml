@@ -29,7 +29,6 @@
     <preference for="Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Google\Authenticate"/>
     <preference for="Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\Google\AuthenticateData"/>
     <preference for="Magento\TwoFactorAuth\Api\AdminTokenServiceInterface" type="Magento\TwoFactorAuth\Model\AdminAccessTokenService"/>
-    <preference for="Magento\TwoFactorAuth\Api\Data\AdminTokenResponseInterface" type="Magento\TwoFactorAuth\Model\Data\AdminTokenResponse"/>
     <preference for="Magento\TwoFactorAuth\Api\AuthyConfigureInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Configure"/>
     <preference for="Magento\TwoFactorAuth\Api\Data\AuthyDeviceInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\Authy\Device"/>
     <preference for="Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\Authy\RegistrationResponse"/>

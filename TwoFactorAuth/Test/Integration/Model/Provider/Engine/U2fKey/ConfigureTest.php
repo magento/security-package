@@ -75,7 +75,6 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('getRegisterData');
         $this->model->getRegistrationData(
-            $userId,
             'abc'
         );
     }
@@ -95,8 +94,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('getRegisterData');
         $this->model->getRegistrationData(
-            $userId,
-            'abc'
+            $this->tokenManager->issueFor($userId)
         );
     }
 
@@ -113,8 +111,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('getRegisterData');
         $this->model->getRegistrationData(
-            $userId,
-            'abc'
+            $this->tokenManager->issueFor($userId)
         );
     }
 
@@ -131,7 +128,6 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('registerDevice');
         $this->model->activate(
-            $userId,
             'abc',
             'I identify as JSON'
         );
@@ -152,8 +148,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('registerDevice');
         $this->model->activate(
-            $userId,
-            'abc',
+            $this->tokenManager->issueFor($userId),
             'I identify as JSON'
         );
     }
@@ -171,8 +166,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('registerDevice');
         $this->model->activate(
-            $userId,
-            'abc',
+            $this->tokenManager->issueFor($userId),
             'I identify as JSON'
         );
     }
@@ -196,7 +190,6 @@ class ConfigureTest extends TestCase
             ->willReturn($data);
 
         $result = $this->model->getRegistrationData(
-            $userId,
             $this->tokenManager->issueFor($userId)
         );
 
@@ -216,7 +209,7 @@ class ConfigureTest extends TestCase
         $this->u2fkey
             ->method('getRegisterData')
             ->willReturn(['publicKey' => ['challenge' => [3, 2, 1]]]);
-        $this->model->getRegistrationData($userId, $tfat);
+        $this->model->getRegistrationData($tfat);
 
         $activateData = ['foo' => 'bar'];
         $this->u2fkey
@@ -232,9 +225,9 @@ class ConfigureTest extends TestCase
                 ]
             );
 
-        $token = $this->model->activate($userId, $tfat, json_encode($activateData));
+        $result = $this->model->activate($tfat, json_encode($activateData));
 
-        self::assertRegExp('/^[a-z0-9]{32}$/', $token);
+        self::assertTrue($result);
     }
 
     /**
@@ -251,13 +244,13 @@ class ConfigureTest extends TestCase
         $this->u2fkey
             ->method('getRegisterData')
             ->willReturn(['publicKey' => ['challenge' => [3, 2, 1]]]);
-        $this->model->getRegistrationData($userId, $tfat);
+        $this->model->getRegistrationData($tfat);
 
         $this->u2fkey
             ->method('registerDevice')
             ->willThrowException(new \InvalidArgumentException('Something'));
 
-        $result = $this->model->activate($userId, $tfat, json_encode(['foo' => 'bar']));
+        $result = $this->model->activate($tfat, json_encode(['foo' => 'bar']));
 
         self::assertEmpty($result);
     }

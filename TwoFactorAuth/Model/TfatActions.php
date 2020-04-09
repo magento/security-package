@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model;
 
 use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfatActionsInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
@@ -29,43 +30,41 @@ class TfatActions implements TfatActionsInterface
     private $tfa;
 
     /**
+     * @var Json
+     */
+    private $json;
+
+    /**
      * @param UserConfigTokenManagerInterface $tokenManager
      * @param TfaInterface $tfa
+     * @param Json $json
      */
     public function __construct(
         UserConfigTokenManagerInterface $tokenManager,
-        TfaInterface $tfa
+        TfaInterface $tfa,
+        Json $json
     ) {
         $this->tokenManager = $tokenManager;
         $this->tfa = $tfa;
+        $this->json = $json;
     }
 
     /**
-     * Get list of providers available for the user
-     *
-     * @param int $userId
-     * @param string $tfaToken
-     * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
-     * @throws AuthorizationException
+     * @inheritDoc
      */
-    public function getUserProviders(int $userId, string $tfaToken): array
+    public function getUserProviders(string $tfaToken): array
     {
-        $this->validateTfat($userId, $tfaToken);
+        $userId = $this->validateTfat($tfaToken);
 
         return $this->tfa->getUserProviders($userId);
     }
 
     /**
-     * Get list of providers requiring activation
-     *
-     * @param int $userId
-     * @param string $tfaToken
-     * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
-     * @throws AuthorizationException
+     * @inheritDoc
      */
-    public function getProvidersToActivate(int $userId, string $tfaToken): array
+    public function getProvidersToActivate(string $tfaToken): array
     {
-        $this->validateTfat($userId, $tfaToken);
+        $userId = $this->validateTfat($tfaToken);
 
         return $this->tfa->getProvidersToActivate($userId);
     }
@@ -73,14 +72,17 @@ class TfatActions implements TfatActionsInterface
     /**
      * Validate the given 2fa token
      *
-     * @param int $userId
      * @param string $tfat
+     * @return int
      * @throws AuthorizationException
      */
-    private function validateTfat(int $userId, string $tfat): void
+    private function validateTfat(string $tfat): int
     {
+        ['user_id' => $userId] = $this->json->unserialize(explode('.', base64_decode($tfat))[0]);
         if (!$this->tokenManager->isValidFor($userId, $tfat)) {
             throw new AuthorizationException(__('Invalid token.'));
         }
+
+        return $userId;
     }
 }

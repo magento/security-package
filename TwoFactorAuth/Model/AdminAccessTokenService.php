@@ -8,20 +8,22 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model;
 
-use Magento\TwoFactorAuth\Api\AdminTokenServiceInterface;
-use Magento\Framework\Authorization\PolicyInterface;
+use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Webapi\Exception as WebapiException;
-use Magento\TwoFactorAuth\Api\Data\AdminTokenResponseInterface;
-use Magento\TwoFactorAuth\Api\Data\AdminTokenResponseInterfaceFactory;
+use Magento\Integration\Api\AdminTokenServiceInterface;
+use Magento\TwoFactorAuth\Api\AdminTokenServiceInterface as AdminTokenServiceInterfaceApi;
 use Magento\TwoFactorAuth\Api\Exception\NotificationExceptionInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
+use Magento\User\Model\UserFactory;
 
 /**
  * Handles the 2fa version of the admin access token service
  */
-class AdminAccessTokenService implements AdminTokenServiceInterface
+class AdminAccessTokenService implements AdminTokenServiceInterfaceApi
 {
     /**
      * @var TfaInterface
@@ -34,68 +36,75 @@ class AdminAccessTokenService implements AdminTokenServiceInterface
     private $configRequestManager;
 
     /**
-     * @var PolicyInterface
+     * @var UserFactory
      */
-    private $auth;
+    private $userFactory;
 
     /**
-     * @var UserAuthenticator
+     * @var AdminTokenServiceInterface
      */
-    private $userAuthenticator;
-
-    /**
-     * @var AdminTokenResponseInterfaceFactory
-     */
-    private $responseFactory;
+    private $adminTokenService;
 
     /**
      * @param TfaInterface $tfa
      * @param UserConfigRequestManagerInterface $configRequestManager
-     * @param PolicyInterface $auth
-     * @param UserAuthenticator $userAuthenticator
-     * @param AdminTokenResponseInterfaceFactory $responseFactory
+     * @param UserFactory $userFactory
+     * @param AdminTokenServiceInterface $adminTokenService
      */
     public function __construct(
         TfaInterface $tfa,
         UserConfigRequestManagerInterface $configRequestManager,
-        PolicyInterface $auth,
-        UserAuthenticator $userAuthenticator,
-        AdminTokenResponseInterfaceFactory $responseFactory
+        UserFactory $userFactory,
+        AdminTokenServiceInterface $adminTokenService
     ) {
         $this->tfa = $tfa;
         $this->configRequestManager = $configRequestManager;
-        $this->auth = $auth;
-        $this->userAuthenticator = $userAuthenticator;
-        $this->responseFactory = $responseFactory;
+        $this->userFactory = $userFactory;
+        $this->adminTokenService = $adminTokenService;
     }
 
     /**
-     * Create access token for admin given the admin credentials.
+     * Prevent the admin token from being created with this api
      *
      * @param string $username
      * @param string $password
-     * @return \Magento\TwoFactorAuth\Api\Data\AdminTokenResponseInterface
+     * @return void
+     * @throws AuthenticationException
+     * @throws WebapiException
+     * @throws InputException
+     * @throws LocalizedException
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function createAdminAccessToken(string $username, string $password): AdminTokenResponseInterface
+    public function createAdminAccessToken(string $username, string $password): void
     {
-        $user = $this->userAuthenticator->authenticateWithCredentials($username, $password);
-
+        // No exception means valid input. Ignore the created token.
+        $this->adminTokenService->createAdminAccessToken($username, $password);
+        $user = $this->userFactory->create();
+        $user->loadByUsername($username);
         $userId = (int)$user->getId();
+        if ($userId === 0) {
+            throw new AuthenticationException(__(
+                'The account sign-in was incorrect or your account is disabled temporarily. '
+                . 'Please wait and try again later.'
+            ));
+        }
+
+        $providerCodes = [];
+        $activeProviderCodes = [];
+        foreach ($this->tfa->getUserProviders($userId) as $provider) {
+            $providerCodes[] = $provider->getCode();
+            if ($provider->isActive($userId)) {
+                $activeProviderCodes[] = $provider->getCode();
+            }
+        }
 
         if (!$this->configRequestManager->isConfigurationRequiredFor($userId)) {
-            return $this->responseFactory->create(
+            throw new WebapiException(
+                __('Please use the 2fa provider-specific endpoints to obtain a token.'),
+                0,
+                WebapiException::HTTP_UNAUTHORIZED,
                 [
-                    'data' => [
-                        AdminTokenResponseInterface::USER_ID => $userId,
-                        AdminTokenResponseInterface::MESSAGE =>
-                            (string)__('Please use the 2fa provider-specific endpoints to obtain a token.'),
-                        AdminTokenResponseInterface::ACTIVE_PROVIDERS => array_filter(
-                            $this->tfa->getUserProviders($userId),
-                            function ($provider) use ($userId) {
-                                return $provider->isActive($userId) ? $provider : null;
-                            }
-                        ),
-                    ]
+                    'active_providers' => $activeProviderCodes
                 ]
             );
         } elseif (empty($this->tfa->getUserProviders($userId))) {
@@ -113,20 +122,14 @@ class AdminAccessTokenService implements AdminTokenServiceInterface
             );
         }
 
-        return $this->responseFactory->create(
+        throw new WebapiException(
+            __('You are required to configure personal Two-Factor Authorization in order to login. '
+            . 'Please check your email.'),
+            0,
+            WebapiException::HTTP_UNAUTHORIZED,
             [
-                'data' => [
-                    AdminTokenResponseInterface::USER_ID => $userId,
-                    AdminTokenResponseInterface::MESSAGE =>
-                        (string)__('You are required to configure personal Two-Factor Authorization in order to login. '
-                            . 'Please check your email.'),
-                    AdminTokenResponseInterface::ACTIVE_PROVIDERS => array_filter(
-                        $this->tfa->getUserProviders($userId),
-                        function ($provider) use ($userId) {
-                            return $provider->isActive($userId) ? $provider : null;
-                        }
-                    )
-                ]
+                'providers' => $providerCodes,
+                'active_providers' => $activeProviderCodes
             ]
         );
     }

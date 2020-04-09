@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 
-use Magento\Integration\Model\Oauth\TokenFactory as TokenModelFactory;
 use Magento\TwoFactorAuth\Api\AuthyConfigureInterface;
 use Magento\TwoFactorAuth\Api\Data\AuthyDeviceInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
@@ -38,11 +37,6 @@ class Configure implements AuthyConfigureInterface
     private $responseFactory;
 
     /**
-     * @var TokenModelFactory
-     */
-    private $tokenFactory;
-
-    /**
      * @var Authy
      */
     private $authy;
@@ -56,7 +50,6 @@ class Configure implements AuthyConfigureInterface
      * @param AlertInterface $alert
      * @param Verification $verification
      * @param ResponseFactory $responseFactory
-     * @param TokenModelFactory $tokenFactory
      * @param Authy $authy
      * @param UserAuthenticator $userAuthenticator
      */
@@ -64,14 +57,12 @@ class Configure implements AuthyConfigureInterface
         AlertInterface $alert,
         Verification $verification,
         ResponseFactory $responseFactory,
-        TokenModelFactory $tokenFactory,
         Authy $authy,
         UserAuthenticator $userAuthenticator
     ) {
         $this->alert = $alert;
         $this->verification = $verification;
         $this->responseFactory = $responseFactory;
-        $this->tokenFactory = $tokenFactory;
         $this->authy = $authy;
         $this->userAuthenticator = $userAuthenticator;
     }
@@ -79,12 +70,8 @@ class Configure implements AuthyConfigureInterface
     /**
      * @inheritDoc
      */
-    public function sendDeviceRegistrationPrompt(
-        int $userId,
-        string $tfaToken,
-        AuthyDeviceInterface $deviceData
-    ): ResponseInterface {
-        $user = $this->userAuthenticator->authenticateWithTokenAndProvider($userId, $tfaToken, Authy::CODE);
+    public function sendDeviceRegistrationPrompt(string $tfaToken, AuthyDeviceInterface $deviceData): ResponseInterface {
+        $user = $this->userAuthenticator->authenticateWithTokenAndProvider($tfaToken, Authy::CODE);
 
         $response = [];
         $this->verification->request(
@@ -113,16 +100,11 @@ class Configure implements AuthyConfigureInterface
     }
 
     /**
-     * Activate the provider and get an admin token
-     *
-     * @param int $userId
-     * @param string $tfaToken
-     * @param string $otp
-     * @return string
+     * @inheritDoc
      */
-    public function activate(int $userId, string $tfaToken, string $otp): string
+    public function activate(string $tfaToken, string $otp): bool
     {
-        $user = $this->userAuthenticator->authenticateWithTokenAndProvider($userId, $tfaToken, Authy::CODE);
+        $user = $this->userAuthenticator->authenticateWithTokenAndProvider($tfaToken, Authy::CODE);
 
         try {
             $this->verification->verify($user, $otp);
@@ -135,9 +117,7 @@ class Configure implements AuthyConfigureInterface
                 $user->getUserName()
             );
 
-            return $this->tokenFactory->create()
-                ->createAdminToken($userId)
-                ->getToken();
+            return true;
         } catch (\Throwable $e) {
             $this->alert->event(
                 'Magento_TwoFactorAuth',

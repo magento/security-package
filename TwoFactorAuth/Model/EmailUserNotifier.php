@@ -15,7 +15,6 @@ use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\User\Model\User;
-use Magento\TwoFactorAuth\Api\Exception\NotificationExceptionInterface;
 use Magento\TwoFactorAuth\Api\UserNotifierInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\TwoFactorAuth\Model\Exception\NotificationException;
@@ -96,11 +95,9 @@ class EmailUserNotifier implements UserNotifierInterface
         bool $useWebApiUrl = false
     ): void {
         try {
-            $userUrl = $this->scopeConfig->getValue(TfaInterface::XML_PATH_WEBAPI_CONFIG_EMAIL_URL);
+            $userUrl = $this->scopeConfig->getValue(TfaInterface::XML_PATH_WEBAPI_NOTIFICATION_URL);
             if ($useWebApiUrl && $userUrl) {
-                $url = $userUrl .
-                    (parse_url($userUrl, PHP_URL_QUERY) ? '&' : '?') .
-                    http_build_query(['tfat' => $token, 'user_id' => $user->getId()]);
+                $url = str_replace(':tfat', $token, $userUrl);
             } else {
                 $url = $this->url->getUrl('tfa/tfa/index', ['tfat' => $token]);
             }

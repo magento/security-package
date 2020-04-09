@@ -85,12 +85,10 @@ class ConfigureTest extends TestCase
      */
     public function testConfigureInvalidTfat()
     {
-        $userId = $this->getUserId();
         $this->verification
             ->expects($this->never())
             ->method('request');
         $this->model->sendDeviceRegistrationPrompt(
-            $userId,
             'abc',
             $this->deviceDataFactory->create(
                 [
@@ -120,8 +118,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('request');
         $this->model->sendDeviceRegistrationPrompt(
-            $userId,
-            'abc',
+            $this->tokenManager->issueFor($userId),
             $this->deviceDataFactory->create(
                 [
                     'data' => [
@@ -147,8 +144,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('request');
         $this->model->sendDeviceRegistrationPrompt(
-            $userId,
-            'abc',
+            $this->tokenManager->issueFor($userId),
             $this->deviceDataFactory->create(
                 [
                     'data' => [
@@ -190,7 +186,6 @@ class ConfigureTest extends TestCase
             );
 
         $result = $this->model->sendDeviceRegistrationPrompt(
-            $userId,
             $this->tokenManager->issueFor($userId),
             $this->deviceDataFactory->create(
                 [
@@ -224,7 +219,6 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('enroll');
         $this->model->activate(
-            $userId,
             'abc',
             'abc'
         );
@@ -249,8 +243,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('request');
         $this->model->activate(
-            $userId,
-            'abc',
+            $this->tokenManager->issueFor($userId),
             'abc'
         );
     }
@@ -271,8 +264,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('request');
         $this->model->activate(
-            $userId,
-            'abc',
+            $this->tokenManager->issueFor($userId),
             'abc'
         );
     }
@@ -301,11 +293,12 @@ class ConfigureTest extends TestCase
                     return (int)$value->getId() === $userId;
                 })
             );
-        $this->model->activate(
-            $userId,
+        $result = $this->model->activate(
             $this->tokenManager->issueFor($userId),
             'cba'
         );
+
+        self::assertTrue($result);
     }
 
     private function getUserId(): int

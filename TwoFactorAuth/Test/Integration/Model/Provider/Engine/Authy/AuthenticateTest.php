@@ -63,6 +63,8 @@ class AuthenticateTest extends TestCase
      */
     public function testAuthenticateInvalidCredentials()
     {
+        $this->tfa->getProviderByCode(Authy::CODE)
+            ->activate($this->getUserId());
         $this->authy
             ->expects($this->never())
             ->method('verify');

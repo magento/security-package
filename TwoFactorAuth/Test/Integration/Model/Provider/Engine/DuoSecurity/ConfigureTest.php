@@ -84,7 +84,6 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('getRequestSignature');
         $this->model->getConfigurationData(
-            $this->getUserId(),
             'abc'
         );
     }
@@ -108,8 +107,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('getRequestSignature');
         $this->model->getConfigurationData(
-            $userId,
-            'abc'
+            $this->tokenManager->issueFor($userId)
         );
     }
 
@@ -125,8 +123,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('getRequestSignature');
         $this->model->getConfigurationData(
-            $this->getUserId(),
-            'abc'
+            $this->tokenManager->issueFor($this->getUserId())
         );
     }
 
@@ -141,12 +138,10 @@ class ConfigureTest extends TestCase
      */
     public function testActivateInvalidTfat()
     {
-        $userId = $this->getUserId();
         $this->duo
             ->expects($this->never())
             ->method('getRequestSignature');
         $this->model->activate(
-            $userId,
             'abc',
             'something'
         );
@@ -170,8 +165,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('getRequestSignature');
         $this->model->activate(
-            $userId,
-            'abc',
+            $this->tokenManager->issueFor($userId),
             'something'
         );
     }
@@ -189,8 +183,7 @@ class ConfigureTest extends TestCase
             ->expects($this->never())
             ->method('getRequestSignature');
         $this->model->activate(
-            $userId,
-            'abc',
+            $this->tokenManager->issueFor($userId),
             'something'
         );
     }
@@ -219,7 +212,6 @@ class ConfigureTest extends TestCase
             ->willReturn('cba');
 
         $result = $this->model->getConfigurationData(
-            $userId,
             $this->tokenManager->issueFor($userId)
         );
 
@@ -249,9 +241,9 @@ class ConfigureTest extends TestCase
                 $signature
             );
 
-        $token = $this->model->activate($userId, $tfat, $signature);
+        $result = $this->model->activate($tfat, $signature);
 
-        self::assertRegExp('/^[a-z0-9]{32}$/', $token);
+        self::assertTrue($result);
     }
 
     /**
@@ -278,7 +270,7 @@ class ConfigureTest extends TestCase
             )
             ->willThrowException(new \InvalidArgumentException('Something'));
 
-        $result = $this->model->activate($userId, $tfat, $signature);
+        $result = $this->model->activate($tfat, $signature);
 
         self::assertEmpty($result);
     }

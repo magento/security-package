@@ -63,6 +63,8 @@ class AuthenticateTest extends TestCase
      */
     public function testGetDataInvalidCredentials()
     {
+        $this->tfa->getProviderByCode(U2fKey::CODE)
+            ->activate($this->getUserId());
         $this->u2fkey
             ->expects($this->never())
             ->method('getAuthenticateData');
@@ -113,9 +115,14 @@ class AuthenticateTest extends TestCase
      */
     public function testVerifyInvalidCredentials()
     {
+        $this->tfa->getProviderByCode(U2fKey::CODE)
+            ->activate($this->getUserId());
         $this->u2fkey
             ->expects($this->never())
             ->method('verify');
+        $this->u2fkey->method('getAuthenticateData')
+            ->willReturn(['credentialRequestOptions' => ['challenge' => [1, 2, 3]]]);
+        $this->model->getAuthenticationData('adminUser', Bootstrap::ADMIN_PASSWORD);
         $this->model->verify(
             'adminUser',
             'bad',
