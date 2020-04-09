@@ -25,8 +25,8 @@ class Notice extends Field
      */
     public function render(AbstractElement $element)
     {
-        $html = '<td colspan="4"><p>' . '<strong>' . __('Important:') . ' ' . '</strong>'
-            . ' <span>' . __('Please note, for reCAPTCHA to be enabled,
+        $html = '<td colspan="4"><p class="' . $element->getId() . '_notice">' . '<strong>' . __('Important:')
+            . ' ' . '</strong>' . ' <span>' . __('Please note, for reCAPTCHA to be enabled,
         the valid "Google API Website Key" and "Google API Secret Key" fields are required.') . '</span>' . '</p></td>';
 
         return $this->_decorateRowHtml($element, $html);
