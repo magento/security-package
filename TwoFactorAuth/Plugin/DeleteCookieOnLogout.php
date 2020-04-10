@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Plugin;
 
-use Magento\Backend\Model\Auth\Session;
 use Magento\Backend\Model\Session as SessionManager;
 use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
 use Magento\Framework\Stdlib\CookieManagerInterface;
@@ -29,11 +28,6 @@ class DeleteCookieOnLogout
     private $cookieMetadataFactory;
 
     /**
-     * @var Session
-     */
-    private $session;
-
-    /**
      * @var SessionManager
      */
     private $sessionManager;
@@ -41,18 +35,15 @@ class DeleteCookieOnLogout
     /**
      * @param CookieManagerInterface $cookies
      * @param CookieMetadataFactory $cookieMetadataFactory
-     * @param Session $session
      * @param SessionManager $sessionManager
      */
     public function __construct(
         CookieManagerInterface $cookies,
         CookieMetadataFactory $cookieMetadataFactory,
-        Session $session,
         SessionManager $sessionManager
     ) {
         $this->cookies = $cookies;
         $this->cookieMetadataFactory = $cookieMetadataFactory;
-        $this->session = $session;
         $this->sessionManager = $sessionManager;
     }
 

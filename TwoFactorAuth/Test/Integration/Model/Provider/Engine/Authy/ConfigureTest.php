@@ -81,7 +81,7 @@ class ConfigureTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
      * @magentoDataFixture Magento/User/_files/user_with_role.php
      * @expectedException \Magento\Framework\Exception\AuthorizationException
-     * @expectedExceptionMessage Invalid tfa token
+     * @expectedExceptionMessage Invalid two-factor authorization token
      */
     public function testConfigureInvalidTfat()
     {
@@ -106,7 +106,7 @@ class ConfigureTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is already configured.
      */
     public function testConfigureAlreadyConfiguredProvider()
@@ -134,7 +134,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not allowed.
      */
     public function testConfigureUnavailableProvider()
@@ -207,7 +207,7 @@ class ConfigureTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
      * @magentoDataFixture Magento/User/_files/user_with_role.php
      * @expectedException \Magento\Framework\Exception\AuthorizationException
-     * @expectedExceptionMessage Invalid tfa token
+     * @expectedExceptionMessage Invalid two-factor authorization token
      */
     public function testActivateInvalidTfat()
     {
@@ -228,7 +228,7 @@ class ConfigureTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is already configured.
      */
     public function testActivateAlreadyConfiguredProvider()
@@ -251,7 +251,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not allowed.
      */
     public function testActivateUnavailableProvider()
@@ -293,12 +293,12 @@ class ConfigureTest extends TestCase
                     return (int)$value->getId() === $userId;
                 })
             );
-        $result = $this->model->activate(
+        $this->model->activate(
             $this->tokenManager->issueFor($userId),
             'cba'
         );
 
-        self::assertTrue($result);
+        // Mock enroll call above is assertion of activation
     }
 
     private function getUserId(): int

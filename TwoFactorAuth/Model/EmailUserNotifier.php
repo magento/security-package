@@ -13,7 +13,6 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\State;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\UserNotifierInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
@@ -95,7 +94,7 @@ class EmailUserNotifier implements UserNotifierInterface
         bool $useWebApiUrl = false
     ): void {
         try {
-            $userUrl = $this->scopeConfig->getValue(TfaInterface::XML_PATH_WEBAPI_NOTIFICATION_URL);
+            $userUrl = $this->scopeConfig->getValue(UserNotifierInterface::XML_PATH_WEBAPI_NOTIFICATION_URL);
             if ($useWebApiUrl && $userUrl) {
                 $url = str_replace(':tfat', $token, $userUrl);
             } else {

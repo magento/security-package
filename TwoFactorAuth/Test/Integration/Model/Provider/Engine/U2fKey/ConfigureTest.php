@@ -66,7 +66,7 @@ class ConfigureTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
      * @expectedException \Magento\Framework\Exception\AuthorizationException
-     * @expectedExceptionMessage Invalid tfa token
+     * @expectedExceptionMessage Invalid two-factor authorization token
      */
     public function testGetRegistrationDataInvalidTfat()
     {
@@ -82,7 +82,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is already configured.
      */
     public function testGetRegistrationDataAlreadyConfiguredProvider()
@@ -101,7 +101,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not allowed.
      */
     public function testGetRegistrationDataUnavailableProvider()
@@ -119,7 +119,7 @@ class ConfigureTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
      * @expectedException \Magento\Framework\Exception\AuthorizationException
-     * @expectedExceptionMessage Invalid tfa token
+     * @expectedExceptionMessage Invalid two-factor authorization token
      */
     public function testActivateInvalidTfat()
     {
@@ -136,7 +136,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is already configured.
      */
     public function testActivateAlreadyConfiguredProvider()
@@ -156,7 +156,7 @@ class ConfigureTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not allowed.
      */
     public function testActivateUnavailableProvider()
@@ -225,9 +225,9 @@ class ConfigureTest extends TestCase
                 ]
             );
 
-        $result = $this->model->activate($tfat, json_encode($activateData));
+        $this->model->activate($tfat, json_encode($activateData));
 
-        self::assertTrue($result);
+        // Mock registerDevice call above is proof of activation
     }
 
     /**

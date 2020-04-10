@@ -90,7 +90,7 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
      * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not configured.
      */
     public function testGetAuthenticateDataNotConfiguredProvider()
@@ -111,7 +111,7 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not allowed.
      */
     public function testGetAuthenticateDataUnavailableProvider()
@@ -139,7 +139,7 @@ class AuthenticateTest extends TestCase
         $this->duo
             ->expects($this->never())
             ->method('getRequestSignature');
-        $this->model->verify(
+        $this->model->createAdminAccessTokenWithCredentials(
             'adminUser',
             'abc',
             'signature'
@@ -152,7 +152,7 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
      * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not configured.
      */
     public function testVerifyNotConfiguredProvider()
@@ -164,7 +164,7 @@ class AuthenticateTest extends TestCase
         $this->duo
             ->expects($this->never())
             ->method('getRequestSignature');
-        $this->model->verify(
+        $this->model->createAdminAccessTokenWithCredentials(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             'signature'
@@ -174,7 +174,7 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not allowed.
      */
     public function testVerifyUnavailableProvider()
@@ -182,7 +182,7 @@ class AuthenticateTest extends TestCase
         $this->duo
             ->expects($this->never())
             ->method('getRequestSignature');
-        $this->model->verify(
+        $this->model->createAdminAccessTokenWithCredentials(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             'signature'
@@ -250,7 +250,7 @@ class AuthenticateTest extends TestCase
             )
             ->willReturn(true);
 
-        $token = $this->model->verify(
+        $token = $this->model->createAdminAccessTokenWithCredentials(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             $signature
@@ -265,7 +265,7 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
      * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Invalid response
      */
     public function testVerifyInvalidRequest()
@@ -278,7 +278,7 @@ class AuthenticateTest extends TestCase
         $this->duo->method('verify')
             ->willReturn(false);
 
-        $token = $this->model->verify(
+        $token = $this->model->createAdminAccessTokenWithCredentials(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             $signature

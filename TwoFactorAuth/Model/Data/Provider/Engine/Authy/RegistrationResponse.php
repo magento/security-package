@@ -13,7 +13,7 @@ use Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface as R
 use Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseExtensionInterface;
 
 /**
- * Represents google authentication data
+ * Represents authy authentication data
  */
 class RegistrationResponse extends AbstractExtensibleObject implements ResponseInterface
 {

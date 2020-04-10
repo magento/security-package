@@ -11,15 +11,15 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Serialize\Serializer\Json;
-use Magento\Framework\Webapi\Exception as WebApiException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Integration\Api\AdminTokenServiceInterface;
 use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface;
 use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterfaceFactory;
-use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\U2fKeyAuthenticateInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
+use Magento\TwoFactorAuth\Model\UserAuthenticator;
 use Magento\User\Api\Data\UserInterface;
 use Magento\User\Model\UserFactory;
 
@@ -31,9 +31,9 @@ class Authenticate implements U2fKeyAuthenticateInterface
     private const AUTHENTICATION_CHALLENGE_KEY = 'webapi_authentication_challenge';
 
     /**
-     * @var TfaInterface
+     * @var UserAuthenticator
      */
-    private $tfa;
+    private $userAuthenticator;
 
     /**
      * @var U2fKey
@@ -76,7 +76,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
     private $adminTokenService;
 
     /**
-     * @param TfaInterface $tfa
+     * @param UserAuthenticator $userAuthenticator
      * @param U2fKey $u2fKey
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
@@ -87,7 +87,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
      * @param AdminTokenServiceInterface $adminTokenService
      */
     public function __construct(
-        TfaInterface $tfa,
+        UserAuthenticator $userAuthenticator,
         U2fKey $u2fKey,
         AlertInterface $alert,
         DataObjectFactory $dataObjectFactory,
@@ -97,7 +97,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
         UserConfigManagerInterface $configManager,
         AdminTokenServiceInterface $adminTokenService
     ) {
-        $this->tfa = $tfa;
+        $this->userAuthenticator = $userAuthenticator;
         $this->u2fKey = $u2fKey;
         $this->alert = $alert;
         $this->dataObjectFactory = $dataObjectFactory;
@@ -113,17 +113,11 @@ class Authenticate implements U2fKeyAuthenticateInterface
      */
     public function getAuthenticationData(string $username, string $password): U2FWebAuthnRequestInterface
     {
+        $this->adminTokenService->createAdminAccessToken($username, $password);
+
         $user = $this->getUser($username);
         $userId = (int)$user->getId();
-
-        if (!$this->tfa->getProviderIsAllowed($userId, U2fKey::CODE)) {
-            throw new WebApiException(__('Provider is not allowed.'));
-        } elseif (!$this->tfa->getProviderByCode(U2fKey::CODE)->isActive($userId)) {
-            throw new WebApiException(__('Provider is not configured.'));
-        }
-
-        // No exception means valid
-        $this->adminTokenService->createAdminAccessToken($username, $password);
+        $this->userAuthenticator->assertProviderIsValidForUser($userId, U2fKey::CODE);
 
         $data = $this->u2fKey->getAuthenticateData($user);
         $this->configManager->addProviderConfig(
@@ -146,22 +140,18 @@ class Authenticate implements U2fKeyAuthenticateInterface
     /**
      * @inheritDoc
      */
-    public function verify(string $username, string $password, string $publicKeyCredentialJson): string
+    public function createAdminAccessToken(string $username, string $password, string $publicKeyCredentialJson): string
     {
+        $token = $this->adminTokenService->createAdminAccessToken($username, $password);
+
         $user = $this->getUser($username);
         $userId = (int)$user->getId();
+        $this->userAuthenticator->assertProviderIsValidForUser($userId, U2fKey::CODE);
 
         $config = $this->configManager->getProviderConfig($userId, U2fKey::CODE);
-        if (!$this->tfa->getProviderIsAllowed($userId, U2fKey::CODE)) {
-            throw new WebApiException(__('Provider is not allowed.'));
-        } elseif (!$this->tfa->getProviderByCode(U2fKey::CODE)->isActive($userId)) {
-            throw new WebApiException(__('Provider is not configured.'));
-        } elseif (empty($config[self::AUTHENTICATION_CHALLENGE_KEY])) {
-            throw new WebApiException(__('U2f authentication prompt not sent.'));
+        if (empty($config[self::AUTHENTICATION_CHALLENGE_KEY])) {
+            throw new LocalizedException(__('U2f authentication prompt not sent.'));
         }
-
-        // Validates/throttles credentials
-        $token = $this->adminTokenService->createAdminAccessToken($username, $password);
 
         try {
             $this->u2fKey->verify($user, $this->dataObjectFactory->create(

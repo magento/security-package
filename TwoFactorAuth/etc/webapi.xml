@@ -64,14 +64,14 @@
         </resources>
     </route>
 
-    <route url="/V1/tfa/tfat-user-providers" method="POST">
+    <route url="/V1/tfa/tfat-user-providers" method="GET">
         <service class="Magento\TwoFactorAuth\Api\TfatActionsInterface" method="getUserProviders"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
-    <route url="/V1/tfa/tfat-providers-to-activate" method="POST">
+    <route url="/V1/tfa/tfat-providers-to-activate" method="GET">
         <service class="Magento\TwoFactorAuth\Api\TfatActionsInterface" method="getProvidersToActivate"/>
         <resources>
             <resource ref="anonymous" />
@@ -86,7 +86,7 @@
     </route>
 
     <route url="/V1/tfa/provider/google/authenticate" method="POST">
-        <service class="Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface" method="getToken"/>
+        <service class="Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface" method="createAdminAccessToken"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
@@ -114,7 +114,7 @@
     </route>
 
     <route url="/V1/tfa/provider/authy/authenticate" method="POST">
-        <service class="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" method="authenticateWithToken"/>
+        <service class="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" method="createAdminAccessTokenWithCredentials"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
@@ -128,7 +128,7 @@
     </route>
 
     <route url="/V1/tfa/provider/authy/authenticate-onetouch" method="POST">
-        <service class="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" method="authenticateWithOnetouch"/>
+        <service class="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" method="creatAdminAccessTokenWithOneTouch"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
@@ -156,7 +156,7 @@
     </route>
 
     <route url="/V1/tfa/provider/u2fkey/verify" method="POST">
-        <service class="Magento\TwoFactorAuth\Api\U2fKeyAuthenticateInterface" method="verify"/>
+        <service class="Magento\TwoFactorAuth\Api\U2fKeyAuthenticateInterface" method="createAdminAccessToken"/>
         <resources>
             <resource ref="anonymous" />
         </resources>
@@ -184,7 +184,7 @@
     </route>
 
     <route url="/V1/tfa/provider/duo_security/authenticate" method="POST">
-        <service class="Magento\TwoFactorAuth\Api\DuoAuthenticateInterface" method="verify"/>
+        <service class="Magento\TwoFactorAuth\Api\DuoAuthenticateInterface" method="createAdminAccessTokenWithCredentials"/>
         <resources>
             <resource ref="anonymous" />
         </resources>

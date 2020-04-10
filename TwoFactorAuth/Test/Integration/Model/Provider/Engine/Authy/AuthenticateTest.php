@@ -41,16 +41,30 @@ class AuthenticateTest extends TestCase
      */
     private $userFactory;
 
+    /**
+     * @var Token|MockObject
+     */
+    private $authyToken;
+
+    /**
+     * @var OneTouch|MockObject
+     */
+    private $onetouch;
+
     protected function setUp()
     {
         $objectManager = ObjectManager::getInstance();
         $this->tfa = $objectManager->get(TfaInterface::class);
         $this->authy = $this->createMock(Authy::class);
         $this->userFactory = $objectManager->get(UserFactory::class);
+        $this->authyToken = $this->createMock(Token::class);
+        $this->onetouch = $this->createMock(OneTouch::class);
         $this->model = $objectManager->create(
             Authenticate::class,
             [
-                'authy' => $this->authy
+                'authy' => $this->authy,
+                'authyToken' => $this->authyToken,
+                'oneTouch' => $this->onetouch
             ]
         );
     }
@@ -68,7 +82,7 @@ class AuthenticateTest extends TestCase
         $this->authy
             ->expects($this->never())
             ->method('verify');
-        $this->model->authenticateWithToken(
+        $this->model->createAdminAccessTokenWithCredentials(
             'adminUser',
             'bad',
             'abc'
@@ -79,7 +93,7 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not configured.
      */
     public function testAuthenticateNotConfiguredProvider()
@@ -87,7 +101,7 @@ class AuthenticateTest extends TestCase
         $this->authy
             ->expects($this->never())
             ->method('verify');
-        $this->model->authenticateWithToken(
+        $this->model->createAdminAccessTokenWithCredentials(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             'abc'
@@ -97,7 +111,7 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not allowed.
      */
     public function testAuthenticateUnavailableProvider()
@@ -105,7 +119,7 @@ class AuthenticateTest extends TestCase
         $this->authy
             ->expects($this->never())
             ->method('verify');
-        $this->model->authenticateWithToken(
+        $this->model->createAdminAccessTokenWithCredentials(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             'abc'
@@ -133,13 +147,171 @@ class AuthenticateTest extends TestCase
                     return $value->getData('tfa_code') === 'abc';
                 })
             );
-        $result = $this->model->authenticateWithToken(
+        $result = $this->model->createAdminAccessTokenWithCredentials(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             'abc'
         );
 
         self::assertRegExp('/^[a-z0-9]{32}$/', $result);
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers authy
+     * @magentoConfigFixture default/twofactorauth/authy/api_key abc
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
+     * @expectedException \Magento\Framework\Exception\AuthenticationException
+     */
+    public function testSendTokenInvalidCredentials()
+    {
+        $this->tfa->getProviderByCode(Authy::CODE)
+            ->activate($this->getUserId());
+        $this->authy
+            ->expects($this->never())
+            ->method('verify');
+        $this->model->sendToken(
+            'adminUser',
+            'bad',
+            'sms'
+        );
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers authy
+     * @magentoConfigFixture default/twofactorauth/authy/api_key abc
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
+     * @expectedException \Magento\Framework\Exception\LocalizedException
+     * @expectedExceptionMessage Provider is not configured.
+     */
+    public function testSendTokenNotConfiguredProvider()
+    {
+        $this->authy
+            ->expects($this->never())
+            ->method('verify');
+        $this->model->sendToken(
+            'adminUser',
+            Bootstrap::ADMIN_PASSWORD,
+            'sms'
+        );
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
+     * @expectedException \Magento\Framework\Exception\LocalizedException
+     * @expectedExceptionMessage Provider is not allowed.
+     */
+    public function testSendTokenUnavailableProvider()
+    {
+        $this->authy
+            ->expects($this->never())
+            ->method('verify');
+        $this->model->sendToken(
+            'adminUser',
+            Bootstrap::ADMIN_PASSWORD,
+            'sms'
+        );
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers authy
+     * @magentoConfigFixture default/twofactorauth/authy/api_key abc
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
+     */
+    public function testSendTokenValidRequest()
+    {
+        $this->tfa->getProviderByCode(Authy::CODE)
+            ->activate($this->getUserId());
+        $userId = $this->getUserId();
+        $this->authyToken
+            ->expects($this->once())
+            ->method('request')
+            ->with(
+                $this->callback(function ($value) use ($userId) {
+                    return (int)$value->getId() === $userId;
+                }),
+                'a method'
+            );
+        $result = $this->model->sendToken(
+            'adminUser',
+            Bootstrap::ADMIN_PASSWORD,
+            'a method'
+        );
+
+        self::assertTrue($result);
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers authy
+     * @magentoConfigFixture default/twofactorauth/authy/api_key abc
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
+     */
+    public function testSendTokenValidRequestWithOneTouch()
+    {
+        $this->tfa->getProviderByCode(Authy::CODE)
+            ->activate($this->getUserId());
+        $userId = $this->getUserId();
+        $this->onetouch
+            ->expects($this->once())
+            ->method('request')
+            ->with(
+                $this->callback(function ($value) use ($userId) {
+                    return (int)$value->getId() === $userId;
+                })
+            );
+        $result = $this->model->sendToken(
+            'adminUser',
+            Bootstrap::ADMIN_PASSWORD,
+            'onetouch'
+        );
+
+        self::assertTrue($result);
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers authy
+     * @magentoConfigFixture default/twofactorauth/authy/api_key abc
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
+     */
+    public function testCreateTokenWithOneTouch()
+    {
+        $this->tfa->getProviderByCode(Authy::CODE)
+            ->activate($this->getUserId());
+        $userId = $this->getUserId();
+        $this->onetouch
+            ->method('verify')
+            ->with(
+                $this->callback(function ($value) use ($userId) {
+                    return (int)$value->getId() === $userId;
+                })
+            )
+            ->willReturn('approved');
+        $result = $this->model->creatAdminAccessTokenWithOneTouch(
+            'adminUser',
+            Bootstrap::ADMIN_PASSWORD
+        );
+
+        self::assertRegExp('/^[a-z0-9]{32}$/', $result);
+    }
+
+    /**
+     * @magentoConfigFixture default/twofactorauth/general/force_providers authy
+     * @magentoConfigFixture default/twofactorauth/authy/api_key abc
+     * @magentoDataFixture Magento/User/_files/user_with_role.php
+     * @expectedException \Magento\Framework\Exception\LocalizedException
+     * @expectedExceptionMessage Onetouch prompt was denied or timed out.
+     */
+    public function testCreateTokenWithOneTouchError()
+    {
+        $this->tfa->getProviderByCode(Authy::CODE)
+            ->activate($this->getUserId());
+        $this->onetouch
+            ->method('verify')
+            ->willReturn('denied');
+        $this->model->creatAdminAccessTokenWithOneTouch(
+            'adminUser',
+            Bootstrap::ADMIN_PASSWORD
+        );
     }
 
     private function getUserId(): int

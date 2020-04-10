@@ -21,8 +21,4 @@
     <type name="Magento\Backend\Model\Auth">
         <plugin name="delete_tfat_cookie" type="Magento\TwoFactorAuth\Plugin\DeleteCookieOnLogout"/>
     </type>
-
-    <type name="Magento\Integration\Api\AdminTokenServiceInterface">
-        <plugin name="tfa" type="Magento\TwoFactorAuth\Plugin\AdminAccessTokenService"/>
-    </type>
 </config>

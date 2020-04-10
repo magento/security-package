@@ -32,5 +32,9 @@ interface U2fKeyAuthenticateInterface
      * @param string $publicKeyCredentialJson
      * @return string
      */
-    public function verify(string $username, string $password, string $publicKeyCredentialJson): string;
+    public function createAdminAccessToken(
+        string $username,
+        string $password,
+        string $publicKeyCredentialJson
+    ): string;
 }

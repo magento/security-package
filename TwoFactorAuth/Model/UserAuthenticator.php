@@ -10,6 +10,7 @@ namespace Magento\TwoFactorAuth\Model;
 
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\AuthorizationException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Webapi\Exception as WebApiException;
 use Magento\TwoFactorAuth\Api\TfaInterface;
@@ -82,9 +83,9 @@ class UserAuthenticator
     {
         try {
             ['user_id' => $userId] = $this->json->unserialize(explode('.', base64_decode($tfaToken))[0]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             throw new AuthorizationException(
-                __('Invalid tfa token')
+                __('Invalid two-factor authorization token')
             );
         }
 
@@ -94,7 +95,7 @@ class UserAuthenticator
             throw new WebApiException(__('Provider is already configured.'));
         } elseif (!$this->tokenManager->isValidFor($userId, $tfaToken)) {
             throw new AuthorizationException(
-                __('Invalid tfa token')
+                __('Invalid two-factor authorization token')
             );
         }
 
@@ -102,5 +103,21 @@ class UserAuthenticator
         $this->userResource->load($user, $userId);
 
         return $user;
+    }
+
+    /**
+     * Validate the user is allowed to use the provider
+     *
+     * @param int $userId
+     * @param string $providerCode
+     * @throws LocalizedException
+     */
+    public function assertProviderIsValidForUser(int $userId, string $providerCode): void
+    {
+        if (!$this->tfa->getProviderIsAllowed($userId, $providerCode)) {
+            throw new LocalizedException(__('Provider is not allowed.'));
+        } elseif (!$this->tfa->getProviderByCode($providerCode)->isActive($userId)) {
+            throw new LocalizedException(__('Provider is not configured.'));
+        }
     }
 }

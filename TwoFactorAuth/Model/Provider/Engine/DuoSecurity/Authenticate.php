@@ -10,14 +10,14 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
 
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\AuthenticationException;
-use Magento\Framework\Webapi\Exception as WebApiException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Integration\Api\AdminTokenServiceInterface;
 use Magento\TwoFactorAuth\Api\Data\DuoDataInterface;
 use Magento\TwoFactorAuth\Api\Data\DuoDataInterfaceFactory;
 use Magento\TwoFactorAuth\Api\DuoAuthenticateInterface;
-use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
+use Magento\TwoFactorAuth\Model\UserAuthenticator;
 use Magento\User\Api\Data\UserInterface;
 use Magento\User\Model\UserFactory;
 
@@ -57,9 +57,9 @@ class Authenticate implements DuoAuthenticateInterface
     private $dataObjectFactory;
 
     /**
-     * @var TfaInterface
+     * @var UserAuthenticator
      */
-    private $tfa;
+    private $userAuthenticator;
 
     /**
      * @param UserFactory $userFactory
@@ -68,7 +68,7 @@ class Authenticate implements DuoAuthenticateInterface
      * @param AdminTokenServiceInterface $adminTokenService
      * @param DuoDataInterfaceFactory $dataFactory
      * @param DataObjectFactory $dataObjectFactory
-     * @param TfaInterface $tfa
+     * @param UserAuthenticator $userAuthenticator
      */
     public function __construct(
         UserFactory $userFactory,
@@ -77,7 +77,7 @@ class Authenticate implements DuoAuthenticateInterface
         AdminTokenServiceInterface $adminTokenService,
         DuoDataInterfaceFactory $dataFactory,
         DataObjectFactory $dataObjectFactory,
-        TfaInterface $tfa
+        UserAuthenticator $userAuthenticator
     ) {
         $this->userFactory = $userFactory;
         $this->alert = $alert;
@@ -85,7 +85,7 @@ class Authenticate implements DuoAuthenticateInterface
         $this->adminTokenService = $adminTokenService;
         $this->dataFactory = $dataFactory;
         $this->dataObjectFactory = $dataObjectFactory;
-        $this->tfa = $tfa;
+        $this->userAuthenticator = $userAuthenticator;
     }
 
     /**
@@ -93,16 +93,10 @@ class Authenticate implements DuoAuthenticateInterface
      */
     public function getAuthenticateData(string $username, string $password): DuoDataInterface
     {
-        $user = $this->getUser($username);
-        $userId = (int)$user->getId();
-
-        if (!$this->tfa->getProviderIsAllowed($userId, DuoSecurity::CODE)) {
-            throw new WebApiException(__('Provider is not allowed.'));
-        } elseif (!$this->tfa->getProviderByCode(DuoSecurity::CODE)->isActive($userId)) {
-            throw new WebApiException(__('Provider is not configured.'));
-        }
-
         $this->adminTokenService->createAdminAccessToken($username, $password);
+
+        $user = $this->getUser($username);
+        $this->userAuthenticator->assertProviderIsValidForUser((int)$user->getId(), DuoSecurity::CODE);
 
         return $this->dataFactory->create(
             [
@@ -117,18 +111,15 @@ class Authenticate implements DuoAuthenticateInterface
     /**
      * @inheritDoc
      */
-    public function verify(string $username, string $password, string $signatureResponse): string
-    {
-        $user = $this->getUser($username);
-        $userId = (int)$user->getId();
-
-        if (!$this->tfa->getProviderIsAllowed($userId, DuoSecurity::CODE)) {
-            throw new WebApiException(__('Provider is not allowed.'));
-        } elseif (!$this->tfa->getProviderByCode(DuoSecurity::CODE)->isActive($userId)) {
-            throw new WebApiException(__('Provider is not configured.'));
-        }
-
+    public function createAdminAccessTokenWithCredentials(
+        string $username,
+        string $password,
+        string $signatureResponse
+    ): string {
         $token = $this->adminTokenService->createAdminAccessToken($username, $password);
+
+        $user = $this->getUser($username);
+        $this->userAuthenticator->assertProviderIsValidForUser((int)$user->getId(), DuoSecurity::CODE);
 
         $this->assertResponseIsValid($user, $signatureResponse);
 
@@ -140,7 +131,7 @@ class Authenticate implements DuoAuthenticateInterface
      *
      * @param UserInterface $user
      * @param string $signatureResponse
-     * @throws WebApiException
+     * @throws LocalizedException
      */
     public function assertResponseIsValid(UserInterface $user, string $signatureResponse): void
     {
@@ -159,7 +150,7 @@ class Authenticate implements DuoAuthenticateInterface
                 $user->getUserName()
             );
 
-            throw new WebApiException(__('Invalid response'));
+            throw new LocalizedException(__('Invalid response'));
         }
     }
 

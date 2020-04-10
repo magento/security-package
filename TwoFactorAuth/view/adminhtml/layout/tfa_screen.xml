@@ -14,9 +14,7 @@
 
     <body>
         <referenceContainer name="login.content">
-            <block class="Magento\Framework\View\Element\Html\Link"
-                   name="logout.link"
-                   template="Magento_TwoFactorAuth::tfa/logout_link.phtml">
+            <block class="Magento\Framework\View\Element\Html\Link" name="logout.link">
                 <arguments>
                     <argument name="label" xsi:type="string"  translate="false">Logout</argument>
                     <argument name="path" xsi:type="string" translate="false">adminhtml/auth/logout</argument>

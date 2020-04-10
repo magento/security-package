@@ -10,12 +10,12 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\AuthenticationException;
-use Magento\Framework\Webapi\Exception as WebApiException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Integration\Api\AdminTokenServiceInterface;
 use Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface;
-use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
+use Magento\TwoFactorAuth\Model\UserAuthenticator;
 use Magento\User\Api\Data\UserInterface;
 use Magento\User\Model\UserFactory;
 
@@ -55,9 +55,9 @@ class Authenticate implements AuthyAuthenticateInterface
     private $authyToken;
 
     /**
-     * @var TfaInterface
+     * @var UserAuthenticator
      */
-    private $tfa;
+    private $userAuthenticator;
 
     /**
      * @var OneTouch
@@ -71,7 +71,7 @@ class Authenticate implements AuthyAuthenticateInterface
      * @param DataObjectFactory $dataObjectFactory
      * @param AdminTokenServiceInterface $adminTokenService
      * @param Token $authyToken
-     * @param TfaInterface $tfa
+     * @param UserAuthenticator $userAuthenticator
      * @param OneTouch $oneTouch
      */
     public function __construct(
@@ -81,7 +81,7 @@ class Authenticate implements AuthyAuthenticateInterface
         DataObjectFactory $dataObjectFactory,
         AdminTokenServiceInterface $adminTokenService,
         Token $authyToken,
-        TfaInterface $tfa,
+        UserAuthenticator $userAuthenticator,
         OneTouch $oneTouch
     ) {
         $this->userFactory = $userFactory;
@@ -90,24 +90,19 @@ class Authenticate implements AuthyAuthenticateInterface
         $this->dataObjectFactory = $dataObjectFactory;
         $this->adminTokenService = $adminTokenService;
         $this->authyToken = $authyToken;
-        $this->tfa = $tfa;
+        $this->userAuthenticator = $userAuthenticator;
         $this->oneTouch = $oneTouch;
     }
 
     /**
      * @inheritDoc
      */
-    public function authenticateWithToken(string $username, string $password, string $otp): string
+    public function createAdminAccessTokenWithCredentials(string $username, string $password, string $otp): string
     {
-        $user = $this->getUser($username);
-
-        if (!$this->tfa->getProviderIsAllowed((int)$user->getId(), Authy::CODE)) {
-            throw new WebApiException(__('Provider is not allowed.'));
-        } elseif (!$this->tfa->getProviderByCode(Authy::CODE)->isActive((int)$user->getId())) {
-            throw new WebApiException(__('Provider is not configured.'));
-        }
-
         $token = $this->adminTokenService->createAdminAccessToken($username, $password);
+
+        $user = $this->getUser($username);
+        $this->userAuthenticator->assertProviderIsValidForUser((int)$user->getId(), Authy::CODE);
 
         try {
             $this->authy->verify($user, $this->dataObjectFactory->create([
@@ -134,13 +129,10 @@ class Authenticate implements AuthyAuthenticateInterface
      */
     public function sendToken(string $username, string $password, string $via): bool
     {
-        $user = $this->getUser($username);
+        $this->adminTokenService->createAdminAccessToken($username, $password);
 
-        if (!$this->tfa->getProviderIsAllowed((int)$user->getId(), Authy::CODE)) {
-            throw new WebApiException(__('Provider is not allowed.'));
-        } elseif (!$this->tfa->getProviderByCode(Authy::CODE)->isActive((int)$user->getId())) {
-            throw new WebApiException(__('Provider is not configured.'));
-        }
+        $user = $this->getUser($username);
+        $this->userAuthenticator->assertProviderIsValidForUser((int)$user->getId(), Authy::CODE);
 
         if ($via === 'onetouch') {
             $this->oneTouch->request($user);
@@ -154,22 +146,17 @@ class Authenticate implements AuthyAuthenticateInterface
     /**
      * @inheritDoc
      */
-    public function authenticateWithOnetouch(string $username, string $password): string
+    public function creatAdminAccessTokenWithOneTouch(string $username, string $password): string
     {
-        $user = $this->getUser($username);
+        $token = $this->adminTokenService->createAdminAccessToken($username, $password);
 
-        if (!$this->tfa->getProviderIsAllowed((int)$user->getId(), Authy::CODE)) {
-            throw new WebApiException(__('Provider is not allowed.'));
-        } elseif (!$this->tfa->getProviderByCode(Authy::CODE)->isActive((int)$user->getId())) {
-            throw new WebApiException(__('Provider is not configured.'));
-        }
+        $user = $this->getUser($username);
+        $this->userAuthenticator->assertProviderIsValidForUser((int)$user->getId(), Authy::CODE);
 
         try {
             $res = $this->oneTouch->verify($user);
             if ($res === 'approved') {
-                return $this->adminTokenService->create()
-                    ->createAdminToken((int)$user->getId())
-                    ->getToken();
+                return $token;
             } else {
                 $this->alert->event(
                     'Magento_TwoFactorAuth',
@@ -178,7 +165,7 @@ class Authenticate implements AuthyAuthenticateInterface
                     $user->getUserName()
                 );
 
-                throw new WebApiException(__('Onetouch prompt was denied or timed out.'));
+                throw new LocalizedException(__('Onetouch prompt was denied or timed out.'));
             }
         } catch (\Exception $e) {
             $this->alert->event(

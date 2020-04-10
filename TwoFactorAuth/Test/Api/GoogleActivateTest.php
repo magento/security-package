@@ -71,7 +71,7 @@ class GoogleActivateTest extends WebapiAbstract
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
             self::assertEmpty(json_last_error());
-            self::assertSame('Invalid tfa token', $response['message']);
+            self::assertSame('Invalid two-factor authorization token', $response['message']);
         }
     }
 
@@ -136,8 +136,7 @@ class GoogleActivateTest extends WebapiAbstract
                 'otp' => $otp
             ]
         );
-        self::assertNotEmpty($response);
-        self::assertTrue($response);
+        self::assertEmpty($response);
     }
 
     private function getUserOtp(): string

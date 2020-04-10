@@ -35,5 +35,9 @@ interface DuoAuthenticateInterface
      * @param string $signatureResponse
      * @return string
      */
-    public function verify(string $username, string $password, string $signatureResponse): string;
+    public function createAdminAccessTokenWithCredentials(
+        string $username,
+        string $password,
+        string $signatureResponse
+    ): string;
 }

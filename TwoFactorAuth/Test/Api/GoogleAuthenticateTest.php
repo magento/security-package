@@ -12,7 +12,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\User\Model\UserFactory;
-use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use OTPHP\TOTP;
 
 class GoogleAuthenticateTest extends WebapiAbstract

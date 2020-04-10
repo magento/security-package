@@ -9,14 +9,11 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 use CBOR\CBOREncoder;
-use Magento\Framework\App\Area;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\App\State;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Validation\ValidationException;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
+use Magento\TwoFactorAuth\Api\U2fKeyConfigReaderInterface;
 use Magento\User\Api\Data\UserInterface;
 
 /**
@@ -32,33 +29,25 @@ class WebAuthn
     private const PUBKEY_LEN = 65;
 
     /**
+     * @var U2fKeyConfigReaderInterface
+     */
+    private $config;
+
+    /**
      * @var StoreManagerInterface
      */
     private $storeManager;
 
     /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
-
-    /**
-     * @var State
-     */
-    private $appState;
-
-    /**
      * @param StoreManagerInterface $storeManager
-     * @param ScopeConfigInterface $scopeConfig
-     * @param State $appState
+     * @param U2fKeyConfigReaderInterface $u2fKeyConfig
      */
     public function __construct(
         StoreManagerInterface $storeManager,
-        ScopeConfigInterface $scopeConfig,
-        State $appState
+        U2fKeyConfigReaderInterface $u2fKeyConfig
     ) {
+        $this->config = $u2fKeyConfig;
         $this->storeManager = $storeManager;
-        $this->scopeConfig = $scopeConfig;
-        $this->appState = $appState;
     }
 
     /**
@@ -89,7 +78,7 @@ class WebAuthn
             throw new LocalizedException(__('Invalid U2F key.'));
         }
 
-        $domain = $this->getDomainName();
+        $domain = $this->config->getDomain();
 
         // Steps 7-9
         if (rtrim(strtr(base64_encode($this->convertArrayToBytes($originalChallenge)), '+/', '-_'), '=')
@@ -166,7 +155,7 @@ class WebAuthn
                 'extensions' => [
                     'txAuthSimple' => 'Authenticate with ' . $store->getName(),
                 ],
-                'rpId' => $this->getDomainName(),
+                'rpId' => $this->config->getDomain(),
             ]
         ];
 
@@ -182,7 +171,7 @@ class WebAuthn
      */
     public function getRegisterData(UserInterface $user): array
     {
-        $domain = $this->getDomainName();
+        $domain = $this->config->getDomain();
 
         try {
             $challenge = random_bytes(16);
@@ -237,7 +226,7 @@ class WebAuthn
         // Verification process as defined by w3 @see https://www.w3.org/TR/webauthn/#registering-a-new-credential
 
         $credentialData = $data['publicKeyCredential'];
-        $domain = $this->getDomainName();
+        $domain = $this->config->getDomain();
 
         if (rtrim(strtr(base64_encode($this->convertArrayToBytes($data['challenge'])), '+/', '-_'), '=')
             !== $credentialData['response']['clientData']['challenge']
@@ -265,7 +254,7 @@ class WebAuthn
         $attestationObject['flags'] = ord(substr($byteString, 32, 1));
         $attestationObject['counter'] = substr($byteString, 33, 4);
 
-        $hashId = hash('sha256', $this->getDomainName(), true);
+        $hashId = hash('sha256', $this->config->getDomain(), true);
         if ($hashId !== $attestationObject['rpIdHash']) {
             throw new ValidationException(__('Invalid U2F key data'));
         }
@@ -332,29 +321,6 @@ class WebAuthn
         }
 
         return $byteString;
-    }
-
-    /**
-     * Get the store domain but only if it's secure
-     *
-     * @return string
-     * @throws LocalizedException
-     */
-    private function getDomainName(): string
-    {
-        $configValue = $this->scopeConfig->getValue(U2fKey::XML_PATH_WEBAPI_DOMAIN);
-        if ($configValue &&
-            in_array($this->appState->getAreaCode(), [Area::AREA_WEBAPI_REST, Area::AREA_WEBAPI_SOAP])
-        ) {
-            return $configValue;
-        }
-
-        $store = $this->storeManager->getStore(Store::ADMIN_CODE);
-        $baseUrl = $store->getBaseUrl();
-        if (!preg_match('/^(https?:\/\/(?P<domain>.+?))\//', $baseUrl, $matches)) {
-            throw new LocalizedException(__('Could not determine secure domain name.'));
-        }
-        return $matches['domain'];
     }
 
     /**

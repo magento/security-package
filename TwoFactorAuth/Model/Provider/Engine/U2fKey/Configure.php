@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 use Magento\Framework\Serialize\Serializer\Json;
-use Magento\Framework\Webapi\Exception as WebApiException;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface;
 use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterfaceFactory;
 use Magento\TwoFactorAuth\Api\U2fKeyConfigureInterface;
@@ -107,7 +107,7 @@ class Configure implements U2fKeyConfigureInterface
     /**
      * @inheritDoc
      */
-    public function activate(string $tfaToken, string $publicKeyCredentialJson): bool
+    public function activate(string $tfaToken, string $publicKeyCredentialJson): void
     {
         $user = $this->userAuthenticator->authenticateWithTokenAndProvider($tfaToken, U2fKey::CODE);
         $userId = (int)$user->getId();
@@ -115,7 +115,7 @@ class Configure implements U2fKeyConfigureInterface
         $config = $this->configManager->getProviderConfig($userId, U2fKey::CODE);
 
         if (empty($config[self::REGISTER_CHALLENGE_KEY])) {
-            throw new WebApiException(__('U2f key registration was not started.'));
+            throw new LocalizedException(__('U2f key registration was not started.'));
         }
 
         try {
@@ -148,7 +148,5 @@ class Configure implements U2fKeyConfigureInterface
             U2fKey::CODE,
             [self::REGISTER_CHALLENGE_KEY => null]
         );
-
-        return true;
     }
 }

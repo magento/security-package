@@ -28,7 +28,7 @@ interface U2fKeyConfigureInterface
      *
      * @param string $tfaToken
      * @param string $publicKeyCredentialJson
-     * @return bool
+     * @return void
      */
-    public function activate(string $tfaToken, string $publicKeyCredentialJson): bool;
+    public function activate(string $tfaToken, string $publicKeyCredentialJson): void;
 }

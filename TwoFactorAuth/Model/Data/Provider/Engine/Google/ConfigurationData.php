@@ -18,24 +18,24 @@ use Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface;
 class ConfigurationData extends AbstractExtensibleObject implements GoogleConfigureInterface
 {
     /**
-     * Get value for qr code url
+     * Get value for QR code base 64
      *
      * @return string
      */
-    public function getQrCodeUrl(): string
+    public function getQrCodeBase64(): string
     {
-        return (string)$this->_get(self::QR_CODE_URL);
+        return (string)$this->_get(self::QR_CODE_BASE64);
     }
 
     /**
-     * Set value for qr code url
+     * Set value for QR code base 64
      *
      * @param string $value
      * @return void
      */
-    public function setQrCodeUrl(string $value): void
+    public function setQrCodeBase64(string $value): void
     {
-        $this->setData(self::QR_CODE_URL, $value);
+        $this->setData(self::QR_CODE_BASE64, $value);
     }
 
     /**

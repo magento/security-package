@@ -70,7 +70,11 @@ class Configure implements AuthyConfigureInterface
     /**
      * @inheritDoc
      */
-    public function sendDeviceRegistrationPrompt(string $tfaToken, AuthyDeviceInterface $deviceData): ResponseInterface {
+    public function sendDeviceRegistrationPrompt(
+        string $tfaToken,
+        AuthyDeviceInterface
+        $deviceData
+    ): ResponseInterface {
         $user = $this->userAuthenticator->authenticateWithTokenAndProvider($tfaToken, Authy::CODE);
 
         $response = [];
@@ -102,7 +106,7 @@ class Configure implements AuthyConfigureInterface
     /**
      * @inheritDoc
      */
-    public function activate(string $tfaToken, string $otp): bool
+    public function activate(string $tfaToken, string $otp): void
     {
         $user = $this->userAuthenticator->authenticateWithTokenAndProvider($tfaToken, Authy::CODE);
 
@@ -116,8 +120,6 @@ class Configure implements AuthyConfigureInterface
                 AlertInterface::LEVEL_INFO,
                 $user->getUserName()
             );
-
-            return true;
         } catch (\Throwable $e) {
             $this->alert->event(
                 'Magento_TwoFactorAuth',

@@ -33,7 +33,7 @@ interface AuthyConfigureInterface
      *
      * @param string $tfaToken
      * @param string $otp
-     * @return bool
+     * @return void
      */
-    public function activate(string $tfaToken, string $otp): bool;
+    public function activate(string $tfaToken, string $otp): void;
 }

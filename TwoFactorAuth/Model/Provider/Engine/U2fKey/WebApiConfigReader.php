@@ -8,39 +8,45 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Store\Model\Store;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\TwoFactorAuth\Api\U2fKeyConfigReaderInterface;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 /**
  * Read the configuration for u2f provider
  */
-class ConfigReader implements U2fKeyConfigReaderInterface
+class WebApiConfigReader implements U2fKeyConfigReaderInterface
 {
     /**
-     * @var StoreManagerInterface
+     * @var ConfigReader
      */
-    private $storeManager;
+    private $configReader;
 
     /**
-     * @param StoreManagerInterface $storeManager
+     * @var ScopeConfigInterface
      */
-    public function __construct(StoreManagerInterface $storeManager)
+    private $scopeConfig;
+
+    /**
+     * @param ScopeConfigInterface $scopeConfig
+     * @param ConfigReader $configReader
+     */
+    public function __construct(ScopeConfigInterface $scopeConfig, ConfigReader $configReader)
     {
-        $this->storeManager = $storeManager;
+        $this->configReader = $configReader;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
      * @inheritDoc
      */
-    public function getDomain(): bool
+    public function getDomain(): string
     {
-        $store = $this->storeManager->getStore(Store::ADMIN_CODE);
-        $baseUrl = $store->getBaseUrl();
-        if (!preg_match('/^(https?:\/\/(?P<domain>.+?))\//', $baseUrl, $matches)) {
-            throw new LocalizedException(__('Could not determine secure domain name.'));
+        $configValue = $this->scopeConfig->getValue(U2fKey::XML_PATH_WEBAPI_DOMAIN);
+        if ($configValue) {
+            return $configValue;
         }
-        return $matches['domain'];
+
+        return $this->configReader->getDomain();
     }
 }

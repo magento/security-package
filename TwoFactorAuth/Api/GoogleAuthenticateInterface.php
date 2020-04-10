@@ -21,5 +21,5 @@ interface GoogleAuthenticateInterface
      * @param string $otp
      * @return string
      */
-    public function getToken(string $username, string $password, string $otp): string;
+    public function createAdminAccessToken(string $username, string $password, string $otp): string;
 }

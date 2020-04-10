@@ -3,6 +3,9 @@
  * See COPYING.txt for license details.
  */
 
+.login-content > li {
+    list-style: none;
+}
 .tfa-logout-link {
     position: absolute;
     top: 1em;

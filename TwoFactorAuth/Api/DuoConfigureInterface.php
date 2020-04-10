@@ -30,7 +30,7 @@ interface DuoConfigureInterface
      *
      * @param string $tfaToken
      * @param string $signatureResponse
-     * @return bool
+     * @return void
      */
-    public function activate(string $tfaToken, string $signatureResponse): bool;
+    public function activate(string $tfaToken, string $signatureResponse): void;
 }

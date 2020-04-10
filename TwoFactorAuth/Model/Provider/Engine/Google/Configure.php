@@ -87,8 +87,7 @@ class Configure implements GoogleConfigureInterface
         return $this->configurationDataFactory->create(
             [
                 'data' => [
-                    GoogleConfigurationData::QR_CODE_URL =>
-                        'data:image/png;base64,' . base64_encode($this->google->getQrCodeAsPng($user)),
+                    GoogleConfigurationData::QR_CODE_BASE64 => base64_encode($this->google->getQrCodeAsPng($user)),
                     GoogleConfigurationData::SECRET_CODE => $this->google->getSecretCode($user)
                 ]
             ]
@@ -98,7 +97,7 @@ class Configure implements GoogleConfigureInterface
     /**
      * @inheritDoc
      */
-    public function activate(string $tfaToken, string $otp): bool
+    public function activate(string $tfaToken, string $otp): void
     {
         $user = $this->userAuthenticator->authenticateWithTokenAndProvider($tfaToken, Google::CODE);
 
@@ -116,8 +115,6 @@ class Configure implements GoogleConfigureInterface
                 AlertInterface::LEVEL_INFO,
                 $user->getUserName()
             );
-
-            return true;
         } else {
             throw new AuthorizationException(__('Invalid code.'));
         }

@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Api;
 
-use Magento\TwoFactorAuth\Api\Data\AuthyDeviceInterface;
-
 /**
  * Represents the authy provider authentication
  */
@@ -20,16 +18,17 @@ interface AuthyAuthenticateInterface
      *
      * @param string $username
      * @param string $password
+     * @param string $otp
      * @return string $otp
      */
-    public function authenticateWithToken(
+    public function createAdminAccessTokenWithCredentials(
         string $username,
         string $password,
         string $otp
     ): string;
 
     /**
-     * Send a token to a device using authy
+     * Send a one time password to a device using authy
      *
      * @param string $username
      * @param string $password
@@ -49,7 +48,7 @@ interface AuthyAuthenticateInterface
      * @param string $password
      * @return string
      */
-    public function authenticateWithOnetouch(
+    public function creatAdminAccessTokenWithOneTouch(
         string $username,
         string $password
     ): string;

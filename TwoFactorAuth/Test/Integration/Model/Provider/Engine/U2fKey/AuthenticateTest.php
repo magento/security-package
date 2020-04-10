@@ -77,7 +77,7 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not configured.
      */
     public function testGetDataNotConfiguredProvider()
@@ -94,7 +94,7 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not allowed.
      */
     public function testGetDataUnavailableProvider()
@@ -123,7 +123,7 @@ class AuthenticateTest extends TestCase
         $this->u2fkey->method('getAuthenticateData')
             ->willReturn(['credentialRequestOptions' => ['challenge' => [1, 2, 3]]]);
         $this->model->getAuthenticationData('adminUser', Bootstrap::ADMIN_PASSWORD);
-        $this->model->verify(
+        $this->model->createAdminAccessToken(
             'adminUser',
             'bad',
             'I identify as JSON'
@@ -133,7 +133,7 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not configured.
      */
     public function testVerifyNotConfiguredProvider()
@@ -141,7 +141,7 @@ class AuthenticateTest extends TestCase
         $this->u2fkey
             ->expects($this->never())
             ->method('verify');
-        $this->model->verify(
+        $this->model->createAdminAccessToken(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             'I identify as JSON'
@@ -151,7 +151,7 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Webapi\Exception
+     * @expectedException \Magento\Framework\Exception\LocalizedException
      * @expectedExceptionMessage Provider is not allowed.
      */
     public function testVerifyUnavailableProvider()
@@ -159,7 +159,7 @@ class AuthenticateTest extends TestCase
         $this->u2fkey
             ->expects($this->never())
             ->method('verify');
-        $this->model->verify(
+        $this->model->createAdminAccessToken(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             'I identify as JSON'
@@ -232,7 +232,7 @@ class AuthenticateTest extends TestCase
                 })
             );
 
-        $token = $this->model->verify(
+        $token = $this->model->createAdminAccessToken(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             json_encode($verifyData)
@@ -261,7 +261,7 @@ class AuthenticateTest extends TestCase
             ->method('verify')
             ->willThrowException(new \InvalidArgumentException('Something'));
 
-        $result = $this->model->verify(
+        $result = $this->model->createAdminAccessToken(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             json_encode(['foo' => 'bar'])

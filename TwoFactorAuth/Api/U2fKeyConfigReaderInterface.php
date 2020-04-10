@@ -8,27 +8,15 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Api;
 
-use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface;
-
 /**
- * Represent configuration for u2f key provider
+ * Represents configuration for u2f key provider
  */
-interface U2fKeyConfigureInterface
+interface U2fKeyConfigReaderInterface
 {
     /**
-     * Get the information to initiate a WebAuthn registration ceremony
+     * Get the domain to use for WebAuthn ceremonies
      *
-     * @param string $tfaToken
-     * @return U2FWebAuthnRequestInterface
+     * @return string
      */
-    public function getRegistrationData(string $tfaToken): U2FWebAuthnRequestInterface;
-
-    /**
-     * Activate the provider and get a token
-     *
-     * @param string $tfaToken
-     * @param string $publicKeyCredentialJson
-     * @return bool
-     */
-    public function activate(string $tfaToken, string $publicKeyCredentialJson): bool;
+    public function getDomain(): string;
 }

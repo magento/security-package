@@ -8,70 +8,69 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Unit\Model\Provider\Engine\U2fKey;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Store\Model\Store;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\ConfigReader;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\WebApiConfigReader;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class ConfigReaderTest extends TestCase
+class WebApiConfigReaderTest extends TestCase
 {
     /**
-     * @var StoreManagerInterface|MockObject
+     * @var ScopeConfigInterface|MockObject
      */
-    private $storeManager;
+    private $scopeConfig;
 
     /**
-     * @var ConfigReader
+     * @var ConfigReader|MockObject
+     */
+    private $defaultConfigReader;
+
+    /**
+     * @var WebApiConfigReader
      */
     private $reader;
 
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->storeManager = $this->createMock(StoreManagerInterface::class);
+        $this->scopeConfig = $this->createMock(ScopeConfigInterface::class);
+        $this->defaultConfigReader = $this->createMock(ConfigReader::class);
         $this->reader = $objectManager->getObject(
-            ConfigReader::class,
+            WebApiConfigReader::class,
             [
-                'storeManager' => $this->storeManager
+                'scopeConfig' => $this->scopeConfig,
+                'configReader' => $this->defaultConfigReader
             ]
         );
     }
 
-    public function testGetValidDomain()
+    public function testDomainFromConfig()
     {
-        $store = $this->createMock(Store::class);
-        $store->method('getBaseUrl')
-            ->willReturn('https://domain.com/');
-        $this->storeManager
-            ->method('getStore')
-            ->willReturn($store);
+        $this->defaultConfigReader
+            ->expects($this->never())
+            ->method('getDomain');
+        $this->scopeConfig
+            ->method('getValue')
+            ->with(U2fKey::XML_PATH_WEBAPI_DOMAIN)
+            ->willReturn('foo');
         $result = $this->reader->getDomain();
-        self::assertSame('domain.com', $result);
+        self::assertSame('foo', $result);
     }
 
-    /**
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Could not determine secure domain name.
-     * @dataProvider invalidDomainProviders
-     */
-    public function testGetInvalidDomain($domain)
+    public function testDomainFromDefault()
     {
-        $store = $this->createMock(Store::class);
-        $store->method('getBaseUrl')
-            ->willReturn($domain);
-        $this->storeManager
-            ->method('getStore')
-            ->willReturn($store);
-        $this->reader->getDomain();
-    }
-
-    public function invalidDomainProviders()
-    {
-        return [
-            ['foo'],
-            ['http://domain.com/'],
-        ];
+        $this->defaultConfigReader
+            ->method('getDomain')
+            ->willReturn('foo');
+        $this->scopeConfig
+            ->method('getValue')
+            ->with(U2fKey::XML_PATH_WEBAPI_DOMAIN)
+            ->willReturn(null);
+        $result = $this->reader->getDomain();
+        self::assertSame('foo', $result);
     }
 }

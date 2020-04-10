@@ -86,7 +86,7 @@ class Configure implements DuoConfigureInterface
     /**
      * @inheritDoc
      */
-    public function activate(string $tfaToken, string $signatureResponse): bool
+    public function activate(string $tfaToken, string $signatureResponse): void
     {
         $user = $this->userAuthenticator->authenticateWithTokenAndProvider($tfaToken, DuoSecurity::CODE);
         $userId = (int)$user->getId();
@@ -94,7 +94,5 @@ class Configure implements DuoConfigureInterface
         $this->authenticate->assertResponseIsValid($user, $signatureResponse);
         $this->tfa->getProviderByCode(DuoSecurity::CODE)
             ->activate($userId);
-
-        return true;
     }
 }

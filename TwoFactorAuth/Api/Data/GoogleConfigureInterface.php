@@ -15,9 +15,9 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 interface GoogleConfigureInterface extends ExtensibleDataInterface
 {
     /**
-     * QR Code URL field name
+     * QR Code base 64 field name
      */
-    public const QR_CODE_URL = 'qr_code_url';
+    public const QR_CODE_BASE64 = 'qr_code_base64';
 
     /**
      * Secret code field name
@@ -25,19 +25,19 @@ interface GoogleConfigureInterface extends ExtensibleDataInterface
     public const SECRET_CODE = 'secret_code';
 
     /**
-     * Get value for qr code url
+     * Get value for QR code base 64
      *
      * @return string
      */
-    public function getQrCodeUrl(): string;
+    public function getQrCodeBase64(): string;
 
     /**
-     * Set value for qr code url
+     * Set value for QR code base 64
      *
      * @param string $value
      * @return void
      */
-    public function setQrCodeUrl(string $value): void;
+    public function setQrCodeBase64(string $value): void;
 
     /**
      * Get value for secret code

@@ -10,6 +10,7 @@ namespace Magento\TwoFactorAuth\Api;
 use Magento\Framework\Webapi\Rest\Request;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface as GoogleConfigureData;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\User\Model\UserFactory;
 
@@ -57,7 +58,7 @@ class GoogleConfigureTest extends WebapiAbstract
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
             self::assertEmpty(json_last_error());
-            self::assertSame('Invalid tfa token', $response['message']);
+            self::assertSame('Invalid two-factor authorization token', $response['message']);
         }
     }
 
@@ -114,8 +115,8 @@ class GoogleConfigureTest extends WebapiAbstract
         $serviceInfo = $this->buildServiceInfo();
 
         $response = $this->_webApiCall($serviceInfo, ['tfaToken' => $token]);
-        self::assertNotEmpty($response['qr_code_url']);
-        self::assertStringStartsWith('data:image/png', $response['qr_code_url']);
+        self::assertNotEmpty($response[GoogleConfigureData::QR_CODE_BASE64]);
+        self::assertRegExp('/^[a-zA-Z0-9+\/=]+$/', $response[GoogleConfigureData::QR_CODE_BASE64]);
         self::assertNotEmpty($response['secret_code']);
     }
 
