@@ -13,6 +13,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\State;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\TwoFactorAuth\Model\Config\UserNotifier as UserNotifierConfig;
 use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\UserNotifierInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
@@ -55,12 +56,18 @@ class EmailUserNotifier implements UserNotifierInterface
     private $appState;
 
     /**
+     * @var UserNotifierConfig
+     */
+    private $userNotifierConfig;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
      * @param TransportBuilder $transportBuilder
      * @param StoreManagerInterface $storeManager
      * @param LoggerInterface $logger
      * @param UrlInterface $url
      * @param State $appState
+     * @param UserNotifierConfig $userNotifierConfig
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -68,7 +75,8 @@ class EmailUserNotifier implements UserNotifierInterface
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
         UrlInterface $url,
-        State $appState
+        State $appState,
+        UserNotifierConfig $userNotifierConfig
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->transportBuilder = $transportBuilder;
@@ -76,6 +84,7 @@ class EmailUserNotifier implements UserNotifierInterface
         $this->logger = $logger;
         $this->url = $url;
         $this->appState = $appState;
+        $this->userNotifierConfig = $userNotifierConfig;
     }
 
     /**
@@ -84,23 +93,16 @@ class EmailUserNotifier implements UserNotifierInterface
      * @param User $user
      * @param string $token
      * @param string $emailTemplateId
-     * @param bool $useWebApiUrl
+     * @param string $url
      * @return void
      */
     private function sendConfigRequired(
         User $user,
         string $token,
         string $emailTemplateId,
-        bool $useWebApiUrl = false
+        string $url
     ): void {
         try {
-            $userUrl = $this->scopeConfig->getValue(UserNotifierInterface::XML_PATH_WEBAPI_NOTIFICATION_URL);
-            if ($useWebApiUrl && $userUrl) {
-                $url = str_replace(':tfat', $token, $userUrl);
-            } else {
-                $url = $this->url->getUrl('tfa/tfa/index', ['tfat' => $token]);
-            }
-
             $transport = $this->transportBuilder
                 ->setTemplateIdentifier($emailTemplateId)
                 ->setTemplateOptions([
@@ -132,7 +134,12 @@ class EmailUserNotifier implements UserNotifierInterface
      */
     public function sendUserConfigRequestMessage(User $user, string $token): void
     {
-        $this->sendConfigRequired($user, $token, 'tfa_admin_user_config_required', $this->isWebapi());
+        $this->sendConfigRequired(
+            $user,
+            $token,
+            'tfa_admin_user_config_required',
+            $this->userNotifierConfig->getPersonalRequestConfigUrl($token)
+        );
     }
 
     /**
@@ -140,7 +147,12 @@ class EmailUserNotifier implements UserNotifierInterface
      */
     public function sendAppConfigRequestMessage(User $user, string $token): void
     {
-        $this->sendConfigRequired($user, $token, 'tfa_admin_app_config_required', false);
+        $this->sendConfigRequired(
+            $user,
+            $token,
+            'tfa_admin_app_config_required',
+            $this->userNotifierConfig->getAppRequestConfigUrl($token)
+        );
     }
 
     /**

@@ -18,8 +18,8 @@ use Magento\User\Model\UserFactory;
 class AdminIntegrationTokenTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'integrationAdminTokenServiceV1';
-    const OPERATION = 'CreateAdminAccessTokenRequest';
+    const SERVICE_NAME = 'twoFactorAuthAdminTokenServiceV1';
+    const OPERATION = 'CreateAdminAccessToken';
     const RESOURCE_PATH = '/V1/integration/admin/token';
 
     /**
@@ -66,11 +66,15 @@ class AdminIntegrationTokenTest extends WebapiAbstract
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
+            if (json_last_error()) {
+                $message = $exception->getMessage();
+            } else {
+                $message = $response['message'];
+            }
             self::assertSame(
                 'The account sign-in was incorrect or your account is disabled temporarily. '
                 . 'Please wait and try again later.',
-                $response['message']
+                $message
             );
         }
     }
@@ -92,12 +96,18 @@ class AdminIntegrationTokenTest extends WebapiAbstract
             );
         } catch (\Exception $e) {
             $response = json_decode($e->getMessage(), true);
+            if (json_last_error()) {
+                $message = $e->getMessage();
+            } else {
+                $message = $response['message'];
+                self::assertCount(1, $response['parameters']['active_providers']);
+                self::assertSame('google', $response['parameters']['active_providers'][0]);
+            }
+
             self::assertSame(
                 'Please use the 2fa provider-specific endpoints to obtain a token.',
-                $response['message']
+                $message
             );
-            self::assertCount(1, $response['parameters']['active_providers']);
-            self::assertSame('google', $response['parameters']['active_providers'][0]);
         }
     }
 
@@ -118,13 +128,19 @@ class AdminIntegrationTokenTest extends WebapiAbstract
             );
         } catch (\Exception $e) {
             $response = json_decode($e->getMessage(), true);
+            if (json_last_error()) {
+                $message = $e->getMessage();
+            } else {
+                $message = $response['message'];
+                self::assertCount(1, $response['parameters']['active_providers']);
+                self::assertSame('google', $response['parameters']['active_providers'][0]);
+            }
+
             self::assertSame(
                 'You are required to configure personal Two-Factor Authorization in order to login. '
                 . 'Please check your email.',
-                $response['message']
+                $message
             );
-            self::assertCount(1, $response['parameters']['active_providers']);
-            self::assertSame('google', $response['parameters']['active_providers'][0]);
         }
     }
 
@@ -147,10 +163,14 @@ class AdminIntegrationTokenTest extends WebapiAbstract
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
+            if (json_last_error()) {
+                $message = $exception->getMessage();
+            } else {
+                $message = $response['message'];
+            }
             self::assertSame(
                 'Please ask an administrator with sufficient access to configure 2FA first',
-                $response['message']
+                $message
             );
         }
     }

@@ -8,11 +8,9 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model;
 
-use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
-use Magento\Framework\Webapi\Exception as WebApiException;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\User\Model\ResourceModel\User as UserResource;
@@ -77,7 +75,7 @@ class UserAuthenticator
      * @param string $providerCode
      * @return User
      * @throws AuthorizationException
-     * @throws WebApiException
+     * @throws LocalizedException
      */
     public function authenticateWithTokenAndProvider(string $tfaToken, string $providerCode): User
     {
@@ -90,9 +88,9 @@ class UserAuthenticator
         }
 
         if (!$this->tfa->getProviderIsAllowed($userId, $providerCode)) {
-            throw new WebApiException(__('Provider is not allowed.'));
+            throw new LocalizedException(__('Provider is not allowed.'));
         } elseif ($this->tfa->getProviderByCode($providerCode)->isActive($userId)) {
-            throw new WebApiException(__('Provider is already configured.'));
+            throw new LocalizedException(__('Provider is already configured.'));
         } elseif (!$this->tokenManager->isValidFor($userId, $tfaToken)) {
             throw new AuthorizationException(
                 __('Invalid two-factor authorization token')

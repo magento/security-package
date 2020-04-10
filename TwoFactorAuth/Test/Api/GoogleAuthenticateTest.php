@@ -18,7 +18,7 @@ class GoogleAuthenticateTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
     const SERVICE_NAME = 'twoFactorAuthGoogleAuthenticateV1';
-    const OPERATION = 'GetTokenRequest';
+    const OPERATION = 'CreateAdminAccessToken';
     const RESOURCE_PATH = '/V1/tfa/provider/google/authenticate';
 
     /**
@@ -69,11 +69,15 @@ class GoogleAuthenticateTest extends WebapiAbstract
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
+            if (json_last_error()) {
+                $message = $exception->getMessage();
+            } else {
+                $message = $response['message'];
+            }
             self::assertSame(
                 'The account sign-in was incorrect or your account is disabled temporarily. '
                 . 'Please wait and try again later.',
-                $response['message']
+                $message
             );
         }
     }
@@ -98,8 +102,12 @@ class GoogleAuthenticateTest extends WebapiAbstract
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
-            self::assertSame('Provider is not allowed.', $response['message']);
+            if (json_last_error()) {
+                $message = $exception->getMessage();
+            } else {
+                $message = $response['message'];
+            }
+            self::assertSame('Provider is not allowed.', $message);
         }
     }
 
@@ -126,8 +134,12 @@ class GoogleAuthenticateTest extends WebapiAbstract
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
-            self::assertSame('Invalid code.', $response['message']);
+            if (json_last_error()) {
+                $message = $exception->getMessage();
+            } else {
+                $message = $response['message'];
+            }
+            self::assertSame('Invalid code.', $message);
         }
     }
 
@@ -154,8 +166,12 @@ class GoogleAuthenticateTest extends WebapiAbstract
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
-            self::assertSame('Provider is not configured.', $response['message']);
+            if (json_last_error()) {
+                $message = $exception->getMessage();
+            } else {
+                $message = $response['message'];
+            }
+            self::assertSame('Provider is not configured.', $message);
         }
     }
 

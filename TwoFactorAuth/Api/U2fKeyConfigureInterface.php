@@ -19,7 +19,7 @@ interface U2fKeyConfigureInterface
      * Get the information to initiate a WebAuthn registration ceremony
      *
      * @param string $tfaToken
-     * @return U2FWebAuthnRequestInterface
+     * @return \Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface
      */
     public function getRegistrationData(string $tfaToken): U2FWebAuthnRequestInterface;
 

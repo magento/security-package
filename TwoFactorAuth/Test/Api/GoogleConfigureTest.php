@@ -18,7 +18,7 @@ class GoogleConfigureTest extends WebapiAbstract
 {
     const SERVICE_VERSION = 'V1';
     const SERVICE_NAME = 'twoFactorAuthGoogleConfigureV1';
-    const OPERATION = 'GetConfigurationDataRequest';
+    const OPERATION = 'GetConfigurationData';
     const RESOURCE_PATH = '/V1/tfa/provider/google/configure';
 
     /**
@@ -57,8 +57,12 @@ class GoogleConfigureTest extends WebapiAbstract
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
-            self::assertSame('Invalid two-factor authorization token', $response['message']);
+            if (json_last_error()) {
+                $message = $exception->getMessage();
+            } else {
+                $message = $response['message'];
+            }
+            self::assertSame('Invalid two-factor authorization token', $message);
         }
     }
 
@@ -77,8 +81,12 @@ class GoogleConfigureTest extends WebapiAbstract
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
-            self::assertSame('Provider is not allowed.', $response['message']);
+            if (json_last_error()) {
+                $message = $exception->getMessage();
+            } else {
+                $message = $response['message'];
+            }
+            self::assertSame('Provider is not allowed.', $message);
         }
     }
 
@@ -99,8 +107,12 @@ class GoogleConfigureTest extends WebapiAbstract
             self::fail('Endpoint should have thrown an exception');
         } catch (\Throwable $exception) {
             $response = json_decode($exception->getMessage(), true);
-            self::assertEmpty(json_last_error());
-            self::assertSame('Provider is already configured.', $response['message']);
+            if (json_last_error()) {
+                $message = $exception->getMessage();
+            } else {
+                $message = $response['message'];
+            }
+            self::assertSame('Provider is already configured.', $message);
         }
     }
 

@@ -20,7 +20,7 @@ interface U2fKeyAuthenticateInterface
      *
      * @param string $username
      * @param string $password
-     * @return U2FWebAuthnRequestInterface
+     * @return \Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface
      */
     public function getAuthenticationData(string $username, string $password): U2FWebAuthnRequestInterface;
 
