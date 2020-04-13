@@ -33,13 +33,13 @@ interface AuthyAuthenticateInterface
      * @param string $username
      * @param string $password
      * @param string $via
-     * @return bool
+     * @return void
      */
     public function sendToken(
         string $username,
         string $password,
         string $via
-    ): bool;
+    ): void;
 
     /**
      * Authenticate using the present one touch response and get an admin token

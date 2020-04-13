@@ -127,7 +127,7 @@ class Authenticate implements AuthyAuthenticateInterface
     /**
      * @inheritDoc
      */
-    public function sendToken(string $username, string $password, string $via): bool
+    public function sendToken(string $username, string $password, string $via): void
     {
         $this->adminTokenService->createAdminAccessToken($username, $password);
 
@@ -139,8 +139,6 @@ class Authenticate implements AuthyAuthenticateInterface
         } else {
             $this->authyToken->request($user, $via);
         }
-
-        return true;
     }
 
     /**

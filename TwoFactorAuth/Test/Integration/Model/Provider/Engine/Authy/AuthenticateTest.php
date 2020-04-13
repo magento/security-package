@@ -232,13 +232,11 @@ class AuthenticateTest extends TestCase
                 }),
                 'a method'
             );
-        $result = $this->model->sendToken(
+        $this->model->sendToken(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             'a method'
         );
-
-        self::assertTrue($result);
     }
 
     /**
@@ -259,13 +257,11 @@ class AuthenticateTest extends TestCase
                     return (int)$value->getId() === $userId;
                 })
             );
-        $result = $this->model->sendToken(
+        $this->model->sendToken(
             'adminUser',
             Bootstrap::ADMIN_PASSWORD,
             'onetouch'
         );
-
-        self::assertTrue($result);
     }
 
     /**
