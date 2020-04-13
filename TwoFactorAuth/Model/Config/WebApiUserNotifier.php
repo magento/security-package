@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\UrlInterface;
 use Magento\TwoFactorAuth\Api\UserNotifierInterface;
 
 /**
@@ -22,11 +23,14 @@ class WebApiUserNotifier extends UserNotifier
     private $scopeConfig;
 
     /**
+     * @param UrlInterface $url
      * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
+        UrlInterface $url,
         ScopeConfigInterface $scopeConfig
     ) {
+        parent::__construct($url, $scopeConfig);
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -34,9 +38,9 @@ class WebApiUserNotifier extends UserNotifier
      * Get the url to send to the user for configuring personal 2fa settings
      *
      * @param string $tfaToken
-     * @return string|null
+     * @return string
      */
-    public function getPersonalRequestConfigUrl(string $tfaToken): ?string
+    public function getPersonalRequestConfigUrl(string $tfaToken): string
     {
         $userUrl = $this->scopeConfig->getValue(UserNotifierInterface::XML_PATH_WEBAPI_NOTIFICATION_URL);
 

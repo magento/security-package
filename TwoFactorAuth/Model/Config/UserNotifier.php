@@ -42,9 +42,9 @@ class UserNotifier
      * Get the url to send to the user for configuring personal 2fa settings
      *
      * @param string $tfaToken
-     * @return string|null
+     * @return string
      */
-    public function getPersonalRequestConfigUrl(string $tfaToken): ?string
+    public function getPersonalRequestConfigUrl(string $tfaToken): string
     {
         return $this->getRequestConfigUrl($tfaToken);
     }
@@ -53,9 +53,9 @@ class UserNotifier
      * Get the url to send to the user for configuring global 2fa settings
      *
      * @param string $tfaToken
-     * @return string|null
+     * @return string
      */
-    public function getAppRequestConfigUrl(string $tfaToken): ?string
+    public function getAppRequestConfigUrl(string $tfaToken): string
     {
         return $this->getRequestConfigUrl($tfaToken);
     }
