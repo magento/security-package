@@ -1,0 +1,98 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+
+namespace Magento\TwoFactorAuth\Command;
+
+use Magento\Framework\Exception\LocalizedException;
+use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Magento\User\Model\UserFactory;
+use Magento\User\Model\ResourceModel\User;
+
+/**
+ * 2FA reset commandline
+ */
+class GoogleSecret extends Command
+{
+    /**
+     * @var UserConfigManagerInterface
+     */
+    private $userConfigManager;
+
+    /**
+     * @var User
+     */
+    private $userResource;
+
+    /**
+     * @var UserFactory
+     */
+    private $userFactory;
+
+    /**
+     * @param UserConfigManagerInterface $userConfigManager
+     * @param UserFactory $userFactory
+     * @param User $userResource
+     */
+    public function __construct(
+        UserConfigManagerInterface $userConfigManager,
+        UserFactory $userFactory,
+        User $userResource
+    ) {
+        parent::__construct();
+        $this->userConfigManager = $userConfigManager;
+        $this->userResource = $userResource;
+        $this->userFactory = $userFactory;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function configure()
+    {
+        $this->setName('security:tfa:google:set-secret');
+        $this->setDescription('Set the secret used for Google OTP generation.');
+
+        $this->addArgument('user', InputArgument::REQUIRED, __('Username'));
+        $this->addArgument('secret', InputArgument::REQUIRED, __('Secret'));
+
+        parent::configure();
+    }
+
+    /**
+     * Set the secret used for google otp generation
+     *
+     * @SuppressWarnings("PHPMD.UnusedFormalParameter")
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @throws LocalizedException
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $userName = $input->getArgument('user');
+        $secret = $input->getArgument('secret');
+
+        $user = $this->userFactory->create();
+
+        $this->userResource->load($user, $userName, 'username');
+        if (!$user->getId()) {
+            throw new LocalizedException(__('Unknown user %1', $userName));
+        }
+
+        $this->userConfigManager->addProviderConfig(
+            (int)$user->getId(),
+            Google::CODE,
+            ['secret' => $secret]
+        );
+
+        $output->writeln((string)__('Google OTP secret has been set'));
+    }
+}

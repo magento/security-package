@@ -40,12 +40,14 @@
     <preference for="Magento\TwoFactorAuth\Api\DuoAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity\Authenticate"/>
     <preference for="Magento\TwoFactorAuth\Api\Data\DuoDataInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\DuoSecurity\Data"/>
     <preference for="Magento\TwoFactorAuth\Api\U2fKeyConfigReaderInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\ConfigReader"/>
+    <preference for="OTPHP\TOTPInterface" type="OTPHP\TOTP"/>
 
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="tfa_reset" xsi:type="object">Magento\TwoFactorAuth\Command\TfaReset</item>
                 <item name="tfa_providers" xsi:type="object">Magento\TwoFactorAuth\Command\TfaProviders</item>
+                <item name="google_secret" xsi:type="object">Magento\TwoFactorAuth\Command\GoogleSecret</item>
             </argument>
         </arguments>
     </type>

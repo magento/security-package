@@ -20,6 +20,9 @@
                 <secret_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <application_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
             </duo>
+            <google>
+                <otp_window>30</otp_window>
+            </google>
         </twofactorauth>
     </default>
 </config>

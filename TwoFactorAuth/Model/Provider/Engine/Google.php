@@ -12,6 +12,7 @@ use Endroid\QrCode\Exception\ValidationException;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Exception;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
@@ -19,7 +20,8 @@ use Magento\User\Api\Data\UserInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Api\EngineInterface;
 use Base32\Base32;
-use OTPHP\TOTP;
+use OTPHP\TOTPInterfaceFactory;
+use OTPHP\TOTPInterface;
 
 /**
  * Google authenticator engine
@@ -27,16 +29,16 @@ use OTPHP\TOTP;
 class Google implements EngineInterface
 {
     /**
+     * Config path for the OTP window
+     */
+    const XML_PATH_OTP_WINDOW = 'twofactorauth/google/otp_window';
+
+    /**
      * Engine code
      *
      * Must be the same as defined in di.xml
      */
     public const CODE = 'google';
-
-    /**
-     * @var null
-     */
-    private $totp = null;
 
     /**
      * @var UserConfigManagerInterface
@@ -49,21 +51,36 @@ class Google implements EngineInterface
     private $storeManager;
 
     /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
+     * @var TOTPInterfaceFactory
+     */
+    private $totpFactory;
+
+    /**
      * @param StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param ScopeConfigInterface $scopeConfig
      * @param UserConfigManagerInterface $configManager
+     * @param TOTPInterfaceFactory $totpFactory
      */
     public function __construct(
         StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        UserConfigManagerInterface $configManager
+        ScopeConfigInterface $scopeConfig,
+        UserConfigManagerInterface $configManager,
+        TOTPInterfaceFactory $totpFactory
     ) {
         $this->configManager = $configManager;
         $this->storeManager = $storeManager;
+        $this->scopeConfig = $scopeConfig;
+        $this->totpFactory = $totpFactory;
     }
 
     /**
      * Generate random secret
+     *
      * @return string
      * @throws Exception
      */
@@ -75,11 +92,12 @@ class Google implements EngineInterface
 
     /**
      * Get TOTP object
+     *
      * @param UserInterface $user
-     * @return TOTP
+     * @return TOTPInterface
      * @throws NoSuchEntityException
      */
-    private function getTotp(UserInterface $user): TOTP
+    private function getTotp(UserInterface $user): TOTPInterface
     {
         $config = $this->configManager->getProviderConfig((int)$user->getId(), static::CODE);
         if (!isset($config['secret'])) {
@@ -88,13 +106,19 @@ class Google implements EngineInterface
         if (!$config['secret']) {
             throw new NoSuchEntityException(__('Secret for user with ID#%1 was not found', $user->getId()));
         }
-        $totp = new TOTP($user->getEmail(), $config['secret']);
+        $totp = $this->totpFactory->create(
+            [
+                'label' => $user->getEmail(),
+                'secret' => $config['secret']
+            ]
+        );
 
         return $totp;
     }
 
     /**
      * Get the secret code used for Google Authentication
+     *
      * @param UserInterface $user
      * @return string|null
      * @throws NoSuchEntityException
@@ -114,6 +138,7 @@ class Google implements EngineInterface
 
     /**
      * Get TFA provisioning URL
+     *
      * @param UserInterface $user
      * @return string
      * @throws NoSuchEntityException
@@ -145,11 +170,16 @@ class Google implements EngineInterface
         $totp = $this->getTotp($user);
         $config = $this->configManager->getProviderConfig((int)$user->getId(), static::CODE);
 
-        return $totp->verify($token, null, $config['window'] ?? null);
+        return $totp->verify(
+            $token,
+            null,
+            $config['window'] ?? (int)$this->scopeConfig->getValue(self::XML_PATH_OTP_WINDOW) ?: null
+        );
     }
 
     /**
      * Render TFA QrCode
+     *
      * @param UserInterface $user
      * @return string
      * @throws NoSuchEntityException
