@@ -126,6 +126,9 @@ define(
                 registry.captchaList.push(widgetId);
                 registry.tokenFields.push(this.tokenField);
 
+                let captchaId = this.getReCaptchaId();
+                registry.captchaListDetails.push([widgetId] = captchaId);
+
             },
 
             /**
@@ -179,6 +182,39 @@ define(
                     $(window).on('recaptchaapiready', function () {
                         me.initCaptcha();
                     });
+                }
+
+                let captchaListDetails = registry.captchaListDetails();
+
+                if (this.getReCaptchaId()) {
+
+                    let captchaReloaded = false;
+
+                    $(".product.data.items").on("dimensionsChanged", function (event, data) {
+                        if (captchaReloaded == false) {
+                            let opened = data.opened;
+
+                            if (opened) {
+
+                                if (event.target && event.target.hasAttribute('aria-controls')) {
+
+                                    let ariaControls = event.target.getAttribute('aria-controls');
+
+                                    if ($('#' + ariaControls).has('#' + this.getReCaptchaId()).length) {
+                                        let keys = captchaListDetails.keys(),
+                                            key;
+
+                                        for (key of keys) {
+                                            if (captchaListDetails[key] == this.getReCaptchaId()) {
+                                                grecaptcha.reset(key);
+                                                captchaReloaded = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }.bind(this));
                 }
             },
 
