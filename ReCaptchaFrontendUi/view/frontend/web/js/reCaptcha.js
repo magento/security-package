@@ -105,7 +105,7 @@ define(
                 $parentForm = $wrapper.parents('form');
                 me = this;
 
-                let parameters = _.extend(
+                var parameters = _.extend(
                     {
                         'callback': function (token) { // jscs:ignore jsDoc
                             me.reCaptchaCallback(token);
