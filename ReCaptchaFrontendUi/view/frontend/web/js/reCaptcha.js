@@ -186,7 +186,7 @@ define(
 
                 let captchaListDetails = registry.captchaListDetails();
 
-                if (this.getReCaptchaId()) {
+                if (this.getIsInvisibleRecaptcha() && this.getReCaptchaId()) {
 
                     let captchaReloaded = false;
 
