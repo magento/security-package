@@ -4,30 +4,28 @@
  */
 
 define([], function () {
-        'use strict';
+    'use strict';
 
-        var scriptTagAdded = false;
+    var scriptTagAdded = false;
 
-        return {
-            /**
-             * Add script tag. Script tag should be added once
-             */
-            addReCaptchaScriptTag: function () {
-                var element,
-                    scriptTag;
+    return {
+        /**
+         * Add script tag. Script tag should be added once
+         */
+        addReCaptchaScriptTag: function () {
+            var element, scriptTag;
 
-                if (!scriptTagAdded) {
-                    element = document.createElement('script');
-                    scriptTag = document.getElementsByTagName('script')[0];
+            if (!scriptTagAdded) {
+                element = document.createElement('script');
+                scriptTag = document.getElementsByTagName('script')[0];
 
-                    element.async = true;
-                    element.src = 'https://www.google.com/recaptcha/api.js' +
-                        '?onload=globalOnRecaptchaOnLoadCallback&render=explicit';
+                element.async = true;
+                element.src = 'https://www.google.com/recaptcha/api.js' +
+                    '?onload=globalOnRecaptchaOnLoadCallback&render=explicit';
 
-                    scriptTag.parentNode.insertBefore(element, scriptTag);
-                    scriptTagAdded = true;
-                }
+                scriptTag.parentNode.insertBefore(element, scriptTag);
+                scriptTagAdded = true;
             }
         }
-    }
-);
+    };
+});
