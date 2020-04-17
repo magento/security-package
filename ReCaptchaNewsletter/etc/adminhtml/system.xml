@@ -8,16 +8,13 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
-        <section id="recaptcha">
-            <group id="frontend">
-                <field id="enabled_for_newsletter" translate="label comment" type="select" sortOrder="250" showInDefault="1"
+        <section id="recaptcha_frontend">
+            <group id="type_for">
+                <field id="newsletter" translate="label comment" type="select" sortOrder="160" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Enable Invisible reCAPTCHA in Newsletter Subscription</label>
-                    <comment>Requires an Invisible reCAPTCHA v2 or reCAPTCHA v3 key. If enabled, a badge will be displayed in every page.</comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <depends>
-                        <field id="recaptcha/frontend/type" separator=",">recaptcha_v3,invisible</field>
-                    </depends>
+                    <comment>If enabled, a badge will be displayed in every page.</comment>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\OptionSource\Type</source_model>
                 </field>
             </group>
         </section>

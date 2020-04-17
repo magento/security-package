@@ -10,9 +10,10 @@ define(
         'uiComponent',
         'jquery',
         'ko',
-        'Magento_ReCaptchaFrontendUi/js/registry'
+        'Magento_ReCaptchaFrontendUi/js/registry',
+        'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader'
     ],
-    function (Component, $, ko, registry, undefined) {
+    function (Component, $, ko, registry, reCaptchaLoader, undefined) {
         'use strict';
 
         return Component.extend({
@@ -33,8 +34,6 @@ define(
              * @private
              */
             _loadApi: function () {
-                var element, scriptTag;
-
                 if (this._isApiRegistered !== undefined) {
                     if (this._isApiRegistered === true) {
                         $(window).trigger('recaptchaapiready');
@@ -50,20 +49,11 @@ define(
                     $(window).trigger('recaptchaapiready');
                 }.bind(this);
 
-                element = document.createElement('script');
-                scriptTag = document.getElementsByTagName('script')[0];
-
-                element.async = true;
-                element.src = 'https://www.google.com/recaptcha/api.js' +
-                    '?onload=globalOnRecaptchaOnLoadCallback&render=explicit' +
-                    (this.settings.lang ? '&hl=' + this.settings.lang : '');
-
-                scriptTag.parentNode.insertBefore(element, scriptTag);
-
+                reCaptchaLoader.addReCaptchaScriptTag();
             },
 
             /**
-             * Checking that reCaptcha is invisible type
+             * Checking that reCAPTCHA is invisible type
              * @returns {Boolean}
              */
             getIsInvisibleRecaptcha: function () {
@@ -71,7 +61,7 @@ define(
             },
 
             /**
-             * Recaptcha callback
+             * reCAPTCHA callback
              * @param {String} token
              */
             reCaptchaCallback: function (token) {
@@ -82,7 +72,7 @@ define(
             },
 
             /**
-             * Initialize reCaptcha after first rendering
+             * Initialize reCAPTCHA after first rendering
              */
             initCaptcha: function () {
                 var me = this,
@@ -90,7 +80,7 @@ define(
                     $wrapper,
                     $reCaptcha,
                     widgetId,
-                    listeners;
+                    parameters;
 
                 if (this.captchaInitialized) {
                     return;
@@ -105,7 +95,7 @@ define(
                  * https://stackoverflow.com/questions/46657573/recaptcha-the-bind-parameter-must-be-an-element-or-id
                  *
                  * We create a wrapper element with a wrapping id and we inject the real ID with jQuery.
-                 * In this way we have no data-bind attribute at all in our reCaptcha div
+                 * In this way we have no data-bind attribute at all in our reCAPTCHA div
                  */
                 $wrapper = $('#' + this.getReCaptchaId() + '-wrapper');
                 $reCaptcha = $wrapper.find('.g-recaptcha');
@@ -114,7 +104,7 @@ define(
                 $parentForm = $wrapper.parents('form');
                 me = this;
 
-                let parameters = _.extend(
+                parameters = _.extend(
                     {
                         'callback': function (token) { // jscs:ignore jsDoc
                             me.reCaptchaCallback(token);
@@ -124,14 +114,31 @@ define(
                             me.validateReCaptcha(false);
                         }
                     },
-                    this.settings.render
+                    this.settings.rendering
                 );
 
                 // eslint-disable-next-line no-undef
                 widgetId = grecaptcha.render(this.getReCaptchaId(), parameters);
+                this.initParentForm($parentForm, widgetId);
 
-                if (this.getIsInvisibleRecaptcha() && $parentForm.length > 0) {
-                    $parentForm.submit(function (event) {
+                registry.ids.push(this.getReCaptchaId());
+                registry.captchaList.push(widgetId);
+                registry.tokenFields.push(this.tokenField);
+
+            },
+
+            /**
+             * Initialize parent form.
+             *
+             * @param {Object} parentForm
+             * @param {String} widgetId
+             */
+            initParentForm: function (parentForm, widgetId) {
+                var me = this,
+                    listeners;
+
+                if (this.getIsInvisibleRecaptcha() && parentForm.length > 0) {
+                    parentForm.submit(function (event) {
                         if (!me.tokenField.value) {
                             // eslint-disable-next-line no-undef
                             grecaptcha.execute(widgetId);
@@ -141,21 +148,16 @@ define(
                     });
 
                     // Move our (last) handler topmost. We need this to avoid submit bindings with ko.
-                    listeners = $._data($parentForm[0], 'events').submit;
+                    listeners = $._data(parentForm[0], 'events').submit;
                     listeners.unshift(listeners.pop());
 
                     // Create a virtual token field
                     this.tokenField = $('<input type="text" name="token" style="display: none" />')[0];
-                    this.$parentForm = $parentForm;
-                    $parentForm.append(this.tokenField);
+                    this.$parentForm = parentForm;
+                    parentForm.append(this.tokenField);
                 } else {
                     this.tokenField = null;
                 }
-
-                registry.ids.push(this.getReCaptchaId());
-                registry.captchaList.push(widgetId);
-                registry.tokenFields.push(this.tokenField);
-
             },
 
             validateReCaptcha: function (state) {
@@ -165,14 +167,14 @@ define(
             },
 
             /**
-             * Render reCaptcha
+             * Render reCAPTCHA
              */
             renderReCaptcha: function () {
                 var me = this;
 
-                if (window.grecaptcha && window.grecaptcha.render) { // Check if recaptcha is already loaded
+                if (window.grecaptcha && window.grecaptcha.render) { // Check if reCAPTCHA is already loaded
                     me.initCaptcha();
-                } else { // Wait for recaptcha to be loaded
+                } else { // Wait for reCAPTCHA to be loaded
                     $(window).on('recaptchaapiready', function () {
                         me.initCaptcha();
                     });
@@ -180,7 +182,7 @@ define(
             },
 
             /**
-             * Get reCaptcha ID
+             * Get reCAPTCHA ID
              * @returns {String}
              */
             getReCaptchaId: function () {

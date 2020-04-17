@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Config\Model\Config\TypePool">
+        <arguments>
+            <argument name="sensitive" xsi:type="array">
+                <item name="recaptcha_backend/type_recaptcha/public_key" xsi:type="string">1</item>
+                <item name="recaptcha_backend/type_recaptcha/private_key" xsi:type="string">1</item>
+                <item name="recaptcha_frontend/type_recaptcha/public_key" xsi:type="string">1</item>
+                <item name="recaptcha_frontend/type_recaptcha/private_key" xsi:type="string">1</item>
+            </argument>
+            <argument name="environment" xsi:type="array">
+                <item name="recaptcha_backend/type_recaptcha/public_key" xsi:type="string">1</item>
+                <item name="recaptcha_backend/type_recaptcha/private_key" xsi:type="string">1</item>
+                <item name="recaptcha_frontend/type_recaptcha/public_key" xsi:type="string">1</item>
+                <item name="recaptcha_frontend/type_recaptcha/private_key" xsi:type="string">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\ReCaptchaAdminUi\Model\OptionSource\Type">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <item name="recaptcha" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">reCAPTCHA v2 ("I am not a robot")</item>
+                    <item name="value" xsi:type="string">recaptcha</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\ReCaptchaVersion2Checkbox\Model\OptionSource\Size"
+                 type="Magento\ReCaptchaAdminUi\Model\OptionSource">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <item name="normal" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Normal</item>
+                    <item name="value" xsi:type="string">normal</item>
+                </item>
+                <item name="compact" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Compact</item>
+                    <item name="value" xsi:type="string">compact</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\ReCaptchaVersion2Checkbox\Model\OptionSource\Theme"
+                 type="Magento\ReCaptchaAdminUi\Model\OptionSource">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <item name="light" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Light Theme</item>
+                    <item name="value" xsi:type="string">light</item>
+                </item>
+                <item name="dark" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Dark Theme</item>
+                    <item name="value" xsi:type="string">dark</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaUi\Model;
 
-use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\InputException;
 
 /**
@@ -18,7 +18,7 @@ class CaptchaResponseResolver implements CaptchaResponseResolverInterface
     /**
      * @inheritdoc
      */
-    public function resolve(Http $request): string
+    public function resolve(RequestInterface $request): string
     {
         $reCaptchaParam = $request->getParam(self::PARAM_RECAPTCHA);
         if (empty($reCaptchaParam)) {
