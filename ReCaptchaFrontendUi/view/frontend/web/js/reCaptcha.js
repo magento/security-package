@@ -34,8 +34,6 @@ define(
              * @private
              */
             _loadApi: function () {
-                var element, scriptTag;
-
                 if (this._isApiRegistered !== undefined) {
                     if (this._isApiRegistered === true) {
                         $(window).trigger('recaptchaapiready');
@@ -81,7 +79,8 @@ define(
                     $parentForm,
                     $wrapper,
                     $reCaptcha,
-                    widgetId;
+                    widgetId,
+                    parameters;
 
                 if (this.captchaInitialized) {
                     return;
@@ -105,7 +104,7 @@ define(
                 $parentForm = $wrapper.parents('form');
                 me = this;
 
-                var parameters = _.extend(
+                parameters = _.extend(
                     {
                         'callback': function (token) { // jscs:ignore jsDoc
                             me.reCaptchaCallback(token);
