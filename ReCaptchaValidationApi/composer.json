@@ -1,8 +1,9 @@
 {
     "name": "magento/module-re-captcha-validation-api",
     "description": "Google reCAPTCHA integration for Magento2",
+    "version": "1.0.0",
     "require": {
-        "php": "~7.1.3||~7.2.0||~7.3.0",
+        "php": "~7.3.0||~7.4.0",
         "magento/framework": "*"
     },
     "type": "magento2-module",
