@@ -7,7 +7,6 @@
 $config = $block->getCaptchaUiConfig();
 $renderingOptions = $config['rendering'] ?? [];
 $isInvisible = !empty($config['invisible']);
-$isBadgeInline = (isset($renderingOptions['badge']) && $renderingOptions['badge']=='inline') ? true : false;
 ?>
 <div class="admin__field <?= /* @noEscape */ $isInvisible ? 'field-invisible-recaptcha' : 'field-recaptcha' ?>">
     <div id="admin-recaptcha"
@@ -46,30 +45,14 @@ $isBadgeInline = (isset($renderingOptions['badge']) && $renderingOptions['badge'
             <?php if ($isInvisible): ?>
             $('#login-form').submit(function (event) {
                 if (!this.token) {
-                    <?php if (!$isBadgeInline) : ?>
-                    event.preventDefault(event);
-                    event.stopImmediatePropagation();
-                    grecaptcha.execute(this.widgetId);
-                    <?php else: ?>
-                    this.resultSuccessCallback = false;
-                    let recaptchaResultExecute = grecaptcha.execute(this.widgetId);
-                    recaptchaResultExecute.then(this.successRecaptchaCallback(), this.failureRecaptchaCallback());
-                     if (this.resultSuccessCallback == true) {
-                        event.preventDefault(event);
-                        event.stopImmediatePropagation();
-                     }
-                     <?php endif; ?>
+                    grecaptcha.execute(this.widgetId).then(
+                        function() {
+                            event.preventDefault(event);
+                            event.stopImmediatePropagation();
+                        }, function(reason) {
+                        });
                 }
             }.bind(this));
-            <?php endif; ?>
-
-            <?php if ($isInvisible && $isBadgeInline) : ?>
-            this.successRecaptchaCallback = function () {
-                this.resultSuccessCallback = true;
-            }.bind(this);
-
-            this.failureRecaptchaCallback = function () {
-            }.bind(this);
             <?php endif; ?>
 
         }.bind(this);
