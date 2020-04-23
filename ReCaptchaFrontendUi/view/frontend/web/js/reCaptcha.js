@@ -61,6 +61,19 @@ define(
             },
 
             /**
+             * Check that reCAPTCHA is inline type
+             * @returns {boolean}
+             */
+            getIsInlineRecaptcha: function () {
+
+                if (this.settings.rendering.badge == 'inline') {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+
+            /**
              * reCAPTCHA callback
              * @param {String} token
              */
@@ -101,8 +114,7 @@ define(
                 $wrapper = $('#' + this.getReCaptchaId() + '-wrapper');
                 $reCaptcha = $wrapper.find('.g-recaptcha');
 
-                if (this.getIsInvisibleRecaptcha) {
-                    console.log(this.getReCaptchaId());
+                if (this.getIsInvisibleRecaptcha() && !this.getIsInlineRecaptcha()) {
                     invisibleReCaptchaId = 'recaptcha_invisible' + _.uniqueId();
                     $("#recaptcha_invisible").append('<div id="' + invisibleReCaptchaId + '"></div>');
                     this.setReCaptchaId(invisibleReCaptchaId);
