@@ -80,6 +80,7 @@ define(
                     $wrapper,
                     $reCaptcha,
                     widgetId,
+                    invisibleReCaptchaId,
                     parameters;
 
                 if (this.captchaInitialized) {
@@ -99,6 +100,14 @@ define(
                  */
                 $wrapper = $('#' + this.getReCaptchaId() + '-wrapper');
                 $reCaptcha = $wrapper.find('.g-recaptcha');
+
+                if (this.getIsInvisibleRecaptcha) {
+                    console.log(this.getReCaptchaId());
+                    invisibleReCaptchaId = 'recaptcha_invisible' + _.uniqueId();
+                    $("#recaptcha_invisible").append('<div id="' + invisibleReCaptchaId + '"></div>');
+                    this.setReCaptchaId(invisibleReCaptchaId);
+                }
+
                 $reCaptcha.attr('id', this.getReCaptchaId());
 
                 $parentForm = $wrapper.parents('form');
@@ -187,6 +196,14 @@ define(
              */
             getReCaptchaId: function () {
                 return this.reCaptchaId;
+            },
+
+            /**
+             * Set reCAPTCHA ID
+             * @param reCaptchaId
+             */
+            setReCaptchaId: function (reCaptchaId) {
+                this.reCaptchaId = reCaptchaId;
             }
         });
     }
