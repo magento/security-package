@@ -1,0 +1,57 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div>
+    <div visible='currentStep() === "register"'>
+        <form method="post">
+            <fieldset class="admin__fieldset">
+                <legend class="admin__legend">
+                    <span data-bind='i18n: "2FA - Google Auth"'></span>
+                </legend><br/>
+
+                <img class="tfa-google-qr" attr='src: getQrCodeUrl()' />
+
+                <p class="tfa-google-secure-code" data-bind='i18n: getSecretCode()'></p>
+
+                <p data-bind='i18n: "Scan or copy&amp;paste this code with your authenticator app and insert your code to confirm."'></p>
+
+                <div class="admin__field _required field-tfa_code">
+                    <label for="tfa_code" class="admin__field-label">
+                        <span data-bind='i18n: "Authenticator code"'></span>
+                    </label>
+                    <div class="admin__field-control">
+                        <input
+                                data-bind="value: verifyCode, enable: !waitText()"
+                                id="tfa_code"
+                                class="admin__control-text"
+                                type="text"
+                                autofocus
+                                placeholder="Your code'"/>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <div class="actions">
+                        <button
+                                enable="!waitText()"
+                                click="doVerify"
+                                class="action-login action-primary">
+                            <span data-bind='i18n: waitText() ? waitText() : "Confirm"'></span>
+                        </button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div visible='currentStep() === "login"' class="tfa-waitbox">
+        <div data-role="spinner">
+            <div class="spinner">
+                <span/><span/><span/><span/><span/><span/><span/><span/>
+            </div>
+        </div>
+        <div data-bind='i18n: "Redirecting to Magento Admin Panel..."'></div>
+    </div>
+</div>
