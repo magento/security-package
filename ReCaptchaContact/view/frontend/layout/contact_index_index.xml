@@ -13,9 +13,9 @@
                    name="recaptcha"
                    after="-"
                    template="Magento_ReCaptchaFrontendUi::recaptcha.phtml"
-                   ifconfig="recaptcha/frontend/enabled_for_contact">
+                   ifconfig="recaptcha_frontend/type_for/contact">
                 <arguments>
-                    <argument name="enabled_for" xsi:type="string">contact</argument>
+                    <argument name="recaptcha_for" xsi:type="string">contact</argument>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">
                             <item name="recaptcha" xsi:type="array">

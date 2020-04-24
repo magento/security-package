@@ -9,14 +9,12 @@ namespace Magento\ReCaptchaUi\Model;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
-use Magento\Framework\App\Request\Http as HttpRequest;
-use Magento\Framework\App\Response\HttpInterface as HttpResponse;
-use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\Response\HttpInterface as HttpResponseInterface;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
-use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
-use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
-use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterfaceFactory;
+use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * @inheritdoc
@@ -29,14 +27,14 @@ class RequestHandler implements RequestHandlerInterface
     private $captchaResponseResolver;
 
     /**
-     * @var CaptchaValidatorInterface
+     * @var ValidationConfigResolverInterface
      */
-    private $captchaValidator;
+    private $validationConfigResolver;
 
     /**
-     * @var RemoteAddress
+     * @var ValidatorInterface
      */
-    private $remoteAddress;
+    private $captchaValidator;
 
     /**
      * @var MessageManagerInterface
@@ -49,68 +47,70 @@ class RequestHandler implements RequestHandlerInterface
     private $actionFlag;
 
     /**
-     * @var CaptchaConfigInterface
+     * @var LoggerInterface
      */
-    private $captchaConfig;
-
-    /**
-     * @var ValidationConfigInterfaceFactory
-     */
-    private $validationConfigFactory;
+    private $logger;
 
     /**
      * @param CaptchaResponseResolverInterface $captchaResponseResolver
-     * @param CaptchaValidatorInterface $captchaValidator
-     * @param RemoteAddress $remoteAddress
+     * @param ValidationConfigResolverInterface $validationConfigResolver
+     * @param ValidatorInterface $captchaValidator
      * @param MessageManagerInterface $messageManager
      * @param ActionFlag $actionFlag
-     * @param CaptchaConfigInterface $captchaConfig
-     * @param ValidationConfigInterfaceFactory $validationConfigFactory
+     * @param LoggerInterface $logger
      */
     public function __construct(
         CaptchaResponseResolverInterface $captchaResponseResolver,
-        CaptchaValidatorInterface $captchaValidator,
-        RemoteAddress $remoteAddress,
+        ValidationConfigResolverInterface $validationConfigResolver,
+        ValidatorInterface $captchaValidator,
         MessageManagerInterface $messageManager,
         ActionFlag $actionFlag,
-        CaptchaConfigInterface $captchaConfig,
-        ValidationConfigInterfaceFactory $validationConfigFactory
+        LoggerInterface $logger
     ) {
         $this->captchaResponseResolver = $captchaResponseResolver;
+        $this->validationConfigResolver = $validationConfigResolver;
         $this->captchaValidator = $captchaValidator;
-        $this->remoteAddress = $remoteAddress;
         $this->messageManager = $messageManager;
         $this->actionFlag = $actionFlag;
-        $this->captchaConfig = $captchaConfig;
-        $this->validationConfigFactory = $validationConfigFactory;
+        $this->logger = $logger;
     }
 
     /**
      * @inheritdoc
      */
     public function execute(
-        HttpRequest $request,
-        HttpResponse $response,
+        string $key,
+        RequestInterface $request,
+        HttpResponseInterface $response,
         string $redirectOnFailureUrl
     ): void {
-        $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
+        $validationConfig = $this->validationConfigResolver->get($key);
 
-        /** @var ValidationConfigInterface $validationConfig */
-        $validationConfig = $this->validationConfigFactory->create(
-            [
-                'privateKey' => $this->captchaConfig->getPrivateKey(),
-                'captchaType' => $this->captchaConfig->getCaptchaType(),
-                'remoteIp' => $this->remoteAddress->getRemoteAddress(),
-                'scoreThreshold' => $this->captchaConfig->getScoreThreshold(),
-                'extensionAttributes' => null,
-            ]
-        );
-
-        if (false === $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig)) {
-            $this->messageManager->addErrorMessage($this->captchaConfig->getErrorMessage());
-            $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
-
-            $response->setRedirect($redirectOnFailureUrl);
+        try {
+            $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
+        } catch (InputException $e) {
+            $this->logger->error($e);
+            $this->processError($response, $validationConfig->getValidationFailureMessage(), $redirectOnFailureUrl);
+            return;
         }
+
+        $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
+        if (false === $validationResult->isValid()) {
+            $this->processError($response, $validationConfig->getValidationFailureMessage(), $redirectOnFailureUrl);
+        }
+    }
+
+    /**
+     * @param HttpResponseInterface $response
+     * @param string $message
+     * @param string $redirectOnFailureUrl
+     * @return void
+     */
+    private function processError(HttpResponseInterface $response, string $message, string $redirectOnFailureUrl): void
+    {
+        $this->messageManager->addErrorMessage($message);
+        $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
+
+        $response->setRedirect($redirectOnFailureUrl);
     }
 }

@@ -4,14 +4,14 @@
  * See COPYING.txt for license details.
  */
 /** @var $block Magento\ReCaptchaUi\Block\ReCaptcha */
-$settings = $block->getCaptchaSettings();
-$renderSettings = $settings['render'] ?? [];
-$isInvisible = !empty($settings['invisible']);
-$languageCode = $settings['lang'] ?? null;
+$config = $block->getCaptchaUiConfig();
+$renderingOptions = $config['rendering'] ?? [];
+$isInvisible = !empty($config['invisible']);
 ?>
 <div class="admin__field <?= /* @noEscape */ $isInvisible ? 'field-invisible-recaptcha' : 'field-recaptcha' ?>">
     <div id="admin-recaptcha"
-         class="admin-recaptcha-content<?= /* @noEscape */ !empty($renderSettings['size']) ? ' size-' . $renderSettings['size'] : '' ?>"></div>
+         class="admin-recaptcha-content<?=
+         /* @noEscape */ !empty($renderingOptions['size']) ? ' size-' . $renderingOptions['size'] : '' ?>"></div>
 </div>
 
 <script>
@@ -25,25 +25,24 @@ $languageCode = $settings['lang'] ?? null;
 
         element.async = true;
         element.src = 'https://www.google.com/recaptcha/api.js'
-            + '?onload=globalOnRecaptchaOnLoadCallback&render=explicit'
-            <?php if (null !== $languageCode): ?><?="+'&hl={$languageCode}'" ?><?php endif; ?>;
+            + '?onload=globalOnRecaptchaOnLoadCallback&render=explicit';
 
         window.globalOnRecaptchaOnLoadCallback = function () {
             let token = '';
 
             this.widgetId = grecaptcha.render('admin-recaptcha', {
-                <?php foreach($renderSettings as $key => $value):?>
+                <?php foreach ($renderingOptions as $key => $value): ?>
                 '<?= $block->escapeJs($key) ?>': '<?= $block->escapeJs($value) ?>',
                 <?php endforeach; ?>
                 'callback': function (token) { // jscs:ignore jsDoc
-                    <?php if ($isInvisible) : ?>
+                    <?php if ($isInvisible): ?>
                     this.token = token;
                     $('#login-form').submit();
                     <?php endif; ?>
                 }.bind(this)
             });
 
-            <?php if ($isInvisible) : ?>
+            <?php if ($isInvisible): ?>
             $('#login-form').submit(function (event) {
                 if (!this.token) {
                     event.preventDefault(event);

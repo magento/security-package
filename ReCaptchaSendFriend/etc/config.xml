@@ -8,10 +8,10 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <recaptcha>
-            <frontend>
-                <enabled_for_sendfriend>1</enabled_for_sendfriend>
-            </frontend>
-        </recaptcha>
+        <recaptcha_frontend>
+            <type_for>
+                <sendfriend/>
+            </type_for>
+        </recaptcha_frontend>
     </default>
 </config>

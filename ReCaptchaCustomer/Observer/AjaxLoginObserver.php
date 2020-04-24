@@ -8,17 +8,16 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCustomer\Observer;
 
 use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\ActionFlag;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
-use Magento\Framework\Serialize\SerializerInterface;
-use Magento\ReCaptchaApi\Api\CaptchaConfigInterface;
-use Magento\ReCaptchaApi\Api\CaptchaValidatorInterface;
-use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterface;
-use Magento\ReCaptchaApi\Api\Data\ValidationConfigInterfaceFactory;
+use Magento\ReCaptchaCustomer\Model\AjaxLogin\ErrorProcessor;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
+use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
+use Magento\ReCaptchaUi\Model\ValidationConfigResolverInterface;
+use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * AjaxLoginObserver
@@ -31,60 +30,52 @@ class AjaxLoginObserver implements ObserverInterface
     private $captchaResponseResolver;
 
     /**
-     * @var CaptchaValidatorInterface
+     * @var ValidationConfigResolverInterface
+     */
+    private $validationConfigResolver;
+
+    /**
+     * @var ValidatorInterface
      */
     private $captchaValidator;
 
     /**
-     * @var RemoteAddress
+     * @var IsCaptchaEnabledInterface
      */
-    private $remoteAddress;
+    private $isCaptchaEnabled;
 
     /**
-     * @var ActionFlag
+     * @var LoggerInterface
      */
-    private $actionFlag;
+    private $logger;
 
     /**
-     * @var SerializerInterface
+     * @var ErrorProcessor
      */
-    private $serializer;
-
-    /**
-     * @var CaptchaConfigInterface
-     */
-    private $captchaConfig;
-
-    /**
-     * @var ValidationConfigInterfaceFactory
-     */
-    private $validationConfigFactory;
+    private $errorProcessor;
 
     /**
      * @param CaptchaResponseResolverInterface $captchaResponseResolver
-     * @param CaptchaValidatorInterface $captchaValidator
-     * @param RemoteAddress $remoteAddress
-     * @param ActionFlag $actionFlag
-     * @param SerializerInterface $serializer
-     * @param CaptchaConfigInterface $captchaConfig
-     * @param ValidationConfigInterfaceFactory $validationConfigFactory
+     * @param ValidationConfigResolverInterface $validationConfigResolver
+     * @param ValidatorInterface $captchaValidator
+     * @param IsCaptchaEnabledInterface $isCaptchaEnabled
+     * @param LoggerInterface $logger
+     * @param ErrorProcessor $errorProcessor
      */
     public function __construct(
         CaptchaResponseResolverInterface $captchaResponseResolver,
-        CaptchaValidatorInterface $captchaValidator,
-        RemoteAddress $remoteAddress,
-        ActionFlag $actionFlag,
-        SerializerInterface $serializer,
-        CaptchaConfigInterface $captchaConfig,
-        ValidationConfigInterfaceFactory $validationConfigFactory
+        ValidationConfigResolverInterface $validationConfigResolver,
+        ValidatorInterface $captchaValidator,
+        IsCaptchaEnabledInterface $isCaptchaEnabled,
+        LoggerInterface $logger,
+        ErrorProcessor $errorProcessor
     ) {
         $this->captchaResponseResolver = $captchaResponseResolver;
+        $this->validationConfigResolver = $validationConfigResolver;
         $this->captchaValidator = $captchaValidator;
-        $this->remoteAddress = $remoteAddress;
-        $this->actionFlag = $actionFlag;
-        $this->serializer = $serializer;
-        $this->captchaConfig = $captchaConfig;
-        $this->validationConfigFactory = $validationConfigFactory;
+        $this->isCaptchaEnabled = $isCaptchaEnabled;
+        $this->logger = $logger;
+        $this->errorProcessor = $errorProcessor;
     }
 
     /**
@@ -94,32 +85,32 @@ class AjaxLoginObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->captchaConfig->isCaptchaEnabledFor('customer_login')) {
+        $key = 'customer_login';
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             /** @var Action $controller */
             $controller = $observer->getControllerAction();
             $request = $controller->getRequest();
             $response = $controller->getResponse();
 
-            $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
-            /** @var ValidationConfigInterface $validationConfig */
-            $validationConfig = $this->validationConfigFactory->create(
-                [
-                    'privateKey' => $this->captchaConfig->getPrivateKey(),
-                    'captchaType' => $this->captchaConfig->getCaptchaType(),
-                    'remoteIp' => $this->remoteAddress->getRemoteAddress(),
-                    'scoreThreshold' => $this->captchaConfig->getScoreThreshold(),
-                    'extensionAttributes' => null,
-                ]
-            );
+            $validationConfig = $this->validationConfigResolver->get($key);
 
-            if (!$this->captchaValidator->isValid($reCaptchaResponse, $validationConfig)) {
-                $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
+            try {
+                $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
+            } catch (InputException $e) {
+                $this->logger->error($e);
+                $this->errorProcessor->processError(
+                    $response,
+                    $validationConfig->getValidationFailureMessage()
+                );
+                return;
+            }
 
-                $jsonPayload = $this->serializer->serialize([
-                    'errors' => true,
-                    'message' => $this->captchaConfig->getErrorMessage(),
-                ]);
-                $response->representJson($jsonPayload);
+            $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);
+            if (false === $validationResult->isValid()) {
+                $this->errorProcessor->processError(
+                    $response,
+                    $validationConfig->getValidationFailureMessage()
+                );
             }
         }
     }

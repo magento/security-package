@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\ReCaptchaValidationApi\Model\ErrorMessagesProvider">
+        <arguments>
+            <argument name="errors" xsi:type="array">
+                <item name="invalid-json" xsi:type="string" translatable="true">Invalid JSON received.</item>
+                <item name="connection-failed" xsi:type="string" translatable="true">Could not connect to service.</item>
+                <item name="bad-response" xsi:type="string" translatable="true">Did not receive a 200 from the service.</item>
+                <item name="unknown-error" xsi:type="string" translatable="true">Not a success, but no error codes received!</item>
+                <item name="missing-input-response" xsi:type="string" translatable="true">ReCAPTCHA response not provided.</item>
+                <item name="hostname-mismatch" xsi:type="string" translatable="true">Expected hostname did not match.</item>
+                <item name="apk_package_name-mismatch" xsi:type="string" translatable="true">Expected APK package name did not match.</item>
+                <item name="action-mismatch" xsi:type="string" translatable="true">Expected action did not match.</item>
+                <item name="score-threshold-not-met" xsi:type="string" translatable="true">Score threshold not met.</item>
+                <item name="challenge-timeout" xsi:type="string" translatable="true">Challenge timeout.</item>
+                <item name="missing-input-secret" xsi:type="string" translatable="true">The secret parameter is missing.</item>
+                <item name="invalid-input-secret" xsi:type="string" translatable="true">The secret parameter is invalid or malformed.</item>
+                <item name="invalid-input-response" xsi:type="string" translatable="true">The response parameter is invalid or malformed.</item>
+                <item name="bad-request" xsi:type="string" translatable="true">The request is invalid or malformed.</item>
+                <item name="timeout-or-duplicate" xsi:type="string" translatable="true">The response is no longer valid: either is too old or has been used previously.</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
