@@ -116,7 +116,7 @@ define(
 
                 if (this.getIsInvisibleRecaptcha() && !this.getIsInlineRecaptcha()) {
                     invisibleReCaptchaId = 'recaptcha_invisible' + _.uniqueId();
-                    $("#recaptcha_invisible").append('<div id="' + invisibleReCaptchaId + '"></div>');
+                    $('#recaptcha_invisible').append('<div id="' + invisibleReCaptchaId + '"></div>');
                     this.setReCaptchaId(invisibleReCaptchaId);
                 }
 

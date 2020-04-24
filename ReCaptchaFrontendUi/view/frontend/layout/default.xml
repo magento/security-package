@@ -10,9 +10,8 @@
 
     <body>
         <referenceContainer name="before.body.end">
-            <block class="\Magento\Framework\View\Element\Template"
-                   template="Magento_ReCaptchaFrontendUi::recaptcha_invisible.phtml"
-                   name="before.body.end.recaptcha_invisible"/>
+            <block class="Magento\Framework\View\Element\Template" name="before.body.end.recaptcha_invisible"
+                   template="Magento_ReCaptchaFrontendUi::recaptcha_invisible.phtml"/>
         </referenceContainer>
     </body>
 </page>
