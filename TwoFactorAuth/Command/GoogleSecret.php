@@ -90,7 +90,10 @@ class GoogleSecret extends Command
         $this->userConfigManager->addProviderConfig(
             (int)$user->getId(),
             Google::CODE,
-            ['secret' => $secret]
+            [
+                'secret' => $secret,
+                UserConfigManagerInterface::ACTIVE_CONFIG_KEY => true
+            ]
         );
 
         $output->writeln((string)__('Google OTP secret has been set'));
