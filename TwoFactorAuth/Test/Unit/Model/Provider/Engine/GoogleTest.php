@@ -7,9 +7,9 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Google\TotpFactory;
 use Magento\User\Api\Data\UserInterface;
 use OTPHP\TOTPInterface;
-use OTPHP\TOTPInterfaceFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
@@ -53,7 +53,7 @@ class GoogleTest extends TestCase
     {
         $objectManager = new ObjectManager($this);
 
-        $this->totpFactory = $this->createMock(TOTPInterfaceFactory::class);
+        $this->totpFactory = $this->createMock(TotpFactory::class);
         $this->totp = $this->createMock(TOTPInterface::class);
         $this->user = $this->createMock(UserInterface::class);
         $this->scopeConfig = $this->createMock(ScopeConfigInterface::class);
@@ -109,7 +109,7 @@ class GoogleTest extends TestCase
         $this->configManager->method('getProviderConfig')
             ->willReturn(['secret' => 'abc']);
         $this->totpFactory->method('create')
-            ->with(['label' => 'john@example.com', 'secret' => 'abc'])
+            ->with('abc')
             ->willReturn($this->totp);
         $this->totp->method('verify')
             ->with('123456')

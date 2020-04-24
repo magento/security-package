@@ -233,7 +233,7 @@ class GoogleAuthenticateTest extends WebapiAbstract
     {
         $user = $this->userFactory->create();
         $user->loadByUsername('customRoleUser');
-        $totp = new TOTP($user->getEmail(), $this->google->getSecretCode($user));
+        $totp = TOTP::create($this->google->getSecretCode($user));
 
         // Enable longer window of valid tokens to prevent test race condition
         $this->userConfig->addProviderConfig((int)$user->getId(), Google::CODE, ['window' => 120]);

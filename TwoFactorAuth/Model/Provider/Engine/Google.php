@@ -16,11 +16,11 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Google\TotpFactory;
 use Magento\User\Api\Data\UserInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Api\EngineInterface;
 use Base32\Base32;
-use OTPHP\TOTPInterfaceFactory;
 use OTPHP\TOTPInterface;
 
 /**
@@ -70,7 +70,7 @@ class Google implements EngineInterface
         StoreManagerInterface $storeManager,
         ScopeConfigInterface $scopeConfig,
         UserConfigManagerInterface $configManager,
-        TOTPInterfaceFactory $totpFactory
+        TotpFactory $totpFactory
     ) {
         $this->configManager = $configManager;
         $this->storeManager = $storeManager;
@@ -106,12 +106,8 @@ class Google implements EngineInterface
         if (!$config['secret']) {
             throw new NoSuchEntityException(__('Secret for user with ID#%1 was not found', $user->getId()));
         }
-        $totp = $this->totpFactory->create(
-            [
-                'label' => $user->getEmail(),
-                'secret' => $config['secret']
-            ]
-        );
+
+        $totp = $this->totpFactory->create($config['secret']);
 
         return $totp;
     }
@@ -152,6 +148,7 @@ class Google implements EngineInterface
         // @codingStandardsIgnoreEnd
 
         $totp = $this->getTotp($user);
+        $totp->setLabel($user->getEmail());
         $totp->setIssuer($issuer);
 
         return $totp->getProvisioningUri();

@@ -113,6 +113,9 @@ class AdminIntegrationTokenTest extends WebapiAbstract
 
     /**
      * @magentoConfigFixture twofactorauth/general/force_providers google,duo_security
+     * @magentoConfigFixture twofactorauth/duo/integration_key abc123
+     * @magentoConfigFixture twofactorauth/duo/api_hostname abc123
+     * @magentoConfigFixture twofactorauth/duo/secret_key abc123
      * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
      */
     public function testUserWithAvailableUnconfigured2fa()
