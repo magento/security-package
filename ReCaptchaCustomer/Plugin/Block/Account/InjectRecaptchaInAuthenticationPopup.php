@@ -58,7 +58,7 @@ class InjectRecaptchaInAuthenticationPopup
     public function afterGetJsLayout(AuthenticationPopup $subject, $result)
     {
         $layout = $this->serializer->unserialize($result);
-        $key = 'customer_login';
+        $key = 'customer_login_popup';
 
         if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
             $layout['components']['authenticationPopup']['children']['recaptcha']['settings']

@@ -57,9 +57,6 @@ class Onepage implements LayoutProcessorInterface
             $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
                 ['payment']['children']['customer-email']['children']
                 ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
-
-            $jsLayout['components']['checkout']['children']['authentication']['children']
-                ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
         } else {
             if (isset($jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
                 ['shippingAddress']['children']['customer-email']['children']['recaptcha'])) {
@@ -71,11 +68,18 @@ class Onepage implements LayoutProcessorInterface
                 unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
                     ['payment']['children']['customer-email']['children']['recaptcha']);
             }
+        }
 
+        $keyLoginPopup = 'customer_login_popup';
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($keyLoginPopup)) {
+            $jsLayout['components']['checkout']['children']['authentication']['children']
+            ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($keyLoginPopup);
+        } else {
             if (isset($jsLayout['components']['checkout']['children']['authentication']['children']['recaptcha'])) {
                 unset($jsLayout['components']['checkout']['children']['authentication']['children']['recaptcha']);
             }
         }
+
         return $jsLayout;
     }
 }

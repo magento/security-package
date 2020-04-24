@@ -11,6 +11,7 @@
         <recaptcha_frontend>
             <type_for>
                 <customer_login/>
+                <customer_login_popup/>
                 <customer_forgot_password/>
                 <customer_create/>
             </type_for>

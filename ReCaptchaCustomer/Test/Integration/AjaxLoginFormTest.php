@@ -79,10 +79,10 @@ class AjaxLoginFormTest extends AbstractController
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login_popup invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_login invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_login_popup invisible
      */
     public function testGetRequestIfReCaptchaKeysAreNotConfigured(): void
     {
@@ -95,10 +95,10 @@ class AjaxLoginFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login_popup invisible
      *
      * It's  needed for proper work of "ifconfig" in layout during tests running
-     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_login invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/customer_login_popup invisible
      */
     public function testGetRequestIfReCaptchaIsEnabled(): void
     {
@@ -123,7 +123,7 @@ class AjaxLoginFormTest extends AbstractController
 
     /**
      * @magentoConfigFixture default_store customer/captcha/enable 0
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login_popup invisible
      */
     public function testPostRequestIfReCaptchaKeysAreNotConfigured(): void
     {
@@ -151,7 +151,7 @@ class AjaxLoginFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login_popup invisible
      */
     public function testPostRequestIfReCaptchaParameterIsMissed(): void
     {
@@ -164,7 +164,7 @@ class AjaxLoginFormTest extends AbstractController
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
-     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login invisible
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/customer_login_popup invisible
      */
     public function testPostRequestWithFailedReCaptchaValidation(): void
     {
@@ -259,7 +259,7 @@ class AjaxLoginFormTest extends AbstractController
     private function setConfig(bool $isEnabled, ?string $public, ?string $private): void
     {
         $this->mutableScopeConfig->setValue(
-            'recaptcha_frontend/type_for/customer_login',
+            'recaptcha_frontend/type_for/customer_login_popup',
             $isEnabled ? 'invisible' : null,
             ScopeInterface::SCOPE_WEBSITE
         );
@@ -280,7 +280,7 @@ class AjaxLoginFormTest extends AbstractController
         parent::tearDown();
 
         $this->mutableScopeConfig->setValue(
-            'recaptcha_frontend/type_for/customer_login',
+            'recaptcha_frontend/type_for/customer_login_popup',
             null,
             ScopeInterface::SCOPE_WEBSITE
         );
