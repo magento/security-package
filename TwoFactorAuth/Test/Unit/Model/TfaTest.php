@@ -37,7 +37,7 @@ class TfaTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = new ObjectManager($this);
         $this->pool = $this->getMockForAbstractClass(ProviderPoolInterface::class);

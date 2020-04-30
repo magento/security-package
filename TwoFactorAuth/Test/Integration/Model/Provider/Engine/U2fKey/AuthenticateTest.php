@@ -42,7 +42,7 @@ class AuthenticateTest extends TestCase
      */
     private $userFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = ObjectManager::getInstance();
         $this->tfa = $objectManager->get(TfaInterface::class);
@@ -59,10 +59,10 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\AuthenticationException
      */
     public function testGetDataInvalidCredentials()
     {
+        $this->expectException(\Magento\Framework\Exception\AuthenticationException::class);
         $this->tfa->getProviderByCode(U2fKey::CODE)
             ->activate($this->getUserId());
         $this->u2fkey
@@ -77,11 +77,11 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not configured.
      */
     public function testGetDataNotConfiguredProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not configured.');
         $this->u2fkey
             ->expects($this->never())
             ->method('getAuthenticateData');
@@ -94,11 +94,11 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not allowed.
      */
     public function testGetDataUnavailableProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not allowed.');
         $this->u2fkey
             ->expects($this->never())
             ->method('getAuthenticateData');
@@ -111,10 +111,10 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\AuthenticationException
      */
     public function testVerifyInvalidCredentials()
     {
+        $this->expectException(\Magento\Framework\Exception\AuthenticationException::class);
         $this->tfa->getProviderByCode(U2fKey::CODE)
             ->activate($this->getUserId());
         $this->u2fkey
@@ -133,11 +133,11 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not configured.
      */
     public function testVerifyNotConfiguredProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not configured.');
         $this->u2fkey
             ->expects($this->never())
             ->method('verify');
@@ -151,11 +151,11 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not allowed.
      */
     public function testVerifyUnavailableProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not allowed.');
         $this->u2fkey
             ->expects($this->never())
             ->method('verify');
@@ -237,17 +237,17 @@ class AuthenticateTest extends TestCase
             Bootstrap::ADMIN_PASSWORD,
             json_encode($verifyData)
         );
-        self::assertRegExp('/^[a-z0-9]{32}$/', $token);
+        self::assertMatchesRegularExpression('/^[a-z0-9]{32}$/', $token);
     }
 
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Something
      */
     public function testVerifyThrowsExceptionRequest()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Something');
         $this->tfa->getProviderByCode(U2fKey::CODE)
             ->activate($this->getUserId());
         $userId = $this->getUserId();

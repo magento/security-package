@@ -46,7 +46,7 @@ class GoogleActivateTest extends WebapiAbstract
      */
     private $google;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->userFactory = $objectManager->get(UserFactory::class);

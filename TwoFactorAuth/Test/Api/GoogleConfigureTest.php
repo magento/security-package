@@ -36,7 +36,7 @@ class GoogleConfigureTest extends WebapiAbstract
      */
     private $tfa;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->userFactory = $objectManager->get(UserFactory::class);
@@ -128,7 +128,7 @@ class GoogleConfigureTest extends WebapiAbstract
 
         $response = $this->_webApiCall($serviceInfo, ['tfaToken' => $token]);
         self::assertNotEmpty($response[GoogleConfigureData::QR_CODE_BASE64]);
-        self::assertRegExp('/^[a-zA-Z0-9+\/=]+$/', $response[GoogleConfigureData::QR_CODE_BASE64]);
+        self::assertMatchesRegularExpression('/^[a-zA-Z0-9+\/=]+$/', $response[GoogleConfigureData::QR_CODE_BASE64]);
         self::assertNotEmpty($response['secret_code']);
     }
 

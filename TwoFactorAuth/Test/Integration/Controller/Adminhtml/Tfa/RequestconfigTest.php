@@ -36,7 +36,7 @@ class RequestconfigTest extends AbstractBackendController
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -52,7 +52,7 @@ class RequestconfigTest extends AbstractBackendController
     public function testAppConfigRequested(): void
     {
         $this->dispatch($this->uri);
-        $this->assertRegExp('/You need to configure Two\-Factor Authorization/', $this->getResponse()->getBody());
+        self::assertMatchesRegularExpression('/You need to configure Two\-Factor Authorization/', $this->getResponse()->getBody());
     }
 
     /**
@@ -64,9 +64,8 @@ class RequestconfigTest extends AbstractBackendController
     public function testUserConfigRequested(): void
     {
         $this->dispatch($this->uri);
-        $this->assertRegExp('/You need to configure Two\-Factor Authorization/', $this->getResponse()->getBody());
+        self::assertMatchesRegularExpression('/You need to configure Two\-Factor Authorization/', $this->getResponse()->getBody());
     }
-
 
     /**
      * Verify that 2FA config is not requested when 2FA is configured.
@@ -74,10 +73,10 @@ class RequestconfigTest extends AbstractBackendController
      * @return void
      * @magentoConfigFixture default/twofactorauth/general/force_providers google
      * @magentoDbIsolation enabled
-     * @expectedException \Magento\Framework\Exception\AuthorizationException
      */
     public function testNotRequested(): void
     {
+        $this->expectException(\Magento\Framework\Exception\AuthorizationException::class);
         $this->tfa->getProvider(Google::CODE)->activate((int)$this->_session->getUser()->getId());
         $this->dispatch($this->uri);
     }

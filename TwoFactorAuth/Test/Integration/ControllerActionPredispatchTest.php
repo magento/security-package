@@ -42,7 +42,7 @@ class ControllerActionPredispatchTest extends AbstractBackendController
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -68,7 +68,7 @@ class ControllerActionPredispatchTest extends AbstractBackendController
         //Accessing a page in adminhtml area
         $this->dispatch('backend/admin/user/');
         //Authenticated user with 2FA configured and completed is taken to the Users page as requested.
-        $this->assertRegExp('/' .$this->_session->getUser()->getUserName() .'/i', $this->getResponse()->getBody());
+        self::assertMatchesRegularExpression('/' .$this->_session->getUser()->getUserName() .'/i', $this->getResponse()->getBody());
     }
 
     /**
@@ -89,7 +89,7 @@ class ControllerActionPredispatchTest extends AbstractBackendController
         $this->getRequest()->setDispatched(false);
         $this->getRequest()->setUri($properUrl);
         $this->dispatch($properUrl);
-        $this->assertContains('Welcome, please sign in', $this->getResponse()->getBody());
+        $this->assertStringContainsString('Welcome, please sign in', $this->getResponse()->getBody());
     }
 
     /**

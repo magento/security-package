@@ -42,7 +42,7 @@ class AdminIntegrationTokenTest extends WebapiAbstract
      */
     private $config;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->userFactory = $objectManager->get(UserFactory::class);

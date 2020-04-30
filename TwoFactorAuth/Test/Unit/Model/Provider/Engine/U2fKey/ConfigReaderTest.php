@@ -27,7 +27,7 @@ class ConfigReaderTest extends TestCase
      */
     private $reader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = new ObjectManager($this);
         $this->storeManager = $this->createMock(StoreManagerInterface::class);
@@ -52,12 +52,10 @@ class ConfigReaderTest extends TestCase
         self::assertSame('domain.com', $result);
     }
 
-    /**
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Could not determine domain name.
-     */
     public function testGetInvalidDomain()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Could not determine domain name.');
         $store = $this->createMock(Store::class);
         $store->method('getBaseUrl')
             ->willReturn('foo');

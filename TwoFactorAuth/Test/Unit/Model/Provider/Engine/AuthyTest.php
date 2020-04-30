@@ -23,7 +23,7 @@ class AuthyTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = new ObjectManager($this);
         $this->serviceMock = $this->getMockBuilder(Authy\Service::class)->disableOriginalConstructor()->getMock();

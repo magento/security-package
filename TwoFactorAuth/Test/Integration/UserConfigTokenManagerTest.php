@@ -33,7 +33,7 @@ class UserConfigTokenManagerTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->dateTimeMock = $this->getMockBuilder(DateTime::class)->disableOriginalConstructor()->getMock();
         $this->userFactory = Bootstrap::getObjectManager()->get(UserFactory::class);

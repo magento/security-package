@@ -51,7 +51,7 @@ class AuthenticateTest extends TestCase
      */
     private $onetouch;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = ObjectManager::getInstance();
         $this->tfa = $objectManager->get(TfaInterface::class);
@@ -73,10 +73,10 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\AuthenticationException
      */
     public function testAuthenticateInvalidCredentials()
     {
+        $this->expectException(\Magento\Framework\Exception\AuthenticationException::class);
         $this->tfa->getProviderByCode(Authy::CODE)
             ->activate($this->getUserId());
         $this->authy
@@ -93,11 +93,11 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not configured.
      */
     public function testAuthenticateNotConfiguredProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not configured.');
         $this->authy
             ->expects($this->never())
             ->method('verify');
@@ -111,11 +111,11 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not allowed.
      */
     public function testAuthenticateUnavailableProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not allowed.');
         $this->authy
             ->expects($this->never())
             ->method('verify');
@@ -153,17 +153,17 @@ class AuthenticateTest extends TestCase
             'abc'
         );
 
-        self::assertRegExp('/^[a-z0-9]{32}$/', $result);
+        self::assertMatchesRegularExpression('/^[a-z0-9]{32}$/', $result);
     }
 
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\AuthenticationException
      */
     public function testSendTokenInvalidCredentials()
     {
+        $this->expectException(\Magento\Framework\Exception\AuthenticationException::class);
         $this->tfa->getProviderByCode(Authy::CODE)
             ->activate($this->getUserId());
         $this->authy
@@ -180,11 +180,11 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not configured.
      */
     public function testSendTokenNotConfiguredProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not configured.');
         $this->authy
             ->expects($this->never())
             ->method('verify');
@@ -198,11 +198,11 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers duo_security
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not allowed.
      */
     public function testSendTokenUnavailableProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not allowed.');
         $this->authy
             ->expects($this->never())
             ->method('verify');
@@ -287,18 +287,18 @@ class AuthenticateTest extends TestCase
             Bootstrap::ADMIN_PASSWORD
         );
 
-        self::assertRegExp('/^[a-z0-9]{32}$/', $result);
+        self::assertMatchesRegularExpression('/^[a-z0-9]{32}$/', $result);
     }
 
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key abc
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Onetouch prompt was denied or timed out.
      */
     public function testCreateTokenWithOneTouchError()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Onetouch prompt was denied or timed out.');
         $this->tfa->getProviderByCode(Authy::CODE)
             ->activate($this->getUserId());
         $this->onetouch

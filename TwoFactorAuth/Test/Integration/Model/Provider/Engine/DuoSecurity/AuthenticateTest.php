@@ -48,7 +48,7 @@ class AuthenticateTest extends TestCase
      */
     private $tokenManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = ObjectManager::getInstance();
         $this->userFactory = $objectManager->get(UserFactory::class);
@@ -69,10 +69,10 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
      * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\AuthenticationException
      */
     public function testGetAuthenticateDataInvalidCredentials()
     {
+        $this->expectException(\Magento\Framework\Exception\AuthenticationException::class);
         $this->tfa->getProviderByCode(DuoSecurity::CODE)
             ->activate($this->getUserId());
         $this->duo
@@ -90,11 +90,11 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
      * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not configured.
      */
     public function testGetAuthenticateDataNotConfiguredProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not configured.');
         $userId = $this->getUserId();
         $this->tfa->getProviderByCode(DuoSecurity::CODE)
             ->resetConfiguration($userId);
@@ -111,11 +111,11 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not allowed.
      */
     public function testGetAuthenticateDataUnavailableProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not allowed.');
         $this->duo
             ->expects($this->never())
             ->method('getRequestSignature');
@@ -130,10 +130,10 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
      * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\AuthenticationException
      */
     public function testVerifyInvalidCredentials()
     {
+        $this->expectException(\Magento\Framework\Exception\AuthenticationException::class);
         $this->tfa->getProviderByCode(DuoSecurity::CODE)
             ->activate($this->getUserId());
         $this->duo
@@ -152,11 +152,11 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
      * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not configured.
      */
     public function testVerifyNotConfiguredProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not configured.');
         $userId = $this->getUserId();
         $this->tfa->getProviderByCode(DuoSecurity::CODE)
             ->resetConfiguration($userId);
@@ -174,11 +174,11 @@ class AuthenticateTest extends TestCase
     /**
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Provider is not allowed.
      */
     public function testVerifyUnavailableProvider()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Provider is not allowed.');
         $this->duo
             ->expects($this->never())
             ->method('getRequestSignature');
@@ -256,7 +256,7 @@ class AuthenticateTest extends TestCase
             $signature
         );
 
-        self::assertRegExp('/^[a-z0-9]{32}$/', $token);
+        self::assertMatchesRegularExpression('/^[a-z0-9]{32}$/', $token);
     }
 
     /**
@@ -265,11 +265,11 @@ class AuthenticateTest extends TestCase
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname abc123
      * @magentoConfigFixture default/twofactorauth/duo/secret_key abc123
      * @magentoDataFixture Magento/User/_files/user_with_role.php
-     * @expectedException \Magento\Framework\Exception\LocalizedException
-     * @expectedExceptionMessage Invalid response
      */
     public function testVerifyInvalidRequest()
     {
+        $this->expectException(\Magento\Framework\Exception\LocalizedException::class);
+        $this->expectExceptionMessage('Invalid response');
         $userId = $this->getUserId();
         $this->tfa->getProviderByCode(DuoSecurity::CODE)
             ->activate($userId);

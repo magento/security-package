@@ -50,7 +50,7 @@ class UserConfigRequestManagerTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         /** @var User $user */
         $user = Bootstrap::getObjectManager()->create(User::class);
@@ -102,13 +102,13 @@ class UserConfigRequestManagerTest extends TestCase
      * Check that app config request E-mail is NOT sent for a user that does not posses proper rights.
      *
      * @return void
-     * @expectedException \Magento\Framework\Exception\AuthorizationException
      * @throws \Throwable
      * @magentoAppArea adminhtml
      * @magentoAppIsolation enabled
      */
     public function testFailAppConfigRequest(): void
     {
+        $this->expectException(\Magento\Framework\Exception\AuthorizationException::class);
         $this->aclBuilder->getAcl()->deny(null, 'Magento_TwoFactorAuth::config');
         $this->manager->sendConfigRequestTo($this->user);
     }
@@ -126,7 +126,7 @@ class UserConfigRequestManagerTest extends TestCase
 
         $this->assertNotEmpty($message = $this->transportBuilderMock->getSentMessage());
         $messageHtml = $message->getBody()->getParts()[0]->getRawContent();
-        $this->assertContains(
+        $this->assertStringContainsString(
             'You are required to configure website-wide and personal Two-Factor Authorization in order to login to',
             $messageHtml
         );
@@ -156,7 +156,7 @@ class UserConfigRequestManagerTest extends TestCase
 
         $this->assertNotEmpty($message = $this->transportBuilderMock->getSentMessage());
         $messageHtml = $message->getBody()->getParts()[0]->getRawContent();
-        $this->assertContains(
+        $this->assertStringContainsString(
             'You are required to configure personal Two-Factor Authorization in order to login to',
             $messageHtml
         );

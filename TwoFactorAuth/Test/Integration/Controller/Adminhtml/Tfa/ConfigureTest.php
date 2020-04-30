@@ -39,7 +39,7 @@ class ConfigureTest extends AbstractBackendController
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -56,7 +56,7 @@ class ConfigureTest extends AbstractBackendController
         $this->getRequest()
             ->setQueryValue('tfat', $this->tokenManager->issueFor((int)$this->_session->getUser()->getId()));
         $this->dispatch($this->uri);
-        $this->assertRegExp('/google/', $this->getResponse()->getBody());
+        self::assertMatchesRegularExpression('/google/', $this->getResponse()->getBody());
     }
 
     /**

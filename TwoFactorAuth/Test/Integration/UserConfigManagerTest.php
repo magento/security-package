@@ -33,7 +33,7 @@ class UserConfigManagerTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->userConfigManager = Bootstrap::getObjectManager()->get(UserConfigManagerInterface::class);
         $this->serializer = Bootstrap::getObjectManager()->get(SerializerInterface::class);

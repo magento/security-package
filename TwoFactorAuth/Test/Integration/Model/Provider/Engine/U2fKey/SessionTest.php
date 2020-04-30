@@ -19,7 +19,7 @@ class SessionTest extends TestCase
      */
     private $session;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->session = ObjectManager::getInstance()->get(Session::class);
     }

@@ -25,7 +25,7 @@ class ForceProvidersTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = new ObjectManager($this);
         $this->tfa = $this->createMock(TfaInterface::class);
@@ -42,10 +42,10 @@ class ForceProvidersTest extends TestCase
      * Check that beforeSave validates values.
      *
      * @return void
-     * @expectedException \Magento\Framework\Exception\ValidatorException
      */
     public function testBeforeSaveInvalid(): void
     {
+        $this->expectException(\Magento\Framework\Exception\ValidatorException::class);
         $this->model->setValue('');
         $this->model->beforeSave();
     }

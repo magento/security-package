@@ -34,7 +34,7 @@ class WebApiConfigReaderTest extends TestCase
      */
     private $reader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = new ObjectManager($this);
         $this->scopeConfig = $this->createMock(ScopeConfigInterface::class);

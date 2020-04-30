@@ -41,7 +41,7 @@ class GoogleAuthenticateTest extends WebapiAbstract
      */
     private $tfa;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = Bootstrap::getObjectManager();
         $this->userFactory = $objectManager->get(UserFactory::class);
@@ -196,7 +196,7 @@ class GoogleAuthenticateTest extends WebapiAbstract
             ]
         );
         self::assertNotEmpty($response);
-        self::assertRegExp('/^[a-z0-9]{32}$/', $response);
+        self::assertMatchesRegularExpression('/^[a-z0-9]{32}$/', $response);
     }
 
     /**

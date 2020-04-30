@@ -52,7 +52,7 @@ class ConfigurepostTest extends AbstractBackendController
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -130,7 +130,7 @@ class ConfigurepostTest extends AbstractBackendController
         $this->dispatch($this->uri);
         $this->assertRedirect($this->stringContains('configure'));
         $this->assertEmpty($this->tfa->getForcedProviders());
-        $this->assertSessionMessages($this->contains(__('Please select valid providers.')->render()));
+        $this->assertSessionMessages($this->containsEqual(__('Please select valid providers.')->render()));
     }
 
     /**
