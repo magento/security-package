@@ -14,6 +14,7 @@ use Endroid\QrCode\Writer\PngWriter;
 use Exception;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google\TotpFactory;
@@ -61,21 +62,29 @@ class Google implements EngineInterface
     private $totpFactory;
 
     /**
+     * @var EncryptorInterface
+     */
+    private $encryptor;
+
+    /**
      * @param StoreManagerInterface $storeManager
      * @param ScopeConfigInterface $scopeConfig
      * @param UserConfigManagerInterface $configManager
-     * @param TOTPInterfaceFactory $totpFactory
+     * @param TotpFactory $totpFactory
+     * @param EncryptorInterface $encryptor
      */
     public function __construct(
         StoreManagerInterface $storeManager,
         ScopeConfigInterface $scopeConfig,
         UserConfigManagerInterface $configManager,
-        TotpFactory $totpFactory
+        TotpFactory $totpFactory,
+        EncryptorInterface $encryptor
     ) {
         $this->configManager = $configManager;
         $this->storeManager = $storeManager;
         $this->scopeConfig = $scopeConfig;
         $this->totpFactory = $totpFactory;
+        $this->encryptor = $encryptor;
     }
 
     /**
@@ -99,15 +108,13 @@ class Google implements EngineInterface
      */
     private function getTotp(UserInterface $user): TOTPInterface
     {
-        $config = $this->configManager->getProviderConfig((int)$user->getId(), static::CODE);
-        if (!isset($config['secret'])) {
-            $config['secret'] = $this->getSecretCode($user);
-        }
-        if (!$config['secret']) {
+        $secret = $this->getSecretCode($user);
+
+        if (!$secret) {
             throw new NoSuchEntityException(__('Secret for user with ID#%1 was not found', $user->getId()));
         }
 
-        $totp = $this->totpFactory->create($config['secret']);
+        $totp = $this->totpFactory->create($secret);
 
         return $totp;
     }
@@ -126,10 +133,27 @@ class Google implements EngineInterface
 
         if (!isset($config['secret'])) {
             $config['secret'] = $this->generateSecret();
-            $this->configManager->setProviderConfig((int)$user->getId(), static::CODE, $config);
+            $this->setSharedSecret((int)$user->getId(), $config['secret']);
+            return $config['secret'];
         }
 
-        return $config['secret'] ?? null;
+        return $config['secret'] ? $this->encryptor->decrypt($config['secret']) : null;
+    }
+
+    /**
+     * Set the secret used to generate OTP
+     *
+     * @param int $userId
+     * @param string $secret
+     * @throws NoSuchEntityException
+     */
+    public function setSharedSecret(int $userId, string $secret): void
+    {
+        $this->configManager->addProviderConfig(
+            $userId,
+            static::CODE,
+            ['secret' => $this->encryptor->encrypt($secret)]
+        );
     }
 
     /**

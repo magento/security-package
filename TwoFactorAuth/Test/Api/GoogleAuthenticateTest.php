@@ -32,11 +32,6 @@ class GoogleAuthenticateTest extends WebapiAbstract
     private $google;
 
     /**
-     * @var UserConfigManagerInterface
-     */
-    private $userConfig;
-
-    /**
      * @var TfaInterface
      */
     private $tfa;
@@ -46,7 +41,6 @@ class GoogleAuthenticateTest extends WebapiAbstract
         $objectManager = Bootstrap::getObjectManager();
         $this->userFactory = $objectManager->get(UserFactory::class);
         $this->google = $objectManager->get(Google::class);
-        $this->userConfig = $objectManager->get(UserConfigManagerInterface::class);
         $this->tfa = $objectManager->get(TfaInterface::class);
     }
 
@@ -178,6 +172,7 @@ class GoogleAuthenticateTest extends WebapiAbstract
     /**
      * @magentoConfigFixture twofactorauth/general/force_providers google
      * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
+     * @magentoConfigFixture twofactorauth/google/otp_window 120
      */
     public function testValidToken()
     {
@@ -234,9 +229,6 @@ class GoogleAuthenticateTest extends WebapiAbstract
         $user = $this->userFactory->create();
         $user->loadByUsername('customRoleUser');
         $totp = TOTP::create($this->google->getSecretCode($user));
-
-        // Enable longer window of valid tokens to prevent test race condition
-        $this->userConfig->addProviderConfig((int)$user->getId(), Google::CODE, ['window' => 120]);
 
         return $totp->now();
     }

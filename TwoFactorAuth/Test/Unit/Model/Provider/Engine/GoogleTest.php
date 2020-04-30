@@ -5,6 +5,7 @@ namespace Magento\TwoFactorAuth\Test\Unit\Model\Provider\Engine;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google\TotpFactory;
@@ -47,6 +48,11 @@ class GoogleTest extends TestCase
     private $scopeConfig;
 
     /**
+     * @var EncryptorInterface|MockObject
+     */
+    private $encryptor;
+
+    /**
      * @inheritDoc
      */
     protected function setUp(): void
@@ -57,6 +63,7 @@ class GoogleTest extends TestCase
         $this->totp = $this->createMock(TOTPInterface::class);
         $this->user = $this->createMock(UserInterface::class);
         $this->scopeConfig = $this->createMock(ScopeConfigInterface::class);
+        $this->encryptor = $this->createMock(EncryptorInterface::class);
         $this->user->method('getId')
             ->willReturn('5');
         $this->user->method('getEmail')
@@ -67,7 +74,8 @@ class GoogleTest extends TestCase
             [
                 'configManager' => $this->configManager,
                 'totpFactory' => $this->totpFactory,
-                'scopeConfig' => $this->scopeConfig
+                'scopeConfig' => $this->scopeConfig,
+                'encryptor' => $this->encryptor
             ]
         );
     }
@@ -92,7 +100,10 @@ class GoogleTest extends TestCase
     public function testVerifyWithBadToken()
     {
         $this->configManager->method('getProviderConfig')
-            ->willReturn(['secret' => 'abc']);
+            ->willReturn(['secret' => 'cba']);
+        $this->encryptor->method('decrypt')
+            ->with('cba')
+            ->willReturn('abc');
         $this->totpFactory->method('create')
             ->willReturn($this->totp);
         $this->totp->method('verify')
@@ -107,7 +118,10 @@ class GoogleTest extends TestCase
     public function testVerifyWithGoodToken()
     {
         $this->configManager->method('getProviderConfig')
-            ->willReturn(['secret' => 'abc']);
+            ->willReturn(['secret' => 'cba']);
+        $this->encryptor->method('decrypt')
+            ->with('cba')
+            ->willReturn('abc');
         $this->totpFactory->method('create')
             ->with('abc')
             ->willReturn($this->totp);
@@ -123,7 +137,10 @@ class GoogleTest extends TestCase
     public function testVerifyWithGoodTokenAndWindowFromUserConfig()
     {
         $this->configManager->method('getProviderConfig')
-            ->willReturn(['secret' => 'abc', 'window' => 800]);
+            ->willReturn(['secret' => 'cba', 'window' => 800]);
+        $this->encryptor->method('decrypt')
+            ->with('cba')
+            ->willReturn('abc');
         $this->totpFactory->method('create')
             ->willReturn($this->totp);
         $this->totp->method('verify')
@@ -140,7 +157,10 @@ class GoogleTest extends TestCase
         $this->scopeConfig->method('getValue')
             ->willReturn(800);
         $this->configManager->method('getProviderConfig')
-            ->willReturn(['secret' => 'abc']);
+            ->willReturn(['secret' => 'cba']);
+        $this->encryptor->method('decrypt')
+            ->with('cba')
+            ->willReturn('abc');
         $this->totpFactory->method('create')
             ->willReturn($this->totp);
         $this->totp->method('verify')
@@ -157,7 +177,10 @@ class GoogleTest extends TestCase
         $this->scopeConfig->method('getValue')
             ->willReturn(800);
         $this->configManager->method('getProviderConfig')
-            ->willReturn(['secret' => 'abc', 'window' => 500]);
+            ->willReturn(['secret' => 'cba', 'window' => 500]);
+        $this->encryptor->method('decrypt')
+            ->with('cba')
+            ->willReturn('abc');
         $this->totpFactory->method('create')
             ->willReturn($this->totp);
         $this->totp->method('verify')
