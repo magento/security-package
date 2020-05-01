@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Data\Provider\Engine\Authy;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface as ResponseInterface;
 use Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseExtensionInterface;
 
 /**
  * Represents authy authentication data
  */
-class RegistrationResponse extends AbstractExtensibleObject implements ResponseInterface
+class RegistrationResponse extends AbstractExtensibleModel implements ResponseInterface
 {
     /**
      * @inheritDoc

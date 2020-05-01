@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Data\Provider\Engine\Google;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleModel;
 use Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateExtensionInterface;
 use Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateInterface;
 
 /**
  * Represents google authentication data
  */
-class AuthenticateData extends AbstractExtensibleObject implements GoogleAuthenticateInterface
+class AuthenticateData extends AbstractExtensibleModel implements GoogleAuthenticateInterface
 {
     /**
      * @inheritDoc

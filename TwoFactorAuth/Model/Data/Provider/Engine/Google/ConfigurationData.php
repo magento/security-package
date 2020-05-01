@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Data\Provider\Engine\Google;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\TwoFactorAuth\Api\Data\GoogleConfigureExtensionInterface;
 use Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface;
 
 /**
  * Represents google configuration data
  */
-class ConfigurationData extends AbstractExtensibleObject implements GoogleConfigureInterface
+class ConfigurationData extends AbstractExtensibleModel implements GoogleConfigureInterface
 {
     /**
      * Get value for QR code base 64

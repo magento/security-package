@@ -9,11 +9,11 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\Client\CurlFactory;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\User\Api\Data\UserInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
-use Zend\Json\Json;
 
 /**
  * Authy verification management
@@ -41,25 +41,34 @@ class Verification
     private $dateTime;
 
     /**
+     * @var Json
+     */
+    private $json;
+
+    /**
      * @param CurlFactory $curlFactory
      * @param DateTime $dateTime
      * @param UserConfigManagerInterface $userConfigManager
      * @param Service $service
+     * @param Json $json
      */
     public function __construct(
         CurlFactory $curlFactory,
         DateTime $dateTime,
         UserConfigManagerInterface $userConfigManager,
-        Service $service
+        Service $service,
+        Json $json
     ) {
         $this->curlFactory = $curlFactory;
         $this->service = $service;
         $this->userConfigManager = $userConfigManager;
         $this->dateTime = $dateTime;
+        $this->json = $json;
     }
 
     /**
      * Verify phone number
+     *
      * @param UserInterface $user
      * @param string $country
      * @param string $phoneNumber
@@ -109,6 +118,7 @@ class Verification
 
     /**
      * Verify phone number
+     *
      * @param UserInterface $user
      * @param string $verificationCode
      * @throws LocalizedException
@@ -130,7 +140,7 @@ class Verification
                 'verification_code' => $verificationCode,
             ]));
 
-        $response = Json::decode($curl->getBody(), Json::TYPE_ARRAY);
+        $response = $this->json->unserialize($curl->getBody());
 
         $errorMessage = $this->service->getErrorFromResponse($response);
         if ($errorMessage) {
