@@ -43,7 +43,6 @@ define([
         /**
          * Get plain Secret Code
          * @returns {String}
-         * @author Konrad Skrzynski <konrad.skrzynski@accenture.com>
          */
         getSecretCode: function () {
             return this.secretCode;

@@ -1,9 +1,9 @@
 {
     "name": "magento/module-two-factor-auth",
-    "version": "5.0.0",
+    "version": "1.0.0",
     "description": "Two Factor Authentication module for Magento2",
     "require": {
-        "php": "~7.1.3||~7.2.0||~7.3.0",
+        "php": "~7.3.0||~7.4.0",
         "magento/magento-composer-installer": "*",
         "magento/module-backend": "*",
         "magento/module-config": "*",
@@ -18,16 +18,6 @@
         "2tvenom/cborencode": "^1.0",
         "phpseclib/phpseclib": "2.0.*"
     },
-    "authors": [
-        {
-            "name": "Riccardo Tempesta",
-            "email": "riccardo.tempesta@magespecialist.it"
-        },
-        {
-            "name": "Giacomo Mirabassi",
-            "email": "giacomo.mirabassi@magespecialist.it"
-        }
-    ],
     "type": "magento2-module",
     "license": "OSL-3.0",
     "autoload": {

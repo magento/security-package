@@ -125,7 +125,6 @@ class Google implements EngineInterface
      * @param UserInterface $user
      * @return string|null
      * @throws NoSuchEntityException
-     * @author Konrad Skrzynski <konrad.skrzynski@accenture.com>
      */
     public function getSecretCode(UserInterface $user): ?string
     {
