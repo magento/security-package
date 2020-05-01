@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Api;
 
-use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface;
+use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface;
 
 /**
  * Represent Authentication for u2f key provider
@@ -20,9 +20,9 @@ interface U2fKeyAuthenticateInterface
      *
      * @param string $username
      * @param string $password
-     * @return \Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface
+     * @return \Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface
      */
-    public function getAuthenticationData(string $username, string $password): U2FWebAuthnRequestInterface;
+    public function getAuthenticationData(string $username, string $password): U2fWebAuthnRequestInterface;
 
     /**
      * Authenticate with the provider and get a token

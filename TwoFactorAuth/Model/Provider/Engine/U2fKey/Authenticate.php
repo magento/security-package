@@ -13,8 +13,8 @@ use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Integration\Api\AdminTokenServiceInterface;
-use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface;
-use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterfaceFactory;
+use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface;
+use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterfaceFactory;
 use Magento\TwoFactorAuth\Api\U2fKeyAuthenticateInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
@@ -56,7 +56,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
     private $userFactory;
 
     /**
-     * @var U2FWebAuthnRequestInterfaceFactory
+     * @var U2fWebAuthnRequestInterfaceFactory
      */
     private $authnRequestInterfaceFactory;
 
@@ -81,7 +81,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
      * @param UserFactory $userFactory
-     * @param U2FWebAuthnRequestInterfaceFactory $authnRequestInterfaceFactory
+     * @param U2fWebAuthnRequestInterfaceFactory $authnRequestInterfaceFactory
      * @param Json $json
      * @param UserConfigManagerInterface $configManager
      * @param AdminTokenServiceInterface $adminTokenService
@@ -92,7 +92,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
         AlertInterface $alert,
         DataObjectFactory $dataObjectFactory,
         UserFactory $userFactory,
-        U2FWebAuthnRequestInterfaceFactory $authnRequestInterfaceFactory,
+        U2fWebAuthnRequestInterfaceFactory $authnRequestInterfaceFactory,
         Json $json,
         UserConfigManagerInterface $configManager,
         AdminTokenServiceInterface $adminTokenService
@@ -111,7 +111,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
     /**
      * @inheritDoc
      */
-    public function getAuthenticationData(string $username, string $password): U2FWebAuthnRequestInterface
+    public function getAuthenticationData(string $username, string $password): U2fWebAuthnRequestInterface
     {
         $this->adminTokenService->createAdminAccessToken($username, $password);
 
@@ -131,7 +131,7 @@ class Authenticate implements U2fKeyAuthenticateInterface
         return $this->authnRequestInterfaceFactory->create(
             [
                 'data' => [
-                    U2FWebAuthnRequestInterface::CREDENTIAL_REQUEST_OPTIONS_JSON => $json
+                    U2fWebAuthnRequestInterface::CREDENTIAL_REQUEST_OPTIONS_JSON => $json
                 ]
             ]
         );

@@ -21,7 +21,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
      */
     public function getId(): int
     {
-        return (int) $this->_get(self::ID);
+        return (int) $this->getData(self::ID);
     }
 
     /**
@@ -37,7 +37,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
      */
     public function getCode(): string
     {
-        return (string) $this->_get(self::CODE);
+        return (string) $this->getData(self::CODE);
     }
 
     /**
@@ -53,7 +53,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
      */
     public function getName(): string
     {
-        return (string) $this->_get(self::NAME);
+        return (string) $this->getData(self::NAME);
     }
 
     /**
@@ -69,7 +69,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
      */
     public function getDialCode(): string
     {
-        return (string) $this->_get(self::DIAL_CODE);
+        return (string) $this->getData(self::DIAL_CODE);
     }
 
     /**
@@ -85,7 +85,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
      */
     public function getExtensionAttributes(): ?CountryExtensionInterface
     {
-        return $this->_get(self::EXTENSION_ATTRIBUTES_KEY);
+        return $this->getData(self::EXTENSION_ATTRIBUTES_KEY);
     }
 
     /**

@@ -10,7 +10,7 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\TestFramework\Bootstrap;
-use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface;
+use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 use Magento\User\Model\UserFactory;
@@ -192,7 +192,7 @@ class AuthenticateTest extends TestCase
             Bootstrap::ADMIN_PASSWORD
         );
 
-        self::assertInstanceOf(U2FWebAuthnRequestInterface::class, $result);
+        self::assertInstanceOf(U2fWebAuthnRequestInterface::class, $result);
         self::assertSame(json_encode($data), $result->getCredentialRequestOptionsJson());
     }
 

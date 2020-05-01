@@ -22,7 +22,7 @@ class Data extends AbstractExtensibleModel implements DuoDataInterface
      */
     public function getSignature(): string
     {
-        return (string)$this->_getData(self::SIGNATURE);
+        return (string)$this->getData(self::SIGNATURE);
     }
 
     /**
@@ -38,7 +38,7 @@ class Data extends AbstractExtensibleModel implements DuoDataInterface
      */
     public function getApiHostname(): string
     {
-        return (string)$this->_getData(self::API_HOSTNAME);
+        return (string)$this->getData(self::API_HOSTNAME);
     }
 
     /**

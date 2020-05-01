@@ -10,8 +10,8 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface;
-use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterfaceFactory;
+use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface;
+use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterfaceFactory;
 use Magento\TwoFactorAuth\Api\U2fKeyConfigureInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\AlertInterface;
@@ -41,7 +41,7 @@ class Configure implements U2fKeyConfigureInterface
     private $configManager;
 
     /**
-     * @var U2FWebAuthnRequestInterfaceFactory
+     * @var U2fWebAuthnRequestInterfaceFactory
      */
     private $authnInterfaceFactory;
 
@@ -59,7 +59,7 @@ class Configure implements U2fKeyConfigureInterface
      * @param U2fKey $u2fKey
      * @param UserAuthenticator $userAuthenticator
      * @param UserConfigManagerInterface $configManager
-     * @param U2FWebAuthnRequestInterfaceFactory $authnInterfaceFactory
+     * @param U2fWebAuthnRequestInterfaceFactory $authnInterfaceFactory
      * @param AlertInterface $alert
      * @param Json $json
      */
@@ -67,7 +67,7 @@ class Configure implements U2fKeyConfigureInterface
         U2fKey $u2fKey,
         UserAuthenticator $userAuthenticator,
         UserConfigManagerInterface $configManager,
-        U2FWebAuthnRequestInterfaceFactory $authnInterfaceFactory,
+        U2fWebAuthnRequestInterfaceFactory $authnInterfaceFactory,
         AlertInterface $alert,
         Json $json
     ) {
@@ -82,7 +82,7 @@ class Configure implements U2fKeyConfigureInterface
     /**
      * @inheritDoc
      */
-    public function getRegistrationData(string $tfaToken): U2FWebAuthnRequestInterface
+    public function getRegistrationData(string $tfaToken): U2fWebAuthnRequestInterface
     {
         $user = $this->userAuthenticator->authenticateWithTokenAndProvider($tfaToken, U2fKey::CODE);
         $userId = (int)$user->getId();
@@ -98,7 +98,7 @@ class Configure implements U2fKeyConfigureInterface
         return $this->authnInterfaceFactory->create(
             [
                 'data' => [
-                    U2FWebAuthnRequestInterface::CREDENTIAL_REQUEST_OPTIONS_JSON => $this->json->serialize($data)
+                    U2fWebAuthnRequestInterface::CREDENTIAL_REQUEST_OPTIONS_JSON => $this->json->serialize($data)
                 ]
             ]
         );

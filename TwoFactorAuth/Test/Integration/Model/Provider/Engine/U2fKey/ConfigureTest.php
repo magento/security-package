@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 use Magento\Framework\App\ObjectManager;
-use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface;
+use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
@@ -193,7 +193,7 @@ class ConfigureTest extends TestCase
             $this->tokenManager->issueFor($userId)
         );
 
-        self::assertInstanceOf(U2FWebAuthnRequestInterface::class, $result);
+        self::assertInstanceOf(U2fWebAuthnRequestInterface::class, $result);
         self::assertSame(json_encode($data), $result->getCredentialRequestOptionsJson());
     }
 

@@ -22,7 +22,7 @@ class Device extends AbstractExtensibleModel implements AuthyDeviceInterface
      */
     public function getCountry(): string
     {
-        return (string)$this->_getData(self::COUNTRY);
+        return (string)$this->getData(self::COUNTRY);
     }
 
     /**
@@ -38,7 +38,7 @@ class Device extends AbstractExtensibleModel implements AuthyDeviceInterface
      */
     public function getPhoneNumber(): string
     {
-        return $this->_getData(self::PHONE);
+        return $this->getData(self::PHONE);
     }
 
     /**
@@ -54,7 +54,7 @@ class Device extends AbstractExtensibleModel implements AuthyDeviceInterface
      */
     public function getMethod(): string
     {
-        return $this->_getData(self::METHOD);
+        return $this->getData(self::METHOD);
     }
 
     /**
@@ -74,7 +74,7 @@ class Device extends AbstractExtensibleModel implements AuthyDeviceInterface
      */
     public function getExtensionAttributes(): ?AuthyDeviceExtensionInterface
     {
-        return $this->_getData(self::EXTENSION_ATTRIBUTES_KEY);
+        return $this->getData(self::EXTENSION_ATTRIBUTES_KEY);
     }
 
     /**

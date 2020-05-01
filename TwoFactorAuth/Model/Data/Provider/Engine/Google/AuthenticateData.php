@@ -22,7 +22,7 @@ class AuthenticateData extends AbstractExtensibleModel implements GoogleAuthenti
      */
     public function getOtp(): string
     {
-        return (string)$this->_get(self::OTP);
+        return (string)$this->getData(self::OTP);
     }
 
     /**
@@ -42,7 +42,7 @@ class AuthenticateData extends AbstractExtensibleModel implements GoogleAuthenti
      */
     public function getExtensionAttributes(): ?GoogleAuthenticateExtensionInterface
     {
-        return $this->_get(self::EXTENSION_ATTRIBUTES_KEY);
+        return $this->getData(self::EXTENSION_ATTRIBUTES_KEY);
     }
 
     /**

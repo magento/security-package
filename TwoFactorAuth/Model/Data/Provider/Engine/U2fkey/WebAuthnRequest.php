@@ -9,20 +9,20 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model\Data\Provider\Engine\U2fkey;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
-use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestExtensionInterface;
-use Magento\TwoFactorAuth\Api\Data\U2FWebAuthnRequestInterface;
+use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestExtensionInterface;
+use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface;
 
 /**
  * WebAuthn data
  */
-class WebAuthnRequest extends AbstractExtensibleModel implements U2FWebAuthnRequestInterface
+class WebAuthnRequest extends AbstractExtensibleModel implements U2fWebAuthnRequestInterface
 {
     /**
      * @inheritDoc
      */
     public function getCredentialRequestOptionsJson(): string
     {
-        return (string)$this->_getData(self::CREDENTIAL_REQUEST_OPTIONS_JSON);
+        return (string)$this->getData(self::CREDENTIAL_REQUEST_OPTIONS_JSON);
     }
 
     /**
@@ -36,15 +36,15 @@ class WebAuthnRequest extends AbstractExtensibleModel implements U2FWebAuthnRequ
     /**
      * @inheritDoc
      */
-    public function getExtensionAttributes(): ?U2FWebAuthnRequestExtensionInterface
+    public function getExtensionAttributes(): ?U2fWebAuthnRequestExtensionInterface
     {
-        return $this->_getData(self::EXTENSION_ATTRIBUTES_KEY);
+        return $this->getData(self::EXTENSION_ATTRIBUTES_KEY);
     }
 
     /**
      * @inheritDoc
      */
-    public function setExtensionAttributes(U2FWebAuthnRequestExtensionInterface $extensionAttributes): void
+    public function setExtensionAttributes(U2fWebAuthnRequestExtensionInterface $extensionAttributes): void
     {
         $this->setData(self::EXTENSION_ATTRIBUTES_KEY, $extensionAttributes);
     }

@@ -93,7 +93,7 @@ class Verification
             'phone_number' => $phoneNumber
         ]);
 
-        $response = Json::decode($curl->getBody(), Json::TYPE_ARRAY);
+        $response = $this->json->unserialize($curl->getBody());
 
         $errorMessage = $this->service->getErrorFromResponse($response);
         if ($errorMessage) {

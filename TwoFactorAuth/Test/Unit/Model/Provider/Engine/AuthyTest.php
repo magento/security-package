@@ -60,7 +60,7 @@ class AuthyTest extends TestCase
      */
     public function testIsEnabled(?string $apiKey, bool $expected): void
     {
-        $this->serviceMock->method('getApiKey')->willReturn($apiKey);
+        $this->serviceMock->method('getApiKey')->willReturn((string)$apiKey);
 
         $this->assertEquals($expected, $this->model->isEnabled());
     }

@@ -24,7 +24,7 @@ class ConfigurationData extends AbstractExtensibleModel implements GoogleConfigu
      */
     public function getQrCodeBase64(): string
     {
-        return (string)$this->_get(self::QR_CODE_BASE64);
+        return (string)$this->getData(self::QR_CODE_BASE64);
     }
 
     /**
@@ -45,7 +45,7 @@ class ConfigurationData extends AbstractExtensibleModel implements GoogleConfigu
      */
     public function getSecretCode(): string
     {
-        return (string)$this->_get(self::SECRET_CODE);
+        return (string)$this->getData(self::SECRET_CODE);
     }
 
     /**
@@ -68,7 +68,7 @@ class ConfigurationData extends AbstractExtensibleModel implements GoogleConfigu
      */
     public function getExtensionAttributes(): ?GoogleConfigureExtensionInterface
     {
-        return $this->_get(self::EXTENSION_ATTRIBUTES_KEY);
+        return $this->getData(self::EXTENSION_ATTRIBUTES_KEY);
     }
 
     /**

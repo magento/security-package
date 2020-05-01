@@ -22,7 +22,7 @@ class RegistrationResponse extends AbstractExtensibleModel implements ResponseIn
      */
     public function getMessage(): string
     {
-        return (string)$this->_get(self::MESSAGE);
+        return (string)$this->getData(self::MESSAGE);
     }
 
     /**
@@ -38,7 +38,7 @@ class RegistrationResponse extends AbstractExtensibleModel implements ResponseIn
      */
     public function getExpirationSeconds(): int
     {
-        return (int)$this->_get(self::EXPIRATION_SECONDS);
+        return (int)$this->getData(self::EXPIRATION_SECONDS);
     }
 
     /**
@@ -58,7 +58,7 @@ class RegistrationResponse extends AbstractExtensibleModel implements ResponseIn
      */
     public function getExtensionAttributes(): ?AuthyRegistrationPromptResponseExtensionInterface
     {
-        return $this->_get(self::EXTENSION_ATTRIBUTES_KEY);
+        return $this->getData(self::EXTENSION_ATTRIBUTES_KEY);
     }
 
     /**

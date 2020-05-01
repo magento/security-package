@@ -21,7 +21,7 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
      */
     public function getId(): int
     {
-        return (int) $this->_get(self::ID);
+        return (int) $this->getData(self::ID);
     }
 
     /**
@@ -37,7 +37,7 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
      */
     public function getUserId(): int
     {
-        return (int) $this->_get(self::USER_ID);
+        return (int) $this->getData(self::USER_ID);
     }
 
     /**
@@ -53,7 +53,7 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
      */
     public function getEncodedProviders(): string
     {
-        return (string) $this->_get(self::ENCODED_PROVIDERS);
+        return (string) $this->getData(self::ENCODED_PROVIDERS);
     }
 
     /**
@@ -69,7 +69,7 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
      */
     public function getDefaultProvider(): string
     {
-        return (string) $this->_get(self::DEFAULT_PROVIDER);
+        return (string) $this->getData(self::DEFAULT_PROVIDER);
     }
 
     /**
@@ -85,7 +85,7 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
      */
     public function getExtensionAttributes(): ?UserConfigExtensionInterface
     {
-        return $this->_get(self::EXTENSION_ATTRIBUTES_KEY);
+        return $this->getData(self::EXTENSION_ATTRIBUTES_KEY);
     }
 
     /**
