@@ -18,6 +18,11 @@ interface TfaInterface
     public const XML_PATH_FORCED_PROVIDERS = 'twofactorauth/general/force_providers';
 
     /**
+     * Email link URL for webapi-based configuration
+     */
+    public const XML_PATH_WEBAPI_CONFIG_EMAIL_URL = 'twofactorauth/general/webapi_email_config_url';
+
+    /**
      * Return true if 2FA is enabled
      *
      * @return bool
