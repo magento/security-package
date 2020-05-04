@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Data\Provider\Engine\Google;
 
-use Magento\Framework\Api\AbstractExtensibleModel;
+use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateExtensionInterface;
 use Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateInterface;
 
