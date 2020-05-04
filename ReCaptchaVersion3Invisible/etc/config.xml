@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <recaptcha_backend>
+            <type_recaptcha_v3>
+                <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <score_threshold>0.5</score_threshold>
+                <position>inline</position>
+                <theme>light</theme>
+                <lang/>
+                <validation_failure_message>You cannot proceed with such operation, your reCAPTCHA reputation is too low.</validation_failure_message>
+            </type_recaptcha_v3>
+        </recaptcha_backend>
+        <recaptcha_frontend>
+            <type_recaptcha_v3>
+                <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
+                <score_threshold>0.5</score_threshold>
+                <position>inline</position>
+                <theme>light</theme>
+                <lang/>
+                <validation_failure_message>You cannot proceed with such operation, your reCAPTCHA reputation is too low.</validation_failure_message>
+            </type_recaptcha_v3>
+        </recaptcha_frontend>
+    </default>
+</config>

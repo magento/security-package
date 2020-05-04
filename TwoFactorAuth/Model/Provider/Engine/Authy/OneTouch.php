@@ -53,6 +53,7 @@ class OneTouch
 
     /**
      * OneTouch constructor.
+     *
      * @param CurlFactory $curlFactory
      * @param UserConfigManagerInterface $userConfigManager
      * @param Service $service

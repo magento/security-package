@@ -35,7 +35,7 @@ class DisableReCaptchaForUserForgotPasswordCommand extends Command
     protected function configure()
     {
         $this->setName('security:recaptcha:disable-for-user-forgot-password');
-        $this->setDescription('Disable backend reCaptcha for user forgot password form');
+        $this->setDescription('Disable reCAPTCHA for admin user forgot password form');
 
         parent::configure();
     }

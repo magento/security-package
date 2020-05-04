@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Config\Model\Config\TypePool">
+        <arguments>
+            <argument name="sensitive" xsi:type="array">
+                <item name="recaptcha_backend/type_invisible/public_key" xsi:type="string">1</item>
+                <item name="recaptcha_backend/type_invisible/private_key" xsi:type="string">1</item>
+                <item name="recaptcha_frontend/type_invisible/public_key" xsi:type="string">1</item>
+                <item name="recaptcha_frontend/type_invisible/private_key" xsi:type="string">1</item>
+            </argument>
+            <argument name="environment" xsi:type="array">
+                <item name="recaptcha_backend/type_invisible/public_key" xsi:type="string">1</item>
+                <item name="recaptcha_backend/type_invisible/private_key" xsi:type="string">1</item>
+                <item name="recaptcha_frontend/type_invisible/public_key" xsi:type="string">1</item>
+                <item name="recaptcha_frontend/type_invisible/private_key" xsi:type="string">1</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\ReCaptchaAdminUi\Model\OptionSource\Type">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <item name="invisible" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">reCAPTCHA v2 Invisible</item>
+                    <item name="value" xsi:type="string">invisible</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Position"
+                 type="Magento\ReCaptchaAdminUi\Model\OptionSource">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <item name="inline" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Inline</item>
+                    <item name="value" xsi:type="string">inline</item>
+                </item>
+                <item name="bottomright" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Bottom Right</item>
+                    <item name="value" xsi:type="string">bottomright</item>
+                </item>
+                <item name="bottomleft" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Bottom Left</item>
+                    <item name="value" xsi:type="string">bottomleft</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Theme"
+                 type="Magento\ReCaptchaAdminUi\Model\OptionSource">
+        <arguments>
+            <argument name="options" xsi:type="array">
+                <item name="light" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Light Theme</item>
+                    <item name="value" xsi:type="string">light</item>
+                </item>
+                <item name="dark" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Dark Theme</item>
+                    <item name="value" xsi:type="string">dark</item>
+                </item>
+            </argument>
+        </arguments>
+    </virtualType>
+</config>
