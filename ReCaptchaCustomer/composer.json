@@ -1,9 +1,8 @@
 {
     "name": "magento/module-re-captcha-customer",
     "description": "Google reCAPTCHA integration for Magento2",
-    "version": "1.0.0",
     "require": {
-        "php": "~7.3.0||~7.4.0",
+        "php": "~7.1.3||~7.2.0||~7.3.0",
         "magento/framework": "*",
         "magento/module-customer": "*",
         "magento/module-re-captcha-ui": "*",
