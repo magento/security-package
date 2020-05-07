@@ -188,8 +188,8 @@ class AjaxLoginFormTest extends AbstractController
         self::assertNotEmpty($content);
 
         $shouldContainReCaptcha
-            ? $this->assertContains('recaptcha-popup-login', $content)
-            : $this->assertNotContains('recaptcha-popup-login', $content);
+            ? $this->assertStringContainsString('recaptcha-popup-login', $content)
+            : $this->assertStringNotContainsString('recaptcha-popup-login', $content);
 
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
     }

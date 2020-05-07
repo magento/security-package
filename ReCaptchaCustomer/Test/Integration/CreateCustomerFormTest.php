@@ -201,8 +201,8 @@ class CreateCustomerFormTest extends AbstractController
         self::assertNotEmpty($content);
 
         $shouldContainReCaptcha
-            ? $this->assertContains('field-recaptcha', $content)
-            : $this->assertNotContains('field-recaptcha', $content);
+            ? $this->assertStringContainsString('field-recaptcha', $content)
+            : $this->assertStringNotContainsString('field-recaptcha', $content);
 
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
     }

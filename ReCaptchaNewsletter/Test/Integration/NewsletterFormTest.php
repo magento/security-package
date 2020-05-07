@@ -192,8 +192,8 @@ class NewsletterFormTest extends AbstractController
         self::assertNotEmpty($content);
 
         $shouldContainReCaptcha
-            ? self::assertContains('field-recaptcha', $content)
-            : self::assertNotContains('field-recaptcha', $content);
+            ? self::assertStringContainsString('field-recaptcha', $content)
+            : self::assertStringNotContainsString('field-recaptcha', $content);
 
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
     }
@@ -207,7 +207,7 @@ class NewsletterFormTest extends AbstractController
         $this->makePostRequest($postValues);
 
         $this->assertSessionMessages(
-            self::contains(
+            self::containsEqual(
                 'Thank you for your subscription.'
             ),
             MessageInterface::TYPE_SUCCESS
