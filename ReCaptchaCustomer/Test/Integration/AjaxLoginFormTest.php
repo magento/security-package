@@ -18,7 +18,7 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\TestFramework\App\MutableScopeConfig;
 use Magento\TestFramework\TestCase\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
-use Zend\Http\Headers;
+use Laminas\Http\Headers;
 
 /**
  * @magentoDataFixture Magento/Customer/_files/customer.php

@@ -25,6 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * @magentoAppArea frontend
  * @magentoAppIsolation enabled
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CreateCustomerFormTest extends AbstractController
 {
