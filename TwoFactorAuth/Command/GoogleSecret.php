@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Command;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -36,19 +37,27 @@ class GoogleSecret extends Command
     private $google;
 
     /**
+     * @var UserConfigManagerInterface
+     */
+    private $configManager;
+
+    /**
      * @param UserFactory $userFactory
      * @param User $userResource
      * @param Google $google
+     * @param UserConfigManagerInterface $configManager
      */
     public function __construct(
         UserFactory $userFactory,
         User $userResource,
-        Google $google
+        Google $google,
+        UserConfigManagerInterface $configManager
     ) {
         parent::__construct();
         $this->userResource = $userResource;
         $this->userFactory = $userFactory;
         $this->google = $google;
+        $this->configManager = $configManager;
     }
 
     /**
@@ -86,6 +95,13 @@ class GoogleSecret extends Command
         }
 
         $this->google->setSharedSecret((int)$user->getId(), $secret);
+        $this->configManager->addProviderConfig(
+            (int)$user->getId(),
+            Google::CODE,
+            [
+                UserConfigManagerInterface::ACTIVE_CONFIG_KEY => true
+            ]
+        );
 
         $output->writeln((string)__('Google OTP secret has been set'));
     }
