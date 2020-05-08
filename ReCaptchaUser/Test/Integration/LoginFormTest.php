@@ -184,8 +184,8 @@ class LoginFormTest extends AbstractController
         self::assertNotEmpty($content);
 
         $shouldContainReCaptcha
-            ? $this->assertContains('admin-recaptcha', $content)
-            : $this->assertNotContains('admin-recaptcha', $content);
+            ? $this->assertStringContainsString('admin-recaptcha', $content)
+            : $this->assertStringNotContainsString('admin-recaptcha', $content);
 
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
     }

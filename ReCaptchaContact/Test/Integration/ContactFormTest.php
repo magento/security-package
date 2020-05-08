@@ -178,8 +178,8 @@ class ContactFormTest extends AbstractController
         self::assertNotEmpty($content);
 
         $shouldContainReCaptcha
-            ? self::assertContains('field-recaptcha', $content)
-            : self::assertNotContains('field-recaptcha', $content);
+            ? self::assertStringContainsString('field-recaptcha', $content)
+            : self::assertStringNotContainsString('field-recaptcha', $content);
 
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
     }
@@ -193,7 +193,7 @@ class ContactFormTest extends AbstractController
         $this->makePostRequest($postValues);
 
         $this->assertSessionMessages(
-            self::contains(
+            self::containsEqual(
                 "Thanks for contacting us with your comments and questions. We&#039;ll respond to you very soon."
             ),
             MessageInterface::TYPE_SUCCESS
