@@ -9,7 +9,7 @@
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AdminLoginActionGroup">
         <getOTP stepKey="getOtp" before="clickDontAllowButtonIfVisible"/>
-        <fillField selector="{{AdminGoogleTfaSection.tfaAuthCode}}" userInput="{$otp}" stepKey="fillOtp" after="getOtp"/>
+        <fillField selector="{{AdminGoogleTfaSection.tfaAuthCode}}" userInput="{$getOtp}" stepKey="fillOtp" after="getOtp"/>
         <click selector="{{AdminGoogleTfaSection.confirm}}" stepKey="confirmOtp" after="fillOtp"/>
     </actionGroup>
 </actionGroups>
