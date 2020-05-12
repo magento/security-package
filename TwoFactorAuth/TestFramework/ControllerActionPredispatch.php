@@ -19,7 +19,7 @@ class ControllerActionPredispatch extends ParentObserver
     {
         /** @var $controllerAction AbstractAction */
         $controllerAction = $observer->getEvent()->getData('controller_action');
-        if (class_exists('Magento\TestFramework\Request')
+        if (method_exists($controllerAction, 'getRequest')
             && $controllerAction->getRequest() instanceof \Magento\TestFramework\Request
             && !$controllerAction->getRequest()->getParam('tfa_enabled')
         ) {

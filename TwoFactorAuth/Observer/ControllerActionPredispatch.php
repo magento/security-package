@@ -122,7 +122,7 @@ class ControllerActionPredispatch implements ObserverInterface
         /** @var $controllerAction AbstractAction */
         $controllerAction = $observer->getEvent()->getData('controller_action');
         $this->action = $controllerAction;
-        $fullActionName = $controllerAction->getRequest()->getFullActionName();
+        $fullActionName = $observer->getEvent()->getData('request')->getFullActionName();
         $userId = $this->userContext->getUserId();
 
         $this->tokenManager->readConfigToken();

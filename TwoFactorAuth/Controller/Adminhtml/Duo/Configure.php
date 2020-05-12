@@ -18,7 +18,7 @@ class Configure extends AbstractAction implements HttpGetActionInterface
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'Magento_TwoFactorAuth::config';
+    const ADMIN_RESOURCE = 'Magento_TwoFactorAuth::tfa';
 
     /**
      * @inheritdoc

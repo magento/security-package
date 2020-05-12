@@ -83,6 +83,10 @@
         </arguments>
     </type>
 
+    <type name="Magento\Backend\Model\Url">
+        <plugin name="fixDefaultUrl" type="Magento\TwoFactorAuth\Plugin\FirstAvailableMenu"/>
+    </type>
+
     <virtualType name="Magento\TwoFactorAuth\Model\Provider\Google" type="Magento\TwoFactorAuth\Model\Provider">
         <arguments>
             <argument name="engine" xsi:type="object">Magento\TwoFactorAuth\Model\Provider\Engine\Google</argument>
