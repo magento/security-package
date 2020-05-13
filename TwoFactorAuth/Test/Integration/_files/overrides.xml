@@ -7,4 +7,5 @@
  -->
 <overrides>
     <test class="\Magento\Webapi\Controller\SoapTest" skip="true"/>
+    <test class="\Magento\Webapi\Controller\SoapEnterpriseTest" skip="true"/>
 </overrides>
