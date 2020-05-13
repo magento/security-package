@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Magento\TwoFactorAuth\Api\ProviderPoolInterface" type="Magento\TwoFactorAuth\Model\ProviderPool"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\CountryInterface" type="Magento\TwoFactorAuth\Model\Data\Country"/>
+    <preference for="Magento\TwoFactorAuth\Api\CountryRepositoryInterface"
+                type="Magento\TwoFactorAuth\Model\ResourceModel\CountryRepository"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\CountrySearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\UserConfigInterface" type="Magento\TwoFactorAuth\Model\Data\UserConfig"/>
+    <preference for="Magento\TwoFactorAuth\Api\UserConfigRepositoryInterface"
+                type="Magento\TwoFactorAuth\Model\ResourceModel\UserConfigRepository"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\UserConfigSearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Magento\TwoFactorAuth\Api\TfaInterface" type="Magento\TwoFactorAuth\Model\Tfa"/>
+    <preference for="Magento\TwoFactorAuth\Api\UserConfigManagerInterface"
+                type="Magento\TwoFactorAuth\Model\UserConfigManager"/>
+    <preference for="Magento\TwoFactorAuth\Api\TfaSessionInterface" type="Magento\TwoFactorAuth\Model\TfaSession"/>
+    <preference for="Magento\TwoFactorAuth\Api\TfatActionsInterface" type="Magento\TwoFactorAuth\Model\TfatActions"/>
+    <preference for="Magento\TwoFactorAuth\Model\AlertInterface" type="Magento\TwoFactorAuth\Model\Alert"/>
+    <preference for="Magento\TwoFactorAuth\Api\GoogleConfigureInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Google\Configure"/>
+    <preference for="Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Google\Authenticate"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\Google\AuthenticateData"/>
+    <preference for="Magento\TwoFactorAuth\Api\AdminTokenServiceInterface" type="Magento\TwoFactorAuth\Model\AdminAccessTokenService"/>
+    <preference for="Magento\TwoFactorAuth\Api\AuthyConfigureInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Configure"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\AuthyDeviceInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\Authy\Device"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\Authy\RegistrationResponse"/>
+    <preference for="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Authenticate"/>
+    <preference for="Magento\TwoFactorAuth\Api\U2fKeyConfigureInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Configure"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\U2fkey\WebAuthnRequest"/>
+    <preference for="Magento\TwoFactorAuth\Api\U2fKeyAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Authenticate"/>
+    <preference for="Magento\TwoFactorAuth\Api\DuoConfigureInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity\Configure"/>
+    <preference for="Magento\TwoFactorAuth\Api\DuoAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity\Authenticate"/>
+    <preference for="Magento\TwoFactorAuth\Api\Data\DuoDataInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\DuoSecurity\Data"/>
+    <preference for="Magento\TwoFactorAuth\Api\U2fKeyConfigReaderInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\ConfigReader"/>
+    <preference for="OTPHP\TOTPInterface" type="OTPHP\TOTP"/>
+
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="tfa_reset" xsi:type="object">Magento\TwoFactorAuth\Command\TfaReset</item>
+                <item name="tfa_providers" xsi:type="object">Magento\TwoFactorAuth\Command\TfaProviders</item>
+                <item name="google_secret" xsi:type="object">Magento\TwoFactorAuth\Command\GoogleSecret</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Set sensitive information -->
+    <type name="Magento\Config\Model\Config\TypePool">
+        <arguments>
+            <argument name="sensitive" xsi:type="array">
+                <item name="twofactorauth/duo/integration_key" xsi:type="string">1</item>
+                <item name="twofactorauth/duo/secret_key" xsi:type="string">1</item>
+                <item name="twofactorauth/duo/api_hostname" xsi:type="string">1</item>
+                <item name="twofactorauth/authy/api_key" xsi:type="string">1</item>
+            </argument>
+            <argument name="environment" xsi:type="array">
+                <item name="twofactorauth/duo/integration_key" xsi:type="string">1</item>
+                <item name="twofactorauth/duo/secret_key" xsi:type="string">1</item>
+                <item name="twofactorauth/duo/api_hostname" xsi:type="string">1</item>
+                <item name="twofactorauth/authy/api_key" xsi:type="string">1</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- System 2FA providers list -->
+    <type name="Magento\TwoFactorAuth\Api\ProviderPoolInterface">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <!-- Parameter "name" must be the same as defined in virtualType "code" parameter -->
+                <item name="google" xsi:type="object">Magento\TwoFactorAuth\Model\Provider\Google</item>
+                <item name="duo_security" xsi:type="object">Magento\TwoFactorAuth\Model\Provider\DuoSecurity</item>
+                <item name="authy" xsi:type="object">Magento\TwoFactorAuth\Model\Provider\Authy</item>
+                <item name="u2fkey" xsi:type="object">Magento\TwoFactorAuth\Model\Provider\U2fKey</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Backend\Model\Url">
+        <plugin name="fixDefaultUrl" type="Magento\TwoFactorAuth\Plugin\FirstAvailableMenu"/>
+    </type>
+
+    <virtualType name="Magento\TwoFactorAuth\Model\Provider\Google" type="Magento\TwoFactorAuth\Model\Provider">
+        <arguments>
+            <argument name="engine" xsi:type="object">Magento\TwoFactorAuth\Model\Provider\Engine\Google</argument>
+            <argument name="code" xsi:type="string">google</argument>
+            <argument name="name" xsi:type="string">Google Authenticator</argument>
+            <argument name="icon" xsi:type="string">Magento_TwoFactorAuth::images/providers/google.png</argument>
+            <argument name="configureAction" xsi:type="string">tfa/google/configure</argument>
+            <argument name="authAction" xsi:type="string">tfa/google/auth</argument>
+            <argument name="extraActions" xsi:type="array">
+                <item name="qr" xsi:type="string">tfa/google/qr</item>
+                <item name="configurepost" xsi:type="string">tfa/google/configurepost</item>
+                <item name="authpost" xsi:type="string">tfa/google/authpost</item>
+            </argument>
+            <argument name="canReset" xsi:type="boolean">true</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Magento\TwoFactorAuth\Model\Provider\DuoSecurity" type="Magento\TwoFactorAuth\Model\Provider">
+        <arguments>
+            <argument name="engine" xsi:type="object">Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity</argument>
+            <argument name="code" xsi:type="string">duo_security</argument>
+            <argument name="name" xsi:type="string">Duo Security</argument>
+            <argument name="icon" xsi:type="string">Magento_TwoFactorAuth::images/providers/duo_security.png</argument>
+            <argument name="configureAction" xsi:type="string">tfa/duo/configure</argument>
+            <argument name="authAction" xsi:type="string">tfa/duo/auth</argument>
+            <argument name="extraActions" xsi:type="array">
+                <item name="authpost" xsi:type="string">tfa/duo/authpost</item>
+            </argument>
+            <argument name="canReset" xsi:type="boolean">false</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Magento\TwoFactorAuth\Model\Provider\Authy" type="Magento\TwoFactorAuth\Model\Provider">
+        <arguments>
+            <argument name="engine" xsi:type="object">Magento\TwoFactorAuth\Model\Provider\Engine\Authy</argument>
+            <argument name="code" xsi:type="string">authy</argument>
+            <argument name="name" xsi:type="string">Authy</argument>
+            <argument name="icon" xsi:type="string">Magento_TwoFactorAuth::images/providers/authy.png</argument>
+            <argument name="configureAction" xsi:type="string">tfa/authy/configure</argument>
+            <argument name="authAction" xsi:type="string">tfa/authy/auth</argument>
+            <argument name="extraActions" xsi:type="array">
+                <item name="configurepost" xsi:type="string">tfa/authy/configurepost</item>
+                <item name="configureverifypost" xsi:type="string">tfa/authy/configureverifypost</item>
+                <item name="verify" xsi:type="string">tfa/authy/verify</item>
+                <item name="authpost" xsi:type="string">tfa/authy/authpost</item>
+                <item name="token" xsi:type="string">tfa/authy/token</item>
+                <item name="onetouch" xsi:type="string">tfa/authy/onetouch</item>
+                <item name="verifyonetouch" xsi:type="string">tfa/authy/verifyonetouch</item>
+            </argument>
+            <argument name="canReset" xsi:type="boolean">true</argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="Magento\TwoFactorAuth\Model\Provider\U2fKey" type="Magento\TwoFactorAuth\Model\Provider">
+        <arguments>
+            <argument name="engine" xsi:type="object">Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey</argument>
+            <argument name="code" xsi:type="string">u2fkey</argument>
+            <argument name="name" xsi:type="string">U2F (Yubikey and others)</argument>
+            <argument name="icon" xsi:type="string">Magento_TwoFactorAuth::images/providers/u2fkey.png</argument>
+            <argument name="configureAction" xsi:type="string">tfa/u2f/configure</argument>
+            <argument name="authAction" xsi:type="string">tfa/u2f/auth</argument>
+            <argument name="extraActions" xsi:type="array">
+                <item name="configurepost" xsi:type="string">tfa/u2f/configurepost</item>
+                <item name="authpost" xsi:type="string">tfa/u2f/authpost</item>
+            </argument>
+            <argument name="canReset" xsi:type="boolean">true</argument>
+        </arguments>
+    </virtualType>
+
+    <preference for="Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface" type="Magento\TwoFactorAuth\Model\UserConfig\UserConfigRequestManager" />
+    <preference for="Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface" type="Magento\TwoFactorAuth\Model\UserConfig\SignedTokenManager" />
+    <preference for="Magento\TwoFactorAuth\Api\UserNotifierInterface" type="Magento\TwoFactorAuth\Model\EmailUserNotifier" />
+    <preference for="Magento\TwoFactorAuth\Observer\ControllerActionPredispatch" type="Magento\TwoFactorAuth\TestFramework\ControllerActionPredispatch" />
+</config>

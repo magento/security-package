@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="admin_login" />
+    <update handle="tfa_screen" />
+
+    <head>
+        <css src="Magento_TwoFactorAuth::css/u2f.css"/>
+        <css src="Magento_TwoFactorAuth::css/auth.css"/>
+    </head>
+
+    <body>
+        <referenceContainer name="login.content">
+            <block class="Magento\TwoFactorAuth\Block\Provider\U2fKey\Auth" name="content"
+                   template="Magento_TwoFactorAuth::tfa/provider/auth.phtml">
+
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="tfa-auth" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/u2fkey/auth</item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+
+                <block class="Magento\TwoFactorAuth\Block\ChangeProvider" name="change-provider"
+                       template="Magento_TwoFactorAuth::tfa/change_provider.phtml">
+
+                    <arguments>
+                        <argument name="provider" xsi:type="string">u2fkey</argument>
+                        <argument name="jsLayout" xsi:type="array">
+                            <item name="components" xsi:type="array">
+                                <item name="tfa-change-provider" xsi:type="array">
+                                    <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/change_provider</item>
+                                </item>
+                            </item>
+                        </argument>
+                    </arguments>
+                </block>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
