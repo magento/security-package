@@ -5,7 +5,6 @@
  * See COPYING.txt for license details.
  */
  -->
-<overrides xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="$LOCAL_SCHEMA$"
-           xsi:noNamespaceSchemaLocation="../dev/tests/integration/framework/Magento/TestFramework/Workaround/etc/overrides.xsd">
-
+<overrides>
+    <test class="\Magento\Webapi\Controller\SoapTest" skip="true"/>
 </overrides>

@@ -31,9 +31,13 @@ class SetSharedSecret extends Helper
             $sharedSecret = $credentialStore->decryptSecretValue(
                 $credentialStore->getSecret('magento/tfa/OTP_SHARED_SECRET')
             );
-            $webDriver->magentoCLI(
-                'security:tfa:google:set-secret ' . $username .' ' . $sharedSecret
-            );
+            try {
+                $webDriver->magentoCLI(
+                    'security:tfa:google:set-secret ' . $username .' ' . $sharedSecret
+                );
+            } catch (\Throwable $exception) {
+                // Some tests intentionally use bad credentials.
+            }
         }
     }
 }
