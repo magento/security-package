@@ -1,6 +1,5 @@
 {
     "name": "magento/module-two-factor-auth",
-    "version": "1.0.0",
     "description": "Two Factor Authentication module for Magento2",
     "require": {
         "php": "~7.3.0||~7.4.0",
