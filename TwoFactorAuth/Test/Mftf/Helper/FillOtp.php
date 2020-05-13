@@ -23,7 +23,8 @@ class FillOtp extends Helper
      * @param string $confirmSelector
      * @param string $errorMessageSelector
      */
-    public function execute(string $tfaAuthCodeSelector, string $confirmSelector, string $errorMessageSelector): void {
+    public function execute(string $tfaAuthCodeSelector, string $confirmSelector, string $errorMessageSelector): void
+    {
         /** @var MagentoWebDriver $webDriver */
         $webDriver = $this->getModule('\\' . MagentoWebDriver::class);
         try {
