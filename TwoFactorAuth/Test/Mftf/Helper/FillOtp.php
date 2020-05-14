@@ -32,6 +32,7 @@ class FillOtp extends Helper
             // Login failed so don't handle 2fa
         } catch (\Exception $e) {
             $otp = $webDriver->getOTP();
+            $webDriver->waitForPageLoad();
             $webDriver->waitForElementVisible($tfaAuthCodeSelector);
             $webDriver->fillField($tfaAuthCodeSelector, $otp);
             $webDriver->click($confirmSelector);
