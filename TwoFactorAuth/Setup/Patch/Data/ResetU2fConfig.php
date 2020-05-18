@@ -18,7 +18,7 @@ use Magento\User\Model\User;
 /**
  * Reset the U2f data due to rewrite
  */
-class ResetU2FConfig implements DataPatchInterface
+class ResetU2fConfig implements DataPatchInterface
 {
     /**
      * @var ModuleDataSetupInterface
