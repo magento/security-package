@@ -13,13 +13,13 @@
                 <field id="user_login" translate="label" type="select" sortOrder="100" showInDefault="1"
                        showInWebsite="0" showInStore="0" canRestore="1">
                     <label>Enable for Login</label>
-                    <source_model>Magento\ReCaptchaApi\Model\OptionSource\Type</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\OptionSource\Type</source_model>
                 </field>
 
                 <field id="user_forgot_password" translate="label" type="select" sortOrder="110" showInDefault="1"
                        showInWebsite="0" showInStore="0" canRestore="1">
                     <label>Enable for Forgot Password</label>
-                    <source_model>Magento\ReCaptchaApi\Model\OptionSource\Type</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\OptionSource\Type</source_model>
                 </field>
             </group>
         </section>

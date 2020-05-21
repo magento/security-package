@@ -53,23 +53,6 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function get(): ValidationConfigInterface
-    {
-        /** @var ValidationConfigInterface $validationConfig */
-        $validationConfig = $this->validationConfigFactory->create(
-            [
-                'privateKey' => $this->getPrivateKey(),
-                'remoteIp' => $this->remoteAddress->getRemoteAddress(),
-                'validationFailureMessage' => $this->getValidationFailureMessage(),
-                'extensionAttributes' => null,
-            ]
-        );
-        return $validationConfig;
-    }
-
-    /**
      * Get Google API Secret Key
      *
      * @return string
@@ -89,5 +72,24 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
         return trim(
             (string)$this->scopeConfig->getValue(self::XML_PATH_VALIDATION_FAILURE, ScopeInterface::SCOPE_STORE)
         );
+    }
+
+    /**
+     * Return frontend Validation config for reCAPTCHA v2.
+     *
+     * @return ValidationConfigInterface
+     */
+    public function get(): ValidationConfigInterface
+    {
+        /** @var ValidationConfigInterface $validationConfig */
+        $validationConfig = $this->validationConfigFactory->create(
+            [
+                'privateKey' => $this->getPrivateKey(),
+                'remoteIp' => $this->remoteAddress->getRemoteAddress(),
+                'validationFailureMessage' => $this->getValidationFailureMessage(),
+                'extensionAttributes' => null,
+            ]
+        );
+        return $validationConfig;
     }
 }

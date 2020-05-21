@@ -14,7 +14,7 @@
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Enable Invisible reCAPTCHA in Newsletter Subscription</label>
                     <comment>If enabled, a badge will be displayed in every page.</comment>
-                    <source_model>Magento\ReCaptchaApi\Model\OptionSource\Type</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\OptionSource\Type</source_model>
                 </field>
             </group>
         </section>
