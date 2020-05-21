@@ -3,9 +3,10 @@
  * See COPYING.txt for license details.
  */
 
+/*eslint strict: ["error", "global"]*/
+
 'use strict';
 
-// eslint-disable-next-line no-unused-vars
 var config = {
     config: {
         mixins: {
