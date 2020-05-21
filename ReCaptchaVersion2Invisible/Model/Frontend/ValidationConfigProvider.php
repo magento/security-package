@@ -53,6 +53,28 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
     }
 
     /**
+     * Get validation failure message
+     *
+     * @return string
+     */
+    private function getValidationFailureMessage(): string
+    {
+        return trim(
+            (string)$this->scopeConfig->getValue(self::XML_PATH_VALIDATION_FAILURE, ScopeInterface::SCOPE_STORE)
+        );
+    }
+
+    /**
+     * Get Google API Secret Key
+     *
+     * @return string
+     */
+    private function getPrivateKey(): string
+    {
+        return trim((string)$this->scopeConfig->getValue(self::XML_PATH_PRIVATE_KEY, ScopeInterface::SCOPE_WEBSITE));
+    }
+
+    /**
      * @inheritdoc
      */
     public function get(): ValidationConfigInterface
@@ -67,27 +89,5 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
             ]
         );
         return $validationConfig;
-    }
-
-    /**
-     * Get Google API Secret Key
-     *
-     * @return string
-     */
-    private function getPrivateKey(): string
-    {
-        return trim((string)$this->scopeConfig->getValue(self::XML_PATH_PRIVATE_KEY, ScopeInterface::SCOPE_WEBSITE));
-    }
-
-    /**
-     * Get validation failure message
-     *
-     * @return string
-     */
-    private function getValidationFailureMessage(): string
-    {
-        return trim(
-            (string)$this->scopeConfig->getValue(self::XML_PATH_VALIDATION_FAILURE, ScopeInterface::SCOPE_STORE)
-        );
     }
 }

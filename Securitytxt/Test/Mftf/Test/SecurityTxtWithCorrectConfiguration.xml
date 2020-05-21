@@ -21,7 +21,7 @@
             <magentoCLI command="config:set {{DisableSecurityTxt.path}} {{DisableSecurityTxt.value}}" stepKey="disableSecurityTxt"/>
         </after>
 
-        <actionGroup ref="LoginAsAdmin" stepKey="LoginAsAdmin"/>
+        <actionGroup ref="AdminLoginActionGroup" stepKey="LoginAsAdmin"/>
         <actionGroup ref="FillSecurityTxtConfigurationActionGroup" stepKey="fillSecurityTxtConfiguration"/>
         <actionGroup ref="AssertFullSecurityTxtConfiguration" stepKey="assertSecurityTxtContent"/>
         <actionGroup ref="OpenSecurityTxtSignaturePage" stepKey="openSecurityTxtSignature"/>

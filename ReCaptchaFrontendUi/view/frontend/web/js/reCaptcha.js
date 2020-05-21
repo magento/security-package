@@ -10,9 +10,10 @@ define(
         'uiComponent',
         'jquery',
         'ko',
-        'Magento_ReCaptchaFrontendUi/js/registry'
+        'Magento_ReCaptchaFrontendUi/js/registry',
+        'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader'
     ],
-    function (Component, $, ko, registry, undefined) {
+    function (Component, $, ko, registry, reCaptchaLoader, undefined) {
         'use strict';
 
         return Component.extend({
@@ -33,8 +34,6 @@ define(
              * @private
              */
             _loadApi: function () {
-                var element, scriptTag;
-
                 if (this._isApiRegistered !== undefined) {
                     if (this._isApiRegistered === true) {
                         $(window).trigger('recaptchaapiready');
@@ -50,16 +49,7 @@ define(
                     $(window).trigger('recaptchaapiready');
                 }.bind(this);
 
-                element = document.createElement('script');
-                scriptTag = document.getElementsByTagName('script')[0];
-
-                element.async = true;
-                element.src = 'https://www.google.com/recaptcha/api.js' +
-                    '?onload=globalOnRecaptchaOnLoadCallback&render=explicit' +
-                    (this.settings.rendering.lang ? '&hl=' + this.settings.rendering.lang : '');
-
-                scriptTag.parentNode.insertBefore(element, scriptTag);
-
+                reCaptchaLoader.addReCaptchaScriptTag();
             },
 
             /**
@@ -89,7 +79,8 @@ define(
                     $parentForm,
                     $wrapper,
                     $reCaptcha,
-                    widgetId;
+                    widgetId,
+                    parameters;
 
                 if (this.captchaInitialized) {
                     return;
@@ -113,7 +104,7 @@ define(
                 $parentForm = $wrapper.parents('form');
                 me = this;
 
-                let parameters = _.extend(
+                parameters = _.extend(
                     {
                         'callback': function (token) { // jscs:ignore jsDoc
                             me.reCaptchaCallback(token);
