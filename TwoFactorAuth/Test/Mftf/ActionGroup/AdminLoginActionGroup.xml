@@ -15,7 +15,6 @@
             <argument name="tfaAuthCodeSelector">{{AdminGoogleTfaSection.tfaAuthCode}}</argument>
             <argument name="confirmSelector">{{AdminGoogleTfaSection.confirm}}</argument>
             <argument name="errorMessageSelector">{{AdminLoginMessagesSection.messageByType('error')}}</argument>
-            <argument name="username">{{username}}</argument>
         </helper>
     </actionGroup>
 </actionGroups>
