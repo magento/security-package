@@ -24,6 +24,8 @@ use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * Handle redirection to 2FA page if required
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ControllerActionPredispatch implements ObserverInterface
 {

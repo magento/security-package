@@ -37,7 +37,7 @@ class Configure extends Template
     /**
      * Get a country list
      *
-     * return array
+     * @return array
      */
     private function getCountriesList()
     {

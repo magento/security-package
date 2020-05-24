@@ -27,7 +27,7 @@ $list = $block->getProvidersList();
                 <?php foreach ($list as $providerData): ?>
                     <li class="tfa-provider">
                         <input type="checkbox"
-                               name="tfa_selected[<?= $block->escapeHtmlAttr($providerData['code']) ?>]"
+                               name="tfa_selected[<?= /* @noEscape*/ $block->escapeHtmlAttr($providerData['code']) ?>]"
                                class="tfa-checkbox"
                                id="2fa_checkbox-<?= $block->escapeHtmlAttr($providerData['code']) ?>"/>
                         <label for="2fa_checkbox-<?= $block->escapeHtmlAttr($providerData['code']) ?>">

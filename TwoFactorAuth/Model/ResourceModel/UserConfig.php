@@ -113,6 +113,6 @@ class UserConfig extends AbstractDb
         $object->setData('encoded_config', $this->encodeConfig($object->getData('config') ?? []));
         $object->setData('encoded_providers', $this->serializer->serialize($object->getData('providers') ?? []));
 
-        parent::_beforeSave($object);
+        return parent::_beforeSave($object);
     }
 }

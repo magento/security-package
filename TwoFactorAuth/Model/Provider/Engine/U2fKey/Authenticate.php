@@ -25,6 +25,8 @@ use Magento\User\Model\UserFactory;
 
 /**
  * Authenticate with the u2f provider and get an admin token
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Authenticate implements U2fKeyAuthenticateInterface
 {

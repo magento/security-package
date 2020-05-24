@@ -21,6 +21,8 @@ use Magento\User\Model\UserFactory;
 
 /**
  * Authenticate a user with authy
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Authenticate implements AuthyAuthenticateInterface
 {

@@ -89,6 +89,8 @@ class Index extends AbstractAction implements HttpGetActionInterface
      * @inheritdoc
      *
      * @throws LocalizedException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function execute()
     {

@@ -55,5 +55,7 @@ class TfaProviders extends Command
         foreach ($providers as $provider) {
             $output->writeln(sprintf("%16s: %s", $provider->getCode(), $provider->getName()));
         }
+
+        return 0;
     }
 }

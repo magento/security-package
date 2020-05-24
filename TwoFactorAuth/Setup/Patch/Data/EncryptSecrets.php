@@ -73,6 +73,8 @@ class EncryptSecrets implements DataPatchInterface
         }
 
         $this->moduleDataSetup->endSetup();
+
+        return $this;
     }
 
     /**

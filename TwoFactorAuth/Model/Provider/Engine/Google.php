@@ -26,6 +26,8 @@ use OTPHP\TOTPInterface;
 
 /**
  * Google authenticator engine
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Google implements EngineInterface
 {
