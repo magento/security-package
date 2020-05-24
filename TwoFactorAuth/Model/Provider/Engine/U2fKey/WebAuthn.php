@@ -57,6 +57,7 @@ class WebAuthn
      * @param array $publicKeys
      * @param array $originalChallenge
      * @throws LocalizedException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function assertCredentialDataIsValid(
         array $credentialData,
@@ -224,6 +225,8 @@ class WebAuthn
      * @param array $data
      * @return array
      * @throws ValidationException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function getPublicKeyFromRegistrationData(array $data): array
     {

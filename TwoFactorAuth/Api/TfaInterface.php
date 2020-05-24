@@ -96,6 +96,7 @@ interface TfaInterface
      * @param int $userId
      * @param string $providerCode
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getProviderIsAllowed(int $userId, string $providerCode): bool;
 

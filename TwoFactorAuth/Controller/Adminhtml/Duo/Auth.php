@@ -48,6 +48,14 @@ class Auth extends AbstractAction implements HttpGetActionInterface
      */
     private $tokenVerifier;
 
+    /**
+     * @param Action\Context $context
+     * @param Session $session
+     * @param PageFactory $pageFactory
+     * @param UserConfigManagerInterface $userConfigManager
+     * @param TfaInterface $tfa
+     * @param HtmlAreaTokenVerifier $tokenVerifier
+     */
     public function __construct(
         Action\Context $context,
         Session $session,
@@ -66,6 +74,7 @@ class Auth extends AbstractAction implements HttpGetActionInterface
 
     /**
      * Get current user
+     *
      * @return \Magento\User\Model\User|null
      */
     private function getUser()

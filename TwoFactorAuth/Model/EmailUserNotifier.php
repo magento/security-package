@@ -46,16 +46,6 @@ class EmailUserNotifier implements UserNotifierInterface
     private $logger;
 
     /**
-     * @var UrlInterface
-     */
-    private $url;
-
-    /**
-     * @var State
-     */
-    private $appState;
-
-    /**
      * @var UserNotifierConfig
      */
     private $userNotifierConfig;
@@ -66,7 +56,6 @@ class EmailUserNotifier implements UserNotifierInterface
      * @param StoreManagerInterface $storeManager
      * @param LoggerInterface $logger
      * @param UrlInterface $url
-     * @param State $appState
      * @param UserNotifierConfig $userNotifierConfig
      */
     public function __construct(
@@ -75,7 +64,6 @@ class EmailUserNotifier implements UserNotifierInterface
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
         UrlInterface $url,
-        State $appState,
         UserNotifierConfig $userNotifierConfig
     ) {
         $this->scopeConfig = $scopeConfig;
@@ -83,7 +71,6 @@ class EmailUserNotifier implements UserNotifierInterface
         $this->storeManager = $storeManager;
         $this->logger = $logger;
         $this->url = $url;
-        $this->appState = $appState;
         $this->userNotifierConfig = $userNotifierConfig;
     }
 
@@ -153,15 +140,5 @@ class EmailUserNotifier implements UserNotifierInterface
             'tfa_admin_app_config_required',
             $this->userNotifierConfig->getAppRequestConfigUrl($token)
         );
-    }
-
-    /**
-     * Determine if the environment is webapi or not
-     *
-     * @return bool
-     */
-    private function isWebapi(): bool
-    {
-        return in_array($this->appState->getAreaCode(), [Area::AREA_WEBAPI_REST, Area::AREA_WEBAPI_SOAP]);
     }
 }

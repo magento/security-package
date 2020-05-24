@@ -14,7 +14,7 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
 
 /**
- * Generate duo security key
+ * Generate initial duo security key
  */
 class GenerateDuoSecurityKey implements DataPatchInterface
 {

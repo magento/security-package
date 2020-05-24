@@ -14,6 +14,8 @@ use Magento\Framework\Stdlib\CookieManagerInterface;
 
 /**
  * Deletes the tfat cookie on logout
+ *
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class DeleteCookieOnLogout
 {
