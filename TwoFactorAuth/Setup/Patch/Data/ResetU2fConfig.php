@@ -71,6 +71,8 @@ class ResetU2fConfig implements DataPatchInterface
         }
 
         $this->moduleDataSetup->endSetup();
+
+        return $this;
     }
 
     /**

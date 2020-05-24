@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
+namespace Magento\TwoFactorAuth\Test\Integration\Model\Provider\Engine\DuoSecurity;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\TestFramework\Bootstrap;
@@ -14,6 +14,7 @@ use Magento\TwoFactorAuth\Api\Data\DuoDataInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
+use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity\Authenticate;
 use Magento\User\Model\UserFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

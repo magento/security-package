@@ -83,6 +83,7 @@ class WebAuthn
         // Steps 7-9
         if (rtrim(strtr(base64_encode($this->convertArrayToBytes($originalChallenge)), '+/', '-_'), '=')
             !== $credentialData['response']['clientData']['challenge']
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             || $domain !== parse_url($credentialData['response']['clientData']['origin'], \PHP_URL_HOST)
             || $credentialData['response']['clientData']['type'] !== 'webauthn.get'
         ) {
@@ -92,6 +93,7 @@ class WebAuthn
         // Step 10 not applicable
 
         // @see https://www.w3.org/TR/webauthn/#sec-authenticator-data
+        // phpcs:ignore Magento2.Functions.DiscouragedFunction
         $authenticatorDataBytes = base64_decode($credentialData['response']['authenticatorData']);
         $attestationObject = [
             'rpIdHash' => substr($authenticatorDataBytes, 0, 32),
@@ -111,6 +113,7 @@ class WebAuthn
         $clientDataSha256 = hash('sha256', $credentialData['response']['clientDataJSON'], true);
         $isValidSignature = openssl_verify(
             $authenticatorDataBytes . $clientDataSha256,
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             base64_decode($credentialData['response']['signature']),
             $key['key'],
             OPENSSL_ALGO_SHA256
@@ -142,6 +145,7 @@ class WebAuthn
         foreach ($publicKeys as $key) {
             $allowedCredentials[] = [
                 'type' => 'public-key',
+                // phpcs:ignore Magento2.Functions.DiscouragedFunction
                 'id' => $this->convertBytesToArray(base64_decode($key['id']))
             ];
         }
@@ -230,6 +234,7 @@ class WebAuthn
 
         if (rtrim(strtr(base64_encode($this->convertArrayToBytes($data['challenge'])), '+/', '-_'), '=')
             !== $credentialData['response']['clientData']['challenge']
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             || $domain !== parse_url($credentialData['response']['clientData']['origin'], \PHP_URL_HOST)
             || $credentialData['response']['clientData']['type'] !== 'webauthn.create'
         ) {
@@ -239,8 +244,11 @@ class WebAuthn
         if (empty($credentialData['response']['attestationObject']) || empty($credentialData['id'])) {
             throw new ValidationException(__('Invalid U2F key data'));
         }
+        // phpcs:ignore Magento2.Functions.DiscouragedFunction
         $byteString = base64_decode($credentialData['response']['attestationObject']);
+        //@codingStandardsIgnoreStart
         $attestationObject = CBOREncoder::decode($byteString);
+        //@codingStandardsIgnoreEnd
         if (empty($attestationObject['fmt'])
             || empty($attestationObject['authData'])
         ) {
@@ -278,6 +286,7 @@ class WebAuthn
         $attestationObject['attestationData']['keyBytes'] = $this->COSEECDHAtoPKCS($cborPublicKey);
 
         if (empty($attestationObject['attestationData']['keyBytes'])
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             || $attestationObject['attestationData']['credId'] !== base64_decode($credentialData['id'])
         ) {
             throw new ValidationException(__('Invalid U2F key data'));
@@ -317,6 +326,7 @@ class WebAuthn
         $byteString = '';
 
         foreach ($bytes as $byte) {
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             $byteString .= chr((int)$byte);
         }
 
@@ -329,10 +339,13 @@ class WebAuthn
      * @param string $binary
      * @return string|null
      * @throws \Exception
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     private function COSEECDHAtoPKCS(string $binary): ?string
     {
+        //@codingStandardsIgnoreStart
         $cosePubKey = CBOREncoder::decode($binary);
+        //@codingStandardsIgnoreEnd
 
         // Sections 7.1 and 13.1.1 of @see https://tools.ietf.org/html/rfc8152
         if (!isset($cosePubKey[3])

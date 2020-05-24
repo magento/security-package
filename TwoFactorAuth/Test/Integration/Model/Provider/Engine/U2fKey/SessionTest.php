@@ -6,10 +6,9 @@
 
 declare(strict_types=1);
 
-namespace Magento\Model\Provider\Engine\U2fKey;
+namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
 
 use Magento\Framework\App\ObjectManager;
-use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Session;
 use PHPUnit\Framework\TestCase;
 
 class SessionTest extends TestCase

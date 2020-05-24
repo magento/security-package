@@ -6,10 +6,11 @@
 
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\Command;
+namespace Magento\TwoFactorAuth\Test\Integration\Command;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
+use Magento\TwoFactorAuth\Command\GoogleSecret;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\User\Model\UserFactory;
 use PHPUnit\Framework\MockObject\MockObject;

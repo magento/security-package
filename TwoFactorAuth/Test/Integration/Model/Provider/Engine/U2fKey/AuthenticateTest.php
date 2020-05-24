@@ -6,13 +6,14 @@
 
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
+namespace Magento\TwoFactorAuth\Test\Integration\Model\Provider\Engine\U2fKey;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\TestFramework\Bootstrap;
 use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Authenticate;
 use Magento\User\Model\UserFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

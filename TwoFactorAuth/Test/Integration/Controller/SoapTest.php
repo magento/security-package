@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Magento\TwoFactorAuth\Controller;
+namespace Magento\TwoFactorAuth\Test\Integration\Controller;
 
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Webapi\Request;

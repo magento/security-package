@@ -29,7 +29,8 @@ class U2fKeyTest extends TestCase
      *
      * @return void
      */
-    public function testIsEnabled(): void {
+    public function testIsEnabled(): void
+    {
         $this->assertTrue($this->model->isEnabled());
     }
 }

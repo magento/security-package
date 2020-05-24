@@ -5,11 +5,12 @@
  */
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\Api;
+namespace Magento\TwoFactorAuth\Test\Api;
 
 use Magento\Framework\Webapi\Rest\Request;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\User\Model\UserFactory;
 use OTPHP\TOTP;

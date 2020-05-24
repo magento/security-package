@@ -65,6 +65,7 @@ class SignedTokenManager implements UserConfigTokenManagerInterface
     {
         $isValid = false;
         try {
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             [$encodedData, $signatureProvided] = explode('.', base64_decode($token));
             $data = $this->json->unserialize($encodedData);
             if (array_key_exists('user_id', $data)

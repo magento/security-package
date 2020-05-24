@@ -73,7 +73,7 @@ class Verification
      * @param string $country
      * @param string $phoneNumber
      * @param string $method
-     * @param array &$response
+     * @param array  &$response
      * @throws LocalizedException
      */
     public function request(
