@@ -22,6 +22,7 @@ use Magento\User\Model\User;
 
 /**
  * Google authenticator post controller
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Authpost extends AbstractAction implements HttpPostActionInterface
@@ -92,6 +93,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
 
     /**
      * @inheritdoc
+     *
      * @throws NoSuchEntityException
      */
     public function execute()

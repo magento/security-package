@@ -25,6 +25,7 @@ use Magento\TwoFactorAuth\Model\ResourceModel\Country\CollectionFactory;
 
 /**
  * @inheritDoc
+ *
  * @SuppressWarnings(PHPMD.ShortVariable)
  * @SuppressWarnings(PHPMD.LongVariable)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -102,7 +103,7 @@ class CountryRepository implements CountryRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function save(CountryInterface $country): CountryInterface
     {
@@ -124,7 +125,8 @@ class CountryRepository implements CountryRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
+     *
      * @throws NoSuchEntityException
      */
     public function getById(int $id): CountryInterface
@@ -145,7 +147,8 @@ class CountryRepository implements CountryRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
+     *
      * @throws NoSuchEntityException
      */
     public function getByCode(string $value): CountryInterface
@@ -166,7 +169,7 @@ class CountryRepository implements CountryRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(CountryInterface $country): void
     {
@@ -185,7 +188,7 @@ class CountryRepository implements CountryRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
     {

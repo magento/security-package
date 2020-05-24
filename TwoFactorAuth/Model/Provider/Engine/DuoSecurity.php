@@ -88,6 +88,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Get API hostname
+     *
      * @return string
      */
     public function getApiHostname(): string
@@ -97,6 +98,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Get application key
+     *
      * @return string
      */
     private function getApplicationKey(): string
@@ -106,6 +108,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Get secret key
+     *
      * @return string
      */
     private function getSecretKey(): string
@@ -115,6 +118,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Get integration key
+     *
      * @return string
      */
     private function getIntegrationKey(): string
@@ -124,6 +128,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Sign values
+     *
      * @param string $key
      * @param string $values
      * @param string $prefix
@@ -142,6 +147,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Parse signed values and return username
+     *
      * @param string $key
      * @param string $val
      * @param string $prefix
@@ -190,6 +196,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Get request signature
+     *
      * @param UserInterface $user
      * @return string
      */

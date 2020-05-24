@@ -21,6 +21,7 @@ use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * Duo security authentication post controller
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Authpost extends AbstractAction implements HttpPostActionInterface
@@ -107,6 +108,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
 
     /**
      * Get current user
+     *
      * @return \Magento\User\Model\User|null
      */
     private function getUser()
@@ -140,9 +142,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     }
 
     /**
-     * Check if admin has permissions to visit related pages
-     *
-     * @return bool
+     * @inheritDoc
      */
     protected function _isAllowed()
     {

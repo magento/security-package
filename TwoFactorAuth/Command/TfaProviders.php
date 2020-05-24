@@ -44,6 +44,8 @@ class TfaProviders extends Command
     }
 
     /**
+     * @inheritDoc
+     *
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     protected function execute(InputInterface $input, OutputInterface $output)

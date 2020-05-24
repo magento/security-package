@@ -41,6 +41,7 @@ class ConfigurepostTest extends AbstractConfigureBackendController
     /**
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers google
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclHasAccess()
     {
@@ -50,6 +51,7 @@ class ConfigurepostTest extends AbstractConfigureBackendController
     /**
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers google
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclNoAccess()
     {

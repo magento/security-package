@@ -21,6 +21,8 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
 
 /**
+ * Verify one touch response
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Verifyonetouch extends AbstractAction implements HttpGetActionInterface, HttpPostActionInterface
@@ -85,6 +87,7 @@ class Verifyonetouch extends AbstractAction implements HttpGetActionInterface, H
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User

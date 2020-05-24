@@ -14,12 +14,14 @@ use Magento\TwoFactorAuth\Api\Data\CountrySearchResultsInterface;
 
 /**
  * Countries repository
+ *
  * @SuppressWarnings(PHPMD.ShortVariable)
  */
 interface CountryRepositoryInterface
 {
     /**
      * Save object
+     *
      * @param CountryInterface $object
      * @return CountryInterface
      */
@@ -27,6 +29,7 @@ interface CountryRepositoryInterface
 
     /**
      * Get object by id
+     *
      * @param int $id
      * @return CountryInterface
      */
@@ -34,6 +37,7 @@ interface CountryRepositoryInterface
 
     /**
      * Get by Code value
+     *
      * @param string $value
      * @return CountryInterface
      */
@@ -41,6 +45,7 @@ interface CountryRepositoryInterface
 
     /**
      * Delete object
+     *
      * @param CountryInterface $object
      * @return void
      */
@@ -48,6 +53,7 @@ interface CountryRepositoryInterface
 
     /**
      * Get a list of object
+     *
      * @param SearchCriteriaInterface $searchCriteria
      * @return CountrySearchResultsInterface
      */

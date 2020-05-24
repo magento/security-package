@@ -9,12 +9,17 @@
 $list = $block->getProvidersList();
 ?>
 <p id="2fa-configure-header">
-    <?= $block->escapeHtml(__('Please select one or more Two-Factor Authorization providers to be used to authorize admin users')); ?>
+    <?= $block->escapeHtml(__(
+        'Please select one or more Two-Factor Authorization providers to be used to authorize admin users'
+    )); ?>
 </p>
 <div id="2fa-providers-list">
     <?php if (!$list): ?>
         <p class="mage-error">
-            <?= $block->escapeHtml(__('No providers are available to select, please configure required 2FA provider settings on the server via CLI')); ?>
+            <?= $block->escapeHtml(__(
+                'No providers are available to select, please '
+                . 'configure required 2FA provider settings on the server via CLI'
+            )); ?>
         </p>
     <?php else: ?>
         <form class="tfa-configure-providers" method="post" action="<?= $block->getActionUrl() ?>">
