@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
 declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Integration;
@@ -68,7 +73,10 @@ class ControllerActionPredispatchTest extends AbstractBackendController
         //Accessing a page in adminhtml area
         $this->dispatch('backend/admin/user/');
         //Authenticated user with 2FA configured and completed is taken to the Users page as requested.
-        self::assertMatchesRegularExpression('/' .$this->_session->getUser()->getUserName() .'/i', $this->getResponse()->getBody());
+        self::assertMatchesRegularExpression(
+            '/' .$this->_session->getUser()->getUserName() .'/i',
+            $this->getResponse()->getBody()
+        );
     }
 
     /**

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Magento\Model;
+namespace Magento\TwoFactorAuth\Test\Integration\Model;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\TwoFactorAuth\Model\TfaSession;

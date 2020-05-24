@@ -90,6 +90,7 @@ class AdminAccessTokenService implements AdminTokenServiceInterfaceApi
         }
 
         if (!$this->configRequestManager->isConfigurationRequiredFor($userId)) {
+            // @codingStandardsIgnoreStart
             throw new LocalizedException(
                 __(
                     'Please use the 2fa provider-specific endpoints to obtain a token.',
@@ -98,6 +99,7 @@ class AdminAccessTokenService implements AdminTokenServiceInterfaceApi
                     ]
                 )
             );
+            // @codingStandardsIgnoreEnd
         } elseif (empty($this->tfa->getUserProviders($userId))) {
             // It is expected that available 2fa providers are selected via db or admin ui
             throw new LocalizedException(

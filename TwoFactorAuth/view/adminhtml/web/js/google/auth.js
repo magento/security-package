@@ -7,7 +7,7 @@ define([
     'jquery',
     'ko',
     'uiComponent',
-    'Magento_TwoFactorAuth/js/error',
+    'Magento_TwoFactorAuth/js/error'
 ], function ($, ko, Component, error) {
     'use strict';
 

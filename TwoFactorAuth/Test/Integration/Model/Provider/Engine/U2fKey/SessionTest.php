@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Magento\Model\Provider\Engine\U2fKey;
+namespace Magento\TwoFactorAuth\Test\Integration\Model\Provider\Engine\U2fKey;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Session;

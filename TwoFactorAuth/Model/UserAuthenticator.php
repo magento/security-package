@@ -80,6 +80,7 @@ class UserAuthenticator
     public function authenticateWithTokenAndProvider(string $tfaToken, string $providerCode): User
     {
         try {
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             ['user_id' => $userId] = $this->json->unserialize(explode('.', base64_decode($tfaToken))[0]);
         } catch (\Throwable $e) {
             throw new AuthorizationException(

@@ -5,13 +5,15 @@
  */
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\Api;
+namespace Magento\TwoFactorAuth\Test\Api;
 
 use Magento\Config\Model\Config;
 use Magento\Framework\Webapi\Rest\Request;
 use Magento\TestFramework\Bootstrap as TestBootstrap;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\TwoFactorAuth\Api\TfaInterface;
+use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\User\Model\UserFactory;
 

@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
+declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Integration\Controller\Adminhtml\Tfa;
 
@@ -52,7 +56,10 @@ class RequestconfigTest extends AbstractBackendController
     public function testAppConfigRequested(): void
     {
         $this->dispatch($this->uri);
-        self::assertMatchesRegularExpression('/You need to configure Two\-Factor Authorization/', $this->getResponse()->getBody());
+        self::assertMatchesRegularExpression(
+            '/You need to configure Two\-Factor Authorization/',
+            $this->getResponse()->getBody()
+        );
     }
 
     /**
@@ -64,7 +71,10 @@ class RequestconfigTest extends AbstractBackendController
     public function testUserConfigRequested(): void
     {
         $this->dispatch($this->uri);
-        self::assertMatchesRegularExpression('/You need to configure Two\-Factor Authorization/', $this->getResponse()->getBody());
+        self::assertMatchesRegularExpression(
+            '/You need to configure Two\-Factor Authorization/',
+            $this->getResponse()->getBody()
+        );
     }
 
     /**

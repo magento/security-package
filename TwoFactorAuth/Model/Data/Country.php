@@ -7,17 +7,17 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Data;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\TwoFactorAuth\Api\Data\CountryExtensionInterface;
 use Magento\TwoFactorAuth\Api\Data\CountryInterface;
 
 /**
  * @inheritDoc
  */
-class Country extends AbstractExtensibleObject implements CountryInterface
+class Country extends AbstractExtensibleModel implements CountryInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId(): int
     {
@@ -25,15 +25,15 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function setId(int $value): void
+    public function setId($value): void
     {
         $this->setData(self::ID, $value);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCode(): string
     {
@@ -41,7 +41,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCode(string $value): void
     {
@@ -49,7 +49,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName(): string
     {
@@ -57,7 +57,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setName(string $value): void
     {
@@ -65,7 +65,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getDialCode(): string
     {
@@ -73,7 +73,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setDialCode(string $value): void
     {
@@ -81,7 +81,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getExtensionAttributes(): ?CountryExtensionInterface
     {
@@ -89,7 +89,7 @@ class Country extends AbstractExtensibleObject implements CountryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setExtensionAttributes(CountryExtensionInterface $extensionAttributes): void
     {

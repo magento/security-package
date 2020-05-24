@@ -6,12 +6,15 @@
 
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
+namespace Magento\TwoFactorAuth\Test\Integration\Model\Provider\Engine\Authy;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\TestFramework\Bootstrap;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Authenticate;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Authy\OneTouch;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Token;
 use Magento\User\Model\UserFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

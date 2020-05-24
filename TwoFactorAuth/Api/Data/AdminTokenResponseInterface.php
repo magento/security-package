@@ -86,6 +86,7 @@ interface AdminTokenResponseInterface extends ExtensibleDataInterface
 
     /**
      * Set an extension attributes object
+     *
      * @param \Magento\TwoFactorAuth\Api\Data\AdminTokenResponseExtensionInterface $extensionAttributes
      * @return void
      */

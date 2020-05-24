@@ -78,6 +78,7 @@ class TfatActions implements TfatActionsInterface
      */
     private function validateTfat(string $tfat): int
     {
+        // phpcs:ignore Magento2.Functions.DiscouragedFunction
         ['user_id' => $userId] = $this->json->unserialize(explode('.', base64_decode($tfat))[0]);
         if (!$this->tokenManager->isValidFor($userId, $tfat)) {
             throw new AuthorizationException(__('Invalid token.'));

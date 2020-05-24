@@ -6,13 +6,14 @@
 
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
+namespace Magento\TwoFactorAuth\Test\Integration\Model\Provider\Engine\U2fKey;
 
 use Magento\Framework\App\ObjectManager;
 use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Configure;
 use Magento\User\Model\UserFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -70,7 +71,6 @@ class ConfigureTest extends TestCase
     {
         $this->expectException(\Magento\Framework\Exception\AuthorizationException::class);
         $this->expectExceptionMessage('Invalid two-factor authorization token');
-        $userId = $this->getUserId();
         $this->u2fkey
             ->expects($this->never())
             ->method('getRegisterData');
@@ -123,7 +123,6 @@ class ConfigureTest extends TestCase
     {
         $this->expectException(\Magento\Framework\Exception\AuthorizationException::class);
         $this->expectExceptionMessage('Invalid two-factor authorization token');
-        $userId = $this->getUserId();
         $this->u2fkey
             ->expects($this->never())
             ->method('registerDevice');

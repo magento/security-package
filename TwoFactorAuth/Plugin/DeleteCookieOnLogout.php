@@ -49,8 +49,11 @@ class DeleteCookieOnLogout
 
     /**
      * Delete the tfat cookie
+     *
+     * @param \Magento\Backend\Model\Auth $subject
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeLogout()
+    public function beforeLogout(\Magento\Backend\Model\Auth $subject)
     {
         $metadata = $this->cookieMetadataFactory->createSensitiveCookieMetadata()
             ->setPath($this->sessionManager->getCookiePath());
