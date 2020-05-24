@@ -32,12 +32,14 @@ define([
          */
         initConfig: function (config) {
             this._super(config);
+            // eslint-disable-next-line no-undef
             this.authenticateData.credentialRequestOptions.challenge = new Uint8Array(
                 this.authenticateData.credentialRequestOptions.challenge
             );
 
             this.authenticateData.credentialRequestOptions.allowCredentials =
                 this.authenticateData.credentialRequestOptions.allowCredentials.map(function (credential) {
+                    // eslint-disable-next-line no-undef
                     credential.id = new Uint8Array(credential.id);
 
                     return credential;
@@ -98,6 +100,7 @@ define([
          */
         _onCredentialSuccess: function (credentialData) {
             utils.asyncUint8ArrayToUtf8String(
+                // eslint-disable-next-line no-undef
                 new Uint8Array(credentialData.response.clientDataJSON),
                 function (clientDataJSON) {
                     credentialData.clientDataUtf8JSON = clientDataJSON;

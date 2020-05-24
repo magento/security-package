@@ -70,10 +70,10 @@ class Verification
      * Verify phone number
      *
      * @param UserInterface $user
-     * @param string $country
-     * @param string $phoneNumber
-     * @param string $method
-     * @param array  &$response
+     * @param string        $country
+     * @param string        $phoneNumber
+     * @param string        $method
+     * @param array        &$response
      * @throws LocalizedException
      */
     public function request(

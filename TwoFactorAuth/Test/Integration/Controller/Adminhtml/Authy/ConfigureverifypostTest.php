@@ -33,6 +33,7 @@ class ConfigureverifypostTest extends AbstractConfigureBackendController
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key some-key
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testTokenAccess(): void
     {
@@ -43,6 +44,7 @@ class ConfigureverifypostTest extends AbstractConfigureBackendController
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key some-key
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclHasAccess()
     {
@@ -53,6 +55,7 @@ class ConfigureverifypostTest extends AbstractConfigureBackendController
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key some-key
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclNoAccess()
     {

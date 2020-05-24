@@ -71,7 +71,6 @@ class ConfigureTest extends TestCase
     {
         $this->expectException(\Magento\Framework\Exception\AuthorizationException::class);
         $this->expectExceptionMessage('Invalid two-factor authorization token');
-        $userId = $this->getUserId();
         $this->u2fkey
             ->expects($this->never())
             ->method('getRegisterData');
@@ -124,7 +123,6 @@ class ConfigureTest extends TestCase
     {
         $this->expectException(\Magento\Framework\Exception\AuthorizationException::class);
         $this->expectExceptionMessage('Invalid two-factor authorization token');
-        $userId = $this->getUserId();
         $this->u2fkey
             ->expects($this->never())
             ->method('registerDevice');

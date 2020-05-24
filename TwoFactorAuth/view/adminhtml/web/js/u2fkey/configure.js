@@ -32,7 +32,9 @@ define([
          */
         initConfig: function (config) {
             this._super(config);
+            // eslint-disable-next-line no-undef
             this.registerData.publicKey.challenge = new Uint8Array(this.registerData.publicKey.challenge);
+            // eslint-disable-next-line no-undef
             this.registerData.publicKey.user.id = new Uint8Array(this.registerData.publicKey.user.id);
 
             return this;
@@ -92,6 +94,7 @@ define([
          */
         _onCredentialSuccess: function (credentialData) {
             utils.asyncUint8ArrayToUtf8String(
+                // eslint-disable-next-line no-undef
                 new Uint8Array(credentialData.response.clientDataJSON),
                 function (clientDataJSON) {
                     credentialData.clientData = JSON.parse(clientDataJSON);

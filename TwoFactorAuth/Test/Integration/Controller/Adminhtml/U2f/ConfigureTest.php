@@ -30,8 +30,8 @@ class ConfigureTest extends AbstractConfigureBackendController
     protected $httpMethod = Request::METHOD_GET;
 
     /**
-     * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testTokenAccess(): void
     {
@@ -39,8 +39,8 @@ class ConfigureTest extends AbstractConfigureBackendController
     }
 
     /**
-     * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclHasAccess()
     {
@@ -48,8 +48,8 @@ class ConfigureTest extends AbstractConfigureBackendController
     }
 
     /**
-     * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers u2fkey
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclNoAccess()
     {

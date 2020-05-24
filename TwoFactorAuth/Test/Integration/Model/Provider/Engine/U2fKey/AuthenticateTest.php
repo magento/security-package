@@ -251,7 +251,6 @@ class AuthenticateTest extends TestCase
         $this->expectExceptionMessage('Something');
         $this->tfa->getProviderByCode(U2fKey::CODE)
             ->activate($this->getUserId());
-        $userId = $this->getUserId();
 
         $this->u2fkey
             ->method('getAuthenticateData')

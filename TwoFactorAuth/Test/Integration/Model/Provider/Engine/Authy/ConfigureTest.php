@@ -13,8 +13,8 @@ use Magento\TwoFactorAuth\Api\Data\AuthyDeviceInterface;
 use Magento\TwoFactorAuth\Api\Data\AuthyDeviceInterfaceFactory;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
-use Magento\TwoFactorAuth\Controller\Adminhtml\Authy\Configure;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Configure;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Verification;
 use Magento\User\Model\UserFactory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -184,6 +184,8 @@ class ConfigureTest extends TestCase
                     // These keys come from authy api not our model
                     $response['message'] = 'foo';
                     $response['seconds_to_expire'] = 123;
+                    // Fix static errors
+                    unset($userId, $country, $phone, $method);
                 }
             );
 
