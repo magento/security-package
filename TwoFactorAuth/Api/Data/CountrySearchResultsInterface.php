@@ -10,18 +10,20 @@ namespace Magento\TwoFactorAuth\Api\Data;
 use Magento\Framework\Api\SearchResultsInterface;
 
 /**
- * Country search results interface
+ * Represent country search results
  */
 interface CountrySearchResultsInterface extends SearchResultsInterface
 {
     /**
      * Get an array of objects
+     *
      * @return CountryInterface[]
      */
     public function getItems(): array;
 
     /**
      * Set objects list
+     *
      * @param CountryInterface[] $items
      * @return CountrySearchResultsInterface
      */

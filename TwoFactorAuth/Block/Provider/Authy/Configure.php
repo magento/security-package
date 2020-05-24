@@ -20,6 +20,11 @@ class Configure extends Template
      */
     private $countryCollectionFactory;
 
+    /**
+     * @param Template\Context $context
+     * @param CountryCollectionFactory $countryCollectionFactory
+     * @param array $data
+     */
     public function __construct(
         Template\Context $context,
         CountryCollectionFactory $countryCollectionFactory,
@@ -31,6 +36,7 @@ class Configure extends Template
 
     /**
      * Get a country list
+     *
      * return array
      */
     private function getCountriesList()

@@ -40,6 +40,8 @@ class AddTabToAdminUserEdit
     }
 
     /**
+     * Check if tab should be displayed
+     *
      * @param Tabs $subject
      * @throws LocalizedException
      */

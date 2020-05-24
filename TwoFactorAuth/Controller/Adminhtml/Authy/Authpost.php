@@ -92,6 +92,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User

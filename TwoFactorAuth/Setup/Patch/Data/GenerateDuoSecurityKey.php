@@ -49,7 +49,8 @@ class GenerateDuoSecurityKey implements DataPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Create and set the duo key
+     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -71,10 +72,12 @@ class GenerateDuoSecurityKey implements DataPatchInterface
         }
 
         $this->moduleDataSetup->endSetup();
+
+        return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function getDependencies()
     {
@@ -84,7 +87,7 @@ class GenerateDuoSecurityKey implements DataPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAliases()
     {

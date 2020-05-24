@@ -18,7 +18,8 @@ use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
- * CUbiKey configuration page controller
+ * Configuration page for U2f
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Configure extends AbstractConfigureAction implements HttpGetActionInterface
@@ -68,6 +69,8 @@ class Configure extends AbstractConfigureAction implements HttpGetActionInterfac
     }
 
     /**
+     * Get the current user
+     *
      * @return User|null
      */
     private function getUser(): ?User

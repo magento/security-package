@@ -18,6 +18,8 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
 
 /**
+ * One touch process
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Onetouch extends AbstractAction implements HttpGetActionInterface
@@ -65,6 +67,7 @@ class Onetouch extends AbstractAction implements HttpGetActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -80,8 +83,8 @@ class Onetouch extends AbstractAction implements HttpGetActionInterface
         $result = $this->jsonFactory->create();
 
         try {
-            $approvalCode = $this->oneTouch->request($this->getUser());
-            $res = ['success' => true, 'code' => $approvalCode];
+            $this->oneTouch->request($this->getUser());
+            $res = ['success' => true];
         } catch (Exception $e) {
             $result->setHttpResponseCode(500);
             $res = ['success' => false, 'message' => $e->getMessage()];

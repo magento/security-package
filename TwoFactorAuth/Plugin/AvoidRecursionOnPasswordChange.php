@@ -41,6 +41,8 @@ class AvoidRecursionOnPasswordChange
     }
 
     /**
+     * Prevent recursion
+     *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param ForceAdminPasswordChangeObserver $subject
      * @param Closure $proceed

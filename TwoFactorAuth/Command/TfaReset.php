@@ -76,6 +76,8 @@ class TfaReset extends Command
     }
 
     /**
+     * @inheritDoc
+     *
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      * @throws LocalizedException
      */

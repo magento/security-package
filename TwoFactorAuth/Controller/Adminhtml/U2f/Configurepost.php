@@ -142,6 +142,8 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
     }
 
     /**
+     * Get the current user
+     *
      * @return User|null
      */
     private function getUser(): ?User

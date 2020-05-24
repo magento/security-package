@@ -21,6 +21,8 @@ use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
+ * Configure authy
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Configurepost extends AbstractConfigureAction implements HttpPostActionInterface
@@ -78,6 +80,7 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User

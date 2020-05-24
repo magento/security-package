@@ -87,6 +87,7 @@ class Index extends AbstractAction implements HttpGetActionInterface
 
     /**
      * @inheritdoc
+     *
      * @throws LocalizedException
      */
     public function execute()

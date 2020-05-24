@@ -25,6 +25,7 @@ use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * Google authenticator configuration post controller
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Configurepost extends AbstractConfigureAction implements HttpPostActionInterface
@@ -98,6 +99,7 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -107,6 +109,7 @@ class Configurepost extends AbstractConfigureAction implements HttpPostActionInt
 
     /**
      * @inheritdoc
+     *
      * @return ResponseInterface|ResultInterface
      * @throws NoSuchEntityException
      */

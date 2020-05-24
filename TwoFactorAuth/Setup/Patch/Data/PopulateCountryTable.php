@@ -57,7 +57,8 @@ class PopulateCountryTable implements DataPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Install the country table
+     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -84,10 +85,12 @@ class PopulateCountryTable implements DataPatchInterface
         // @codingStandardsIgnoreEnd
 
         $this->moduleDataSetup->endSetup();
+
+        return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function getDependencies()
     {
@@ -95,7 +98,7 @@ class PopulateCountryTable implements DataPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAliases()
     {
