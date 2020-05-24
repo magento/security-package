@@ -85,6 +85,8 @@ class EncryptGoogleSecrets implements DataPatchInterface
         }
 
         $this->moduleDataSetup->endSetup();
+
+        return $this;
     }
 
     /**

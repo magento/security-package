@@ -36,48 +36,56 @@ interface UserConfigInterface extends ExtensibleDataInterface
 
     /**
      * Get value for config_id
+     *
      * @return int
      */
     public function getId(): int;
 
     /**
      * Set value for config_id
+     *
      * @param int $value
      */
-    public function setId(int $value): void;
+    public function setId($value): void;
 
     /**
      * Get value for user_id
+     *
      * @return int
      */
     public function getUserId(): int;
 
     /**
      * Set value for user_id
+     *
      * @param int $value
      */
     public function setUserId(int $value): void;
 
     /**
      * Get value for encoded_providers
+     *
      * @return string
      */
     public function getEncodedProviders(): string;
 
     /**
      * Set value for encoded_providers
+     *
      * @param string $value
      */
     public function setEncodedProviders(string $value): void;
 
     /**
      * Get value for default_provider
+     *
      * @return string
      */
     public function getDefaultProvider(): string;
 
     /**
      * Set value for default_provider
+     *
      * @param string $value
      */
     public function setDefaultProvider(string $value): void;
@@ -93,6 +101,7 @@ interface UserConfigInterface extends ExtensibleDataInterface
 
     /**
      * Set an extension attributes object
+     *
      * @param \Magento\TwoFactorAuth\Api\Data\UserConfigExtensionInterface $extensionAttributes
      */
     public function setExtensionAttributes(UserConfigExtensionInterface $extensionAttributes): void;

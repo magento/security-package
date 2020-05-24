@@ -13,6 +13,8 @@ use Magento\TestFramework\Bootstrap;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Authenticate;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Authy\OneTouch;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Token;
 use Magento\User\Model\UserFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

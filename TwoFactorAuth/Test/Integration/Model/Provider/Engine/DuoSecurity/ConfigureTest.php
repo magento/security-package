@@ -13,6 +13,7 @@ use Magento\TwoFactorAuth\Api\Data\DuoDataInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
+use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity\Authenticate;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity\Configure;
 use Magento\User\Model\UserFactory;
 use PHPUnit\Framework\MockObject\MockObject;

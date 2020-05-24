@@ -7,14 +7,14 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Data;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\TwoFactorAuth\Api\Data\UserConfigExtensionInterface;
 use Magento\TwoFactorAuth\Api\Data\UserConfigInterface;
 
 /**
  * @inheritDoc
  */
-class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
+class UserConfig extends AbstractExtensibleModel implements UserConfigInterface
 {
     /**
      * @inheritDoc
@@ -27,7 +27,7 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
     /**
      * @inheritDoc
      */
-    public function setId(int $value): void
+    public function setId($value): void
     {
         $this->setData(self::ID, $value);
     }
