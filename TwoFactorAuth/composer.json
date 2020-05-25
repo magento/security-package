@@ -26,7 +26,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "Magento\\TwoFaTwoFactorAuth/Model/AdminAccessTokenService.php ctorAuth\\": ""
+            "Magento\\TwoFactorAuth\\": ""
         }
     }
 }
