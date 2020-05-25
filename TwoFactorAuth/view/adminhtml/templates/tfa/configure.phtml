@@ -22,7 +22,8 @@ $list = $block->getProvidersList();
             )); ?>
         </p>
     <?php else: ?>
-        <form class="tfa-configure-providers" method="post" action="<?= $block->escapeHtmlAttr($block->getActionUrl()) ?>">
+        <form class="tfa-configure-providers" method="post"
+              action="<?= $block->escapeHtmlAttr($block->getActionUrl()) ?>">
             <ul class="tfa-provider_list">
                 <?php foreach ($list as $providerData): ?>
                     <li class="tfa-provider">
