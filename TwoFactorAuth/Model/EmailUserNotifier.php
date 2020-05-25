@@ -8,10 +8,7 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model;
 
-use Magento\Framework\App\Area;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\App\State;
-use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\TwoFactorAuth\Model\Config\UserNotifier as UserNotifierConfig;
 use Magento\User\Model\User;
@@ -55,7 +52,6 @@ class EmailUserNotifier implements UserNotifierInterface
      * @param TransportBuilder $transportBuilder
      * @param StoreManagerInterface $storeManager
      * @param LoggerInterface $logger
-     * @param UrlInterface $url
      * @param UserNotifierConfig $userNotifierConfig
      */
     public function __construct(
@@ -63,14 +59,12 @@ class EmailUserNotifier implements UserNotifierInterface
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
-        UrlInterface $url,
         UserNotifierConfig $userNotifierConfig
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
-        $this->url = $url;
         $this->userNotifierConfig = $userNotifierConfig;
     }
 
