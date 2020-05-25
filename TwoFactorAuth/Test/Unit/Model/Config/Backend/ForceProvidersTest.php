@@ -1,7 +1,5 @@
 <?php
 /**
- * Compiler test. Check compilation of DI definitions and code generation
- *
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
