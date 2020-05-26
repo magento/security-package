@@ -92,7 +92,8 @@ class AdminAccessTokenService implements AdminTokenServiceInterfaceApi
         if (!$this->configRequestManager->isConfigurationRequiredFor($userId)) {
             // @codingStandardsIgnoreStart
             throw new LocalizedException(
-                __(
+                call_user_func(
+                    '__',
                     'Please use the 2fa provider-specific endpoints to obtain a token.',
                     [
                         'active_providers' => $activeProviderCodes
