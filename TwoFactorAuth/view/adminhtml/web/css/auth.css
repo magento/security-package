@@ -1,0 +1,107 @@
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+.page-wrapper {
+    max-width: 55rem !important;
+}
+
+.tfa-change-provider {
+    margin-bottom: 1em;
+}
+
+.tfa-change-provider-trigger {
+    margin-bottom: 1em;
+    display: block;
+}
+
+.tfa-provider {
+    display: block;
+    background: #f0f0f0;
+    border-top: 1px solid #cccccc;
+    height: 46px;
+    padding-top: 7px;
+    padding-left: 7px;
+    cursor: pointer;
+    color: #333;
+}
+
+.tfa-provider:hover {
+    color: #888;
+}
+
+.tfa-provider::after {
+    clear: both;
+}
+
+.tfa-provider:first-child {
+    border-top: none !important;
+}
+
+.tfa-provider img {
+    width: 32px;
+    margin-right: 1em;
+    float: left;
+}
+
+.tfa-provider span {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 32px;
+    float: left;
+}
+
+.tfa-change-provider-trigger:hover {
+    background: #f0f0f0;
+}
+
+#tfa-change-provider-container {
+    margin-top: 1em;
+}
+
+.tfa-change-provider-trigger {
+    color: #333333;
+    background: #e0e0e0;
+    text-align: center;
+    padding: 8px;
+    height: 40px;
+}
+
+.tfa-change-provider-trigger img {
+    margin-right: 10px;
+    width: 24px;
+    display: block;
+    float: left;
+}
+
+.tfa-change-provider-trigger span {
+    float: left;
+    display: block;
+    line-height: 24px;
+}
+
+.tfa-change-provider-trigger::after {
+    clear: both;
+}
+
+.tfa-waitbox {
+    height: 110px;
+    text-align: center;
+    background: #f5f5f5;
+    padding: 1.5em;
+}
+
+.tfa-waitbox img {
+    width: 64px;
+}
+
+.tfa-waitbox .spinner {
+    margin-left: -20px;
+}
+
+.tfa-provider .tfa-checkbox {
+    width: 32px;
+    margin-right: 1em;
+    float: left;
+}

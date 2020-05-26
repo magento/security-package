@@ -1,0 +1,38 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div afterRender="onAfterRender">
+    <div visible='currentStep() === "register"'>
+        <fieldset class="admin__fieldset">
+            <legend class="admin__legend">
+                <span translate="'2FA - U2F key verification'"></span>
+            </legend><br/>
+            <div class="tfa-u2f-touch-key">
+                <h3 translate="'Plug in your U2F key and follow instructions'"></h3>
+                <div visible="$data.idle" class="tfa-u2f-try-again">
+                    <a href="javascript:void(0)" click="waitForTouch" translate="'Try again'"></a>
+                </div>
+                <img attr='src: getTouchImageUrl()' />
+            </div>
+        </fieldset>
+    </div>
+    <div visible='currentStep() === "login"' class="tfa-waitbox">
+        <div data-role="spinner">
+            <div class="spinner">
+                <span/><span/><span/><span/><span/><span/><span/><span/>
+            </div>
+        </div>
+        <div translate="'Redirecting to Magento Admin Panel...'"></div>
+    </div>
+    <div visible='$data.loading' class="tfa-waitbox">
+        <div data-role="spinner">
+            <div class="spinner">
+                <span/><span/><span/><span/><span/><span/><span/><span/>
+            </div>
+        </div>
+        <div translate="'Loading...'"></div>
+    </div>
+</div>

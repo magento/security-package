@@ -1,0 +1,14 @@
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+fieldset {
+    text-align: center;
+}
+
+.tfa-u2f-touch-key,
+.tfa-u2f-try-again {
+    margin-bottom: 1em;
+}
+
