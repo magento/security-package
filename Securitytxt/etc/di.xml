@@ -22,4 +22,11 @@
             <argument name="resultPageFactory" xsi:type="object">securitytxtResultPageFactory</argument>
         </arguments>
     </type>
+    <type name="Magento\Securitytxt\Model\Config\Signature">
+        <arguments>
+            <argument name="instructionLink" xsi:type="string">
+                https://github.com/magento/security-package/blob/1.0-develop/Securitytxt/README.md
+            </argument>
+        </arguments>
+    </type>
 </config>

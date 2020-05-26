@@ -1,0 +1,94 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form autocomplete="off">
+    <fieldset class="admin__fieldset">
+        <legend class="admin__legend"><span data-bind='i18n: "2FA - Authy Auth"'></span></legend>
+        <br/>
+
+        <div visible='selectedMethod() === ""' class="tfa-authy-actions-list">
+            <h3 data-bind='i18n: "Verification methods:"'></h3>
+
+            <button
+                    click="runOneTouch"
+                    type="button"
+                    class="action-primary">
+                <span data-bind='i18n: "Use one touch"'></span>
+            </button>
+
+            <button
+                    click="runSendCodeToken"
+                    type="button"
+                    class="action-primary">
+                <span data-bind='i18n: "Use authy token"'></span>
+            </button>
+
+            <br/>
+            <h3 data-bind='i18n: "Emergency methods:"'></h3>
+
+            <button
+                    click="runSendCodeSms"
+                    type="button"
+                    class="action-default">
+                <span data-bind='i18n: "Send me a code via SMS"'></span>
+            </button>
+
+            <button
+                    click="runSendCodeCall"
+                    type="button"
+                    class="action-choose">
+                <span data-bind='i18n: "Send me a code via phone call"'></span>
+            </button>
+        </div>
+
+        <div class="tfa-waitbox" visible='(selectedMethod() === "onetouch") && !success()'>
+            <div data-role="spinner">
+                <div class="spinner">
+                    <span/><span/><span/><span/><span/><span/><span/><span/>
+                </div>
+            </div>
+            <div data-bind='i18n: waitingText'></div>
+        </div>
+
+        <div visible='success()' class="tfa-waitbox">
+            <div data-role="spinner">
+                <div class="spinner">
+                    <span/><span/><span/><span/><span/><span/><span/><span/>
+                </div>
+            </div>
+            <div data-bind='i18n: "Redirecting to Magento Admin Panel..."'></div>
+        </div>
+
+        <div class="admin__field _required field-tfa_code tfa-authy-request-code"
+             visible='(selectedMethod() === "code") && !success()'>
+            <label for="tfa_code" class="admin__field-label"><span data-bind='i18n: "Code"'></span></label>
+            <div class="admin__field-control">
+                <input
+                        id="tfa_code"
+                        class="admin__control-text"
+                        type="text"
+                        data-bind='{value: tokenCode, enable: !waitingText()}'
+                        placeholder="Your code" />
+            </div>
+        </div>
+
+        <div class="form-actions tfa-authy-request-code" visible='(selectedMethod() === "code") && !success()'>
+            <div class="actions">
+                <button
+                        enable="!waitingText()"
+                        click="verifyCode"
+                        class="action-login action-primary">
+                    <span data-bind='i18n: waitingText() ? waitingText() : "Confirm"'></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="tfa-authy-switch-method">
+            <a visible='(selectedMethod() !== "") && !success()' href="#"
+               click="switchAnotherMethod" data-bind='i18n: "Switch to another Authy method"'></a>
+        </div>
+    </fieldset>
+</form>

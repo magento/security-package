@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider"
+                  xsi:type="string">tfa_edit_user_form.tfa_edit_user_form_data_source
+            </item>
+        </item>
+        <item name="acl" xsi:type="string">Magento_TwoFactorAuth::tfa</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+        <item name="childrenFromMeta" xsi:type="boolean">true</item>
+    </argument>
+    <settings>
+        <label translate="true">2FA</label>
+        <namespace>tfa_edit_user_form</namespace>
+        <dataScope>data</dataScope>
+        <deps>
+            <dep>tfa_edit_user_form.tfa_edit_user_form_data_source</dep>
+        </deps>
+    </settings>
+
+    <dataSource name="tfa_edit_user_form_data_source">
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/form/provider</item>
+            </item>
+        </argument>
+        <aclResource>Magento_TwoFactorAuth::tfa</aclResource>
+        <dataProvider class="Magento\TwoFactorAuth\Ui\Component\Form\User\DataProvider"
+                      name="tfa_edit_user_form_data_source">
+            <settings>
+                <primaryFieldName>main_table.user_id</primaryFieldName>
+                <requestFieldName>user_id</requestFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+
+    <fieldset name="base_fieldset">
+        <settings>
+            <label translate="true">2FA</label>
+        </settings>
+
+        <field name="tfa_providers" formElement="input" component="Magento_TwoFactorAuth/js/form/element/providers"
+               template="ui/form/field">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">tfa_edit_user_form_data_source</item>
+                </item>
+            </argument>
+            <settings>
+                <label>Providers selection</label>
+                <visible>true</visible>
+                <dataType>text</dataType>
+                <elementTmpl>Magento_TwoFactorAuth/form/element/providers</elementTmpl>
+                <dataScope>tfa_providers</dataScope>
+            </settings>
+        </field>
+    </fieldset>
+    <fieldset name="reset_fieldset">
+        <settings>
+            <label translate="true">Configuration reset</label>
+        </settings>
+        <field name="tfa_reset_providers" formElement="input"
+               component="Magento_TwoFactorAuth/js/form/element/reset_providers" template="ui/form/field">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">tfa_edit_user_form_data_source</item>
+                </item>
+            </argument>
+            <settings>
+                <visible>true</visible>
+                <label>Reset Providers</label>
+                <dataType>text</dataType>
+                <elementTmpl>Magento_TwoFactorAuth/form/element/reset_providers</elementTmpl>
+            </settings>
+        </field>
+    </fieldset>
+</form>

@@ -1,0 +1,17 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<div id="tfa-change-provider-container" data-bind="scope:'tfa-change-provider'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<script type="text/x-magento-init">
+{
+    "#tfa-change-provider-container": {
+        "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
+    }
+}
+</script>

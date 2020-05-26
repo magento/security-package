@@ -1,0 +1,18 @@
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+.tfa-forced-providers ul {
+    margin-left: 3em;
+}
+
+.tfa-reset-providers button {
+    width: 250px;
+    margin-bottom: .4em;
+    display: block;
+}
+
+.tfa-provider {
+    margin-bottom: .2em;
+}

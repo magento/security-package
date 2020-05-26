@@ -1,0 +1,23 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<div visible="getProviders().length > 0">
+    <a visible='!showChangeMethod()' href="#" class="tfa-change-provider-trigger" click="displayChangeMethod">
+        <img attr='src: getSwitchIconUrl()' />
+        <span data-bind='i18n: "Select a different 2FA provider"'></span>
+    </a>
+
+    <div visible='showChangeMethod()' class="tfa-change-provider">
+        <h3 data-bind='i18n: "Select a different 2FA provider"'></h3>
+
+        <div class="tfa-provider_list" data-bind="foreach: getProviders()">
+            <a class="tfa-provider" attr='href: auth'>
+                <img attr='src: icon' />
+                <span data-bind='text: name'></span>
+            </a>
+        </div>
+    </div>
+</div>

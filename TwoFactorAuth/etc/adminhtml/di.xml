@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\User\Block\User\Edit\Tabs">
+        <plugin sortOrder="1" name="add_2fa_tabs" type="Magento\TwoFactorAuth\Plugin\AddTabToAdminUserEdit"/>
+    </type>
+
+    <type name="Magento\User\Observer\Backend\ForceAdminPasswordChangeObserver">
+        <plugin sortOrder="1" name="avoid_2fa_recursion_on_admin_password_change"
+                type="Magento\TwoFactorAuth\Plugin\AvoidRecursionOnPasswordChange"/>
+    </type>
+    <type name="Magento\TwoFactorAuth\Block\Provider\U2fKey\Auth" shared="false"/>
+
+    <type name="Magento\Backend\Model\Auth">
+        <plugin name="delete_tfat_cookie" type="Magento\TwoFactorAuth\Plugin\DeleteCookieOnLogout"/>
+    </type>
+</config>
