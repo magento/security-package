@@ -90,16 +90,16 @@ class AdminAccessTokenService implements AdminTokenServiceInterfaceApi
         }
 
         if (!$this->configRequestManager->isConfigurationRequiredFor($userId)) {
-            // @codingStandardsIgnoreStart
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             throw new LocalizedException(
-                __(
+                call_user_func(
+                    '__',
                     'Please use the 2fa provider-specific endpoints to obtain a token.',
                     [
                         'active_providers' => $activeProviderCodes
                     ]
                 )
             );
-            // @codingStandardsIgnoreEnd
         } elseif (empty($this->tfa->getUserProviders($userId))) {
             // It is expected that available 2fa providers are selected via db or admin ui
             throw new LocalizedException(
@@ -116,7 +116,9 @@ class AdminAccessTokenService implements AdminTokenServiceInterfaceApi
         }
 
         throw new LocalizedException(
-            __(
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
+            call_user_func(
+                '__',
                 'You are required to configure personal Two-Factor Authorization in order to login. '
                 . 'Please check your email.',
                 [
