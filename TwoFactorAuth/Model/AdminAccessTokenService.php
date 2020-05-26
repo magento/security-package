@@ -90,8 +90,8 @@ class AdminAccessTokenService implements AdminTokenServiceInterfaceApi
         }
 
         if (!$this->configRequestManager->isConfigurationRequiredFor($userId)) {
-            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             throw new LocalizedException(
+                // phpcs:ignore Magento2.Functions.DiscouragedFunction
                 call_user_func(
                     '__',
                     'Please use the 2fa provider-specific endpoints to obtain a token.',
