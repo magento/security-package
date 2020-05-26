@@ -1,0 +1,43 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<form autocomplete="off">
+    <fieldset class="admin__fieldset">
+        <legend class="admin__legend">
+            <span data-bind='i18n: "2FA - Authy"'></span>
+        </legend><br/>
+        <p>
+            <strong data-bind='i18n: messageText()'></strong><br />
+            <a href="#" click="changePhoneNumber" data-bind='i18n: "Click here to change your phone number"'></a>
+        </p><br />
+
+        <div class="admin__field _required field-tfa_verify">
+            <label for="tfa_authy_verify" class="admin__field-label">
+                <span data-bind='i18n: "Verification code"'></span>
+            </label>
+            <div class="admin__field-control">
+                <input
+                        data-bind='value: verifyCode, enable: !waitText()'
+                        id="tfa_authy_verify"
+                        class="admin__control-text"
+                        type="text"
+                        autofocus
+                        placeholder="Verification code"/>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <div class="actions">
+                <button
+                        click="doVerify"
+                        enable="!waitText()"
+                        class="action-login action-primary">
+                    <span data-bind='i18n: waitText() ? waitText() : "Verify"'></span>
+                </button>
+            </div>
+        </div>
+    </fieldset>
+</form>

@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <route url="/V1/integration/admin/token" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\AdminTokenServiceInterface" method="createAdminAccessToken"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/installed-providers" method="GET">
+        <service class="Magento\TwoFactorAuth\Api\TfaInterface" method="getAllProviders"/>
+        <resources>
+            <resource ref="Magento_TwoFactorAuth::tfa" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/forced-providers" method="GET">
+        <service class="Magento\TwoFactorAuth\Api\TfaInterface" method="getForcedProviders"/>
+        <resources>
+            <resource ref="Magento_TwoFactorAuth::tfa" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/user-providers/:userId" method="GET">
+        <service class="Magento\TwoFactorAuth\Api\TfaInterface" method="getUserProviders"/>
+        <resources>
+            <resource ref="Magento_TwoFactorAuth::tfa" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/providers-to-activate/:userId" method="GET">
+        <service class="Magento\TwoFactorAuth\Api\TfaInterface" method="getProvidersToActivate"/>
+        <resources>
+            <resource ref="Magento_TwoFactorAuth::tfa" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/default-provider-code/:userId" method="GET">
+        <service class="Magento\TwoFactorAuth\Api\UserConfigManagerInterface" method="getDefaultProvider"/>
+        <resources>
+            <resource ref="Magento_TwoFactorAuth::tfa" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/default-provider-code/:userId" method="PUT">
+        <service class="Magento\TwoFactorAuth\Api\TfaInterface" method="setDefaultProviderCode"/>
+        <resources>
+            <resource ref="Magento_TwoFactorAuth::tfa" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/user-providers/:userId" method="PUT">
+        <service class="Magento\TwoFactorAuth\Api\TfaInterface" method="setProvidersCodes"/>
+        <resources>
+            <resource ref="Magento_TwoFactorAuth::tfa" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/tfat-user-providers" method="GET">
+        <service class="Magento\TwoFactorAuth\Api\TfatActionsInterface" method="getUserProviders"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/tfat-providers-to-activate" method="GET">
+        <service class="Magento\TwoFactorAuth\Api\TfatActionsInterface" method="getProvidersToActivate"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/google/configure" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\GoogleConfigureInterface" method="getConfigurationData"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/google/authenticate" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\GoogleAuthenticateInterface" method="createAdminAccessToken"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/google/activate" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\GoogleConfigureInterface" method="activate"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/authy/configure" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\AuthyConfigureInterface" method="sendDeviceRegistrationPrompt"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/authy/activate" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\AuthyConfigureInterface" method="activate"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/authy/authenticate" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" method="createAdminAccessTokenWithCredentials"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/authy/send-token/:via" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" method="sendToken"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/authy/authenticate-onetouch" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\AuthyAuthenticateInterface" method="creatAdminAccessTokenWithOneTouch"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/u2fkey/configure" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\U2fKeyConfigureInterface" method="getRegistrationData"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/u2fkey/activate" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\U2fKeyConfigureInterface" method="activate"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/u2fkey/authentication-challenge" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\U2fKeyAuthenticateInterface" method="getAuthenticationData"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/u2fkey/verify" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\U2fKeyAuthenticateInterface" method="createAdminAccessToken"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/duo_security/configure" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\DuoConfigureInterface" method="getConfigurationData"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/duo_security/activate" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\DuoConfigureInterface" method="activate"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/duo_security/get-authentication-data" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\DuoAuthenticateInterface" method="getAuthenticateData"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route url="/V1/tfa/provider/duo_security/authenticate" method="POST">
+        <service class="Magento\TwoFactorAuth\Api\DuoAuthenticateInterface" method="createAdminAccessTokenWithCredentials"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+</routes>

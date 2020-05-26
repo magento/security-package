@@ -1,0 +1,15 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+?>
+<?php
+/** @var $block Magento\TwoFactorAuth\Block\ConfigureLater */
+/** @var $escaper Magento\Framework\Escaper */
+?>
+<div id="tfa-configure-later-container">
+    <a href="#"
+       data-post="<?= $escaper->escapeHtmlAttr($block->getPostData())?>"
+    ><?= $escaper->escapeHtml(__('Skip this configuration until next login.')) ?></a>
+</div>
