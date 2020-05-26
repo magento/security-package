@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="admin_login" />
+    <update handle="tfa_screen" />
+
+    <head>
+        <css src="Magento_TwoFactorAuth::css/auth.css"/>
+        <css src="Magento_TwoFactorAuth::css/authy.css"/>
+    </head>
+
+    <body>
+        <referenceContainer name="login.content">
+            <block class="Magento\TwoFactorAuth\Block\Provider\Authy\Configure" name="content"
+                   template="Magento_TwoFactorAuth::tfa/provider/configure.phtml">
+
+                <arguments>
+                    <argument name="jsLayout" xsi:type="array">
+                        <item name="components" xsi:type="array">
+                            <item name="tfa-configure" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/authy/configure</item>
+                                <item name="children" xsi:type="array">
+                                    <item name="register" xsi:type="array">
+                                        <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/authy/configure/register</item>
+                                        <item name="displayArea" xsi:type="string">step-register</item>
+                                    </item>
+                                    <item name="verify" xsi:type="array">
+                                        <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/authy/configure/verify</item>
+                                        <item name="displayArea" xsi:type="string">step-verify</item>
+                                    </item>
+                                </item>
+                            </item>
+                        </item>
+                    </argument>
+                </arguments>
+            </block>
+            <block class="Magento\TwoFactorAuth\Block\ConfigureLater" name="configure-later"
+                   template="Magento_TwoFactorAuth::tfa/configure_later.phtml">
+                <arguments>
+                    <argument name="provider" xsi:type="string">authy</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
