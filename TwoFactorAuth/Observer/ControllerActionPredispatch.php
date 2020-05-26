@@ -24,6 +24,8 @@ use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * Handle redirection to 2FA page if required
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ControllerActionPredispatch implements ObserverInterface
 {
@@ -122,7 +124,7 @@ class ControllerActionPredispatch implements ObserverInterface
         /** @var $controllerAction AbstractAction */
         $controllerAction = $observer->getEvent()->getData('controller_action');
         $this->action = $controllerAction;
-        $fullActionName = $controllerAction->getRequest()->getFullActionName();
+        $fullActionName = $observer->getEvent()->getData('request')->getFullActionName();
         $userId = $this->userContext->getUserId();
 
         $this->tokenManager->readConfigToken();

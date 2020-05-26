@@ -1,4 +1,8 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Unit\Model\Provider\Engine;
@@ -23,7 +27,7 @@ class AuthyTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = new ObjectManager($this);
         $this->serviceMock = $this->getMockBuilder(Authy\Service::class)->disableOriginalConstructor()->getMock();
@@ -60,7 +64,7 @@ class AuthyTest extends TestCase
      */
     public function testIsEnabled(?string $apiKey, bool $expected): void
     {
-        $this->serviceMock->method('getApiKey')->willReturn($apiKey);
+        $this->serviceMock->method('getApiKey')->willReturn((string)$apiKey);
 
         $this->assertEquals($expected, $this->model->isEnabled());
     }

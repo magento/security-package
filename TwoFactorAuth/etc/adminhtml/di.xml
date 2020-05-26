@@ -17,4 +17,8 @@
                 type="Magento\TwoFactorAuth\Plugin\AvoidRecursionOnPasswordChange"/>
     </type>
     <type name="Magento\TwoFactorAuth\Block\Provider\U2fKey\Auth" shared="false"/>
+
+    <type name="Magento\Backend\Model\Auth">
+        <plugin name="delete_tfat_cookie" type="Magento\TwoFactorAuth\Plugin\DeleteCookieOnLogout"/>
+    </type>
 </config>

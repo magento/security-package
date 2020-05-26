@@ -1,6 +1,10 @@
 <?php
-declare(strict_types=1);
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
+declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Integration\Controller\Adminhtml\Tfa;
 
@@ -39,7 +43,7 @@ class ConfigureTest extends AbstractBackendController
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -56,7 +60,7 @@ class ConfigureTest extends AbstractBackendController
         $this->getRequest()
             ->setQueryValue('tfat', $this->tokenManager->issueFor((int)$this->_session->getUser()->getId()));
         $this->dispatch($this->uri);
-        $this->assertRegExp('/google/', $this->getResponse()->getBody());
+        self::assertMatchesRegularExpression('/google/', $this->getResponse()->getBody());
     }
 
     /**

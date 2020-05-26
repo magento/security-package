@@ -13,6 +13,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Validation\ValidationException;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\TwoFactorAuth\Api\U2fKeyConfigReaderInterface;
 use Magento\User\Api\Data\UserInterface;
 
 /**
@@ -28,16 +29,24 @@ class WebAuthn
     private const PUBKEY_LEN = 65;
 
     /**
+     * @var U2fKeyConfigReaderInterface
+     */
+    private $config;
+
+    /**
      * @var StoreManagerInterface
      */
     private $storeManager;
 
     /**
      * @param StoreManagerInterface $storeManager
+     * @param U2fKeyConfigReaderInterface $u2fKeyConfig
      */
     public function __construct(
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        U2fKeyConfigReaderInterface $u2fKeyConfig
     ) {
+        $this->config = $u2fKeyConfig;
         $this->storeManager = $storeManager;
     }
 
@@ -48,6 +57,7 @@ class WebAuthn
      * @param array $publicKeys
      * @param array $originalChallenge
      * @throws LocalizedException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function assertCredentialDataIsValid(
         array $credentialData,
@@ -69,12 +79,13 @@ class WebAuthn
             throw new LocalizedException(__('Invalid U2F key.'));
         }
 
-        $domain = $this->getDomainName();
+        $domain = $this->config->getDomain();
 
         // Steps 7-9
         if (rtrim(strtr(base64_encode($this->convertArrayToBytes($originalChallenge)), '+/', '-_'), '=')
             !== $credentialData['response']['clientData']['challenge']
-            || 'https://' . $domain !== $credentialData['response']['clientData']['origin']
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
+            || $domain !== parse_url($credentialData['response']['clientData']['origin'], \PHP_URL_HOST)
             || $credentialData['response']['clientData']['type'] !== 'webauthn.get'
         ) {
             throw new LocalizedException(__('Invalid U2F key.'));
@@ -83,6 +94,7 @@ class WebAuthn
         // Step 10 not applicable
 
         // @see https://www.w3.org/TR/webauthn/#sec-authenticator-data
+        // phpcs:ignore Magento2.Functions.DiscouragedFunction
         $authenticatorDataBytes = base64_decode($credentialData['response']['authenticatorData']);
         $attestationObject = [
             'rpIdHash' => substr($authenticatorDataBytes, 0, 32),
@@ -102,6 +114,7 @@ class WebAuthn
         $clientDataSha256 = hash('sha256', $credentialData['response']['clientDataJSON'], true);
         $isValidSignature = openssl_verify(
             $authenticatorDataBytes . $clientDataSha256,
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             base64_decode($credentialData['response']['signature']),
             $key['key'],
             OPENSSL_ALGO_SHA256
@@ -133,6 +146,7 @@ class WebAuthn
         foreach ($publicKeys as $key) {
             $allowedCredentials[] = [
                 'type' => 'public-key',
+                // phpcs:ignore Magento2.Functions.DiscouragedFunction
                 'id' => $this->convertBytesToArray(base64_decode($key['id']))
             ];
         }
@@ -146,7 +160,7 @@ class WebAuthn
                 'extensions' => [
                     'txAuthSimple' => 'Authenticate with ' . $store->getName(),
                 ],
-                'rpId' => $this->getDomainName(),
+                'rpId' => $this->config->getDomain(),
             ]
         ];
 
@@ -162,7 +176,7 @@ class WebAuthn
      */
     public function getRegisterData(UserInterface $user): array
     {
-        $domain = $this->getDomainName();
+        $domain = $this->config->getDomain();
 
         try {
             $challenge = random_bytes(16);
@@ -211,17 +225,20 @@ class WebAuthn
      * @param array $data
      * @return array
      * @throws ValidationException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function getPublicKeyFromRegistrationData(array $data): array
     {
         // Verification process as defined by w3 @see https://www.w3.org/TR/webauthn/#registering-a-new-credential
 
         $credentialData = $data['publicKeyCredential'];
-        $domain = $this->getDomainName();
+        $domain = $this->config->getDomain();
 
         if (rtrim(strtr(base64_encode($this->convertArrayToBytes($data['challenge'])), '+/', '-_'), '=')
             !== $credentialData['response']['clientData']['challenge']
-            || 'https://' . $domain !== $credentialData['response']['clientData']['origin']
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
+            || $domain !== parse_url($credentialData['response']['clientData']['origin'], \PHP_URL_HOST)
             || $credentialData['response']['clientData']['type'] !== 'webauthn.create'
         ) {
             throw new LocalizedException(__('Invalid U2F key.'));
@@ -230,8 +247,11 @@ class WebAuthn
         if (empty($credentialData['response']['attestationObject']) || empty($credentialData['id'])) {
             throw new ValidationException(__('Invalid U2F key data'));
         }
+        // phpcs:ignore Magento2.Functions.DiscouragedFunction
         $byteString = base64_decode($credentialData['response']['attestationObject']);
+        //@codingStandardsIgnoreStart
         $attestationObject = CBOREncoder::decode($byteString);
+        //@codingStandardsIgnoreEnd
         if (empty($attestationObject['fmt'])
             || empty($attestationObject['authData'])
         ) {
@@ -245,7 +265,7 @@ class WebAuthn
         $attestationObject['flags'] = ord(substr($byteString, 32, 1));
         $attestationObject['counter'] = substr($byteString, 33, 4);
 
-        $hashId = hash('sha256', $this->getDomainName(), true);
+        $hashId = hash('sha256', $this->config->getDomain(), true);
         if ($hashId !== $attestationObject['rpIdHash']) {
             throw new ValidationException(__('Invalid U2F key data'));
         }
@@ -269,6 +289,7 @@ class WebAuthn
         $attestationObject['attestationData']['keyBytes'] = $this->COSEECDHAtoPKCS($cborPublicKey);
 
         if (empty($attestationObject['attestationData']['keyBytes'])
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             || $attestationObject['attestationData']['credId'] !== base64_decode($credentialData['id'])
         ) {
             throw new ValidationException(__('Invalid U2F key data'));
@@ -308,26 +329,11 @@ class WebAuthn
         $byteString = '';
 
         foreach ($bytes as $byte) {
+            // phpcs:ignore Magento2.Functions.DiscouragedFunction
             $byteString .= chr((int)$byte);
         }
 
         return $byteString;
-    }
-
-    /**
-     * Get the store domain but only if it's secure
-     *
-     * @return string
-     * @throws LocalizedException
-     */
-    private function getDomainName(): string
-    {
-        $store = $this->storeManager->getStore(Store::ADMIN_CODE);
-        $baseUrl = $store->getBaseUrl();
-        if (!preg_match('/^(https?:\/\/(?P<domain>.+?))\//', $baseUrl, $matches)) {
-            throw new LocalizedException(__('Could not determine secure domain name.'));
-        }
-        return $matches['domain'];
     }
 
     /**
@@ -336,10 +342,13 @@ class WebAuthn
      * @param string $binary
      * @return string|null
      * @throws \Exception
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     private function COSEECDHAtoPKCS(string $binary): ?string
     {
+        //@codingStandardsIgnoreStart
         $cosePubKey = CBOREncoder::decode($binary);
+        //@codingStandardsIgnoreEnd
 
         // Sections 7.1 and 13.1.1 of @see https://tools.ietf.org/html/rfc8152
         if (!isset($cosePubKey[3])

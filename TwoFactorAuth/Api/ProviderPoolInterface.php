@@ -16,12 +16,14 @@ interface ProviderPoolInterface
 {
     /**
      * Get a list of providers
+     *
      * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
      */
     public function getProviders(): array;
 
     /**
      * Get provider by code
+     *
      * @param string $code
      * @return \Magento\TwoFactorAuth\Api\ProviderInterface
      * @throws NoSuchEntityException

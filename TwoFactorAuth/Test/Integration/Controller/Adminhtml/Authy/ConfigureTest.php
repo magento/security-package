@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
 declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Integration\Controller\Adminhtml\Authy;
@@ -28,6 +33,7 @@ class ConfigureTest extends AbstractConfigureBackendController
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key some-key
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testTokenAccess(): void
     {
@@ -38,6 +44,7 @@ class ConfigureTest extends AbstractConfigureBackendController
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key some-key
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclHasAccess()
     {
@@ -48,6 +55,7 @@ class ConfigureTest extends AbstractConfigureBackendController
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers authy
      * @magentoConfigFixture default/twofactorauth/authy/api_key some-key
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclNoAccess()
     {

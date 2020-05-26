@@ -10,11 +10,11 @@ namespace Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\Client\CurlFactory;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\User\Api\Data\UserInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
-use Zend\Json\Json;
 
 /**
  * Authy One Touch manager class
@@ -52,6 +52,11 @@ class OneTouch
     private $scopeConfig;
 
     /**
+     * @var Json
+     */
+    private $json;
+
+    /**
      * OneTouch constructor.
      *
      * @param CurlFactory $curlFactory
@@ -59,23 +64,27 @@ class OneTouch
      * @param Service $service
      * @param StoreManagerInterface $storeManager
      * @param ScopeConfigInterface $scopeConfig
+     * @param Json $json
      */
     public function __construct(
         CurlFactory $curlFactory,
         UserConfigManagerInterface $userConfigManager,
         Service $service,
         StoreManagerInterface $storeManager,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        Json $json
     ) {
         $this->curlFactory = $curlFactory;
         $this->userConfigManager = $userConfigManager;
         $this->storeManager = $storeManager;
         $this->service = $service;
         $this->scopeConfig = $scopeConfig;
+        $this->json = $json;
     }
 
     /**
      * Request one-touch
+     *
      * @param UserInterface $user
      * @throws LocalizedException
      */
@@ -98,7 +107,7 @@ class OneTouch
             'seconds_to_expire' => 300,
         ]);
 
-        $response = Json::decode($curl->getBody(), Json::TYPE_ARRAY);
+        $response = $this->json->unserialize($curl->getBody());
 
         $errorMessage = $this->service->getErrorFromResponse($response);
         if ($errorMessage) {
@@ -112,6 +121,7 @@ class OneTouch
 
     /**
      * Verify one-touch
+     *
      * @param UserInterface $user
      * @return string
      * @throws LocalizedException
@@ -142,7 +152,7 @@ class OneTouch
             $curl->addHeader('X-Authy-API-Key', $this->service->getApiKey());
             $curl->get($url);
 
-            $response = Json::decode($curl->getBody(), Json::TYPE_ARRAY);
+            $response = $this->json->unserialize($curl->getBody());
 
             $errorMessage = $this->service->getErrorFromResponse($response);
             if ($errorMessage) {

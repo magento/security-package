@@ -22,6 +22,11 @@ use Magento\TwoFactorAuth\Api\EngineInterface;
 class U2fKey implements EngineInterface
 {
     /**
+     * The config path for the domain to use when issuing challenged from the web api
+     */
+    const XML_PATH_WEBAPI_DOMAIN = 'twofactorauth/u2fkey/webapi_challenge_domain';
+
+    /**
      * Engine code
      *
      * Must be the same as defined in di.xml

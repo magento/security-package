@@ -9,5 +9,7 @@
 /** @var $escaper Magento\Framework\Escaper */
 ?>
 <div id="tfa-configure-later-container">
-    <a href="#" data-post="<?=$escaper->escapeHtmlAttr($block->getPostData())?>"><?=__('Skip this configuration until next login.')?></a>
+    <a href="#"
+       data-post="<?= $escaper->escapeHtmlAttr($block->getPostData())?>"
+    ><?= $escaper->escapeHtml(__('Skip this configuration until next login.')) ?></a>
 </div>

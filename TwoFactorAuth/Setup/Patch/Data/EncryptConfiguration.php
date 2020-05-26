@@ -12,7 +12,7 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 
 /**
- * Encrypt configuration
+ * Encrypt the configuration
  */
 class EncryptConfiguration implements DataPatchInterface
 {
@@ -39,7 +39,8 @@ class EncryptConfiguration implements DataPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Encrypt the config
+     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -65,10 +66,12 @@ class EncryptConfiguration implements DataPatchInterface
         }
 
         $this->moduleDataSetup->endSetup();
+
+        return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function getDependencies()
     {
@@ -76,7 +79,7 @@ class EncryptConfiguration implements DataPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAliases()
     {

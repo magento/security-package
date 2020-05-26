@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
 declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Integration\Controller\Adminhtml\Duo;
@@ -31,6 +36,7 @@ class AuthTest extends AbstractConfigureBackendController
      * @magentoConfigFixture default/twofactorauth/duo/secret_key duo_security
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname duo_security
      * @magentoConfigFixture default/twofactorauth/duo/application_key duo_security
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testTokenAccess(): void
     {
@@ -44,6 +50,7 @@ class AuthTest extends AbstractConfigureBackendController
      * @magentoConfigFixture default/twofactorauth/duo/secret_key duo_security
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname duo_security
      * @magentoConfigFixture default/twofactorauth/duo/application_key duo_security
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclHasAccess()
     {
@@ -57,6 +64,7 @@ class AuthTest extends AbstractConfigureBackendController
      * @magentoConfigFixture default/twofactorauth/duo/secret_key duo_security
      * @magentoConfigFixture default/twofactorauth/duo/api_hostname duo_security
      * @magentoConfigFixture default/twofactorauth/duo/application_key duo_security
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclNoAccess()
     {

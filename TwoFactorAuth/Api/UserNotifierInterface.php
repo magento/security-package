@@ -17,6 +17,11 @@ use Magento\TwoFactorAuth\Api\Exception\NotificationExceptionInterface;
 interface UserNotifierInterface
 {
     /**
+     * URL to be used for communications sent from webapi_* area
+     */
+    public const XML_PATH_WEBAPI_NOTIFICATION_URL = 'twofactorauth/general/webapi_notification_url';
+
+    /**
      * Send message allowing an admin user to configure personal 2FA.
      *
      * @param User $user

@@ -59,6 +59,7 @@ class Configure extends AbstractConfigureAction implements HttpGetActionInterfac
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User

@@ -19,6 +19,8 @@ use Magento\Backend\Model\Session as SessionManager;
  * Finds and verifies token allowing users to configure 2FA.
  *
  * Works for adminhtml area.
+ *
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class HtmlAreaTokenVerifier
 {
@@ -90,6 +92,7 @@ class HtmlAreaTokenVerifier
      * Read configuration token provided by user.
      *
      * @return string|null
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function readConfigToken(): ?string
     {

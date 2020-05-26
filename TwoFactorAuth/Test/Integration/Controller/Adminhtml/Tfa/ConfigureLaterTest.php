@@ -45,7 +45,7 @@ class ConfigureLaterTest extends AbstractBackendController
      */
     private $tfaSession;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->tfa = $this->_objectManager->get(TfaInterface::class);

@@ -23,4 +23,12 @@ class AccessDenied extends AbstractAction implements HttpGetActionInterface
     {
         return $this->resultFactory->create(ResultFactory::TYPE_PAGE);
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function _isAllowed()
+    {
+        return true;
+    }
 }

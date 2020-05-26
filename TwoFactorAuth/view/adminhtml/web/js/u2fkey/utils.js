@@ -26,6 +26,7 @@ define([], function () {
          */
         arrayBufferToBase64: function (buffer) {
             var binary = '',
+                // eslint-disable-next-line no-undef
                 bytes = new Uint8Array(buffer),
                 len = bytes.byteLength,
                 i = 0;

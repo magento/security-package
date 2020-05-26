@@ -12,5 +12,14 @@
         "index": {
             "TFA_COUNTRY_CODES_CODE": true
         }
+    },
+    "msp_tfa_user_config": {
+        "constraint": {}
+    },
+    "msp_tfa_trusted": {
+        "constraint": {}
+    },
+    "tfa_trusted": {
+        "constraint": {}
     }
 }

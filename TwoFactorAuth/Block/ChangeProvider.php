@@ -14,6 +14,8 @@ use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\ProviderInterface;
 
 /**
+ * Represent the change providers block for authentication workflow
+ *
  * @api
  */
 class ChangeProvider extends Template
@@ -34,7 +36,6 @@ class ChangeProvider extends Template
     private $session;
 
     /**
-     * ChangeProvider constructor.
      * @param Template\Context $context
      * @param Session $session
      * @param UserContextInterface $userContext
@@ -97,6 +98,7 @@ class ChangeProvider extends Template
 
     /**
      * Get a list of available providers
+     *
      * @return ProviderInterface[]
      */
     private function getProvidersList(): array

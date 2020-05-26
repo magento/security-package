@@ -21,6 +21,7 @@
         "magento/module-re-captcha-version-2-invisible": "*",
         "magento/module-re-captcha-version-3-invisible": "*",
         "magento/module-securitytxt": "*",
+        "magento/module-two-factor-auth": "*",
         "google/recaptcha": "^1.2"
     }
 }

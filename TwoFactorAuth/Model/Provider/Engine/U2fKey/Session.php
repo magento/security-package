@@ -12,6 +12,8 @@ use Magento\Framework\Session\SessionManager;
 
 /**
  * Represents u2f key session data
+ *
+ * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
  */
 class Session extends SessionManager
 {

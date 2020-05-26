@@ -1,7 +1,11 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\Test\Unit\Model\Config\Backend;
+namespace Magento\TwoFactorAuth\Test\Unit\Model\Config\Backend\Duo;
 
 use Magento\Framework\Exception\ValidatorException;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
@@ -18,7 +22,7 @@ class ApiHostnameTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = new ObjectManager($this);
         $this->model = $objectManager->getObject(ApiHostname::class);

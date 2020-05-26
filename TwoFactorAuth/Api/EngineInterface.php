@@ -24,6 +24,7 @@ interface EngineInterface
 
     /**
      * Return true on token validation
+     *
      * @param UserInterface $user
      * @param DataObject $request
      * @return bool

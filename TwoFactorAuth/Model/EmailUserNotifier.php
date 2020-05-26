@@ -9,10 +9,9 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\TwoFactorAuth\Model\Config\UserNotifier as UserNotifierConfig;
 use Magento\User\Model\User;
-use Magento\TwoFactorAuth\Api\Exception\NotificationExceptionInterface;
 use Magento\TwoFactorAuth\Api\UserNotifierInterface;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\TwoFactorAuth\Model\Exception\NotificationException;
@@ -44,29 +43,29 @@ class EmailUserNotifier implements UserNotifierInterface
     private $logger;
 
     /**
-     * @var UrlInterface
+     * @var UserNotifierConfig
      */
-    private $url;
+    private $userNotifierConfig;
 
     /**
      * @param ScopeConfigInterface $scopeConfig
      * @param TransportBuilder $transportBuilder
      * @param StoreManagerInterface $storeManager
      * @param LoggerInterface $logger
-     * @param UrlInterface $url
+     * @param UserNotifierConfig $userNotifierConfig
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         TransportBuilder $transportBuilder,
         StoreManagerInterface $storeManager,
         LoggerInterface $logger,
-        UrlInterface $url
+        UserNotifierConfig $userNotifierConfig
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->transportBuilder = $transportBuilder;
         $this->storeManager = $storeManager;
         $this->logger = $logger;
-        $this->url = $url;
+        $this->userNotifierConfig = $userNotifierConfig;
     }
 
     /**
@@ -75,11 +74,15 @@ class EmailUserNotifier implements UserNotifierInterface
      * @param User $user
      * @param string $token
      * @param string $emailTemplateId
+     * @param string $url
      * @return void
-     * @throws NotificationExceptionInterface
      */
-    private function sendConfigRequired(User $user, string $token, string $emailTemplateId): void
-    {
+    private function sendConfigRequired(
+        User $user,
+        string $token,
+        string $emailTemplateId,
+        string $url
+    ): void {
         try {
             $transport = $this->transportBuilder
                 ->setTemplateIdentifier($emailTemplateId)
@@ -92,7 +95,7 @@ class EmailUserNotifier implements UserNotifierInterface
                         'username' => $user->getFirstName() . ' ' . $user->getLastName(),
                         'token' => $token,
                         'store_name' => $this->storeManager->getStore()->getFrontendName(),
-                        'url' => $this->url->getUrl('tfa/tfa/index', ['tfat' => $token])
+                        'url' => $url
                     ]
                 )
                 ->setFromByScope(
@@ -112,7 +115,12 @@ class EmailUserNotifier implements UserNotifierInterface
      */
     public function sendUserConfigRequestMessage(User $user, string $token): void
     {
-        $this->sendConfigRequired($user, $token, 'tfa_admin_user_config_required');
+        $this->sendConfigRequired(
+            $user,
+            $token,
+            'tfa_admin_user_config_required',
+            $this->userNotifierConfig->getPersonalRequestConfigUrl($token)
+        );
     }
 
     /**
@@ -120,6 +128,11 @@ class EmailUserNotifier implements UserNotifierInterface
      */
     public function sendAppConfigRequestMessage(User $user, string $token): void
     {
-        $this->sendConfigRequired($user, $token, 'tfa_admin_app_config_required');
+        $this->sendConfigRequired(
+            $user,
+            $token,
+            'tfa_admin_app_config_required',
+            $this->userNotifierConfig->getAppRequestConfigUrl($token)
+        );
     }
 }

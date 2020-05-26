@@ -27,8 +27,8 @@ class Configure extends Template
 
     /**
      * @param Template\Context $context
-     * @param array $data
      * @param TfaInterface $tfa
+     * @param array $data
      */
     public function __construct(Template\Context $context, TfaInterface $tfa, array $data = [])
     {

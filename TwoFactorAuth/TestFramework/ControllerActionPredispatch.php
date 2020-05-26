@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
 declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\TestFramework;
@@ -19,7 +24,7 @@ class ControllerActionPredispatch extends ParentObserver
     {
         /** @var $controllerAction AbstractAction */
         $controllerAction = $observer->getEvent()->getData('controller_action');
-        if (class_exists('Magento\TestFramework\Request')
+        if (method_exists($controllerAction, 'getRequest')
             && $controllerAction->getRequest() instanceof \Magento\TestFramework\Request
             && !$controllerAction->getRequest()->getParam('tfa_enabled')
         ) {

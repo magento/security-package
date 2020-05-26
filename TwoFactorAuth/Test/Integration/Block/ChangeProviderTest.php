@@ -42,7 +42,7 @@ class ChangeProviderTest extends TestCase
      */
     private $tfa;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $objectManager = Bootstrap::getObjectManager();
         $objectManager->configure([
@@ -105,7 +105,7 @@ class ChangeProviderTest extends TestCase
         $this->block->setData('provider', 'authy');
         $html = $this->block->toHtml();
 
-        self::assertContains('id="tfa', $html);
+        self::assertStringContainsString('id="tfa', $html);
     }
 
     /**

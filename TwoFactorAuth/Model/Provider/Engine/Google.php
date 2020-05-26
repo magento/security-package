@@ -7,35 +7,41 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Provider\Engine;
 
+use Endroid\QrCode\ErrorCorrectionLevel;
 use Endroid\QrCode\Exception\ValidationException;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Exception;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
+use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\TwoFactorAuth\Model\Provider\Engine\Google\TotpFactory;
 use Magento\User\Api\Data\UserInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Api\EngineInterface;
 use Base32\Base32;
-use OTPHP\TOTP;
+use OTPHP\TOTPInterface;
 
 /**
  * Google authenticator engine
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Google implements EngineInterface
 {
+    /**
+     * Config path for the OTP window
+     */
+    const XML_PATH_OTP_WINDOW = 'twofactorauth/google/otp_window';
+
     /**
      * Engine code
      *
      * Must be the same as defined in di.xml
      */
     public const CODE = 'google';
-
-    /**
-     * @var null
-     */
-    private $totp = null;
 
     /**
      * @var UserConfigManagerInterface
@@ -48,21 +54,44 @@ class Google implements EngineInterface
     private $storeManager;
 
     /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
+     * @var TOTPInterfaceFactory
+     */
+    private $totpFactory;
+
+    /**
+     * @var EncryptorInterface
+     */
+    private $encryptor;
+
+    /**
      * @param StoreManagerInterface $storeManager
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param ScopeConfigInterface $scopeConfig
      * @param UserConfigManagerInterface $configManager
+     * @param TotpFactory $totpFactory
+     * @param EncryptorInterface $encryptor
      */
     public function __construct(
         StoreManagerInterface $storeManager,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        UserConfigManagerInterface $configManager
+        ScopeConfigInterface $scopeConfig,
+        UserConfigManagerInterface $configManager,
+        TotpFactory $totpFactory,
+        EncryptorInterface $encryptor
     ) {
         $this->configManager = $configManager;
         $this->storeManager = $storeManager;
+        $this->scopeConfig = $scopeConfig;
+        $this->totpFactory = $totpFactory;
+        $this->encryptor = $encryptor;
     }
 
     /**
      * Generate random secret
+     *
      * @return string
      * @throws Exception
      */
@@ -74,30 +103,30 @@ class Google implements EngineInterface
 
     /**
      * Get TOTP object
+     *
      * @param UserInterface $user
-     * @return TOTP
+     * @return TOTPInterface
      * @throws NoSuchEntityException
      */
-    private function getTotp(UserInterface $user): TOTP
+    private function getTotp(UserInterface $user): TOTPInterface
     {
-        $config = $this->configManager->getProviderConfig((int)$user->getId(), static::CODE);
-        if (!isset($config['secret'])) {
-            $config['secret'] = $this->getSecretCode($user);
-        }
-        if (!$config['secret']) {
+        $secret = $this->getSecretCode($user);
+
+        if (!$secret) {
             throw new NoSuchEntityException(__('Secret for user with ID#%1 was not found', $user->getId()));
         }
-        $totp = new TOTP($user->getEmail(), $config['secret']);
+
+        $totp = $this->totpFactory->create($secret);
 
         return $totp;
     }
 
     /**
      * Get the secret code used for Google Authentication
+     *
      * @param UserInterface $user
      * @return string|null
      * @throws NoSuchEntityException
-     * @author Konrad Skrzynski <konrad.skrzynski@accenture.com>
      */
     public function getSecretCode(UserInterface $user): ?string
     {
@@ -105,14 +134,32 @@ class Google implements EngineInterface
 
         if (!isset($config['secret'])) {
             $config['secret'] = $this->generateSecret();
-            $this->configManager->setProviderConfig((int)$user->getId(), static::CODE, $config);
+            $this->setSharedSecret((int)$user->getId(), $config['secret']);
+            return $config['secret'];
         }
 
-        return $config['secret'] ?? null;
+        return $config['secret'] ? $this->encryptor->decrypt($config['secret']) : null;
+    }
+
+    /**
+     * Set the secret used to generate OTP
+     *
+     * @param int $userId
+     * @param string $secret
+     * @throws NoSuchEntityException
+     */
+    public function setSharedSecret(int $userId, string $secret): void
+    {
+        $this->configManager->addProviderConfig(
+            $userId,
+            static::CODE,
+            ['secret' => $this->encryptor->encrypt($secret)]
+        );
     }
 
     /**
      * Get TFA provisioning URL
+     *
      * @param UserInterface $user
      * @return string
      * @throws NoSuchEntityException
@@ -126,6 +173,7 @@ class Google implements EngineInterface
         // @codingStandardsIgnoreEnd
 
         $totp = $this->getTotp($user);
+        $totp->setLabel($user->getEmail());
         $totp->setIssuer($issuer);
 
         return $totp->getProvisioningUri();
@@ -142,13 +190,18 @@ class Google implements EngineInterface
         }
 
         $totp = $this->getTotp($user);
-        $totp->now();
+        $config = $this->configManager->getProviderConfig((int)$user->getId(), static::CODE);
 
-        return $totp->verify($token);
+        return $totp->verify(
+            $token,
+            null,
+            $config['window'] ?? (int)$this->scopeConfig->getValue(self::XML_PATH_OTP_WINDOW) ?: null
+        );
     }
 
     /**
      * Render TFA QrCode
+     *
      * @param UserInterface $user
      * @return string
      * @throws NoSuchEntityException
@@ -159,7 +212,8 @@ class Google implements EngineInterface
         // @codingStandardsIgnoreStart
         $qrCode = new QrCode($this->getProvisioningUrl($user));
         $qrCode->setSize(400);
-        $qrCode->setErrorCorrectionLevel('high');
+        $qrCode->setMargin(0);
+        $qrCode->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH());
         $qrCode->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0]);
         $qrCode->setBackgroundColor(['r' => 255, 'g' => 255, 'b' => 255, 'a' => 0]);
         $qrCode->setLabelFontSize(16);

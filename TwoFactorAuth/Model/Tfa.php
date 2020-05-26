@@ -231,6 +231,7 @@ class Tfa implements TfaInterface
 
     /**
      * Return true if a provider code is allowed
+     *
      * @param int $userId
      * @param string $providerCode
      * @throws NoSuchEntityException
@@ -252,6 +253,7 @@ class Tfa implements TfaInterface
 
     /**
      * Set default provider code
+     *
      * @param int $userId
      * @param string $providerCode
      * @return boolean

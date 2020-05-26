@@ -72,6 +72,9 @@ class ForceProviders extends Value
         }
 
         $value = $this->getValue();
+        if (is_string($value)) {
+            $value = explode(',', $value);
+        }
         $validValues = is_array($value) ? array_intersect($codes, $value) : [];
         if (empty($value) || !$validValues) {
             throw new ValidatorException(__('You have to select at least one Two-Factor Authorization provider'));

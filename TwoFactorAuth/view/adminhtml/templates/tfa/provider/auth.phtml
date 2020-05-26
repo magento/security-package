@@ -8,12 +8,12 @@
     <!-- ko template: getTemplate() --><!-- /ko -->
 </div>
 
-<?php echo $block->getChildHtml('change-provider') ?>
+<?= $block->getChildHtml('change-provider') ?>
 
 <script type="text/x-magento-init">
 {
     "#tfa-auth-container": {
-        "Magento_Ui/js/core/app": <?php /* @escapeNotVerified */ echo $block->getJsLayout() ?>
+        "Magento_Ui/js/core/app": <?= /* @noEscape */ $block->getJsLayout() ?>
     }
 }
 </script>

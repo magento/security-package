@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
 declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Integration\Controller\Adminhtml\Tfa;
@@ -52,7 +57,7 @@ class ConfigurepostTest extends AbstractBackendController
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -130,7 +135,7 @@ class ConfigurepostTest extends AbstractBackendController
         $this->dispatch($this->uri);
         $this->assertRedirect($this->stringContains('configure'));
         $this->assertEmpty($this->tfa->getForcedProviders());
-        $this->assertSessionMessages($this->contains(__('Please select valid providers.')->render()));
+        $this->assertSessionMessages($this->containsEqual(__('Please select valid providers.')->render()));
     }
 
     /**

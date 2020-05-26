@@ -30,8 +30,21 @@
                     <comment>Two-factor authorization providers for admin users to use during login</comment>
                     <backend_model>Magento\TwoFactorAuth\Model\Config\Backend\ForceProviders</backend_model>
                 </field>
+                <field canRestore="1" id="webapi_notification_url" translate="label" type="text" sortOrder="40"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Configuration Email URL for Web API</label>
+                    <comment>This can be used to override the default email configuration link that is sent when using the Magento Web API's to authenticate. Use the placeholder :tfat to indicate where the token should be injected</comment>
+                </field>
             </group>
-
+            <group id="google" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>Google</label>
+                <field id="otp_window" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                       showInWebsite="0" showInStore="0" canRestore="1">
+                    <label>OTP Window</label>
+                    <comment>This determines how long the one-time-passwords are valid for.</comment>
+                </field>
+            </group>
             <group id="duo" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0"
                    showInStore="0">
                 <label>Duo Security</label>
@@ -62,6 +75,15 @@
                 <field canRestore="1" id="onetouch_message" translate="label" type="text" sortOrder="40"
                        showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>OneTouch Message</label>
+                </field>
+            </group>
+            <group id="u2fkey" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="0"
+                   showInStore="0">
+                <label>U2F Key</label>
+                <field canRestore="1" id="webapi_challenge_domain" translate="label" type="text" sortOrder="10"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>WebApi Challenge Domain</label>
+                    <comment>This domain will be used when issuing and processing WebAuthn challenges via WebApi. The store domain will be used by default.</comment>
                 </field>
             </group>
         </section>

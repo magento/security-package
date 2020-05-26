@@ -61,7 +61,7 @@ class UserConfigManager implements UserConfigManagerInterface
     /**
      * @inheritdoc
      */
-    public function setProviderConfig(int $userId, string $providerCode, ?array $config=null): bool
+    public function setProviderConfig(int $userId, string $providerCode, ?array $config = null): bool
     {
         $userConfig = $this->getUserConfiguration($userId);
         $providersConfig = $userConfig->getData('config');
@@ -83,7 +83,7 @@ class UserConfigManager implements UserConfigManagerInterface
     /**
      * @inheritdoc
      */
-    public function addProviderConfig(int $userId, string $providerCode, ?array $config=null): bool
+    public function addProviderConfig(int $userId, string $providerCode, ?array $config = null): bool
     {
         $userConfig = $this->getProviderConfig($userId, $providerCode);
         if ($userConfig === null) {
@@ -106,6 +106,7 @@ class UserConfigManager implements UserConfigManagerInterface
 
     /**
      * Get user TFA config
+     *
      * @param int $userId
      * @return UserConfig
      */

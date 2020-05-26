@@ -11,12 +11,12 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\HTTP\Client\CurlFactory;
+use Magento\Framework\Serialize\Serializer\Json;
 use Magento\User\Api\Data\UserInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Api\EngineInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Service;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy\Token;
-use Zend\Json\Json;
 
 /**
  * Authy engine
@@ -54,28 +54,37 @@ class Authy implements EngineInterface
     private $token;
 
     /**
+     * @var Json
+     */
+    private $json;
+
+    /**
      * @param UserConfigManagerInterface $userConfigManager
      * @param ScopeConfigInterface $scopeConfig
      * @param Token $token
      * @param Service $service
      * @param CurlFactory $curlFactory
+     * @param Json $json
      */
     public function __construct(
         UserConfigManagerInterface $userConfigManager,
         ScopeConfigInterface $scopeConfig,
         Token $token,
         Service $service,
-        CurlFactory $curlFactory
+        CurlFactory $curlFactory,
+        Json $json
     ) {
         $this->userConfigManager = $userConfigManager;
         $this->curlFactory = $curlFactory;
         $this->service = $service;
         $this->scopeConfig = $scopeConfig;
         $this->token = $token;
+        $this->json = $json;
     }
 
     /**
      * Enroll in Authy
+     *
      * @param UserInterface $user
      * @return bool
      * @throws LocalizedException
@@ -97,7 +106,7 @@ class Authy implements EngineInterface
             'user[country_code]' => $providerInfo['country_code'],
         ]);
 
-        $response = Json::decode($curl->getBody(), Json::TYPE_ARRAY);
+        $response = $this->json->unserialize($curl->getBody());
 
         $errorMessage = $this->service->getErrorFromResponse($response);
         if ($errorMessage) {

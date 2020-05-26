@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
 declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Integration\Controller\Adminhtml\Google;
@@ -27,6 +32,7 @@ class ConfigurepostTest extends AbstractConfigureBackendController
     /**
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers google
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testTokenAccess(): void
     {
@@ -36,6 +42,7 @@ class ConfigurepostTest extends AbstractConfigureBackendController
     /**
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers google
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclHasAccess()
     {
@@ -45,6 +52,7 @@ class ConfigurepostTest extends AbstractConfigureBackendController
     /**
      * @inheritDoc
      * @magentoConfigFixture default/twofactorauth/general/force_providers google
+     * phpcs:disable Generic.CodeAnalysis.UselessOverridingMethod
      */
     public function testAclNoAccess()
     {

@@ -21,6 +21,9 @@ class AdminUserLoadAfter implements ObserverInterface
      */
     private $userConfigManager;
 
+    /**
+     * @param UserConfigManagerInterface $userConfigManager
+     */
     public function __construct(
         UserConfigManagerInterface $userConfigManager
     ) {
@@ -28,6 +31,8 @@ class AdminUserLoadAfter implements ObserverInterface
     }
 
     /**
+     * @inheritDoc
+     *
      * @param Observer $observer
      * @return void
      */
