@@ -85,7 +85,6 @@
                        showInWebsite="1" showInStore="0">
                     <label>Policy</label>
                     <validate>validate-url validate-no-html-tags</validate>
-                    <comment>Example: https://example.com/security-policy.html</comment>
                     <backend_model>Magento\Securitytxt\Model\Config\Backend\SecureUrl</backend_model>
                 </field>
                 <field id="signature_text" translate="label comment" type="textarea" sortOrder="80" showInDefault="1"
