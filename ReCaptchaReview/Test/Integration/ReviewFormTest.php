@@ -188,8 +188,8 @@ class ReviewFormTest extends AbstractController
         self::assertNotEmpty($content);
 
         $shouldContainReCaptcha
-            ? self::assertContains('field-recaptcha', $content)
-            : self::assertNotContains('field-recaptcha', $content);
+            ? self::assertStringContainsString('field-recaptcha', $content)
+            : self::assertStringNotContainsString('field-recaptcha', $content);
 
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
     }
@@ -203,7 +203,7 @@ class ReviewFormTest extends AbstractController
         $this->makePostRequest($postValues);
 
         $this->assertSessionMessages(
-            self::contains(
+            self::containsEqual(
                 'You submitted your review for moderation.'
             ),
             MessageInterface::TYPE_SUCCESS

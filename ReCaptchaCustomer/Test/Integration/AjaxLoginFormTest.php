@@ -18,7 +18,7 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\TestFramework\App\MutableScopeConfig;
 use Magento\TestFramework\TestCase\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
-use Zend\Http\Headers;
+use Laminas\Http\Headers;
 
 /**
  * @magentoDataFixture Magento/Customer/_files/customer.php
@@ -188,8 +188,8 @@ class AjaxLoginFormTest extends AbstractController
         self::assertNotEmpty($content);
 
         $shouldContainReCaptcha
-            ? $this->assertContains('recaptcha-popup-login', $content)
-            : $this->assertNotContains('recaptcha-popup-login', $content);
+            ? $this->assertStringContainsString('recaptcha-popup-login', $content)
+            : $this->assertStringNotContainsString('recaptcha-popup-login', $content);
 
         self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
     }

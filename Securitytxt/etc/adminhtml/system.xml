@@ -12,81 +12,90 @@
             <label>Security</label>
         </tab>
         <section id="magento_securitytxt_securitytxt" translate="label" type="text" sortOrder="520" showInDefault="1"
-                 showInWebsite="1" showInStore="1">
+                 showInWebsite="1" showInStore="0">
             <class>separator-top</class>
             <label>Security.txt</label>
             <tab>security</tab>
             <resource>Magento_Securitytxt::config</resource>
             <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
-                   showInStore="1">
+                   showInStore="0">
                 <label>General</label>
                 <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1"
-                       showInStore="1">
+                       showInStore="0">
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
             <group id="contact_information" translate="label" type="text" sortOrder="10" showInDefault="1"
                    showInWebsite="1"
-                   showInStore="1">
+                   showInStore="0">
                 <label>Contact Information</label>
                 <field id="email" translate="label comment" type="text" sortOrder="20" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
+                       showInWebsite="1" showInStore="0">
                     <label>Email</label>
                     <validate>validate-email</validate>
-                    <backend_model>Magento\Securitytxt\Model\Config\Backend\Validate</backend_model>
                 </field>
                 <field id="phone" translate="label comment" type="text" sortOrder="20" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
+                       showInWebsite="1" showInStore="0">
                     <label>Phone</label>
                 </field>
                 <field id="contact_page" translate="label comment" type="text" sortOrder="20" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
+                       showInWebsite="1" showInStore="0">
                     <label>Contact Page</label>
                     <validate>validate-url validate-no-html-tags</validate>
+                    <backend_model>Magento\Securitytxt\Model\Config\Backend\SecureUrl</backend_model>
                     <comment>Example: https://example.com/security-contact.html</comment>
                 </field>
+                <depends>
+                    <field id="magento_securitytxt_securitytxt/general/enabled">1</field>
+                </depends>
             </group>
             <group id="other_information" translate="label" type="text" sortOrder="10" showInDefault="1"
                    showInWebsite="1"
-                   showInStore="1">
+                   showInStore="0">
                 <label>Other Information</label>
                 <field id="encryption" translate="label comment" type="text" sortOrder="40" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
+                       showInWebsite="1" showInStore="0" >
                     <label>Encryption</label>
                     <validate>validate-url validate-no-html-tags</validate>
                     <comment>Example: https://example.com/pgp-key.txt</comment>
+                    <backend_model>Magento\Securitytxt\Model\Config\Backend\SecureUrl</backend_model>
                 </field>
                 <field id="acknowledgements" translate="label comment" type="text" sortOrder="50" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
+                       showInWebsite="1" showInStore="0">
                     <label>Acknowledgements</label>
                     <validate>validate-url validate-no-html-tags</validate>
                     <comment>Example: https://example.com/hall-of-fame.html</comment>
+                    <backend_model>Magento\Securitytxt\Model\Config\Backend\SecureUrl</backend_model>
                 </field>
                 <field id="preferred_languages" translate="label comment" type="text" sortOrder="50" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
+                       showInWebsite="1" showInStore="0">
                     <label>Preferred-Languages</label>
                     <validate>validate-text validate-no-html-tags</validate>
                     <comment>Example: en, es, hi, de, fr</comment>
                 </field>
                 <field id="hiring" translate="label comment" type="text" sortOrder="50" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
+                       showInWebsite="1" showInStore="0">
                     <label>Hiring</label>
                     <validate>validate-url validate-no-html-tags</validate>
                     <comment>Example: https://example.com/jobs.html</comment>
+                    <backend_model>Magento\Securitytxt\Model\Config\Backend\SecureUrl</backend_model>
                 </field>
                 <field id="policy" translate="label comment" type="text" sortOrder="60" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
+                       showInWebsite="1" showInStore="0">
                     <label>Policy</label>
                     <validate>validate-url validate-no-html-tags</validate>
-                    <comment>Example: https://example.com/security-policy.html</comment>
+                    <backend_model>Magento\Securitytxt\Model\Config\Backend\SecureUrl</backend_model>
                 </field>
                 <field id="signature_text" translate="label comment" type="textarea" sortOrder="80" showInDefault="1"
-                       showInWebsite="1" showInStore="1">
+                       showInWebsite="1" showInStore="0">
                     <label>Signature</label>
                     <validate>validate-no-html-tags</validate>
                     <comment model="Magento\Securitytxt\Model\Config\Signature"/>
                 </field>
+                <depends>
+                    <field id="magento_securitytxt_securitytxt/general/enabled">1</field>
+                </depends>
             </group>
         </section>
     </system>
