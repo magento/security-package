@@ -31,6 +31,7 @@
                        showInStore="0" canRestore="1">
                     <label>Invisible Badge Position</label>
                     <source_model>Magento\ReCaptchaVersion3Invisible\Model\OptionSource\Position</source_model>
+                    <comment>Modal blocks ignore this value and render reCaptcha only in the 'inline' position.</comment>
                 </field>
 
                 <field id="theme" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="0"

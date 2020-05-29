@@ -117,6 +117,11 @@ define(
                     this.settings.rendering
                 );
 
+                // Force inline mode for reCaptcha instances in modal blocks
+                if ($reCaptcha.closest( "[data-role='modal']" ).length > 0) {
+                    parameters.badge = 'inline';
+                }
+
                 // eslint-disable-next-line no-undef
                 widgetId = grecaptcha.render(this.getReCaptchaId(), parameters);
                 this.initParentForm($parentForm, widgetId);
