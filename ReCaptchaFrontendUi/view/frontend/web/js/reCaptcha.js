@@ -11,9 +11,10 @@ define(
         'jquery',
         'ko',
         'Magento_ReCaptchaFrontendUi/js/registry',
-        'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader'
+        'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader',
+        'Magento_ReCaptchaFrontendUi/js/nonInlineReCaptchaRenderer',
     ],
-    function (Component, $, ko, registry, reCaptchaLoader, undefined) {
+    function (Component, $, ko, registry, reCaptchaLoader,nonInlineReCaptchaRenderer, undefined) {
         'use strict';
 
         return Component.extend({
@@ -116,6 +117,8 @@ define(
                     },
                     this.settings.rendering
                 );
+
+                nonInlineReCaptchaRenderer.add($reCaptcha, parameters);
 
                 // eslint-disable-next-line no-undef
                 widgetId = grecaptcha.render(this.getReCaptchaId(), parameters);
