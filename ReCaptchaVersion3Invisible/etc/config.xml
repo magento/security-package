@@ -10,6 +10,7 @@
     <default>
         <recaptcha_backend>
             <type_recaptcha_v3>
+                <public_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <score_threshold>0.5</score_threshold>
                 <position>inline</position>
@@ -20,6 +21,7 @@
         </recaptcha_backend>
         <recaptcha_frontend>
             <type_recaptcha_v3>
+                <public_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <score_threshold>0.5</score_threshold>
                 <position>inline</position>
