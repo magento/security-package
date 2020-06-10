@@ -1,12 +1,12 @@
 {
     "name": "magento/module-re-captcha-frontend-ui",
     "description": "Google reCAPTCHA integration for Magento2",
-    "version": "1.0.0",
+    "version": "1.0.0-alpha5",
     "require": {
         "php": "~7.3.0||~7.4.0",
         "magento/framework": "*",
         "magento/module-store": "*",
-        "magento/module-re-captcha-ui": "*"
+        "magento/module-re-captcha-ui": "1.0.*"
     },
     "type": "magento2-module",
     "license": "OSL-3.0",
