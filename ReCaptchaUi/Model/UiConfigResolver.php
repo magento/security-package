@@ -62,4 +62,22 @@ class UiConfigResolver implements UiConfigResolverInterface
         }
         return $this->uiConfigProviders[$captchaType]->get();
     }
+
+    /**
+     * Get UiConfigProvider data by given UiConfigProvider name.
+     *
+     * @param string $name
+     * @return array
+     * @throws InputException
+     */
+    public function getByName(string $name): array
+    {
+        if (!isset($this->uiConfigProviders[$name])) {
+            throw new InputException(
+                __('UI config provider for "%type" is not configured.', ['type' => $name])
+            );
+        }
+
+        return $this->uiConfigProviders[$name]->get();
+    }
 }
