@@ -298,7 +298,7 @@ class WebAuthn
         return [
             'key' => $attestationObject['attestationData']['keyBytes'],
             'id' => $credentialData['id'],
-            'aaguid' => $attestationObject['attestationData']['aaguid'] ?? null
+            'aaguid' => base64_encode($attestationObject['attestationData']['aaguid']) ?? null
         ];
     }
 
