@@ -3,18 +3,17 @@
  * See COPYING.txt for license details.
  */
 
-/* eslint-disable no-undef */
-// jscs:disable jsDoc
+/* global grecaptcha */
 define(
     [
         'uiComponent',
         'jquery',
         'ko',
+        'underscore',
         'Magento_ReCaptchaFrontendUi/js/registry',
         'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader',
-        'Magento_ReCaptchaFrontendUi/js/nonInlineReCaptchaRenderer',
-    ],
-    function (Component, $, ko, registry, reCaptchaLoader,nonInlineReCaptchaRenderer) {
+        'Magento_ReCaptchaFrontendUi/js/nonInlineReCaptchaRenderer'
+    ], function (Component, $, ko, _, registry, reCaptchaLoader, nonInlineReCaptchaRenderer) {
         'use strict';
 
         return Component.extend({
@@ -24,6 +23,9 @@ define(
                 reCaptchaId: 'recaptcha'
             },
 
+            /**
+             * @inheritdoc
+             */
             initialize: function () {
                 this._super();
                 this._loadApi();
@@ -116,7 +118,7 @@ define(
                 );
 
                 if (parameters.size === 'invisible' && parameters.badge !== 'inline') {
-                    nonInlineReCaptchaRenderer.add($reCaptcha, parameters)
+                    nonInlineReCaptchaRenderer.add($reCaptcha, parameters);
                 }
 
                 // eslint-disable-next-line no-undef
@@ -161,6 +163,11 @@ define(
                 }
             },
 
+            /**
+             * Validates reCAPTCHA
+             * @param {*} state
+             * @returns {jQuery}
+             */
             validateReCaptcha: function (state) {
                 if (!this.getIsInvisibleRecaptcha()) {
                     return $(document).find('input[type=checkbox].required-captcha').prop('checked', state);
@@ -188,5 +195,4 @@ define(
                 return this.reCaptchaId;
             }
         });
-    }
-);
+    });
