@@ -14,29 +14,39 @@ define([
         rendererReCaptcha = null;
 
     return {
+        /**
+         * Add reCaptcha entity to checklist.
+         *
+         * @param {jQuery} reCaptchaEntity
+         * @param {Object} parameters
+         */
         add: function (reCaptchaEntity, parameters) {
-            if (parameters.size === 'invisible' && parameters.badge !== 'inline') {
-                if (!initialized) {
-                    this._init();
-                    grecaptcha.render(rendererRecaptchaId, parameters);
-                    setInterval(this._resolveVisibility, 100);
-                    initialized = true;
-                }
-
-                reCaptchaEntities.push(reCaptchaEntity);
+            if (!initialized) {
+                this.init();
+                grecaptcha.render(rendererRecaptchaId, parameters);
+                setInterval(this.resolveVisibility, 100);
+                initialized = true;
             }
+
+            reCaptchaEntities.push(reCaptchaEntity);
         },
 
-        _resolveVisibility: function () {
+        /**
+         * Show additional reCaptcha instance if any other should be visible, otherwise hide it.
+         */
+        resolveVisibility: function () {
             reCaptchaEntities.some(
                 (entity) => {
                     return entity.is(":visible")
                         // 900 is some magic z-index value of modal popups.
-                        && (entity.closest("[data-role='modal']").length == 0 || entity.zIndex() > 900)
+                        && (entity.closest("[data-role='modal']").length === 0 || entity.zIndex() > 900)
                 }) ? rendererReCaptcha.show() : rendererReCaptcha.hide();
         },
 
-        _init: function () {
+        /**
+         * Initialize additional reCaptcha instance.
+         */
+        init: function () {
             rendererReCaptcha = $('<div/>', {
                 'id': rendererRecaptchaId
             });
