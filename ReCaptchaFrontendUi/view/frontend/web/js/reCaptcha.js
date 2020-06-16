@@ -12,9 +12,9 @@ define(
         'ko',
         'Magento_ReCaptchaFrontendUi/js/registry',
         'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader',
-        'Magento_ReCaptchaFrontendUi/js/nonInlineReCaptchaRenderer',
+        'Magento_ReCaptchaFrontendUi/js/nonInlineReCaptchaRenderer'
     ],
-    function (Component, $, ko, registry, reCaptchaLoader,nonInlineReCaptchaRenderer) {
+    function (Component, $, ko, registry, reCaptchaLoader, nonInlineReCaptchaRenderer) {
         'use strict';
 
         return Component.extend({

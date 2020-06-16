@@ -33,18 +33,28 @@ define([
 
         /**
          * Show additional reCaptcha instance if any other should be visible, otherwise hide it.
+         *
+         * @private
          */
         resolveVisibility: function () {
             reCaptchaEntities.some(
-                (entity) => {
-                    return entity.is(":visible")
+                /**
+                 * Check if reCaptcha instance is visible.
+                 *
+                 * @param {jQuery} entity
+                 * @returns {Boolean}
+                 */
+                function (entity) {
+                    return entity.is(':visible') &&
                         // 900 is some magic z-index value of modal popups.
-                        && (entity.closest("[data-role='modal']").length === 0 || entity.zIndex() > 900)
+                        (entity.closest('[data-role=\'modal\']').length === 0 || entity.zIndex() > 900)
                 }) ? rendererReCaptcha.show() : rendererReCaptcha.hide();
         },
 
         /**
          * Initialize additional reCaptcha instance.
+         *
+         * @private
          */
         init: function () {
             rendererReCaptcha = $('<div/>', {
