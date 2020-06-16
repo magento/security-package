@@ -1,3 +1,10 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
@@ -6,9 +13,10 @@
                    showInStore="0">
                 <label>reCAPTCHA v2 ("I am not a robot")</label>
 
-                <field id="public_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0"
+                <field id="public_key" translate="label" type="obscure" sortOrder="10" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="0">
                     <label>Google API Website Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
 
                 <field id="private_key" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="0"
@@ -49,9 +57,10 @@
                    showInStore="1">
                 <label>reCAPTCHA v2 ("I am not a robot")</label>
 
-                <field id="public_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                <field id="public_key" translate="label" type="obscure" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="0">
                     <label>Google API Website Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
 
                 <field id="private_key" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1"
