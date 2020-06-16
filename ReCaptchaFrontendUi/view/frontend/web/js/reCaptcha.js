@@ -14,7 +14,7 @@ define(
         'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader',
         'Magento_ReCaptchaFrontendUi/js/nonInlineReCaptchaRenderer',
     ],
-    function (Component, $, ko, registry, reCaptchaLoader,nonInlineReCaptchaRenderer, undefined) {
+    function (Component, $, ko, registry, reCaptchaLoader,nonInlineReCaptchaRenderer) {
         'use strict';
 
         return Component.extend({
@@ -23,7 +23,6 @@ define(
                 template: 'Magento_ReCaptchaFrontendUi/reCaptcha',
                 reCaptchaId: 'recaptcha'
             },
-            _isApiRegistered: undefined,
 
             initialize: function () {
                 this._super();
@@ -76,8 +75,7 @@ define(
              * Initialize reCAPTCHA after first rendering
              */
             initCaptcha: function () {
-                var me = this,
-                    $parentForm,
+                var $parentForm,
                     $wrapper,
                     $reCaptcha,
                     widgetId,
@@ -103,22 +101,23 @@ define(
                 $reCaptcha.attr('id', this.getReCaptchaId());
 
                 $parentForm = $wrapper.parents('form');
-                me = this;
 
                 parameters = _.extend(
                     {
                         'callback': function (token) { // jscs:ignore jsDoc
-                            me.reCaptchaCallback(token);
-                            me.validateReCaptcha(true);
-                        },
+                            this.reCaptchaCallback(token);
+                            this.validateReCaptcha(true);
+                        }.bind(this),
                         'expired-callback': function () {
-                            me.validateReCaptcha(false);
-                        }
+                            this.validateReCaptcha(false);
+                        }.bind(this)
                     },
                     this.settings.rendering
                 );
 
-                nonInlineReCaptchaRenderer.add($reCaptcha, parameters);
+                if (parameters.size === 'invisible' && parameters.badge !== 'inline') {
+                    nonInlineReCaptchaRenderer.add($reCaptcha, parameters)
+                }
 
                 // eslint-disable-next-line no-undef
                 widgetId = grecaptcha.render(this.getReCaptchaId(), parameters);
@@ -137,18 +136,17 @@ define(
              * @param {String} widgetId
              */
             initParentForm: function (parentForm, widgetId) {
-                var me = this,
-                    listeners;
+                var listeners;
 
                 if (this.getIsInvisibleRecaptcha() && parentForm.length > 0) {
                     parentForm.submit(function (event) {
-                        if (!me.tokenField.value) {
+                        if (!this.tokenField.value) {
                             // eslint-disable-next-line no-undef
                             grecaptcha.execute(widgetId);
                             event.preventDefault(event);
                             event.stopImmediatePropagation();
                         }
-                    });
+                    }.bind(this));
 
                     // Move our (last) handler topmost. We need this to avoid submit bindings with ko.
                     listeners = $._data(parentForm[0], 'events').submit;
@@ -173,14 +171,12 @@ define(
              * Render reCAPTCHA
              */
             renderReCaptcha: function () {
-                var me = this;
-
                 if (window.grecaptcha && window.grecaptcha.render) { // Check if reCAPTCHA is already loaded
-                    me.initCaptcha();
+                    this.initCaptcha();
                 } else { // Wait for reCAPTCHA to be loaded
                     $(window).on('recaptchaapiready', function () {
-                        me.initCaptcha();
-                    });
+                        this.initCaptcha();
+                    }.bind(this));
                 }
             },
 
