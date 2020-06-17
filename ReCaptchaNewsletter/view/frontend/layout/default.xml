@@ -17,13 +17,6 @@
                    ifconfig="recaptcha_frontend/type_for/newsletter">
                 <arguments>
                     <argument name="recaptcha_for" xsi:type="string">newsletter</argument>
-                    <argument name="captcha_ui_config" xsi:type="array">
-                        <item name="invisible" xsi:type="boolean">true</item>
-                        <item name="rendering" xsi:type="array">
-                            <item name="badge" xsi:type="string">bottomright</item>
-                            <item name="size" xsi:type="string">invisible</item>
-                        </item>
-                    </argument>
                     <argument name="jsLayout" xsi:type="array">
                         <item name="components" xsi:type="array">
                             <item name="recaptcha" xsi:type="array">
