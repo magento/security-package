@@ -14,7 +14,6 @@
         </annotations>
         <arguments>
             <argument name="SecurityTxtConfiguration" defaultValue="SecurityTxtConfigurationValue"/>
-            <argument name="SecurityTxtEnabledConfiguration" defaultValue="EnableSecurityTxt"/>
         </arguments>
 
         <amOnPage url="{{AdminSecurityTxtConfigurationPage.url}}" stepKey="amOnSecurityTxtConfigurationPage"/>
