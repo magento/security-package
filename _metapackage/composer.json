@@ -2,6 +2,7 @@
     "name": "magento/security-package",
     "description": "Magento Security Package",
     "type": "metapackage",
+    "version": "1.0.0",
     "require": {
         "magento/module-re-captcha-admin-ui": "*",
         "magento/module-re-captcha-checkout": "*",
@@ -21,7 +22,6 @@
         "magento/module-re-captcha-version-2-invisible": "*",
         "magento/module-re-captcha-version-3-invisible": "*",
         "magento/module-securitytxt": "*",
-        "magento/module-two-factor-auth": "*",
-        "google/recaptcha": "^1.2"
+        "magento/module-two-factor-auth": "*"
     }
 }
