@@ -2,7 +2,7 @@
     "name": "magento/module-notifier-slack-adapter-admin-ui",
     "description": "Slack adapter for Notifier framework",
     "require": {
-        "php": "~7.1.3||~7.2.0||~7.3.0||~7.4.0",
+        "php": "~7.3.0||~7.4.0",
         "magento/framework": "*",
         "magento/module-ui": "*",
         "magento/module-notifier-admin-ui": "*",
