@@ -14,9 +14,13 @@ use Magento\Framework\Filesystem\Io\File;
 use Magento\Framework\Module\Dir\Reader;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Framework\View\FileSystem;
+use Magento\NotifierApi\Api\AdaptersPoolInterface;
 use Magento\NotifierTemplate\Model\FilesystemTemplateRepository;
 use Magento\NotifierTemplate\Model\FilesystemTemplateRepositoryInterface;
 
+/**
+ * Class for Get Template File
+ */
 class GetTemplateFile
 {
     /**
@@ -35,19 +39,27 @@ class GetTemplateFile
     private $reader;
 
     /**
+     * @var AdaptersPoolInterface
+     */
+    private $adapterRepository;
+
+    /**
      * @param File $file
      * @param Reader $reader
      * @param FilesystemTemplateRepositoryInterface $filesystemTemplateRepository
+     * @param AdaptersPoolInterface $adapterRepository
      * @SuppressWarnings(PHPMD.LongVariables)
      */
     public function __construct(
         File $file,
         Reader $reader,
-        FilesystemTemplateRepositoryInterface $filesystemTemplateRepository
+        FilesystemTemplateRepositoryInterface $filesystemTemplateRepository,
+        AdaptersPoolInterface $adapterRepository
     ) {
         $this->file = $file;
         $this->filesystemTemplateRepository = $filesystemTemplateRepository;
         $this->reader = $reader;
+        $this->adapterRepository = $adapterRepository;
     }
 
     /**
@@ -58,25 +70,34 @@ class GetTemplateFile
      * @return string
      * @throws LocalizedException
      * @throws FileSystemException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function execute(string $adapterCode, string $templateId): string
     {
         $adapterCode = preg_replace('/[^\w\_]+/', '', $adapterCode);
 
-        $templateFile = $this->filesystemTemplateRepository->get($templateId);
+        if ($adapterCode) {
+            $adapterClass = $this->adapterRepository->getAdapterByCode($adapterCode);
+
+            $templateMapping = $adapterClass->getTemplateMapping();
+
+            if (isset($templateMapping[$templateId])) {
+                $templateFile = $templateMapping[$templateId];
+            } else {
+                throw new FileSystemException(__('Template %1 does not exist', $adapterCode . '/' . $templateId));
+            }
+        } else {
+            $templateFile = $this->filesystemTemplateRepository->get($templateId);
+        }
 
         [$module, $filePath] = Repository::extractModule(
             FileSystem::normalizePath($templateFile)
         );
 
-        $templatePath = $this->reader->getModuleDir('', $module). '/' .
+        $templatePath = $this->reader->getModuleDir('', $module) . '/' .
             FilesystemTemplateRepository::TEMPLATE_MODULE_DIR;
 
-        if ($adapterCode) {
-            $fullPath = $templatePath . '/' . $adapterCode . '/' . $filePath;
-        } else {
-            $fullPath = $templatePath . '/' . $filePath;
-        }
+        $fullPath = $templatePath . '/' . $filePath;
 
         if (!$this->file->fileExists($fullPath)) {
             throw new FileSystemException(__('Template %1 does not exist', $adapterCode . '/' . $templateId));

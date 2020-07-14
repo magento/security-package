@@ -34,6 +34,13 @@
                       xsi:type="object">Magento\NotifierTelegramAdapter\Model\AdapterEngine\ValidatorChain\Telegram</argument>
             <argument name="code" xsi:type="string">telegram</argument>
             <argument name="description" xsi:type="string">Telegram Messenger</argument>
+            <argument name="template_mapping" xsi:type="array">
+                <item name="security_admin_login_failure" xsi:type="string">Magento_NotifierTelegramAdapter::security_admin_login_failure.html</item>
+                <item name="security_admin_configuration_changed" xsi:type="string">Magento_NotifierTelegramAdapter::security_admin_configuration_changed.html</item>
+                <item name="security_admin_user_new" xsi:type="string">Magento_NotifierTelegramAdapter::security_admin_user_new.html</item>
+                <item name="security_admin_user_changed" xsi:type="string">Magento_NotifierTelegramAdapter::security_admin_user_changed.html</item>
+                <item name="security_admin_forgot_password" xsi:type="string">Magento_NotifierTelegramAdapter::security_admin_forgot_password.html</item>
+            </argument>
         </arguments>
     </virtualType>
 

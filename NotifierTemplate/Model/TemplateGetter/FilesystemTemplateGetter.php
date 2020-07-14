@@ -76,6 +76,8 @@ class FilesystemTemplateGetter implements TemplateGetterInterface
             return null;
         }
 
+        $res = $this->prepareTemplate($res);
+
         return $res;
     }
 
@@ -106,5 +108,30 @@ class FilesystemTemplateGetter implements TemplateGetterInterface
     public function getList(): array
     {
         return $this->filesystemTemplateRepository->getList();
+    }
+
+    /**
+     * Prepare Template text content
+     *
+     * @param $templateText
+     * @return string
+     */
+    private function prepareTemplate($templateText): string
+    {
+        /**
+         * trim copyright message
+         */
+        if (preg_match('/^<!--[\w\W]+?-->/m', $templateText, $matches) && strpos($matches[0], 'Copyright') !== false) {
+            $templateText = str_replace($matches[0], '', $templateText);
+        }
+
+        if (preg_match('/<!--@vars\s*((?:.)*?)\s*@-->/us', $templateText, $matches)) {
+            $templateText = str_replace($matches[0], '', $templateText);
+        }
+
+        // Remove comment lines and extra spaces
+        $templateText = trim(preg_replace('#\{\*.*\*\}#suU', '', $templateText));
+
+        return $templateText;
     }
 }
