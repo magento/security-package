@@ -123,6 +123,7 @@ define(
 
                 // eslint-disable-next-line no-undef
                 widgetId = grecaptcha.render(this.getReCaptchaId(), parameters);
+
                 if (parameters.badge === 'inline') {
                     this.observeVisibilityChange($reCaptcha, widgetId);
                 }
@@ -206,13 +207,14 @@ define(
              */
             observeVisibilityChange: function (reCaptchaInstance, widgetId) {
                 reCaptchaInstance.attr('widget-id', widgetId);
+
                 if (!this.intersectionObserver) {
                     this.intersectionObserver = new IntersectionObserver(function (entries) {
                         entries.forEach(function (entry) {
                             if (entry.intersectionRatio > 0) {
                                 grecaptcha.reset(entry.target.attributes['widget-id'].value);
                             }
-                        })
+                        });
                     });
                 }
                 this.intersectionObserver.observe(reCaptchaInstance[0]);
