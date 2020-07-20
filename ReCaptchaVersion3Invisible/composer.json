@@ -11,7 +11,7 @@
     },
     "suggest": {
         "magento/module-config": "*",
-        "magento/module-re-captcha-admin-ui": "*"
+        "magento/module-re-captcha-admin-ui": "1.0.*"
     },
     "type": "magento2-module",
     "license": "OSL-3.0",
