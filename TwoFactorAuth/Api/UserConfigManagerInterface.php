@@ -21,6 +21,7 @@ interface UserConfigManagerInterface
 
     /**
      * Get a provider configuration for a given user
+     *
      * @param int $userId
      * @param string $providerCode
      * @return array|null
@@ -30,26 +31,29 @@ interface UserConfigManagerInterface
 
     /**
      * Set provider configuration
+     *
      * @param int $userId
      * @param string $providerCode
      * @param array|null $config
      * @return bool
      * @throws NoSuchEntityException
      */
-    public function setProviderConfig(int $userId, string $providerCode, ?array $config=null): bool;
+    public function setProviderConfig(int $userId, string $providerCode, ?array $config = null): bool;
 
     /**
      * Set provider configuration
+     *
      * @param int $userId
      * @param string $providerCode
      * @param array|null $config
      * @return bool
      * @throws NoSuchEntityException
      */
-    public function addProviderConfig(int $userId, string $providerCode, ?array $config=null): bool;
+    public function addProviderConfig(int $userId, string $providerCode, ?array $config = null): bool;
 
     /**
      * Reset provider configuration
+     *
      * @param int $userId
      * @param string $providerCode
      * @return bool
@@ -59,6 +63,7 @@ interface UserConfigManagerInterface
 
     /**
      * Set providers list for a given user
+     *
      * @param int $userId
      * @param string|array $providersCodes
      * @return bool
@@ -68,6 +73,7 @@ interface UserConfigManagerInterface
 
     /**
      * Set providers list for a given user
+     *
      * @param int $userId
      * @return string[]
      */
@@ -75,6 +81,7 @@ interface UserConfigManagerInterface
 
     /**
      * Activate a provider configuration
+     *
      * @param int $userId
      * @param string $providerCode
      * @return bool
@@ -84,6 +91,7 @@ interface UserConfigManagerInterface
 
     /**
      * Return true if a provider configuration has been activated
+     *
      * @param int $userId
      * @param string $providerCode
      * @return bool
@@ -93,6 +101,7 @@ interface UserConfigManagerInterface
 
     /**
      * Set default provider
+     *
      * @param int $userId
      * @param string $providerCode
      * @return bool
@@ -101,7 +110,8 @@ interface UserConfigManagerInterface
     public function setDefaultProvider(int $userId, string $providerCode): bool;
 
     /**
-     * get default provider
+     * Get default provider
+     *
      * @param int $userId
      * @return string
      */

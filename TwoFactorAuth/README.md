@@ -22,9 +22,6 @@ Did you lock yourself out from Magento backend? <a href="https://github.com/mage
     * Duo Security
         * SMS
         * Push notification
-* Trusted devices
-    * High security rolling codes
-* Trusted devices revoke list
 * Central security suite events logging
 * Per user configuration
 * Forced global 2FA configuration

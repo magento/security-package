@@ -17,18 +17,14 @@ interface EngineInterface
 {
     /**
      * Return true if this provider has been enabled by admin
+     *
      * @return bool
      */
     public function isEnabled(): bool;
 
     /**
-     * Return true if this provider allows trusted devices
-     * @return bool
-     */
-    public function isTrustedDevicesAllowed(): bool;
-
-    /**
      * Return true on token validation
+     *
      * @param UserInterface $user
      * @param DataObject $request
      * @return bool

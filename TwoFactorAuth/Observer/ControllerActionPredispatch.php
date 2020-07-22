@@ -7,20 +7,25 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Observer;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Backend\App\AbstractAction;
-use Magento\Backend\Model\Auth\Session;
-use Magento\Backend\Model\UrlInterface;
-use Magento\Framework\App\ActionFlag;
 use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\ActionFlag;
+use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\UrlInterface;
+use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Configure;
+use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Index;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
-use Magento\TwoFactorAuth\Api\TrustedManagerInterface;
-use Magento\User\Model\User;
+use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
+use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * Handle redirection to 2FA page if required
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ControllerActionPredispatch implements ObserverInterface
 {
@@ -28,6 +33,26 @@ class ControllerActionPredispatch implements ObserverInterface
      * @var TfaInterface
      */
     private $tfa;
+
+    /**
+     * @var TfaSessionInterface
+     */
+    private $tfaSession;
+
+    /**
+     * @var UserConfigRequestManagerInterface
+     */
+    private $configRequestManager;
+
+    /**
+     * @var AbstractAction|null
+     */
+    private $action;
+
+    /**
+     * @var HtmlAreaTokenVerifier
+     */
+    private $tokenManager;
 
     /**
      * @var ActionFlag
@@ -40,51 +65,55 @@ class ControllerActionPredispatch implements ObserverInterface
     private $url;
 
     /**
-     * @var TfaSessionInterface
+     * @var AuthorizationInterface
      */
-    private $tfaSession;
+    private $authorization;
 
     /**
-     * @var Session
+     * @var UserContextInterface
      */
-    private $session;
-
-    /**
-     * @var TrustedManagerInterface
-     */
-    private $trustedManager;
+    private $userContext;
 
     /**
      * @param TfaInterface $tfa
+     * @param TfaSessionInterface $tfaSession
+     * @param UserConfigRequestManagerInterface $configRequestManager
+     * @param HtmlAreaTokenVerifier $tokenManager
      * @param ActionFlag $actionFlag
      * @param UrlInterface $url
-     * @param Session $session
-     * @param TfaSessionInterface $tfaSession
-     * @param TrustedManagerInterface $trustedManager
+     * @param AuthorizationInterface $authorization
+     * @param UserContextInterface $userContext
      */
     public function __construct(
         TfaInterface $tfa,
+        TfaSessionInterface $tfaSession,
+        UserConfigRequestManagerInterface $configRequestManager,
+        HtmlAreaTokenVerifier $tokenManager,
         ActionFlag $actionFlag,
         UrlInterface $url,
-        Session $session,
-        TfaSessionInterface $tfaSession,
-        TrustedManagerInterface $trustedManager
+        AuthorizationInterface $authorization,
+        UserContextInterface $userContext
     ) {
         $this->tfa = $tfa;
+        $this->tfaSession = $tfaSession;
+        $this->configRequestManager = $configRequestManager;
+        $this->tokenManager = $tokenManager;
         $this->actionFlag = $actionFlag;
         $this->url = $url;
-        $this->tfaSession = $tfaSession;
-        $this->session = $session;
-        $this->trustedManager = $trustedManager;
+        $this->authorization = $authorization;
+        $this->userContext = $userContext;
     }
 
     /**
-     * Get current user
-     * @return User|null
+     * Redirect user to given URL.
+     *
+     * @param string $url
+     * @return void
      */
-    private function getUser(): ?User
+    private function redirect(string $url): void
     {
-        return $this->session->getUser();
+        $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
+        $this->action->getResponse()->setRedirect($this->url->getUrl($url));
     }
 
     /**
@@ -92,27 +121,43 @@ class ControllerActionPredispatch implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if (!$this->tfa->isEnabled()) {
-            return;
-        }
-
         /** @var $controllerAction AbstractAction */
-        $controllerAction = $observer->getEvent()->getControllerAction();
-        $fullActionName = $controllerAction->getRequest()->getFullActionName();
+        $controllerAction = $observer->getEvent()->getData('controller_action');
+        $this->action = $controllerAction;
+        $fullActionName = $observer->getEvent()->getData('request')->getFullActionName();
+        $userId = $this->userContext->getUserId();
+
+        $this->tokenManager->readConfigToken();
 
         if (in_array($fullActionName, $this->tfa->getAllowedUrls(), true)) {
+            //Actions that are used for 2FA must remain accessible.
             return;
         }
 
-        $user = $this->getUser();
-        if ($user && !empty($this->tfa->getUserProviders((int) $user->getId()))) {
-            $accessGranted = ($this->tfaSession->isGranted() || $this->trustedManager->isTrustedDevice()) &&
-                empty($this->tfa->getProvidersToActivate((int) $user->getId()));
+        if ($userId) {
+            $configurationStillRequired = $this->configRequestManager->isConfigurationRequiredFor($userId);
+            $toActivate = $this->tfa->getProvidersToActivate($userId);
+            $toActivateCodes = [];
+            foreach ($toActivate as $toActivateProvider) {
+                $toActivateCodes[] = $toActivateProvider->getCode();
+            }
+            $accessGranted = $this->tfaSession->isGranted();
 
-            if (!$accessGranted) {
-                $this->actionFlag->set('', Action::FLAG_NO_DISPATCH, true);
-                $url = $this->url->getUrl('tfa/tfa/index');
-                $controllerAction->getResponse()->setRedirect($url);
+            if (!$accessGranted && $configurationStillRequired) {
+                //User needs special link with a token to be allowed to configure 2FA
+                if ($this->authorization->isAllowed(Configure::ADMIN_RESOURCE)) {
+                    $this->redirect('tfa/tfa/requestconfig');
+                } else {
+                    $this->redirect('tfa/tfa/accessdenied');
+                }
+            } else {
+                if (!$accessGranted) {
+                    if ($this->authorization->isAllowed(Index::ADMIN_RESOURCE)) {
+                        $this->redirect('tfa/tfa/index');
+                    } else {
+                        $this->redirect('tfa/tfa/accessdenied');
+                    }
+                }
             }
         }
     }

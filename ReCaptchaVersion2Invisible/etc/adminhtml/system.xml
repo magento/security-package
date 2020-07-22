@@ -1,3 +1,10 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
@@ -6,9 +13,10 @@
                    showInStore="0">
                 <label>reCAPTCHA v2 Invisible</label>
 
-                <field id="public_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0"
+                <field id="public_key" translate="label" type="obscure" sortOrder="10" showInDefault="1" showInWebsite="0"
                        showInStore="0" canRestore="0">
                     <label>Google API Website Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
 
                 <field id="private_key" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="0"
@@ -23,7 +31,22 @@
                     <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Position</source_model>
                 </field>
 
-                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="40" showInDefault="1"
+                <field id="theme" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+                    <label>Theme</label>
+                    <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Theme</source_model>
+                </field>
+
+                <field id="lang" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="0"
+                       showInStore="0" canRestore="1">
+                    <label>Language Code</label>
+                    <comment><![CDATA[
+                        Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified. See
+                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language Codes</a>.
+                ]]></comment>
+                </field>
+
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="60" showInDefault="1"
                        showInWebsite="0" showInStore="0" canRestore="1">
                     <label>reCAPTCHA Validation Failure Message</label>
                 </field>
@@ -31,12 +54,13 @@
         </section>
         <section id="recaptcha_frontend">
             <group id="type_invisible" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1"
-                   showInStore="0">
+                   showInStore="1">
                 <label>reCAPTCHA v2 Invisible</label>
 
-                <field id="public_key" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1"
+                <field id="public_key" translate="label" type="obscure" sortOrder="10" showInDefault="1" showInWebsite="1"
                        showInStore="0" canRestore="0">
                     <label>Google API Website Key</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
                 </field>
 
                 <field id="private_key" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1"
@@ -51,7 +75,22 @@
                     <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Position</source_model>
                 </field>
 
-                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="40" showInDefault="1"
+                <field id="theme" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1"
+                       showInStore="0" canRestore="1">
+                    <label>Theme</label>
+                    <source_model>Magento\ReCaptchaVersion2Invisible\Model\OptionSource\Theme</source_model>
+                </field>
+
+                <field id="lang" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1"
+                       showInStore="1" canRestore="1">
+                    <label>Language Code</label>
+                    <comment><![CDATA[
+                        Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified. See
+                        <a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language Codes</a>.
+                ]]></comment>
+                </field>
+
+                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="60" showInDefault="1"
                        showInWebsite="1" showInStore="1" canRestore="1">
                     <label>reCAPTCHA Validation Failure Message</label>
                 </field>

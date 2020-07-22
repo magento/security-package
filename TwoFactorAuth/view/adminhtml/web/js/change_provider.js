@@ -3,12 +3,12 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'uiComponent',
     'ko'
 ], function (Component, ko) {
+    'use strict';
+
     return Component.extend({
         showChangeMethod: ko.observable(false),
 

@@ -18,6 +18,8 @@ class UiConfigProvider implements UiConfigProviderInterface
 {
     private const XML_PATH_PUBLIC_KEY = 'recaptcha_frontend/type_invisible/public_key';
     private const XML_PATH_POSITION = 'recaptcha_frontend/type_invisible/position';
+    private const XML_PATH_THEME = 'recaptcha_frontend/type_invisible/theme';
+    private const XML_PATH_LANGUAGE_CODE = 'recaptcha_frontend/type_invisible/lang';
 
     /**
      * @var ScopeConfigInterface
@@ -34,29 +36,16 @@ class UiConfigProvider implements UiConfigProviderInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function get(): array
-    {
-        $config = [
-            'rendering' => [
-                'sitekey' => $this->getPublicKey(),
-                'badge' => $this->getInvisibleBadgePosition(),
-                'size' => 'invisible'
-            ],
-            'invisible' => true,
-        ];
-        return $config;
-    }
-
-    /**
-     * Get Google API Website Key
+     * Get language code
      *
      * @return string
      */
-    private function getPublicKey(): string
+    private function getLanguageCode(): string
     {
-        return trim((string)$this->scopeConfig->getValue(self::XML_PATH_PUBLIC_KEY, ScopeInterface::SCOPE_WEBSITE));
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_LANGUAGE_CODE,
+            ScopeInterface::SCOPE_STORE
+        );
     }
 
     /**
@@ -70,5 +59,46 @@ class UiConfigProvider implements UiConfigProviderInterface
             self::XML_PATH_POSITION,
             ScopeInterface::SCOPE_WEBSITE
         );
+    }
+
+    /**
+     * Get Google API Website Key
+     *
+     * @return string
+     */
+    private function getPublicKey(): string
+    {
+        return trim((string)$this->scopeConfig->getValue(self::XML_PATH_PUBLIC_KEY, ScopeInterface::SCOPE_WEBSITE));
+    }
+
+    /**
+     * Get theme
+     *
+     * @return string
+     */
+    private function getTheme(): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_THEME,
+            ScopeInterface::SCOPE_WEBSITE
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function get(): array
+    {
+        $config = [
+            'rendering' => [
+                'sitekey' => $this->getPublicKey(),
+                'badge' => $this->getInvisibleBadgePosition(),
+                'size' => 'invisible',
+                'theme' => $this->getTheme(),
+                'hl' => $this->getLanguageCode()
+            ],
+            'invisible' => true,
+        ];
+        return $config;
     }
 }

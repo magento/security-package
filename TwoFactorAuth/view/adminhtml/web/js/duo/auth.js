@@ -3,13 +3,13 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'ko',
     'uiComponent',
     'Magento_TwoFactorAuth/js/duo/api'
 ], function (ko, Component, duo) {
+    'use strict';
+
     return Component.extend({
         currentStep: ko.observable('register'),
 

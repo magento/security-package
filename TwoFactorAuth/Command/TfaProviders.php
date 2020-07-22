@@ -44,6 +44,8 @@ class TfaProviders extends Command
     }
 
     /**
+     * @inheritDoc
+     *
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -53,5 +55,7 @@ class TfaProviders extends Command
         foreach ($providers as $provider) {
             $output->writeln(sprintf("%16s: %s", $provider->getCode(), $provider->getName()));
         }
+
+        return 0;
     }
 }

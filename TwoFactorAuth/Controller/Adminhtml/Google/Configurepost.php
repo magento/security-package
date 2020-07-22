@@ -18,15 +18,17 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
-use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
+use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractConfigureAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\User\Model\User;
+use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * Google authenticator configuration post controller
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
-class Configurepost extends AbstractAction implements HttpPostActionInterface
+class Configurepost extends AbstractConfigureAction implements HttpPostActionInterface
 {
     /**
      * @var TfaInterface
@@ -72,6 +74,7 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
+     * @param HtmlAreaTokenVerifier $tokenVerifier
      */
     public function __construct(
         Action\Context $context,
@@ -81,9 +84,10 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
         TfaSessionInterface $tfaSession,
         TfaInterface $tfa,
         AlertInterface $alert,
-        DataObjectFactory $dataObjectFactory
+        DataObjectFactory $dataObjectFactory,
+        HtmlAreaTokenVerifier $tokenVerifier
     ) {
-        parent::__construct($context);
+        parent::__construct($context, $tokenVerifier);
         $this->tfa = $tfa;
         $this->session = $session;
         $this->jsonFactory = $jsonFactory;
@@ -95,6 +99,7 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -104,6 +109,7 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
 
     /**
      * @inheritdoc
+     *
      * @return ResponseInterface|ResultInterface
      * @throws NoSuchEntityException
      */
@@ -144,6 +150,10 @@ class Configurepost extends AbstractAction implements HttpPostActionInterface
      */
     protected function _isAllowed()
     {
+        if (!parent::_isAllowed()) {
+            return false;
+        }
+
         $user = $this->getUser();
 
         return

@@ -76,6 +76,8 @@ class TfaReset extends Command
     }
 
     /**
+     * @inheritDoc
+     *
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      * @throws LocalizedException
      */
@@ -96,5 +98,7 @@ class TfaReset extends Command
         $this->userConfigManager->resetProviderConfig((int) $user->getId(), $providerCode);
 
         $output->writeln('' . __('Provider %1 has been reset for user %2', $provider->getName(), $userName));
+
+        return 0;
     }
 }

@@ -88,6 +88,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Get API hostname
+     *
      * @return string
      */
     public function getApiHostname(): string
@@ -97,6 +98,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Get application key
+     *
      * @return string
      */
     private function getApplicationKey(): string
@@ -106,6 +108,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Get secret key
+     *
      * @return string
      */
     private function getSecretKey(): string
@@ -115,6 +118,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Get integration key
+     *
      * @return string
      */
     private function getIntegrationKey(): string
@@ -124,6 +128,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Sign values
+     *
      * @param string $key
      * @param string $values
      * @param string $prefix
@@ -142,6 +147,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Parse signed values and return username
+     *
      * @param string $key
      * @param string $val
      * @param string $prefix
@@ -190,6 +196,7 @@ class DuoSecurity implements EngineInterface
 
     /**
      * Get request signature
+     *
      * @param UserInterface $user
      * @return string
      */
@@ -223,7 +230,11 @@ class DuoSecurity implements EngineInterface
     {
         $time = time();
 
-        [$authSig, $appSig] = explode(':', $request->getData('sig_response'));
+        $signatures = explode(':', (string)$request->getData('sig_response'));
+        if (count($signatures) !== 2) {
+            return false;
+        }
+        [$authSig, $appSig] = $signatures;
 
         $authUser = $this->parseValues($this->getSecretKey(), $authSig, static::AUTH_PREFIX, $time);
         $appUser = $this->parseValues($this->getApplicationKey(), $appSig, static::APP_PREFIX, $time);
@@ -236,19 +247,13 @@ class DuoSecurity implements EngineInterface
      */
     public function isEnabled(): bool
     {
-        return
-            (bool) $this->scopeConfig->getValue(static::XML_PATH_ENABLED) &&
-            (bool) $this->getApiHostname() &&
-            (bool) $this->getIntegrationKey() &&
-            (bool) $this->getApiHostname() &&
-            (bool) $this->getSecretKey();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isTrustedDevicesAllowed(): bool
-    {
-        return false;
+        try {
+            return !!$this->getApiHostname() &&
+                !!$this->getIntegrationKey() &&
+                !!$this->getSecretKey();
+        } catch (\TypeError $exception) {
+            //At least one of the methods returned null instead of a string
+            return false;
+        }
     }
 }

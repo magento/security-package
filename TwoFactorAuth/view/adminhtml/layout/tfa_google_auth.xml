@@ -8,6 +8,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="admin_login" />
+    <update handle="tfa_screen" />
 
     <head>
         <css src="Magento_TwoFactorAuth::css/auth.css"/>
@@ -24,12 +25,6 @@
                         <item name="components" xsi:type="array">
                             <item name="tfa-auth" xsi:type="array">
                                 <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/google/auth</item>
-                                <item name="children" xsi:type="array">
-                                    <item name="tfa-trust-device" xsi:type="array">
-                                        <item name="component" xsi:type="string">Magento_TwoFactorAuth/js/trust_device</item>
-                                        <item name="displayArea" xsi:type="string">trust-device</item>
-                                    </item>
-                                </item>
                             </item>
                         </item>
                     </argument>

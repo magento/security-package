@@ -15,7 +15,6 @@ use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
-use Magento\User\Model\User;
 
 /**
  * UbiKey authentication controller
@@ -65,20 +64,11 @@ class Auth extends AbstractAction implements HttpGetActionInterface
     }
 
     /**
-     * Get current user
-     * @return User|null
-     */
-    private function getUser(): ?User
-    {
-        return $this->session->getUser();
-    }
-
-    /**
      * @inheritDoc
      */
     public function execute()
     {
-        $this->userConfigManager->setDefaultProvider((int) $this->getUser()->getId(), U2fKey::CODE);
+        $this->userConfigManager->setDefaultProvider((int) $this->session->getUser()->getId(), U2fKey::CODE);
         return $this->pageFactory->create();
     }
 
@@ -87,11 +77,11 @@ class Auth extends AbstractAction implements HttpGetActionInterface
      */
     protected function _isAllowed()
     {
-        $user = $this->getUser();
+        $user = $this->session->getUser();
 
         return
             $user &&
-            $this->tfa->getProviderIsAllowed((int) $this->getUser()->getId(), U2fKey::CODE) &&
-            $this->tfa->getProvider(U2fKey::CODE)->isActive((int) $this->getUser()->getId());
+            $this->tfa->getProviderIsAllowed((int) $user->getId(), U2fKey::CODE) &&
+            $this->tfa->getProvider(U2fKey::CODE)->isActive((int) $user->getId());
     }
 }

@@ -12,6 +12,7 @@ use Magento\Framework\Setup\SchemaSetupInterface;
 
 /**
  * Copy table contents after migrating from MageSpecialist to Magento
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CopyTablesFromOldModule implements SchemaPatchInterface
@@ -31,7 +32,8 @@ class CopyTablesFromOldModule implements SchemaPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Migrate the old tables
+     *
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -57,19 +59,17 @@ class CopyTablesFromOldModule implements SchemaPatchInterface
         }
 
         if ($connection->isTableExists($sourceTrustedDevicesTable)) {
-            $cols = ['date_time', 'user_id', 'device_name', 'token', 'last_ip'];
-            $connection->query($connection->insertFromSelect(
-                $connection->select()->from($sourceTrustedDevicesTable, $cols),
-                $trustedDevicesTable,
-                $cols
-            ));
+            $connection->dropTable($sourceTrustedDevicesTable);
+        }
+        if ($connection->isTableExists($trustedDevicesTable)) {
+            $connection->dropTable($trustedDevicesTable);
         }
 
         $this->schemaSetup->endSetup();
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function getDependencies()
     {
@@ -77,7 +77,7 @@ class CopyTablesFromOldModule implements SchemaPatchInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAliases()
     {

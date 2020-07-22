@@ -16,12 +16,14 @@ interface UserConfigSearchResultsInterface extends SearchResultsInterface
 {
     /**
      * Get an array of objects
+     *
      * @return UserConfigInterface[]
      */
     public function getItems(): array;
 
     /**
      * Set objects list
+     *
      * @param UserConfigInterface[] $items
      * @return UserConfigSearchResultsInterface
      */

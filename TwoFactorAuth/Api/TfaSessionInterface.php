@@ -24,7 +24,22 @@ interface TfaSessionInterface
 
     /**
      * Return true if 2FA session has been passed
+     *
      * @return bool
      */
     public function isGranted(): bool;
+
+    /**
+     * Get the current configuration for skipped providers
+     *
+     * @return array
+     */
+    public function getSkippedProviderConfig(): array;
+
+    /**
+     * Set the configuration of skipped providers
+     *
+     * @param array $config
+     */
+    public function setSkippedProviderConfig(array $config): void;
 }

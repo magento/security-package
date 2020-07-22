@@ -2,8 +2,8 @@
     "name": "magento/module-re-captcha-version-2-checkbox",
     "description": "Google reCAPTCHA integration for Magento2",
     "require": {
-        "php": "~7.1.3||~7.2.0||~7.3.0",
-        "magento/framework": "102.0.*",
+        "php": "~7.3.0||~7.4.0",
+        "magento/framework": "*",
         "magento/module-store": "*",
         "magento/module-re-captcha-ui": "*",
         "magento/module-re-captcha-validation-api": "*"

@@ -3,15 +3,14 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'jquery',
     'ko',
     'uiComponent',
-    'Magento_TwoFactorAuth/js/error',
-    'Magento_TwoFactorAuth/js/registry'
-], function ($, ko, Component, error, registry) {
+    'Magento_TwoFactorAuth/js/error'
+], function ($, ko, Component, error) {
+    'use strict';
+
     return Component.extend({
         currentStep: ko.observable('register'),
         waitText: ko.observable(''),
@@ -19,8 +18,6 @@ define([
         defaults: {
             template: 'Magento_TwoFactorAuth/google/auth'
         },
-
-        trustThisDevice: registry.trustThisDevice,
 
         qrCodeUrl: '',
         postUrl: '',
@@ -45,10 +42,9 @@ define([
 
         /**
          * Get plain Secret Code
-         * @returns {string}
-         * @author Konrad Skrzynski <konrad.skrzynski@accenture.com>
+         * @returns {String}
          */
-        getSecretCode: function() {
+        getSecretCode: function () {
             return this.secretCode;
         },
 
@@ -68,8 +64,7 @@ define([
 
             this.waitText('Please wait...');
             $.post(this.getPostUrl(), {
-                'tfa_code': this.verifyCode(),
-                'tfa_trust_device': me.trustThisDevice() ? 1 : 0
+                'tfa_code': this.verifyCode()
             })
                 .done(function (res) {
                     if (res.success) {

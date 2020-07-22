@@ -3,13 +3,13 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'jquery',
     'Magento_Ui/js/modal/alert',
     'mage/translate'
 ], function ($, alert) {
+    'use strict';
+
     return {
         /**
          * Display an error message

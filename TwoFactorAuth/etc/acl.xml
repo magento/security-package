@@ -12,12 +12,10 @@
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Backend::system">
                     <resource id="Magento_User::acl">
-                        <resource id="Magento_User::acl_users">
-                            <resource id="Magento_TwoFactorAuth::tfa"
-                                      title="Two Factor Auth"
-                                      translate="title"
-                                      sortOrder="40" />
-                        </resource>
+                        <resource id="Magento_TwoFactorAuth::tfa"
+                                  title="Two Factor Auth"
+                                  translate="title"
+                                  sortOrder="40" />
                     </resource>
                 </resource>
 

@@ -7,15 +7,6 @@
     max-width: 55rem !important;
 }
 
-.field-tfa_trusted {
-    margin-top: -10px !important;
-    margin-left: -5px !important;
-}
-
-.field-tfa_trusted label span {
-    margin-left: 10px !important;
-}
-
 .tfa-change-provider {
     margin-bottom: 1em;
 }
@@ -107,4 +98,10 @@
 
 .tfa-waitbox .spinner {
     margin-left: -20px;
+}
+
+.tfa-provider .tfa-checkbox {
+    width: 32px;
+    margin-right: 1em;
+    float: left;
 }

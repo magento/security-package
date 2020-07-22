@@ -14,7 +14,6 @@ use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\Config\Source\EnabledProvider;
-use Magento\TwoFactorAuth\Model\Trusted;
 
 class DataProvider extends AbstractDataProvider
 {
@@ -41,7 +40,6 @@ class DataProvider extends AbstractDataProvider
     private $url;
 
     /**
-     * DataProvider constructor.
      * @param CollectionFactory $collectionFactory
      * @param EnabledProvider $enabledProvider
      * @param UserConfigManagerInterface $userConfigManager
@@ -76,6 +74,7 @@ class DataProvider extends AbstractDataProvider
 
     /**
      * Get a list of forced providers
+     *
      * @return array
      */
     private function getForcedProviders()
@@ -93,6 +92,7 @@ class DataProvider extends AbstractDataProvider
 
     /**
      * Get reset provider urls
+     *
      * @param User $user
      * @return array
      */
@@ -115,34 +115,6 @@ class DataProvider extends AbstractDataProvider
         }
 
         return $resetProviders;
-    }
-
-    /**
-     * Get a list of trusted devices as array
-     * @param User $user
-     * @return array
-     */
-    private function getTrustedDevices(User $user)
-    {
-        $trustedDevices = $this->tfa->getTrustedDevices((int) $user->getId());
-        $res = [];
-
-        foreach ($trustedDevices as $trustedDevice) {
-            /** @var Trusted $trustedDevice */
-            $revokeUrl = $this->url->getUrl('tfa/tfa/revoke', [
-                'id' => $trustedDevice->getId(),
-                'user_id' => (int) $user->getId(),
-            ]);
-
-            $res[] = [
-                'last_ip' => $trustedDevice->getLastIp(),
-                'date_time' => $trustedDevice->getDateTime(),
-                'device_name' => $trustedDevice->getDeviceName(),
-                'revoke_url' => $revokeUrl,
-            ];
-        }
-
-        return $res;
     }
 
     /**
@@ -173,11 +145,9 @@ class DataProvider extends AbstractDataProvider
             foreach ($items as $user) {
                 $providerCodes = $this->userConfigManager->getProvidersCodes((int) $user->getId());
                 $resetProviders = $this->getResetProviderUrls($user);
-                $trustedDevices = $this->getTrustedDevices($user);
 
                 $data = [
                     'reset_providers' => $resetProviders,
-                    'trusted_devices' => $trustedDevices,
                     'tfa_providers' => $providerCodes,
                 ];
                 $this->loadedData[(int) $user->getId()] = $data;

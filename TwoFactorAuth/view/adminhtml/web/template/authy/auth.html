@@ -75,12 +75,6 @@
             </div>
         </div>
 
-        <div visible='(selectedMethod() === "code") && !success()'>
-            <!-- ko foreach: getRegion('trust-device') -->
-            <!-- ko template: getTemplate() --><!-- /ko -->
-            <!--/ko-->
-        </div><br/>
-
         <div class="form-actions tfa-authy-request-code" visible='(selectedMethod() === "code") && !success()'>
             <div class="actions">
                 <button

@@ -144,14 +144,6 @@ class Provider implements ProviderInterface
     }
 
     /**
-     * @inheritDoc
-     */
-    public function isTrustedDevicesAllowed(): bool
-    {
-        return $this->engine->isTrustedDevicesAllowed();
-    }
-
-    /**
      * @inheritdoc
      */
     public function resetConfiguration(int $userId): void
@@ -169,6 +161,7 @@ class Provider implements ProviderInterface
 
     /**
      * Retrieve user's configuration
+     *
      * @param int $userId
      * @return array|null
      * @throws NoSuchEntityException
