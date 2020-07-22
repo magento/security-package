@@ -3,26 +3,42 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'jquery',
     'ko',
     'uiComponent',
     'Magento_TwoFactorAuth/js/error',
-    'Magento_TwoFactorAuth/js/u2fkey/api'
-], function ($, ko, Component, error) {
+    'Magento_TwoFactorAuth/js/u2fkey/utils',
+    'mage/translate'
+], function ($, ko, Component, error, utils, $t) {
+    'use strict';
+
     return Component.extend({
         currentStep: ko.observable('register'),
 
         defaults: {
-            template: 'Magento_TwoFactorAuth/u2fkey/configure'
+            template: 'Magento_TwoFactorAuth/u2fkey/configure',
+            idle: ko.observable(true),
+            loading: ko.observable(false)
         },
 
         postUrl: '',
         successUrl: '',
         touchImageUrl: '',
         registerData: {},
+
+        /**
+         * @inheritdoc
+         */
+        initConfig: function (config) {
+            this._super(config);
+            // eslint-disable-next-line no-undef
+            this.registerData.publicKey.challenge = new Uint8Array(this.registerData.publicKey.challenge);
+            // eslint-disable-next-line no-undef
+            this.registerData.publicKey.user.id = new Uint8Array(this.registerData.publicKey.user.id);
+
+            return this;
+        },
 
         /**
          * Start waiting loop
@@ -33,6 +49,7 @@ define([
 
         /**
          * Get touch image URL
+         *
          * @returns {String}
          */
         getTouchImageUrl: function () {
@@ -41,6 +58,7 @@ define([
 
         /**
          * Get POST URL
+         *
          * @returns {String}
          */
         getPostUrl: function () {
@@ -59,30 +77,82 @@ define([
          * Wait for key touch
          */
         waitForTouch: function () {
-            var requestData = this.registerData[0],
-                signs = this.registerData[1],
-                me = this;
+            this.idle(false);
+            navigator.credentials.create({
+                publicKey: this.registerData.publicKey
+            })
+            .then(this._onCredentialSuccess.bind(this))
+            .catch(this._onCredentialError.bind(this));
+        },
 
-            // eslint-disable-next-line no-undef
-            u2f.register(
-                [requestData],
-                signs,
-                function (registerResponse) {
-                    $.post(me.getPostUrl(), {
-                        'request': requestData,
-                        'response': registerResponse
-                    }).done(function (res) {
-                        if (res.success) {
-                            me.currentStep('login');
-                            self.location.href = me.getSuccessUrl();
-                        } else {
-                            me.waitForTouch();
-                        }
-                    }).fail(function () {
-                        error.display('Unable to register your device');
-                    });
-                }, 120
+        /**
+         * Handle WebAuthn success
+         *
+         * @param {Object} credentialData
+         * @returns void
+         * @private
+         */
+        _onCredentialSuccess: function (credentialData) {
+            utils.asyncUint8ArrayToUtf8String(
+                // eslint-disable-next-line no-undef
+                new Uint8Array(credentialData.response.clientDataJSON),
+                function (clientDataJSON) {
+                    credentialData.clientData = JSON.parse(clientDataJSON);
+                    this._processCredentialData(credentialData);
+                }.bind(this)
             );
+        },
+
+        /**
+         * Validate and submit response from u2f key
+         *
+         * @param {Object} credentialData
+         * @private
+         */
+        _processCredentialData: function (credentialData) {
+            this.loading(true);
+            $.post(this.getPostUrl(), {
+                publicKeyCredential: {
+                    id: utils.arrayBufferToBase64(credentialData.rawId),
+                    response: {
+                        clientData: credentialData.clientData,
+                        attestationObject: utils.arrayBufferToBase64(
+                            credentialData.response.attestationObject
+                        )
+                    }
+                }
+            })
+            .done(function (res) {
+                this.loading(false);
+
+                if (res.success) {
+                    this.currentStep('login');
+                    self.location.href = this.getSuccessUrl();
+                } else {
+                    error.display($t('There was an error processing your key.'));
+                    this.idle(true);
+                }
+            }.bind(this))
+            .fail(function () {
+                error.display($t('Unable to register your device'));
+                this.loading(false);
+                this.idle(true);
+            }.bind(this));
+        },
+
+        /**
+         * Handle WebAuthn failure
+         *
+         * @param {Object} u2fError
+         * @return void
+         * @private
+         */
+        _onCredentialError: function (u2fError) {
+            this.idle(true);
+
+            if (['AbortError', 'NS_ERROR_ABORT', 'NotAllowedError'].indexOf(u2fError.name) === -1) {
+                error.display($t('Unable to register your device'));
+            }
         }
     });
 });

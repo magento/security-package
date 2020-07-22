@@ -17,6 +17,8 @@ class UiConfigProvider implements UiConfigProviderInterface
 {
     private const XML_PATH_PUBLIC_KEY = 'recaptcha_backend/type_recaptcha_v3/public_key';
     private const XML_PATH_POSITION = 'recaptcha_backend/type_recaptcha_v3/position';
+    private const XML_PATH_THEME = 'recaptcha_backend/type_recaptcha_v3/theme';
+    private const XML_PATH_LANGUAGE_CODE = 'recaptcha_backend/type_recaptcha_v3/lang';
 
     /**
      * @var ScopeConfigInterface
@@ -30,22 +32,6 @@ class UiConfigProvider implements UiConfigProviderInterface
         ScopeConfigInterface $scopeConfig
     ) {
         $this->scopeConfig = $scopeConfig;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function get(): array
-    {
-        $config = [
-            'rendering' => [
-                'sitekey' => $this->getPublicKey(),
-                'badge' => $this->getInvisibleBadgePosition(),
-                'size' => 'invisible',
-            ],
-            'invisible' => true,
-        ];
-        return $config;
     }
 
     /**
@@ -68,5 +54,47 @@ class UiConfigProvider implements UiConfigProviderInterface
         return (string)$this->scopeConfig->getValue(
             self::XML_PATH_POSITION
         );
+    }
+
+    /**
+     * Get theme
+     *
+     * @return string
+     */
+    private function getTheme(): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_THEME
+        );
+    }
+
+    /**
+     * Get language code
+     *
+     * @return string
+     */
+    private function getLanguageCode(): string
+    {
+        return (string)$this->scopeConfig->getValue(
+            self::XML_PATH_LANGUAGE_CODE
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function get(): array
+    {
+        $config = [
+            'rendering' => [
+                'sitekey' => $this->getPublicKey(),
+                'badge' => $this->getInvisibleBadgePosition(),
+                'size' => 'invisible',
+                'theme' => $this->getTheme(),
+                'hl'=> $this->getLanguageCode()
+            ],
+            'invisible' => true,
+        ];
+        return $config;
     }
 }

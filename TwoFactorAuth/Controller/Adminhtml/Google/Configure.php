@@ -12,15 +12,17 @@ use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\TwoFactorAuth\Api\TfaInterface;
-use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
+use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractConfigureAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\User\Model\User;
+use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
  * Google authenticator configuration page
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
-class Configure extends AbstractAction implements HttpGetActionInterface
+class Configure extends AbstractConfigureAction implements HttpGetActionInterface
 {
     /**
      * @var TfaInterface
@@ -42,14 +44,16 @@ class Configure extends AbstractAction implements HttpGetActionInterface
      * @param Session $session
      * @param PageFactory $pageFactory
      * @param TfaInterface $tfa
+     * @param HtmlAreaTokenVerifier $tokenVerifier
      */
     public function __construct(
         Action\Context $context,
         Session $session,
         PageFactory $pageFactory,
-        TfaInterface $tfa
+        TfaInterface $tfa,
+        HtmlAreaTokenVerifier $tokenVerifier
     ) {
-        parent::__construct($context);
+        parent::__construct($context, $tokenVerifier);
         $this->tfa = $tfa;
         $this->session = $session;
         $this->pageFactory = $pageFactory;
@@ -57,6 +61,7 @@ class Configure extends AbstractAction implements HttpGetActionInterface
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -77,6 +82,10 @@ class Configure extends AbstractAction implements HttpGetActionInterface
      */
     protected function _isAllowed()
     {
+        if (!parent::_isAllowed()) {
+            return false;
+        }
+
         $user = $this->getUser();
 
         return

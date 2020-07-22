@@ -7,20 +7,24 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Controller\Adminhtml\Tfa;
 
-use Magento\Backend\Model\Auth\Session;
-use Magento\Backend\App\Action;
+use Magento\Authorization\Model\UserContextInterface;
+use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\TwoFactorAuth\Api\TfaInterface;
+use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
-use Magento\User\Model\User;
+use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
 
 /**
  * 2FA entry point controller
  */
 class Index extends AbstractAction implements HttpGetActionInterface
 {
+    // To give the email link a place to set the token without causing a loop
+    protected $_publicActions = ['index'];
+
     /**
      * @see _isAllowed()
      */
@@ -32,7 +36,7 @@ class Index extends AbstractAction implements HttpGetActionInterface
     private $tfa;
 
     /**
-     * @var Session
+     * @var TfaSessionInterface
      */
     private $session;
 
@@ -42,71 +46,115 @@ class Index extends AbstractAction implements HttpGetActionInterface
     private $userConfigManager;
 
     /**
-     * @var Action\Context
+     * @var Context
      */
     private $context;
 
     /**
-     * @param Action\Context $context
-     * @param Session $session
+     * @var UserConfigRequestManagerInterface
+     */
+    private $userConfigRequest;
+
+    /**
+     * @var UserContextInterface
+     */
+    private $userContext;
+
+    /**
+     * @param Context $context
+     * @param TfaSessionInterface $session
      * @param UserConfigManagerInterface $userConfigManager
      * @param TfaInterface $tfa
+     * @param UserConfigRequestManagerInterface $userConfigRequestManager
+     * @param UserContextInterface $userContext
      */
     public function __construct(
-        Action\Context $context,
-        Session $session,
+        Context $context,
+        TfaSessionInterface $session,
         UserConfigManagerInterface $userConfigManager,
-        TfaInterface $tfa
+        TfaInterface $tfa,
+        UserConfigRequestManagerInterface $userConfigRequestManager,
+        UserContextInterface $userContext
     ) {
         parent::__construct($context);
         $this->tfa = $tfa;
         $this->session = $session;
         $this->userConfigManager = $userConfigManager;
         $this->context = $context;
-    }
-
-    /**
-     * Get current user
-     * @return User|null
-     */
-    private function getUser(): ?User
-    {
-        return $this->session->getUser();
+        $this->userConfigRequest = $userConfigRequestManager;
+        $this->userContext = $userContext;
     }
 
     /**
      * @inheritdoc
+     *
      * @throws LocalizedException
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function execute()
     {
-        $user = $this->getUser();
+        $userId = $this->userContext->getUserId();
 
-        $providersToConfigure = $this->tfa->getProvidersToActivate((int) $user->getId());
-        if (!empty($providersToConfigure)) {
-            return $this->_redirect($providersToConfigure[0]->getConfigureAction());
+        if (!$this->tfa->getUserProviders($userId)) {
+            //If 2FA is not configured - request configuration.
+            return $this->_redirect('tfa/tfa/requestconfig');
+        }
+
+        $providersToConfigure = $this->tfa->getProvidersToActivate($userId);
+        $toActivateCodes = [];
+        foreach ($providersToConfigure as $toActivateProvider) {
+            $toActivateCodes[] = $toActivateProvider->getCode();
+        }
+        $currentlySkipped = array_keys($this->session->getSkippedProviderConfig());
+        $notSkippedProvidersToConfigured = array_diff($toActivateCodes, $currentlySkipped);
+
+        if ($notSkippedProvidersToConfigured) {
+            foreach ($providersToConfigure as $providerToConfigure) {
+                if (in_array($providerToConfigure->getCode(), $notSkippedProvidersToConfigured)) {
+                    //2FA provider not activated - redirect to the provider form.
+                    return $this->_redirect($providerToConfigure->getConfigureAction());
+                }
+            }
         }
 
         $providerCode = '';
 
-        $defaultProviderCode = $this->userConfigManager->getDefaultProvider((int) $user->getId());
-        if ($this->tfa->getProviderIsAllowed((int) $user->getId(), $defaultProviderCode)) {
+        $defaultProviderCode = $this->userConfigManager->getDefaultProvider($userId);
+        if ($this->tfa->getProviderIsAllowed($userId, $defaultProviderCode)
+            && $this->tfa->getProvider($defaultProviderCode)->isActive($userId)
+        ) {
+            //If default provider was configured - select it.
             $providerCode = $defaultProviderCode;
         }
 
         if (!$providerCode) {
-            $providers = $this->tfa->getUserProviders((int) $user->getId());
+            //Select one random provider.
+            $providers = $this->tfa->getUserProviders($userId);
             if (!empty($providers)) {
-                $providerCode = $providers[0]->getCode();
+                foreach ($providers as $enabledProvider) {
+                    /*
+                     * The user has skipped all providers that need to be configured but there is
+                     * also at least one already configured
+                     */
+                    if (!in_array($enabledProvider->getCode(), $currentlySkipped)
+                        && !in_array($enabledProvider->getCode(), $toActivateCodes)
+                    ) {
+                        $providerCode = $enabledProvider->getCode();
+                        break;
+                    }
+                }
             }
         }
 
         if (!$providerCode) {
+            //Couldn't find provider - perhaps something is not configured properly.
             return $this->_redirect($this->context->getBackendUrl()->getStartupPageUrl());
         }
 
         $provider = $this->tfa->getProvider($providerCode);
         if ($provider) {
+            //Provider found, user will be challenged.
             return $this->_redirect($provider->getAuthAction());
         }
 

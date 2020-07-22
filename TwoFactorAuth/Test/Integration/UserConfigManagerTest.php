@@ -15,6 +15,9 @@ use Magento\User\Model\ResourceModel\User\Collection as AdminUserCollection;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @magentoDbIsolation enabled
+ */
 class UserConfigManagerTest extends TestCase
 {
     /**
@@ -30,9 +33,8 @@ class UserConfigManagerTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->markTestIncomplete('https://github.com/magento/security-package/issues/60');
         $this->userConfigManager = Bootstrap::getObjectManager()->get(UserConfigManagerInterface::class);
         $this->serializer = Bootstrap::getObjectManager()->get(SerializerInterface::class);
     }
@@ -50,14 +52,14 @@ class UserConfigManagerTest extends TestCase
         $configPayload = ['a' => 1, 'b' => 2];
 
         $this->userConfigManager->setProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider',
             $configPayload
         );
 
         $this->assertSame(
             $configPayload,
-            $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider')
+            $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider')
         );
     }
 
@@ -73,11 +75,11 @@ class UserConfigManagerTest extends TestCase
 
         $providers = ['test_provider1', 'test_provider2'];
 
-        $this->userConfigManager->setProvidersCodes($dummyUser->getId(), $providers);
+        $this->userConfigManager->setProvidersCodes((int)$dummyUser->getId(), $providers);
 
         $this->assertSame(
             $providers,
-            $this->userConfigManager->getProvidersCodes($dummyUser->getId())
+            $this->userConfigManager->getProvidersCodes((int)$dummyUser->getId())
         );
     }
 
@@ -93,11 +95,11 @@ class UserConfigManagerTest extends TestCase
 
         $provider = 'test_provider';
 
-        $this->userConfigManager->setDefaultProvider($dummyUser->getId(), $provider);
+        $this->userConfigManager->setDefaultProvider((int)$dummyUser->getId(), $provider);
 
         $this->assertSame(
             $provider,
-            $this->userConfigManager->getDefaultProvider($dummyUser->getId())
+            $this->userConfigManager->getDefaultProvider((int)$dummyUser->getId())
         );
     }
 
@@ -114,14 +116,14 @@ class UserConfigManagerTest extends TestCase
         $configPayload = ['a' => 1, 'b' => 2];
 
         $this->userConfigManager->setProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider',
             $configPayload
         );
-        $this->userConfigManager->resetProviderConfig($dummyUser->getId(), 'test_provider');
+        $this->userConfigManager->resetProviderConfig((int)$dummyUser->getId(), 'test_provider');
 
         $this->assertNull(
-            $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider')
+            $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider')
         );
     }
 
@@ -137,20 +139,20 @@ class UserConfigManagerTest extends TestCase
 
         $configPayload = ['a' => 1, 'b' => 2];
         $this->userConfigManager->setProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider',
             $configPayload
         );
 
         // Check precondition
         $this->assertFalse(
-            $this->userConfigManager->isProviderConfigurationActive($dummyUser->getId(), 'test_provider')
+            $this->userConfigManager->isProviderConfigurationActive((int)$dummyUser->getId(), 'test_provider')
         );
 
-        $this->userConfigManager->activateProviderConfiguration($dummyUser->getId(), 'test_provider');
+        $this->userConfigManager->activateProviderConfiguration((int)$dummyUser->getId(), 'test_provider');
 
         $this->assertTrue(
-            $this->userConfigManager->isProviderConfigurationActive($dummyUser->getId(), 'test_provider')
+            $this->userConfigManager->isProviderConfigurationActive((int)$dummyUser->getId(), 'test_provider')
         );
     }
 
@@ -168,20 +170,20 @@ class UserConfigManagerTest extends TestCase
         $encryptor = Bootstrap::getObjectManager()->create(EncryptorInterface::class);
 
         /** @var ResourceConnection $resourceConnection */
-        $resourceConnection = Bootstrap::getObjectManager()->create(ResourceConnection::class);
-        $connection = $resourceConnection->getConnection();
+        $connection = Bootstrap::getObjectManager()->get(ResourceConnection::class)
+            ->getConnection(ResourceConnection::DEFAULT_CONNECTION);
 
         $configPayload = ['a' => 1, 'b' => 2];
 
         $this->userConfigManager->setProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider',
             $configPayload
         );
 
         $qry = $connection->select()
             ->from('tfa_user_config', 'encoded_config')
-            ->where('user_id = ?', $dummyUser->getId());
+            ->where('user_id = ?', (int)$dummyUser->getId());
 
         $res = $connection->fetchOne($qry);
         $this->assertSame(
@@ -199,7 +201,8 @@ class UserConfigManagerTest extends TestCase
         $dummyUserCollection = Bootstrap::getObjectManager()->create(AdminUserCollection::class);
 
         /** @var ResourceConnection $resourceConnection */
-        $resourceConnection = Bootstrap::getObjectManager()->create(ResourceConnection::class);
+        $resourceConnection = Bootstrap::getObjectManager()->get(ResourceConnection::class);
+        $connection = $resourceConnection->getConnection(ResourceConnection::DEFAULT_CONNECTION);
 
         $dummyUserCollection->addFieldToFilter('username', 'dummy_username');
         $dummyUser = $dummyUserCollection->getFirstItem();
@@ -214,7 +217,7 @@ class UserConfigManagerTest extends TestCase
                 'encoded_config' => $this->serializer->serialize(['test_provider' => $configPayload]),
                 'default_provider' => 'test_provider',
                 'encoded_providers' => $this->serializer->serialize(['test_Provider']),
-                'user_id' => $dummyUser->getId()
+                'user_id' => (int)$dummyUser->getId()
             ],
             [
                 'encoded_config',
@@ -225,7 +228,7 @@ class UserConfigManagerTest extends TestCase
 
         $this->assertSame(
             $configPayload,
-            $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider')
+            $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider')
         );
     }
 
@@ -243,23 +246,23 @@ class UserConfigManagerTest extends TestCase
         $configPayload1 = ['a' => 1, 'b' => 2];
         $configPayload2 = ['c' => 1, 'd' => 2];
         $this->userConfigManager->addProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider1',
             $configPayload1
         );
         $this->userConfigManager->addProviderConfig(
-            $dummyUser->getId(),
+            (int)$dummyUser->getId(),
             'test_provider2',
             $configPayload2
         );
 
         $this->assertSame(
             $configPayload1,
-            $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider1')
+            $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider1')
         );
         $this->assertSame(
             $configPayload2,
-            $this->userConfigManager->getProviderConfig($dummyUser->getId(), 'test_provider2')
+            $this->userConfigManager->getProviderConfig((int)$dummyUser->getId(), 'test_provider2')
         );
     }
 }

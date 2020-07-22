@@ -62,25 +62,6 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
     }
 
     /**
-     * @inheritdoc
-     */
-    public function get(): ValidationConfigInterface
-    {
-        $extensionAttributes = $this->validationConfigExtensionFactory->create();
-        $extensionAttributes->setData('scoreThreshold', $this->getScoreThreshold());
-        /** @var ValidationConfigInterface $validationConfig */
-        $validationConfig = $this->validationConfigFactory->create(
-            [
-                'privateKey' => $this->getPrivateKey(),
-                'remoteIp' => $this->remoteAddress->getRemoteAddress(),
-                'validationFailureMessage' => $this->getValidationFailureMessage(),
-                'extensionAttributes' => $extensionAttributes,
-            ]
-        );
-        return $validationConfig;
-    }
-
-    /**
      * Get Google API Secret Key
      *
      * @return string
@@ -114,5 +95,24 @@ class ValidationConfigProvider implements ValidationConfigProviderInterface
         return min(1.0, max(0.1, (float)$this->scopeConfig->getValue(
             self::XML_PATH_SCORE_THRESHOLD
         )));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function get(): ValidationConfigInterface
+    {
+        $extensionAttributes = $this->validationConfigExtensionFactory->create();
+        $extensionAttributes->setData('scoreThreshold', $this->getScoreThreshold());
+        /** @var ValidationConfigInterface $validationConfig */
+        $validationConfig = $this->validationConfigFactory->create(
+            [
+                'privateKey' => $this->getPrivateKey(),
+                'remoteIp' => $this->remoteAddress->getRemoteAddress(),
+                'validationFailureMessage' => $this->getValidationFailureMessage(),
+                'extensionAttributes' => $extensionAttributes,
+            ]
+        );
+        return $validationConfig;
     }
 }

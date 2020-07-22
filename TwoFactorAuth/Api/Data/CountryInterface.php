@@ -36,48 +36,56 @@ interface CountryInterface extends ExtensibleDataInterface
 
     /**
      * Get value for tfa_country_codes_id
+     *
      * @return int
      */
     public function getId(): int;
 
     /**
      * Set value for country_id
+     *
      * @param int $value
      */
-    public function setId(int $value): void;
+    public function setId($value): void;
 
     /**
      * Get value for code
+     *
      * @return string
      */
     public function getCode(): string;
 
     /**
      * Set value for code
+     *
      * @param string $value
      */
     public function setCode(string $value): void;
 
     /**
      * Get value for name
+     *
      * @return string
      */
     public function getName(): string;
 
     /**
      * Set value for name
+     *
      * @param string $value
      */
     public function setName(string $value): void;
 
     /**
      * Get value for dial_code
+     *
      * @return string
      */
     public function getDialCode(): string;
 
     /**
      * Set value for dial_code
+     *
      * @param string $value
      */
     public function setDialCode(string $value): void;
@@ -93,6 +101,7 @@ interface CountryInterface extends ExtensibleDataInterface
 
     /**
      * Set an extension attributes object
+     *
      * @param \Magento\TwoFactorAuth\Api\Data\CountryExtensionInterface $extensionAttributes
      */
     public function setExtensionAttributes(

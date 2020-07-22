@@ -11,19 +11,19 @@ use Exception;
 use Magento\Backend\App\Action;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\App\Action\HttpPostActionInterface;
-use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\DataObjectFactory;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
-use Magento\TwoFactorAuth\Api\TrustedManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey;
+use Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\Session as U2fSession;
 use Magento\TwoFactorAuth\Model\Tfa;
 use Magento\User\Model\User;
 
 /**
- * UbiKey Authentication post controller
+ * U2f key Authentication post controller
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
@@ -55,11 +55,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     private $tfaSession;
 
     /**
-     * @var TrustedManagerInterface
-     */
-    private $trustedManager;
-
-    /**
      * @var DataObjectFactory
      */
     private $dataObjectFactory;
@@ -69,13 +64,29 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      */
     private $alert;
 
+    /**
+     * @var U2fSession
+     */
+    private $u2fSession;
+
+    /**
+     * @param Tfa $tfa
+     * @param Session $session
+     * @param JsonFactory $jsonFactory
+     * @param TfaSessionInterface $tfaSession
+     * @param U2fKey $u2fKey
+     * @param U2fSession $u2fSession
+     * @param DataObjectFactory $dataObjectFactory
+     * @param AlertInterface $alert
+     * @param Action\Context $context
+     */
     public function __construct(
         Tfa $tfa,
         Session $session,
         JsonFactory $jsonFactory,
         TfaSessionInterface $tfaSession,
-        TrustedManagerInterface $trustedManager,
         U2fKey $u2fKey,
+        U2fSession $u2fSession,
         DataObjectFactory $dataObjectFactory,
         AlertInterface $alert,
         Action\Context $context
@@ -87,9 +98,9 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $this->u2fKey = $u2fKey;
         $this->jsonFactory = $jsonFactory;
         $this->tfaSession = $tfaSession;
-        $this->trustedManager = $trustedManager;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
+        $this->u2fSession = $u2fSession;
     }
 
     /**
@@ -100,13 +111,21 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $result = $this->jsonFactory->create();
 
         try {
-            $this->u2fKey->verify($this->getUser(), $this->dataObjectFactory->create([
-                'data' => $this->getRequest()->getParams(),
-            ]));
-            $this->tfaSession->grantAccess();
-            $this->trustedManager->handleTrustDeviceRequest(U2fKey::CODE, $this->getRequest());
+            $challenge = $this->u2fSession->getU2fChallenge();
+            if (!empty($challenge)) {
+                $this->u2fKey->verify($this->getUser(), $this->dataObjectFactory->create([
+                    'data' => [
+                        'publicKeyCredential' => $this->getRequest()->getParams()['publicKeyCredential'],
+                        'originalChallenge' => $challenge
+                    ]
+                ]));
+                $this->tfaSession->grantAccess();
+                $this->u2fSession->setU2fChallenge(null);
 
-            $res = ['success' => true];
+                $res = ['success' => true];
+            } else {
+                $res = ['success' => false];
+            }
         } catch (Exception $e) {
             $this->alert->event(
                 'Magento_TwoFactorAuth',
@@ -124,6 +143,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     }
 
     /**
+     * Retrieve the current authenticated user
+     *
      * @return User|null
      */
     private function getUser(): ?User

@@ -39,6 +39,7 @@ class Service
 
     /**
      * Get API key
+     *
      * @return string
      */
     public function getApiKey(): string
@@ -48,6 +49,7 @@ class Service
 
     /**
      * Get authy API endpoint
+     *
      * @param string $path
      * @return string
      */
@@ -58,6 +60,7 @@ class Service
 
     /**
      * Get authy API endpoint
+     *
      * @param string $path
      * @return string
      */
@@ -68,6 +71,7 @@ class Service
 
     /**
      * Get error from response
+     *
      * @param array|boolean $response
      * @return string|null
      */

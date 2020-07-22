@@ -17,7 +17,4 @@
     <event name="admin_user_load_after">
         <observer name="two_factor_auth_admin_user_load_after" instance="Magento\TwoFactorAuth\Observer\AdminUserLoadAfter"/>
     </event>
-    <event name="backend_auth_user_login_success">
-        <observer name="two_factor_auth_login_success" instance="Magento\TwoFactorAuth\Observer\BackendAuthUserLoginSuccess"/>
-    </event>
 </config>

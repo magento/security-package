@@ -25,6 +25,7 @@ use Magento\TwoFactorAuth\Model\UserConfigRegistry;
 
 /**
  * @inheritDoc
+ *
  * @SuppressWarnings(PHPMD.ShortVariable)
  * @SuppressWarnings(PHPMD.LongVariable)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -102,7 +103,7 @@ class UserConfigRepository implements UserConfigRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function save(UserConfigInterface $userConfig): UserConfigInterface
     {
@@ -124,7 +125,7 @@ class UserConfigRepository implements UserConfigRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getById(int $id): UserConfigInterface
     {
@@ -144,7 +145,7 @@ class UserConfigRepository implements UserConfigRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getByUserId(int $value): UserConfigInterface
     {
@@ -164,7 +165,7 @@ class UserConfigRepository implements UserConfigRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(UserConfigInterface $userConfig): bool
     {
@@ -185,7 +186,7 @@ class UserConfigRepository implements UserConfigRepositoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getList(SearchCriteriaInterface $searchCriteria): SearchResultsInterface
     {

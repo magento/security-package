@@ -19,6 +19,8 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
 
 /**
+ * Verify with authy token
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Token extends AbstractAction implements HttpGetActionInterface, HttpPostActionInterface
@@ -66,6 +68,7 @@ class Token extends AbstractAction implements HttpGetActionInterface, HttpPostAc
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User

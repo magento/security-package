@@ -59,6 +59,7 @@ interface AlertInterface
 
     /**
      * Trigger a security suite event
+     *
      * @param string $module
      * @param string $message
      * @param string $level

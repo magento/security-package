@@ -16,6 +16,8 @@ use Magento\Framework\Model\ResourceModel\Db\Context;
 use Magento\Framework\Serialize\SerializerInterface;
 
 /**
+ * User config model
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class UserConfig extends AbstractDb
@@ -27,16 +29,12 @@ class UserConfig extends AbstractDb
 
     /**
      * @param Context $context
-     * @param null $decoder
-     * @param null $encoder
-     * @param null $connectionName
+     * @param string $connectionName
      * @param EncryptorInterface $encryptor
      * @param SerializerInterface $serializer
      */
     public function __construct(
         Context $context,
-        $decoder = null,
-        $encoder = null,
         $connectionName = null,
         EncryptorInterface $encryptor = null,
         SerializerInterface $serializer = null
@@ -57,6 +55,8 @@ class UserConfig extends AbstractDb
     }
 
     /**
+     * Encode the provided config
+     *
      * @param array $config
      * @return string
      */
@@ -66,6 +66,8 @@ class UserConfig extends AbstractDb
     }
 
     /**
+     * Decode the provided config
+     *
      * @param string $config
      * @return array
      */
@@ -81,6 +83,9 @@ class UserConfig extends AbstractDb
         return $this->serializer->unserialize($config);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function _afterLoad(AbstractModel $object)
     {
         parent::_afterLoad($object);
@@ -100,11 +105,14 @@ class UserConfig extends AbstractDb
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function _beforeSave(AbstractModel $object)
     {
         $object->setData('encoded_config', $this->encodeConfig($object->getData('config') ?? []));
         $object->setData('encoded_providers', $this->serializer->serialize($object->getData('providers') ?? []));
 
-        parent::_beforeSave($object);
+        return parent::_beforeSave($object);
     }
 }

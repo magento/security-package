@@ -3,16 +3,17 @@
  * See COPYING.txt for license details.
  */
 
-/* eslint-disable no-undef */
-// jscs:disable jsDoc
+/* global grecaptcha */
 define(
     [
         'uiComponent',
         'jquery',
         'ko',
-        'Magento_ReCaptchaFrontendUi/js/registry'
-    ],
-    function (Component, $, ko, registry, undefined) {
+        'underscore',
+        'Magento_ReCaptchaFrontendUi/js/registry',
+        'Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader',
+        'Magento_ReCaptchaFrontendUi/js/nonInlineReCaptchaRenderer'
+    ], function (Component, $, ko, _, registry, reCaptchaLoader, nonInlineReCaptchaRenderer) {
         'use strict';
 
         return Component.extend({
@@ -21,8 +22,10 @@ define(
                 template: 'Magento_ReCaptchaFrontendUi/reCaptcha',
                 reCaptchaId: 'recaptcha'
             },
-            _isApiRegistered: undefined,
 
+            /**
+             * @inheritdoc
+             */
             initialize: function () {
                 this._super();
                 this._loadApi();
@@ -33,8 +36,6 @@ define(
              * @private
              */
             _loadApi: function () {
-                var element, scriptTag;
-
                 if (this._isApiRegistered !== undefined) {
                     if (this._isApiRegistered === true) {
                         $(window).trigger('recaptchaapiready');
@@ -50,16 +51,7 @@ define(
                     $(window).trigger('recaptchaapiready');
                 }.bind(this);
 
-                element = document.createElement('script');
-                scriptTag = document.getElementsByTagName('script')[0];
-
-                element.async = true;
-                element.src = 'https://www.google.com/recaptcha/api.js' +
-                    '?onload=globalOnRecaptchaOnLoadCallback&render=explicit' +
-                    (this.settings.lang ? '&hl=' + this.settings.lang : '');
-
-                scriptTag.parentNode.insertBefore(element, scriptTag);
-
+                reCaptchaLoader.addReCaptchaScriptTag();
             },
 
             /**
@@ -85,12 +77,11 @@ define(
              * Initialize reCAPTCHA after first rendering
              */
             initCaptcha: function () {
-                var me = this,
-                    $parentForm,
+                var $parentForm,
                     $wrapper,
                     $reCaptcha,
                     widgetId,
-                    listeners;
+                    parameters;
 
                 if (this.captchaInitialized) {
                     return;
@@ -112,45 +103,27 @@ define(
                 $reCaptcha.attr('id', this.getReCaptchaId());
 
                 $parentForm = $wrapper.parents('form');
-                me = this;
 
-                let parameters = _.extend(
+                parameters = _.extend(
                     {
                         'callback': function (token) { // jscs:ignore jsDoc
-                            me.reCaptchaCallback(token);
-                            me.validateReCaptcha(true);
-                        },
+                            this.reCaptchaCallback(token);
+                            this.validateReCaptcha(true);
+                        }.bind(this),
                         'expired-callback': function () {
-                            me.validateReCaptcha(false);
-                        },
+                            this.validateReCaptcha(false);
+                        }.bind(this)
                     },
                     this.settings.rendering
                 );
 
+                if (parameters.size === 'invisible' && parameters.badge !== 'inline') {
+                    nonInlineReCaptchaRenderer.add($reCaptcha, parameters);
+                }
+
                 // eslint-disable-next-line no-undef
                 widgetId = grecaptcha.render(this.getReCaptchaId(), parameters);
-
-                if (this.getIsInvisibleRecaptcha() && $parentForm.length > 0) {
-                    $parentForm.submit(function (event) {
-                        if (!me.tokenField.value) {
-                            // eslint-disable-next-line no-undef
-                            grecaptcha.execute(widgetId);
-                            event.preventDefault(event);
-                            event.stopImmediatePropagation();
-                        }
-                    });
-
-                    // Move our (last) handler topmost. We need this to avoid submit bindings with ko.
-                    listeners = $._data($parentForm[0], 'events').submit;
-                    listeners.unshift(listeners.pop());
-
-                    // Create a virtual token field
-                    this.tokenField = $('<input type="text" name="token" style="display: none" />')[0];
-                    this.$parentForm = $parentForm;
-                    $parentForm.append(this.tokenField);
-                } else {
-                    this.tokenField = null;
-                }
+                this.initParentForm($parentForm, widgetId);
 
                 registry.ids.push(this.getReCaptchaId());
                 registry.captchaList.push(widgetId);
@@ -158,6 +131,43 @@ define(
 
             },
 
+            /**
+             * Initialize parent form.
+             *
+             * @param {Object} parentForm
+             * @param {String} widgetId
+             */
+            initParentForm: function (parentForm, widgetId) {
+                var listeners;
+
+                if (this.getIsInvisibleRecaptcha() && parentForm.length > 0) {
+                    parentForm.submit(function (event) {
+                        if (!this.tokenField.value) {
+                            // eslint-disable-next-line no-undef
+                            grecaptcha.execute(widgetId);
+                            event.preventDefault(event);
+                            event.stopImmediatePropagation();
+                        }
+                    }.bind(this));
+
+                    // Move our (last) handler topmost. We need this to avoid submit bindings with ko.
+                    listeners = $._data(parentForm[0], 'events').submit;
+                    listeners.unshift(listeners.pop());
+
+                    // Create a virtual token field
+                    this.tokenField = $('<input type="text" name="token" style="display: none" />')[0];
+                    this.$parentForm = parentForm;
+                    parentForm.append(this.tokenField);
+                } else {
+                    this.tokenField = null;
+                }
+            },
+
+            /**
+             * Validates reCAPTCHA
+             * @param {*} state
+             * @returns {jQuery}
+             */
             validateReCaptcha: function (state) {
                 if (!this.getIsInvisibleRecaptcha()) {
                     return $(document).find('input[type=checkbox].required-captcha').prop('checked', state);
@@ -168,14 +178,12 @@ define(
              * Render reCAPTCHA
              */
             renderReCaptcha: function () {
-                var me = this;
-
                 if (window.grecaptcha && window.grecaptcha.render) { // Check if reCAPTCHA is already loaded
-                    me.initCaptcha();
+                    this.initCaptcha();
                 } else { // Wait for reCAPTCHA to be loaded
                     $(window).on('recaptchaapiready', function () {
-                        me.initCaptcha();
-                    });
+                        this.initCaptcha();
+                    }.bind(this));
                 }
             },
 
@@ -187,5 +195,4 @@ define(
                 return this.reCaptchaId;
             }
         });
-    }
-);
+    });

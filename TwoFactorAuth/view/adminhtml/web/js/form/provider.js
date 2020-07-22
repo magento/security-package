@@ -3,11 +3,11 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
     'Magento_Ui/js/form/provider'
 ], function (Provider) {
+    'use strict';
+
     return Provider.extend({
         /**
          * @see Magento_Ui/js/form/provider

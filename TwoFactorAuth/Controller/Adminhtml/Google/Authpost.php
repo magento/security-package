@@ -10,21 +10,19 @@ namespace Magento\TwoFactorAuth\Controller\Adminhtml\Google;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Backend\App\Action;
 use Magento\Framework\App\Action\HttpPostActionInterface;
-use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
-use Magento\TwoFactorAuth\Api\TrustedManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\User\Model\User;
 
 /**
  * Google authenticator post controller
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
 class Authpost extends AbstractAction implements HttpPostActionInterface
@@ -54,11 +52,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     private $tfaSession;
 
     /**
-     * @var TrustedManagerInterface
-     */
-    private $trustedManager;
-
-    /**
      * @var DataObjectFactory
      */
     private $dataObjectFactory;
@@ -74,7 +67,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      * @param JsonFactory $jsonFactory
      * @param Google $google
      * @param TfaSessionInterface $tfaSession
-     * @param TrustedManagerInterface $trustedManager
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
@@ -85,7 +77,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         JsonFactory $jsonFactory,
         Google $google,
         TfaSessionInterface $tfaSession,
-        TrustedManagerInterface $trustedManager,
         TfaInterface $tfa,
         AlertInterface $alert,
         DataObjectFactory $dataObjectFactory
@@ -96,35 +87,23 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $this->jsonFactory = $jsonFactory;
         $this->google = $google;
         $this->tfaSession = $tfaSession;
-        $this->trustedManager = $trustedManager;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
     }
 
     /**
-     * Get current user
-     * @return User|null
-     */
-    private function getUser(): ?User
-    {
-        return $this->session->getUser();
-    }
-
-    /**
      * @inheritdoc
-     * @return ResponseInterface|ResultInterface
+     *
      * @throws NoSuchEntityException
      */
     public function execute()
     {
+        $user = $this->session->getUser();
         $response = $this->jsonFactory->create();
+        /** @var \Magento\Framework\DataObject $request */
+        $request = $this->dataObjectFactory->create(['data' => $this->getRequest()->getParams()]);
 
-        $user = $this->getUser();
-
-        if ($this->google->verify($user, $this->dataObjectFactory->create([
-            'data' => $this->getRequest()->getParams(),
-        ]))) {
-            $this->trustedManager->handleTrustDeviceRequest(Google::CODE, $this->getRequest());
+        if ($this->google->verify($user, $request)) {
             $this->tfaSession->grantAccess();
             $response->setData(['success' => true]);
         } else {
@@ -148,11 +127,10 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      */
     protected function _isAllowed()
     {
-        $user = $this->getUser();
+        $user = $this->session->getUser();
 
-        return
-            $user &&
-            $this->tfa->getProviderIsAllowed((int) $user->getId(), Google::CODE) &&
-            $this->tfa->getProvider(Google::CODE)->isActive((int) $user->getId());
+        return $user
+            && $this->tfa->getProviderIsAllowed((int)$user->getId(), Google::CODE)
+            && $this->tfa->getProvider(Google::CODE)->isActive((int)$user->getId());
     }
 }

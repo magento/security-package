@@ -13,17 +13,17 @@
                 <field id="customer_login" translate="label" type="select" sortOrder="110" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Enable for Customer Login</label>
-                    <source_model>Magento\ReCaptchaApi\Model\OptionSource\Type</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\OptionSource\Type</source_model>
                 </field>
                 <field id="customer_forgot_password" translate="label" type="select" sortOrder="120" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Enable for Forgot Password</label>
-                    <source_model>Magento\ReCaptchaApi\Model\OptionSource\Type</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\OptionSource\Type</source_model>
                 </field>
                 <field id="customer_create" translate="label" type="select" sortOrder="130" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Enable for Create New Customer Account</label>
-                    <source_model>Magento\ReCaptchaApi\Model\OptionSource\Type</source_model>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\OptionSource\Type</source_model>
                 </field>
                 <field id="customer_edit" translate="label" type="select" sortOrder="135" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">

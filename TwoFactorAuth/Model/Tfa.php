@@ -13,17 +13,19 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TwoFactorAuth\Api\ProviderInterface;
 use Magento\TwoFactorAuth\Api\ProviderPoolInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
-use Magento\TwoFactorAuth\Api\TrustedRepositoryInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 
 /**
+ * @inheritDoc
+ *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Tfa implements TfaInterface
 {
-    private $forcedProviders = null;
+    /**
+     * @var null|string[]
+     */
     private $allowedUrls = null;
-    private $enabledProviders = null;
 
     /**
      * @var ScopeConfigInterface
@@ -41,25 +43,18 @@ class Tfa implements TfaInterface
     private $searchCriteriaBuilder;
 
     /**
-     * @var TrustedRepositoryInterface
-     */
-    private $trustedRepository;
-
-    /**
      * @var ProviderPoolInterface
      */
     private $providerPool;
 
     /**
      * @param ScopeConfigInterface $scopeConfig
-     * @param TrustedRepositoryInterface $trustedRepository
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param UserConfigManagerInterface $userConfigManager
      * @param ProviderPoolInterface $providerPool
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        TrustedRepositoryInterface $trustedRepository,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         UserConfigManagerInterface $userConfigManager,
         ProviderPoolInterface $providerPool
@@ -67,7 +62,6 @@ class Tfa implements TfaInterface
         $this->scopeConfig = $scopeConfig;
         $this->userConfigManager = $userConfigManager;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
-        $this->trustedRepository = $trustedRepository;
         $this->providerPool = $providerPool;
     }
 
@@ -100,20 +94,15 @@ class Tfa implements TfaInterface
      */
     public function getAllEnabledProviders(): array
     {
-        if ($this->enabledProviders === null) {
-            $this->enabledProviders = [];
-
-            if ($this->isEnabled()) {
-                $providers = $this->getAllProviders();
-                foreach ($providers as $provider) {
-                    if ($provider->isEnabled()) {
-                        $this->enabledProviders[] = $provider;
-                    }
-                }
+        $enabledProviders = [];
+        $providers = $this->getAllProviders();
+        foreach ($providers as $provider) {
+            if ($provider->isEnabled()) {
+                $enabledProviders[] = $provider;
             }
         }
 
-        return $this->enabledProviders;
+        return $enabledProviders;
     }
 
     /**
@@ -139,21 +128,25 @@ class Tfa implements TfaInterface
      */
     public function getForcedProviders(): array
     {
-        if ($this->forcedProviders === null) {
-            $providersString = (string) $this->scopeConfig->getValue(TfaInterface::XML_PATH_FORCED_PROVIDERS);
-            $forcedProvidersCodes = preg_split('/\s*,\s*/', $providersString);
+        $forcedProviders = [];
 
-            $this->forcedProviders = [];
+        $configValue = $this->scopeConfig->getValue(TfaInterface::XML_PATH_FORCED_PROVIDERS);
+        if (!is_array($configValue) && $configValue) {
+            $forcedProvidersCodes = preg_split('/\s*,\s*/', $configValue);
+        } else {
+            $forcedProvidersCodes = $configValue;
+        }
 
+        if ($forcedProvidersCodes) {
             foreach ($forcedProvidersCodes as $forcedProviderCode) {
                 $provider = $this->getProvider($forcedProviderCode);
                 if ($provider) {
-                    $this->forcedProviders[] = $provider;
+                    $forcedProviders[] = $provider;
                 }
             }
         }
 
-        return $this->forcedProviders;
+        return $forcedProviders;
     }
 
     /**
@@ -161,34 +154,7 @@ class Tfa implements TfaInterface
      */
     public function getUserProviders(int $userId): array
     {
-        $forcedProviders = $this->getForcedProviders();
-
-        if (!empty($forcedProviders)) {
-            return $forcedProviders;
-        }
-
-        $providersCodes = $this->userConfigManager->getProvidersCodes($userId);
-
-        $res = [];
-        foreach ($providersCodes as $providerCode) {
-            $provider = $this->getProvider($providerCode);
-            if ($provider) {
-                $res[] = $provider;
-            }
-        }
-
-        return $res;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTrustedDevices(int $userId): array
-    {
-        $criteria = $this->searchCriteriaBuilder->addFilter('user_id', $userId)->create();
-        $results = $this->trustedRepository->getList($criteria);
-
-        return $results->getItems();
+        return $this->getForcedProviders();
     }
 
     /**
@@ -201,6 +167,11 @@ class Tfa implements TfaInterface
                 'adminhtml_auth_login',
                 'adminhtml_auth_logout',
                 'adminhtml_auth_forgotpassword',
+                'tfa_tfa_accessdenied',
+                'tfa_tfa_requestconfig',
+                'tfa_tfa_configurelater',
+                'tfa_tfa_configure',
+                'tfa_tfa_configurepost',
                 'tfa_tfa_index'
             ];
 
@@ -255,11 +226,12 @@ class Tfa implements TfaInterface
      */
     public function isEnabled(): bool
     {
-        return (bool) $this->scopeConfig->getValue(TfaInterface::XML_PATH_ENABLED);
+        return true;
     }
 
     /**
      * Return true if a provider code is allowed
+     *
      * @param int $userId
      * @param string $providerCode
      * @throws NoSuchEntityException
@@ -281,6 +253,7 @@ class Tfa implements TfaInterface
 
     /**
      * Set default provider code
+     *
      * @param int $userId
      * @param string $providerCode
      * @return boolean

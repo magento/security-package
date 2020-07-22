@@ -7,27 +7,27 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Data;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\TwoFactorAuth\Api\Data\UserConfigExtensionInterface;
 use Magento\TwoFactorAuth\Api\Data\UserConfigInterface;
 
 /**
  * @inheritDoc
  */
-class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
+class UserConfig extends AbstractExtensibleModel implements UserConfigInterface
 {
     /**
      * @inheritDoc
      */
     public function getId(): int
     {
-        return (int) $this->_get(self::ID);
+        return (int) $this->getData(self::ID);
     }
 
     /**
      * @inheritDoc
      */
-    public function setId(int $value): void
+    public function setId($value): void
     {
         $this->setData(self::ID, $value);
     }
@@ -37,7 +37,7 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
      */
     public function getUserId(): int
     {
-        return (int) $this->_get(self::USER_ID);
+        return (int) $this->getData(self::USER_ID);
     }
 
     /**
@@ -53,7 +53,7 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
      */
     public function getEncodedProviders(): string
     {
-        return (string) $this->_get(self::ENCODED_PROVIDERS);
+        return (string) $this->getData(self::ENCODED_PROVIDERS);
     }
 
     /**
@@ -69,7 +69,7 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
      */
     public function getDefaultProvider(): string
     {
-        return (string) $this->_get(self::DEFAULT_PROVIDER);
+        return (string) $this->getData(self::DEFAULT_PROVIDER);
     }
 
     /**
@@ -85,7 +85,7 @@ class UserConfig extends AbstractExtensibleObject implements UserConfigInterface
      */
     public function getExtensionAttributes(): ?UserConfigExtensionInterface
     {
-        return $this->_get(self::EXTENSION_ATTRIBUTES_KEY);
+        return $this->getData(self::EXTENSION_ATTRIBUTES_KEY);
     }
 
     /**

@@ -15,14 +15,17 @@ use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
-use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
+use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractConfigureAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
+use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
+ * Verify authy
+ *
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
  */
-class Configureverifypost extends AbstractAction implements HttpPostActionInterface
+class Configureverifypost extends AbstractConfigureAction implements HttpPostActionInterface
 {
     /**
      * @var JsonFactory
@@ -68,6 +71,7 @@ class Configureverifypost extends AbstractAction implements HttpPostActionInterf
      * @param Authy $authy
      * @param Authy\Verification $verification
      * @param JsonFactory $jsonFactory
+     * @param HtmlAreaTokenVerifier $tokenVerifier
      */
     public function __construct(
         Action\Context $context,
@@ -77,9 +81,10 @@ class Configureverifypost extends AbstractAction implements HttpPostActionInterf
         AlertInterface $alert,
         Authy $authy,
         Authy\Verification $verification,
-        JsonFactory $jsonFactory
+        JsonFactory $jsonFactory,
+        HtmlAreaTokenVerifier $tokenVerifier
     ) {
-        parent::__construct($context);
+        parent::__construct($context, $tokenVerifier);
         $this->jsonFactory = $jsonFactory;
         $this->session = $session;
         $this->tfa = $tfa;
@@ -91,6 +96,7 @@ class Configureverifypost extends AbstractAction implements HttpPostActionInterf
 
     /**
      * Get current user
+     *
      * @return User|null
      */
     private function getUser(): ?User
@@ -144,6 +150,10 @@ class Configureverifypost extends AbstractAction implements HttpPostActionInterf
      */
     protected function _isAllowed()
     {
+        if (!parent::_isAllowed()) {
+            return false;
+        }
+
         $user = $this->getUser();
 
         return

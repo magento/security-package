@@ -1,0 +1,21 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject {{trans "2FA configuration required for %name" name=$store_name}} @-->
+<!--@vars {
+"var username":"Admin User Name",
+"var store_name":"Current Store (Website) Name",
+"var token":"Token query parameter",
+"var url":"URL to User 2FA Configuration Page"
+} @-->
+
+<p>{{var username}},</p>
+<p>
+    {{trans "You are required to configure website-wide and personal Two-Factor Authorization in order to login to %store" store=$store_name }}
+    <br/>
+    {{trans "To do that please <a href="%url">Click here</a>" url=$url |noescape}}
+</p>
+<p>{{trans "Thank you,"}} {{var store_name}}</p>

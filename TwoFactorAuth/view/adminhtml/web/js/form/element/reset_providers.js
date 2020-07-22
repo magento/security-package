@@ -3,12 +3,12 @@
  * See COPYING.txt for license details.
  */
 
-'use strict';
-
 define([
   'Magento_Ui/js/form/element/abstract',
   'Magento_Ui/js/modal/confirm'
 ], function (Abstract, confirm) {
+    'use strict';
+
     return Abstract.extend({
         /**
          * Get a list of providers with reset option
