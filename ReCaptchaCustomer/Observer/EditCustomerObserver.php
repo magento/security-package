@@ -15,7 +15,9 @@ use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
- * EditCustomerObserver
+ * NewsletterObserver
+ *
+ * Process the response during customer account editing
  */
 class EditCustomerObserver implements ObserverInterface
 {
@@ -50,6 +52,8 @@ class EditCustomerObserver implements ObserverInterface
     }
 
     /**
+     * @inheritdoc
+     *
      * @param Observer $observer
      * @return void
      * @throws \Magento\Framework\Exception\LocalizedException
