@@ -18,13 +18,19 @@
                 <item name="hostname-mismatch" xsi:type="string" translatable="true">Expected hostname did not match.</item>
                 <item name="apk_package_name-mismatch" xsi:type="string" translatable="true">Expected APK package name did not match.</item>
                 <item name="action-mismatch" xsi:type="string" translatable="true">Expected action did not match.</item>
-                <item name="score-threshold-not-met" xsi:type="string" translatable="true">Score threshold not met.</item>
                 <item name="challenge-timeout" xsi:type="string" translatable="true">Challenge timeout.</item>
                 <item name="missing-input-secret" xsi:type="string" translatable="true">The secret parameter is missing.</item>
                 <item name="invalid-input-secret" xsi:type="string" translatable="true">The secret parameter is invalid or malformed.</item>
                 <item name="invalid-input-response" xsi:type="string" translatable="true">The response parameter is invalid or malformed.</item>
                 <item name="bad-request" xsi:type="string" translatable="true">The request is invalid or malformed.</item>
                 <item name="timeout-or-duplicate" xsi:type="string" translatable="true">The response is no longer valid: either is too old or has been used previously.</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\ReCaptchaValidationApi\Model\ValidationErrorMessagesProvider">
+        <arguments>
+            <argument name="errors" xsi:type="array">
+                <item name="score-threshold-not-met" xsi:type="string" translatable="true">Score threshold not met.</item>
             </argument>
         </arguments>
     </type>
