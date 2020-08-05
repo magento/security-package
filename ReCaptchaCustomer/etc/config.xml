@@ -13,6 +13,7 @@
                 <customer_login/>
                 <customer_forgot_password/>
                 <customer_create/>
+                <customer_edit/>
             </type_for>
         </recaptcha_frontend>
     </default>

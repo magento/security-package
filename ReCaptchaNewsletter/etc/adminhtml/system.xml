@@ -12,7 +12,7 @@
             <group id="type_for">
                 <field id="newsletter" translate="label comment" type="select" sortOrder="160" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
-                    <label>Enable Invisible reCAPTCHA in Newsletter Subscription</label>
+                    <label>Enable for Newsletter Subscription</label>
                     <comment>If enabled, a badge will be displayed in every page.</comment>
                     <source_model>Magento\ReCaptchaAdminUi\Model\OptionSource\Type</source_model>
                 </field>

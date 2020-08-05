@@ -25,6 +25,11 @@
                     <label>Enable for Create New Customer Account</label>
                     <source_model>Magento\ReCaptchaAdminUi\Model\OptionSource\Type</source_model>
                 </field>
+                <field id="customer_edit" translate="label" type="select" sortOrder="135" showInDefault="1"
+                       showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enable for Edit Customer Account</label>
+                    <source_model>Magento\ReCaptchaAdminUi\Model\OptionSource\Type</source_model>
+                </field>
             </group>
         </section>
     </system>

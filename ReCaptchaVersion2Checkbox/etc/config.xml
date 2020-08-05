@@ -10,6 +10,7 @@
     <default>
         <recaptcha_backend>
             <type_recaptcha>
+                <public_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <size>normal</size>
                 <theme>light</theme>
@@ -19,6 +20,7 @@
         </recaptcha_backend>
         <recaptcha_frontend>
             <type_recaptcha>
+                <public_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
                 <size>normal</size>
                 <theme>light</theme>
