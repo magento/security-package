@@ -80,6 +80,7 @@ class AjaxLoginObserver implements ObserverInterface
 
     /**
      * @inheritdoc
+     *
      * @throws LocalizedException
      */
     public function execute(Observer $observer): void
