@@ -23,7 +23,9 @@ use Magento\ReCaptchaValidationApi\Model\ValidationErrorMessagesProvider;
 use Psr\Log\LoggerInterface;
 
 /**
- * LoginObserver
+ * Observer of login.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class LoginObserver implements ObserverInterface
 {
@@ -80,6 +82,8 @@ class LoginObserver implements ObserverInterface
      * @param RequestInterface $request
      * @param LoggerInterface $logger
      * @param string $loginActionName
+     * @param ErrorMessageConfigInterface|null $errorMessageConfig
+     * @param ValidationErrorMessagesProvider|null $validationErrorMessagesProvider
      */
     public function __construct(
         CaptchaResponseResolverInterface $captchaResponseResolver,
@@ -106,8 +110,7 @@ class LoginObserver implements ObserverInterface
     }
 
     /**
-     * @param Observer $observer
-     * @return void
+     * @inheritdoc
      * @throws AuthenticationException
      * @throws LocalizedException
      */

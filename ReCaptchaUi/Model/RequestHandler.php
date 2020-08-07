@@ -20,6 +20,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  * @inheritdoc
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class RequestHandler implements RequestHandlerInterface
 {
@@ -129,8 +131,12 @@ class RequestHandler implements RequestHandlerInterface
      * @param string $sourceKey
      * @return void
      */
-    private function processError(HttpResponseInterface $response, array $errorMessages, string $redirectOnFailureUrl, string $sourceKey): void
-    {
+    private function processError(
+        HttpResponseInterface $response,
+        array $errorMessages,
+        string $redirectOnFailureUrl,
+        string $sourceKey
+    ): void {
         $validationErrorText = $this->errorMessageConfig->getValidationFailureMessage();
         $technicalErrorText = $this->errorMessageConfig->getTechnicalFailureMessage();
 

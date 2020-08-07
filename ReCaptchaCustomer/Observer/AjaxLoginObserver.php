@@ -20,7 +20,7 @@ use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Psr\Log\LoggerInterface;
 
 /**
- * AjaxLoginObserver
+ * Observer of ajax login.
  */
 class AjaxLoginObserver implements ObserverInterface
 {
@@ -79,8 +79,7 @@ class AjaxLoginObserver implements ObserverInterface
     }
 
     /**
-     * @param Observer $observer
-     * @return void
+     * @inheritdoc
      * @throws LocalizedException
      */
     public function execute(Observer $observer): void

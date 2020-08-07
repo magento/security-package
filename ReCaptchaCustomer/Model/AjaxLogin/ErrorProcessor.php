@@ -51,6 +51,7 @@ class ErrorProcessor
     /**
      * @param ActionFlag $actionFlag
      * @param SerializerInterface $serializer
+     * @param LoggerInterface|null $logger
      * @param ErrorMessageConfigInterface|null $errorMessageConfig
      * @param ValidationErrorMessagesProvider|null $validationErrorMessagesProvider
      */
