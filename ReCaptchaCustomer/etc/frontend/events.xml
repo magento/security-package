@@ -16,6 +16,9 @@
     <event name="controller_action_predispatch_customer_account_createpost">
         <observer name="recaptcha_on_create_user" instance="Magento\ReCaptchaCustomer\Observer\CreateCustomerObserver"/>
     </event>
+    <event name="controller_action_predispatch_customer_account_editpost">
+        <observer name="recaptcha_on_edit_customer" instance="Magento\ReCaptchaCustomer\Observer\EditCustomerObserver"/>
+    </event>
     <event name="controller_action_predispatch_customer_account_forgotpasswordpost">
         <observer name="recaptcha_on_forgot_password"
                   instance="Magento\ReCaptchaCustomer\Observer\ForgotPasswordObserver"/>
