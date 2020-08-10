@@ -33,12 +33,12 @@
                 <label>reCAPTCHA Failure Messages</label>
 
                 <field id="validation_failure_message" translate="label" type="textarea" sortOrder="10" showInDefault="1"
-                       showInWebsite="1" showInStore="1" canRestore="1">
+                       showInWebsite="0" showInStore="0" canRestore="1">
                     <label>reCAPTCHA Validation Failure Message</label>
                 </field>
 
                 <field id="technical_failure_message" translate="label" type="textarea" sortOrder="20" showInDefault="1"
-                       showInWebsite="1" showInStore="1" canRestore="1">
+                       showInWebsite="0" showInStore="0" canRestore="1">
                     <label>reCAPTCHA Technical Failure Message</label>
                 </field>
             </group>
