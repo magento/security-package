@@ -22,6 +22,10 @@
             <group id="type_for" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="0"
                    showInStore="0">
                 <label>Admin Panel</label>
+                <field id="recaptcha_backend_info_heading" translate="label" sortOrder="100" showInDefault="1"
+                       showInWebsite="0" showInStore="0" >
+                    <frontend_model>Magento\ReCaptchaAdminUi\Block\Adminhtml\System\Config\Form\Field\Notice</frontend_model>
+                </field>
             </group>
         </section>
 
@@ -35,6 +39,10 @@
             <group id="type_for" translate="label" type="text" sortOrder="1000" showInDefault="1" showInWebsite="1"
                    showInStore="0">
                 <label>Storefront</label>
+                <field id="recaptcha_frontend_info_heading" translate="label" sortOrder="100" showInDefault="1"
+                       showInWebsite="1" showInStore="0">
+                    <frontend_model>Magento\ReCaptchaAdminUi\Block\Adminhtml\System\Config\Form\Field\Notice</frontend_model>
+                </field>
             </group>
         </section>
     </system>

@@ -48,7 +48,7 @@ class ForgotPasswordFormTest extends AbstractController
     /**
      * @inheritDoc
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->formKey = $this->_objectManager->get(FormKey::class);
@@ -68,7 +68,7 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      */
-    public function testGetRequestIfReCaptchaIsDisabled()
+    public function testGetRequestIfReCaptchaIsDisabled(): void
     {
         $this->checkSuccessfulGetResponse();
     }
@@ -80,7 +80,7 @@ class ForgotPasswordFormTest extends AbstractController
      * It's  needed for proper work of "ifconfig" in layout during tests running
      * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
-    public function testGetRequestIfReCaptchaKeysAreNotConfigured()
+    public function testGetRequestIfReCaptchaKeysAreNotConfigured(): void
     {
         $this->checkSuccessfulGetResponse();
     }
@@ -94,7 +94,7 @@ class ForgotPasswordFormTest extends AbstractController
      * It's  needed for proper work of "ifconfig" in layout during tests running
      * @magentoConfigFixture default_store recaptcha_backend/type_for/user_forgot_password invisible
      */
-    public function testGetRequestIfReCaptchaIsEnabled()
+    public function testGetRequestIfReCaptchaIsEnabled(): void
     {
         $this->checkSuccessfulGetResponse(true);
     }
@@ -104,7 +104,7 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      */
-    public function testPostRequestIfReCaptchaIsDisabled()
+    public function testPostRequestIfReCaptchaIsDisabled(): void
     {
         $this->checkSuccessfulPostResponse();
     }
@@ -114,7 +114,7 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture admin/captcha/always_for/backend_forgotpassword 0
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
      */
-    public function testPostRequestIfReCaptchaKeysAreNotConfigured()
+    public function testPostRequestIfReCaptchaKeysAreNotConfigured(): void
     {
         $this->checkSuccessfulPostResponse();
     }
@@ -125,7 +125,7 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
      */
-    public function testPostRequestWithSuccessfulReCaptchaValidation()
+    public function testPostRequestWithSuccessfulReCaptchaValidation(): void
     {
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(true);
 
@@ -141,22 +141,10 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/public_key test_public_key
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
-     * @expectedException \Magento\Framework\Exception\InputException
-     * @expectedExceptionMessage Can not resolve reCAPTCHA parameter.
      */
-    public function testPostRequestIfReCaptchaParameterIsMissed()
+    public function testPostRequestIfReCaptchaParameterIsMissed(): void
     {
-        $this->getRequest()
-            ->setMethod(Http::METHOD_POST)
-            ->setPostValue(
-                [
-                    'form_key' => $this->formKey->getFormKey(),
-                    'email' => 'adminUser@example.com'
-                ]
-            );
-        $this->dispatch('backend/admin/auth/forgotpassword');
-
-        self::assertEmpty($this->transportMock->getSentMessage());
+        $this->checkFailedPostResponse();
     }
 
     /**
@@ -165,20 +153,54 @@ class ForgotPasswordFormTest extends AbstractController
      * @magentoAdminConfigFixture recaptcha_backend/type_invisible/private_key test_private_key
      * @magentoAdminConfigFixture recaptcha_backend/type_for/user_forgot_password invisible
      */
-    public function testPostRequestWithFailedReCaptchaValidation()
+    public function testPostRequestWithFailedReCaptchaValidation(): void
     {
         $this->captchaValidationResultMock->expects($this->once())->method('isValid')->willReturn(false);
 
-        $this->getRequest()
-            ->setMethod(Http::METHOD_POST)
-            ->setPostValue(
-                [
-                    'form_key' => $this->formKey->getFormKey(),
-                    'email' => 'adminUser@example.com',
-                    CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test',
-                ]
-            );
+        $this->checkFailedPostResponse([CaptchaResponseResolverInterface::PARAM_RECAPTCHA => 'test']);
+    }
+
+    /**
+     * @param bool $shouldContainReCaptcha
+     * @return void
+     */
+    private function checkSuccessfulGetResponse($shouldContainReCaptcha = false): void
+    {
         $this->dispatch('backend/admin/auth/forgotpassword');
+        $content = $this->getResponse()->getBody();
+
+        self::assertNotEmpty($content);
+
+        $shouldContainReCaptcha
+            ? $this->assertStringContainsString('admin-recaptcha', $content)
+            : $this->assertStringNotContainsString('admin-recaptcha', $content);
+
+        self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
+    }
+
+    /**
+     * @param array $postValues
+     * @return void
+     */
+    private function checkSuccessfulPostResponse(array $postValues = []): void
+    {
+        $this->makePostRequest($postValues);
+
+        $this->assertRedirect(self::equalTo($this->backendUrl->getRouteUrl('adminhtml')));
+        self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
+
+        $message = $this->transportMock->getSentMessage();
+        self::assertNotEmpty($message);
+        self::assertEquals((string)__('Password Reset Confirmation for %1', ['John Doe']), $message->getSubject());
+    }
+
+    /**
+     * @param array $postValues
+     * @return void
+     */
+    private function checkFailedPostResponse(array $postValues = []): void
+    {
+        $this->makePostRequest($postValues);
 
         $this->assertSessionMessages(
             self::equalTo(['reCAPTCHA verification failed']),
@@ -188,26 +210,10 @@ class ForgotPasswordFormTest extends AbstractController
     }
 
     /**
-     * @param bool $shouldContainReCaptcha
-     */
-    private function checkSuccessfulGetResponse($shouldContainReCaptcha = false)
-    {
-        $this->dispatch('backend/admin/auth/forgotpassword');
-        $content = $this->getResponse()->getBody();
-
-        self::assertNotEmpty($content);
-
-        $shouldContainReCaptcha
-            ? $this->assertContains('admin-recaptcha', $content)
-            : $this->assertNotContains('admin-recaptcha', $content);
-
-        self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
-    }
-
-    /**
      * @param array $postValues
+     * @return void
      */
-    private function checkSuccessfulPostResponse(array $postValues = [])
+    private function makePostRequest(array $postValues = []): void
     {
         $this->getRequest()
             ->setMethod(Http::METHOD_POST)
@@ -219,12 +225,5 @@ class ForgotPasswordFormTest extends AbstractController
                 $postValues
             ));
         $this->dispatch('backend/admin/auth/forgotpassword');
-
-        $this->assertRedirect(self::equalTo($this->backendUrl->getRouteUrl('adminhtml')));
-        self::assertEmpty($this->getSessionMessages(MessageInterface::TYPE_ERROR));
-
-        $message = $this->transportMock->getSentMessage();
-        self::assertNotEmpty($message);
-        self::assertEquals((string)__('Password Reset Confirmation for %1', ['John Doe']), $message->getSubject());
     }
 }

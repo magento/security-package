@@ -1,0 +1,25 @@
+{
+    "tfa_user_config": {
+        "constraint": {
+            "PRIMARY": true,
+            "TFA_USER_CONFIG_USER_ID_ADMIN_USER_USER_ID": true
+        }
+    },
+    "tfa_country_codes": {
+        "constraint": {
+            "PRIMARY": true
+        },
+        "index": {
+            "TFA_COUNTRY_CODES_CODE": true
+        }
+    },
+    "msp_tfa_user_config": {
+        "constraint": {}
+    },
+    "msp_tfa_trusted": {
+        "constraint": {}
+    },
+    "tfa_trusted": {
+        "constraint": {}
+    }
+}

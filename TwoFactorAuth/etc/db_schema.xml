@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="tfa_user_config" resource="default" engine="innodb" comment="tfa_user_config">
+        <column xsi:type="int" name="config_id" padding="10" unsigned="true" nullable="false"
+                identity="true" comment="TFA admin user ID"/>
+        <column xsi:type="int" name="user_id" padding="10" unsigned="true" nullable="false" identity="false"
+                comment="User ID"/>
+        <column xsi:type="text" name="encoded_providers" nullable="true" comment="Encoded providers list"/>
+        <column xsi:type="text" name="encoded_config" nullable="true" comment="Encoded providers configuration"/>
+        <column xsi:type="varchar" name="default_provider" nullable="true" comment="Default provider"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="config_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="TFA_USER_CONFIG_USER_ID_ADMIN_USER_USER_ID"
+                    table="tfa_user_config" column="user_id" referenceTable="admin_user" referenceColumn="user_id"
+                    onDelete="CASCADE"/>
+    </table>
+
+    <table name="tfa_country_codes" resource="default" engine="innodb" comment="tfa_country_codes">
+        <column xsi:type="int" name="country_id" padding="10" unsigned="true" nullable="false"
+                identity="true" comment="TFA admin user ID"/>
+        <column xsi:type="varchar" length="2" name="code" nullable="false" comment="Country code"/>
+        <column xsi:type="varchar" name="name" nullable="false" comment="Country name"/>
+        <column xsi:type="varchar" name="dial_code" nullable="false" comment="Prefix"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="country_id"/>
+        </constraint>
+        <index referenceId="TFA_COUNTRY_CODES_CODE" indexType="btree">
+            <column name="code" />
+        </index>
+    </table>
+</schema>
