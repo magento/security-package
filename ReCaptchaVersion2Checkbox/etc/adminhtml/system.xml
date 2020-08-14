@@ -45,11 +45,6 @@
                         <a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language Codes</a>.
                 ]]></comment>
                 </field>
-
-                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="60" showInDefault="1"
-                       showInWebsite="0" showInStore="0" canRestore="1">
-                    <label>reCAPTCHA Validation Failure Message</label>
-                </field>
             </group>
         </section>
         <section id="recaptcha_frontend">
@@ -88,11 +83,6 @@
                         Optional. Forces the widget to render in a specific language. Auto-detects the user's language if unspecified. See
                         <a target="_blank" href="https://developers.google.com/recaptcha/docs/language">supported Language Codes</a>.
                 ]]></comment>
-                </field>
-
-                <field id="validation_failure_message" translate="label" type="textarea" sortOrder="60" showInDefault="1"
-                       showInWebsite="1" showInStore="1" canRestore="1">
-                    <label>reCAPTCHA Validation Failure Message</label>
                 </field>
             </group>
         </section>

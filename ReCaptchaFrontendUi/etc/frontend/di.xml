@@ -9,7 +9,8 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\ReCaptchaUi\Model\CaptchaTypeResolverInterface"
                 type="Magento\ReCaptchaFrontendUi\Model\CaptchaTypeResolver"/>
-
+    <preference for="Magento\ReCaptchaUi\Model\ErrorMessageConfigInterface"
+                type="Magento\ReCaptchaFrontendUi\Model\ErrorMessageConfig"/>
     <type name="Magento\Framework\View\Asset\Minification">
         <plugin name="exclude-recaptcha-from-minification"
                 type="Magento\ReCaptchaFrontendUi\Plugin\ExcludeFromMinification"/>
