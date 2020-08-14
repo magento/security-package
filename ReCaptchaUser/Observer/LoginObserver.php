@@ -126,6 +126,8 @@ class LoginObserver implements ObserverInterface
             } catch (InputException $e) {
                 $this->logger->error($e);
                 $this->processError([], $key);
+
+                return;
             }
 
             $validationResult = $this->captchaValidator->isValid($reCaptchaResponse, $validationConfig);

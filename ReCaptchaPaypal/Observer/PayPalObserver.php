@@ -25,7 +25,9 @@ use Magento\ReCaptchaValidationApi\Model\ValidationErrorMessagesProvider;
 use Psr\Log\LoggerInterface;
 
 /**
- * AjaxLoginObserver
+ * reCaptcha support for PayPal Payflow Pro Integration.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class PayPalObserver implements ObserverInterface
 {
