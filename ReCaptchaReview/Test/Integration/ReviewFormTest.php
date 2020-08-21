@@ -221,7 +221,7 @@ class ReviewFormTest extends AbstractController
         $this->makePostRequest($postValues);
 
         $this->assertSessionMessages(
-            self::equalTo(['reCAPTCHA verification failed']),
+            self::equalTo(['Something went wrong with reCAPTCHA. Please contact the store owner.']),
             MessageInterface::TYPE_ERROR
         );
         self::assertEquals(0, $this->reviewResourceModel->getTotalReviews(1));

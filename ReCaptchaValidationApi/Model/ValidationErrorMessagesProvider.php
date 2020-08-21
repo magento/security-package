@@ -8,11 +8,11 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaValidationApi\Model;
 
 /**
- * Extension point for adding reCAPTCHA technical errors.
+ * Extension point for adding reCAPTCHA validation errors.
  *
- * @api Class name should be used in DI for adding new technical errors.
+ * @api Class name should be used in DI for adding new validation errors.
  */
-class ErrorMessagesProvider
+class ValidationErrorMessagesProvider
 {
     /**
      * @var array

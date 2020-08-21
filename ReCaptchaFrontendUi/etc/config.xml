@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <recaptcha_frontend>
+            <failure_messages>
+                <validation_failure_message>reCAPTCHA verification failed.</validation_failure_message>
+                <technical_failure_message>Something went wrong with reCAPTCHA. Please contact the store owner.</technical_failure_message>
+            </failure_messages>
+        </recaptcha_frontend>
+    </default>
+</config>

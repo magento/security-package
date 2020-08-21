@@ -227,7 +227,7 @@ class ForgotPasswordFormTest extends AbstractController
 
         $this->assertRedirect(self::equalTo($this->url->getRouteUrl('customer/account/forgotpassword')));
         $this->assertSessionMessages(
-            self::equalTo(['reCAPTCHA verification failed']),
+            self::equalTo(['Something went wrong with reCAPTCHA. Please contact the store owner.']),
             MessageInterface::TYPE_ERROR
         );
 
