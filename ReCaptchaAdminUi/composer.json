@@ -5,7 +5,7 @@
         "php": "~7.3.0||~7.4.0",
         "magento/framework": "*",
         "magento/module-config": "*",
-        "magento/module-re-captcha-ui": "*",
+        "magento/module-re-captcha-ui": "1.1.*",
         "magento/module-store": "*"
     },
     "type": "magento2-module",
@@ -17,5 +17,6 @@
         "psr-4": {
             "Magento\\ReCaptchaAdminUi\\": ""
         }
-    }
+    },
+    "version": "1.1.0-alpha2"
 }
