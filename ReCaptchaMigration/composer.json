@@ -15,5 +15,6 @@
         "psr-4": {
             "Magento\\ReCaptchaMigration\\": ""
         }
-    }
+    },
+    "version": "1.1.0-beta1"
 }
