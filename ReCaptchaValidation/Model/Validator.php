@@ -70,9 +70,14 @@ class Validator implements ValidatorInterface
         $validationErrors = [];
         if (false === $result->isSuccess()) {
             foreach ($result->getErrorCodes() as $errorCode) {
-                $validationErrors[] = $this->errorMessagesProvider->getErrorMessage($errorCode);
+                $validationErrors[$errorCode] = $this->errorMessagesProvider->getErrorMessage($errorCode);
+            }
+            // 'score-threshold-not-met' error is present in response even if some technical issue happened.
+            if (count($validationErrors) > 1) {
+                unset($validationErrors[ReCaptcha::E_SCORE_THRESHOLD_NOT_MET]);
             }
         }
+
         return $this->validationResultFactory->create(['errors' => $validationErrors]);
     }
 }

@@ -42,7 +42,7 @@
                 <field id="otp_window" translate="label comment" type="text" sortOrder="10" showInDefault="1"
                        showInWebsite="0" showInStore="0" canRestore="1">
                     <label>OTP Window</label>
-                    <comment>This determines how long the one-time-passwords are valid for.</comment>
+                    <comment>This determines how long the one-time-passwords are valid for. An OTP Window of 1 will result in the current OTP value plus 1 code in the past and 1 code in the future to be valid at any given point in time.</comment>
                 </field>
             </group>
             <group id="duo" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0"
