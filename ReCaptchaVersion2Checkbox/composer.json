@@ -5,12 +5,12 @@
         "php": "~7.3.0||~7.4.0",
         "magento/framework": "*",
         "magento/module-store": "*",
-        "magento/module-re-captcha-ui": "*",
-        "magento/module-re-captcha-validation-api": "*"
+        "magento/module-re-captcha-ui": "1.1.*",
+        "magento/module-re-captcha-validation-api": "1.1.*"
     },
     "suggest": {
         "magento/module-config": "*",
-        "magento/module-re-captcha-admin-ui": "*"
+        "magento/module-re-captcha-admin-ui": "1.1.*"
     },
     "type": "magento2-module",
     "license": "OSL-3.0",
@@ -21,5 +21,6 @@
         "psr-4": {
             "Magento\\ReCaptchaVersion2Checkbox\\": ""
         }
-    }
+    },
+    "version": "2.0.0"
 }
