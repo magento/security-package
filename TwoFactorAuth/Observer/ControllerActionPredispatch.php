@@ -20,6 +20,7 @@ use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Index;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
+use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Requestconfig;
 use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
 
 /**
@@ -145,7 +146,7 @@ class ControllerActionPredispatch implements ObserverInterface
 
             if (!$accessGranted && $configurationStillRequired) {
                 //User needs special link with a token to be allowed to configure 2FA
-                if ($this->authorization->isAllowed(Configure::ADMIN_RESOURCE)) {
+                if ($this->authorization->isAllowed(Requestconfig::ADMIN_RESOURCE)) {
                     $this->redirect('tfa/tfa/requestconfig');
                 } else {
                     $this->redirect('tfa/tfa/accessdenied');
