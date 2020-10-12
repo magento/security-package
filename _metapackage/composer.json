@@ -20,6 +20,8 @@
         "magento/module-re-captcha-version-2-checkbox": "*",
         "magento/module-re-captcha-version-2-invisible": "*",
         "magento/module-re-captcha-version-3-invisible": "*",
+        "magento/module-re-captcha-webapi-api": "*",
+        "magento/module-re-captcha-webapi-rest": "*",
         "magento/module-securitytxt": "*",
         "magento/module-two-factor-auth": "*",
         "google/recaptcha": "^1.2"
