@@ -11,6 +11,7 @@ use Magento\Framework\Webapi\Rest\Request as RestRequest;
 use Magento\Framework\Webapi\Exception as WebapiException;
 use Magento\ReCaptchaWebapiApi\Api\WebapiValidationConfigProviderInterface;
 use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
+use Magento\ReCaptchaWebapiApi\Model\Data\Endpoint;
 use Magento\Webapi\Controller\Rest\Router;
 use Magento\ReCaptchaWebapiApi\Model\Data\EndpointFactory;
 
@@ -74,6 +75,7 @@ class RestValidationPlugin
     public function afterValidate(): void
     {
         $route = $this->restRouter->match($this->request);
+        /** @var Endpoint $endpoint */
         $endpoint = $this->endpointFactory->create([
             'class' => $route->getServiceClass(),
             'method' => $route->getServiceMethod(),
