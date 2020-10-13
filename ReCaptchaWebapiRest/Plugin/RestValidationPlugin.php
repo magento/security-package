@@ -45,6 +45,27 @@ class RestValidationPlugin
     private $endpointFactory;
 
     /**
+     * @param ValidatorInterface $recaptchaValidator
+     * @param WebapiValidationConfigProviderInterface $configProvider
+     * @param RestRequest $request
+     * @param Router $restRouter
+     * @param EndpointFactory $endpointFactory
+     */
+    public function __construct(
+        ValidatorInterface $recaptchaValidator,
+        WebapiValidationConfigProviderInterface $configProvider,
+        RestRequest $request,
+        Router $restRouter,
+        EndpointFactory $endpointFactory
+    ) {
+        $this->recaptchaValidator = $recaptchaValidator;
+        $this->configProvider = $configProvider;
+        $this->request = $request;
+        $this->restRouter = $restRouter;
+        $this->endpointFactory = $endpointFactory;
+    }
+
+    /**
      * Validate ReCaptcha if needed.
      *
      * @throws WebapiException
@@ -61,7 +82,7 @@ class RestValidationPlugin
         $config = $this->configProvider->getConfigFor($endpoint);
         if ($config) {
             $value = (string)$this->request->getHeader('X-ReCaptcha');
-            if (!$value || !$this->recaptchaValidator->isValid($value, $config)->isValid()) {
+            if (!$this->recaptchaValidator->isValid($value, $config)->isValid()) {
                 throw new WebapiException(__('ReCaptcha validation failed, please try again'));
             }
         }
