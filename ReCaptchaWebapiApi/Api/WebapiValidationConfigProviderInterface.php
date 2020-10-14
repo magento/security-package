@@ -13,6 +13,8 @@ use Magento\ReCaptchaWebapiApi\Api\Data\EndpointInterface;
 /**
  * Provides ReCaptcha validation config for an endpoint.
  *
+ * Implement to control which web API endpoint need ReCaptcha validation.
+ *
  * @api
  */
 interface WebapiValidationConfigProviderInterface

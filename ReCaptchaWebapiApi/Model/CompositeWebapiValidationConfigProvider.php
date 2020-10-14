@@ -13,6 +13,10 @@ use Magento\ReCaptchaWebapiApi\Api\WebapiValidationConfigProviderInterface;
 
 /**
  * Composite provider.
+ *
+ * Provide your own provider to add configuration for endpoints.
+ *
+ * @api
  */
 class CompositeWebapiValidationConfigProvider implements WebapiValidationConfigProviderInterface
 {
