@@ -75,7 +75,7 @@ class GraphQlValidator
             foreach ($configElement->getFields() as $field) {
                 $reCaptchaConfig = $this->configProvider->getConfigFor(
                     $this->endpointFactory->create([
-                        'class' => $field->getResolver(),
+                        'class' => ltrim($field->getResolver(), '\\'),
                         'method' => 'resolve',
                         'name' => $field->getName()
                     ])
@@ -86,7 +86,7 @@ class GraphQlValidator
                         $reCaptchaConfig
                     )->isValid()
                 ) {
-                    throw new GraphQlInputException(_('ReCaptcha validation failed, please try again'));
+                    throw new GraphQlInputException(__('ReCaptcha validation failed, please try again'));
                 }
             }
         }

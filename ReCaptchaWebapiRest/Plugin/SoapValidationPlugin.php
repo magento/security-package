@@ -87,7 +87,7 @@ class SoapValidationPlugin
         if ($this->configProvider->getConfigFor($endpoint)) {
             //Endpoint requires protection by ReCaptcha, blocking for any client but integrations.
             if ($this->userContext->getUserType() !== UserContextInterface::USER_TYPE_INTEGRATION) {
-                throw new WebapiException(_('Operation is available only to integrations'));
+                throw new WebapiException(__('Operation is available only to integrations'));
             }
         }
     }
