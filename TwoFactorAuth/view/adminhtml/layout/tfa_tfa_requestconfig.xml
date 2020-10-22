@@ -9,7 +9,6 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="admin_login" />
     <update handle="tfa_screen" />
-    <update handle="tfa_screen" />
 
     <body>
         <referenceContainer name="login.content">
