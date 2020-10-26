@@ -76,6 +76,20 @@ class Onepage implements LayoutProcessorInterface
                 unset($jsLayout['components']['checkout']['children']['authentication']['children']['recaptcha']);
             }
         }
+        $key = 'place_order';
+        if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
+            $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+            ['payment']['children']['beforeMethods']['children']['place-order-recaptcha-container']['children']
+            ['place-order-recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
+        } else {
+            if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['beforeMethods']['children']['place-order-recaptcha'])) {
+                unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                    ['payment']['children']['beforeMethods']['children']['place-order-recaptcha-container']
+                    ['children']['place-order-recaptcha']);
+            }
+        }
+
         return $jsLayout;
     }
 }
