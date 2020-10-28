@@ -9,6 +9,7 @@
         "magento/module-re-captcha-validation-api": "*",
         "magento/module-re-captcha-admin-ui": "*",
         "magento/module-re-captcha-frontend-ui": "*",
+        "magento/module-re-captcha-webapi-api": "*",
         "magento/module-re-captcha-webapi-ui": "*"
     },
     "type": "magento2-module",

@@ -12,9 +12,12 @@ define([
     return function (placeOrder) {
         return wrapper.wrap(placeOrder, function (originalAction, serviceUrl, payload, messageContainer) {
             var recaptchaDeferred;
+
             if (recaptchaRegistry.triggers.hasOwnProperty("recaptcha-checkout-place-order")) {
+                //ReCaptcha is present for checkout
                 recaptchaDeferred = $.Deferred();
                 recaptchaRegistry.addListener("recaptcha-checkout-place-order", function (token) {
+                    //Add reCaptcha value to place-order request and resolve deferred with the API call results
                     payload.xReCaptchaValue = token;
                     originalAction(serviceUrl, payload, messageContainer).done(function() {
                         recaptchaDeferred.resolve.apply(recaptchaDeferred, arguments);
@@ -22,10 +25,12 @@ define([
                         recaptchaDeferred.reject.apply(recaptchaDeferred, arguments);
                     });
                 });
+                //Trigger ReCaptcha validation
                 recaptchaRegistry.triggers["recaptcha-checkout-place-order"]();
 
                 return recaptchaDeferred;
             } else {
+                //No ReCaptcha, just sending the request
                 return originalAction(serviceUrl, payload, messageContainer);
             }
         });

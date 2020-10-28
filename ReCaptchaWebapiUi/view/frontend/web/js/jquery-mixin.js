@@ -9,13 +9,14 @@ define([
 
     return function (jQuery) {
         jQuery.ajax = wrapper.wrapSuper(jQuery.ajax, function () {
+            //Moving ReCaptcha value from payload to the header for requests to web API
             var settings,
                 payload;
 
             if (arguments.length !== 0) {
                 settings = arguments.length === 1 ? arguments[0] : arguments[1];
-                console.log(settings);
                 if (settings.hasOwnProperty("data")) {
+                    //The request has a body, trying to parse JSON data
                     try {
                         payload = JSON.parse(settings.data);
                         if (payload && payload.hasOwnProperty("xReCaptchaValue")) {
