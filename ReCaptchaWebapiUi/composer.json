@@ -4,8 +4,7 @@
     "require": {
         "php": "~7.3.0||~7.4.0",
         "magento/framework": "*",
-        "magento/module-re-captcha-frontend-ui": "*",
-        "magento/module-re-captcha-admin-ui": "*"
+        "magento/module-re-captcha-frontend-ui": "*"
     },
     "type": "magento2-module",
     "license": "OSL-3.0",
