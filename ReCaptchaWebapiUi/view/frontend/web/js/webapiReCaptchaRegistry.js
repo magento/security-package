@@ -27,9 +27,9 @@ define([], function () {
         _listeners: {},
 
         /**
-         * Add a listener to when the ReCaptcha finishes verification.
+         * Add a listener to when the ReCaptcha finishes verification
          * @param {string} id ReCaptchaId
-         * @param {Function} func Will be called back with the token.
+         * @param {Function} func Will be called back with the token
          */
         addListener: function (id, func) {
             if (this.tokens.hasOwnProperty(id)) {

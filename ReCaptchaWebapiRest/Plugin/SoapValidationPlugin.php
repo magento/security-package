@@ -72,11 +72,13 @@ class SoapValidationPlugin
      *
      * @param Handler $subject
      * @param string $operation
+     * @param mixed $arguments
      * @throws WebapiException
      *
      * @phpcs:disable PSR1.Methods.CamelCapsMethodName
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function before__call(Handler $subject, string $operation): void
+    public function before__call(Handler $subject, $operation, $arguments): void
     {
         $operationInfo = $this->soapConfig->getServiceMethodInfo($operation, $this->request->getRequestedServices());
         /** @var Endpoint $endpoint */

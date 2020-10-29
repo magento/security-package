@@ -16,6 +16,7 @@ use Magento\ReCaptchaWebapiApi\Api\WebapiValidationConfigProviderInterface;
 use Magento\ReCaptchaWebapiApi\Model\Data\Endpoint;
 use Magento\ReCaptchaWebapiApi\Model\Data\EndpointFactory;
 use Magento\ReCaptchaWebapiRest\Plugin\RestValidationPlugin;
+use Magento\Webapi\Controller\Rest\RequestValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Magento\Webapi\Controller\Rest\Router;
@@ -47,6 +48,11 @@ class RestValidationPluginTest extends TestCase
      */
     private $endpointFactory;
 
+    /**
+     * @var RequestValidator|MockObject
+     */
+    private $subject;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -55,6 +61,7 @@ class RestValidationPluginTest extends TestCase
         $this->configProvider = $this->getMockForAbstractClass(WebapiValidationConfigProviderInterface::class);
         $this->router = $this->createMock(Router::class);
         $this->endpointFactory = $this->createMock(EndpointFactory::class);
+        $this->subject = $this->createMock(RequestValidator::class);
         $this->model = new RestValidationPlugin(
             $this->validatorMock,
             $this->configProvider,
@@ -113,6 +120,6 @@ class RestValidationPluginTest extends TestCase
             $this->expectException(Exception::class);
         }
 
-        $this->model->afterValidate();
+        $this->model->afterValidate($this->subject);
     }
 }

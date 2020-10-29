@@ -18,7 +18,7 @@ define([
                 settings = arguments.length === 1 ? arguments[0] : arguments[1];
             }
 
-            if (settings && settings.hasOwnProperty("data")) {
+            if (settings && settings.hasOwnProperty('data')) {
                 //The request has a body, trying to parse JSON data
                 try {
                     payload = JSON.parse(settings.data);
@@ -27,12 +27,12 @@ define([
                 }
             }
 
-            if (payload && payload.hasOwnProperty("xReCaptchaValue")) {
-                if (!settings.hasOwnProperty("headers")) {
+            if (payload && payload.hasOwnProperty('xReCaptchaValue')) {
+                if (!settings.hasOwnProperty('headers')) {
                     settings.headers = {};
                 }
                 settings.headers['X-ReCaptcha'] = payload.xReCaptchaValue;
-                delete payload["xReCaptchaValue"];
+                delete payload['xReCaptchaValue'];
                 settings.data = JSON.stringify(payload);
             }
 

@@ -3,7 +3,7 @@
  * See COPYING.txt for license details.
  */
 
-// eslint-disable max-nested-callbacks
+/* eslint-disable max-nested-callbacks */
 
 define([
     'jquery',
@@ -22,9 +22,9 @@ define([
                 recaptchaRegistry.addListener('recaptcha-checkout-place-order', function (token) {
                     //Add reCaptcha value to place-order request and resolve deferred with the API call results
                     payload.xReCaptchaValue = token;
-                    originalAction(serviceUrl, payload, messageContainer).done(function() {
+                    originalAction(serviceUrl, payload, messageContainer).done(function () {
                         recaptchaDeferred.resolve.apply(recaptchaDeferred, arguments);
-                    }).fail(function() {
+                    }).fail(function () {
                         recaptchaDeferred.reject.apply(recaptchaDeferred, arguments);
                     });
                 });

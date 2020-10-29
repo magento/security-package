@@ -25,6 +25,7 @@ define(
             reCaptchaCallback: function (token) {
                 //Make the token retrievable in other UI components.
                 registry.tokens[this.getReCaptchaId()] = token;
+
                 if (typeof registry._listeners[this.getReCaptchaId()] !== "undefined") {
                     registry._listeners[this.getReCaptchaId()](token);
                 }
