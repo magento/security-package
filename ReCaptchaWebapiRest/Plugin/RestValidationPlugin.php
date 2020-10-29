@@ -14,6 +14,7 @@ use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Magento\ReCaptchaWebapiApi\Model\Data\Endpoint;
 use Magento\Webapi\Controller\Rest\Router;
 use Magento\ReCaptchaWebapiApi\Model\Data\EndpointFactory;
+use Magento\Webapi\Controller\Rest\RequestValidator;
 
 /**
  * Enable ReCaptcha validation for RESTful web API.
@@ -69,10 +70,13 @@ class RestValidationPlugin
     /**
      * Validate ReCaptcha if needed.
      *
+     * @param RequestValidator $subject
      * @throws WebapiException
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterValidate(): void
+    public function afterValidate(RequestValidator $subject): void
     {
         $route = $this->restRouter->match($this->request);
         /** @var Endpoint $endpoint */

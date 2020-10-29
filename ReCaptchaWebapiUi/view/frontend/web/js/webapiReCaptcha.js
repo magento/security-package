@@ -7,7 +7,7 @@
 define(
     [
         'Magento_ReCaptchaFrontendUi/js/reCaptcha',
-        'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry',
+        'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry'
     ],
     function (Component, registry) {
         'use strict';
@@ -25,7 +25,7 @@ define(
             reCaptchaCallback: function (token) {
                 //Make the token retrievable in other UI components.
                 registry.tokens[this.getReCaptchaId()] = token;
-                if ((typeof registry._listeners[this.getReCaptchaId()]) !== "undefined") {
+                if (typeof registry._listeners[this.getReCaptchaId()] !== "undefined") {
                     registry._listeners[this.getReCaptchaId()](token);
                 }
             },
@@ -40,6 +40,7 @@ define(
                 var trigger = function () {
                     grecaptcha.execute(widgetId);
                 };
+
                 if (this.autoTrigger) {
                     //Validate ReCaptcha when initiated
                     trigger();

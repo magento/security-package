@@ -2,6 +2,7 @@
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
  */
+
 define([
     'mage/utils/wrapper'
 ], function (wrapper) {
@@ -15,22 +16,24 @@ define([
 
             if (arguments.length !== 0) {
                 settings = arguments.length === 1 ? arguments[0] : arguments[1];
-                if (settings.hasOwnProperty("data")) {
-                    //The request has a body, trying to parse JSON data
-                    try {
-                        payload = JSON.parse(settings.data);
-                        if (payload && payload.hasOwnProperty("xReCaptchaValue")) {
-                            if (!settings.hasOwnProperty("headers")) {
-                                settings.headers = {};
-                            }
-                            settings.headers['X-ReCaptcha'] = payload.xReCaptchaValue;
-                            delete payload["xReCaptchaValue"];
-                            settings.data = JSON.stringify(payload);
-                        }
-                    } catch (e) {
-                        //Not JSON
-                    }
+            }
+
+            if (settings && settings.hasOwnProperty("data")) {
+                //The request has a body, trying to parse JSON data
+                try {
+                    payload = JSON.parse(settings.data);
+                } catch (e) {
+                    //Not JSON
                 }
+            }
+
+            if (payload && payload.hasOwnProperty("xReCaptchaValue")) {
+                if (!settings.hasOwnProperty("headers")) {
+                    settings.headers = {};
+                }
+                settings.headers['X-ReCaptcha'] = payload.xReCaptchaValue;
+                delete payload["xReCaptchaValue"];
+                settings.data = JSON.stringify(payload);
             }
 
             return this._super.apply(this, arguments);

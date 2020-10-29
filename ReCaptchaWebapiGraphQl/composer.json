@@ -4,6 +4,7 @@
     "require": {
         "php": "~7.3.0||~7.4.0",
         "magento/framework": "*",
+        "magento/module-authorization": "*",
         "magento/module-re-captcha-validation-api": "*",
         "magento/module-re-captcha-webapi-api": "*",
         "magento/module-graph-ql": "*"

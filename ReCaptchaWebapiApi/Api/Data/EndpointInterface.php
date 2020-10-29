@@ -9,6 +9,8 @@ namespace Magento\ReCaptchaWebapiApi\Api\Data;
 
 /**
  * Requested endpoint info.
+ *
+ * @api
  */
 interface EndpointInterface
 {
