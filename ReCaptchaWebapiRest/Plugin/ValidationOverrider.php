@@ -38,6 +38,8 @@ class ValidationOverrider
      * @param string $value
      * @param ValidationConfigInterface $config
      * @return ValidationResult
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function aroundIsValid(
         ValidatorInterface $subject,

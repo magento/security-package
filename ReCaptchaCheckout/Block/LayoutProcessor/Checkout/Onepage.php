@@ -40,11 +40,7 @@ class Onepage implements LayoutProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @param array $jsLayout
-     * @return array
-     * @throws InputException
+     * @inheritDoc
      */
     public function process($jsLayout)
     {

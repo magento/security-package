@@ -66,6 +66,8 @@ class GraphQlValidator
      * @param ConfigElementInterface $configElement
      * @throws GraphQlInputException
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function beforeFormat(
         Fields $subject,

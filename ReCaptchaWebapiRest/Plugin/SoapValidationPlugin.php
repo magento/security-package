@@ -73,6 +73,8 @@ class SoapValidationPlugin
      * @param Handler $subject
      * @param string $operation
      * @throws WebapiException
+     *
+     * @phpcs:disable PSR1.Methods.CamelCapsMethodName
      */
     public function before__call(Handler $subject, string $operation): void
     {

@@ -45,6 +45,7 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
      */
     public function getConfigFor(EndpointInterface $endpoint): ?ValidationConfigInterface
     {
+        //phpcs:disable Magento2.PHP.LiteralNamespaces
         if ($endpoint->getServiceMethod() === 'savePaymentInformationAndPlaceOrder'
             || $endpoint->getServiceClass() === 'Magento\QuoteGraphQl\Model\Resolver\SetPaymentAndPlaceOrder'
             || $endpoint->getServiceClass() === 'Magento\QuoteGraphQl\Model\Resolver\PlaceOrder'
@@ -53,6 +54,7 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
                 return $this->configResolver->get(self::CAPTCHA_ID);
             }
         }
+        //phpcs:enable Magento2.PHP.LiteralNamespaces
 
         return null;
     }

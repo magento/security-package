@@ -22,7 +22,7 @@
         "magento/module-re-captcha-version-3-invisible": "*",
         "magento/module-re-captcha-webapi-api": "*",
         "magento/module-re-captcha-webapi-rest": "*",
-        "magento/module-re-captcha-webapi-graphql": "*",
+        "magento/module-re-captcha-webapi-graph-ql": "*",
         "magento/module-re-captcha-webapi-ui": "*",
         "magento/module-securitytxt": "*",
         "magento/module-two-factor-auth": "*",

@@ -96,7 +96,8 @@ class GraphQlValidatorTest extends TestCase
             ->willReturn($this->createMock(Endpoint::class));
         //Emulating config found
         $this->configProviderMock->method('getConfigFor')
-            ->willReturnOnConsecutiveCalls(null,
+            ->willReturnOnConsecutiveCalls(
+                null,
                 $configFound ? $this->getMockForAbstractClass(ValidationConfigInterface::class) : null
             );
         //Emulating validation result

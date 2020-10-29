@@ -1,5 +1,5 @@
 {
-    "name": "magento/module-re-captcha-webapi-graphql",
+    "name": "magento/module-re-captcha-webapi-graph-ql",
     "description": "Google reCAPTCHA integration for Magento2",
     "require": {
         "php": "~7.3.0||~7.4.0",

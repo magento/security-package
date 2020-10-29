@@ -62,7 +62,6 @@ class ValidationOverriderTest extends TestCase
             ->willReturn($id);
 
         $this->assertEquals($executed, $this->runModel());
-
     }
 
     /**
