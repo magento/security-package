@@ -3,6 +3,8 @@
  * See COPYING.txt for license details.
  */
 
+// jscs:disable requireDotNotation
+
 define([
     'mage/utils/wrapper'
 ], function (wrapper) {

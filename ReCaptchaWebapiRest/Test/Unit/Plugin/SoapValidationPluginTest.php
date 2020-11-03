@@ -110,6 +110,6 @@ class SoapValidationPluginTest extends TestCase
             $this->expectException(Exception::class);
         }
 
-        $this->model->before__call($this->createMock(Handler::class), $operation);
+        $this->model->before__call($this->createMock(Handler::class), $operation, []);
     }
 }
