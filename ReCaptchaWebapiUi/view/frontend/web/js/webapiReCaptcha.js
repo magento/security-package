@@ -3,6 +3,8 @@
  * See COPYING.txt for license details.
  */
 
+// jscs:disable jsDoc
+
 /* global grecaptcha */
 define(
     [
