@@ -40,9 +40,18 @@ define(
              * @param {String} widgetId
              */
             initParentForm: function (parentForm, widgetId) {
-                var trigger = function () {
-                    grecaptcha.execute(widgetId);
-                };
+                var self = this,
+                    trigger;
+
+                if (this.getIsInvisibleRecaptcha()) {
+                    trigger = function () {
+                        grecaptcha.execute(widgetId);
+                    };
+                } else {
+                    trigger = function () {
+                        self.reCaptchaCallback(grecaptcha.getResponse(widgetId))
+                    };
+                }
 
                 if (this.autoTrigger) {
                     //Validate ReCaptcha when initiated
