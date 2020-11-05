@@ -9,13 +9,13 @@
     <policies>
         <policy id="frame-src">
             <values>
-                <value id="google_com" type="host">*.google.com</value>
+                <value id="google_com" type="host">https://www.google.com/recaptcha/</value>
             </values>
         </policy>
         <policy id="script-src">
             <values>
-                <value id="gstatic_com" type="host">*.gstatic.com</value>
-                <value id="google_com" type="host">*.google.com</value>
+                <value id="gstatic_com" type="host">https://www.gstatic.com/recaptcha/</value>
+                <value id="google_com" type="host">https://www.google.com/recaptcha/</value>
             </values>
         </policy>
     </policies>
