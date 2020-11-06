@@ -49,7 +49,7 @@ define(
                     };
                 } else {
                     trigger = function () {
-                        self.reCaptchaCallback(grecaptcha.getResponse(widgetId))
+                        self.reCaptchaCallback(grecaptcha.getResponse(widgetId));
                     };
                 }
 
