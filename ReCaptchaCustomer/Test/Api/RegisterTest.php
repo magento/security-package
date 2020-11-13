@@ -51,7 +51,7 @@ class RegisterTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'token' => 'invalid',
+                'token' => null,
                 'resourcePath' => self::API_ROUTE,
                 'httpMethod' => Request::HTTP_METHOD_POST
             ],

@@ -39,7 +39,6 @@ class LoginTest extends WebapiAbstract
     }
 
     /**
-     * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
      * @magentoConfigFixture default_store customer/captcha/enable 0
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
@@ -53,7 +52,7 @@ class LoginTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'token' => 'invalid',
+                'token' => null,
                 'resourcePath' => self::API_ROUTE,
                 'httpMethod' => Request::HTTP_METHOD_POST
             ],
