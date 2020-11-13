@@ -56,7 +56,6 @@ class WebApiConfigProvider implements WebapiValidationConfigProviderInterface
         $serviceClass = $endpoint->getServiceClass();
         $serviceMethod = $endpoint->getServiceMethod();
 
-        //phpcs:disable Magento2.PHP.LiteralNamespaces
         if (($serviceClass === CustomerTokenServiceInterface::class && $serviceMethod === 'createCustomerAccessToken')
             || $serviceClass === GenerateCustomerToken::class
         ) {
@@ -71,7 +70,6 @@ class WebApiConfigProvider implements WebapiValidationConfigProviderInterface
                 return $this->configResolver->get(self::CAPTCHA_ID_CREATE);
             }
         }
-        //phpcs:enable Magento2.PHP.LiteralNamespaces
 
         return null;
     }
