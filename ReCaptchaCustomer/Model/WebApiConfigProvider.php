@@ -54,7 +54,7 @@ class WebApiConfigProvider implements WebapiValidationConfigProviderInterface
     public function getConfigFor(EndpointInterface $endpoint): ?ValidationConfigInterface
     {
         $serviceClass = $endpoint->getServiceClass();
-        $serviceMethod = $endpoint->getServiceClass();
+        $serviceMethod = $endpoint->getServiceMethod();
 
         //phpcs:disable Magento2.PHP.LiteralNamespaces
         if (($serviceClass === CustomerTokenServiceInterface::class && $serviceMethod === 'createCustomerAccessToken')
