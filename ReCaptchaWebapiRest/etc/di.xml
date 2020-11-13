@@ -13,4 +13,11 @@
     <type name="Magento\Webapi\Controller\Soap\Request\Handler">
         <plugin name="soap_webapi_recaptcha_validation" type="Magento\ReCaptchaWebapiRest\Plugin\SoapValidationPlugin" />
     </type>
+    <type name="Magento\ReCaptchaWebapiApi\Model\CompositeWebapiValidationConfigProvider">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="customer" xsi:type="object">Magento\ReCaptchaCustomer\Model\WebapiConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
