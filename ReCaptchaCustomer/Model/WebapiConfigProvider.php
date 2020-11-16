@@ -14,7 +14,7 @@ use Magento\ReCaptchaWebapiApi\Api\Data\EndpointInterface;
 use Magento\ReCaptchaWebapiApi\Api\WebapiValidationConfigProviderInterface;
 
 /**
- * Provide checkout related endpoint configuration.
+ * Provide change/reset password related endpoint configuration.
  */
 class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
 {
