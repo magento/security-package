@@ -10,7 +10,7 @@
     <type name="Magento\ReCaptchaWebapiApi\Model\CompositeWebapiValidationConfigProvider">
         <arguments>
             <argument name="providers" xsi:type="array">
-                <item name="checkout" xsi:type="object">Magento\ReCaptchaCheckout\Model\WebapiConfigProvider</item>
+                <item name="changeResetPassword" xsi:type="object">Magento\ReCaptchaCustomer\Model\WebapiConfigProvider</item>
             </argument>
         </arguments>
     </type>
