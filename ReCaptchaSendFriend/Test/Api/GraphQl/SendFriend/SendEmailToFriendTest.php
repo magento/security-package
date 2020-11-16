@@ -14,7 +14,7 @@ use Magento\TestFramework\TestCase\GraphQlAbstract;
 /**
  * GraphQl test for send email to friend functionality with ReCaptcha enabled.
  */
-class SendFriendCaptchaTest extends GraphQlAbstract
+class SendEmailToFriendTest extends GraphQlAbstract
 {
     /**
      * @var ProductRepositoryInterface

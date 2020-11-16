@@ -50,7 +50,7 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
     {
         //phpcs:disable Magento2.PHP.LiteralNamespaces
         if ($endpoint->getServiceMethod() === 'resolve'
-            || $endpoint->getServiceClass() === 'Magento\SendFriendGraphQl\Model\Resolver\SendEmailToFriend'
+            && $endpoint->getServiceClass() === 'Magento\SendFriendGraphQl\Model\Resolver\SendEmailToFriend'
         ) {
             if ($this->isEnabled->isCaptchaEnabledFor(self::CAPTCHA_ID)) {
                 return $this->configResolver->get(self::CAPTCHA_ID);
