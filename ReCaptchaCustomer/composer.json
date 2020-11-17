@@ -7,8 +7,7 @@
         "magento/module-customer": "*",
         "magento/module-re-captcha-ui": "*",
         "magento/module-re-captcha-validation-api": "*",
-        "magento/module-re-captcha-webapi-api": "*",
-        "magento/module-customer-graph-ql": "*"
+        "magento/module-re-captcha-webapi-api": "*"
     },
     "type": "magento2-module",
     "license": "OSL-3.0",
