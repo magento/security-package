@@ -10,7 +10,7 @@
     <type name="Magento\ReCaptchaWebapiApi\Model\CompositeWebapiValidationConfigProvider">
         <arguments>
             <argument name="providers" xsi:type="array">
-                <item name="customer" xsi:type="object">Magento\ReCaptchaCustomer\Model\WebapiConfigProvider</item>
+                <item name="customer" xsi:type="object">Magento\ReCaptchaCustomer\Model\WebApiConfigProvider</item>
             </argument>
         </arguments>
     </type>
