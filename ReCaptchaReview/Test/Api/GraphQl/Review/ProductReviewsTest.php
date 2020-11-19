@@ -46,6 +46,11 @@ class ProductReviewsTest extends GraphQlAbstract
      * @magentoApiDataFixture Magento/GraphQl/Catalog/_files/simple_product.php
      * @magentoApiDataFixture Magento/Customer/_files/customer.php
      *
+     * @magentoConfigFixture default_store customer/captcha/enable 0
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/product_review invisible
+     *
      * @dataProvider customerDataProvider
      */
     public function testAddProductReviewReCaptchaValidationFailed(string $customerName, bool $isGuest): void
