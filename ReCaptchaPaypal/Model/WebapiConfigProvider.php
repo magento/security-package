@@ -46,8 +46,7 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
     public function getConfigFor(EndpointInterface $endpoint): ?ValidationConfigInterface
     {
         //phpcs:disable Magento2.PHP.LiteralNamespaces
-        if ($endpoint->getServiceClass() === 'Magento\PaypalGraphQl\Model\Resolver\PayflowProToken'
-            || $endpoint->getServiceClass() === 'Magento\PaypalGraphQl\Model\Resolver\PayflowProResponse') {
+        if ($endpoint->getServiceClass() === 'Magento\PaypalGraphQl\Model\Resolver\PayflowProToken') {
             if ($this->isEnabled->isCaptchaEnabledFor(self::PAYFLOW_CAPTCHA_ID)) {
                 return $this->configResolver->get(self::PAYFLOW_CAPTCHA_ID);
             }
