@@ -15,6 +15,8 @@ use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Api\UserNotifierInterface;
 use Magento\Framework\Authorization\PolicyInterface as Authorization;
+use Magento\Framework\App\CacheInterface;
+use Magento\Framework\App\ObjectManager;
 
 /**
  * @inheritDoc
@@ -42,21 +44,29 @@ class UserConfigRequestManager implements UserConfigRequestManagerInterface
     private $auth;
 
     /**
+     * @var CacheInterface
+     */
+    private $cache;
+
+    /**
      * @param TfaInterface $tfa
      * @param UserNotifierInterface $notifier
      * @param UserConfigTokenManagerInterface $tokenManager
      * @param Authorization $auth
+     * @param CacheInterface|null $cache
      */
     public function __construct(
         TfaInterface $tfa,
         UserNotifierInterface $notifier,
         UserConfigTokenManagerInterface $tokenManager,
-        Authorization $auth
+        Authorization $auth,
+        CacheInterface $cache = null
     ) {
         $this->tfa = $tfa;
         $this->notifier = $notifier;
         $this->tokenManager = $tokenManager;
         $this->auth = $auth;
+        $this->cache = $cache ?? ObjectManager::getInstance()->get(CacheInterface::class);
     }
 
     /**
@@ -75,11 +85,18 @@ class UserConfigRequestManager implements UserConfigRequestManagerInterface
     {
         $userId = (int)$user->getId();
         if (empty($this->tfa->getUserProviders($userId))) {
+            $tfaToken = $this->cache->load(SignedTokenManager::CACHE_ID . $userId);
+            $isValidOldToken = false;
+            if ($tfaToken !== false) {
+                $isValidOldToken = $this->tokenManager->isValidFor($userId, $tfaToken);
+            }
             //Application level configuration is required.
             if (!$this->auth->isAllowed($user->getAclRole(), 'Magento_TwoFactorAuth::config')) {
                 throw new AuthorizationException(__('User is not authorized to edit 2FA configuration'));
             }
-            $this->notifier->sendAppConfigRequestMessage($user, $this->tokenManager->issueFor($userId));
+            if (!$isValidOldToken) {
+                $this->notifier->sendAppConfigRequestMessage($user, $this->tokenManager->issueFor($userId));
+            }
         } else {
             //Personal provider config required.
             $this->notifier->sendUserConfigRequestMessage($user, $this->tokenManager->issueFor($userId));

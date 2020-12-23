@@ -13,12 +13,19 @@ use Magento\Framework\Encryption\Helper\Security;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
+use Magento\Framework\App\CacheInterface;
+use Magento\Framework\App\ObjectManager;
 
 /**
  * @inheritDoc
  */
 class SignedTokenManager implements UserConfigTokenManagerInterface
 {
+    /**
+     * @var string
+     */
+    public const CACHE_ID = 'tfa_token';
+
     /**
      * @var EncryptorInterface
      */
@@ -35,15 +42,26 @@ class SignedTokenManager implements UserConfigTokenManagerInterface
     private $dateTime;
 
     /**
+     * @var CacheInterface
+     */
+    private $cache;
+
+    /**
      * @param EncryptorInterface $encryptor
      * @param Json $json
      * @param DateTime $dateTime
+     * @param CacheInterface|null $cache
      */
-    public function __construct(EncryptorInterface $encryptor, Json $json, DateTime $dateTime)
-    {
+    public function __construct(
+        EncryptorInterface $encryptor,
+        Json $json,
+        DateTime $dateTime,
+        CacheInterface $cache = null
+    ) {
         $this->encryptor = $encryptor;
         $this->json = $json;
         $this->dateTime = $dateTime;
+        $this->cache = $cache ?? ObjectManager::getInstance()->get(CacheInterface::class);
     }
 
     /**
@@ -54,7 +72,7 @@ class SignedTokenManager implements UserConfigTokenManagerInterface
         $data = ['user_id' => $userId, 'tfa_configuration' => true, 'iss' => $this->dateTime->timestamp()];
         $encodedData = $this->json->serialize($data);
         $signature = base64_encode($this->encryptor->hash($encodedData));
-
+        $this->cache->save(base64_encode($encodedData .'.' .$signature), self::CACHE_ID . $userId);
         return base64_encode($encodedData .'.' .$signature);
     }
 
