@@ -17,7 +17,7 @@ use Magento\TwoFactorAuth\Api\TfaSessionInterface;
  */
 class TfaSession extends SessionManager implements TfaSessionInterface
 {
-    private const SKIPPED_PROVIDERS_KEY = 'tfa_skipped_config';
+    const SKIPPED_PROVIDERS_KEY = 'tfa_skipped_config';
 
     private const TFA_EMAIL_SENT = 'tfa_email_sent';
 
@@ -44,7 +44,7 @@ class TfaSession extends SessionManager implements TfaSessionInterface
      */
     public function getSkippedProviderConfig(): array
     {
-        return $this->getData(self::SKIPPED_PROVIDERS_KEY) ?? [];
+        return $this->getData(static::SKIPPED_PROVIDERS_KEY) ?? [];
     }
 
     /**
@@ -52,7 +52,7 @@ class TfaSession extends SessionManager implements TfaSessionInterface
      */
     public function setSkippedProviderConfig(array $config): void
     {
-        $this->storage->setData(self::SKIPPED_PROVIDERS_KEY, $config);
+        $this->storage->setData(static::SKIPPED_PROVIDERS_KEY, $config);
     }
 
     /**

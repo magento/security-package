@@ -13,8 +13,6 @@ use Magento\Framework\Encryption\Helper\Security;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
-use Magento\Framework\App\ObjectManager;
-use Magento\TwoFactorAuth\Model\TfaSession;
 
 /**
  * @inheritDoc
@@ -37,26 +35,15 @@ class SignedTokenManager implements UserConfigTokenManagerInterface
     private $dateTime;
 
     /**
-     * @var TfaSession
-     */
-    private $tfaSession;
-
-    /**
      * @param EncryptorInterface $encryptor
      * @param Json $json
      * @param DateTime $dateTime
-     * @param TfaSession|null $tfaSession
      */
-    public function __construct(
-        EncryptorInterface $encryptor,
-        Json $json,
-        DateTime $dateTime,
-        TfaSession $tfaSession = null
-    ) {
+    public function __construct(EncryptorInterface $encryptor, Json $json, DateTime $dateTime)
+    {
         $this->encryptor = $encryptor;
         $this->json = $json;
         $this->dateTime = $dateTime;
-        $this->tfaSession = $tfaSession ?? ObjectManager::getInstance()->get(TfaSession::class);
     }
 
     /**
@@ -67,7 +54,7 @@ class SignedTokenManager implements UserConfigTokenManagerInterface
         $data = ['user_id' => $userId, 'tfa_configuration' => true, 'iss' => $this->dateTime->timestamp()];
         $encodedData = $this->json->serialize($data);
         $signature = base64_encode($this->encryptor->hash($encodedData));
-        $this->tfaSession->setTfaEmailSentFlag();
+
         return base64_encode($encodedData .'.' .$signature);
     }
 

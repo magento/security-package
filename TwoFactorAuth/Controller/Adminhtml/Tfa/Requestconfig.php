@@ -19,6 +19,9 @@ use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
+use Magento\TwoFactorAuth\Model\TfaSession;
+use Magento\Framework\App\ObjectManager;
+use Magento\TwoFactorAuth\Model\Exception\NotificationException;
 
 /**
  * Request 2FA config from the user.
@@ -51,24 +54,32 @@ class Requestconfig extends AbstractAction implements HttpGetActionInterface, Ht
     private $session;
 
     /**
+     * @var TfaSession
+     */
+    private $tfaSession;
+
+    /**
      * @param Context $context
      * @param UserConfigRequestManagerInterface $configRequestManager
      * @param HtmlAreaTokenVerifier $tokenVerifier
      * @param TfaInterface $tfa
      * @param Session $session
+     * @param TfaSession $tfaSession
      */
     public function __construct(
         Context $context,
         UserConfigRequestManagerInterface $configRequestManager,
         HtmlAreaTokenVerifier $tokenVerifier,
         TfaInterface $tfa,
-        Session $session
+        Session $session,
+        TfaSession $tfaSession
     ) {
         parent::__construct($context);
         $this->configRequestManager = $configRequestManager;
         $this->tokenVerifier = $tokenVerifier;
         $this->tfa = $tfa;
         $this->session = $session;
+        $this->tfaSession = $tfaSession ?? ObjectManager::getInstance()->get(TfaSession::class);
     }
 
     /**
@@ -89,7 +100,11 @@ class Requestconfig extends AbstractAction implements HttpGetActionInterface, Ht
         }
 
         try {
+            if ($this->tfaSession->isTfaEmailSent()) {
+                throw new NotificationException();
+            }
             $this->configRequestManager->sendConfigRequestTo($user);
+            $this->tfaSession->setTfaEmailSentFlag();
         } catch (AuthorizationException $exception) {
             $this->messageManager->addErrorMessage(
                 'Please ask an administrator with sufficient access to configure 2FA first'

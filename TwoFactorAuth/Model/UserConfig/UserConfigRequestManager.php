@@ -15,8 +15,6 @@ use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Api\UserNotifierInterface;
 use Magento\Framework\Authorization\PolicyInterface as Authorization;
-use Magento\Framework\App\ObjectManager;
-use Magento\TwoFactorAuth\Model\TfaSession;
 
 /**
  * @inheritDoc
@@ -44,29 +42,21 @@ class UserConfigRequestManager implements UserConfigRequestManagerInterface
     private $auth;
 
     /**
-     * @var TfaSession
-     */
-    private $tfaSession;
-
-    /**
      * @param TfaInterface $tfa
      * @param UserNotifierInterface $notifier
      * @param UserConfigTokenManagerInterface $tokenManager
      * @param Authorization $auth
-     * @param TfaSession|null $tfaSession
      */
     public function __construct(
         TfaInterface $tfa,
         UserNotifierInterface $notifier,
         UserConfigTokenManagerInterface $tokenManager,
-        Authorization $auth,
-        TfaSession $tfaSession = null
+        Authorization $auth
     ) {
         $this->tfa = $tfa;
         $this->notifier = $notifier;
         $this->tokenManager = $tokenManager;
         $this->auth = $auth;
-        $this->tfaSession = $tfaSession ?? ObjectManager::getInstance()->get(TfaSession::class);
     }
 
     /**
@@ -89,9 +79,7 @@ class UserConfigRequestManager implements UserConfigRequestManagerInterface
             if (!$this->auth->isAllowed($user->getAclRole(), 'Magento_TwoFactorAuth::config')) {
                 throw new AuthorizationException(__('User is not authorized to edit 2FA configuration'));
             }
-            if (!$this->tfaSession->isTfaEmailSent()) {
-                $this->notifier->sendAppConfigRequestMessage($user, $this->tokenManager->issueFor($userId));
-            }
+            $this->notifier->sendAppConfigRequestMessage($user, $this->tokenManager->issueFor($userId));
         } else {
             //Personal provider config required.
             $this->notifier->sendUserConfigRequestMessage($user, $this->tokenManager->issueFor($userId));
