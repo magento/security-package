@@ -19,9 +19,6 @@ use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
-use Magento\TwoFactorAuth\Model\TfaSession;
-use Magento\Framework\App\ObjectManager;
-use Magento\TwoFactorAuth\Model\Exception\NotificationException;
 
 /**
  * Request 2FA config from the user.
@@ -32,6 +29,8 @@ class Requestconfig extends AbstractAction implements HttpGetActionInterface, Ht
      * @see _isAllowed()
      */
     public const ADMIN_RESOURCE = 'Magento_TwoFactorAuth::tfa';
+
+    private const TFA_EMAIL_SENT = 'tfa_email_sent';
 
     /**
      * @var UserConfigRequestManagerInterface
@@ -54,32 +53,24 @@ class Requestconfig extends AbstractAction implements HttpGetActionInterface, Ht
     private $session;
 
     /**
-     * @var TfaSession
-     */
-    private $tfaSession;
-
-    /**
      * @param Context $context
      * @param UserConfigRequestManagerInterface $configRequestManager
      * @param HtmlAreaTokenVerifier $tokenVerifier
      * @param TfaInterface $tfa
      * @param Session $session
-     * @param TfaSession $tfaSession
      */
     public function __construct(
         Context $context,
         UserConfigRequestManagerInterface $configRequestManager,
         HtmlAreaTokenVerifier $tokenVerifier,
         TfaInterface $tfa,
-        Session $session,
-        TfaSession $tfaSession
+        Session $session
     ) {
         parent::__construct($context);
         $this->configRequestManager = $configRequestManager;
         $this->tokenVerifier = $tokenVerifier;
         $this->tfa = $tfa;
         $this->session = $session;
-        $this->tfaSession = $tfaSession ?? ObjectManager::getInstance()->get(TfaSession::class);
     }
 
     /**
@@ -100,11 +91,10 @@ class Requestconfig extends AbstractAction implements HttpGetActionInterface, Ht
         }
 
         try {
-            if ($this->tfaSession->isTfaEmailSent()) {
-                throw new NotificationException();
+            if (!$this->session->getData(self::TFA_EMAIL_SENT)) {
+                $this->configRequestManager->sendConfigRequestTo($user);
+                $this->session->setData(self::TFA_EMAIL_SENT, true);
             }
-            $this->configRequestManager->sendConfigRequestTo($user);
-            $this->tfaSession->setTfaEmailSentFlag();
         } catch (AuthorizationException $exception) {
             $this->messageManager->addErrorMessage(
                 'Please ask an administrator with sufficient access to configure 2FA first'
