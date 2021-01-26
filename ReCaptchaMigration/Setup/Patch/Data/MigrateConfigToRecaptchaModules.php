@@ -115,10 +115,16 @@ class MigrateConfigToRecaptchaModules implements DataPatchInterface, PatchVersio
     {
         $type = $this->getActiveRecaptchaType();
         if ($type) {
-            $this->copyRecord(
-                "msp_securitysuite_recaptcha/general/public_key",
+            $publicKey = $this->scopeConfig->getValue(
                 "recaptcha_$scope/type_$type/public_key"
             );
+            $publicKeyLegacy = $this->scopeConfig->getValue(
+                'msp_securitysuite_recaptcha/general/public_key'
+            );
+            if (!$publicKey && $publicKeyLegacy) {
+                $publicKeyEncrypted = $this->encryptor->encrypt($publicKeyLegacy);
+                $this->writer->save("recaptcha_$scope/type_$type/public_key", $publicKeyEncrypted);
+            }
             $privateKey = $this->scopeConfig->getValue(
                 "recaptcha_$scope/type_$type/private_key"
             );
