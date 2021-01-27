@@ -3,22 +3,17 @@
  * See COPYING.txt for license details.
  */
 
-define(
-    [
-        'Magento_ReCaptchaFrontendUi/js/reCaptcha'
-    ],
-    function (Component) {
-        'use strict';
+define(['Magento_ReCaptchaFrontendUi/js/reCaptcha'], function (reCaptcha) {
+    'use strict';
 
-        return Component.extend({
+    return reCaptcha.extend({
 
-            /**
-             * @inheritdoc
-             */
-            renderReCaptcha: function () {
-                this.captchaInitialized = false;
-                this._super();
-            },
-        });
-    }
-);
+        /**
+         * @inheritdoc
+         */
+        renderReCaptcha: function () {
+            this.captchaInitialized = false;
+            this._super();
+        }
+    });
+});
