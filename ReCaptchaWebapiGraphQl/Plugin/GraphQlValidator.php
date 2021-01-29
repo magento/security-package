@@ -11,10 +11,13 @@ use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\GraphQl\Config\ConfigElementInterface;
 use Magento\Framework\GraphQl\Config\Element\TypeInterface;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\Output\ElementMapper\Formatter\Fields;
+use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Magento\ReCaptchaWebapiApi\Api\WebapiValidationConfigProviderInterface;
 use Magento\ReCaptchaWebapiApi\Model\Data\EndpointFactory;
+use Magento\Framework\GraphQl\Config\Element\Field;
 
 /**
  * Validate ReCaptcha for GraphQl mutations.
@@ -62,35 +65,39 @@ class GraphQlValidator
     /**
      * Validate ReCaptcha for mutations if needed.
      *
-     * @param Fields $subject
-     * @param ConfigElementInterface $configElement
+     * @param ResolverInterface $subject
+     * @param Field $fieldInfo
+     * @param mixed $context
+     * @param ResolveInfo $resolveInfo
      * @throws GraphQlInputException
      * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function beforeFormat(
-        Fields $subject,
-        ConfigElementInterface $configElement
+    public function beforeResolve(
+        ResolverInterface $subject,
+        Field $fieldInfo,
+        $context,
+        ResolveInfo $resolveInfo
     ): void {
-        if ($configElement->getName() === 'Mutation' && $configElement instanceof TypeInterface) {
-            foreach ($configElement->getFields() as $field) {
-                $reCaptchaConfig = $this->configProvider->getConfigFor(
-                    $this->endpointFactory->create([
-                        'class' => ltrim($field->getResolver(), '\\'),
-                        'method' => 'resolve',
-                        'name' => $field->getName()
-                    ])
-                );
-                if ($reCaptchaConfig
-                    && !$this->validator->isValid(
-                        (string)$this->request->getHeader('X-ReCaptcha'),
-                        $reCaptchaConfig
-                    )->isValid()
-                ) {
-                    throw new GraphQlInputException(__('ReCaptcha validation failed, please try again'));
-                }
-            }
+        if ($resolveInfo->operation->operation !== 'mutation') {
+            return;
+        }
+
+        $reCaptchaConfig = $this->configProvider->getConfigFor(
+            $this->endpointFactory->create([
+                'class' => ltrim($fieldInfo->getResolver(), '\\'),
+                'method' => 'resolve',
+                'name' => $fieldInfo->getName()
+            ])
+        );
+        if ($reCaptchaConfig
+            && !$this->validator->isValid(
+                (string)$this->request->getHeader('X-ReCaptcha'),
+                $reCaptchaConfig
+            )->isValid()
+        ) {
+            throw new GraphQlInputException(__('ReCaptcha validation failed, please try again'));
         }
     }
 }
