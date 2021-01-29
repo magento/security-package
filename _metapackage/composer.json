@@ -13,6 +13,7 @@
         "magento/module-re-captcha-paypal": "*",
         "magento/module-re-captcha-review": "*",
         "magento/module-re-captcha-send-friend": "*",
+        "magento/module-re-captcha-store-pickup": "*",
         "magento/module-re-captcha-ui": "*",
         "magento/module-re-captcha-user": "*",
         "magento/module-re-captcha-validation": "*",
