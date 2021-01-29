@@ -8,11 +8,8 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaWebapiGraphQl\Plugin;
 
 use Magento\Framework\App\Request\Http as HttpRequest;
-use Magento\Framework\GraphQl\Config\ConfigElementInterface;
-use Magento\Framework\GraphQl\Config\Element\TypeInterface;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
-use Magento\Framework\GraphQl\Schema\Type\Output\ElementMapper\Formatter\Fields;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Magento\ReCaptchaWebapiApi\Api\WebapiValidationConfigProviderInterface;

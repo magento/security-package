@@ -7,11 +7,11 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaWebapiGraphQl\Test\Unit\Plugin;
 
+use GraphQL\Language\AST\OperationDefinitionNode;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\GraphQl\Config\Element\Field;
-use Magento\Framework\GraphQl\Config\Element\TypeInterface;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
-use Magento\Framework\GraphQl\Schema\Type\Output\ElementMapper\Formatter\Fields;
+use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\Validation\ValidationResult;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
@@ -21,6 +21,7 @@ use Magento\ReCaptchaWebapiApi\Model\Data\EndpointFactory;
 use Magento\ReCaptchaWebapiGraphQl\Plugin\GraphQlValidator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 
 class GraphQlValidatorTest extends TestCase
 {
@@ -82,22 +83,20 @@ class GraphQlValidatorTest extends TestCase
      */
     public function testPlugin(bool $isMutation, bool $configFound, bool $isValid, bool $expectException): void
     {
-        $configMock = $this->getMockForAbstractClass(TypeInterface::class);
         //Emulating query type
-        $configMock->method('getName')->willReturn($isMutation ?  'Mutation' : 'Query');
+        $infoMock = $this->createMock(ResolveInfo::class);
+        $infoMock->operation = $this->createMock(OperationDefinitionNode::class);
+        $infoMock->operation->operation = $isMutation ?  'mutation' : 'query';
         //Emulating endpoint info
         $fieldMock = $this->createMock(Field::class);
         $fieldMock->method('getResolver')->willReturn('\\' . ($class = 'Class'));
         $fieldMock->method('getName')->willReturn($name = 'name');
-        $configMock->method('getFields')
-            ->willReturn([$fieldMock, $fieldMock]);
         $this->endpointFactoryMock->method('create')
             ->with(['class' => $class, 'method' => 'resolve', 'name' => $name])
             ->willReturn($this->createMock(Endpoint::class));
         //Emulating config found
         $this->configProviderMock->method('getConfigFor')
-            ->willReturnOnConsecutiveCalls(
-                null,
+            ->willReturn(
                 $configFound ? $this->getMockForAbstractClass(ValidationConfigInterface::class) : null
             );
         //Emulating validation result
@@ -109,6 +108,11 @@ class GraphQlValidatorTest extends TestCase
             $this->expectException(GraphQlInputException::class);
         }
 
-        $this->model->beforeFormat($this->createMock(Fields::class), $configMock);
+        $this->model->beforeResolve(
+            $this->getMockForAbstractClass(ResolverInterface::class),
+            $fieldMock,
+            null,
+            $infoMock
+        );
     }
 }
