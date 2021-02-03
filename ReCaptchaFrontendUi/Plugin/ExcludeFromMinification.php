@@ -28,6 +28,7 @@ class ExcludeFromMinification
             return $result;
         }
         $result[] = 'https://www.google.com/recaptcha/api.js';
+        $result[] = 'https://www.recaptcha.net/recaptcha/api.js';
         return $result;
     }
 }
