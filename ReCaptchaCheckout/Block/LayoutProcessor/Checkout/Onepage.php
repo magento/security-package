@@ -46,7 +46,7 @@ class Onepage implements LayoutProcessorInterface
      * @return array
      * @throws InputException
      */
-    public function process($jsLayout)
+    public function process($jsLayout): array
     {
         $key = 'customer_login';
         if ($this->isCaptchaEnabled->isCaptchaEnabledFor($key)) {
@@ -76,6 +76,7 @@ class Onepage implements LayoutProcessorInterface
                 unset($jsLayout['components']['checkout']['children']['authentication']['children']['recaptcha']);
             }
         }
+
         return $jsLayout;
     }
 }

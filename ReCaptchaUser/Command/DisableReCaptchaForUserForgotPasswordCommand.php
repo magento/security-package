@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaUser\Command;
 
+use Magento\Framework\Console\Cli;
 use Magento\ReCaptchaUser\Model\DisableReCaptchaForUserForgotPassword;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,7 +33,7 @@ class DisableReCaptchaForUserForgotPasswordCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('security:recaptcha:disable-for-user-forgot-password');
         $this->setDescription('Disable reCAPTCHA for admin user forgot password form');
@@ -44,8 +45,10 @@ class DisableReCaptchaForUserForgotPasswordCommand extends Command
      * @inheritdoc
      * @SuppressWarnings("PHPMD.UnusedFormalParameter")
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->disableReCaptchaForUserForgotPassword->execute();
+
+        return Cli::RETURN_SUCCESS;
     }
 }
