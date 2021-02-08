@@ -98,7 +98,9 @@ class Google implements EngineInterface
     private function generateSecret(): string
     {
         $secret = random_bytes(128);
-        return preg_replace('/[^A-Za-z0-9]/', '', Base32::encode($secret));
+        // seed for iOS devices to avoid errors with barcode
+        $seed = 'abcd';
+        return preg_replace('/[^A-Za-z0-9]/', '', Base32::encode($seed . $secret));
     }
 
     /**
