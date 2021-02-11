@@ -91,7 +91,7 @@ class ControllerActionPredispatchTest extends AbstractBackendController
         $this->dispatch('backend/admin/index/index');
         //Login controller redirects to full start-up URL
         $this->assertRedirect($this->stringContains('index'));
-        $properUrl = $this->getResponse()->getHeader('Location')->getFieldValue();
+        $properUrl = $this->getResponse()->getHeader('Location')->uri()->getPath();
 
         //Login page must be rendered without redirects
         $this->getRequest()->setDispatched(false);
