@@ -135,7 +135,7 @@
                     </item>
                 </argument>
                 <settings>
-                    <label translate="true">Template></label>
+                    <label translate="true">Template</label>
                     <elementTmpl>Magento_NotifierEventAdminUi/form/wide-select</elementTmpl>
                     <validation>
                         <rule name="required-entry" xsi:type="boolean">true</rule>
