@@ -18,4 +18,11 @@
             </argument>
         </arguments>
     </virtualType>
+    <type name="Magento\ReCaptchaUi\Model\CaptchaTypeResolver">
+        <arguments>
+            <argument name="resolvers" xsi:type="array">
+                <item name="admin" xsi:type="object">Magento\ReCaptchaAdminUi\Model\CaptchaTypeResolver</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
