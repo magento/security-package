@@ -6,8 +6,7 @@
         "magento/framework": "*",
         "magento/module-authorization": "*",
         "magento/module-re-captcha-validation-api": "*",
-        "magento/module-re-captcha-webapi-api": "*",
-        "magento/module-graph-ql": "*"
+        "magento/module-re-captcha-webapi-api": "*"
     },
     "type": "magento2-module",
     "license": "OSL-3.0",
