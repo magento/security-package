@@ -1,0 +1,22 @@
+{
+    "name": "magento/module-re-captcha-webapi-rest",
+    "description": "Google reCAPTCHA integration for Magento2",
+    "require": {
+        "php": "~7.3.0||~7.4.0",
+        "magento/framework": "*",
+        "magento/module-authorization": "*",
+        "magento/module-re-captcha-validation-api": "*",
+        "magento/module-re-captcha-webapi-api": "*",
+        "magento/module-webapi": "*"
+    },
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Magento\\ReCaptchaWebapiRest\\": ""
+        }
+    }
+}
