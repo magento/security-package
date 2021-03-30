@@ -12,6 +12,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Response for device registration prompt
+ * @api
  */
 interface AuthyRegistrationPromptResponseInterface extends ExtensibleDataInterface
 {
@@ -60,14 +61,14 @@ interface AuthyRegistrationPromptResponseInterface extends ExtensibleDataInterfa
      *
      * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
      *
-     * @return \Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseExtensionInterface|null
+     * @return AuthyRegistrationPromptResponseExtensionInterface|null
      */
     public function getExtensionAttributes(): ?AuthyRegistrationPromptResponseExtensionInterface;
 
     /**
      * Set an extension attributes object
      *
-     * @param \Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseExtensionInterface $extensionAttributes
+     * @param AuthyRegistrationPromptResponseExtensionInterface $extensionAttributes
      * @return void
      */
     public function setExtensionAttributes(

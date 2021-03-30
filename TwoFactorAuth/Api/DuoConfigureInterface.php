@@ -12,6 +12,7 @@ use Magento\TwoFactorAuth\Api\Data\DuoDataInterface;
 
 /**
  * Represents configuration for the duo security provider
+ * @api
  */
 interface DuoConfigureInterface
 {
@@ -19,7 +20,7 @@ interface DuoConfigureInterface
      * Get the information required to configure duo
      *
      * @param string $tfaToken
-     * @return \Magento\TwoFactorAuth\Api\Data\DuoDataInterface
+     * @return DuoDataInterface
      */
     public function getConfigurationData(
         string $tfaToken

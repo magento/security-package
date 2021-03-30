@@ -14,6 +14,7 @@ use Magento\TwoFactorAuth\Api\Exception\NotificationExceptionInterface;
 
 /**
  * Manages configuration requests for users.
+ * @api
  */
 interface UserConfigRequestManagerInterface
 {

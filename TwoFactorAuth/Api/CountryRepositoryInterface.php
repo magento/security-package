@@ -14,7 +14,7 @@ use Magento\TwoFactorAuth\Api\Data\CountrySearchResultsInterface;
 
 /**
  * Countries repository
- *
+ * @api
  * @SuppressWarnings(PHPMD.ShortVariable)
  */
 interface CountryRepositoryInterface

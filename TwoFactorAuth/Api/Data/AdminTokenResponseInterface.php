@@ -9,9 +9,11 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Api\Data;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\TwoFactorAuth\Api\ProviderInterface;
 
 /**
  * Represents the response to the new admin token response
+ * @api
  */
 interface AdminTokenResponseInterface extends ExtensibleDataInterface
 {
@@ -63,14 +65,14 @@ interface AdminTokenResponseInterface extends ExtensibleDataInterface
     /**
      * Get the providers
      *
-     * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
+     * @return ProviderInterface[]
      */
     public function getActiveProviders(): array;
 
     /**
      * Set the providers
      *
-     * @param \Magento\TwoFactorAuth\Api\ProviderInterface[] $value
+     * @param ProviderInterface[] $value
      * @return void
      */
     public function setActiveProviders(array $value): void;
@@ -80,14 +82,14 @@ interface AdminTokenResponseInterface extends ExtensibleDataInterface
      *
      * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
      *
-     * @return \Magento\TwoFactorAuth\Api\Data\AdminTokenResponseExtensionInterface|null
+     * @return AdminTokenResponseExtensionInterface|null
      */
     public function getExtensionAttributes(): ?AdminTokenResponseExtensionInterface;
 
     /**
      * Set an extension attributes object
      *
-     * @param \Magento\TwoFactorAuth\Api\Data\AdminTokenResponseExtensionInterface $extensionAttributes
+     * @param AdminTokenResponseExtensionInterface $extensionAttributes
      * @return void
      */
     public function setExtensionAttributes(

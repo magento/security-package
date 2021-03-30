@@ -10,6 +10,7 @@ namespace Magento\TwoFactorAuth\Api;
 
 /**
  * Manages tokens issued to users to authorize them to configure 2FA.
+ * @api
  */
 interface UserConfigTokenManagerInterface
 {

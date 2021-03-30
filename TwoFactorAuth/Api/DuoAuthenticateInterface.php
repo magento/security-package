@@ -12,6 +12,7 @@ use Magento\TwoFactorAuth\Api\Data\DuoDataInterface;
 
 /**
  * Represents authentication for the duo security provider
+ * @api
  */
 interface DuoAuthenticateInterface
 {
@@ -20,7 +21,7 @@ interface DuoAuthenticateInterface
      *
      * @param string $username
      * @param string $password
-     * @return \Magento\TwoFactorAuth\Api\Data\DuoDataInterface
+     * @return DuoDataInterface
      */
     public function getAuthenticateData(
         string $username,
