@@ -67,4 +67,21 @@
             </argument>
         </arguments>
     </virtualType>
+
+    <type name="Magento\ReCaptchaUi\Model\UiConfigResolver">
+        <arguments>
+            <argument name="uiConfigProviders" xsi:type="array">
+                <item name="admin_invisible" xsi:type="object">Magento\ReCaptchaVersion2Invisible\Model\Adminhtml\UiConfigProvider\Proxy</item>
+                <item name="frontend_invisible" xsi:type="object">Magento\ReCaptchaVersion2Invisible\Model\Frontend\UiConfigProvider\Proxy</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\ReCaptchaUi\Model\ValidationConfigResolver">
+        <arguments>
+            <argument name="validationConfigProviders" xsi:type="array">
+                <item name="admin_invisible" xsi:type="object">Magento\ReCaptchaVersion2Invisible\Model\Adminhtml\ValidationConfigProvider\Proxy</item>
+                <item name="frontend_invisible" xsi:type="object">Magento\ReCaptchaVersion2Invisible\Model\Frontend\ValidationConfigProvider\Proxy</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

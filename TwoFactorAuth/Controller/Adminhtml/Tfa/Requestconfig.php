@@ -30,6 +30,8 @@ class Requestconfig extends AbstractAction implements HttpGetActionInterface, Ht
      */
     public const ADMIN_RESOURCE = 'Magento_TwoFactorAuth::tfa';
 
+    private const TFA_EMAIL_SENT = 'tfa_email_sent';
+
     /**
      * @var UserConfigRequestManagerInterface
      */
@@ -89,7 +91,10 @@ class Requestconfig extends AbstractAction implements HttpGetActionInterface, Ht
         }
 
         try {
-            $this->configRequestManager->sendConfigRequestTo($user);
+            if (!$this->session->getData(self::TFA_EMAIL_SENT)) {
+                $this->configRequestManager->sendConfigRequestTo($user);
+                $this->session->setData(self::TFA_EMAIL_SENT, true);
+            }
         } catch (AuthorizationException $exception) {
             $this->messageManager->addErrorMessage(
                 'Please ask an administrator with sufficient access to configure 2FA first'
