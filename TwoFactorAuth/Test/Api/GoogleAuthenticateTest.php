@@ -257,6 +257,7 @@ class GoogleAuthenticateTest extends WebapiAbstract
      */
     public function testAdminTokenLifetime(): void
     {
+        $this->_markTestAsRestOnly();
         $this->tfa->getProviderByCode(Google::CODE)->activate($this->getUserId('webapi_user'));
         $otp = $this->getUserOtp('webapi_user');
         $serviceInfo = $this->buildServiceInfo();
