@@ -100,6 +100,7 @@ class Google implements EngineInterface
         $secret = random_bytes(128);
         // seed for iOS devices to avoid errors with barcode
         $seed = 'abcd';
+
         return preg_replace('/[^A-Za-z0-9]/', '', Base32::encode($seed . $secret));
     }
 
