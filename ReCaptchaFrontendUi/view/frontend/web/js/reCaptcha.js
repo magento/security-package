@@ -123,6 +123,10 @@ define(
 
                 // eslint-disable-next-line no-undef
                 widgetId = grecaptcha.render(this.getReCaptchaId(), parameters);
+
+                if (parameters.badge === 'inline') {
+                    this.observeVisibilityChange($reCaptcha, widgetId);
+                }
                 this.initParentForm($parentForm, widgetId);
 
                 registry.ids.push(this.getReCaptchaId());
@@ -193,6 +197,27 @@ define(
              */
             getReCaptchaId: function () {
                 return this.reCaptchaId;
+            },
+
+            /**
+             * Observe reCaptcha instance visibility change and re-render it if needed.
+             *
+             * @param {jQuery} reCaptchaInstance
+             * @param {*} widgetId
+             */
+            observeVisibilityChange: function (reCaptchaInstance, widgetId) {
+                reCaptchaInstance.attr('widget-id', widgetId);
+
+                if (!this.intersectionObserver) {
+                    this.intersectionObserver = new IntersectionObserver(function (entries) {
+                        entries.forEach(function (entry) {
+                            if (entry.intersectionRatio > 0) {
+                                grecaptcha.reset(entry.target.attributes['widget-id'].value);
+                            }
+                        });
+                    });
+                }
+                this.intersectionObserver.observe(reCaptchaInstance[0]);
             }
         });
     });
