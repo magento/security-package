@@ -238,7 +238,7 @@ class AuthenticateTest extends TestCase
             Bootstrap::ADMIN_PASSWORD,
             json_encode($verifyData)
         );
-        self::assertMatchesRegularExpression('/^[a-z0-9]{32}$/', $token);
+        self::assertNotEmpty($token);
     }
 
     /**
