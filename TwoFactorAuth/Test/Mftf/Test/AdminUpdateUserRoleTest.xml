@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminUpdateUserRoleTest">
+        <annotations>
+            <stories value="Update admin user entity by changing user role"/>
+            <title value="Admin User Role Update"/>
+            <description value="Change full access role for admin user to custom one"/>
+            <severity value="AVERAGE"/>
+        </annotations>
+        <before>
+            <actionGroup ref="AdminChooseUserRoleResourceActionGroup" before="saveNewRole" stepKey="enableTfa">
+                <argument name="resourceId" value="Magento_TwoFactorAuth::tfa"/>
+                <argument name="resourceName" value="Two Factor Auth"/>
+            </actionGroup>
+        </before>
+    </test>
+</tests>
