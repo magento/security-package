@@ -87,6 +87,10 @@
         <plugin name="fixDefaultUrl" type="Magento\TwoFactorAuth\Plugin\FirstAvailableMenu"/>
     </type>
 
+    <type name="Magento\TwoFactorAuth\Observer\ControllerActionPredispatch">
+        <plugin name="bypass_twofactorauth_testframework" type="Magento\TwoFactorAuth\Plugin\BypassTwoFactorAuthForTestFramework" />
+    </type>
+
     <virtualType name="Magento\TwoFactorAuth\Model\Provider\Google" type="Magento\TwoFactorAuth\Model\Provider">
         <arguments>
             <argument name="engine" xsi:type="object">Magento\TwoFactorAuth\Model\Provider\Engine\Google</argument>
@@ -159,5 +163,4 @@
     <preference for="Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface" type="Magento\TwoFactorAuth\Model\UserConfig\UserConfigRequestManager" />
     <preference for="Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface" type="Magento\TwoFactorAuth\Model\UserConfig\SignedTokenManager" />
     <preference for="Magento\TwoFactorAuth\Api\UserNotifierInterface" type="Magento\TwoFactorAuth\Model\EmailUserNotifier" />
-    <preference for="Magento\TwoFactorAuth\Observer\ControllerActionPredispatch" type="Magento\TwoFactorAuth\TestFramework\ControllerActionPredispatch" />
 </config>
