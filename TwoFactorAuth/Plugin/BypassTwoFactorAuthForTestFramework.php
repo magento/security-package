@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Plugin;
 
+use Closure;
 use Magento\Backend\App\AbstractAction;
 use Magento\Framework\Event\Observer;
 use Magento\TestFramework\Request;
@@ -20,8 +21,8 @@ class BypassTwoFactorAuthForTestFramework
 {
     public function aroundExecute(
         ControllerActionPredispatch $subject,
-        Observer $observer,
-        callable $proceed
+        Closure $proceed,
+        Observer $observer
     ) : void {
         /** @var $controllerAction AbstractAction */
         $controllerAction = $observer->getEvent()->getData('controller_action');
