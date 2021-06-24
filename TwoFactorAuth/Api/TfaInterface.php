@@ -9,6 +9,7 @@ namespace Magento\TwoFactorAuth\Api;
 
 /**
  * 2FA configuration manager.
+ * @api
  */
 interface TfaInterface
 {
@@ -41,7 +42,7 @@ interface TfaInterface
     /**
      * Retrieve forced providers list
      *
-     * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
+     * @return ProviderInterface[]
      */
     public function getForcedProviders(): array;
 
@@ -49,14 +50,14 @@ interface TfaInterface
      * Get a user provider
      *
      * @param int $userId
-     * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
+     * @return ProviderInterface[]
      */
     public function getUserProviders(int $userId): array;
 
     /**
      * Get a list of providers
      *
-     * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
+     * @return ProviderInterface[]
      */
     public function getAllProviders(): array;
 
@@ -64,14 +65,14 @@ interface TfaInterface
      * Get a list of providers
      *
      * @param string $code
-     * @return \Magento\TwoFactorAuth\Api\ProviderInterface|null
+     * @return ProviderInterface|null
      */
     public function getProviderByCode(string $code): ?ProviderInterface;
 
     /**
      * Get a list of providers
      *
-     * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
+     * @return ProviderInterface[]
      */
     public function getAllEnabledProviders(): array;
 
@@ -86,7 +87,7 @@ interface TfaInterface
      * Returns a list of providers to configure/enroll
      *
      * @param int $userId
-     * @return \Magento\TwoFactorAuth\Api\ProviderInterface[]
+     * @return ProviderInterface[]
      */
     public function getProvidersToActivate(int $userId): array;
 

@@ -12,6 +12,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Represents the Google authentication data
+ * @api
  */
 interface GoogleAuthenticateInterface extends ExtensibleDataInterface
 {
@@ -37,14 +38,14 @@ interface GoogleAuthenticateInterface extends ExtensibleDataInterface
      *
      * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
      *
-     * @return \Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateExtensionInterface|null
+     * @return GoogleAuthenticateExtensionInterface|null
      */
     public function getExtensionAttributes(): ?GoogleAuthenticateExtensionInterface;
 
     /**
      * Set an extension attributes object
      *
-     * @param \Magento\TwoFactorAuth\Api\Data\GoogleAuthenticateExtensionInterface $extensionAttributes
+     * @param GoogleAuthenticateExtensionInterface $extensionAttributes
      */
     public function setExtensionAttributes(
         GoogleAuthenticateExtensionInterface $extensionAttributes

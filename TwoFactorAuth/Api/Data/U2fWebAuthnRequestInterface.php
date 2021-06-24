@@ -12,6 +12,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Represents a WebAuthn dataset
+ * @api
  */
 interface U2fWebAuthnRequestInterface extends ExtensibleDataInterface
 {
@@ -37,14 +38,14 @@ interface U2fWebAuthnRequestInterface extends ExtensibleDataInterface
      *
      * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
      *
-     * @return \Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestExtensionInterface|null
+     * @return U2fWebAuthnRequestExtensionInterface|null
      */
     public function getExtensionAttributes(): ?U2fWebAuthnRequestExtensionInterface;
 
     /**
      * Set an extension attributes object
      *
-     * @param \Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestExtensionInterface $extensionAttributes
+     * @param U2fWebAuthnRequestExtensionInterface $extensionAttributes
      * @return void
      */
     public function setExtensionAttributes(

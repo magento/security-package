@@ -10,6 +10,7 @@ namespace Magento\TwoFactorAuth\Api;
 
 /**
  * Represents the google provider
+ * @api
  */
 interface GoogleConfigureInterface
 {
@@ -17,11 +18,11 @@ interface GoogleConfigureInterface
      * Get the information required to configure google
      *
      * @param string $tfaToken
-     * @return \Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface
+     * @return Data\GoogleConfigureInterface
      */
     public function getConfigurationData(
         string $tfaToken
-    ): \Magento\TwoFactorAuth\Api\Data\GoogleConfigureInterface;
+    ): Data\GoogleConfigureInterface;
 
     /**
      * Activate the provider and get an admin token
