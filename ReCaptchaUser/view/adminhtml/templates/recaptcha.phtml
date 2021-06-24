@@ -45,12 +45,16 @@ $isInvisible = !empty($config['invisible']);
             <?php if ($isInvisible): ?>
             $('#login-form').submit(function (event) {
                 if (!this.token) {
-                    event.preventDefault(event);
-                    event.stopImmediatePropagation();
-                    grecaptcha.execute(this.widgetId);
+                    grecaptcha.execute(this.widgetId).then(
+                        function() {
+                            event.preventDefault(event);
+                            event.stopImmediatePropagation();
+                        }, function(reason) {
+                        });
                 }
             }.bind(this));
             <?php endif; ?>
+
         }.bind(this);
 
         scriptTag.parentNode.insertBefore(element, scriptTag);

@@ -179,6 +179,11 @@ class LoginFormTest extends AbstractController
         $this->getRequest()->setUri($this->backendUrl->getUrl('admin'));
 
         $this->dispatch('backend/admin/auth/login');
+
+        if ($this->getResponse()->getHeader('Location')) {
+            $this->dispatch($this->getResponse()->getHeader('Location')->uri()->getPath());
+        }
+
         $content = $this->getResponse()->getBody();
 
         self::assertNotEmpty($content);
