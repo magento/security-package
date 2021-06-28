@@ -3,7 +3,7 @@
  * See COPYING.txt for license details.
  */
 
-.login-content > li {
+.login-content > ul {
     list-style: none;
 }
 .tfa-logout-link {
@@ -11,3 +11,4 @@
     top: 1em;
     right: 1em;
 }
+
