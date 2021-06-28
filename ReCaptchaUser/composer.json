@@ -7,6 +7,9 @@
         "magento/module-re-captcha-ui": "*",
         "magento/module-re-captcha-validation-api": "*"
     },
+    "suggest": {
+        "magento/module-backend": "*"
+    },
     "type": "magento2-module",
     "license": "OSL-3.0",
     "autoload": {
