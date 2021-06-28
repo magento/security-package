@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Model\Config;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\UrlInterface;
+use Magento\Backend\Model\UrlInterface;
 
 /**
  * Represents configuration for notifying the user
