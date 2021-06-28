@@ -9,6 +9,7 @@ define(['ko'], function (ko) {
     return {
         ids: ko.observableArray([]),
         captchaList: ko.observableArray([]),
+        captchaListDetails: ko.observableArray([]),
         tokenFields: ko.observableArray([])
     };
 });
