@@ -59,9 +59,10 @@ define(
              * @returns {Boolean}
              */
             getIsInvisibleRecaptcha: function () {
-                if (this.settings === void 0) {
-                    return false;
-                } else {
+                    if (this.settings === void 0) {
+                        return false;
+                    }
+                
                     return this.settings.invisible;
                 }
             },
