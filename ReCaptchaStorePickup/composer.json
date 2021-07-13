@@ -5,7 +5,7 @@
         "php": "~7.3.0||~7.4.0",
         "magento/framework": "*",
         "magento/module-checkout": "*",
-        "magento/module-re-captcha-ui": "*"
+        "magento/module-re-captcha-ui": "1.1.*"
     },
     "suggest": {
         "magento/module-inventory-in-store-pickup-frontend": "*"
@@ -19,5 +19,6 @@
         "psr-4": {
             "Magento\\ReCaptchaStorePickup\\": ""
         }
-    }
+    },
+    "version": "1.0.0"
 }

@@ -5,8 +5,8 @@
         "php": "~7.3.0||~7.4.0",
         "magento/framework": "*",
         "magento/module-authorization": "*",
-        "magento/module-re-captcha-validation-api": "*",
-        "magento/module-re-captcha-webapi-api": "*",
+        "magento/module-re-captcha-validation-api": "1.1.*",
+        "magento/module-re-captcha-webapi-api": "1.0.*",
         "magento/module-webapi": "*"
     },
     "type": "magento2-module",
@@ -18,5 +18,6 @@
         "psr-4": {
             "Magento\\ReCaptchaWebapiRest\\": ""
         }
-    }
+    },
+    "version": "1.0.0"
 }

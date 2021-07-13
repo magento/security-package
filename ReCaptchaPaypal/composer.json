@@ -4,10 +4,10 @@
     "require": {
         "php": "~7.3.0||~7.4.0",
         "magento/framework": "*",
-        "magento/module-re-captcha-ui": "*",
-        "magento/module-re-captcha-validation-api": "*",
+        "magento/module-re-captcha-ui": "1.1.*",
+        "magento/module-re-captcha-validation-api": "1.1.*",
         "magento/module-checkout": "*",
-        "magento/module-re-captcha-webapi-api": "*"
+        "magento/module-re-captcha-webapi-api": "1.0.*"
     },
     "type": "magento2-module",
     "license": "OSL-3.0",
@@ -18,5 +18,6 @@
         "psr-4": {
             "Magento\\ReCaptchaPaypal\\": ""
         }
-    }
+    },
+    "version": "1.1.1"
 }
