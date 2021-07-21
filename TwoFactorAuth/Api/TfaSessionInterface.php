@@ -9,6 +9,7 @@ namespace Magento\TwoFactorAuth\Api;
 
 /**
  * 2FA session interface
+ *
  * @api
  */
 interface TfaSessionInterface

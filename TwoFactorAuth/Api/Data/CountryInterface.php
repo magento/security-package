@@ -11,6 +11,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Country entity interface
+ *
  * @api
  */
 interface CountryInterface extends ExtensibleDataInterface
@@ -96,14 +97,14 @@ interface CountryInterface extends ExtensibleDataInterface
      *
      * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
      *
-     * @return CountryExtensionInterface|null
+     * @return \Magento\TwoFactorAuth\Api\Data\CountryExtensionInterface|null
      */
     public function getExtensionAttributes(): ?CountryExtensionInterface;
 
     /**
      * Set an extension attributes object
      *
-     * @param CountryExtensionInterface $extensionAttributes
+     * @param \Magento\TwoFactorAuth\Api\Data\CountryExtensionInterface $extensionAttributes
      */
     public function setExtensionAttributes(
         CountryExtensionInterface $extensionAttributes

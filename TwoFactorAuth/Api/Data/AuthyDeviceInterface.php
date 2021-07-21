@@ -11,6 +11,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Authy device data interface
+ *
  * @api
  */
 interface AuthyDeviceInterface extends ExtensibleDataInterface
@@ -90,14 +91,14 @@ interface AuthyDeviceInterface extends ExtensibleDataInterface
      *
      * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
      *
-     * @return AuthyDeviceExtensionInterface|null
+     * @return \Magento\TwoFactorAuth\Api\Data\AuthyDeviceExtensionInterface|null
      */
     public function getExtensionAttributes(): ?AuthyDeviceExtensionInterface;
 
     /**
      * Set an extension attributes object
      *
-     * @param AuthyDeviceExtensionInterface $extensionAttributes
+     * @param \Magento\TwoFactorAuth\Api\Data\AuthyDeviceExtensionInterface $extensionAttributes
      * @return void
      */
     public function setExtensionAttributes(

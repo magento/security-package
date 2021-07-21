@@ -8,7 +8,8 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Api;
 
 /**
- * 2FA proviced interface
+ * 2FA provider interface
+ *
  * @api
  */
 interface ProviderInterface
@@ -23,7 +24,7 @@ interface ProviderInterface
     /**
      * Get provider engine
      *
-     * @return EngineInterface
+     * @return \Magento\TwoFactorAuth\Api\EngineInterface
      */
     public function getEngine();
 

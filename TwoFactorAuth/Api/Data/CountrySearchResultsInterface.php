@@ -11,6 +11,7 @@ use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * Represent country search results
+ *
  * @api
  */
 interface CountrySearchResultsInterface extends SearchResultsInterface

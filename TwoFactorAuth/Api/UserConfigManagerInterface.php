@@ -11,6 +11,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * User configuration manager
+ *
  * @api
  */
 interface UserConfigManagerInterface

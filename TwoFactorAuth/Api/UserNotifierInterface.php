@@ -13,6 +13,7 @@ use Magento\TwoFactorAuth\Api\Exception\NotificationExceptionInterface;
 
 /**
  * Sends notifications to users regarding 2FA.
+ *
  * @api
  */
 interface UserNotifierInterface

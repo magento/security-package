@@ -12,6 +12,7 @@ use Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface;
 
 /**
  * Represent configuration for u2f key provider
+ *
  * @api
  */
 interface U2fKeyConfigureInterface
@@ -20,7 +21,7 @@ interface U2fKeyConfigureInterface
      * Get the information to initiate a WebAuthn registration ceremony
      *
      * @param string $tfaToken
-     * @return U2fWebAuthnRequestInterface
+     * @return \Magento\TwoFactorAuth\Api\Data\U2fWebAuthnRequestInterface
      */
     public function getRegistrationData(string $tfaToken): U2fWebAuthnRequestInterface;
 

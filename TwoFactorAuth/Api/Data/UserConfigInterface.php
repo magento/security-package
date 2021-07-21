@@ -11,6 +11,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * User configuration interface
+ *
  * @api
  */
 interface UserConfigInterface extends ExtensibleDataInterface
@@ -96,14 +97,14 @@ interface UserConfigInterface extends ExtensibleDataInterface
      *
      * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
      *
-     * @return UserConfigExtensionInterface|null
+     * @return \Magento\TwoFactorAuth\Api\Data\UserConfigExtensionInterface|null
      */
     public function getExtensionAttributes(): ?UserConfigExtensionInterface;
 
     /**
      * Set an extension attributes object
      *
-     * @param UserConfigExtensionInterface $extensionAttributes
+     * @param \Magento\TwoFactorAuth\Api\Data\UserConfigExtensionInterface $extensionAttributes
      */
     public function setExtensionAttributes(UserConfigExtensionInterface $extensionAttributes): void;
 }

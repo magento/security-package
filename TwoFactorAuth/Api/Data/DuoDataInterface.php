@@ -11,6 +11,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Represents the data needed to use duo
+ *
  * @api
  */
 interface DuoDataInterface extends ExtensibleDataInterface
@@ -60,14 +61,14 @@ interface DuoDataInterface extends ExtensibleDataInterface
      *
      * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
      *
-     * @return DuoDataExtensionInterface|null
+     * @return \Magento\TwoFactorAuth\Api\Data\DuoDataExtensionInterface|null
      */
     public function getExtensionAttributes(): ?DuoDataExtensionInterface;
 
     /**
      * Set an extension attributes object
      *
-     * @param DuoDataExtensionInterface $extensionAttributes
+     * @param \Magento\TwoFactorAuth\Api\Data\DuoDataExtensionInterface $extensionAttributes
      * @return void
      */
     public function setExtensionAttributes(

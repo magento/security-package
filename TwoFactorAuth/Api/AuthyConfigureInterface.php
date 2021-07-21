@@ -13,6 +13,7 @@ use Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface as R
 
 /**
  * Represents the authy provider
+ *
  * @api
  */
 interface AuthyConfigureInterface
@@ -22,7 +23,7 @@ interface AuthyConfigureInterface
      *
      * @param string $tfaToken
      * @param AuthyDeviceInterface $deviceData
-     * @return ResponseInterface
+     * @return \Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface
      */
     public function sendDeviceRegistrationPrompt(
         string $tfaToken,

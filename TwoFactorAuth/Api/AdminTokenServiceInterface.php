@@ -12,6 +12,7 @@ use Magento\Integration\Api\AdminTokenServiceInterface as OriginalTokenServiceIn
 
 /**
  * Obtain basic information about the user required to setup or use 2fa
+ *
  * @api
  */
 interface AdminTokenServiceInterface extends OriginalTokenServiceInterface

@@ -11,6 +11,7 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Google configuration data interface
+ *
  * @api
  */
 interface GoogleConfigureInterface extends ExtensibleDataInterface
@@ -60,14 +61,14 @@ interface GoogleConfigureInterface extends ExtensibleDataInterface
      *
      * Used fully qualified namespaces in annotations for proper work of extension interface/class code generation
      *
-     * @return GoogleConfigureExtensionInterface|null
+     * @return \Magento\TwoFactorAuth\Api\Data\GoogleConfigureExtensionInterface|null
      */
     public function getExtensionAttributes(): ?GoogleConfigureExtensionInterface;
 
     /**
      * Set an extension attributes object
      *
-     * @param GoogleConfigureExtensionInterface $extensionAttributes
+     * @param \Magento\TwoFactorAuth\Api\Data\GoogleConfigureExtensionInterface $extensionAttributes
      * @return void
      */
     public function setExtensionAttributes(
