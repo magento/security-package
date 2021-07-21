@@ -10,6 +10,8 @@ namespace Magento\TwoFactorAuth\Api;
 
 /**
  * Represents the authy provider authentication
+ *
+ * @api
  */
 interface AuthyAuthenticateInterface
 {

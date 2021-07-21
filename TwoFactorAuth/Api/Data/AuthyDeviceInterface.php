@@ -11,6 +11,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Authy device data interface
+ *
+ * @api
  */
 interface AuthyDeviceInterface extends ExtensibleDataInterface
 {

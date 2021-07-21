@@ -11,6 +11,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Google configuration data interface
+ *
+ * @api
  */
 interface GoogleConfigureInterface extends ExtensibleDataInterface
 {

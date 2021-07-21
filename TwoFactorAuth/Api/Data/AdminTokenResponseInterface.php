@@ -12,6 +12,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Represents the response to the new admin token response
+ *
+ * @api
  */
 interface AdminTokenResponseInterface extends ExtensibleDataInterface
 {

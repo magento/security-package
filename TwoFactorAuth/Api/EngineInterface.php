@@ -12,6 +12,8 @@ use Magento\User\Api\Data\UserInterface;
 
 /**
  * 2FA engine interface
+ *
+ * @api
  */
 interface EngineInterface
 {

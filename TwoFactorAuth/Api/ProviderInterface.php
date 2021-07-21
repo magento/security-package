@@ -8,7 +8,9 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Api;
 
 /**
- * 2FA proviced interface
+ * 2FA provider interface
+ *
+ * @api
  */
 interface ProviderInterface
 {

@@ -12,6 +12,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Response for device registration prompt
+ *
+ * @api
  */
 interface AuthyRegistrationPromptResponseInterface extends ExtensibleDataInterface
 {

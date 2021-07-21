@@ -10,6 +10,8 @@ namespace Magento\TwoFactorAuth\Api;
 
 /**
  * Represents configuration for u2f key provider
+ *
+ * @api
  */
 interface U2fKeyConfigReaderInterface
 {

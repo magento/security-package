@@ -11,6 +11,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Country entity interface
+ *
+ * @api
  */
 interface CountryInterface extends ExtensibleDataInterface
 {
