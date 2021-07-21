@@ -10,6 +10,8 @@ namespace Magento\TwoFactorAuth\Api;
 
 /**
  * Actions the user can perform using the pre-2fa token (tfat)
+ *
+ * @api
  */
 interface TfatActionsInterface
 {

@@ -15,6 +15,7 @@ use Magento\TwoFactorAuth\Api\Data\UserConfigSearchResultsInterface;
 /**
  * User configuration repository
  *
+ * @api
  * @SuppressWarnings(PHPMD.ShortVariable)
  */
 interface UserConfigRepositoryInterface

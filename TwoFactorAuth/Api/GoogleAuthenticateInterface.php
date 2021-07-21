@@ -10,6 +10,8 @@ namespace Magento\TwoFactorAuth\Api;
 
 /**
  * Represents google authentication
+ *
+ * @api
  */
 interface GoogleAuthenticateInterface
 {

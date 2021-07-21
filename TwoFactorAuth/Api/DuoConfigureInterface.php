@@ -12,6 +12,8 @@ use Magento\TwoFactorAuth\Api\Data\DuoDataInterface;
 
 /**
  * Represents configuration for the duo security provider
+ *
+ * @api
  */
 interface DuoConfigureInterface
 {

@@ -11,6 +11,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Represents the data needed to use duo
+ *
+ * @api
  */
 interface DuoDataInterface extends ExtensibleDataInterface
 {

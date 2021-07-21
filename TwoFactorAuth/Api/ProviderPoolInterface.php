@@ -11,6 +11,8 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Providers pool
+ *
+ * @api
  */
 interface ProviderPoolInterface
 {

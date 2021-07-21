@@ -11,6 +11,8 @@ use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * User config search result
+ *
+ * @api
  */
 interface UserConfigSearchResultsInterface extends SearchResultsInterface
 {
