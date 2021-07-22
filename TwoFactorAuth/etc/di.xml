@@ -87,7 +87,7 @@
     </type>
 
     <type name="Magento\TwoFactorAuth\Observer\ControllerActionPredispatch">
-        <plugin name="bypass_twofactorauth_testframework" type="Magento\TwoFactorAuth\Plugin\BypassTwoFactorAuthForTestFramework" />
+        <plugin name="bypass_twofactorauth_testframework" type="Magento\TwoFactorAuth\TestFramework\Plugin\BypassTwoFactorAuth" />
     </type>
 
     <virtualType name="Magento\TwoFactorAuth\Model\Provider\Google" type="Magento\TwoFactorAuth\Model\Provider">

@@ -6,7 +6,7 @@
 
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\Plugin;
+namespace Magento\TwoFactorAuth\TestFramework\Plugin;
 
 use Closure;
 use Magento\Backend\App\AbstractAction;
@@ -17,7 +17,7 @@ use Magento\TwoFactorAuth\Observer\ControllerActionPredispatch;
 /**
  * Plugin that allows integration controller tests that are not aware of 2FA to run.
  */
-class BypassTwoFactorAuthForTestFramework
+class BypassTwoFactorAuth
 {
     public function aroundExecute(
         ControllerActionPredispatch $subject,
