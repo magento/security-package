@@ -6,32 +6,34 @@
 
 declare(strict_types=1);
 
-namespace Magento\TwoFactorAuth\TestFramework;
+namespace Magento\TwoFactorAuth\TestFramework\Plugin;
 
+use Closure;
 use Magento\Backend\App\AbstractAction;
 use Magento\Framework\Event\Observer;
-use Magento\TwoFactorAuth\Observer\ControllerActionPredispatch as ParentObserver;
+use Magento\TestFramework\Request;
+use Magento\TwoFactorAuth\Observer\ControllerActionPredispatch;
 
 /**
- * Observer that allows integration controller tests that are not aware of 2FA to run.
+ * Plugin that allows integration controller tests that are not aware of 2FA to run.
  */
-class ControllerActionPredispatch extends ParentObserver
+class BypassTwoFactorAuth
 {
-    /**
-     * @inheritDoc
-     */
-    public function execute(Observer $observer)
-    {
+    public function aroundExecute(
+        ControllerActionPredispatch $subject,
+        Closure $proceed,
+        Observer $observer
+    ) : void {
         /** @var $controllerAction AbstractAction */
         $controllerAction = $observer->getEvent()->getData('controller_action');
         if (method_exists($controllerAction, 'getRequest')
-            && $controllerAction->getRequest() instanceof \Magento\TestFramework\Request
+            && $controllerAction->getRequest() instanceof Request
             && !$controllerAction->getRequest()->getParam('tfa_enabled')
         ) {
             //Hack that allows integration controller tests that are not aware of 2FA to run
             return;
         }
 
-        parent::execute($observer);
+        $proceed($observer);
     }
 }

@@ -40,7 +40,6 @@
     <preference for="Magento\TwoFactorAuth\Api\DuoAuthenticateInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity\Authenticate"/>
     <preference for="Magento\TwoFactorAuth\Api\Data\DuoDataInterface" type="Magento\TwoFactorAuth\Model\Data\Provider\Engine\DuoSecurity\Data"/>
     <preference for="Magento\TwoFactorAuth\Api\U2fKeyConfigReaderInterface" type="Magento\TwoFactorAuth\Model\Provider\Engine\U2fKey\ConfigReader"/>
-    <preference for="OTPHP\TOTPInterface" type="OTPHP\TOTP"/>
 
     <type name="Magento\Framework\Console\CommandListInterface">
         <arguments>
@@ -85,6 +84,10 @@
 
     <type name="Magento\Backend\Model\Url">
         <plugin name="fixDefaultUrl" type="Magento\TwoFactorAuth\Plugin\FirstAvailableMenu"/>
+    </type>
+
+    <type name="Magento\TwoFactorAuth\Observer\ControllerActionPredispatch">
+        <plugin name="bypass_twofactorauth_testframework" type="Magento\TwoFactorAuth\TestFramework\Plugin\BypassTwoFactorAuth" />
     </type>
 
     <virtualType name="Magento\TwoFactorAuth\Model\Provider\Google" type="Magento\TwoFactorAuth\Model\Provider">
@@ -159,5 +162,4 @@
     <preference for="Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface" type="Magento\TwoFactorAuth\Model\UserConfig\UserConfigRequestManager" />
     <preference for="Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface" type="Magento\TwoFactorAuth\Model\UserConfig\SignedTokenManager" />
     <preference for="Magento\TwoFactorAuth\Api\UserNotifierInterface" type="Magento\TwoFactorAuth\Model\EmailUserNotifier" />
-    <preference for="Magento\TwoFactorAuth\Observer\ControllerActionPredispatch" type="Magento\TwoFactorAuth\TestFramework\ControllerActionPredispatch" />
 </config>
