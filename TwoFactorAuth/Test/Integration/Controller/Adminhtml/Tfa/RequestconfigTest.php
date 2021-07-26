@@ -13,6 +13,7 @@ use Magento\TwoFactorAuth\TestFramework\TestCase\AbstractBackendController;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
+use Magento\Backend\Model\Auth\Session;
 
 /**
  * Testing the controller for the page that requests 2FA config from users.
@@ -38,6 +39,11 @@ class RequestconfigTest extends AbstractBackendController
     private $tokenManager;
 
     /**
+     * @var Session
+     */
+    private $session;
+
+    /**
      * @inheritDoc
      */
     protected function setUp(): void
@@ -46,6 +52,7 @@ class RequestconfigTest extends AbstractBackendController
 
         $this->tfa = Bootstrap::getObjectManager()->get(TfaInterface::class);
         $this->tokenManager = Bootstrap::getObjectManager()->get(UserConfigTokenManagerInterface::class);
+        $this->session = Bootstrap::getObjectManager()->get(Session::class);
     }
 
     /**
@@ -116,5 +123,22 @@ class RequestconfigTest extends AbstractBackendController
             ->setQueryValue('tfat', $this->tokenManager->issueFor((int)$this->_session->getUser()->getId()));
         $this->dispatch($this->uri);
         $this->assertRedirect($this->stringContains('tfa/index'));
+    }
+
+    /**
+     * Verify that session flag is set when 2FA config email is sent to the user.
+     *
+     * @return void
+     * @magentoConfigFixture default/twofactorauth/general/force_providers google
+     */
+    public function testUserConfigRequestedFlag(): void
+    {
+        $this->assertNull($this->session->getData('tfa_email_sent'));
+        $this->dispatch($this->uri);
+        self::assertMatchesRegularExpression(
+            '/You need to configure Two\-Factor Authorization/',
+            $this->getResponse()->getBody()
+        );
+        $this->assertTrue($this->session->getData('tfa_email_sent'));
     }
 }

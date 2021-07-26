@@ -170,8 +170,8 @@ class UserConfigManagerTest extends TestCase
         $encryptor = Bootstrap::getObjectManager()->create(EncryptorInterface::class);
 
         /** @var ResourceConnection $resourceConnection */
-        $connection = Bootstrap::getObjectManager()->get(ResourceConnection::class)
-            ->getConnection(ResourceConnection::DEFAULT_CONNECTION);
+        $resourceConnection = Bootstrap::getObjectManager()->get(ResourceConnection::class);
+        $connection = $resourceConnection->getConnection(ResourceConnection::DEFAULT_CONNECTION);
 
         $configPayload = ['a' => 1, 'b' => 2];
 
@@ -181,8 +181,10 @@ class UserConfigManagerTest extends TestCase
             $configPayload
         );
 
+        $tfaUserConfig = $resourceConnection->getTableName('tfa_user_config');
+
         $qry = $connection->select()
-            ->from('tfa_user_config', 'encoded_config')
+            ->from($tfaUserConfig, 'encoded_config')
             ->where('user_id = ?', (int)$dummyUser->getId());
 
         $res = $connection->fetchOne($qry);
