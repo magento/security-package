@@ -12,6 +12,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Represents a WebAuthn dataset
+ *
+ * @api
  */
 interface U2fWebAuthnRequestInterface extends ExtensibleDataInterface
 {

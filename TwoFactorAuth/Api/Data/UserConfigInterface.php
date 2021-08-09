@@ -11,6 +11,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * User configuration interface
+ *
+ * @api
  */
 interface UserConfigInterface extends ExtensibleDataInterface
 {

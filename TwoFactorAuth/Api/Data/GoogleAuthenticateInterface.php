@@ -12,6 +12,8 @@ use Magento\Framework\Api\ExtensibleDataInterface;
 
 /**
  * Represents the Google authentication data
+ *
+ * @api
  */
 interface GoogleAuthenticateInterface extends ExtensibleDataInterface
 {

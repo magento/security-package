@@ -13,6 +13,8 @@ use Magento\TwoFactorAuth\Api\Data\AuthyRegistrationPromptResponseInterface as R
 
 /**
  * Represents the authy provider
+ *
+ * @api
  */
 interface AuthyConfigureInterface
 {
