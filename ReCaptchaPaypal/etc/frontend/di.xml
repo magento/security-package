@@ -17,7 +17,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="recaptcha_config_provider" xsi:type="object">Magento\ReCaptchaPaypal\Model\CheckoutConfigProvider</item>
+                <item name="paypal_recaptcha_config_provider" xsi:type="object">Magento\ReCaptchaPaypal\Model\CheckoutConfigProvider</item>
             </argument>
         </arguments>
     </type>
