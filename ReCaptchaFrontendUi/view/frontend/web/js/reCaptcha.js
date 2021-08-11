@@ -60,10 +60,12 @@ define(
              */
             getIsInvisibleRecaptcha: function () {
 
-                if (this.settings === void 0) {
+                if (this.settings ===
+
+                    void 0) {
                     return false;
                 }
-                
+
                 return this.settings.invisible;
             },
 
@@ -88,7 +90,9 @@ define(
                     widgetId,
                     parameters;
 
-                if (this.captchaInitialized || this.settings === void 0) {
+                if (this.captchaInitialized || this.settings ===
+
+                    void 0) {
                     return;
                 }
 
