@@ -2,7 +2,7 @@
     "name": "magento/module-re-captcha-store-pickup",
     "description": "Google reCaptcha integration for Magento2 Inventory Store Pickup shipping form",
     "require": {
-        "php": "~7.3.0||~7.4.0",
+        "php": "~7.4.0||~8.0.0",
         "magento/framework": "*",
         "magento/module-checkout": "*",
         "magento/module-re-captcha-ui": "*"
