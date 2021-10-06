@@ -1,0 +1,32 @@
+{
+  "templateVersion": "0.1",
+  "product": {
+    "name": "Security Package",
+    "description": "Provides a set of security-related features including two-factor authentication for admins, Google ReCAPTCHA support for various forms, and Security.txt to support vulnerability disclosure practices."
+  },
+  "contacts": {
+    "team": {
+      "name": "CIA",
+      "DL": "magento-commerce-team-cia",
+      "slackChannel": "cia-team"
+    }
+  },
+  "ticketTracker": {
+    "functionalJiraQueue": {
+      "projectKey": "AC",
+      "component": ""
+    },
+    "securityJiraQueue": {
+      "projectKey": "MAGREQ",
+      "component": "Commerce M2"
+    }
+  },
+  "staticScan": {
+    "enable": true,
+    "frequency": "monthly",
+    "customName": "",
+    "branchesToScan": [
+      "develop"
+    ]
+  }
+}
