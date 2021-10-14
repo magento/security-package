@@ -2,7 +2,7 @@
     "name": "magento/module-re-captcha-version-2-invisible",
     "description": "Google reCAPTCHA integration for Magento2",
     "require": {
-        "php": "~7.3.0||~7.4.0",
+        "php": "~7.4.0||~8.0.0",
         "magento/framework": "*",
         "magento/module-store": "*",
         "magento/module-re-captcha-ui": "*",
