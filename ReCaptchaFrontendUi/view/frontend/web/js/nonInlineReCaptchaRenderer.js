@@ -6,8 +6,8 @@
 /* global grecaptcha */
 define([
     'jquery',
-    'jquery/patches/z-index'
-], function ($, zIndex) {
+    'jquery/z-index'
+], function ($) {
     'use strict';
 
     var reCaptchaEntities = [],
@@ -40,7 +40,7 @@ define([
             reCaptchaEntities.some(function (entity) {
                 return entity.is(':visible') &&
                     // 900 is some magic z-index value of modal popups.
-                    (entity.closest('[data-role=\'modal\']').length === 0 || zIndex.getValue(entity) > 900);
+                    (entity.closest('[data-role=\'modal\']').length === 0 || entity.zIndex() > 900);
             }) ? rendererReCaptcha.show() : rendererReCaptcha.hide();
         },
 
