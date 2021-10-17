@@ -120,6 +120,10 @@ class RestValidationPluginTest extends TestCase
             $this->expectException(Exception::class);
         }
 
-        $this->model->afterValidate($this->subject);
+        $proceed = function () : void {
+            //dummy function for callable argument
+        };
+
+        $this->model->aroundValidate($this->subject, $proceed);
     }
 }

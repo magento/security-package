@@ -71,15 +71,17 @@ class RestValidationPlugin
      * Validate ReCaptcha if needed.
      *
      * @param RequestValidator $subject
+     * @param callable $proceed
      * @throws WebapiException
      * @return void
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterValidate(RequestValidator $subject): void
+    public function aroundValidate(RequestValidator $subject, callable $proceed): void
     {
-        $route = $this->restRouter->match($this->request);
-        /** @var Endpoint $endpoint */
+        $request = clone $this->request;
+        $proceed();
+        $route = $this->restRouter->match($request);
         $endpoint = $this->endpointFactory->create([
             'class' => $route->getServiceClass(),
             'method' => $route->getServiceMethod(),
