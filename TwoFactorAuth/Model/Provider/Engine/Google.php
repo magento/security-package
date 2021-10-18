@@ -7,8 +7,10 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Model\Provider\Engine;
 
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\Exception\ValidationException;
+use Base32\Base32;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Exception;
@@ -17,11 +19,10 @@ use Magento\Framework\DataObject;
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\TwoFactorAuth\Api\EngineInterface;
+use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google\TotpFactory;
 use Magento\User\Api\Data\UserInterface;
-use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
-use Magento\TwoFactorAuth\Api\EngineInterface;
-use Base32\Base32;
 use OTPHP\TOTPInterface;
 
 /**
@@ -206,9 +207,9 @@ class Google implements EngineInterface
      * Render TFA QrCode
      *
      * @param UserInterface $user
+     *
      * @return string
-     * @throws NoSuchEntityException
-     * @throws ValidationException
+     * @throws Exception
      */
     public function getQrCodeAsPng(UserInterface $user): string
     {
@@ -216,17 +217,16 @@ class Google implements EngineInterface
         $qrCode = new QrCode($this->getProvisioningUrl($user));
         $qrCode->setSize(400);
         $qrCode->setMargin(0);
-        $qrCode->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH());
-        $qrCode->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0]);
-        $qrCode->setBackgroundColor(['r' => 255, 'g' => 255, 'b' => 255, 'a' => 0]);
-        $qrCode->setLabelFontSize(16);
-        $qrCode->setEncoding('UTF-8');
+        $qrCode->setErrorCorrectionLevel(new ErrorCorrectionLevelHigh());
+        $qrCode->setForegroundColor(new Color(0, 0, 0, 0));
+        $qrCode->setBackgroundColor(new Color(255, 255, 255, 0));
+        $qrCode->setEncoding(new Encoding('UTF-8'));
 
         $writer = new PngWriter();
-        $pngData = $writer->writeString($qrCode);
+        $pngData = $writer->write($qrCode);
         // @codingStandardsIgnoreEnd
 
-        return $pngData;
+        return $pngData->getString();
     }
 
     /**

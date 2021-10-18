@@ -11,6 +11,8 @@ namespace Magento\TwoFactorAuth\Test\Unit\Model\Provider\Engine;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject;
 use Magento\Framework\Encryption\EncryptorInterface;
+use Magento\Store\Model\Store;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google\TotpFactory;
@@ -58,6 +60,11 @@ class GoogleTest extends TestCase
     private $encryptor;
 
     /**
+     * @var StoreManagerInterface|MockObject
+     */
+    private $storeManager;
+
+    /**
      * @inheritDoc
      */
     protected function setUp(): void
@@ -74,13 +81,15 @@ class GoogleTest extends TestCase
         $this->user->method('getEmail')
             ->willReturn('john@example.com');
         $this->configManager = $this->createMock(UserConfigManagerInterface::class);
+        $this->storeManager = $this->createMock(StoreManagerInterface::class);
         $this->model = $objectManager->getObject(
             Google::class,
             [
                 'configManager' => $this->configManager,
                 'totpFactory' => $this->totpFactory,
                 'scopeConfig' => $this->scopeConfig,
-                'encryptor' => $this->encryptor
+                'encryptor' => $this->encryptor,
+                'storeManager' => $this->storeManager
             ]
         );
     }
@@ -195,5 +204,25 @@ class GoogleTest extends TestCase
         $valid = $this->model->verify($this->user, new DataObject(['tfa_code' => '123456']));
 
         self::assertTrue($valid);
+    }
+
+    /**
+     * Check if method not return empty string and image is png.
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function testGetQrCodeAsPng(): void
+    {
+        $store = $this->createMock(Store::class);
+        $store->method('getBaseUrl')
+            ->willReturn('http://www.example.com/');
+        $this->storeManager->method('getStore')
+            ->willReturn($store);
+
+        $image = $this->model->getQrCodeAsPng($this->user);
+        $this->assertNotEmpty($image);
+        $imageData = getimagesizefromstring($image);
+        $this->assertEquals('image/png', $imageData['mime']);
     }
 }
