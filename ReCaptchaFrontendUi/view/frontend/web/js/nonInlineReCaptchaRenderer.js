@@ -5,7 +5,8 @@
 
 /* global grecaptcha */
 define([
-    'jquery'
+    'jquery',
+    'jquery/z-index'
 ], function ($) {
     'use strict';
 
