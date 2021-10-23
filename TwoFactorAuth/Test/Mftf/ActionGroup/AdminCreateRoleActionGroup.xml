@@ -8,9 +8,8 @@
 <actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AdminCreateRoleActionGroup">
-        <scrollTo selector="{{AdminEditRoleInfoSection.checkboxByRole('Magento_TwoFactorAuth::tfa')}}"  x="0" y="-100" stepKey="scrollToTfaResourceElement" after="clickContentBlockCheckbox"/>
-        <waitForElementVisible stepKey="waitForTfaRole" selector="{{AdminEditRoleInfoSection.checkboxByRole('Magento_TwoFactorAuth::tfa')}}" time="30" />
-        <conditionalClick visible="false" dependentSelector="{{AdminEditRoleInfoSection.uncheckedCheckboxByRole('Magento_TwoFactorAuth::tfa')}}" stepKey="clickCheckbox" selector="{{AdminEditRoleInfoSection.checkboxByRole('Magento_TwoFactorAuth::tfa')}}" after="waitForTfaRole"/>
+        <waitForElementVisible stepKey="waitForTfaRole" selector="{{AdminEditRoleInfoSection.checkboxByRole('Magento_TwoFactorAuth::tfa')}}" time="30" after="clickContentBlockCheckbox" />
+        <conditionalClick visible="true" dependentSelector="{{AdminEditRoleInfoSection.uncheckedCheckboxByRole('Magento_TwoFactorAuth::tfa')}}" stepKey="clickCheckbox" selector="{{AdminEditRoleInfoSection.checkboxByRole('Magento_TwoFactorAuth::tfa')}}" after="waitForTfaRole"/>
     </actionGroup>
 </actionGroups>
 
