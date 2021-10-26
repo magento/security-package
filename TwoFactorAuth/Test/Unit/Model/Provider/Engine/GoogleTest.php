@@ -22,6 +22,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class GoogleTest extends TestCase
 {
     /**
