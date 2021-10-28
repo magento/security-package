@@ -54,7 +54,7 @@ class CouponApplyFormRecaptchaTest extends WebapiAbstract
     {
         $this->expectException(\Throwable::class);
         $this->expectExceptionCode(400);
-        $this->expectExceptionMessage('{"message":"ReCaptcha validation failed, please try again","trace":null}');
+        $this->expectExceptionMessage('{"message":"ReCaptcha validation failed, please try again"}');
 
         // get customer ID token
         /** @var \Magento\Integration\Api\CustomerTokenServiceInterface $customerTokenService */
@@ -94,7 +94,7 @@ class CouponApplyFormRecaptchaTest extends WebapiAbstract
     {
         $this->expectException(\Throwable::class);
         $this->expectExceptionCode(400);
-        $this->expectExceptionMessage('{"message":"ReCaptcha validation failed, please try again","trace":null}');
+        $this->expectExceptionMessage('{"message":"ReCaptcha validation failed, please try again"}');
 
         /** @var Quote $quote */
         $quote = $this->quoteFactory->create();
