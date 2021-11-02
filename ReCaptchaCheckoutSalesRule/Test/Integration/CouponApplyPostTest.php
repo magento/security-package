@@ -29,14 +29,12 @@ class CouponApplyPostTest extends AbstractController
     private const CUSTOMER_ID = 1;
 
     /**
-     * Customer session
      * @var Session
      */
     private $customerSession;
 
     /**
-     * Checkout Session
-     * @var Session
+     * @var CheckoutSession
      */
     private $checkoutSession;
 
@@ -118,8 +116,7 @@ class CouponApplyPostTest extends AbstractController
             ? $this->assertStringContainsString('field-recaptcha', $content)
             : $this->assertStringNotContainsString('field-recaptcha', $content);
 
-        $this->assertEmpty($this->getSessionMessages(
-            \Magento\Framework\Message\MessageInterface::TYPE_ERROR));
+        $this->assertEmpty($this->getSessionMessages(\Magento\Framework\Message\MessageInterface::TYPE_ERROR));
     }
 
     /**
