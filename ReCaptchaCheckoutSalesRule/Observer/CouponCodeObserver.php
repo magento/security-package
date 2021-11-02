@@ -16,7 +16,7 @@ use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\RequestHandlerInterface;
 
 /**
- * Adds Captcha support for share wishlist
+ * Add ReCaptcha support for Coupon Code
  */
 class CouponCodeObserver implements ObserverInterface
 {

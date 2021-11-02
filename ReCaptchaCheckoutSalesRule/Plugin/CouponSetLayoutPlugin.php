@@ -9,14 +9,16 @@ use Magento\Checkout\Block\Cart\Coupon;
 use Magento\ReCaptchaUi\Block\ReCaptcha;
 
 /**
- * Reset attempts for frontend checkout
+ * Plugin for adding recaptcha in coupon form
  */
 class CouponSetLayoutPlugin
 {
     /**
-     * Add Child captcha afterLayout in Coupon form
+     * Add Child ReCaptcha in Coupon form
      *
      * @param Coupon $subject
+     * @return Coupon
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function afterSetLayout(Coupon $subject): Coupon
     {
