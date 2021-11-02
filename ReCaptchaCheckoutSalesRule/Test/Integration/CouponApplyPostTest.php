@@ -8,14 +8,14 @@ declare(strict_types=1);
 namespace Magento\ReCaptchaCheckoutSalesRule\Test\Integration;
 
 use Magento\Customer\Model\Session;
+use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\Message\MessageInterface;
 use Magento\TestFramework\TestCase\AbstractController;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
-use Magento\Framework\UrlInterface;
 
 /**
- * Tests for create wish list
+ * Tests for Coupon Post form
  *
  * @magentoDataFixture Magento/Customer/_files/customer.php
  * @magentoDbIsolation enabled
@@ -29,14 +29,16 @@ class CouponApplyPostTest extends AbstractController
     private const CUSTOMER_ID = 1;
 
     /**
+     * Customer session
      * @var Session
      */
     private $customerSession;
 
     /**
-     * @var UrlInterface
+     * Checkout Session
+     * @var Session
      */
-    private $url;
+    private $checkoutSession;
 
     /**
      * @inheritdoc
@@ -46,7 +48,25 @@ class CouponApplyPostTest extends AbstractController
         parent::setUp();
         $this->customerSession = $this->_objectManager->get(Session::class);
         $this->customerSession->setCustomerId(self::CUSTOMER_ID);
-        $this->url = $this->_objectManager->get(UrlInterface::class);
+        $this->checkoutSession = $this->_objectManager->create(CheckoutSession::class);
+    }
+
+    /**
+     * Verifying that recaptcha is present on the CouponPost form/page and keys are configured
+     *
+     * @magentoDataFixture Magento/Checkout/_files/quote_with_virtual_product_and_address.php
+     * @magentoDataFixture Magento/Usps/Fixtures/cart_rule_coupon_free_shipping.php
+     *
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
+     * @magentoConfigFixture base_website recaptcha_frontend/type_for/coupon_code invisible
+     * @magentoConfigFixture default_store recaptcha_frontend/type_for/coupon_code invisible
+     */
+    public function testGetRequestIfReCaptchaIsEnabled(): void
+    {
+        $quote = $this->checkoutSession->getQuote();
+        $quote->setData('trigger_recollect', 1)->setTotalsCollectedFlag(true);
+        $this->checkSuccessfulGetResponse(true);
     }
 
     /**
@@ -78,10 +98,28 @@ class CouponApplyPostTest extends AbstractController
     public function testPostRequestWithFailedReCaptchaValidation(): void
     {
         $this->checkFailedPostRequest(true);
-        $this->assertSessionMessages(
-            $this->equalTo(['Something went wrong with reCAPTCHA. Please contact the store owner.']),
-            \Magento\Framework\Message\MessageInterface::TYPE_ERROR
-        );
+    }
+
+    /**
+     * Checks GET response
+     *
+     * @param bool $shouldContainReCaptcha
+     * @return void
+     */
+    private function checkSuccessfulGetResponse(bool $shouldContainReCaptcha = false): void
+    {
+        $this->getRequest()->setMethod(Http::METHOD_GET);
+        $this->dispatch('checkout/cart/');
+        $response = $this->getResponse();
+        $content = $response->getContent();
+
+        $this->assertNotEmpty($content);
+        $shouldContainReCaptcha
+            ? $this->assertStringContainsString('field-recaptcha', $content)
+            : $this->assertStringNotContainsString('field-recaptcha', $content);
+
+        $this->assertEmpty($this->getSessionMessages(
+            \Magento\Framework\Message\MessageInterface::TYPE_ERROR));
     }
 
     /**

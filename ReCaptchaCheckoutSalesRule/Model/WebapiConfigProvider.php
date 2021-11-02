@@ -51,8 +51,6 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
                 $endpoint->getServiceMethod() === 'set')
             || ($endpoint->getServiceClass() === 'Magento\QuoteGraphQl\Model\Resolver\ApplyCouponToCart'
                 || $endpoint->getServiceMethod() === 'ApplyCouponToCart')
-            || ($endpoint->getServiceClass() === 'Magento\Checkout\Controller\Cart\CouponPost'
-                && $endpoint->getServiceMethod() === 'execute')
         ) {
             if ($this->isEnabled->isCaptchaEnabledFor(self::CAPTCHA_ID)) {
                 return $this->configResolver->get(self::CAPTCHA_ID);
