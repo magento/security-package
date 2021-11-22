@@ -81,6 +81,10 @@ class CouponApplyPostTest extends AbstractController
     public function testPostRequestIfReCaptchaParameterIsMissed(): void
     {
         $this->checkFailedPostRequest();
+        $this->assertSessionMessages(
+            $this->equalTo(['The coupon code &quot;test&quot; is not valid.']),
+            MessageInterface::TYPE_ERROR
+        );
     }
 
     /**
@@ -96,6 +100,10 @@ class CouponApplyPostTest extends AbstractController
     public function testPostRequestWithFailedReCaptchaValidation(): void
     {
         $this->checkFailedPostRequest(true);
+        $this->assertSessionMessages(
+            $this->equalTo(['The coupon code &quot;test&quot; is not valid.']),
+            MessageInterface::TYPE_ERROR
+        );
     }
 
     /**
@@ -127,10 +135,6 @@ class CouponApplyPostTest extends AbstractController
     private function checkFailedPostRequest(bool $withParamReCaptcha = false): void
     {
         $this->makePostRequest($withParamReCaptcha);
-        $this->assertSessionMessages(
-            $this->equalTo(['Something went wrong with reCAPTCHA. Please contact the store owner.']),
-            MessageInterface::TYPE_ERROR
-        );
     }
 
     /**
@@ -153,7 +157,6 @@ class CouponApplyPostTest extends AbstractController
         $this->getRequest()
             ->setMethod(Http::METHOD_POST)
             ->setPostValue($postValue);
-
         $this->dispatch('checkout/cart/couponPost/');
     }
 

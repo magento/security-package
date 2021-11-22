@@ -60,13 +60,13 @@ class CouponCodeObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        if ($this->isCaptchaEnabled->isCaptchaEnabledFor(self::CAPTCHA_KEY)) {
-            /** @var Action $controller */
-            $controller = $observer->getControllerAction();
+        /** @var Action $controller */
+        $controller = $observer->getControllerAction();
+        $request_param = $controller->getRequest()->getParams();
+        if (!isset($request_param['remove']) && $this->isCaptchaEnabled->isCaptchaEnabledFor(self::CAPTCHA_KEY)) {
             $request = $controller->getRequest();
             $response = $controller->getResponse();
             $redirectOnFailureUrl = $this->redirect->getRefererUrl();
-
             $this->requestHandler->execute(self::CAPTCHA_KEY, $request, $response, $redirectOnFailureUrl);
         }
     }
