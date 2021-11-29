@@ -7,7 +7,7 @@
 -->
 <sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
     <section name="AdminEditRoleInfoSection">
-        <element name="checkboxByRole" type="checkbox" selector="//*[@value='{{var}}']/parent::*//*[@class='jstree-checkbox']" parameterized="true"/>
-        <element name="uncheckedCheckboxByRole" type="checkbox" selector="//*[@data-id='{{var}}' and contains(@class, 'jstree-checked')]" parameterized="true"/>
+        <element name="checkboxByRole" type="checkbox" selector="//li[@data-id='{{var}}']/a/i[contains(@class, 'jstree-checkbox')]" parameterized="true"/>
+        <element name="uncheckedCheckboxByRole" type="checkbox" selector="//li[@data-id='{{var}}']/a[@aria-selected='false']/i[contains(@class, 'jstree-checkbox')]" parameterized="true"/>
     </section>
 </sections>
