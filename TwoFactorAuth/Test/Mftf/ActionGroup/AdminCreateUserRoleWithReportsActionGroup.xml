@@ -9,7 +9,7 @@
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="AdminCreateUserRoleWithReportsActionGroup">
         <waitForElementVisible stepKey="waitForTfaRole" selector="{{AdminEditRoleInfoSection.checkboxByRole('Magento_TwoFactorAuth::tfa')}}" time="30" after="checkReports"/>
-        <conditionalClick visible="false" dependentSelector="{{AdminEditRoleInfoSection.uncheckedCheckboxByRole('Magento_TwoFactorAuth::tfa')}}" stepKey="clickCheckbox" selector="{{AdminEditRoleInfoSection.checkboxByRole('Magento_TwoFactorAuth::tfa')}}" after="waitForTfaRole"/>
+        <conditionalClick visible="true" dependentSelector="{{AdminEditRoleInfoSection.uncheckedCheckboxByRole('Magento_TwoFactorAuth::tfa')}}" stepKey="clickCheckbox" selector="{{AdminEditRoleInfoSection.checkboxByRole('Magento_TwoFactorAuth::tfa')}}" after="waitForTfaRole"/>
     </actionGroup>
 </actionGroups>
 
