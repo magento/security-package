@@ -11,6 +11,7 @@
             <skip>
                 <issueId value="MQE-2129"/>
             </skip>
+            <group value="pr_exclude"/>
         </annotations>
     </test>
 </tests>
