@@ -11,6 +11,7 @@
             <skip>
                 <issueId value="MC-34291"/>
             </skip>
+            <group value="pr_exclude"/>
         </annotations>
     </test>
 </tests>

@@ -16,6 +16,7 @@
             <severity value="CRITICAL"/>
             <testCaseId value="SECURITYTXT-1"/>
             <group value="securitytxt"/>
+            <group value="pr_exclude"/>
         </annotations>
         <before>
             <magentoCLI command="config:set {{DisableSecurityTxt.path}} {{DisableSecurityTxt.value}}" stepKey="disableSecurityTxt"/>
