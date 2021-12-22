@@ -59,7 +59,6 @@ define(
              * @returns {Boolean}
              */
             getIsInvisibleRecaptcha: function () {
-
                 if (this.settings ===
 
                     void 0) {
@@ -112,6 +111,11 @@ define(
                 $reCaptcha.attr('id', this.getReCaptchaId());
 
                 $parentForm = $wrapper.parents('form');
+
+                if (this.settings === undefined) {
+
+                    return;
+                }
 
                 parameters = _.extend(
                     {
