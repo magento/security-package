@@ -2,7 +2,7 @@
     "name": "magento/module-re-captcha-paypal",
     "description": "Google reCaptcha integration for Magento2 PayPal PayflowPro payment form",
     "require": {
-        "php": "~7.4.0||~8.0.0||~8.1.0",
+        "php": "~7.4.0||~8.1.0",
         "magento/framework": "*",
         "magento/module-re-captcha-ui": "*",
         "magento/module-re-captcha-validation-api": "*",
