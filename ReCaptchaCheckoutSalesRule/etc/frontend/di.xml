@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Block\Cart\Coupon">
+        <plugin name="reset_layout_after_for_recaptcha_coupon_plugin" type="Magento\ReCaptchaCheckoutSalesRule\Plugin\CouponSetLayoutPlugin"/>
+    </type>
+    <type name="Magento\Checkout\Block\Onepage">
+        <arguments>
+            <argument name="layoutProcessors" xsi:type="array">
+                <item name="coupon_code" xsi:type="object">Magento\ReCaptchaCheckoutSalesRule\Block\LayoutProcessor\Checkout\Onepage</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
