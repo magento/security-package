@@ -2,7 +2,7 @@
     "name": "magento/module-re-captcha-migration",
     "description": "Google reCAPTCHA config migration for Magento2",
     "require": {
-        "php": "~7.4.0||~8.0.0||~8.1.0",
+        "php": "~7.4.0||~8.1.0",
         "magento/framework": "*",
         "magento/module-config": "*"
     },
