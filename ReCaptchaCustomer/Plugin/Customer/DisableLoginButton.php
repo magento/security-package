@@ -23,14 +23,11 @@ class DisableLoginButton
     private $isCaptchaEnabled;
 
     /**
-     * @param UiConfigResolverInterface $captchaUiConfigResolver
      * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      */
     public function __construct(
-        UiConfigResolverInterface $captchaUiConfigResolver,
         IsCaptchaEnabledInterface $isCaptchaEnabled
     ) {
-        $this->captchaUiConfigResolver = $captchaUiConfigResolver;
         $this->isCaptchaEnabled = $isCaptchaEnabled;
     }
 
