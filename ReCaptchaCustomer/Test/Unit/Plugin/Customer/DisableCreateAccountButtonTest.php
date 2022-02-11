@@ -47,7 +47,7 @@ class DisableCreateAccountButtonTest extends TestCase
 
     public function testAfterEnabled()
     {
-        $key = 'customer_login';
+        $key = 'customer_create';
         $this->isCaptchaEnabled->expects($this->once())
             ->method('isCaptchaEnabledFor')->with($key)->willReturn(true);
         $this->assertEquals(true, $this->plugin->afterDisabled($this->subject));
