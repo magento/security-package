@@ -20,5 +20,12 @@
         <plugin sortOrder="1" name="inject_recaptcha_in_authentication_popup"
                 type="Magento\ReCaptchaCustomer\Plugin\Block\Account\InjectRecaptchaInAuthenticationPopup"/>
     </type>
-
+    <type name="Magento\Customer\ViewModel\LoginButton">
+        <plugin sortOrder="1" name="recaptcha_disable_login_button"
+                type="Magento\ReCaptchaCustomer\Plugin\Customer\DisableLoginButton"/>
+    </type>
+    <type name="Magento\Customer\ViewModel\CreateAccountButton">
+        <plugin sortOrder="1" name="recaptcha_disable_create_account_button"
+                type="Magento\ReCaptchaCustomer\Plugin\Customer\DisableCreateAccountButton"/>
+    </type>
 </config>
