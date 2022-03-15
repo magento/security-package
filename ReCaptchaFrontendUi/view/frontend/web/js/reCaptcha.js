@@ -174,6 +174,7 @@ define(
                 } else {
                     this.tokenField = null;
                 }
+                if ($('#send2').length > 0) {$('#send2').prop('disabled', false);}
             },
 
             /**
