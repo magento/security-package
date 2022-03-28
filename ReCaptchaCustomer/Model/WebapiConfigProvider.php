@@ -47,6 +47,55 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
     }
 
     /**
+     * Validates ifChangedPasswordCaptchaEnabled using captcha_id
+     *
+     * @param string $serviceMethod
+     * @param string $serviceClass
+     * @return ValidationConfigInterface|null
+     */
+    private function validateChangePasswordCaptcha($serviceMethod, $serviceClass): ?ValidationConfigInterface
+    {
+        //phpcs:disable Magento2.PHP.LiteralNamespaces
+        if ($serviceMethod === 'resetPassword' || $serviceMethod === 'initiatePasswordReset'
+            || $serviceClass === 'Magento\CustomerGraphQl\Model\Resolver\ResetPassword'
+            || $serviceClass === 'Magento\CustomerGraphQl\Model\Resolver\RequestPasswordResetEmail'
+        ) {
+            return $this->isEnabled->isCaptchaEnabledFor(self::RESET_PASSWORD_CAPTCHA_ID) ?
+                $this->configResolver->get(self::RESET_PASSWORD_CAPTCHA_ID) : null;
+        } elseif ($serviceMethod === 'changePasswordById'
+            || $serviceClass === 'Magento\CustomerGraphQl\Model\Resolver\ChangePassword'
+        ) {
+            return $this->isEnabled->isCaptchaEnabledFor(self::CHANGE_PASSWORD_CAPTCHA_ID) ?
+                $this->configResolver->get(self::CHANGE_PASSWORD_CAPTCHA_ID) : null;
+        }
+        //phpcs:enable Magento2.PHP.LiteralNamespaces
+
+        return null;
+    }
+
+    /**
+     * Validates ifLoginCaptchaEnabled using captcha_id
+     *
+     * @return ValidationConfigInterface|null
+     */
+    private function validateLoginCaptcha(): ?ValidationConfigInterface
+    {
+        return  $this->isEnabled->isCaptchaEnabledFor(self::LOGIN_CAPTCHA_ID) ?
+            $this->configResolver->get(self::LOGIN_CAPTCHA_ID) : null;
+    }
+
+    /**
+     * Validates ifCreateCustomerCaptchaEnabled using captcha_id
+     *
+     * @return ValidationConfigInterface|null
+     */
+    private function validateCreateCustomerCaptcha(): ?ValidationConfigInterface
+    {
+        return  $this->isEnabled->isCaptchaEnabledFor(self::CREATE_CAPTCHA_ID) ?
+            $this->configResolver->get(self::CREATE_CAPTCHA_ID) : null;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getConfigFor(EndpointInterface $endpoint): ?ValidationConfigInterface
@@ -55,38 +104,19 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
         $serviceMethod = $endpoint->getServiceMethod();
 
         //phpcs:disable Magento2.PHP.LiteralNamespaces
-        if ($serviceMethod === 'resetPassword'
-            || $serviceMethod === 'initiatePasswordReset'
-            || $serviceClass === 'Magento\CustomerGraphQl\Model\Resolver\ResetPassword') {
-            if ($this->isEnabled->isCaptchaEnabledFor(self::RESET_PASSWORD_CAPTCHA_ID)) {
-                return $this->configResolver->get(self::RESET_PASSWORD_CAPTCHA_ID);
-            }
-        } elseif ($serviceMethod === 'changePasswordById'
-            || $serviceClass === 'Magento\CustomerGraphQl\Model\Resolver\ChangePassword') {
-            if ($this->isEnabled->isCaptchaEnabledFor(self::CHANGE_PASSWORD_CAPTCHA_ID)) {
-                return $this->configResolver->get(self::CHANGE_PASSWORD_CAPTCHA_ID);
-            }
-        } elseif (
-            ($serviceClass === 'Magento\Integration\Api\CustomerTokenServiceInterface'
-                && $serviceMethod === 'createCustomerAccessToken'
-            )
+        if (($serviceClass === 'Magento\Integration\Api\CustomerTokenServiceInterface'
+                && $serviceMethod === 'createCustomerAccessToken')
             || $serviceClass === 'Magento\CustomerGraphQl\Model\Resolver\GenerateCustomerToken'
         ) {
-            if ($this->isEnabled->isCaptchaEnabledFor(self::LOGIN_CAPTCHA_ID)) {
-                return $this->configResolver->get(self::LOGIN_CAPTCHA_ID);
-            }
-        } elseif (
-            ($serviceClass === 'Magento\Customer\Api\AccountManagementInterface'
-                && $serviceMethod === 'createAccount'
-            )
+            return $this->validateLoginCaptcha();
+        } elseif (($serviceClass === 'Magento\Customer\Api\AccountManagementInterface'
+                && $serviceMethod === 'createAccount')
             || $serviceClass === 'Magento\CustomerGraphQl\Model\Resolver\CreateCustomer'
         ) {
-            if ($this->isEnabled->isCaptchaEnabledFor(self::CREATE_CAPTCHA_ID)) {
-                return $this->configResolver->get(self::CREATE_CAPTCHA_ID);
-            }
+            return $this->validateCreateCustomerCaptcha();
         }
         //phpcs:enable Magento2.PHP.LiteralNamespaces
 
-        return null;
+        return $this->validateChangePasswordCaptcha($serviceMethod, $serviceClass);
     }
 }
