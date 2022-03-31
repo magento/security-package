@@ -38,7 +38,7 @@ class DisableForgotPasswordButtonTest extends TestCase
         $this->isCaptchaEnabled = $this->getMockForAbstractClass(
             IsCaptchaEnabledInterface::class
         );
-        $this->subject = $this->createMock(DisableForgotPasswordButton::class);
+        $this->subject = $this->createMock(ForgotPasswordButton::class);
 
         $this->plugin = new DisableForgotPasswordButton(
             $this->isCaptchaEnabled
