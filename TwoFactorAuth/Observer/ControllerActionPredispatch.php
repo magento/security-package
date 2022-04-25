@@ -11,9 +11,11 @@ use Magento\Authorization\Model\UserContextInterface;
 use Magento\Backend\App\AbstractAction;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Framework\Module\Manager as ModuleManager;
 use Magento\Framework\UrlInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Configure;
 use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Index;
@@ -74,6 +76,14 @@ class ControllerActionPredispatch implements ObserverInterface
      * @var UserContextInterface
      */
     private $userContext;
+    /**
+     * @var ModuleManager
+     */
+    private $moduleManager;
+    /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
 
     /**
      * @param TfaInterface $tfa
@@ -84,6 +94,8 @@ class ControllerActionPredispatch implements ObserverInterface
      * @param UrlInterface $url
      * @param AuthorizationInterface $authorization
      * @param UserContextInterface $userContext
+     * @param ModuleManager $moduleManager
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         TfaInterface $tfa,
@@ -93,7 +105,9 @@ class ControllerActionPredispatch implements ObserverInterface
         ActionFlag $actionFlag,
         UrlInterface $url,
         AuthorizationInterface $authorization,
-        UserContextInterface $userContext
+        UserContextInterface $userContext,
+        ModuleManager $moduleManager,
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->tfa = $tfa;
         $this->tfaSession = $tfaSession;
@@ -103,6 +117,8 @@ class ControllerActionPredispatch implements ObserverInterface
         $this->url = $url;
         $this->authorization = $authorization;
         $this->userContext = $userContext;
+        $this->moduleManager = $moduleManager;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -122,6 +138,10 @@ class ControllerActionPredispatch implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
+        if ($this->moduleManager->isEnabled('Magento_AdminAdobeIms')
+            && !$this->scopeConfig->isSetFlag('adobe_ims/integration/two_factor')) {
+            return;
+        }
         /** @var $controllerAction AbstractAction */
         $controllerAction = $observer->getEvent()->getData('controller_action');
         $this->action = $controllerAction;
