@@ -139,7 +139,7 @@ class ControllerActionPredispatch implements ObserverInterface
     public function execute(Observer $observer)
     {
         if ($this->moduleManager->isEnabled('Magento_AdminAdobeIms')
-            && !$this->scopeConfig->isSetFlag('adobe_ims/integration/two_factor')) {
+            && $this->scopeConfig->isSetFlag('adobe_ims/integration/adobe_ims_2fa_enabled')) {
             return;
         }
         /** @var $controllerAction AbstractAction */
