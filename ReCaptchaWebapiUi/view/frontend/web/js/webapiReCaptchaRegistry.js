@@ -32,11 +32,7 @@ define([], function () {
          * @param {Function} func - Will be called back with the token
          */
         addListener: function (id, func) {
-            if (this.tokens.hasOwnProperty(id)) {
-                func(this.tokens[id]);
-            } else {
-                this._listeners[id] = func;
-            }
+            this._listeners[id] = func;
         }
     };
 });
