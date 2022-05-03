@@ -11,11 +11,9 @@ use Magento\Authorization\Model\UserContextInterface;
 use Magento\Backend\App\AbstractAction;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\ActionFlag;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\Module\Manager as ModuleManager;
 use Magento\Framework\UrlInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Configure;
 use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Index;
@@ -24,6 +22,7 @@ use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Requestconfig;
 use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
+use Magento\AdminAdobeIms\Service\ImsConfig;
 
 /**
  * Handle redirection to 2FA page if required
@@ -76,14 +75,11 @@ class ControllerActionPredispatch implements ObserverInterface
      * @var UserContextInterface
      */
     private $userContext;
+
     /**
-     * @var ModuleManager
+     * @var ImsConfig
      */
-    private $moduleManager;
-    /**
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
+    private ImsConfig $adminAdobeImsConfig;
 
     /**
      * @param TfaInterface $tfa
@@ -94,8 +90,7 @@ class ControllerActionPredispatch implements ObserverInterface
      * @param UrlInterface $url
      * @param AuthorizationInterface $authorization
      * @param UserContextInterface $userContext
-     * @param ModuleManager $moduleManager
-     * @param ScopeConfigInterface $scopeConfig
+     * @param ImsConfig $adminAdobeImsConfig
      */
     public function __construct(
         TfaInterface $tfa,
@@ -106,8 +101,7 @@ class ControllerActionPredispatch implements ObserverInterface
         UrlInterface $url,
         AuthorizationInterface $authorization,
         UserContextInterface $userContext,
-        ModuleManager $moduleManager,
-        ScopeConfigInterface $scopeConfig
+        ImsConfig $adminAdobeImsConfig
     ) {
         $this->tfa = $tfa;
         $this->tfaSession = $tfaSession;
@@ -117,8 +111,7 @@ class ControllerActionPredispatch implements ObserverInterface
         $this->url = $url;
         $this->authorization = $authorization;
         $this->userContext = $userContext;
-        $this->moduleManager = $moduleManager;
-        $this->scopeConfig = $scopeConfig;
+        $this->adminAdobeImsConfig = $adminAdobeImsConfig;
     }
 
     /**
@@ -138,8 +131,7 @@ class ControllerActionPredispatch implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if ($this->moduleManager->isEnabled('Magento_AdminAdobeIms')
-            && $this->scopeConfig->isSetFlag('adobe_ims/integration/adobe_ims_2fa_enabled')) {
+        if ($this->adminAdobeImsConfig->enabled()) {
             return;
         }
         /** @var $controllerAction AbstractAction */
