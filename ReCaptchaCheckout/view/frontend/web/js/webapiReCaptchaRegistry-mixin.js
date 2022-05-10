@@ -12,9 +12,9 @@ define([], function () {
          */
        originalFunction.addListener = function (id , func) {
             this._listeners[id] = func;
-       }
+       };
 
         return originalFunction;
-    }
+    };
 
 });
