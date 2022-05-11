@@ -11,7 +11,6 @@
         <sequence>
             <module name="Magento_User"/>
             <module name="Magento_Integration"/>
-            <module name="Magento_AdminAdobeIms"/>
         </sequence>
     </module>
 </config>
