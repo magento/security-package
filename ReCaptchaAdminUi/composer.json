@@ -2,7 +2,7 @@
     "name": "magento/module-re-captcha-admin-ui",
     "description": "Google reCAPTCHA integration for Magento2",
     "require": {
-        "php": "~7.4.0||~8.0.0||~8.1.0",
+        "php": "~7.4.0||~8.1.0",
         "magento/framework": "*",
         "magento/module-config": "*",
         "magento/module-re-captcha-ui": "*",
