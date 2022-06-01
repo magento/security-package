@@ -28,4 +28,8 @@
         <plugin sortOrder="1" name="recaptcha_disable_create_account_button"
                 type="Magento\ReCaptchaCustomer\Plugin\Customer\DisableCreateAccountButton"/>
     </type>
+    <type name="Magento\Customer\ViewModel\ForgotPasswordButton">
+        <plugin sortOrder="1" name="recaptcha_disable_forgot_password_button"
+                type="Magento\ReCaptchaCustomer\Plugin\Customer\DisableForgotPasswordButton"/>
+    </type>
 </config>
