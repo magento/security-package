@@ -12,6 +12,7 @@
         "magento/module-ui": "*",
         "magento/module-user": "*",
         "magento/module-integration": "*",
+        "magento/module-admin-adobe-ims": "*",
         "christian-riesen/base32": "^1.3",
         "spomky-labs/otphp": "^10.0",
         "endroid/qr-code": "^4.3.5",
