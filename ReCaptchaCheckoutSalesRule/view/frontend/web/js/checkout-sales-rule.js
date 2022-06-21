@@ -58,11 +58,20 @@ define(
                     headers['X-ReCaptcha'] = xRecaptchaValue;
                 });
 
+                if (self.getIsInvisibleRecaptcha()) {
+                    grecaptcha.execute(widgetId);
+                    self.validateReCaptcha(true);
+                }
                 //Refresh reCaptcha after failed request.
                 setCouponCodeAction.registerFailCallback(function () {
-                    self.validateReCaptcha(false);
-                    grecaptcha.reset(widgetId);
-                    $('#' + captchaId).show();
+                    if (self.getIsInvisibleRecaptcha()) {
+                        grecaptcha.execute(widgetId);
+                        self.validateReCaptcha(true);
+                    } else {
+                        self.validateReCaptcha(false);
+                        grecaptcha.reset(widgetId);
+                        $('#' + captchaId).show();
+                    }
                 });
                 //Hide captcha when a coupon has been applied.
                 setCouponCodeAction.registerSuccessCallback(function () {
