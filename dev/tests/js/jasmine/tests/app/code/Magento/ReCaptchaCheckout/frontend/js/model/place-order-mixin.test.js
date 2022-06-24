@@ -11,8 +11,7 @@ define(['squire'
 
         defaultContext = require.s.contexts._,
         mixin,
-        registry,
-        redirect;
+        registry;
 
     beforeEach(function (done) {
         window.checkoutConfig = {
@@ -21,12 +20,10 @@ define(['squire'
 
         injector.require([
             'Magento_ReCaptchaCheckout/js/model/place-order-mixin',
-            'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry',
-            'Magento_Checkout/js/action/redirect-on-success'
-        ], function (Mixin, Registry, Redirect) {
+            'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry'
+        ], function (Mixin, Registry) {
             mixin = Mixin;
             registry = Registry;
-            redirect = Redirect;
             done();
         });
     });
@@ -97,10 +94,7 @@ define(['squire'
                 registry._listeners[id] = func;
             };
             registry.removeListener = jasmine.createSpy();
-
-            redirect.execute = jasmine.createSpy();
             mixin()(action, serviceUrl, payload, messageContainer);
-            expect(redirect.execute).toHaveBeenCalled();
             expect(registry.removeListener).toHaveBeenCalledWith(recaptchaId);
         });
     });

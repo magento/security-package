@@ -8,8 +8,7 @@
 define([
     'jquery',
     'mage/utils/wrapper',
-    'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry',
-    'Magento_Checkout/js/action/redirect-on-success'
+    'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry'
 ], function ($, wrapper, recaptchaRegistry, redirectOnSuccessAction) {
     'use strict';
 
@@ -25,7 +24,6 @@ define([
                     payload.xReCaptchaValue = token;
                     originalAction(serviceUrl, payload, messageContainer).done(function () {
                         recaptchaDeferred.resolve.apply(recaptchaDeferred, arguments);
-                        redirectOnSuccessAction.execute();
                     }).fail(function () {
                         recaptchaDeferred.reject.apply(recaptchaDeferred, arguments);
                     });
