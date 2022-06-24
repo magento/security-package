@@ -96,10 +96,12 @@ define(['squire'
             registry.addListener = function (id, func) {
                 registry._listeners[id] = func;
             };
+            registry.removeListener = jasmine.createSpy();
 
             redirect.execute = jasmine.createSpy();
             mixin()(action, serviceUrl, payload, messageContainer);
             expect(redirect.execute).toHaveBeenCalled();
+            expect(registry.removeListener).toHaveBeenCalledWith(recaptchaId);
         });
     });
 });
