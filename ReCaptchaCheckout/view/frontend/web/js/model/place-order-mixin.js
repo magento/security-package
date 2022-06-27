@@ -9,7 +9,7 @@ define([
     'jquery',
     'mage/utils/wrapper',
     'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry'
-], function ($, wrapper, recaptchaRegistry, redirectOnSuccessAction) {
+], function ($, wrapper, recaptchaRegistry) {
     'use strict';
 
     return function (placeOrder) {
