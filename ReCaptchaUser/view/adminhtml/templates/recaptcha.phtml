@@ -41,7 +41,7 @@ $isInvisible = !empty($config['invisible']);
                 let attemptRecaptcha = () => {
                     attempts++;
                     if (attempts > maxRetryAttempts){
-                        console.error("Could not fetch invisible ReCaptcha token. Please refresh the page and try again.");
+                        console.error("Could not fetch invisible ReCaptcha token. Please refresh the page.");
                         return;
                     }
                     if (!isRecaptchaLoaded) {
@@ -66,7 +66,8 @@ $isInvisible = !empty($config['invisible']);
         window.globalOnRecaptchaOnLoadCallback = function () {
 
             widgetId = grecaptcha.render('admin-recaptcha', {
-                <?php foreach ($renderingOptions as $key => $value): ?> '<?= $block->escapeJs($key) ?>': '<?= $block->escapeJs($value) ?>',
+                <?php foreach ($renderingOptions as $key => $value): ?>
+                    '<?= $block->escapeJs($key) ?>': '<?= $block->escapeJs($value) ?>',
                 <?php endforeach; ?> 'callback': function (_token) {
                     <?php if ($isInvisible): ?>
                     token = _token;
