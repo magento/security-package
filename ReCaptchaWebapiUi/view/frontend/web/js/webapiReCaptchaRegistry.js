@@ -37,6 +37,15 @@ define([], function () {
             } else {
                 this._listeners[id] = func;
             }
+        },
+
+        /**
+         * Remove a listener
+         *
+         * @param id
+         */
+        removeListener: function (id) {
+            this._listeners[id] = undefined;
         }
     };
 });
