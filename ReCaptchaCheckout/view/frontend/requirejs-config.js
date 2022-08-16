@@ -9,7 +9,11 @@ var config = {
         mixins: {
             'Magento_Checkout/js/model/place-order': {
                 'Magento_ReCaptchaCheckout/js/model/place-order-mixin': true
+            },
+            'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry': {
+                'Magento_ReCaptchaCheckout/js/webapiReCaptchaRegistry-mixin': true
             }
         }
     }
 };
+

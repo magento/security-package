@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Command;
 
+use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\TwoFactorAuth\Api\UserConfigManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
@@ -68,8 +69,8 @@ class GoogleSecret extends Command
         $this->setName('security:tfa:google:set-secret');
         $this->setDescription('Set the secret used for Google OTP generation.');
 
-        $this->addArgument('user', InputArgument::REQUIRED, __('Username'));
-        $this->addArgument('secret', InputArgument::REQUIRED, __('Secret'));
+        $this->addArgument('user', InputArgument::REQUIRED, __('Username')->render());
+        $this->addArgument('secret', InputArgument::REQUIRED, __('Secret')->render());
 
         parent::configure();
     }
@@ -104,5 +105,7 @@ class GoogleSecret extends Command
         );
 
         $output->writeln((string)__('Google OTP secret has been set'));
+
+        return Cli::RETURN_SUCCESS;
     }
 }
