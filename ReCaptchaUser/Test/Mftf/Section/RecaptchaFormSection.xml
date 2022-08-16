@@ -12,5 +12,6 @@
         <element name="optionvalue" type="select" selector="#recaptcha_backend_type_for_user_login"/>
         <element name="saveConfig" type="button" selector="#save" timeout="30"/>
         <element name="label" type="input" selector="#row_recaptcha_backend_type_for_user_login"/>
+        <element name="useConfigSettings" type="checkbox" selector="//input[@name='groups[type_for][fields][user_login][inherit]']"/>
     </section>
 </sections>
