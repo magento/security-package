@@ -12,9 +12,6 @@
         <annotations>
             <description>Disable admin login recaptcha</description>
         </annotations>
-        <arguments>
-            <argument name="optionValue" type="string" defaultValue="{{recaptchaFormDisabled.value}}"/>
-        </arguments>
 
         <amOnPage url="{{AdminStoreConfigurationPage.url}}" stepKey="navigateToAdminStoresConfiguration"/>
         <conditionalClick selector="{{RecaptchaFormSection.adminblock}}" dependentSelector="{{RecaptchaFormSection.label}}" visible="false" stepKey="expand_panel"/>
