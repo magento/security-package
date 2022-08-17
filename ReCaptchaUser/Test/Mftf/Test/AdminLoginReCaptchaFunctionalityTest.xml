@@ -20,9 +20,9 @@
         <before>
             <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
             <actionGroup ref="RecaptchaEnabledActionGroup" stepKey="recaptchaEnabled"/>
-<!--            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>-->
-<!--            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAgain11"/>-->
-<!--            <actionGroup ref="RecaptchaDisabledActionGroup" stepKey="recaptchaDisabled"/>-->
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAgain11"/>
+            <actionGroup ref="RecaptchaDisabledActionGroup" stepKey="recaptchaDisabled"/>
         </before>
         <after>
             <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>

@@ -10,17 +10,19 @@
               xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
     <actionGroup name="RecaptchaDisabledActionGroup">
         <annotations>
-            <description>Enable or disable admin login recaptcha</description>
+            <description>Disable admin login recaptcha</description>
         </annotations>
         <arguments>
             <argument name="optionValue" type="string" defaultValue="{{recaptchaFormDisabled.value}}"/>
         </arguments>
 
-        <amOnPage url="{{AdminStoreConfigurationPage.url}}" stepKey="navigateToAdminStoreConfiguration"/>
-        <scrollTo selector="{{RecaptchaFormSection.label}}" stepKey="scrollToDropdown" />
-        <click selector="{{RecaptchaFormSection.optionvalue}}" stepKey="clickedEnableForLogin"/>
-        <selectOption selector="{{RecaptchaFormSection.optionvalue}}" userInput="{{optionValue}}" stepKey="setValue"/>
-        <click selector="{{RecaptchaFormSection.saveConfig}}" stepKey="clickSave"/>
+        <amOnPage url="{{AdminStoreConfigurationPage.url}}" stepKey="navigateToAdminStoresConfiguration"/>
+        <conditionalClick selector="{{RecaptchaFormSection.adminblock}}" dependentSelector="{{RecaptchaFormSection.label}}" visible="false" stepKey="expand_panel"/>
+        <scrollTo selector="{{RecaptchaFormSection.label}}" stepKey="scroll_to_dropdown" />
+        <wait time="2" stepKey="wait_for_Load"/>
+        <checkOption selector="{{RecaptchaFormSection.useConfigSettings}}" stepKey="check_config_setting"/>
+        <wait time="2" stepKey="wait_for_load1"/>
+        <click selector="{{RecaptchaFormSection.saveConfig}}" stepKey="click_save"/>
 
     </actionGroup>
 </actionGroups>
