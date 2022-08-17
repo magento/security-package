@@ -18,8 +18,11 @@
 
         <amOnPage url="{{AdminStoreConfigurationPage.url}}" stepKey="navigateToAdminStoreConfiguration"/>
         <scrollTo selector="{{RecaptchaFormSection.label}}" stepKey="scrollToDropdownSelection" />
-<!--        <click selector="{{RecaptchaFormSection.optionvalue}}" stepKey="clickDropdown"/>-->
+
+        <waitForElementClickable selector="{{RecaptchaFormSection.useConfigSettings}}" stepKey="waitForElementClickable"/>
         <uncheckOption selector="{{RecaptchaFormSection.useConfigSettings}}" stepKey="uncheckConfigSetting"/>
+        <waitForElementClickable selector="{{RecaptchaFormSection.optionvalue}}" stepKey="waitForElementClickable2"/>
+
         <selectOption selector="{{RecaptchaFormSection.optionvalue}}" userInput="{{optionValue}}" stepKey="setAttributeValue"/>
         <click selector="{{RecaptchaFormSection.saveConfig}}" stepKey="clickSave"/>
 
