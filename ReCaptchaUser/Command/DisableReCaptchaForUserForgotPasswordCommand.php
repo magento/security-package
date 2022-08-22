@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaUser\Command;
 
+use Magento\Framework\Console\Cli;
 use Magento\ReCaptchaUser\Model\DisableReCaptchaForUserForgotPassword;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,5 +48,7 @@ class DisableReCaptchaForUserForgotPasswordCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->disableReCaptchaForUserForgotPassword->execute();
+
+        return Cli::RETURN_SUCCESS;
     }
 }
