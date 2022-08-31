@@ -9,7 +9,9 @@ declare(strict_types=1);
 namespace Magento\TwoFactorAuth\Test\Integration;
 
 use Magento\Framework\Acl\Builder;
-use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Framework\Exception\AuthorizationException;
+use Magento\TestFramework\Bootstrap;
+use Magento\TestFramework\Helper\Bootstrap as BootstrapHelper;
 use Magento\TestFramework\Mail\Template\TransportBuilderMock;
 use Magento\User\Model\User;
 use Magento\TwoFactorAuth\Api\TfaInterface;
@@ -17,6 +19,7 @@ use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
 use Magento\TwoFactorAuth\Api\UserConfigTokenManagerInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Google;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 /**
  * @magentoDbIsolation enabled
@@ -58,15 +61,15 @@ class UserConfigRequestManagerTest extends TestCase
     protected function setUp(): void
     {
         /** @var User $user */
-        $user = Bootstrap::getObjectManager()->create(User::class);
-        $user->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
+        $user = BootstrapHelper::getObjectManager()->create(User::class);
+        $user->loadByUsername(Bootstrap::ADMIN_NAME);
         $this->user = $user;
-        $this->tfa = Bootstrap::getObjectManager()->get(TfaInterface::class);
-        $this->transportBuilderMock = Bootstrap::getObjectManager()->get(TransportBuilderMock::class);
-        $this->tokenManager = Bootstrap::getObjectManager()->get(UserConfigTokenManagerInterface::class);
-        $this->aclBuilder = Bootstrap::getObjectManager()->get(Builder::class);
+        $this->tfa = BootstrapHelper::getObjectManager()->get(TfaInterface::class);
+        $this->transportBuilderMock = BootstrapHelper::getObjectManager()->get(TransportBuilderMock::class);
+        $this->tokenManager = BootstrapHelper::getObjectManager()->get(UserConfigTokenManagerInterface::class);
+        $this->aclBuilder = BootstrapHelper::getObjectManager()->get(Builder::class);
 
-        $this->manager = Bootstrap::getObjectManager()->get(UserConfigRequestManagerInterface::class);
+        $this->manager = BootstrapHelper::getObjectManager()->get(UserConfigRequestManagerInterface::class);
     }
 
     /**
@@ -104,17 +107,20 @@ class UserConfigRequestManagerTest extends TestCase
     }
 
     /**
-     * Check that app config request E-mail is NOT sent for a user that does not posses proper rights.
+     * Check that app config request E-mail is NOT sent for a user that does not possess proper rights.
      *
      * @return void
-     * @throws \Throwable
+     * @throws Throwable
      * @magentoAppArea adminhtml
      * @magentoAppIsolation enabled
      */
     public function testFailAppConfigRequest(): void
     {
-        $this->expectException(\Magento\Framework\Exception\AuthorizationException::class);
-        $this->aclBuilder->getAcl()->deny(null, 'Magento_TwoFactorAuth::config');
+        $this->expectException(AuthorizationException::class);
+        $this->aclBuilder->getAcl()->deny(
+            Bootstrap::ADMIN_ROLE_ID,
+            'Magento_TwoFactorAuth::config'
+        );
         $this->manager->sendConfigRequestTo($this->user);
     }
 
@@ -122,7 +128,7 @@ class UserConfigRequestManagerTest extends TestCase
      * Check that app config request E-mail is sent for a user that posseses proper rights.
      *
      * @return void
-     * @throws \Throwable
+     * @throws Throwable
      * @magentoAppArea adminhtml
      */
     public function testSendAppConfigRequest(): void
@@ -151,7 +157,7 @@ class UserConfigRequestManagerTest extends TestCase
      * Check that personal 2FA config request E-mail is sent for users.
      *
      * @return void
-     * @throws \Throwable
+     * @throws Throwable
      * @magentoAppArea adminhtml
      * @magentoConfigFixture default/twofactorauth/general/force_providers google
      */
