@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="RecaptchaEnabledActionGroup">
+        <annotations>
+            <description>Enable admin login recaptcha</description>
+        </annotations>
+        <arguments>
+            <argument name="optionValue" type="string" defaultValue="{{recaptchaForm.value}}"/>
+        </arguments>
+
+        <amOnPage url="{{AdminStoreConfigurationPage.url}}" stepKey="navigateToAdminStoreConfiguration"/>
+        <conditionalClick selector="{{RecaptchaFormSection.adminblock}}" dependentSelector="{{RecaptchaFormSection.label}}" visible="false" stepKey="expand_panel"/>
+        <scrollTo selector="{{RecaptchaFormSection.label}}" stepKey="scrollToDropdownSelection" />
+        <wait time="2" stepKey="waitForLoad"/>
+        <uncheckOption selector="{{RecaptchaFormSection.useConfigSettings}}" stepKey="uncheckConfigSetting"/>
+        <wait time="2" stepKey="waitForLoad_1"/>
+        <selectOption selector="{{RecaptchaFormSection.optionvalue}}" userInput="{{optionValue}}" stepKey="setAttributeValue"/>
+        <click selector="{{RecaptchaFormSection.saveConfig}}" stepKey="clickSave"/>
+
+    </actionGroup>
+</actionGroups>

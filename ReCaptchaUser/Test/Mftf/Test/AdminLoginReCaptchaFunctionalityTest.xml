@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminLoginReCaptchaFunctionalityTest">
+        <annotations>
+            <features value="Backend"/>
+            <stories value="Check for Recaptcha on the Admin Login page"/>
+            <title value="Admin should be able to login with enabled recaptcha option"/>
+            <description value="Admin should be able to login with enabled recaptcha option"/>
+            <severity value="AVERAGE"/>
+            <group value="login"/>
+            <testCaseId value="AC-3179"/>
+        </annotations>
+        <before>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="login"/>
+            <actionGroup ref="RecaptchaEnabledActionGroup" stepKey="recaptchaEnabled"/>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+            <actionGroup ref="AdminLoginActionGroup" stepKey="loginAgain11"/>
+            <actionGroup ref="RecaptchaDisabledActionGroup" stepKey="recaptchaDisabled"/>
+        </before>
+        <after>
+            <actionGroup ref="AdminLogoutActionGroup" stepKey="logout"/>
+        </after>
+    </test>
+</tests>
