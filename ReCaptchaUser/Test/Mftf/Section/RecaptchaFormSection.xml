@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<sections xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:mftf:Page/etc/SectionObject.xsd">
+    <section name="RecaptchaFormSection">
+        <element name="optionvalue" type="select" selector="#recaptcha_backend_type_for_user_login"/>
+        <element name="saveConfig" type="button" selector="#save" timeout="30"/>
+        <element name="label" type="input" selector="#row_recaptcha_backend_type_for_user_login"/>
+        <element name="useConfigSettings" type="checkbox" selector="//input[@name='groups[type_for][fields][user_login][inherit]']"/>
+        <element name="adminblock" type="button" selector='a#recaptcha_backend_type_for-head'/>
+    </section>
+</sections>
