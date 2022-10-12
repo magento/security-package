@@ -5,6 +5,7 @@
         "php": "~7.4.0||~8.1.0",
         "magento/framework": "*",
         "magento/magento-composer-installer": "*",
+        "magento/module-admin-analytics":"*",
         "magento/module-backend": "*",
         "magento/module-authorization": "*",
         "magento/module-config": "*",
