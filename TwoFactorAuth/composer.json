@@ -5,7 +5,6 @@
         "php": "~7.4.0||~8.1.0",
         "magento/framework": "*",
         "magento/magento-composer-installer": "*",
-        "magento/module-admin-analytics":"*",
         "magento/module-backend": "*",
         "magento/module-authorization": "*",
         "magento/module-config": "*",
@@ -18,6 +17,9 @@
         "spomky-labs/otphp": "^10.0",
         "endroid/qr-code": "^4.3.5",
         "2tvenom/cborencode": "^1.0"
+    },
+    "require-dev" : {
+        "magento/module-admin-analytics":"*"
     },
     "type": "magento2-module",
     "license": "OSL-3.0",
