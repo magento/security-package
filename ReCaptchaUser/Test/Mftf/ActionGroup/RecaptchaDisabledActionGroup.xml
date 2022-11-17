@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+
+<actionGroups xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/actionGroupSchema.xsd">
+    <actionGroup name="RecaptchaDisabledActionGroup">
+        <annotations>
+            <description>Disable admin login recaptcha</description>
+        </annotations>
+
+        <amOnPage url="{{AdminStoreConfigurationPage.url}}" stepKey="navigateToAdminStoresConfiguration"/>
+        <conditionalClick selector="{{RecaptchaFormSection.adminblock}}" dependentSelector="{{RecaptchaFormSection.label}}" visible="false" stepKey="expand_panel"/>
+        <scrollTo selector="{{RecaptchaFormSection.label}}" stepKey="scroll_to_dropdown" />
+        <wait time="2" stepKey="wait_for_Load"/>
+        <checkOption selector="{{RecaptchaFormSection.useConfigSettings}}" stepKey="check_config_setting"/>
+        <wait time="2" stepKey="wait_for_load1"/>
+        <click selector="{{RecaptchaFormSection.saveConfig}}" stepKey="click_save"/>
+
+    </actionGroup>
+</actionGroups>

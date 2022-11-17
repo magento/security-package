@@ -13,7 +13,6 @@ $isInvisible = !empty($config['invisible']);
          class="admin-recaptcha-content<?=
          /* @noEscape */ !empty($renderingOptions['size']) ? ' size-' . $renderingOptions['size'] : '' ?>"></div>
 </div>
-
 <script>
     require([
         'jquery'
@@ -27,36 +26,57 @@ $isInvisible = !empty($config['invisible']);
         element.src = 'https://www.google.com/recaptcha/api.js'
             + '?onload=globalOnRecaptchaOnLoadCallback&render=explicit';
 
-        window.globalOnRecaptchaOnLoadCallback = function () {
-            let token = '';
+        let isRecaptchaLoaded = false;
+        let token = '';
+        let maxRetryAttempts = 5;
+        let attempts = 0;
+        let widgetId = 0;
+        <?php if ($isInvisible): ?>
+        $('#login-form').submit(function (event) {
+            if (!token) {
+                event.preventDefault(event);
+                event.stopImmediatePropagation();
+                event.stopPropagation();
 
-            this.widgetId = grecaptcha.render('admin-recaptcha', {
-                <?php foreach ($renderingOptions as $key => $value): ?>
-                '<?= $block->escapeJs($key) ?>': '<?= $block->escapeJs($value) ?>',
-                <?php endforeach; ?>
-                'callback': function (token) { // jscs:ignore jsDoc
-                    <?php if ($isInvisible): ?>
-                    this.token = token;
-                    $('#login-form').submit();
-                    <?php endif; ?>
-                }.bind(this)
-            });
+                let attemptRecaptcha = () => {
+                    attempts++;
+                    if (attempts > maxRetryAttempts){
+                        console.error("Could not fetch invisible ReCaptcha token. Please refresh the page.");
+                        return;
+                    }
+                    if (!isRecaptchaLoaded) {
 
-            <?php if ($isInvisible): ?>
-            $('#login-form').submit(function (event) {
-                if (!this.token) {
-                    grecaptcha.execute(this.widgetId).then(
-                        function() {
+                        setTimeout(() => {
+                            attemptRecaptcha()
+                        }, 1000);
+                        return;
+                    }
+                    grecaptcha.execute(widgetId)
+                        .then( () => {
                             event.preventDefault(event);
                             event.stopImmediatePropagation();
-                        }, function(reason) {
-                        });
+                            event.stopPropagation();
+                        }, (reason) => { })
+                        .catch(err => { console.error(err); });
                 }
-            }.bind(this));
-            <?php endif; ?>
+                attemptRecaptcha();
+            }
+        });
+        <?php endif; ?>
+        window.globalOnRecaptchaOnLoadCallback = function () {
 
-        }.bind(this);
-
+            widgetId = grecaptcha.render('admin-recaptcha', {
+                <?php foreach ($renderingOptions as $key => $value): ?>
+                    '<?= $block->escapeJs($key) ?>': '<?= $block->escapeJs($value) ?>',
+                <?php endforeach; ?> 'callback': function (_token) {
+                    <?php if ($isInvisible): ?>
+                    token = _token;
+                    $('#login-form').unbind('submit');
+                    $('#login-form').submit();
+                    <?php endif; ?> }
+            });
+            isRecaptchaLoaded = true;
+        }
         scriptTag.parentNode.insertBefore(element, scriptTag);
     });
 </script>
