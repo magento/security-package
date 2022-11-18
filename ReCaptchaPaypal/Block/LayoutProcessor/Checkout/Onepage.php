@@ -53,6 +53,11 @@ class Onepage implements LayoutProcessorInterface
             $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
             ['payment']['children']['payments-list']['children']['paypal-captcha']['children']
             ['recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
+            if ($this->isCaptchaEnabled->isCaptchaEnabledFor('place_order')) {
+                $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                ['payment']['children']['payments-list']['children']['before-place-order']['children']
+                ['place-order-recaptcha']['skipPayments']['payflowpro'] = true;
+            }
         } else {
             if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
                 ['payment']['children']['payments-list']['children']['paypal-captcha']['children']['recaptcha'])) {

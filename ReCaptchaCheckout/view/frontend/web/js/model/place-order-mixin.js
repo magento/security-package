@@ -4,22 +4,29 @@
  */
 
 /* eslint-disable max-nested-callbacks */
+/* eslint-disable max-depth */
 
 define([
     'jquery',
     'mage/utils/wrapper',
-    'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry'
-], function ($, wrapper, recaptchaRegistry) {
+    'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry',
+    'Magento_Checkout/js/model/quote'
+], function ($, wrapper, recaptchaRegistry, quote) {
     'use strict';
 
     return function (placeOrder) {
         return wrapper.wrap(placeOrder, function (originalAction, serviceUrl, payload, messageContainer) {
-            var recaptchaDeferred;
+            var recaptchaDeferred,
+                reCaptchaId;
 
-            if (recaptchaRegistry.triggers.hasOwnProperty('recaptcha-checkout-place-order')) {
+            if (quote.paymentMethod()) {
+                reCaptchaId = 'recaptcha-checkout-place-order-' + quote.paymentMethod().method;
+            }
+
+            if (reCaptchaId !== undefined && recaptchaRegistry.triggers.hasOwnProperty(reCaptchaId)) {
                 //ReCaptcha is present for checkout
                 recaptchaDeferred = $.Deferred();
-                recaptchaRegistry.addListener('recaptcha-checkout-place-order', function (token) {
+                recaptchaRegistry.addListener(reCaptchaId, function (token) {
                     //Add reCaptcha value to place-order request and resolve deferred with the API call results
                     payload.xReCaptchaValue = token;
                     originalAction(serviceUrl, payload, messageContainer).done(function () {
@@ -29,9 +36,9 @@ define([
                     });
                 });
                 //Trigger ReCaptcha validation
-                recaptchaRegistry.triggers['recaptcha-checkout-place-order']();
+                recaptchaRegistry.triggers[reCaptchaId]();
                 //remove listener so that place order action is only triggered by the 'Place Order' button
-                recaptchaRegistry.removeListener('recaptcha-checkout-place-order');
+                recaptchaRegistry.removeListener(reCaptchaId);
                 return recaptchaDeferred;
             }
 
