@@ -3,9 +3,6 @@
  * See COPYING.txt for license details.
  */
 
-// jscs:disable jsDoc
-
-/* global grecaptcha */
 define(
     [
         'Magento_ReCaptchaWebapiUi/js/webapiReCaptcha',
@@ -22,23 +19,36 @@ define(
 
             /**
              * Render reCAPTCHA
+             *
+             * @param {Object} method
              */
-            renderReCaptchaForPayment: function (method) {
+            renderReCaptchaFor: function (method) {
                 var reCaptcha;
 
-                if (!this.skipPayments || !this.skipPayments.hasOwnProperty(method.getCode())) {
-                    reCaptcha = $.extend({}, this);
-
-                    reCaptcha.reCaptchaId = this.getPaymentReCaptchaId(method);
+                if (this.isCheckoutReCaptchaRequiredFor(method)) {
+                    reCaptcha = $.extend(true, {}, this, {reCaptchaId: this.getReCaptchaIdFor(method)});
                     reCaptcha.renderReCaptcha();
                 }
             },
 
             /**
-             * Render reCAPTCHA
+             * Get reCAPTCHA ID
+             *
+             * @param {Object} method
+             * @returns {String}
              */
-            getPaymentReCaptchaId: function (method) {
+            getReCaptchaIdFor: function (method) {
                 return this.getReCaptchaId() + '-' + method.getCode();
+            },
+
+            /**
+             * Check whether checkout reCAPTCHA is required for payment method
+             *
+             * @param {Object} method
+             * @returns {Boolean}
+             */
+            isCheckoutReCaptchaRequiredFor: function (method) {
+                return !this.skipPayments || !this.skipPayments.hasOwnProperty(method.getCode());
             }
         });
     }

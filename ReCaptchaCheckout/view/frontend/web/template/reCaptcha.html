@@ -4,12 +4,12 @@
  * See COPYING.txt for license details.
  */
  -->
-
+<!-- ko if: (isCheckoutReCaptchaRequiredFor($parents[1]))-->
 <div data-bind="{
     attr: {
-        'id': getPaymentReCaptchaId($parents[1]) + '-wrapper'
+        'id': getReCaptchaIdFor($parents[1]) + '-wrapper'
     },
-    'afterRender': renderReCaptchaForPayment($parents[1])
+    'afterRender': renderReCaptchaFor($parents[1])
 }">
     <div class="g-recaptcha"></div>
     <!-- ko if: (!getIsInvisibleRecaptcha()) -->
@@ -25,3 +25,4 @@
     </div>
     <!-- /ko -->
 </div>
+<!-- /ko -->

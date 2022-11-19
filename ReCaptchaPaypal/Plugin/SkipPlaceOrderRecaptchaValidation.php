@@ -41,7 +41,7 @@ class SkipPlaceOrderRecaptchaValidation
     }
 
     /**
-     * Skip captcha validation for "place order" button if captcha is enabled for payflow
+     * Skip captcha validation for "place order" button if captcha is enabled for payflowpro
      *
      * @param WebapiConfigProvider $subject
      * @param ValidationConfigInterface $result
