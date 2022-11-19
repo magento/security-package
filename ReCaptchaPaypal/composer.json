@@ -7,7 +7,9 @@
         "magento/module-re-captcha-ui": "*",
         "magento/module-re-captcha-validation-api": "*",
         "magento/module-checkout": "*",
-        "magento/module-re-captcha-webapi-api": "*"
+        "magento/module-re-captcha-webapi-api": "*",
+        "magento/module-paypal": "*",
+        "magento/module-re-captcha-checkout": "*"
     },
     "type": "magento2-module",
     "license": "OSL-3.0",

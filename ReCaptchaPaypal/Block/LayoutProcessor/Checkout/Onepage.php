@@ -9,6 +9,7 @@ namespace Magento\ReCaptchaPaypal\Block\LayoutProcessor\Checkout;
 
 use Magento\Checkout\Block\Checkout\LayoutProcessorInterface;
 use Magento\Framework\Exception\InputException;
+use Magento\Paypal\Model\Config;
 use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\UiConfigResolverInterface;
 
@@ -56,7 +57,12 @@ class Onepage implements LayoutProcessorInterface
             if ($this->isCaptchaEnabled->isCaptchaEnabledFor('place_order')) {
                 $jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
                 ['payment']['children']['payments-list']['children']['before-place-order']['children']
-                ['place-order-recaptcha']['skipPayments']['payflowpro'] = true;
+                ['place-order-recaptcha']['skipPayments'] += [
+                    Config::METHOD_EXPRESS => true,
+                    Config::METHOD_PAYFLOWPRO => true,
+                    Config::METHOD_WPP_PE_EXPRESS => true,
+                    Config::METHOD_WPP_PE_BML => true,
+                ];
             }
         } else {
             if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
