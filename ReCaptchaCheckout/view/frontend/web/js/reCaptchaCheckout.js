@@ -49,6 +49,23 @@ define(
              */
             isCheckoutReCaptchaRequiredFor: function (method) {
                 return !this.skipPayments || !this.skipPayments.hasOwnProperty(method.getCode());
+            },
+
+            /**
+             * @inheritdoc
+             */
+            initCaptcha: function () {
+                var $wrapper, $recaptchaResponseInput;
+
+                this._super();
+                // Since there will be multiple recaptcha in the payment form,
+                // they may override each other if the form is submitted.
+                // The recaptcha response will be collected in the callback: reCaptchaCallback()
+                $wrapper = $('#' + this.getReCaptchaId() + '-wrapper');
+                $recaptchaResponseInput = $wrapper.find('[name=g-recaptcha-response]');
+                if ($recaptchaResponseInput.length) {
+                    $recaptchaResponseInput.prop('disabled', true);
+                }
             }
         });
     }
