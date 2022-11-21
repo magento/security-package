@@ -14,7 +14,7 @@ define(
         return Component.extend({
             defaults: {
                 template: 'Magento_ReCaptchaCheckout/reCaptcha',
-                skipPayments: []
+                skipPayments: [] // List of payment methods that do not require this reCaptcha
             },
 
             /**
