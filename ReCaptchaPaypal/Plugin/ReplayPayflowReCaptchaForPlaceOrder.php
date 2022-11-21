@@ -9,6 +9,7 @@ namespace Magento\ReCaptchaPaypal\Plugin;
 
 use Magento\Framework\Webapi\Rest\Request;
 use Magento\Paypal\Model\Config;
+use Magento\Quote\Model\QuoteIdMaskFactory;
 use Magento\ReCaptchaCheckout\Model\WebapiConfigProvider;
 use Magento\ReCaptchaPaypal\Model\ReCaptchaSession;
 use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
@@ -35,18 +36,26 @@ class ReplayPayflowReCaptchaForPlaceOrder
     private ReCaptchaSession $reCaptchaSession;
 
     /**
+     * @var QuoteIdMaskFactory
+     */
+    private QuoteIdMaskFactory $quoteIdMaskFactory;
+
+    /**
      * @param IsCaptchaEnabledInterface $isCaptchaEnabled
      * @param Request $request
      * @param ReCaptchaSession $reCaptchaSession
+     * @param QuoteIdMaskFactory $quoteIdMaskFactory
      */
     public function __construct(
         IsCaptchaEnabledInterface $isCaptchaEnabled,
         Request $request,
-        ReCaptchaSession $reCaptchaSession
+        ReCaptchaSession $reCaptchaSession,
+        QuoteIdMaskFactory $quoteIdMaskFactory
     ) {
         $this->isCaptchaEnabled = $isCaptchaEnabled;
         $this->request = $request;
         $this->reCaptchaSession = $reCaptchaSession;
+        $this->quoteIdMaskFactory = $quoteIdMaskFactory;
     }
 
     /**
@@ -71,9 +80,14 @@ class ReplayPayflowReCaptchaForPlaceOrder
             if (isset($paymentMethod['method'])
                 && $paymentMethod['method'] === Config::METHOD_PAYFLOWPRO
                 && $cartId
-                && $this->reCaptchaSession->isValid((int) $cartId)
             ) {
-                return null;
+                // check if it is guest cart, then resolve cart id by mask ID
+                if (!is_numeric($cartId)) {
+                    $cartId = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id')->getQuoteId();
+                }
+                if ($this->reCaptchaSession->isValid((int) $cartId)) {
+                    return null;
+                }
             }
         }
 

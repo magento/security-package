@@ -8,6 +8,7 @@
         "magento/module-re-captcha-validation-api": "*",
         "magento/module-checkout": "*",
         "magento/module-re-captcha-webapi-api": "*",
+        "magento/module-quote": "*",
         "magento/module-paypal": "*",
         "magento/module-re-captcha-checkout": "*"
     },
