@@ -18,7 +18,7 @@ define(
             },
 
             /**
-             * Render reCAPTCHA
+             * Render reCAPTCHA for payment method
              *
              * @param {Object} method
              */
@@ -32,7 +32,7 @@ define(
             },
 
             /**
-             * Get reCAPTCHA ID
+             * Get reCAPTCHA ID for payment method
              *
              * @param {Object} method
              * @returns {String}
@@ -55,12 +55,14 @@ define(
              * @inheritdoc
              */
             initCaptcha: function () {
-                var $wrapper, $recaptchaResponseInput;
+                var $wrapper,
+                    $recaptchaResponseInput;
 
                 this._super();
-                // Since there will be multiple recaptcha in the payment form,
-                // they may override each other if the form is submitted.
-                // The recaptcha response will be collected in the callback: reCaptchaCallback()
+                // Since there will be multiple reCaptcha in the payment form,
+                // they may override each other if the form data is serialized and submitted.
+                // Instead, the reCaptcha response will be collected in the callback: reCaptchaCallback()
+                // and sent in the request header X-ReCaptcha
                 $wrapper = $('#' + this.getReCaptchaId() + '-wrapper');
                 $recaptchaResponseInput = $wrapper.find('[name=g-recaptcha-response]');
                 if ($recaptchaResponseInput.length) {

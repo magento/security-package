@@ -68,10 +68,12 @@ class ReplayPayflowReCaptchaForPlaceOrder
             $bodyParams = $this->request->getBodyParams();
             $paymentMethod = $bodyParams['paymentMethod'] ?? $bodyParams['payment_method'] ?? [];
             $cartId = $bodyParams['cartId'] ?? $bodyParams['cart_id'] ?? null;
-            if (isset($paymentMethod['method']) && $paymentMethod['method'] === Config::METHOD_PAYFLOWPRO) {
-                if ($cartId && $this->reCaptchaSession->isValid((int) $cartId)) {
-                    return null;
-                }
+            if (isset($paymentMethod['method'])
+                && $paymentMethod['method'] === Config::METHOD_PAYFLOWPRO
+                && $cartId
+                && $this->reCaptchaSession->isValid((int) $cartId)
+            ) {
+                return null;
             }
         }
 

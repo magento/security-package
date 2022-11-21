@@ -18,7 +18,7 @@ use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 class ReCaptchaSession
 {
     private const PAYPAL_PAYFLOWPRO_RECAPTCHA = 'paypal_payflowpro_recaptcha';
-    private const REPLAY_TIMEOUT = 120;
+    private const TIMEOUT = 120;
 
     /**
      * @var TimezoneInterface
@@ -51,7 +51,7 @@ class ReCaptchaSession
     }
 
     /**
-     * Saves quote_id and datetime the reCaptcha was verified
+     * Saves quote_id and datetime the reCaptcha was verified in session
      *
      * @return bool
      */
@@ -72,7 +72,7 @@ class ReCaptchaSession
     }
 
     /**
-     * Checks whether the reCaptcha extended time has not expired
+     * Checks whether the time since reCaptcha was verified is not more than the timeout
      *
      * @param int $quoteId
      * @return bool
@@ -83,7 +83,7 @@ class ReCaptchaSession
         $data = $this->transparentSession->getData(self::PAYPAL_PAYFLOWPRO_RECAPTCHA) ?? [];
         if (isset($data['quote_id'])
             && (int) $data['quote_id'] === $quoteId
-            && ($data['verified_at'] + self::REPLAY_TIMEOUT) >= $this->timezone->date()->getTimestamp()
+            && ($data['verified_at'] + self::TIMEOUT) >= $this->timezone->date()->getTimestamp()
         ) {
             $this->transparentSession->unsetData(self::PAYPAL_PAYFLOWPRO_RECAPTCHA);
             $result = true;
