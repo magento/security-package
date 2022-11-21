@@ -93,6 +93,7 @@ class PayPalObserver implements ObserverInterface
      * @param ErrorMessageConfigInterface|null $errorMessageConfig
      * @param ValidationErrorMessagesProvider|null $validationErrorMessagesProvider
      * @param ReCaptchaSession|null $reCaptchaSession
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         CaptchaResponseResolverInterface $captchaResponseResolver,
