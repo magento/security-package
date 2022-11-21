@@ -21,10 +21,4 @@
             </argument>
         </arguments>
     </type>
-    <type name="Magento\ReCaptchaPaypal\Model\ReCaptchaSession">
-        <arguments>
-            <argument name="transparentSession" xsi:type="object">Magento\Framework\Session\Generic\Proxy</argument>
-            <argument name="checkoutSession" xsi:type="object">Magento\Checkout\Model\Session\Proxy</argument>
-        </arguments>
-    </type>
 </config>
