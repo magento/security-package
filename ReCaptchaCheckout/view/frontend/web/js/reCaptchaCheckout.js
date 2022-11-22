@@ -11,6 +11,9 @@ define(
     function (Component, $) {
         'use strict';
 
+        var reCaptchaIds = new WeakMap(),
+            uuid = 0;
+
         return Component.extend({
             defaults: {
                 template: 'Magento_ReCaptchaCheckout/reCaptcha',
@@ -38,7 +41,10 @@ define(
              * @returns {String}
              */
             getReCaptchaIdFor: function (method) {
-                return this.getReCaptchaId() + '-' + method.getCode();
+                if (!reCaptchaIds.has(method)) {
+                    reCaptchaIds.set(method, this.getReCaptchaId() + '-' + uuid++);
+                }
+                return reCaptchaIds.get(method);
             },
 
             /**

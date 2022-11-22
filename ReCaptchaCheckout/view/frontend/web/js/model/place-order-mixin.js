@@ -4,23 +4,24 @@
  */
 
 /* eslint-disable max-nested-callbacks */
-/* eslint-disable max-depth */
 
 define([
     'jquery',
     'mage/utils/wrapper',
-    'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry',
-    'Magento_Checkout/js/model/quote'
-], function ($, wrapper, recaptchaRegistry, quote) {
+    'Magento_ReCaptchaWebapiUi/js/webapiReCaptchaRegistry'
+], function ($, wrapper, recaptchaRegistry) {
     'use strict';
 
     return function (placeOrder) {
         return wrapper.wrap(placeOrder, function (originalAction, serviceUrl, payload, messageContainer) {
             var recaptchaDeferred,
-                reCaptchaId;
+                reCaptchaId,
+                $activeReCaptcha;
 
-            if (quote.paymentMethod()) {
-                reCaptchaId = 'recaptcha-checkout-place-order-' + quote.paymentMethod().method;
+            $activeReCaptcha = $('.recaptcha-checkout-place-order:visible .g-recaptcha');
+
+            if ($activeReCaptcha.length > 0) {
+                reCaptchaId = $activeReCaptcha.last().attr('id');
             }
 
             if (reCaptchaId !== undefined && recaptchaRegistry.triggers.hasOwnProperty(reCaptchaId)) {
