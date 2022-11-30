@@ -20,16 +20,38 @@
         <plugin sortOrder="1" name="inject_recaptcha_in_authentication_popup"
                 type="Magento\ReCaptchaCustomer\Plugin\Block\Account\InjectRecaptchaInAuthenticationPopup"/>
     </type>
-    <type name="Magento\Customer\ViewModel\LoginButton">
-        <plugin sortOrder="1" name="recaptcha_disable_login_button"
-                type="Magento\ReCaptchaCustomer\Plugin\Customer\DisableLoginButton"/>
+    <type name="Magento\Framework\View\Element\ButtonLockManager">
+        <arguments>
+            <argument name="buttonLockPool" xsi:type="array">
+                <item name="customer_create_form_submit" xsi:type="object">Magento\ReCaptchaCustomer\Model\ButtonLock\CustomerCreateFormSubmit</item>
+                <item name="customer_edit_form_submit" xsi:type="object">Magento\ReCaptchaCustomer\Model\ButtonLock\CustomerEditFormSubmit</item>
+                <item name="customer_forgot_password_form_submit" xsi:type="object">Magento\ReCaptchaCustomer\Model\ButtonLock\CustomerForgotPasswordFormSubmit</item>
+                <item name="customer_login_form_submit" xsi:type="object">Magento\ReCaptchaCustomer\Model\ButtonLock\CustomerLoginFormSubmit</item>
+            </argument>
+        </arguments>
     </type>
-    <type name="Magento\Customer\ViewModel\CreateAccountButton">
-        <plugin sortOrder="1" name="recaptcha_disable_create_account_button"
-                type="Magento\ReCaptchaCustomer\Plugin\Customer\DisableCreateAccountButton"/>
-    </type>
-    <type name="Magento\Customer\ViewModel\ForgotPasswordButton">
-        <plugin sortOrder="1" name="recaptcha_disable_forgot_password_button"
-                type="Magento\ReCaptchaCustomer\Plugin\Customer\DisableForgotPasswordButton"/>
-    </type>
+    <virtualType name="Magento\ReCaptchaCustomer\Model\ButtonLock\CustomerCreateFormSubmit" type="Magento\ReCaptchaUi\Model\ButtonLock">
+        <arguments>
+            <argument name="buttonCode" xsi:type="string">customer_create_form_submit</argument>
+            <argument name="reCaptchaId" xsi:type="string">customer_create</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\ReCaptchaCustomer\Model\ButtonLock\CustomerEditFormSubmit" type="Magento\ReCaptchaUi\Model\ButtonLock">
+        <arguments>
+            <argument name="buttonCode" xsi:type="string">customer_edit_form_submit</argument>
+            <argument name="reCaptchaId" xsi:type="string">customer_edit</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\ReCaptchaCustomer\Model\ButtonLock\CustomerForgotPasswordFormSubmit" type="Magento\ReCaptchaUi\Model\ButtonLock">
+        <arguments>
+            <argument name="buttonCode" xsi:type="string">customer_forgot_password_form_submit</argument>
+            <argument name="reCaptchaId" xsi:type="string">customer_forgot_password</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\ReCaptchaCustomer\Model\ButtonLock\CustomerLoginFormSubmit" type="Magento\ReCaptchaUi\Model\ButtonLock">
+        <arguments>
+            <argument name="buttonCode" xsi:type="string">customer_login_form_submit</argument>
+            <argument name="reCaptchaId" xsi:type="string">customer_login</argument>
+        </arguments>
+    </virtualType>
 </config>

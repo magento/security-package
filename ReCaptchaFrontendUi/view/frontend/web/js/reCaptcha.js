@@ -174,7 +174,11 @@ define(
                 } else {
                     this.tokenField = null;
                 }
-                if ($('#send2').length > 0) {$('#send2').prop('disabled', false);}
+                let submitButton = parentForm.find('button:not([type]), [type=submit]');
+
+                if (submitButton.length) {
+                    submitButton.prop('disabled', false);
+                }
             },
 
             /**

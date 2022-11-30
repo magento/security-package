@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <type name="Magento\Framework\View\Element\ButtonLockManager">
+        <arguments>
+            <argument name="buttonLockPool" xsi:type="array">
+                <item name="newsletter_form_submit" xsi:type="object">Magento\ReCaptchaNewsletter\Model\ButtonLock\NewsletterFormSubmit</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Magento\ReCaptchaNewsletter\Model\ButtonLock\NewsletterFormSubmit" type="Magento\ReCaptchaUi\Model\ButtonLock">
+        <arguments>
+            <argument name="buttonCode" xsi:type="string">newsletter_form_submit</argument>
+            <argument name="reCaptchaId" xsi:type="string">newsletter</argument>
+        </arguments>
+    </virtualType>
+</config>
