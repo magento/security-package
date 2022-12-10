@@ -54,6 +54,11 @@ class PayPalObserverTest extends TestCase
     private $observer;
 
     /**
+     * @var ValidationResult|MockObject
+     */
+    private $validationResult;
+
+    /**
      * @inheritdoc
      */
     protected function setUp(): void
@@ -93,6 +98,7 @@ class PayPalObserverTest extends TestCase
         $controller->method('getRequest')->willReturn($request);
         $controller->method('getResponse')->willReturn($response);
         $this->observer = new Observer(['controller_action' => $controller]);
+        $this->validationResult = $this->createMock(ValidationResult::class);
     }
 
     /**
@@ -101,13 +107,6 @@ class PayPalObserverTest extends TestCase
      */
     public function testExecute(array $mocks): void
     {
-        $validationResult = $this->createMock(ValidationResult::class);
-        $validationResult->expects($mocks['validationResult'][0]['expects'] ?? $this->never())
-            ->method('isValid')->willReturn($mocks['validationResult'][0]['willReturn'] ?? false);
-        $this->captchaValidator->expects($mocks['captchaValidator'][0]['expects'] ?? $this->never())
-            ->method('isValid')
-            ->willReturn($validationResult);
-        unset($mocks['validationResult'], $mocks['captchaValidator']);
         $this->configureMock($mocks);
         $this->model->execute($this->observer);
     }
@@ -155,6 +154,7 @@ class PayPalObserverTest extends TestCase
                         [
                             'method' => 'isValid',
                             'expects' => $this->once(),
+                            'willReturnProperty' => 'validationResult'
                         ]
                     ],
                     'validationResult' => [
@@ -187,6 +187,7 @@ class PayPalObserverTest extends TestCase
                         [
                             'method' => 'isValid',
                             'expects' => $this->once(),
+                            'willReturnProperty' => 'validationResult'
                         ]
                     ],
                     'validationResult' => [
@@ -208,6 +209,10 @@ class PayPalObserverTest extends TestCase
                 $builder = $this->$prop->expects($mock['expects'] ?? $this->any());
                 unset($mock['expects']);
                 foreach ($mock as $method => $args) {
+                    if ($method === 'willReturnProperty') {
+                        $method = 'willReturn';
+                        $args = $this->$args;
+                    }
                     $builder->$method(...[$args]);
                 }
             }
