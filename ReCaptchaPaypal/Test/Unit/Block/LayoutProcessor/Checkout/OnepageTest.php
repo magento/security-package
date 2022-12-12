@@ -104,6 +104,9 @@ class OnepageTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
     public function processDataProvider(): array
     {
         return [
