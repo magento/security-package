@@ -22,7 +22,6 @@ use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Api\UserConfigRequestManagerInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\Tfa\Requestconfig;
 use Magento\TwoFactorAuth\Model\UserConfig\HtmlAreaTokenVerifier;
-use Magento\AdminAdobeIms\Service\ImsConfig;
 
 /**
  * Handle redirection to 2FA page if required
@@ -77,11 +76,6 @@ class ControllerActionPredispatch implements ObserverInterface
     private $userContext;
 
     /**
-     * @var ImsConfig
-     */
-    private ImsConfig $adminAdobeImsConfig;
-
-    /**
      * @param TfaInterface $tfa
      * @param TfaSessionInterface $tfaSession
      * @param UserConfigRequestManagerInterface $configRequestManager
@@ -90,7 +84,6 @@ class ControllerActionPredispatch implements ObserverInterface
      * @param UrlInterface $url
      * @param AuthorizationInterface $authorization
      * @param UserContextInterface $userContext
-     * @param ImsConfig $adminAdobeImsConfig
      */
     public function __construct(
         TfaInterface $tfa,
@@ -100,8 +93,7 @@ class ControllerActionPredispatch implements ObserverInterface
         ActionFlag $actionFlag,
         UrlInterface $url,
         AuthorizationInterface $authorization,
-        UserContextInterface $userContext,
-        ImsConfig $adminAdobeImsConfig
+        UserContextInterface $userContext
     ) {
         $this->tfa = $tfa;
         $this->tfaSession = $tfaSession;
@@ -111,7 +103,6 @@ class ControllerActionPredispatch implements ObserverInterface
         $this->url = $url;
         $this->authorization = $authorization;
         $this->userContext = $userContext;
-        $this->adminAdobeImsConfig = $adminAdobeImsConfig;
     }
 
     /**
@@ -132,9 +123,6 @@ class ControllerActionPredispatch implements ObserverInterface
      */
     public function execute(Observer $observer)
     {
-        if ($this->adminAdobeImsConfig->enabled()) {
-            return;
-        }
         /** @var $controllerAction AbstractAction */
         $controllerAction = $observer->getEvent()->getData('controller_action');
         $this->action = $controllerAction;
