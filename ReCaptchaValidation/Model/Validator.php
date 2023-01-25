@@ -13,7 +13,7 @@ use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Magento\ReCaptchaValidationApi\Model\ErrorMessagesProvider;
 use ReCaptcha\ReCaptcha;
-use ReCaptcha\ReCaptchaFactory;
+use Magento\ReCaptchaValidation\Model\ReCaptchaProxyFactory;
 
 /**
  * @inheritdoc
@@ -31,19 +31,19 @@ class Validator implements ValidatorInterface
     private $errorMessagesProvider;
 
     /**
-     * @var ReCaptchaFactory
+     * @var ReCaptchaProxyFactory\
      */
     private $reCaptchaFactory;
 
     /**
      * @param ValidationResultFactory $validationResultFactory
      * @param ErrorMessagesProvider $errorMessagesProvider
-     * @param ReCaptchaFactory $reCaptchaFactory
+     * @param ReCaptchaProxyFactory $reCaptchaFactory
      */
     public function __construct(
         ValidationResultFactory $validationResultFactory,
         ErrorMessagesProvider $errorMessagesProvider,
-        ReCaptchaFactory $reCaptchaFactory
+        ReCaptchaProxyFactory $reCaptchaFactory
     ) {
         $this->validationResultFactory = $validationResultFactory;
         $this->errorMessagesProvider = $errorMessagesProvider;
