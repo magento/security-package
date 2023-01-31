@@ -41,38 +41,40 @@ define(['squire'
 
             expect(placeOrderMixins['Magento_ReCaptchaCheckout/js/model/place-order-mixin']).toBe(true);
         });
+    });
 
-        it('Magento_Checkout/js/action/redirect-on-success is called', function () {
-            let recaptchaId = 'recaptcha-checkout-place-order',
-                messageContainer = jasmine.createSpy('messageContainer'),
-                payload = {},
-                serviceUrl = 'test',
+    describe('Magento_Checkout/js/action/redirect-on-success is called', function () {
+        var recaptchaId = 'recaptcha-checkout-place-order',
+            messageContainer = jasmine.createSpy('messageContainer'),
+            payload = {},
+            serviceUrl = 'test',
 
-                /**
-                 * Order place action mock
-                 *
-                 * @returns {{fail: fail, done: (function(Function): *)}}
-                 */
-                action =  function () {
-                    return {
-                        /**
-                         * Success result for request
-                         *
-                         * @param {Function} handler
-                         * @returns {*}
-                         */
-                        done: function (handler) {
-                            handler();
-                            return this;
-                        },
+            /**
+             * Order place action mock
+             *
+             * @returns {{fail: fail, done: (function(Function): *)}}
+             */
+            action =  function () {
+                return {
+                    /**
+                     * Success result for request
+                     *
+                     * @param {Function} handler
+                     * @returns {*}
+                     */
+                    done: function (handler) {
+                        handler();
+                        return this;
+                    },
 
-                        /**
-                         * Fail result for request
-                         */
-                        fail: function () {}
-                    };
+                    /**
+                     * Fail result for request
+                     */
+                    fail: function () {}
                 };
+            };
 
+        it('Only PlaceOrder button triggers place order action', function () {
             /**
              * Triggers declared listener
              *
@@ -93,9 +95,39 @@ define(['squire'
             registry.addListener = function (id, func) {
                 registry._listeners[id] = func;
             };
+
             registry.removeListener = jasmine.createSpy();
             mixin()(action, serviceUrl, payload, messageContainer);
             expect(registry.removeListener).toHaveBeenCalledWith(recaptchaId);
+        });
+
+        it('PlaceOrder Listener is called for invisible google recaptcha', function () {
+            /**
+             * Triggers declared listener
+             *
+             * @returns {*}
+             */
+            registry.triggers[recaptchaId] = function () {
+                if (registry._listeners[recaptchaId] !== undefined) {
+                    return registry._listeners[recaptchaId]('token');
+                }
+            };
+
+            /**
+             * Registers a listener
+             *
+             * @param id
+             * @param func
+             */
+            registry.addListener = function (id, func) {
+                registry._listeners[id] = func;
+            };
+
+            registry._isInvisibleType[recaptchaId] = true;
+            registry.removeListener = jasmine.createSpy();
+            mixin()(action, serviceUrl, payload, messageContainer);
+
+            expect(registry.removeListener).not.toHaveBeenCalled();
         });
     });
 });
