@@ -27,6 +27,11 @@ define([], function () {
         _listeners: {},
 
         /**
+         * recaptchaId: bool map
+         */
+        _isInvisibleType: {},
+
+        /**
          * Add a listener to when the ReCaptcha finishes verification
          * @param {String} id - ReCaptchaId
          * @param {Function} func - Will be called back with the token

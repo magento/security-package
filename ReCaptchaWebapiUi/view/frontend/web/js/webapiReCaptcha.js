@@ -43,14 +43,16 @@ define(
                 var self = this,
                     trigger;
 
+                trigger = function () {
+                    self.reCaptchaCallback(grecaptcha.getResponse(widgetId));
+                };
+                registry._isInvisibleType[this.getReCaptchaId()] = false;
+
                 if (this.getIsInvisibleRecaptcha()) {
                     trigger = function () {
                         grecaptcha.execute(widgetId);
                     };
-                } else {
-                    trigger = function () {
-                        self.reCaptchaCallback(grecaptcha.getResponse(widgetId));
-                    };
+                    registry._isInvisibleType[this.getReCaptchaId()] = true;
                 }
 
                 if (this.autoTrigger) {
