@@ -11,9 +11,9 @@ disclosure practices.
 
 - Complete documentation located on the project [wiki pages](https://github.com/magento/security-package/wiki):
     - How to start local development described in the [installation guide](https://github.com/magento/security-package/wiki/Metapackage-Installation-Guide)
-    - Two-factor authentication [user guide](https://docs.magento.com/user-guide/stores/security-two-factor-authentication.html) and [technical guide](https://devdocs.magento.com/guides/v2.4/security/two-factor-authentication.html).
-    - Google ReCAPTCHA [user guide](https://docs.magento.com/user-guide/stores/security-google-recaptcha.html) and [technical guide](https://devdocs.magento.com/guides/v2.4/security/google-recaptcha.html).
-    - Security.txt [user guide](https://docs.magento.com/user-guide/configuration/security/security-txt.html) and [technical guide](https://devdocs.magento.com/guides/v2.4/security/security-txt.html).
+    - Two-factor authentication [user guide](https://docs.magento.com/user-guide/stores/security-two-factor-authentication.html) and [technical guide](https://developer.adobe.com/commerce/testing/functional-testing-framework/two-factor-authentication/).
+    - Google ReCAPTCHA [user guide](https://docs.magento.com/user-guide/stores/security-google-recaptcha.html) and [technical guide](https://experienceleague.adobe.com/docs/commerce-admin/systems/security/captcha/security-google-recaptcha.html).
+    - Security.txt [user guide](https://docs.magento.com/user-guide/configuration/security/security-txt.html) and [technical guide](https://experienceleague.adobe.com/docs/commerce-operations/configuration-guide/security/security-txt.html).
 
 ## Community Engineering Slack
 

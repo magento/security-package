@@ -38,8 +38,15 @@ define([
                 });
                 //Trigger ReCaptcha validation
                 recaptchaRegistry.triggers[reCaptchaId]();
-                //remove listener so that place order action is only triggered by the 'Place Order' button
-                recaptchaRegistry.removeListener(reCaptchaId);
+
+                if (
+                    !recaptchaRegistry._isInvisibleType.hasOwnProperty(reCaptchaId) ||
+                    recaptchaRegistry._isInvisibleType[reCaptchaId] === false
+                ) {
+                    //remove listener so that place order action is only triggered by the 'Place Order' button
+                    recaptchaRegistry.removeListener(reCaptchaId);
+                }
+
                 return recaptchaDeferred;
             }
 
