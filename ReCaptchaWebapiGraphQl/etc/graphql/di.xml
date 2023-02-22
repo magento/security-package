@@ -10,4 +10,20 @@
     <type name="Magento\ReCaptchaValidationApi\Api\ValidatorInterface">
         <plugin name="graphql_recaptcha_validation_override" type="Magento\ReCaptchaWebapiGraphQl\Plugin\ValidationOverrider" />
     </type>
+    <type name="Magento\ReCaptchaWebapiGraphQl\Model\Resolver\ReCaptchaV3Config">
+        <arguments>
+            <argument name="formTypes" xsi:type="array">
+                <item name="place_order" xsi:type="string">place_order</item>
+                <item name="contact" xsi:type="string">contact</item>
+                <item name="customer_forgot_password" xsi:type="string">customer_forgot_password</item>
+                <item name="customer_edit" xsi:type="string">customer_edit</item>
+                <item name="customer_login" xsi:type="string">customer_login</item>
+                <item name="customer_create" xsi:type="string">customer_create</item>
+                <item name="newsletter" xsi:type="string">newsletter</item>
+                <item name="product_review" xsi:type="string">product_review</item>
+                <item name="sendfriend" xsi:type="string">sendfriend</item>
+                <item name="braintree" xsi:type="string">braintree</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
