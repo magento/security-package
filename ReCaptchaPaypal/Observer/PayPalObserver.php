@@ -16,6 +16,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\SerializerInterface;
+use Magento\ReCaptchaPaypal\Model\ReCaptchaSession;
 use Magento\ReCaptchaUi\Model\CaptchaResponseResolverInterface;
 use Magento\ReCaptchaUi\Model\ErrorMessageConfigInterface;
 use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
@@ -77,6 +78,11 @@ class PayPalObserver implements ObserverInterface
     private $validationErrorMessagesProvider;
 
     /**
+     * @var ReCaptchaSession
+     */
+    private $reCaptchaSession;
+
+    /**
      * @param CaptchaResponseResolverInterface $captchaResponseResolver
      * @param ValidationConfigResolverInterface $validationConfigResolver
      * @param ValidatorInterface $captchaValidator
@@ -86,6 +92,8 @@ class PayPalObserver implements ObserverInterface
      * @param LoggerInterface $logger
      * @param ErrorMessageConfigInterface|null $errorMessageConfig
      * @param ValidationErrorMessagesProvider|null $validationErrorMessagesProvider
+     * @param ReCaptchaSession|null $reCaptchaSession
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         CaptchaResponseResolverInterface $captchaResponseResolver,
@@ -96,7 +104,8 @@ class PayPalObserver implements ObserverInterface
         IsCaptchaEnabledInterface $isCaptchaEnabled,
         LoggerInterface $logger,
         ?ErrorMessageConfigInterface $errorMessageConfig = null,
-        ?ValidationErrorMessagesProvider $validationErrorMessagesProvider = null
+        ?ValidationErrorMessagesProvider $validationErrorMessagesProvider = null,
+        ?ReCaptchaSession $reCaptchaSession = null
     ) {
         $this->captchaResponseResolver = $captchaResponseResolver;
         $this->validationConfigResolver = $validationConfigResolver;
@@ -109,6 +118,8 @@ class PayPalObserver implements ObserverInterface
             ?? ObjectManager::getInstance()->get(ErrorMessageConfigInterface::class);
         $this->validationErrorMessagesProvider = $validationErrorMessagesProvider
             ?? ObjectManager::getInstance()->get(ValidationErrorMessagesProvider::class);
+        $this->reCaptchaSession = $reCaptchaSession
+            ?? ObjectManager::getInstance()->get(ReCaptchaSession::class);
     }
 
     /**
@@ -148,6 +159,9 @@ class PayPalObserver implements ObserverInterface
                     $validationResult->getErrors(),
                     $key
                 );
+            } elseif ($this->isCaptchaEnabled->isCaptchaEnabledFor('place_order')) {
+                // Extend reCaptcha verification to place order
+                $this->reCaptchaSession->save();
             }
         }
     }

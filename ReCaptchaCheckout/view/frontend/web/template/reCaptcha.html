@@ -1,0 +1,28 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ -->
+<!-- ko if: (isCheckoutReCaptchaRequiredFor($parents[1]))-->
+<div class="recaptcha-checkout-place-order" data-bind="{
+    attr: {
+        'id': getReCaptchaIdFor($parents[1]) + '-wrapper'
+    },
+    'afterRender': renderReCaptchaFor($parents[1])
+}">
+    <div class="g-recaptcha"></div>
+    <!-- ko if: (!getIsInvisibleRecaptcha()) -->
+    <div class="field">
+        <div class="control">
+            <input type="checkbox"
+                   value=""
+                   class="required-captcha checkbox"
+                   name="recaptcha-validate-"
+                   data-validate="{required:true}"
+                   tabindex="-1">
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+<!-- /ko -->
