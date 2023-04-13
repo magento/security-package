@@ -5,7 +5,7 @@ Welcome to the Magento Security Package community project!
 ## Overview
 
 Magento security package provides a set of security-related features including two-factor authentication for admins, Google ReCAPTCHA support for various forms, and Security.txt to support vulnerability
-disclosure practices. 
+disclosure practices.
 
 ## Documentation
 

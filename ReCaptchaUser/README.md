@@ -6,7 +6,6 @@ This module provides the reCAPTCHA implementations related to user actions.
 
 For more information please visit the [Magento document for reCAPTCHA](https://docs.magento.com/user-guide/stores/security-google-recaptcha.html).
 
-
 ## Emergency commandline disable for Admin panel Login page:
 
 Can disable Google reCAPTCHA for Admin Panel Login page from command-line:
