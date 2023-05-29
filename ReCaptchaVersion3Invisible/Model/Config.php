@@ -170,5 +170,6 @@ class Config implements ResetAfterRequestInterface
     {
         $this->websiteKey = null;
         $this->uiConfig = [];
+        $this->validationConfig = null;
     }
 }
