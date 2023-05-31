@@ -12,11 +12,12 @@ use Magento\Framework\Exception\InputException;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Magento\Framework\ObjectManager\ResetAfterRequestInterface;
 use Magento\ReCaptchaFrontendUi\Model\CaptchaTypeResolver;
 use Magento\ReCaptchaFrontendUi\Model\ErrorMessageConfig;
 use Magento\ReCaptchaVersion3Invisible\Model\Config;
 
-class ReCaptchaV3 implements ResolverInterface
+class ReCaptchaV3 implements ResolverInterface, ResetAfterRequestInterface
 {
     private const RECAPTCHA_TYPE = 'recaptcha_v3';
 
@@ -127,5 +128,13 @@ class ReCaptchaV3 implements ResolverInterface
             $this->failureMessage = $this->errorMessageConfig->getValidationFailureMessage();
         }
         return $this->failureMessage;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function _resetState(): void
+    {
+        $this->isEnabled = null;
     }
 }
