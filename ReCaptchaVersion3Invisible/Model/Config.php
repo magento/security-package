@@ -8,11 +8,12 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaVersion3Invisible\Model;
 
+use Magento\Framework\ObjectManager\ResetAfterRequestInterface;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaVersion3Invisible\Model\Frontend\UiConfigProvider;
 use Magento\ReCaptchaVersion3Invisible\Model\Frontend\ValidationConfigProvider;
 
-class Config
+class Config implements ResetAfterRequestInterface
 {
     /**
      * @var string|null
@@ -160,5 +161,15 @@ class Config
             $this->uiConfig = $this->uiConfigProvider->get();
         }
         return $this->uiConfig;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function _resetState(): void
+    {
+        $this->websiteKey = null;
+        $this->uiConfig = [];
+        $this->validationConfig = null;
     }
 }
