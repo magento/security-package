@@ -84,6 +84,10 @@ define([
          */
         waitForTouch: function () {
             this.idle(false);
+            if (!navigator.credentials) {
+                this.currentStep("no-webauthn");
+                return;
+            }
             navigator.credentials.get({
                 publicKey: this.authenticateData.credentialRequestOptions
             })

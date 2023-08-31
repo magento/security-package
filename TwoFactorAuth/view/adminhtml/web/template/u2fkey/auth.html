@@ -27,6 +27,10 @@
         </div>
         <div translate="'Redirecting to Magento Admin Panel...'"></div>
     </div>
+    <div visible='currentStep() === "no-webauthn"'
+         translate="'Error! Your browser does not support WebAuthn or you are not using a secure connection'"
+    >
+    </div>
     <div visible='$data.loading' class="tfa-waitbox">
         <div data-role="spinner">
             <div class="spinner">
