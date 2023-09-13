@@ -43,7 +43,7 @@ class Config implements ResetAfterRequestInterface
     /**
      * @var array
      */
-    private array $uiConfig;
+    private array $uiConfig = [];
 
     /**
      * @var ValidationConfigProvider
