@@ -154,8 +154,8 @@ define([
         _onCredentialError: function (u2fError) {
             this.idle(true);
 
-            if (['AbortError', 'NS_ERROR_ABORT', 'NotAllowedError'].indexOf(u2fError.name) === -1) {
-                error.display($t('Unable to register your device'));
+            if (['AbortError', 'NS_ERROR_ABORT'].indexOf(u2fError.name) === -1) {
+                error.display($t(u2fError.message));
             }
         }
     });
