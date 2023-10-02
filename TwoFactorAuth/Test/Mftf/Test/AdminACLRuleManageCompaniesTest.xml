@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ /**
+  * Copyright © Magento, Inc. All rights reserved.
+  * See COPYING.txt for license details.
+  */
+-->
+<tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="urn:magento:mftf:Test/etc/testSchema.xsd">
+    <test name="AdminACLRuleManageCompaniesTest">
+        <annotations>
+            <stories value="ACL"/>
+            <title value="Verify Admin Users Cannot Perform Actions without Manage Companies ACL Rule"/>
+            <description value="This test verifies that admin users without the Manage Companies ACL rule cannot create
+            a company, cannot perform any of the bulk grid actions from the Companies index page, and cannot save,
+            reset, or delete a company from the Company Edit Page."/>
+            <severity value="BLOCKER"/>
+            <testCaseId value="B2B-3141"/>
+        </annotations>
+        <before>
+            <actionGroup ref="AdminChooseUserRoleResourceActionGroup" before="saveRole" stepKey="enableTfa">
+                <argument name="resourceId" value="Magento_TwoFactorAuth::tfa"/>
+                <argument name="resourceName" value="Two Factor Auth"/>
+            </actionGroup>
+        </before>
+    </test>
+</tests>
