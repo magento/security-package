@@ -23,8 +23,8 @@
         <annotations>
             <description>Merges with CE actionGroup. Adds steps to enable the 2FA ACL rule when creating a User Role.</description>
         </annotations>
-        <waitForElementVisible selector="{{AdminEditRoleResourcesSection.resourceCheckboxLink('Magento_TwoFactorAuth::tfa', 'Two Factor Auth')}}" stepKey="waitForResourceCheckboxVisible" before="checkResource"/>
-        <click selector="{{AdminEditRoleResourcesSection.resourceCheckboxLink('Magento_TwoFactorAuth::tfa', 'Two Factor Auth')}}" stepKey="checkResource" before="seeCheckedResource"/>
-        <seeElement selector="{{AdminEditRoleResourcesSection.resourceCheckbox('Magento_TwoFactorAuth::tfa')}}" stepKey="seeCheckedResource" before="clickSaveRoleButton"/>
+        <waitForElementVisible selector="{{AdminEditRoleResourcesSection.resourceCheckboxLink('Magento_TwoFactorAuth::tfa', 'Two Factor Auth')}}" stepKey="waitFor2FACheckboxVisible" before="check2FAIfNotAlreadyChecked"/>
+        <conditionalClick selector="{{AdminEditRoleResourcesSection.resourceCheckboxLink('Magento_TwoFactorAuth::tfa', 'Two Factor Auth')}}" dependentSelector="{{AdminEditRoleResourcesSection.resourceCheckbox('Magento_TwoFactorAuth::tfa')}}" visible="false" stepKey="check2FAIfNotAlreadyChecked" before="see2FAChecked"/>
+        <seeElement selector="{{AdminEditRoleResourcesSection.resourceCheckbox('Magento_TwoFactorAuth::tfa')}}" stepKey="see2FAChecked" before="clickSaveRoleButton"/>
     </actionGroup>
 </actionGroups>
