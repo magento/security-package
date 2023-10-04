@@ -160,6 +160,13 @@ define(
                             grecaptcha.execute(widgetId);
                             event.preventDefault(event);
                             event.stopImmediatePropagation();
+                            if (this.$parentForm.valid()) {
+                                let formSubmitButton = this.$parentForm.find('button:not([type]), [type=submit]');
+
+                                if (formSubmitButton.length) { //eslint-disable-line max-depth
+                                    formSubmitButton.attr('disabled', true);
+                                }
+                            }
                         }
                     }.bind(this));
 
