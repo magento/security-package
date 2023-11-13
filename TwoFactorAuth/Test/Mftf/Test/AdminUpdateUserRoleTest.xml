@@ -15,10 +15,7 @@
             <severity value="AVERAGE"/>
         </annotations>
         <before>
-            <actionGroup ref="AdminChooseUserRoleResourceActionGroup" before="saveNewRole" stepKey="enableTfa">
-                <argument name="resourceId" value="Magento_TwoFactorAuth::tfa"/>
-                <argument name="resourceName" value="Two Factor Auth"/>
-            </actionGroup>
+            <comment userInput="BIC workaround" before="saveNewRole"  stepKey="enableTfa"/>
         </before>
     </test>
 </tests>
