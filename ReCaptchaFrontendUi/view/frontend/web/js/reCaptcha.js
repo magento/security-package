@@ -73,8 +73,14 @@ define(
              * @param {String} token
              */
             reCaptchaCallback: function (token) {
+                var submitButton;
+
                 if (this.getIsInvisibleRecaptcha()) {
                     this.tokenField.value = token;
+                    submitButton = this.$parentForm.find('button:not([type]), [type=submit]');
+                    if (submitButton.length) { //eslint-disable-line max-depth
+                        submitButton.attr('disabled', false);
+                    }
                     this.$parentForm.submit();
                 }
             },
@@ -155,7 +161,13 @@ define(
 
                 if (this.getIsInvisibleRecaptcha() && parentForm.length > 0) {
                     parentForm.on('submit', function (event) {
+                        var submitButton;
+
                         if (!this.tokenField.value) {
+                            submitButton = this.$parentForm.find('button:not([type]), [type=submit]');
+                            if (submitButton.length) { //eslint-disable-line max-depth
+                                submitButton.attr('disabled', true);
+                            }
                             // eslint-disable-next-line no-undef
                             grecaptcha.execute(widgetId);
                             event.preventDefault(event);
