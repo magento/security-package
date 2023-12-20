@@ -33,8 +33,7 @@ define(
             },
 
             attachFocusEvent: function () {
-                const $parentForm = $('#' + this.getReCaptchaId() + '-container').parents('form');
-                const self = this;
+                const self = this, $parentForm = $('#' + this.getReCaptchaId() + '-container').parents('form');
 
                 $parentForm.find('input, select').on('focus', function () {
                     self._loadApi();
