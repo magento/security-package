@@ -36,7 +36,7 @@ define(
                 const $parentForm = $('#' + this.getReCaptchaId() + '-container').parents('form');
                 const self = this;
 
-                parentForm.find('input, select').on('focus', function () {
+                $parentForm.find('input, select').on('focus', function () {
                     self._loadApi();
                 });
             },
