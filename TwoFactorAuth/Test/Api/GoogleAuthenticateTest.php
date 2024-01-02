@@ -25,10 +25,10 @@ use OTPHP\TOTP;
  */
 class GoogleAuthenticateTest extends WebapiAbstract
 {
-    const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'twoFactorAuthGoogleAuthenticateV1';
-    const OPERATION = 'CreateAdminAccessToken';
-    const RESOURCE_PATH = '/V1/tfa/provider/google/authenticate';
+    public const SERVICE_VERSION = 'V1';
+    public const SERVICE_NAME = 'twoFactorAuthGoogleAuthenticateV1';
+    public const OPERATION = 'CreateAdminAccessToken';
+    public const RESOURCE_PATH = '/V1/tfa/provider/google/authenticate';
 
     /**
      * @var UserFactory

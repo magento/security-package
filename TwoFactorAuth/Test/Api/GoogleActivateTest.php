@@ -18,10 +18,10 @@ use OTPHP\TOTP;
 
 class GoogleActivateTest extends WebapiAbstract
 {
-    const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'twoFactorAuthGoogleConfigureV1';
-    const OPERATION = 'Activate';
-    const RESOURCE_PATH = '/V1/tfa/provider/google/activate';
+    public const SERVICE_VERSION = 'V1';
+    public const SERVICE_NAME = 'twoFactorAuthGoogleConfigureV1';
+    public const OPERATION = 'Activate';
+    public const RESOURCE_PATH = '/V1/tfa/provider/google/activate';
 
     /**
      * @var UserFactory
