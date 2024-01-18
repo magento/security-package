@@ -208,7 +208,7 @@ class DuoSecurity implements EngineInterface
         $duoSignature = $this->signValues(
             $this->getSecretKey(),
             $values,
-            static::DUO_PREFIX,
+            static::AUTH_PREFIX,
             static::DUO_EXPIRE,
             $time
         );
