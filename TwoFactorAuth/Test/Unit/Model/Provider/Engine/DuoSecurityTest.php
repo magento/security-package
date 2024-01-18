@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Magento\TwoFactorAuth\Test\Unit\Model\Provider\Engine;
 
+use Magento\User\Api\Data\UserInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\TwoFactorAuth\Model\Provider\Engine\DuoSecurity;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -27,12 +28,18 @@ class DuoSecurityTest extends TestCase
     private $configMock;
 
     /**
+     * @var UserInterface|MockObject
+     */
+    private $user;
+
+    /**
      * @inheritDoc
      */
     protected function setUp(): void
     {
         $objectManager = new ObjectManager($this);
         $this->configMock = $this->getMockBuilder(ScopeConfigInterface::class)->disableOriginalConstructor()->getMock();
+        $this->user = $this->getMockBuilder(UserInterface::class)->disableOriginalConstructor()->getMock();
 
         $this->model = $objectManager->getObject(DuoSecurity::class, ['scopeConfig' => $this->configMock]);
     }
@@ -118,5 +125,17 @@ class DuoSecurityTest extends TestCase
         );
 
         $this->assertEquals($expected, $this->model->isEnabled());
+    }
+
+    public function testGetRequestSignature() : void
+    {
+        $this->user->expects($this->any())
+            ->method('getUserName')
+            ->willReturn('admin');
+        $this->configMock->expects($this->any())
+            ->method('getValue')
+            ->willReturn('SECRET');
+
+        $this->assertStringContainsString($this->model::AUTH_PREFIX, $this->model->getRequestSignature($this->user));
     }
 }
