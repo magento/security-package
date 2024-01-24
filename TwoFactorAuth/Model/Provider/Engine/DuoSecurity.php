@@ -208,7 +208,7 @@ class DuoSecurity implements EngineInterface
         $duoSignature = $this->signValues(
             $this->getSecretKey(),
             $values,
-            static::AUTH_PREFIX,
+            static::DUO_PREFIX,
             static::DUO_EXPIRE,
             $time
         );
@@ -236,8 +236,8 @@ class DuoSecurity implements EngineInterface
         }
         [$authSig, $appSig] = $signatures;
 
-        $authUser = $this->parseValues($this->getSecretKey(), $authSig, static::AUTH_PREFIX, $time);
         $appUser = $this->parseValues($this->getApplicationKey(), $appSig, static::APP_PREFIX, $time);
+        $authUser = $this->parseValues($this->getSecretKey(), $authSig, static::DUO_PREFIX, $time);
 
         return (($authUser === $appUser) && ($appUser === $user->getUserName()));
     }
