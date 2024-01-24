@@ -23,6 +23,11 @@ class DuoSecurityTest extends TestCase
     private $model;
 
     /**
+     * @var DuoSecurity
+     */
+    private $modelWithForcedDuoAuth;
+
+    /**
      * @var ScopeConfigInterface|MockObject
      */
     private $configMock;
@@ -42,6 +47,7 @@ class DuoSecurityTest extends TestCase
         $this->user = $this->getMockBuilder(UserInterface::class)->disableOriginalConstructor()->getMock();
 
         $this->model = $objectManager->getObject(DuoSecurity::class, ['scopeConfig' => $this->configMock]);
+        $this->modelWithForcedDuoAuth = new DuoSecurity($this->configMock, true);
     }
 
     /**
@@ -137,5 +143,15 @@ class DuoSecurityTest extends TestCase
             ->willReturn('SECRET');
 
         $this->assertStringContainsString($this->model::AUTH_PREFIX, $this->model->getRequestSignature($this->user));
+        $this->assertStringNotContainsString($this->model::DUO_PREFIX, $this->model->getRequestSignature($this->user));
+
+        $this->assertStringContainsString(
+            $this->model::DUO_PREFIX,
+            $this->modelWithForcedDuoAuth->getRequestSignature($this->user)
+        );
+        $this->assertStringNotContainsString(
+            $this->model::AUTH_PREFIX,
+            $this->modelWithForcedDuoAuth->getRequestSignature($this->user)
+        );
     }
 }
