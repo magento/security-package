@@ -78,12 +78,20 @@ class DuoSecurity implements EngineInterface
     private $scopeConfig;
 
     /**
+     * @var bool
+     */
+    private $forceUseDuoAuth;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
+     * @param bool $forceUseDuoAuth
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        bool $forceUseDuoAuth = false
     ) {
         $this->scopeConfig = $scopeConfig;
+        $this->forceUseDuoAuth = $forceUseDuoAuth;
     }
 
     /**
@@ -208,7 +216,7 @@ class DuoSecurity implements EngineInterface
         $duoSignature = $this->signValues(
             $this->getSecretKey(),
             $values,
-            static::DUO_PREFIX,
+            $this->getPrefix(),
             static::DUO_EXPIRE,
             $time
         );
@@ -224,6 +232,16 @@ class DuoSecurity implements EngineInterface
     }
 
     /**
+     * Return prefix to use in the signature
+     *
+     * @return string
+     */
+    private function getPrefix() : string
+    {
+        return ($this->forceUseDuoAuth) ? static::DUO_PREFIX : static::AUTH_PREFIX;
+    }
+
+    /**
      * @inheritDoc
      */
     public function verify(UserInterface $user, DataObject $request): bool
@@ -236,8 +254,8 @@ class DuoSecurity implements EngineInterface
         }
         [$authSig, $appSig] = $signatures;
 
+        $authUser = $this->parseValues($this->getSecretKey(), $authSig, static::AUTH_PREFIX, $time);
         $appUser = $this->parseValues($this->getApplicationKey(), $appSig, static::APP_PREFIX, $time);
-        $authUser = $this->parseValues($this->getSecretKey(), $authSig, static::DUO_PREFIX, $time);
 
         return (($authUser === $appUser) && ($appUser === $user->getUserName()));
     }
