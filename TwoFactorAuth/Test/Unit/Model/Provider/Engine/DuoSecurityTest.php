@@ -47,7 +47,7 @@ class DuoSecurityTest extends TestCase
         $this->user = $this->getMockBuilder(UserInterface::class)->disableOriginalConstructor()->getMock();
 
         $this->model = $objectManager->getObject(DuoSecurity::class, ['scopeConfig' => $this->configMock]);
-        $this->modelWithForcedDuoAuth = new DuoSecurity($this->configMock, true);
+        $this->modelWithForcedDuoAuth = new DuoSecurity($this->configMock, $this->model::DUO_PREFIX);
     }
 
     /**
