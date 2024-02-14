@@ -22,6 +22,7 @@ use OTPHP\TOTP;
 
 /**
  * Class checks google authentication behaviour
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class GoogleAuthenticateTest extends WebapiAbstract
 {
