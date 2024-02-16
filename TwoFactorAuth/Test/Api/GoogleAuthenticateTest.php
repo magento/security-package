@@ -22,13 +22,14 @@ use OTPHP\TOTP;
 
 /**
  * Class checks google authentication behaviour
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class GoogleAuthenticateTest extends WebapiAbstract
 {
-    const SERVICE_VERSION = 'V1';
-    const SERVICE_NAME = 'twoFactorAuthGoogleAuthenticateV1';
-    const OPERATION = 'CreateAdminAccessToken';
-    const RESOURCE_PATH = '/V1/tfa/provider/google/authenticate';
+    public const SERVICE_VERSION = 'V1';
+    public const SERVICE_NAME = 'twoFactorAuthGoogleAuthenticateV1';
+    public const OPERATION = 'CreateAdminAccessToken';
+    public const RESOURCE_PATH = '/V1/tfa/provider/google/authenticate';
 
     /**
      * @var UserFactory
@@ -222,7 +223,7 @@ class GoogleAuthenticateTest extends WebapiAbstract
     /**
      * @magentoConfigFixture twofactorauth/general/force_providers google
      * @magentoApiDataFixture Magento/User/_files/user_with_custom_role.php
-     * @magentoConfigFixture twofactorauth/google/otp_window 120
+     * @magentoConfigFixture twofactorauth/google/otp_window 20
      *
      * @return void
      */
