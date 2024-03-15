@@ -23,11 +23,6 @@ use Magento\ReCaptchaWebapiGraphQl\Model\Adapter\ReCaptchaConfigInterface;
 class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
 {
     /**
-     * @var $minimumScore
-     */
-    private ?float $minimumScore = null;
-    
-    /**
      * @var array
      */
     private array $uiConfig = [];
@@ -45,10 +40,10 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      *
      * @return array
      */
-    public function getUiConfig(): array
+    private function getUiConfig(): array
     {
         if (empty($this->uiConfig)) {
-            $this->uiConfig = $this->uiConfigProvider->get();
+            $this->uiConfig = $this->uiConfigProvider->get() ?? [];
         }
         return $this->uiConfig;
     }
@@ -60,7 +55,7 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      */
     public function getWebsiteKey(): string
     {
-        return $this->getUiConfig()['rendering']['sitekey'];
+        return $this->getUiConfig()['rendering']['sitekey'] ?? '';
     }
     
     /**
@@ -70,7 +65,7 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      */
     public function getTheme(): string
     {
-        return $this->getUiConfig()['rendering']['theme'];
+        return $this->getUiConfig()['rendering']['theme'] ?? '';
     }
 
     /**
@@ -80,17 +75,17 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      */
     public function getLanguageCode(): string
     {
-        return $this->getUiConfig()['rendering']['hl'];
+        return $this->getUiConfig()['rendering']['hl'] ?? '';
     }
 
     /**
      * "I am not a robot" captcha does not provide configurable minimum score setting
      *
-     * @return null
+     * @return null|float
      */
-    public function getMinimumScore()
+    public function getMinimumScore(): ?float
     {
-        return $this->minimumScore;
+        return null;
     }
 
     /**
@@ -109,6 +104,5 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
     public function _resetState(): void
     {
         $this->uiConfig = [];
-        $this->minimumScore = null;
     }
 }

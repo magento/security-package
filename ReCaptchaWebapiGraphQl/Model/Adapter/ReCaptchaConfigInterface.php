@@ -23,44 +23,37 @@ namespace Magento\ReCaptchaWebapiGraphQl\Model\Adapter;
 interface ReCaptchaConfigInterface
 {
     /**
-     * Get front-end's UI configurations
-     *
-     * @return array
-     */
-    public function getUiConfig();
-
-    /**
      * Get website's Google API public key
      *
      * @return string
      */
-    public function getWebsiteKey();
+    public function getWebsiteKey(): string;
     
     /**
      * Get configured captcha's theme
      *
      * @return string
      */
-    public function getTheme();
+    public function getTheme(): string;
 
     /**
      * Get code of language to send notifications
      *
      * @return string
      */
-    public function getLanguageCode();
+    public function getLanguageCode(): string;
 
     /**
      * Returns minimum score setting
      *
-     * @return mixed
+     * @return float|null
      */
-    public function getMinimumScore();
+    public function getMinimumScore(): ?float;
 
     /**
      * Returns badge_position setting
      *
      * @return string
      */
-    public function getBadgePosition();
+    public function getBadgePosition(): string;
 }

@@ -16,24 +16,9 @@ use Magento\ReCaptchaWebapiGraphQl\Model\Adapter\ReCaptchaConfigInterface;
 class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
 {
     /**
-     * @var string|null
-     */
-    private ?string $websiteKey = null;
-
-    /**
      * @var float|null
      */
     private ?float $minimumScore = null;
-
-    /**
-     * @var string|null
-     */
-    private ?string $badgePosition = null;
-
-    /**
-     * @var string|null
-     */
-    private ?string $languageCode = null;
 
     /**
      * @var array
@@ -46,11 +31,6 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
     private ?ValidationConfigInterface $validationConfig = null;
 
     /**
-     * @var array
-     */
-    private array $formTypes;
-
-    /**
      * @param UiConfigProvider $uiConfigProvider
      * @param ValidationConfigProvider $validationConfigProvider
      * @param array $formTypes
@@ -58,9 +38,8 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
     public function __construct(
         private readonly UiConfigProvider $uiConfigProvider,
         private readonly ValidationConfigProvider $validationConfigProvider,
-        array $formTypes = []
+        private readonly array $formTypes
     ) {
-        $this->formTypes = $formTypes;
     }
 
     /**
@@ -70,10 +49,7 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      */
     public function getWebsiteKey(): string
     {
-        if (!$this->websiteKey) {
-            $this->websiteKey = $this->getUiConfig()['rendering']['sitekey'];
-        }
-        return $this->websiteKey;
+        return $this->getUiConfig()['rendering']['sitekey'] ?? '';
     }
 
     /**
@@ -81,7 +57,7 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      *
      * @return float|null
      */
-    public function getMinimumScore(): float|null
+    public function getMinimumScore(): ?float
     {
         if (!$this->minimumScore) {
             $validationProvider = $this->validationConfigProvider->get();
@@ -100,20 +76,7 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      */
     public function getBadgePosition(): string
     {
-        if (!$this->badgePosition) {
-            $this->badgePosition = $this->getUiConfig()['rendering']['badge'];
-        }
-        return $this->badgePosition;
-    }
-
-    /**
-     * Get configured captcha's theme
-     *
-     * @return string
-     */
-    public function getTheme(): string
-    {
-        return $this->getUiConfig()['rendering']['theme'];
+        return $this->getUiConfig()['rendering']['badge'] ?? '';
     }
 
     /**
@@ -123,10 +86,17 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      */
     public function getLanguageCode(): string
     {
-        if (!$this->languageCode) {
-            $this->languageCode = $this->getUiConfig()['rendering']['hl'];
-        }
-        return $this->languageCode;
+        return $this->getUiConfig()['rendering']['hl'] ?? '';
+    }
+
+    /**
+     * Get configured captcha's theme
+     *
+     * @return string
+     */
+    public function getTheme(): string
+    {
+        return $this->getUiConfig()['rendering']['theme'] ?? '';
     }
 
     /**
@@ -157,10 +127,10 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      *
      * @return array
      */
-    public function getUiConfig(): array
+    private function getUiConfig(): array
     {
         if (empty($this->uiConfig)) {
-            $this->uiConfig = $this->uiConfigProvider->get();
+            $this->uiConfig = $this->uiConfigProvider->get() ?? [];
         }
         return $this->uiConfig;
     }
@@ -171,10 +141,7 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
     public function _resetState(): void
     {
         $this->uiConfig = [];
-        $this->websiteKey = null;
         $this->minimumScore = null;
-        $this->languageCode = null;
-        $this->badgePosition = null;
         $this->validationConfig = null;
     }
 }

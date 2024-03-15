@@ -26,8 +26,8 @@ enum ReCaptchaTypeEmum {
 }
 
 type ReCaptchaConfigOutput {
-    is_enabled: Boolean!
-    configurations: ReCaptchaConfiguration
+    is_enabled: Boolean! @doc(description: "Indicates whether reCaptcha type is enabled")
+    configurations: ReCaptchaConfiguration @doc(description: "Configuration details for reCaptcha type")
 }
 
 type ReCaptchaConfiguration @doc(description: "Contains reCAPTCHA form configuration details.") {

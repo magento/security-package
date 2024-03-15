@@ -28,11 +28,6 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
     private array $uiConfig = [];
 
     /**
-     * @var $minimumScore
-     */
-    private ?float $minimumScore = null;
-
-    /**
      * @param UiConfigProvider $uiConfigProvider
      */
     public function __construct(
@@ -47,17 +42,17 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      */
     public function getWebsiteKey(): string
     {
-        return $this->getUiConfig()['rendering']['sitekey'];
+        return $this->getUiConfig()['rendering']['sitekey'] ?? '';
     }
 
     /**
-     * ReCaptcha V2 Invisible does not provide configurable minimum score setting
+     * ReCaptcha v2 Invisible does not provide configuration for minimum score
      *
-     * @return null
+     * @return null|float
      */
-    public function getMinimumScore()
+    public function getMinimumScore(): ?float
     {
-        return $this->minimumScore;
+        return null;
     }
 
     /**
@@ -67,7 +62,7 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      */
     public function getBadgePosition(): string
     {
-        return $this->getUiConfig()['rendering']['badge'];
+        return $this->getUiConfig()['rendering']['badge'] ?? '';
     }
 
     /**
@@ -77,7 +72,7 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      */
     public function getTheme(): string
     {
-        return $this->getUiConfig()['rendering']['theme'];
+        return $this->getUiConfig()['rendering']['theme'] ?? '';
     }
 
     /**
@@ -87,7 +82,7 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      */
     public function getLanguageCode(): string
     {
-        return $this->getUiConfig()['rendering']['hl'];
+        return $this->getUiConfig()['rendering']['hl'] ?? '';
     }
 
     /**
@@ -95,10 +90,10 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
      *
      * @return array
      */
-    public function getUiConfig(): array
+    private function getUiConfig(): array
     {
         if (empty($this->uiConfig)) {
-            $this->uiConfig = $this->uiConfigProvider->get();
+            $this->uiConfig = $this->uiConfigProvider->get() ?? [];
         }
         return $this->uiConfig;
     }
@@ -109,6 +104,5 @@ class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
     public function _resetState(): void
     {
         $this->uiConfig = [];
-        $this->minimumScore = null;
     }
 }
