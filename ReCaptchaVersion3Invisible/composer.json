@@ -6,7 +6,8 @@
         "magento/framework": "*",
         "magento/module-store": "*",
         "magento/module-re-captcha-ui": "*",
-        "magento/module-re-captcha-validation-api": "*"
+        "magento/module-re-captcha-validation-api": "*",
+        "magento/module-re-captcha-webapi-graph-ql": "*"
     },
     "suggest": {
         "magento/module-config": "*",
