@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
@@ -25,6 +24,11 @@ class ReCaptchaV3 implements ResolverInterface, ResetAfterRequestInterface
      * @var bool|null
      */
     private ?bool $isEnabled = null;
+
+    /**
+     * @var array
+     */
+    private array $forms = [];
 
     /**
      * @var Config
@@ -136,5 +140,6 @@ class ReCaptchaV3 implements ResolverInterface, ResetAfterRequestInterface
     public function _resetState(): void
     {
         $this->isEnabled = null;
+        $this->failureMessage = null;
     }
 }
