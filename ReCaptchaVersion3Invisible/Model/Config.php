@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
@@ -12,33 +11,14 @@ use Magento\Framework\ObjectManager\ResetAfterRequestInterface;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaVersion3Invisible\Model\Frontend\UiConfigProvider;
 use Magento\ReCaptchaVersion3Invisible\Model\Frontend\ValidationConfigProvider;
+use Magento\ReCaptchaWebapiGraphQl\Model\Adapter\ReCaptchaConfigInterface;
 
-class Config implements ResetAfterRequestInterface
+class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
 {
-    /**
-     * @var string|null
-     */
-    private ?string $websiteKey = null;
-
     /**
      * @var float|null
      */
     private ?float $minimumScore = null;
-
-    /**
-     * @var string|null
-     */
-    private ?string $badgePosition = null;
-
-    /**
-     * @var string|null
-     */
-    private ?string $languageCode = null;
-
-    /**
-     * @var UiConfigProvider
-     */
-    private UiConfigProvider $uiConfigProvider;
 
     /**
      * @var array
@@ -46,19 +26,9 @@ class Config implements ResetAfterRequestInterface
     private array $uiConfig = [];
 
     /**
-     * @var ValidationConfigProvider
-     */
-    private ValidationConfigProvider $validationConfigProvider;
-
-    /**
      * @var ValidationConfigInterface|null
      */
     private ?ValidationConfigInterface $validationConfig = null;
-
-    /**
-     * @var array
-     */
-    private array $formTypes;
 
     /**
      * @param UiConfigProvider $uiConfigProvider
@@ -66,13 +36,10 @@ class Config implements ResetAfterRequestInterface
      * @param array $formTypes
      */
     public function __construct(
-        UiConfigProvider $uiConfigProvider,
-        ValidationConfigProvider $validationConfigProvider,
-        array $formTypes = []
+        private readonly UiConfigProvider $uiConfigProvider,
+        private readonly ValidationConfigProvider $validationConfigProvider,
+        private readonly array $formTypes
     ) {
-        $this->formTypes = $formTypes;
-        $this->uiConfigProvider = $uiConfigProvider;
-        $this->validationConfigProvider = $validationConfigProvider;
     }
 
     /**
@@ -82,21 +49,22 @@ class Config implements ResetAfterRequestInterface
      */
     public function getWebsiteKey(): string
     {
-        if (!$this->websiteKey) {
-            $this->websiteKey = $this->getUiConfig()['rendering']['sitekey'];
-        }
-        return $this->websiteKey;
+        return $this->getUiConfig()['rendering']['sitekey'] ?? '';
     }
 
     /**
      * Get configured minimum score value
      *
-     * @return float
+     * @return float|null
      */
-    public function getMinimumScore(): float
+    public function getMinimumScore(): ?float
     {
         if (!$this->minimumScore) {
-            $this->minimumScore = $this->validationConfig->getExtensionAttributes()->getScoreThreshold();
+            $validationProvider = $this->validationConfigProvider->get();
+            if ($validationProvider->getExtensionAttributes() === null) {
+                return $this->minimumScore;
+            }
+            $this->minimumScore = $validationProvider->getExtensionAttributes()->getScoreThreshold();
         }
         return $this->minimumScore;
     }
@@ -108,10 +76,7 @@ class Config implements ResetAfterRequestInterface
      */
     public function getBadgePosition(): string
     {
-        if (!$this->badgePosition) {
-            $this->badgePosition = $this->getUiConfig()['rendering']['badge'];
-        }
-        return $this->badgePosition;
+        return $this->getUiConfig()['rendering']['badge'] ?? '';
     }
 
     /**
@@ -121,10 +86,17 @@ class Config implements ResetAfterRequestInterface
      */
     public function getLanguageCode(): string
     {
-        if (!$this->languageCode) {
-            $this->languageCode = $this->getUiConfig()['rendering']['hl'];
-        }
-        return $this->languageCode;
+        return $this->getUiConfig()['rendering']['hl'] ?? '';
+    }
+
+    /**
+     * Get configured captcha's theme
+     *
+     * @return string
+     */
+    public function getTheme(): string
+    {
+        return $this->getUiConfig()['rendering']['theme'] ?? '';
     }
 
     /**
@@ -158,7 +130,7 @@ class Config implements ResetAfterRequestInterface
     private function getUiConfig(): array
     {
         if (empty($this->uiConfig)) {
-            $this->uiConfig = $this->uiConfigProvider->get();
+            $this->uiConfig = $this->uiConfigProvider->get() ?? [];
         }
         return $this->uiConfig;
     }
@@ -168,8 +140,8 @@ class Config implements ResetAfterRequestInterface
      */
     public function _resetState(): void
     {
-        $this->websiteKey = null;
         $this->uiConfig = [];
+        $this->minimumScore = null;
         $this->validationConfig = null;
     }
 }

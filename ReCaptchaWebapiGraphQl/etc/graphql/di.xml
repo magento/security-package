@@ -10,4 +10,27 @@
     <type name="Magento\ReCaptchaValidationApi\Api\ValidatorInterface">
         <plugin name="graphql_recaptcha_validation_override" type="Magento\ReCaptchaWebapiGraphQl\Plugin\ValidationOverrider" />
     </type>
+    
+    <type name="Magento\ReCaptchaWebapiGraphQl\Model\Resolver\ReCaptchaFormConfig">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="recaptcha" xsi:type="object">Magento\ReCaptchaVersion2Checkbox\Model\Config</item>
+                <item name="invisible" xsi:type="object">Magento\ReCaptchaVersion2Invisible\Model\Config</item>
+                <item name="recaptcha_v3" xsi:type="object">Magento\ReCaptchaVersion3Invisible\Model\Config</item>
+            </argument>
+
+            <argument name="formTypes" xsi:type="array">
+                <item name="PLACE_ORDER" xsi:type="string">place_order</item>
+                <item name="CONTACT" xsi:type="string">contact</item>
+                <item name="CUSTOMER_LOGIN" xsi:type="string">customer_login</item>
+                <item name="CUSTOMER_FORGOT_PASSWORD" xsi:type="string">customer_forgot_password</item>
+                <item name="CUSTOMER_CREATE" xsi:type="string">customer_create</item>
+                <item name="CUSTOMER_EDIT" xsi:type="string">customer_edit</item>
+                <item name="NEWSLETTER" xsi:type="string">newsletter</item>
+                <item name="PRODUCT_REVIEW" xsi:type="string">product_review</item>
+                <item name="SENDFRIEND" xsi:type="string">sendfriend</item>
+                <item name="BRAINTREE" xsi:type="string">braintree</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
