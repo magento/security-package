@@ -17,6 +17,7 @@ enum ReCaptchaFormEnum {
     PRODUCT_REVIEW
     SENDFRIEND
     BRAINTREE
+    RESEND_CONFIRMATION_EMAIL
 }
 
 enum ReCaptchaTypeEmum {
