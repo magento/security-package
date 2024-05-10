@@ -35,7 +35,7 @@ define(
             attachFocusEvent: function () {
                 const self = this, $parentForm = $('#' + this.getReCaptchaId() + '-container').parents('form');
 
-                $parentForm.find('input, select').on('focus', function () {
+                $parentForm.one('focus', 'input, select, textarea', function () {
                     self._loadApi();
                 });
             },
