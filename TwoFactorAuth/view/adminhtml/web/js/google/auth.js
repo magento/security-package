@@ -11,6 +11,8 @@ define([
 ], function ($, ko, Component, error) {
     'use strict';
 
+    let attempts = 0;
+
     return Component.extend({
         currentStep: ko.observable('register'),
         waitText: ko.observable(''),
@@ -41,6 +43,14 @@ define([
         },
 
         /**
+         * Get Retry Attempts
+         * @returns {int}
+         */
+        getRetryAttempts: function () {
+            return this.attempts;
+        },
+
+        /**
          * Get plain Secret Code
          * @returns {String}
          */
@@ -61,6 +71,13 @@ define([
          */
         doVerify: function () {
             var me = this;
+
+            attempts++;
+            if (attempts > this.getRetryAttempts()){
+                alert("Maximum otp retries are done.");
+                location.href = $(".tfa-logout-link").attr("href");
+                return;
+            }
 
             this.waitText('Please wait...');
             $.post(this.getPostUrl(), {
