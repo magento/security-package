@@ -73,9 +73,9 @@ define([
             var me = this;
 
             attempts++;
-            if (attempts > this.getRetryAttempts()){
-                alert("Maximum otp retries are done.");
-                location.href = $(".tfa-logout-link").attr("href");
+            if (attempts > this.getRetryAttempts()) {
+                console.log('Maximum otp retries are done.');
+                location.href = $('.tfa-logout-link').attr('href');
                 return;
             }
 

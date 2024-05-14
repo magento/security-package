@@ -26,7 +26,9 @@ class Auth extends Template
     private $scopeConfig;
 
     /**
-     * @param ScopeConfigInterface|null $scopeConfig
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param ScopeConfigInterface $scopeConfig
+     * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
