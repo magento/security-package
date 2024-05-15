@@ -11,6 +11,7 @@
         <twofactorauth>
             <general>
                 <force_providers></force_providers>
+                <twofactorauth_retry>10</twofactorauth_retry>
             </general>
             <authy>
                 <onetouch_message>Login request to your Magento Admin</onetouch_message>

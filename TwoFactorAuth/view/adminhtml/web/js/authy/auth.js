@@ -12,6 +12,7 @@ define([
 ], function ($, ko, Component, error) {
     'use strict';
 
+    let attempts = 0;
     return Component.extend({
         selectedMethod: ko.observable(''),
         waitingText: ko.observable(''),
@@ -191,10 +192,25 @@ define([
         },
 
         /**
+         * Get Retry Attempts
+         * @returns {int}
+         */
+        getRetryAttempts: function () {
+            return this.attempts;
+        },
+
+        /**
          * Verify authy code
          */
         verifyCode: function () {
             var me = this;
+
+            attempts++;
+            if (attempts > this.getRetryAttempts()) {
+                console.log('Maximum otp retries are done.');
+                location.href = $('.tfa-logout-link').attr('href');
+                return;
+            }
 
             this.waitingText('Please wait...');
 
