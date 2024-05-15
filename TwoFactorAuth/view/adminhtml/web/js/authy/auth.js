@@ -13,6 +13,7 @@ define([
     'use strict';
 
     let attempts = 0;
+
     return Component.extend({
         selectedMethod: ko.observable(''),
         waitingText: ko.observable(''),
