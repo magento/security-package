@@ -18,11 +18,19 @@ class UpdateOtpWindow implements DataPatchInterface
      */
     private $moduleDataSetup;
 
+    /**
+     * @param ModuleDataSetupInterface $moduleDataSetup
+     */
     public function __construct(ModuleDataSetupInterface $moduleDataSetup)
     {
         $this->moduleDataSetup = $moduleDataSetup;
     }
 
+    /**
+     * Fetch Totp default period
+     *
+     * @return int
+     */
     public function getDefaultPeriod()
     {
         return TOTPInterface::DEFAULT_PERIOD;
@@ -43,17 +51,15 @@ class UpdateOtpWindow implements DataPatchInterface
         $period = $this->getDefaultPeriod();
         if ($existingValue && $existingValue >= $period) {
             $newWindowValue = $period - 1;
-        }
-
-        if ($existingValue) {
             $setup->update(
                 'core_config_data',
                 ['value' => $newWindowValue],
                 'path = "twofactorauth/google/otp_window"'
             );
         }
-
         $setup->endSetup();
+
+        return $this;
     }
 
     /**
@@ -71,5 +77,4 @@ class UpdateOtpWindow implements DataPatchInterface
     {
         return [];
     }
-
 }
