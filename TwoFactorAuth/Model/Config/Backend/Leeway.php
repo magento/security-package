@@ -12,9 +12,11 @@ use Magento\Framework\App\Config\Data\ProcessorInterface;
 use Magento\Framework\Exception\ValidatorException;
 use OTPHP\TOTPInterface;
 
-class OtpWindow extends Value implements ProcessorInterface
+class Leeway extends Value implements ProcessorInterface
 {
     /**
+     * Fetch Totp default period value
+     *
      * @return int
      */
     private function getDefaultPeriod(): int
@@ -32,7 +34,7 @@ class OtpWindow extends Value implements ProcessorInterface
     public function processValue($value)
     {
         if (!is_numeric($value)) {
-            throw new ValidatorException(__('The OTP window must be a numeric value.'));
+            throw new ValidatorException(__('The Leeway must be a numeric value.'));
         }
         $numericValue = (int) $value;
         return $numericValue;
@@ -48,7 +50,13 @@ class OtpWindow extends Value implements ProcessorInterface
         $value = $this->getValue();
         $period = $this->getDefaultPeriod();
         if (!is_numeric($value) || $value < 1 || $value >= $period) {
-            throw new ValidatorException(__('Invalid OTP window value. It must be less than the OTP period value '.$period));
+            throw new ValidatorException(
+                __(
+                    'Invalid Leeway value. It must be between 1 and %1 as default period is %2',
+                    $period-1,
+                    $period
+                )
+            );
         }
 
         return parent::beforeSave();

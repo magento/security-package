@@ -11,18 +11,26 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use OTPHP\TOTPInterface;
 
-class UpdateOtpWindow implements DataPatchInterface
+class UpdateLeeway implements DataPatchInterface
 {
     /**
      * @var ModuleDataSetupInterface
      */
     private $moduleDataSetup;
 
+    /**
+     * @param ModuleDataSetupInterface $moduleDataSetup
+     */
     public function __construct(ModuleDataSetupInterface $moduleDataSetup)
     {
         $this->moduleDataSetup = $moduleDataSetup;
     }
 
+    /**
+     * Fetch Totp default period
+     *
+     * @return int
+     */
     public function getDefaultPeriod()
     {
         return TOTPInterface::DEFAULT_PERIOD;
@@ -37,23 +45,21 @@ class UpdateOtpWindow implements DataPatchInterface
         $setup->startSetup();
         $select = $setup->select()
             ->from('core_config_data', ['path'])
-            ->where('path = ?', 'twofactorauth/google/otp_window');
+            ->where('path = ?', 'twofactorauth/google/leeway');
 
         $existingValue = $setup->fetchOne($select);
         $period = $this->getDefaultPeriod();
         if ($existingValue && $existingValue >= $period) {
             $newWindowValue = $period - 1;
-        }
-
-        if ($existingValue) {
             $setup->update(
                 'core_config_data',
                 ['value' => $newWindowValue],
-                'path = "twofactorauth/google/otp_window"'
+                'path = "twofactorauth/google/leeway"'
             );
         }
-
         $setup->endSetup();
+
+        return $this;
     }
 
     /**
@@ -71,5 +77,4 @@ class UpdateOtpWindow implements DataPatchInterface
     {
         return [];
     }
-
 }
