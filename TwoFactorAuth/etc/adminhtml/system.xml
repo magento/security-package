@@ -34,11 +34,16 @@
                        showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Configuration Email URL for Web API</label>
                     <comment>This can be used to override the default email configuration link that is sent when using the Magento Web API's to authenticate. Use the placeholder :tfat to indicate where the token should be injected</comment>
-                </field>
+                </field>x
                 <field canRestore="1" id="twofactorauth_retry" translate="label" type="text" sortOrder="40"
                        showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Configuration for 2FA retry attempts</label>
-                    <comment>Security configurations for TowFatcorAuth page. To avoid the bruteforce of twofactorauth API</comment>
+                    <comment>Security configurations for TowFatcorAuth page.</comment>
+                </field>
+                <field canRestore="1" id="auth_lock_expire" translate="label" type="text" sortOrder="40"
+                       showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Configuration for 2FA lock expire time</label>
+                    <comment>TwoFactor Authentation Configuration.</comment>
                 </field>
             </group>
             <group id="google" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"

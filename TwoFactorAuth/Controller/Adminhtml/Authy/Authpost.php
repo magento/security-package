@@ -19,6 +19,8 @@ use Magento\TwoFactorAuth\Api\TfaSessionInterface;
 use Magento\TwoFactorAuth\Controller\Adminhtml\AbstractAction;
 use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\User\Model\ResourceModel\User as UserResource;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -61,6 +63,26 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     private $alert;
 
     /**
+     * Config path for the 2FA Attempts
+     */
+    private const XML_PATH_2FA_RETRY_ATTEMPTS = 'twofactorauth/general/twofactorauth_retry';
+
+    /**
+     * Config path for the 2FA Attempts
+     */
+    private const XML_PATH_2FA_LOCK_EXPIRE = 'twofactorauth/general/auth_lock_expire';
+
+    /**
+     * @var ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
+     * @var UserResource
+     */
+    protected $userResource;
+
+    /**
      * @param Action\Context $context
      * @param Session $session
      * @param JsonFactory $jsonFactory
@@ -69,6 +91,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
+     * @param UserResource $userResource
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
         Action\Context $context,
@@ -78,7 +102,9 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         TfaSessionInterface $tfaSession,
         TfaInterface $tfa,
         AlertInterface $alert,
-        DataObjectFactory $dataObjectFactory
+        DataObjectFactory $dataObjectFactory,
+        UserResource $userResource,
+        ScopeConfigInterface $scopeConfig
     ) {
         parent::__construct($context);
         $this->tfa = $tfa;
@@ -88,6 +114,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $this->authy = $authy;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
+        $this->userResource = $userResource;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -109,11 +137,20 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $result = $this->jsonFactory->create();
 
         try {
-            $this->authy->verify($user, $this->dataObjectFactory->create([
-                'data' => $this->getRequest()->getParams(),
-            ]));
-            $this->tfaSession->grantAccess();
-            $result->setData(['success' => true]);
+            $maxRetries = $this->scopeConfig->getValue(self::XML_PATH_2FA_RETRY_ATTEMPTS);
+            $retries = $this->verifyRetryAttempts();
+            if ($retries > $maxRetries) { //locked the user
+                $lockThreshold = $this->scopeConfig->getValue(self::XML_PATH_2FA_LOCK_EXPIRE);
+                if ($this->userResource->lock($user->getId(),0, $lockThreshold)) {
+                    $result->setData(['success' => false, 'message' => "User is disabled temporarily!"]);
+                }
+            } else {
+                $this->authy->verify($user, $this->dataObjectFactory->create([
+                    'data' => $this->getRequest()->getParams(),
+                ]));
+                $this->tfaSession->grantAccess();
+                $result->setData(['success' => true]);
+            }
         } catch (Exception $e) {
             $this->alert->event(
                 'Magento_TwoFactorAuth',
@@ -140,5 +177,18 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
             $user &&
             $this->tfa->getProviderIsAllowed((int) $user->getId(), Authy::CODE) &&
             $this->tfa->getProvider(Authy::CODE)->isActive((int) $user->getId());
+    }
+
+    /**
+     * Get retry attempt count
+     *
+     * @return int
+     */
+    private function verifyRetryAttempts() : int
+    {
+        $verifyAttempts = $this->session->getOtpAttempt();
+        $verifyAttempts = is_null($verifyAttempts) ? 0 : $verifyAttempts+1;
+        $this->session->setOtpAttempt($verifyAttempts);
+        return $verifyAttempts;
     }
 }
