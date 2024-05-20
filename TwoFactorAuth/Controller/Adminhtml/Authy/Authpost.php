@@ -93,6 +93,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      * @param DataObjectFactory $dataObjectFactory
      * @param UserResource $userResource
      * @param ScopeConfigInterface $scopeConfig
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         Action\Context $context,
@@ -141,7 +142,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
             $retries = $this->verifyRetryAttempts();
             if ($retries > $maxRetries) { //locked the user
                 $lockThreshold = $this->scopeConfig->getValue(self::XML_PATH_2FA_LOCK_EXPIRE);
-                if ($this->userResource->lock($user->getId(),0, $lockThreshold)) {
+                if ($this->userResource->lock($user->getId(), 0, $lockThreshold)) {
                     $result->setData(['success' => false, 'message' => "User is disabled temporarily!"]);
                 }
             } else {
@@ -187,7 +188,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     private function verifyRetryAttempts() : int
     {
         $verifyAttempts = $this->session->getOtpAttempt();
-        $verifyAttempts = is_null($verifyAttempts) ? 0 : $verifyAttempts+1;
+        $verifyAttempts = $verifyAttempts === null ? 1 : $verifyAttempts+1;
         $this->session->setOtpAttempt($verifyAttempts);
         return $verifyAttempts;
     }

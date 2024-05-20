@@ -34,7 +34,7 @@
                        showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Configuration Email URL for Web API</label>
                     <comment>This can be used to override the default email configuration link that is sent when using the Magento Web API's to authenticate. Use the placeholder :tfat to indicate where the token should be injected</comment>
-                </field>x
+                </field>
                 <field canRestore="1" id="twofactorauth_retry" translate="label" type="text" sortOrder="40"
                        showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Configuration for 2FA retry attempts</label>
