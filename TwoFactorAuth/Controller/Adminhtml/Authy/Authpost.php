@@ -138,20 +138,18 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $result = $this->jsonFactory->create();
 
         try {
-            $maxRetries = $this->scopeConfig->getValue(self::XML_PATH_2FA_RETRY_ATTEMPTS);
-            $retries = $this->verifyRetryAttempts();
-            if ($retries > $maxRetries) { //locked the user
+            if (!$this->allowApiRetries()) { //locked the user
                 $lockThreshold = $this->scopeConfig->getValue(self::XML_PATH_2FA_LOCK_EXPIRE);
                 if ($this->userResource->lock($user->getId(), 0, $lockThreshold)) {
                     $result->setData(['success' => false, 'message' => "User is disabled temporarily!"]);
+                    return $result;
                 }
-            } else {
-                $this->authy->verify($user, $this->dataObjectFactory->create([
-                    'data' => $this->getRequest()->getParams(),
-                ]));
-                $this->tfaSession->grantAccess();
-                $result->setData(['success' => true]);
             }
+            $this->authy->verify($user, $this->dataObjectFactory->create([
+                'data' => $this->getRequest()->getParams(),
+            ]));
+            $this->tfaSession->grantAccess();
+            $result->setData(['success' => true]);
         } catch (Exception $e) {
             $this->alert->event(
                 'Magento_TwoFactorAuth',
@@ -181,15 +179,20 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     }
 
     /**
-     * Get retry attempt count
+     * Check if retry attempt above threshold value
      *
-     * @return int
+     * @return bool
      */
-    private function verifyRetryAttempts() : int
+    private function allowApiRetries() : bool
     {
+        $maxRetries = $this->scopeConfig->getValue(self::XML_PATH_2FA_RETRY_ATTEMPTS);
         $verifyAttempts = $this->session->getOtpAttempt();
         $verifyAttempts = $verifyAttempts === null ? 1 : $verifyAttempts+1;
         $this->session->setOtpAttempt($verifyAttempts);
-        return $verifyAttempts;
+        if ($verifyAttempts > $maxRetries) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -13,6 +13,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Tests\NamingConvention\true\bool;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
@@ -132,27 +133,26 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         /** @var \Magento\Framework\DataObject $request */
         $request = $this->dataObjectFactory->create(['data' => $this->getRequest()->getParams()]);
 
-        $maxRetries = $this->scopeConfig->getValue(self::XML_PATH_2FA_RETRY_ATTEMPTS);
-        $retries = $this->verifyRetryAttempts();
-        if ($retries > $maxRetries) { //locked the user
+        if (!$this->allowApiRetries()) { //locked the user
             $lockThreshold = $this->scopeConfig->getValue(self::XML_PATH_2FA_LOCK_EXPIRE);
             if ($this->userResource->lock($user->getId(), 0, $lockThreshold)) {
                 $response->setData(['success' => false, 'message' => "User is disabled temporarily!"]);
+                return $response;
             }
-        } else {
-            if ($this->google->verify($user, $request)) {
-                $this->tfaSession->grantAccess();
-                $response->setData(['success' => true]);
-            } else {
-                $this->alert->event(
-                    'Magento_TwoFactorAuth',
-                    'Google auth invalid token',
-                    AlertInterface::LEVEL_WARNING,
-                    $user->getUserName()
-                );
+        }
 
-                $response->setData(['success' => false, 'message' => 'Invalid code']);
-            }
+        if ($this->google->verify($user, $request)) {
+            $this->tfaSession->grantAccess();
+            $response->setData(['success' => true]);
+        } else {
+            $this->alert->event(
+                'Magento_TwoFactorAuth',
+                'Google auth invalid token',
+                AlertInterface::LEVEL_WARNING,
+                $user->getUserName()
+            );
+
+            $response->setData(['success' => false, 'message' => 'Invalid code']);
         }
 
         return $response;
@@ -173,15 +173,20 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     }
 
     /**
-     * Get retry attempt count
+     * Check if retry attempt above threshold value
      *
-     * @return int
+     * @return bool
      */
-    private function verifyRetryAttempts() : int
+    private function allowApiRetries() : bool
     {
+        $maxRetries = $this->scopeConfig->getValue(self::XML_PATH_2FA_RETRY_ATTEMPTS);
         $verifyAttempts = $this->session->getOtpAttempt();
         $verifyAttempts = $verifyAttempts === null ? 1 : $verifyAttempts+1;
         $this->session->setOtpAttempt($verifyAttempts);
-        return $verifyAttempts;
+        if ($verifyAttempts > $maxRetries) {
+            return false;
+        }
+
+        return true;
     }
 }
