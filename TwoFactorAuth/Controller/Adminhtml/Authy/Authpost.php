@@ -91,8 +91,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
-     * @param UserResource|null $userResource
-     * @param ScopeConfigInterface|null $scopeConfig
+     * @param UserResource $userResource
+     * @param ScopeConfigInterface $scopeConfig
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -104,8 +104,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         TfaInterface $tfa,
         AlertInterface $alert,
         DataObjectFactory $dataObjectFactory,
-        ?UserResource $userResource  = null,
-        ?ScopeConfigInterface $scopeConfig  = null
+        UserResource $userResource,
+        ScopeConfigInterface $scopeConfig
     ) {
         parent::__construct($context);
         $this->tfa = $tfa;

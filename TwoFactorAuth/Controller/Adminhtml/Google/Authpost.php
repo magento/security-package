@@ -13,7 +13,6 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\DataObjectFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Tests\NamingConvention\true\bool;
 use Magento\TwoFactorAuth\Model\AlertInterface;
 use Magento\TwoFactorAuth\Api\TfaInterface;
 use Magento\TwoFactorAuth\Api\TfaSessionInterface;
@@ -93,8 +92,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
-     * @param UserResource|null $userResource
-     * @param ScopeConfigInterface|null $scopeConfig
+     * @param UserResource $userResource
+     * @param ScopeConfigInterface $scopeConfig
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -106,8 +105,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         TfaInterface $tfa,
         AlertInterface $alert,
         DataObjectFactory $dataObjectFactory,
-        ?UserResource $userResource = null,
-        ?ScopeConfigInterface $scopeConfig  = null
+        UserResource $userResource,
+        ScopeConfigInterface $scopeConfig
     ) {
         parent::__construct($context);
         $this->tfa = $tfa;
