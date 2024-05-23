@@ -93,8 +93,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
-     * @param UserResource $userResource
-     * @param ScopeConfigInterface $scopeConfig
+     * @param UserResource|null $userResource
+     * @param ScopeConfigInterface|null $scopeConfig
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -106,8 +106,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         TfaInterface $tfa,
         AlertInterface $alert,
         DataObjectFactory $dataObjectFactory,
-        UserResource $userResource,
-        ScopeConfigInterface $scopeConfig
+        ?UserResource $userResource = null,
+        ?ScopeConfigInterface $scopeConfig  = null
     ) {
         parent::__construct($context);
         $this->tfa = $tfa;
@@ -136,7 +136,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         if (!$this->allowApiRetries()) { //locked the user
             $lockThreshold = $this->scopeConfig->getValue(self::XML_PATH_2FA_LOCK_EXPIRE);
             if ($this->userResource->lock($user->getId(), 0, $lockThreshold)) {
-                $response->setData(['success' => false, 'message' => "User is disabled temporarily!"]);
+                $response->setData(['success' => false, 'message' => "Your account is temporarily disabled."]);
                 return $response;
             }
         }
@@ -183,10 +183,6 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $verifyAttempts = $this->session->getOtpAttempt();
         $verifyAttempts = $verifyAttempts === null ? 1 : $verifyAttempts+1;
         $this->session->setOtpAttempt($verifyAttempts);
-        if ($verifyAttempts > $maxRetries) {
-            return false;
-        }
-
-        return true;
+        return  $maxRetries >= $verifyAttempts;
     }
 }
