@@ -21,6 +21,7 @@ use Magento\TwoFactorAuth\Model\Provider\Engine\Authy;
 use Magento\User\Model\User;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\User\Model\ResourceModel\User as UserResource;
+use Magento\Framework\App\ObjectManager;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
@@ -80,7 +81,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     /**
      * @var UserResource
      */
-    protected $userResource;
+    private $userResource;
 
     /**
      * @param Action\Context $context
@@ -91,8 +92,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
      * @param TfaInterface $tfa
      * @param AlertInterface $alert
      * @param DataObjectFactory $dataObjectFactory
-     * @param UserResource $userResource
-     * @param ScopeConfigInterface $scopeConfig
+     * @param UserResource|null $userResource
+     * @param ScopeConfigInterface|null $scopeConfig
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -104,8 +105,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         TfaInterface $tfa,
         AlertInterface $alert,
         DataObjectFactory $dataObjectFactory,
-        UserResource $userResource,
-        ScopeConfigInterface $scopeConfig
+        ?UserResource $userResource = null,
+        ?ScopeConfigInterface $scopeConfig = null
     ) {
         parent::__construct($context);
         $this->tfa = $tfa;
@@ -115,8 +116,8 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         $this->authy = $authy;
         $this->dataObjectFactory = $dataObjectFactory;
         $this->alert = $alert;
-        $this->userResource = $userResource;
-        $this->scopeConfig = $scopeConfig;
+        $this->scopeConfig = $scopeConfig ?? ObjectManager::getInstance()->get(ScopeConfigInterface::class);
+        $this->userResource = $userResource ?? ObjectManager::getInstance()->get(UserResource::class);
     }
 
     /**
@@ -140,7 +141,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
         try {
             if (!$this->allowApiRetries()) { //locked the user
                 $lockThreshold = $this->scopeConfig->getValue(self::XML_PATH_2FA_LOCK_EXPIRE);
-                if ($this->userResource->lock($user->getId(), 0, $lockThreshold)) {
+                if ($this->userResource->lock((int)$user->getId(), 0, $lockThreshold)) {
                     $result->setData(['success' => false, 'message' => "Your account is temporarily disabled."]);
                     return $result;
                 }
