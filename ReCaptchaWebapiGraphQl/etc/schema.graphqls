@@ -3,6 +3,7 @@
 
 type Query {
     recaptchaV3Config: ReCaptchaConfigurationV3 @resolver(class: "Magento\\ReCaptchaWebapiGraphQl\\Model\\Resolver\\ReCaptchaV3") @doc(description: "Returns details about Google reCAPTCHA V3-Invisible configuration.")
+    recaptchaFormConfig(formType: ReCaptchaFormEnum!): ReCaptchaConfigOutput @resolver(class: "Magento\\ReCaptchaWebapiGraphQl\\Model\\Resolver\\ReCaptchaFormConfig")
 }
 
 enum ReCaptchaFormEnum {
@@ -16,6 +17,29 @@ enum ReCaptchaFormEnum {
     PRODUCT_REVIEW
     SENDFRIEND
     BRAINTREE
+    RESEND_CONFIRMATION_EMAIL
+}
+
+enum ReCaptchaTypeEmum {
+    INVISIBLE
+    RECAPTCHA
+    RECAPTCHA_V3
+}
+
+type ReCaptchaConfigOutput {
+    is_enabled: Boolean! @doc(description: "Indicates whether reCaptcha type is enabled")
+    configurations: ReCaptchaConfiguration @doc(description: "Configuration details for reCaptcha type")
+}
+
+type ReCaptchaConfiguration @doc(description: "Contains reCAPTCHA form configuration details.") {
+    re_captcha_type: ReCaptchaTypeEmum!
+    website_key: String! @doc(description: "The website key generated when the Google reCAPTCHA account was registered.")
+    minimum_score: Float @doc(description: "The minimum score that identifies a user interaction as a potential risk.")
+    badge_position: String @doc(description: "The position of the invisible reCAPTCHA badge on each page.")
+    theme: String! @doc(description: "Theme to be used to render reCaptcha.")
+    language_code: String @doc(description: "A two-character code that specifies the language that is used for Google reCAPTCHA text and messaging.")
+    validation_failure_message: String! @doc(description: "The message that appears to the user if validation fails.")
+    technical_failure_message: String! @doc(description: "The message that appears when reCaptcha fails.")
 }
 
 type ReCaptchaConfigurationV3 @doc(description: "Contains reCAPTCHA V3-Invisible configuration details.") {
