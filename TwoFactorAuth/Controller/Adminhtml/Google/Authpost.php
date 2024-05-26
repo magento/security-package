@@ -82,7 +82,7 @@ class Authpost extends AbstractAction implements HttpPostActionInterface
     /**
      * @var UserResource
      */
-    protected $userResource;
+    private $userResource;
 
     /**
      * @param Action\Context $context
