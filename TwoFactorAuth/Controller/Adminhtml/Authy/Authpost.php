@@ -25,6 +25,7 @@ use Magento\Framework\App\ObjectManager;
 
 /**
  * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Authpost extends AbstractAction implements HttpPostActionInterface
 {
