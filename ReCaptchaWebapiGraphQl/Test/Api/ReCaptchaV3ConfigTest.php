@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
@@ -10,6 +9,8 @@ namespace Magento\ReCaptchaWebapiGraphQl\Test\Api;
 
 use Magento\Framework\Encryption\EncryptorInterface;
 use Magento\TestFramework\Fixture\Config;
+use Magento\Framework\App\ResourceConnection;
+use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\GraphQlAbstract;
 
@@ -49,7 +50,7 @@ QUERY;
         Config('recaptcha_frontend/type_recaptcha_v3/position', 'bottomright'),
         Config('recaptcha_frontend/type_recaptcha_v3/lang', 'en'),
         Config('recaptcha_frontend/failure_messages/validation_failure_message', 'Test failure message'),
-        Config('recaptcha_frontend/type_for/customer_login', 'recaptcha_v3'),
+        Config('recaptcha_frontend/type_for/customer_login', 'recaptcha_v3')
     ]
     public function testQueryRecaptchaNoPublicKeyConfigured(): void
     {
@@ -75,7 +76,7 @@ QUERY;
         Config('recaptcha_frontend/type_recaptcha_v3/score_threshold', 0.75),
         Config('recaptcha_frontend/type_recaptcha_v3/position', 'bottomright'),
         Config('recaptcha_frontend/type_recaptcha_v3/lang', 'en'),
-        Config('recaptcha_frontend/failure_messages/validation_failure_message', 'Test failure message'),
+        Config('recaptcha_frontend/failure_messages/validation_failure_message', 'Test failure message')
     ]
     public function testQueryRecaptchaNoFormsConfigured(): void
     {
@@ -111,7 +112,7 @@ QUERY;
         Config('recaptcha_frontend/type_recaptcha_v3/position', 'bottomright'),
         Config('recaptcha_frontend/type_recaptcha_v3/lang', 'en'),
         Config('recaptcha_frontend/failure_messages/validation_failure_message', 'Test failure message'),
-        Config('recaptcha_frontend/type_for/customer_login', 'recaptcha_v3'),
+        Config('recaptcha_frontend/type_for/customer_login', 'recaptcha_v3')
     ]
     public function testQueryRecaptchaConfigured(): void
     {
@@ -146,8 +147,14 @@ QUERY;
 
     public function tearDown(): void
     {
-        $this->config->unsetData('recaptcha_frontend/type_recaptcha_v3/public_key');
-        $this->config->unsetData('recaptcha_frontend/type_recaptcha_v3/private_key');
-        $this->config->save();
+        /** @var ResourceConnection $resource */
+        $resource = Bootstrap::getObjectManager()->get(ResourceConnection::class);
+        /** @var AdapterInterface $connection */
+        $connection = $resource->getConnection(ResourceConnection::DEFAULT_CONNECTION);
+        
+        $connection->delete(
+            $resource->getTableName('core_config_data')
+        );
+        parent::tearDown();
     }
 }
