@@ -44,9 +44,10 @@
                 </field>
                 <field canRestore="1" id="auth_lock_expire" translate="label" type="text" sortOrder="40"
                        showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Two-Factor Authentication lockout time(seconds)</label>
+                    <label>Two-Factor Authentication lockout time (seconds)</label>
                     <comment>
                         Determines how long a user is locked out if they reach the threshold defined above.
+                        Please enter at least 120 and at most 1800 (30 minutes).
                     </comment>
                 </field>
             </group>
