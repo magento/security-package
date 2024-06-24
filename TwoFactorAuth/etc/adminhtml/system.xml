@@ -37,19 +37,17 @@
                 </field>
                 <field canRestore="1" id="twofactorauth_retry" translate="label" type="text" sortOrder="40"
                        showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Setting the retry attempt limit for Two-Factor Authentication</label>
+                    <label>Retry attempt limit for Two-Factor Authentication</label>
                     <comment>
-                        This involves configuring the maximum number of retry attempts allowed for TwoFactorAuth.
-                        This setting is very important for security, as it determines how many times a user can try to complete the 2FA process before being temporarily locked out.
-                        By limiting the number of attempts, it helps to prevent unauthorized access and brute force attacks, thereby enhancing the overall security of the authentication process.
+                        Determines how many times a user can try to complete the 2FA process before being temporarily locked out.
                     </comment>
                 </field>
                 <field canRestore="1" id="auth_lock_expire" translate="label" type="text" sortOrder="40"
                        showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Configuration for TwoFactorAuth lock expire time</label>
+                    <label>Two-Factor Authentication lockout time (seconds)</label>
                     <comment>
-                        This refers to the settings or parameters that determine how long the lock for TwoFactorAuth will remain active before it expires.
-                        This configuration is very important for security, ensuring that users have a limited time to complete their 2FA process, thereby reducing the risk of unauthorized access.
+                        Determines how long a user is locked out if they reach the threshold defined above.
+                        Please enter at least 120 and at most 1800 (30 minutes).
                     </comment>
                 </field>
             </group>
