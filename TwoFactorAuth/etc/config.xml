@@ -21,7 +21,7 @@
                 <application_key backend_model="Magento\Config\Model\Config\Backend\Encrypted"/>
             </duo>
             <google>
-                <otp_window>1</otp_window>
+                <leeway backend_model="Magento\TwoFactorAuth\Model\Config\Backend\Leeway">29</leeway>
             </google>
         </twofactorauth>
     </default>
