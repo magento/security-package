@@ -35,7 +35,7 @@ class Google implements EngineInterface
     /**
      * Config path for the OTP window
      */
-    const XML_PATH_OTP_WINDOW = 'twofactorauth/google/otp_window';
+    public const XML_PATH_LEEWAY = 'twofactorauth/google/leeway';
 
     /**
      * Engine code
@@ -199,7 +199,7 @@ class Google implements EngineInterface
         return $totp->verify(
             $token,
             null,
-            $config['window'] ?? (int)$this->scopeConfig->getValue(self::XML_PATH_OTP_WINDOW) ?: null
+            $config['window'] ?? (int)$this->scopeConfig->getValue(self::XML_PATH_LEEWAY) ?: null
         );
     }
 
