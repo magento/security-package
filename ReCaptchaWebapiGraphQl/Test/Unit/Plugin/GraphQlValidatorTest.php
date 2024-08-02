@@ -60,7 +60,7 @@ class GraphQlValidatorTest extends TestCase
         );
     }
 
-    public function getPluginCases(): array
+    public static function getPluginCases(): array
     {
         return [
             'not-mutation' => [false, true, false, false],
