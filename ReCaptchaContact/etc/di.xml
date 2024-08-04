@@ -4,7 +4,7 @@
     <type name="Magento\ReCaptchaWebapiApi\Model\CompositeWebapiValidationConfigProvider">
         <arguments>
             <argument name="providers" xsi:type="array">
-                <item name="contactUs" xsi:type="object">Magento\ReCaptchaContact\Model\WebapiConfigProvider</item>
+                <item name="contact" xsi:type="object">Magento\ReCaptchaContact\Model\WebapiConfigProvider</item>
             </argument>
         </arguments>
     </type>
