@@ -54,10 +54,11 @@
             <group id="google" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0"
                    showInStore="0">
                 <label>Google</label>
-                <field id="otp_window" translate="label comment" type="text" sortOrder="10" showInDefault="1"
+                <field id="leeway" translate="label comment" type="text" sortOrder="10" showInDefault="1"
                        showInWebsite="0" showInStore="0" canRestore="1">
-                    <label>OTP Window</label>
-                    <comment>This determines how long the one-time-passwords are valid for. An OTP Window of 1 will result in the current OTP value plus 1 code in the past and 1 code in the future to be valid at any given point in time.</comment>
+                    <label>Leeway</label>
+                    <comment>This sets the time drift leeway for OTPs. A leeway of 29 with a period of 30 means OTPs are valid within ±29 seconds from the current time. The leeway must be smaller than the period</comment>
+                    <backend_model>Magento\TwoFactorAuth\Model\Config\Backend\Leeway</backend_model>
                 </field>
             </group>
             <group id="duo" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0"
