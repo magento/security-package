@@ -78,12 +78,20 @@ class DuoSecurity implements EngineInterface
     private $scopeConfig;
 
     /**
+     * @var string
+     */
+    private $duoSignaturePrefix;
+
+    /**
      * @param ScopeConfigInterface $scopeConfig
+     * @param string $duoSignaturePrefix
      */
     public function __construct(
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        string $duoSignaturePrefix = self::AUTH_PREFIX
     ) {
         $this->scopeConfig = $scopeConfig;
+        $this->duoSignaturePrefix = $duoSignaturePrefix;
     }
 
     /**
@@ -208,7 +216,7 @@ class DuoSecurity implements EngineInterface
         $duoSignature = $this->signValues(
             $this->getSecretKey(),
             $values,
-            static::DUO_PREFIX,
+            $this->duoSignaturePrefix,
             static::DUO_EXPIRE,
             $time
         );
