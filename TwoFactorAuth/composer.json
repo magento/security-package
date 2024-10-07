@@ -17,6 +17,9 @@
         "endroid/qr-code": "^4.3.5",
         "2tvenom/cborencode": "^1.0"
     },
+    "require-dev" : {
+        "magento/module-admin-analytics":"*"
+    },
     "type": "magento2-module",
     "license": "OSL-3.0",
     "autoload": {
