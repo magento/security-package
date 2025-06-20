@@ -21,6 +21,8 @@ use Magento\TestFramework\TestCase\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
+ * Test class for newsletter form with ReCaptcha
+ *
  * @magentoAppArea frontend
  * @magentoAppIsolation enabled
  */
