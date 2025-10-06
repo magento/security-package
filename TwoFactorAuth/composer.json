@@ -1,17 +1,20 @@
 {
     "name": "magento/module-two-factor-auth",
     "description": "Two Factor Authentication module for Magento2",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "version": "1.1.8-alpha3",
     "require": {
         "php": "~8.2.0||~8.3.0||~8.4.0",
-        "magento/framework": "*",
+        "magento/framework": "103.0.*",
         "magento/magento-composer-installer": "*",
-        "magento/module-backend": "*",
-        "magento/module-authorization": "*",
-        "magento/module-config": "*",
-        "magento/module-store": "*",
-        "magento/module-ui": "*",
-        "magento/module-user": "*",
-        "magento/module-integration": "*",
+        "magento/module-backend": "102.0.*",
+        "magento/module-authorization": "100.4.*",
+        "magento/module-config": "101.2.*",
+        "magento/module-store": "101.1.*",
+        "magento/module-ui": "101.2.*",
+        "magento/module-user": "101.2.*",
+        "magento/module-integration": "100.4.*",
         "christian-riesen/base32": "^1.3",
         "spomky-labs/otphp": "^11.2",
         "endroid/qr-code": "^6.0.3",
@@ -19,8 +22,6 @@
         "duosecurity/duo_api_php": "^1.1",
         "duosecurity/duo_universal_php": "^1.0"
     },
-    "type": "magento2-module",
-    "license": "OSL-3.0",
     "autoload": {
         "files": [
             "registration.php"
@@ -30,3 +31,4 @@
         }
     }
 }
+
