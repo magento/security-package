@@ -12,7 +12,7 @@
 
     <body>
         <referenceContainer name="login.content">
-            <block class="Magento\Backend\Block\Template" name="content"
+            <block class="Magento\Backend\Block\Template" name="tfa-tfa-verifyidentity-content"
                    template="Magento_TwoFactorAuth::tfa/verify_identity.phtml" />
         </referenceContainer>
     </body>

@@ -17,7 +17,7 @@
 
     <body>
         <referenceContainer name="login.content">
-            <block class="Magento\TwoFactorAuth\Block\Provider\Google\VerifyIdentity" name="content"
+            <block class="Magento\TwoFactorAuth\Block\Provider\Google\VerifyIdentity" name="tfa-google-verifyidentity-content"
                    template="Magento_TwoFactorAuth::tfa/provider/auth.phtml">
                 <arguments>
                     <argument name="jsLayout" xsi:type="array">

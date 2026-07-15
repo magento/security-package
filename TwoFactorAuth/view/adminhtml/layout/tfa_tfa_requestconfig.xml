@@ -12,7 +12,7 @@
 
     <body>
         <referenceContainer name="login.content">
-            <block class="Magento\Backend\Block\Template" name="content"
+            <block class="Magento\Backend\Block\Template" name="tfa-tfa-requestconfig-content"
                    template="Magento_TwoFactorAuth::tfa/request_config.phtml" />
         </referenceContainer>
     </body>

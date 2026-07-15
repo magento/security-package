@@ -17,7 +17,7 @@
 
     <body>
         <referenceContainer name="login.content">
-            <block name="content" template="Magento_TwoFactorAuth::tfa/providerselection.phtml">
+            <block name="tfa-tfa-providerselection-content" template="Magento_TwoFactorAuth::tfa/providerselection.phtml">
                 <arguments>
                     <argument name="view_model" xsi:type="object">Magento\TwoFactorAuth\ViewModel\ProviderSelection</argument>
                 </arguments>
