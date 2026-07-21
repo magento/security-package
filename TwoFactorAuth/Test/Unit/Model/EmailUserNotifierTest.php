@@ -22,6 +22,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class EmailUserNotifierTest extends TestCase
 {
     /**
@@ -78,7 +81,7 @@ class EmailUserNotifierTest extends TestCase
         $this->transportBuilderMock->method('addTo')->willReturnSelf();
         $this->transportBuilderMock->method('getTransport')->willReturn($this->transportMock);
 
-        $storeMock = $this->createMock(\Magento\Store\Api\Data\StoreInterface::class);
+        $storeMock = $this->createMock(Store::class);
         $storeMock->method('getFrontendName')->willReturn('Main Website Store');
         $this->storeManagerMock->method('getStore')->willReturn($storeMock);
 
