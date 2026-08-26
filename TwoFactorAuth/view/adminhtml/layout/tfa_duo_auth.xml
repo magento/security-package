@@ -17,7 +17,7 @@
 
     <body>
         <referenceContainer name="login.content">
-            <block class="Magento\TwoFactorAuth\Block\Provider\Duo\Auth" name="content"
+            <block class="Magento\TwoFactorAuth\Block\Provider\Duo\Auth" name="tfa-duo-auth-content"
                    template="Magento_TwoFactorAuth::tfa/provider/auth.phtml">
 
                 <arguments>
