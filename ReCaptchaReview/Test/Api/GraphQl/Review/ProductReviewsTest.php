@@ -12,6 +12,7 @@ use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Integration\Api\CustomerTokenServiceInterface;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\GraphQlAbstract;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * GraphQl test for ProductReview functionality with ReCaptcha.
@@ -51,9 +52,8 @@ class ProductReviewsTest extends GraphQlAbstract
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/public_key test_public_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_invisible/private_key test_private_key
      * @magentoConfigFixture base_website recaptcha_frontend/type_for/product_review invisible
-     *
-     * @dataProvider customerDataProvider
      */
+    #[DataProvider('customerDataProvider')]
     public function testAddProductReviewReCaptchaValidationFailed(string $customerName, bool $isGuest): void
     {
         $productSku = 'simple_product';

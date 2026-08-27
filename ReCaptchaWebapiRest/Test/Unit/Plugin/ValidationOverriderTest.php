@@ -14,6 +14,7 @@ use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaValidationApi\Api\ValidatorInterface;
 use Magento\ReCaptchaWebapiRest\Plugin\ValidationOverrider;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class ValidationOverriderTest extends TestCase
@@ -32,7 +33,7 @@ class ValidationOverriderTest extends TestCase
     {
         parent::setUp();
 
-        $this->userContextMock = $this->getMockForAbstractClass(UserContextInterface::class);
+        $this->userContextMock = $this->createMock(UserContextInterface::class);
         $this->model = new ValidationOverrider($this->userContextMock);
     }
 
@@ -53,8 +54,8 @@ class ValidationOverriderTest extends TestCase
      * @param int|null $id User ID.
      * @param bool $executed Whether the original validator will be called.
      * @return void
-     * @dataProvider getUserContextData
      */
+    #[DataProvider('getUserContextData')]
     public function testForUsers(int $type, ?int $id, bool $executed): void
     {
         $this->userContextMock->method('getUserType')
@@ -73,12 +74,12 @@ class ValidationOverriderTest extends TestCase
     private function runModel(): bool
     {
         return !$this->model->aroundIsValid(
-            $this->getMockForAbstractClass(ValidatorInterface::class),
+            $this->createMock(ValidatorInterface::class),
             function () {
                 return new ValidationResult(['error' => 'some error']);
             },
             'recaptcha',
-            $this->getMockForAbstractClass(ValidationConfigInterface::class)
+            $this->createMock(ValidationConfigInterface::class)
         )->isValid();
     }
 }

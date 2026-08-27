@@ -18,6 +18,7 @@ use Magento\ReCaptchaWebapiRest\Plugin\SoapValidationPlugin;
 use Magento\Webapi\Controller\Soap\Request\Handler;
 use Magento\Webapi\Model\Soap\Config;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Magento\Framework\Webapi\Request;
 
@@ -53,8 +54,8 @@ class SoapValidationPluginTest extends TestCase
         parent::setUp();
 
         $this->configMock = $this->createMock(Config::class);
-        $this->userContextMock = $this->getMockForAbstractClass(UserContextInterface::class);
-        $this->configProviderMock = $this->getMockForAbstractClass(WebapiValidationConfigProviderInterface::class);
+        $this->userContextMock = $this->createMock(UserContextInterface::class);
+        $this->configProviderMock = $this->createMock(WebapiValidationConfigProviderInterface::class);
         $this->endpointFactory = $this->createMock(EndpointFactory::class);
         $this->model = new SoapValidationPlugin(
             $this->createMock(Request::class),
@@ -85,8 +86,8 @@ class SoapValidationPluginTest extends TestCase
      * @param bool $expectException To expect an exception.
      * @return void
      * @throws Exception
-     * @dataProvider getPluginCases
      */
+    #[DataProvider('getPluginCases')]
     public function testPlugin(bool $configFound, int $userType, ?int $userId, bool $expectException):void
     {
         $operation = 'operation';
@@ -100,7 +101,7 @@ class SoapValidationPluginTest extends TestCase
         //Setting config found
         $this->configProviderMock->method('getConfigFor')
             ->willReturn(
-                $configFound ? $this->getMockForAbstractClass(ValidationConfigInterface::class) : null
+                $configFound ? $this->createMock(ValidationConfigInterface::class) : null
             );
         //Emulate user context
         $this->userContextMock->method('getUserType')->willReturn($userType);
