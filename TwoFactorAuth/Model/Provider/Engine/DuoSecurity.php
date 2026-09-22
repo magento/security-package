@@ -226,7 +226,11 @@ class DuoSecurity implements EngineInterface
     private function isDuoForcedProvider(): bool
     {
         $providers = $this->scopeConfig->getValue('twofactorauth/general/force_providers') ?? '';
-        $forcedProviders = array_map('trim', explode(',', $providers));
+        if (is_array($providers)) {
+            $forcedProviders = array_map('trim', $providers);
+        } else {
+            $forcedProviders = array_map('trim', explode(',', (string)$providers));
+        }
         return in_array(self::CODE, $forcedProviders, true);
     }
 
