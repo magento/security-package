@@ -3,6 +3,7 @@
     "description": "Google reCAPTCHA integration for Magento2",
     "require": {
         "php": "~8.3.0||~8.4.0||~8.5.0",
+        "ext-curl": "*",
         "magento/framework": "*",
         "magento/module-re-captcha-validation-api": "*",
         "phpfui/recaptcha": "^2.0.0"

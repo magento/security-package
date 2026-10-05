@@ -9,4 +9,9 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface" type="Magento\ReCaptchaValidation\Model\ValidationConfig"/>
     <preference for="Magento\ReCaptchaValidationApi\Api\ValidatorInterface" type="Magento\ReCaptchaValidation\Model\Validator"/>
+    <type name="Magento\ReCaptchaValidation\Model\ReCaptcha">
+        <arguments>
+            <argument name="requestMethod" xsi:type="object">ReCaptcha\RequestMethod\CurlPost</argument>
+        </arguments>
+    </type>
 </config>
