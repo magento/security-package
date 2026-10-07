@@ -41,6 +41,14 @@ define(['squire'
 
             expect(placeOrderMixins['Magento_ReCaptchaCheckout/js/model/place-order-mixin']).toBe(true);
         });
+
+        it('mixin is applied to Magento_PurchaseOrder/js/model/place-order-purchase-quote', function () {
+            var placeOrderMixins = defaultContext.config.config.mixins[
+                'Magento_PurchaseOrder/js/model/place-order-purchase-quote'
+            ];
+
+            expect(placeOrderMixins['Magento_ReCaptchaCheckout/js/model/place-order-mixin']).toBe(true);
+        });
     });
 
     describe('Magento_Checkout/js/action/redirect-on-success is called', function () {
