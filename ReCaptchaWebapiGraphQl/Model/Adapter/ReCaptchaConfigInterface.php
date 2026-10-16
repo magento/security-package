@@ -11,41 +11,10 @@ namespace Magento\ReCaptchaWebapiGraphQl\Model\Adapter;
 /**
  * Interface for ReCaptcha config adapters. Used in Config adapters which retrieve
  * configuration settings for different ReCaptcha types.
+ *
+ * @deprecated GraphQL-specific location of a generic contract; implement the ReCaptchaUi interface instead
+ * @see \Magento\ReCaptchaUi\Model\ReCaptchaConfigInterface
  */
-interface ReCaptchaConfigInterface
+interface ReCaptchaConfigInterface extends \Magento\ReCaptchaUi\Model\ReCaptchaConfigInterface
 {
-    /**
-     * Get website's Google API public key
-     *
-     * @return string
-     */
-    public function getWebsiteKey(): string;
-    
-    /**
-     * Get configured captcha's theme
-     *
-     * @return string
-     */
-    public function getTheme(): string;
-
-    /**
-     * Get code of language to send notifications
-     *
-     * @return string
-     */
-    public function getLanguageCode(): string;
-
-    /**
-     * Returns minimum score setting
-     *
-     * @return float|null
-     */
-    public function getMinimumScore(): ?float;
-
-    /**
-     * Returns badge_position setting
-     *
-     * @return string
-     */
-    public function getBadgePosition(): string;
 }
