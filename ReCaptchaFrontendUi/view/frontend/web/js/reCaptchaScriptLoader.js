@@ -12,7 +12,7 @@ define([], function () {
         /**
          * Add script tag. Script tag should be added once
          */
-        addReCaptchaScriptTag: function () {
+        addReCaptchaScriptTag: function (languageCode) {
             var element, scriptTag;
 
             if (!scriptTagAdded) {
@@ -22,6 +22,10 @@ define([], function () {
                 element.async = true;
                 element.src = 'https://www.google.com/recaptcha/api.js' +
                     '?onload=globalOnRecaptchaOnLoadCallback&render=explicit';
+
+                if (languageCode) {
+                    element.src += '&hl=' + encodeURIComponent(languageCode);
+                }
 
                 scriptTag.parentNode.insertBefore(element, scriptTag);
                 scriptTagAdded = true;
