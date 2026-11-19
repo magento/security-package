@@ -17,7 +17,7 @@
 
     <body>
         <referenceContainer name="login.content">
-            <block class="Magento\TwoFactorAuth\Block\Provider\U2fKey\Auth" name="content"
+            <block class="Magento\TwoFactorAuth\Block\Provider\U2fKey\Auth" name="tfa-u2f-auth-content"
                    template="Magento_TwoFactorAuth::tfa/provider/auth.phtml">
 
                 <arguments>

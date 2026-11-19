@@ -17,7 +17,7 @@
 
     <body>
         <referenceContainer name="login.content">
-            <block class="Magento\TwoFactorAuth\Block\Provider\Google\Configure" name="content"
+            <block class="Magento\TwoFactorAuth\Block\Provider\Google\Configure" name="tfa-google-configure-content"
                    template="Magento_TwoFactorAuth::tfa/provider/configure.phtml">
 
                 <arguments>
