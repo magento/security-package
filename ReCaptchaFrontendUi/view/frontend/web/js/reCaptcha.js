@@ -51,7 +51,9 @@ define(
                     $(window).trigger('recaptchaapiready');
                 }.bind(this);
 
-                reCaptchaLoader.addReCaptchaScriptTag();
+                reCaptchaLoader.addReCaptchaScriptTag(
+                    this.settings && this.settings.rendering && this.settings.rendering.hl
+                );
             },
 
             /**

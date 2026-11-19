@@ -23,6 +23,7 @@ define([
                 add: jasmine.createSpy('nonInlineReCaptchaRenderer.add')
             }
         },
+        reCaptchaComponent,
         reCaptchaModel,
         formElement,
         submitButtonElement,
@@ -31,6 +32,7 @@ define([
     beforeEach(function (done) {
         injector.mock(mocks);
         injector.require(['jquery', 'Magento_ReCaptchaFrontendUi/js/reCaptcha'], function (jq, reCaptchaUiComponent) {
+            reCaptchaComponent = reCaptchaUiComponent;
             reCaptchaModel = new reCaptchaUiComponent();
             $ = jq;
             done();
@@ -57,6 +59,41 @@ define([
     });
 
     describe('Magento_ReCaptchaFrontendUi/js/reCaptcha', function () {
+        describe('"initialize" method', function () {
+            [
+                {
+                    description: 'the configured language',
+                    settings: {rendering: {hl: 'fr-CA'}},
+                    language: 'fr-CA'
+                },
+                {
+                    description: 'an empty language',
+                    settings: {rendering: {hl: ''}},
+                    language: ''
+                },
+                {
+                    description: 'no language when settings are absent',
+                    settings: undefined,
+                    language: undefined
+                },
+                {
+                    description: 'no language when rendering settings are absent',
+                    settings: {},
+                    language: undefined
+                }
+            ].forEach(function (testCase) {
+                it('should pass ' + testCase.description + ' to the script loader', function () {
+                    var loader = mocks['Magento_ReCaptchaFrontendUi/js/reCaptchaScriptLoader'].addReCaptchaScriptTag;
+
+                    loader.calls.reset();
+                    reCaptchaModel = new reCaptchaComponent({settings: testCase.settings});
+
+                    expect(loader).toHaveBeenCalledTimes(1);
+                    expect(loader.calls.mostRecent().args[0]).toBe(testCase.language);
+                });
+            });
+        });
+
         describe('Invisible ReCaptcha', function () {
             beforeEach(function () {
                 reCaptchaModel.getIsInvisibleRecaptcha = jasmine.createSpy().and.returnValue(true);
