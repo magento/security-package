@@ -10,7 +10,7 @@ namespace Magento\ReCaptchaVersion2Checkbox\Model;
 
 use Magento\Framework\ObjectManager\ResetAfterRequestInterface;
 use Magento\ReCaptchaVersion2Checkbox\Model\Frontend\UiConfigProvider;
-use Magento\ReCaptchaWebapiGraphQl\Model\Adapter\ReCaptchaConfigInterface;
+use Magento\ReCaptchaUi\Model\ReCaptchaConfigInterface;
 
 class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
 {

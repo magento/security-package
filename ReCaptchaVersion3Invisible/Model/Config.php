@@ -12,7 +12,7 @@ use Magento\Framework\ObjectManager\ResetAfterRequestInterface;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaVersion3Invisible\Model\Frontend\UiConfigProvider;
 use Magento\ReCaptchaVersion3Invisible\Model\Frontend\ValidationConfigProvider;
-use Magento\ReCaptchaWebapiGraphQl\Model\Adapter\ReCaptchaConfigInterface;
+use Magento\ReCaptchaUi\Model\ReCaptchaConfigInterface;
 
 class Config implements ReCaptchaConfigInterface, ResetAfterRequestInterface
 {
