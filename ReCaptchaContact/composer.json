@@ -4,7 +4,6 @@
     "require": {
         "php": "~8.3.0||~8.4.0||~8.5.0",
         "magento/framework": "*",
-        "magento/module-contact-graph-ql": "*",
         "magento/module-re-captcha-ui": "*",
         "magento/module-re-captcha-validation-api": "*",
         "magento/module-re-captcha-webapi-api": "*"

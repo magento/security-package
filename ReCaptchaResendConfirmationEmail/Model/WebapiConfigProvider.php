@@ -13,13 +13,16 @@ use Magento\ReCaptchaUi\Model\ValidationConfigResolverInterface;
 use Magento\ReCaptchaValidationApi\Api\Data\ValidationConfigInterface;
 use Magento\ReCaptchaWebapiApi\Api\Data\EndpointInterface;
 use Magento\ReCaptchaWebapiApi\Api\WebapiValidationConfigProviderInterface;
-use Magento\CustomerGraphQl\Model\Resolver\ResendConfirmationEmail;
 
 /**
  * Provide ResendConfirmationEmail related endpoint configuration.
  */
 class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
 {
+    //phpcs:disable Magento2.PHP.LiteralNamespaces
+    private const RESEND_CONFIRMATION_EMAIL_RESOLVER = 'Magento\CustomerGraphQl\Model\Resolver\ResendConfirmationEmail';
+    //phpcs:enable Magento2.PHP.LiteralNamespaces
+
     /**
      * Captcha id from config.
      */
@@ -41,7 +44,7 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
     public function getConfigFor(EndpointInterface $endpoint): ?ValidationConfigInterface
     {
         if ($endpoint->getServiceMethod() === 'resolve'
-            && $endpoint->getServiceClass() === ResendConfirmationEmail::class
+            && $endpoint->getServiceClass() === self::RESEND_CONFIRMATION_EMAIL_RESOLVER
         ) {
             if ($this->isEnabled->isCaptchaEnabledFor(self::CAPTCHA_ID)) {
                 return $this->configResolver->get(self::CAPTCHA_ID);

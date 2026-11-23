@@ -8,10 +8,6 @@ declare(strict_types=1);
 
 namespace Magento\ReCaptchaCustomer\Model;
 
-use Magento\CustomerGraphQl\Model\Resolver\ChangePassword;
-use Magento\CustomerGraphQl\Model\Resolver\RequestPasswordResetEmail;
-use Magento\CustomerGraphQl\Model\Resolver\ResetPassword;
-use Magento\CustomerGraphQl\Model\Resolver\UpdateCustomer;
 use Magento\Framework\Exception\InputException;
 use Magento\ReCaptchaUi\Model\IsCaptchaEnabledInterface;
 use Magento\ReCaptchaUi\Model\ValidationConfigResolverInterface;
@@ -24,6 +20,21 @@ use Magento\ReCaptchaWebapiApi\Api\WebapiValidationConfigProviderInterface;
  */
 class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
 {
+    //phpcs:disable Magento2.PHP.LiteralNamespaces
+    private const CHANGE_PASSWORD_RESOLVER = 'Magento\CustomerGraphQl\Model\Resolver\ChangePassword';
+
+    private const REQUEST_PASSWORD_RESET_EMAIL_RESOLVER =
+        'Magento\CustomerGraphQl\Model\Resolver\RequestPasswordResetEmail';
+
+    private const RESET_PASSWORD_RESOLVER = 'Magento\CustomerGraphQl\Model\Resolver\ResetPassword';
+
+    private const UPDATE_CUSTOMER_RESOLVER = 'Magento\CustomerGraphQl\Model\Resolver\UpdateCustomer';
+
+    private const GENERATE_CUSTOMER_TOKEN_RESOLVER = 'Magento\CustomerGraphQl\Model\Resolver\GenerateCustomerToken';
+
+    private const CREATE_CUSTOMER_RESOLVER = 'Magento\CustomerGraphQl\Model\Resolver\CreateCustomer';
+    //phpcs:enable Magento2.PHP.LiteralNamespaces
+
     private const RESET_PASSWORD_CAPTCHA_ID = 'customer_forgot_password';
 
     private const CUSTOMER_EDIT_CAPTCHA_ID = 'customer_edit';
@@ -85,7 +96,11 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
     private function isResetPasswordCase(string $serviceMethod, string $serviceClass): bool
     {
         return in_array($serviceMethod, ['resetPassword', 'initiatePasswordReset'], true)
-            || in_array($serviceClass, [ResetPassword::class, RequestPasswordResetEmail::class], true);
+            || in_array(
+                $serviceClass,
+                [self::RESET_PASSWORD_RESOLVER, self::REQUEST_PASSWORD_RESET_EMAIL_RESOLVER],
+                true
+            );
     }
 
     /**
@@ -98,7 +113,7 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
     private function isChangePasswordCase(string $serviceMethod, string $serviceClass): bool
     {
         return $serviceMethod === 'changePasswordById'
-            || in_array($serviceClass, [ChangePassword::class, UpdateCustomer::class], true);
+            || in_array($serviceClass, [self::CHANGE_PASSWORD_RESOLVER, self::UPDATE_CUSTOMER_RESOLVER], true);
     }
 
     /**
@@ -134,12 +149,12 @@ class WebapiConfigProvider implements WebapiValidationConfigProviderInterface
         //phpcs:disable Magento2.PHP.LiteralNamespaces
         if (($serviceClass === 'Magento\Integration\Api\CustomerTokenServiceInterface'
                 && $serviceMethod === 'createCustomerAccessToken')
-            || $serviceClass === 'Magento\CustomerGraphQl\Model\Resolver\GenerateCustomerToken'
+            || $serviceClass === self::GENERATE_CUSTOMER_TOKEN_RESOLVER
         ) {
             return $this->validateLoginCaptcha();
         } elseif (($serviceClass === 'Magento\Customer\Api\AccountManagementInterface'
                 && $serviceMethod === 'createAccount')
-            || $serviceClass === 'Magento\CustomerGraphQl\Model\Resolver\CreateCustomer'
+            || $serviceClass === self::CREATE_CUSTOMER_RESOLVER
         ) {
             return $this->validateCreateCustomerCaptcha();
         }
